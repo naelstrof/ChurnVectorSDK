@@ -98,13 +98,9 @@ public class GameManager : MonoBehaviour {
     private static void OnInitialize() {
         if (SceneManager.GetActiveScene().name == "StartScene") return;
         
-        var check = FindObjectOfType<GameManager>(true);
-        if (check != null) {
+        foreach(var check in FindObjectsOfType<GameManager>(true)) {
             Debug.LogError("Please don't include the game manager in your scene, as it might be replaced or changed in future builds.", check.gameObject);
-            if (check.isActiveAndEnabled) return;
-            check.gameObject.SetActive(true);
-            check.enabled = true;
-            return;
+            Destroy(check.gameObject);
         }
         var path = AssetDatabase.GUIDToAssetPath("cd22b2666f158cc45b56bd0d42959cac");
         var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
