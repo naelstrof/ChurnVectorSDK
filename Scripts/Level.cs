@@ -68,7 +68,7 @@ public class Level : ScriptableObject {
     }
     private double completionTime { get; set; }
     private bool completed { get; set; }
-    public string GetLevelName() => localizedLevelName.GetLocalizedString();
+    public string GetLevelName() => localizedLevelName?.GetLocalizedString() ?? GetSceneName();
     public LocalizedString GetLocalizedLevelName() => localizedLevelName;
     public string GetLevelDescription() => localizedLevelDescription.GetLocalizedString();
     public LocalizedString GetLocalizedLevelDescription() => localizedLevelDescription;

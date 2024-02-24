@@ -94,13 +94,13 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private PhysicsMaterialExtensionDatabase physicsMaterialExtensionDatabase;
 
 #if UNITY_EDITOR
-    [RuntimeInitializeOnLoadMethod]
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void OnInitialize() {
         if (SceneManager.GetActiveScene().name == "StartScene") return;
         
         var check = FindObjectOfType<GameManager>(true);
         if (check != null) {
-            Debug.LogError("Please don't include the game manager in your scene, as it might be replaced or changed in future builds.");
+            Debug.LogError("Please don't include the game manager in your scene, as it might be replaced or changed in future builds.", check.gameObject);
             if (check.isActiveAndEnabled) return;
             check.gameObject.SetActive(true);
             check.enabled = true;
