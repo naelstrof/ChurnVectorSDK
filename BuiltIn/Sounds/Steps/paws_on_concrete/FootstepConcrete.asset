@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3c414e0ed6d9f44b95ed89cafe5934c, type: 3}
+  m_Name: FootstepConcrete
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 28ad27ca9c05ef0468ddede4bb4239a3, type: 3}
+  - {fileID: 8300000, guid: f822cfe6c28f58142b6bb1256a06b1a3, type: 3}
+  - {fileID: 8300000, guid: 1db21fae0f598024e962d355238335de, type: 3}
+  - {fileID: 8300000, guid: 4883b5f53aa731a41811c379306c776f, type: 3}
+  volume: 1
+  pitchVariance: 0.15
+  targetGroup: {fileID: -4405560266422439704, guid: 93ac2fed59ed12d4da4f41eb5ad57c39,
+    type: 2}
+  soundInterestLevel: 0.1
+  isObviousPlayerNoise: 1
+  important: 0

@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: ChurnVectorCore
+  m_EditorClassIdentifier: 
+  m_GroupName: ChurnVectorCore
+  m_Data:
+    m_SerializedData: []
+  m_GUID: c0451847b70eb8448822807ca17f14a5
+  m_SerializeEntries:
+  - m_GUID: ed124e2780a80b14d8c3442fbb7349d7
+    m_Address: Assets/OrbitCamera.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f0a78b55e6b12b84ea06b8da9c12d7f2
+    m_Address: Assets/Characters/DefaultObjectives.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bf4c363b8a794be49af59e42178a2072
+    m_Address: Assets/MainMenu.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d9e414c7e3299624b86b49cce63a9283
+    m_Address: Assets/CumEffect/Decalable.shader
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a2c2dd19b474da14f883409927c2fe10
+    m_Address: Assets/Characters/Player/VilarEyeNaelEdit.shader
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a760a52bfda8d634ab269878fa6d110f
+    m_Address: Assets/Characters/Player/BallsSpherize.shader
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 47a3dadd93ff1364ea3a8b86083edebc
+    m_Address: Assets/CumEffect/DistMaxProjector.shader
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8d6312ec9c9d3e242b97bc8e9b10df40
+    m_Address: Assets/Characters/Player/DickShader.shader
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1441b5fe57b75a34ebc2adf1462dccc5
+    m_Address: Assets/KoboldKare/Shaders/SplashMesh.shader
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 81d12c33707244041bbefe2653372811
+    m_Address: Assets/Characters/CockVoreSlurp.shader
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cd22b2666f158cc45b56bd0d42959cac
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/GameManager.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 45ba01601caec634d960d95861748758, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 2c216cc6ad10b854fa31158acc0adb41, type: 2}
+    - {fileID: 11400000, guid: 9ead94c40c9b24346b8f93173c2f25e9, type: 2}

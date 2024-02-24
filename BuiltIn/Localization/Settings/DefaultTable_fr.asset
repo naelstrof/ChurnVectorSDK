@@ -1,0 +1,1373 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: DefaultTable_fr
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: fr
+  m_SharedData: {fileID: 11400000, guid: 801b23fcb4b7b884196ed7584cceb3c9, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 2597174431744
+    m_Localized: "\xC0 POIL !?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597212180480
+    m_Localized: Mais qu'est-ce que !?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597212180481
+    m_Localized: "Qu'on appelle la s\xE9curit\xE9 !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597212180482
+    m_Localized: Wouah !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374784
+    m_Localized: "H\xE9, vous n'avez rien \xE0 faire ici !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374785
+    m_Localized: Grand lapin !?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374786
+    m_Localized: "Oh, elle est \xE9norme !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374787
+    m_Localized: "Le patron va p\xE9ter un plomb..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374788
+    m_Localized: Oh la vache !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374789
+    m_Localized: "Mais o\xF9 sont vos habits !?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374790
+    m_Localized: Oh la vache !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374791
+    m_Localized: "Oh l\xE0 l\xE0 !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374792
+    m_Localized: "\xC0 l'aide ! S\xE9curit\xE9 !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11380743262208
+    m_Localized: "H\xE9, je veux quitter mon poste un peu plus t\xF4t aujourd'hui,
+      des suggestions ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11380772622336
+    m_Localized: "Je crois que j'ai une id\xE9e..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 262281009614848
+    m_Localized: Usages Restants
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424501387264
+    m_Localized: "C'est bien \xE7a !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747392
+    m_Localized: "\xC7a fait du bien"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747393
+    m_Localized: C'est tellement relaxant
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747394
+    m_Localized: Absolument divin !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747395
+    m_Localized: "Oh, j'adore \xE7a !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747396
+    m_Localized: "J'aurais d\xFB faire \xE7a plus t\xF4t !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747397
+    m_Localized: C'est une pure joie !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747398
+    m_Localized: PLAISIR TOTAL !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747399
+    m_Localized: Douce satisfaction !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747400
+    m_Localized: Un pur plaisir !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747401
+    m_Localized: Tout simplement splendide !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747402
+    m_Localized: Ah...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747403
+    m_Localized: Chaque instant en valait la peine !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747404
+    m_Localized: "Comme un r\xEAve !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747405
+    m_Localized: Je me sens au paradis !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747406
+    m_Localized: "D\xE9lice divin !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747407
+    m_Localized: "\u2764"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747408
+    m_Localized: Oh, je suis au paradis !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747409
+    m_Localized: Hehe, parfait.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747410
+    m_Localized: Ohh !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747411
+    m_Localized: "C'est un r\xEAve devenu r\xE9alit\xE9 !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747412
+    m_Localized: Oh, c'est comme un tour de passe-passe !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941696
+    m_Localized: :)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941697
+    m_Localized: :D
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941698
+    m_Localized: Mhm...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941699
+    m_Localized: '*glorsh*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941700
+    m_Localized: Ouiiii !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941701
+    m_Localized: '*glourp*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941702
+    m_Localized: "G\xE9nial !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941703
+    m_Localized: Fantastique !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941704
+    m_Localized: Incroyable !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941705
+    m_Localized: "\xC9patant !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941706
+    m_Localized: Incroyable !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941707
+    m_Localized: Merveilleux !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941708
+    m_Localized: Superbe !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941709
+    m_Localized: Merveilleux !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941710
+    m_Localized: '*splort *'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941711
+    m_Localized: '*blorp*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149630550016
+    m_Localized: Agent 789, est-ce que vous m'entendez ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298752
+    m_Localized: Bien, votre cible est le Patron, le Requin.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298753
+    m_Localized: "La cible nous a ordonn\xE9 d'initier le protocole \"CV\",  satisfaisez
+      la cible discr\xE8tement."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298754
+    m_Localized: "Vous voyez, ce serait g\xEAnant si les autres employ\xE9s d\xE9couvrent
+      les \"pr\xE9f\xE9rences\" de leurs patron."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298755
+    m_Localized: "V\xE9rifiez votre HUD pour vos objectifs."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298756
+    m_Localized: "Bonne chance \xE0 vous, termin\xE9."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27794504080216064
+    m_Localized: "D\xE9marrer le Jeu"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27794504126353408
+    m_Localized: Quitter le Jeu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28184462674677760
+    m_Localized: "Red\xE9marrage Rapide"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 33999910783733760
+    m_Localized: "S\xE9lectionner un Contrat"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34000825808900096
+    m_Localized: "Ignorer la Cin\xE9matique"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34000825808900097
+    m_Localized: Retour
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985526923264
+    m_Localized: Bon. 789, cette mission sera plus complexe que d'habitude
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700480
+    m_Localized: "Vous devez vous occuper de *trois* cibles simultan\xE9ment"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700481
+    m_Localized: "La premi\xE8re se trouve dans la salle de stockage..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700482
+    m_Localized: "La deuxi\xE8me se trouve dans la salle informatique arri\xE8re..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700483
+    m_Localized: "Et la derni\xE8re dans la cabine de surveillance"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700484
+    m_Localized: Comme toujours, restez hors de vue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700485
+    m_Localized: "Si vous avez du mal \xE0 tous les ing\xE9rer d'un coup, vous pouvez
+      vous d\xE9charger aux stands locaux."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700486
+    m_Localized: Bonne chance agent 789.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608362614784
+    m_Localized: ....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974912
+    m_Localized: "U-une seconde, j'ai bient\xF4t une r\xE9union..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974913
+    m_Localized: Pris la main dans le sac !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974914
+    m_Localized: "Le patron va \xEAtre fou furieux..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974915
+    m_Localized: Il reste assez de place pour eux aussi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974916
+    m_Localized: Profitez bien de vos vacances !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974917
+    m_Localized: "Faites comme si j'\xE9tais pas l\xE0 !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974918
+    m_Localized: "\xC7a va faire un de ces d\xE9sordre...."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974919
+    m_Localized: "Hop-l\xE0..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974920
+    m_Localized: "Adorable, viens par-l\xE0..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974921
+    m_Localized: Ouf...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974922
+    m_Localized: Comme c'est chaud...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974923
+    m_Localized: mmmm....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974924
+    m_Localized: "Cette chemise \xE9tait toute neuve !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974925
+    m_Localized: "Vous avez int\xE9r\xEAt de n'en parler \xE0 personne !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974926
+    m_Localized: Je promets rien
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363520
+    m_Localized: "Pur\xE9e, c'est un \xE9norme outil que t'as l\xE0..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363521
+    m_Localized: C'est pour mieux te manger !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363522
+    m_Localized: Quelle taille.....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363523
+    m_Localized: Et j'ai pas fini de grandir !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363524
+    m_Localized: Comment tu te sens ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363525
+    m_Localized: Merveilleux...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363526
+    m_Localized: Je te veux en moi...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363527
+    m_Localized: "Des jeux de mots sur le vore, t'es pas s\xE9rieux ?!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363528
+    m_Localized: "Paye moi d'abord un d\xEEner, au moins..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363529
+    m_Localized: Malheureusement, c'est toi le dessert.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363530
+    m_Localized: "Oh c'est... \xE9trangement sensuel....."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363531
+    m_Localized: "Tu vas adorer le deuxi\xE8me acte !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363532
+    m_Localized: "Tu vas te d\xE9battre pour moi...?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363533
+    m_Localized: "Seulement si vous dites \"s'il vous pla\xEEt.\""
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363534
+    m_Localized: Je suppose que c'est mieux que le boulot...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363535
+    m_Localized: "Pr\xE9tends juste que je te donne cong\xE9 !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363536
+    m_Localized: Mange mes amis aussi !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363537
+    m_Localized: Plus on est de fous, plus on rit !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363538
+    m_Localized: "Fouah, je dois peser une tonne \xE0 ce niveau l\xE0..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363539
+    m_Localized: Ouf...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363540
+    m_Localized: "C'\xE9tait un \xE9norme sp\xE9cimen, celui-l\xE0..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363541
+    m_Localized: "H\xE9, du calme l\xE0-dedans !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363542
+    m_Localized: "\xC7a, \xE7a m'a fait du bien."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363543
+    m_Localized: Rien que pour moi...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363544
+    m_Localized: Bas
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363545
+    m_Localized: Moyen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363546
+    m_Localized: "\xC9lev\xE9e"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363547
+    m_Localized: "Mode Fen\xEAtr\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363548
+    m_Localized: "R\xE9solution"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363549
+    m_Localized: Flou lumineux
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363550
+    m_Localized: Flou de mouvement
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363551
+    m_Localized: Occlusion ambiante
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363552
+    m_Localized: Ombres
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363553
+    m_Localized: Herbe
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363554
+    m_Localized: "R\xE9flexions de l'espace"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363555
+    m_Localized: "Anti cr\xE9nelage"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363556
+    m_Localized: Grain de film
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363557
+    m_Localized: Volume Principal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363558
+    m_Localized: Volume d'effets sonores
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363559
+    m_Localized: Volume de la musique
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363560
+    m_Localized: Champ de vision (FOV)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363561
+    m_Localized: Projection de panini
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363562
+    m_Localized: Profondeur de champ
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363563
+    m_Localized: "Qualit\xE9 g\xE9n\xE9rale"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363564
+    m_Localized: Basculer marcher/courir
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363565
+    m_Localized: Exclusif
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363566
+    m_Localized: "Plein \xE9cran"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363567
+    m_Localized: "Fen\xEAtre maximis\xE9e"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363568
+    m_Localized: "Fen\xEAtr\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363569
+    m_Localized: "Activ\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363570
+    m_Localized: Langue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363571
+    m_Localized: "Jouabilit\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363572
+    m_Localized: Audio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363573
+    m_Localized: Options
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363574
+    m_Localized: "D\xE9sactiv\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363575
+    m_Localized: "Sensibilit\xE9 de la souris"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961408
+    m_Localized: Indices Visuels
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961409
+    m_Localized: Manette Xbox
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961410
+    m_Localized: Manette DualShock
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961411
+    m_Localized: Clavier souris
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961412
+    m_Localized: Automatique
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41667057588686848
+    m_Localized: Graphismes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41668013478957056
+    m_Localized: "Luminosit\xE9 de l'\xE9cran"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41668828704854016
+    m_Localized: "Images par seconde d\xE9sir\xE9es"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41669473738477568
+    m_Localized: Synchronisation verticale
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113281912832
+    m_Localized: "C'\xE9tait quoi \xE7a ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078656
+    m_Localized: Hein ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078657
+    m_Localized: Je crois avoir entendu quelque chose...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078658
+    m_Localized: Est-ce que...?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078659
+    m_Localized: "C'\xE9tait qui \xE7a ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078660
+    m_Localized: "Je vais y jeter un \u0153il..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219014989762560
+    m_Localized: "Ralentissez, s'il vous pla\xEEt !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122688
+    m_Localized: Laissez-moi vous montrer votre nouveau bureau.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122689
+    m_Localized: Sauf ? Non, pas du tout.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122690
+    m_Localized: "Vous \xEAtes s\xFBr que c'est sauf ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122691
+    m_Localized: Je connais quelqu'un qui souhaite vous rencontrer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122692
+    m_Localized: Dans ton chibre !?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511296
+    m_Localized: Ah mince, c'est reparti pour un tour.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511297
+    m_Localized: non, nooooon !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511298
+    m_Localized: "C'\xE9tait un assez bon moment."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511299
+    m_Localized: Je trouve que le blanc te vas bien
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511300
+    m_Localized: "Oh ! Arr\xEAte, tu vas me faire rougir..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511301
+    m_Localized: "J'aurais d\xFB lui demander son num\xE9ro."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511302
+    m_Localized: "Te voil\xE0."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511303
+    m_Localized: "\xC7a va mieux ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511304
+    m_Localized: "Mieux ? C'\xE9tait la meilleure exp\xE9rience de ma vie !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511305
+    m_Localized: "Attends, je croyais que le recumbobulateur r\xE9assemblait les
+      v\xEAtements ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511306
+    m_Localized: "Notre budget est un peu serr\xE9."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511307
+    m_Localized: Quelle arnaque...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511310
+    m_Localized: Qu'est-ce que tu fais par terre ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511311
+    m_Localized: "Faut te ramener \xE0 ta place"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511312
+    m_Localized: "Alors, troisi\xE8me fois aujourd'hui, hein ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511313
+    m_Localized: "C'\xE9tait pas ma faute cette fois !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511314
+    m_Localized: Fin de la pause.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511315
+    m_Localized: Qu'est-ce que...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511316
+    m_Localized: Est-ce que c'est un...?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511317
+    m_Localized: "\xC7a a l'air vraiment lourd.."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511318
+    m_Localized: "Une capote g\xE9ante...?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511319
+    m_Localized: "On dirait que quelqu'un s'est bien amus\xE9."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511320
+    m_Localized: J'aurais voulu que ce soit moi...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511321
+    m_Localized: Et bien, regardez qui se la coule douce !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511322
+    m_Localized: "D\xE9sol\xE9, je vais juste retrouver mon poste."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511323
+    m_Localized: "Haha, pas de probl\xE8me, je te roule \xE0 ton poste."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511324
+    m_Localized: Et bien, regardez qui se la coule douce !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511325
+    m_Localized: Pardon, madame.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511326
+    m_Localized: Encore ??
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511327
+    m_Localized: "J'ai pas pu te r\xE9sister !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511328
+    m_Localized: "Te revoil\xE0 parmi nous !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511329
+    m_Localized: "Mais on a tout juste fini de faire la m\xEAme chose ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511330
+    m_Localized: "Avoue. T'as ador\xE9 \xE7a la premi\xE8re fois."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511331
+    m_Localized: "D\xE9j\xE0 de retour ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511332
+    m_Localized: "Faut qu'on arr\xEAte de se recontrer comme \xE7a !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511334
+    m_Localized: Bienvenue au club
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511335
+    m_Localized: "D\xE9j\xE0 compl\xE8tement fondu en b\xE9chamel ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511336
+    m_Localized: Il ne reste plus que du sperme.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511337
+    m_Localized: "Tu feras une bonne gicl\xE9e."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511338
+    m_Localized: "D\xE9j\xE0 tout mou ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511339
+    m_Localized: C'est le moment de semer la pagaille !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511340
+    m_Localized: Fais comme chez toi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511341
+    m_Localized: "Bienvenue \xE0 bord."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511342
+    m_Localized: "Peut-\xEAtre que le prochain sera plus satisfaisant"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511343
+    m_Localized: "Savoure bien l'exp\xE9rience !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511344
+    m_Localized: Profites-en tant que tu peux
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511345
+    m_Localized: "D\xE9tends toi..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511346
+    m_Localized: "T'inqui\xE8tes pas, je te laisserais sortir, \xE9ventuellement."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511347
+    m_Localized: Voyons voir comment tu tiens le coup ~
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511348
+    m_Localized: "Oh mince, Je suis \xE9norme !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511349
+    m_Localized: Je me demande si j'ai encore de la place
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511350
+    m_Localized: "N'h\xE9site pas \xE0 te d\xE9battre ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511351
+    m_Localized: "Te voil\xE0 \xE0 ta place ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511352
+    m_Localized: Je vais bien prendre mon temps avec toi ~
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511353
+    m_Localized: "Quelle sensation exquise l\xE0-dessous ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511354
+    m_Localized: Tortille toi autant que tu veux ~
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661248
+    m_Localized: Bon, je retourne au boulot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661249
+    m_Localized: "Ma pause est termin\xE9e, je retourne au boulot."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631384211456
+    m_Localized: "Bievenue \xE0 l'une des stations de l'entreprise GlorpCo, agent
+      789..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988672
+    m_Localized: "Certains membres du personnel ont r\xE9clam\xE9 un peu de temps
+      pour se d\xE9tendre."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988673
+    m_Localized: Voici vos cibles...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988674
+    m_Localized: "Commencez par le rat aum\xF4nier..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988675
+    m_Localized: Puis continuez avec le cuisinier local...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988676
+    m_Localized: "Ensuite, le Kangourou de l'\xE9quipe scientifique..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988677
+    m_Localized: "Et derni\xE8rement, le capitaine de la station"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988678
+    m_Localized: "Contrairement aux missions pr\xE9c\xE9dentes, l'architecture est
+      tr\xE8s \xE9troite"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988679
+    m_Localized: "D\xE9chargez fr\xE9qumment afin de limiter le risque de blocage..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988680
+    m_Localized: "Si vous ne faites pas attention, ne dites pas que je ne vous aurai
+      pas pr\xE9venu..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51459478631534592
+    m_Localized: "Cr\xE9dits"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122693
+    m_Localized: "T'auras bien meilleure allure l\xE0-dedans !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122694
+    m_Localized: Je suis pas assez adorable ?!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49313416873562112
+    m_Localized: "J'arrive pas \xE0 y croire, je dois \xEAtre en train de r\xEAver
+      !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49313416902922240
+    m_Localized: "Wouah, \xE7a aspire fort !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566463746048
+    m_Localized: "O\xF9 est-ce que tu vas, mon pote ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494784
+    m_Localized: Faisons donc plus ample connaissance !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494785
+    m_Localized: J'ai une cachette rien que pour toi.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494786
+    m_Localized: Restons proches ~
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494787
+    m_Localized: "Vos coll\xE8gues vous attendent"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494788
+    m_Localized: Tes amis t'attendent
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494789
+    m_Localized: Oh je vais bien m'amuser.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494790
+    m_Localized: Et hop, on descend.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494791
+    m_Localized: A-attendez !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494792
+    m_Localized: "\nO-oh l\xE0 l\xE0...!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494793
+    m_Localized: Basculer debout/accroupi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511355
+    m_Localized: "T'as une gicl\xE9e pour moi ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511356
+    m_Localized: Et comment !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511357
+    m_Localized: Je suis tellement en chaleur...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511358
+    m_Localized: Vas-y doucement, d'accord ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511359
+    m_Localized: euhh.. Je vais essayer.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511360
+    m_Localized: "Faites \xE7a rapidement, on m'attend quelque part."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511361
+    m_Localized: "\xC7a fait tellement longtemps que j'attendais cela !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511362
+    m_Localized: Tu crois que quelqu'un nous verra ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511363
+    m_Localized: Je connais quelqu'un qui souhaite vous rencontrer.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511364
+    m_Localized: Une bite ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49223706696273922
+    m_Localized: "\xC7a fait beaucoup de sperme !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49223706696273923
+    m_Localized: Oulah, y'en a tellement !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51459478665089025
+    m_Localized: "\xC7a va couler toute la journ\xE9e..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282248963149824
+    m_Localized: Bureau
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675776
+    m_Localized: Le requin usurier au bureau a une mission pour vous.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675777
+    m_Localized: "Entrep\xF4t"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675778
+    m_Localized: "Le quota de sperme \xE0 l'entrep\xF4t a augment\xE9 ! Offrez votre
+      assistance !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675779
+    m_Localized: Station
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675780
+    m_Localized: "Une \xE9tude sur la sperme tachyonique n\xE9cessite votre aide."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675781
+    m_Localized: "Cit\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675782
+    m_Localized: Il est temps de se frotter au Boss Dragon.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58331949737496576
+    m_Localized: Oh non, je me suis fait avoir !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58331949771051008
+    m_Localized: Appuyez sur Sauter pour recommencer...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303662993408
+    m_Localized: CV Requin, le patron !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547840
+    m_Localized: "Requin, le patron est g\xEAn\xE9 par ses int\xE9r\xEAts, cock vore
+      le discr\xE8tement."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547841
+    m_Localized: "\xC9chappe-toi de la zone !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547842
+    m_Localized: "Apr\xE8s avoir accomplis les objectifs primaires, \xE9chappe-toi
+      via l'ascenseur."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547843
+    m_Localized: "Ne laisse pas la s\xE9curit\xE9 t'attraper !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547844
+    m_Localized: "Le personnel de s\xE9curit\xE9 poss\xE8de des radios capable de
+      sonner l'alerte, reste prudent."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547845
+    m_Localized: CV le Kangourou technicien !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547846
+    m_Localized: "Le technicien en chef, situ\xE9 dans la salle du g\xE9n\xE9rateur,
+      souhaite prendre une petite pause."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547847
+    m_Localized: CV le surveillant Kangourou !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547848
+    m_Localized: "Le surveillant dans l'estrade sur\xE9lev\xE9e maltraite ses employ\xE9s
+      ! Offre lui un cong\xE9 obligatoire pour que tout le monde puisse souffler
+      un coup."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547849
+    m_Localized: 'CV le chef Kangourou '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547850
+    m_Localized: "La personne en charge de l'entrep\xF4t est un peu coquine au travail
+      et souhaiterait tenter quelque chose de nouveau."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547851
+    m_Localized: "Ne laisse pas la s\xE9curit\xE9 de l'entrep\xF4t te d\xE9tecter."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547852
+    m_Localized: "\xC9chappe toi \xE0 l'aide du camion !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547853
+    m_Localized: CV Le Capitaine Kangourou
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547854
+    m_Localized: "Le capitaine a besoin de vacances, trouve le dans le secteur s\xE9curis\xE9
+      bleu fonc\xE9."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547855
+    m_Localized: "CV le Rat Pr\xEAtre !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547856
+    m_Localized: "Le rat est situ\xE9 au fond du temple, offrant ses sermonts, amene
+      son c\xF4t\xE9 perverti \xE0 la lueur du jour !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547857
+    m_Localized: CV Le Kangourou Chercheur
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547858
+    m_Localized: "Un chercheur situ\xE9 dans le secteur violet d\xE9sire \xEAtre
+      liqu\xE9fi\xE9 pour ses recherches !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547859
+    m_Localized: CV L'Oppossum Cuisinier
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547860
+    m_Localized: "Le cuistot en chef souhaite tester un nouvel ingr\xE9dient, transforme
+      le donc en cet ingr\xE9dient !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59064884090425344
+    m_Localized: "\xC9chappe toi via l'une des portes sorties."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547861
+    m_Localized: CV Le Patron Dragon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547862
+    m_Localized: "On raconte que le dragon aurait une \xE9norme bite et liqu\xE9fie
+      ses propres employ\xE9s, fait attention !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547863
+    m_Localized: Ne laisse pas la CV Police t'attraper.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59722192836763648
+    m_Localized: Nouvelle Partie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59736315477762048
+    m_Localized: "S\xE9lectionnez une Sauvegarde"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511333
+    m_Localized: "Encore ?\u2764"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661250
+    m_Localized: "C'est tellement bon quand tu gigottes comme \xE7a ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59758640264781824
+    m_Localized: Objectifs Accomplis
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59758640302530560
+    m_Localized: "Dur\xE9e de la Mission"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60079280086372352
+    m_Localized: Retour au Menu Principal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60100337514106880
+    m_Localized: Nouveau Record !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729936470016
+    m_Localized: "Bien jou\xE9, agent. Vos services semblent avoir rendu Le Patron
+      Requin beaucoup plus amical aupr\xE8s de ses employ\xE9s. Nous rendons le monde
+      plus excitant, une cible \xE0 la fois !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729965830144
+    m_Localized: "Mission accomplie, agent. Les employ\xE9s de l'entrep\xF4t \xE9taient
+      heureux de pouvoir se d\xE9tendre et les cibles sont combl\xE9es de joie apr\xE8s
+      leurs \"vacances\"."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729965830145
+    m_Localized: "Un autre succ\xE8s de votre part, agent. Maintenant que vous lui
+      avez rendu la pareille, les employ\xE9s du Patron Dragon sont beaucoup plus
+      heureux."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729965830146
+    m_Localized: "Superbe travail, agent ! Le personnel de la station est tr\xE8s
+      excit\xE9, gr\xE2ce \xE0 leurs coll\xE8gues parlants des bons moments pass\xE9es
+      avec vous."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60175060938878976
+    m_Localized: Cache le patron requin (Optionnel)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60175060938878977
+    m_Localized: Cache une capote contenant le patron dans la salle de bain.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309898190848
+    m_Localized: "Cache le chef de la s\xE9curit\xE9 (Optionnel)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309914968064
+    m_Localized: "Cache une capote contenant le chef de la s\xE9curit\xE9 dans le
+      vestiaire."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309914968065
+    m_Localized: Cache le Concierge (Optionnel)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309914968066
+    m_Localized: Cache une capote contenant le Concierge dans la salle de bain du
+      couloir principal.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60288126066192384
+    m_Localized: "T'as int\xE9r\xEAt \xE0 te mettre \xE0 l'aise"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231205634048
+    m_Localized: "J'esp\xE8re que vous \xEAtes pr\xEAt pour un agent de main-d'\u0153uvre."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411264
+    m_Localized: "Celui-ci ne sera pas comme vos missions pr\xE9c\xE9dentes."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411265
+    m_Localized: Todays Target est Boss Dragon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411266
+    m_Localized: Ils ont subi beaucoup de pression ces derniers temps
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411267
+    m_Localized: "Cela les a amen\xE9s \xE0 stress en mangeant leur personnel"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411268
+    m_Localized: Il est temps qu'ils sont partis en vacances
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411269
+    m_Localized: "Soyez tr\xE8s prudent ou vous pourriez finir par \xEAtre celui
+      devenu blanc!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49223706696273920
+    m_Localized: Il ne reste que du foutre de lapin !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49223706696273921
+    m_Localized: C'est tellement doux maintenant.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661251
+    m_Localized: Quelle chaleur !
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

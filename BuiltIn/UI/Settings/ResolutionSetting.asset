@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00e92a69adb90624498133cbd86cc976, type: 3}
+  m_Name: ResolutionSetting
+  m_EditorClassIdentifier: 
+  localizedName:
+    m_TableReference:
+      m_TableCollectionName: GUID:801b23fcb4b7b884196ed7584cceb3c9
+    m_TableEntryReference:
+      m_KeyId: 41664608400363548
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 1
+    m_LocalVariables: []
+  group: {fileID: 11400000, guid: 525c4fe63b8a78246b988e367600049d, type: 2}
+  defaultValue: 22
+  dropdownOptions:
+  - 640x480_144
+  - 720x480_144
+  - 720x576_144
+  - 800x600_144
+  - 1024x768_144
+  - 1152x864_144
+  - 1280x720_144
+  - 1280x768_144
+  - 1280x800_144
+  - 1280x960_144
+  - 1280x1024_144
+  - 1360x768_144
+  - 1366x768_144
+  - 1400x1050_144
+  - 1440x900_144
+  - 1600x900_144
+  - 1600x1024_144
+  - 1600x1200_144
+  - 1680x1050_144
+  - 1920x1080_144
+  - 1920x1200_144
+  - 1920x1440_144
+  - 2560x1440_144
+  references:
+    version: 2
+    RefIds: []

@@ -1,0 +1,1364 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: DefaultTable_cs
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: cs
+  m_SharedData: {fileID: 11400000, guid: 801b23fcb4b7b884196ed7584cceb3c9, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 2597174431744
+    m_Localized: "NAH\xDD!?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597212180480
+    m_Localized: Co!?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597212180481
+    m_Localized: "Vol\xE1m bezpe\u010Dnost!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597212180482
+    m_Localized: Whoa!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374784
+    m_Localized: "Hej, nem\u011Bl bys tu b\xFDt!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374785
+    m_Localized: "Velk\xFD kr\xE1l\xEDk!?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374786
+    m_Localized: "Oh, je to obrovsk\xE9!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374787
+    m_Localized: "\u0160\xE9f bude tak \u0161\xEDlen\xFD ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374788
+    m_Localized: "Svat\xE1 kr\xE1vo!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374789
+    m_Localized: "Kde jsou va\u0161e oble\u010Den\xED!?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374790
+    m_Localized: "Svat\xE1 kr\xE1vo!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374791
+    m_Localized: "Ach bo\u017Ee!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374792
+    m_Localized: "Pomoc! Bezpe\u010Dnostn\xED!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11380743262208
+    m_Localized: "Hej, chci se dnes dostat z pr\xE1ce, m\xEDt n\u011Bjak\xE9 n\xE1pady?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11380772622336
+    m_Localized: "Dok\xE1\u017Eu na n\u011Bco myslet ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 262281009614848
+    m_Localized: "Pou\u017E\xEDv\xE1 zb\xFDvaj\xEDc\xED"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424501387264
+    m_Localized: "To je hezk\xE9!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747392
+    m_Localized: "C\xEDt\xEDm se dob\u0159e"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747393
+    m_Localized: "To je tak relaxa\u010Dn\xED"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747394
+    m_Localized: "Absolutn\u011B n\xE1dhern\xE9!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747395
+    m_Localized: Oh, miluji to!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747396
+    m_Localized: "M\u011Bl jsem to ud\u011Blat d\u0159\xEDve!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747397
+    m_Localized: "To je \u010Dist\xE1 bla\u017Eenost!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747398
+    m_Localized: Celkem Bliss!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747399
+    m_Localized: "Sladk\xE1 spokojenost!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747400
+    m_Localized: "\u010Cist\xE9 pot\u011B\u0161en\xED!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747401
+    m_Localized: "Jednodu\u0161e skv\u011Bl\xFD!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747402
+    m_Localized: Ah ..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747403
+    m_Localized: "Stoj\xED za ka\u017Edou chv\xEDli!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747404
+    m_Localized: Jako sen!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747405
+    m_Localized: "Jsem v r\xE1ji!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747406
+    m_Localized: "Nebesk\xE9 pot\u011B\u0161en\xED!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747407
+    m_Localized: "\u2764"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747408
+    m_Localized: "Oh, jsem v r\xE1ji!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747409
+    m_Localized: "Hehe, p\u011Bkn\xE9."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747410
+    m_Localized: Ach!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747411
+    m_Localized: To je sen se splnil!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747412
+    m_Localized: Oh, je to jako magie!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941696
+    m_Localized: :)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941697
+    m_Localized: :D
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941698
+    m_Localized: MHM ..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941699
+    m_Localized: '*Glorsh*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941700
+    m_Localized: '!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941701
+    m_Localized: '*glorp*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941702
+    m_Localized: "Skv\u011Bl\xFD!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941703
+    m_Localized: "Fantastick\xFD!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941704
+    m_Localized: "Neuv\u011B\u0159iteln\xFD!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941705
+    m_Localized: "Brilantn\xED!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941706
+    m_Localized: "\xDA\u017Easn\xFD!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941707
+    m_Localized: "B\xE1je\u010Dn\xE9!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941708
+    m_Localized: "N\xE1dhern\xFD!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941709
+    m_Localized: "\xDA\u017Easn\xE9!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941710
+    m_Localized: '*Sprort*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941711
+    m_Localized: '*Blorp*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149630550016
+    m_Localized: "Sly\u0161\xED\u0161 m\u011B agenta 789?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298752
+    m_Localized: "Dob\u0159e, va\u0161\xEDm c\xEDlem je \u0161\xE9f Shark."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298753
+    m_Localized: "Cht\u011Bj\xED, abyste je diskr\xE9tn\u011B cv."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298754
+    m_Localized: "Pokud jejich spolupracovn\xEDci zjist\xED, do \u010Deho jsou jejich
+      spolupracovn\xEDci"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298755
+    m_Localized: "Zkontrolujte sv\xE9 c\xEDle."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298756
+    m_Localized: "Hodn\u011B \u0161t\u011Bst\xED tam, znovu."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27794504080216064
+    m_Localized: "Za\u010D\xEDt hru"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27794504126353408
+    m_Localized: "Ukon\u010Dit hru"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28184462674677760
+    m_Localized: "Rychl\xE9 restartov\xE1n\xED"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 33999910783733760
+    m_Localized: Vyberte smlouvu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34000825808900096
+    m_Localized: "P\u0159esko\u010Dit cutscene"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34000825808900097
+    m_Localized: "Vra\u0165te se"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985526923264
+    m_Localized: "Dob\u0159e 789, tento bude o n\u011Bco tvrd\u0161\xED ne\u017E
+      obvykle"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700480
+    m_Localized: "Nyn\xED m\xE1te * t\u0159i * c\xEDle, se kter\xFDmi se te\u010F
+      m\u016F\u017Eete vypo\u0159\xE1dat"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700481
+    m_Localized: "Prvn\xED v kancel\xE1\u0159i \xFAlo\u017En\xE9 m\xEDstnosti ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700482
+    m_Localized: "Druh\xFD v zadn\xED m\xEDstnosti ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700483
+    m_Localized: "A kone\u010Dn\u011B v krabici dozorc\u016F"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700484
+    m_Localized: Jako obvykle, zkuste se nezachytit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700485
+    m_Localized: "Pokud m\xE1te pot\xED\u017Ee se v\u0161emi najednou, zkuste pou\u017E\xEDt
+      stojany rozpt\xFDlen\xE9 kolem."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700486
+    m_Localized: "Agent hodn\u011B \u0161t\u011Bst\xED."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608362614784
+    m_Localized: ....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974912
+    m_Localized: "W-wit, brzy m\xE1m sch\u016Fzku ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974913
+    m_Localized: "Asi jste propu\u0161t\u011Bni!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974914
+    m_Localized: "\u0160\xE9f bude tak \u0161\xEDlen\xFD ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974915
+    m_Localized: "Spousta prostoru pro n\u011B tak\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974916
+    m_Localized: "Je \u010Das, abyste si vzali dovolenou!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974917
+    m_Localized: "Nevad\xED, jestli ano!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974918
+    m_Localized: "Ud\u011Bl\xE1te obrovskou z\xE1t\u011B\u017E ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974919
+    m_Localized: "Posu\u0148te se do ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974920
+    m_Localized: In You Go Cutie ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974921
+    m_Localized: Zlost...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974922
+    m_Localized: Ach tak teplo ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974923
+    m_Localized: mmmm ....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974924
+    m_Localized: "To byla nov\xE1 ko\u0161ile!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974925
+    m_Localized: "Rad\u011Bji to nikomu ne\u0159\xEDkej!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974926
+    m_Localized: "\u017D\xE1dn\xE9 sliby"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363520
+    m_Localized: "M\u016Fj, jak\xFD velk\xFD n\xE1stroj m\xE1\u0161 ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363521
+    m_Localized: "O to lep\u0161\xED je j\xEDst!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363522
+    m_Localized: "Velk\xFD....."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363523
+    m_Localized: "A zv\u011Bt\u0161it!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363524
+    m_Localized: "Jak se to c\xEDt\xED?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363525
+    m_Localized: "B\xE1je\u010Dn\xE9..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363526
+    m_Localized: "Chci t\u011B uvnit\u0159 m\u011B ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363527
+    m_Localized: Vore Puns, opravdu!?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363528
+    m_Localized: "Alespo\u0148 mi koupte ve\u010De\u0159i nejprve ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363529
+    m_Localized: "Promi\u0148, vypad\xE1 to, \u017Ee jste dezert."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363530
+    m_Localized: "To je ... hork\xE9 ....."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363531
+    m_Localized: "Budete milovat, co se stane d\xE1l!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363532
+    m_Localized: "Bude pro m\u011B bojovat ...?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363533
+    m_Localized: "Pouze pokud \u0159eknete, pros\xEDm."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363534
+    m_Localized: "Mysl\xEDm, \u017Ee to bije pr\xE1ce ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363535
+    m_Localized: "P\u0159em\xFD\u0161lejte o tom jako o dovolen\xE9!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363536
+    m_Localized: "Jezte tak\xE9 m\xE9 p\u0159\xE1tele!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363537
+    m_Localized: "\u010C\xEDm v\xEDce t\xEDm l\xE9pe!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363538
+    m_Localized: "Bo\u017Ee, te\u010F jsem tak t\u011B\u017Ek\xFD ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363539
+    m_Localized: Zlost...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363540
+    m_Localized: "To byl velk\xFD ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363541
+    m_Localized: "Hej, u\u017E se usa\u010Fte!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363542
+    m_Localized: "To se c\xEDtilo dob\u0159e ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363543
+    m_Localized: "V\u0161echno moje ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363544
+    m_Localized: "M\xE1lo"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363545
+    m_Localized: "St\u0159edn\u011B"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363546
+    m_Localized: Velmi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363547
+    m_Localized: "Re\u017Eim okna"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363548
+    m_Localized: "Rozli\u0161en\xED"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363549
+    m_Localized: "p\u0159esv\xEDcen\xED obrazu (Bloom)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363550
+    m_Localized: "Rozost\u0159en\xED pohybu"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363551
+    m_Localized: "zast\xEDn\u011Bn\xED okol\xEDm"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363552
+    m_Localized: "St\xEDny"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363553
+    m_Localized: "Tr\xE1va"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363554
+    m_Localized: "odrazy okol\xED"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363555
+    m_Localized: "Vyhlazovan\xED"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363556
+    m_Localized: "Filmov\xE9 zrno"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363557
+    m_Localized: "Celkov\xE1 hlasitost"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363558
+    m_Localized: "zvukov\xE9 efekty"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363559
+    m_Localized: Hudba
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363560
+    m_Localized: "Zorn\xE9 pole"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363561
+    m_Localized: "Zak\u0159iven\xED"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363562
+    m_Localized: Hloubka ostrosti
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363563
+    m_Localized: "Celkov\xE1 kvalita"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363564
+    m_Localized: "p\u0159epnut\xED ch\u016Fze"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363565
+    m_Localized: "V\xFDhradn\xED"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363566
+    m_Localized: "Cel\xE1 obrazovka"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363567
+    m_Localized: "Okno na cel\xFD obraz"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363568
+    m_Localized: "V okn\u011B"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363569
+    m_Localized: Zapnuto
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363570
+    m_Localized: Jazyk
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363571
+    m_Localized: Hra
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363572
+    m_Localized: Zvuk
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363573
+    m_Localized: "Mo\u017Enosti"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363574
+    m_Localized: Vypnuto
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363575
+    m_Localized: "Citlivost my\u0161i"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961408
+    m_Localized: Tip glyfy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961409
+    m_Localized: Xbox Controller
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961410
+    m_Localized: "\u0158\xEDdic\xED jednotka dualshock"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961411
+    m_Localized: "Kl\xE1vesnice/my\u0161"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961412
+    m_Localized: "Automatick\xFD"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41667057588686848
+    m_Localized: Grafika
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41668013478957056
+    m_Localized: Jas obrazovky
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41668828704854016
+    m_Localized: "c\xEDlov\xE1 sn\xEDmkov\xE1 frekvence"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41669473738477568
+    m_Localized: "Vertik\xE1ln\xED synchronizace"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113281912832
+    m_Localized: Co to bylo?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078656
+    m_Localized: Huh?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078657
+    m_Localized: "Myslel jsem, \u017Ee jsem n\u011Bco sly\u0161el ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078658
+    m_Localized: Je to ...?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078659
+    m_Localized: Kdo to byl?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078660
+    m_Localized: "Mus\xEDm p\u0159ij\xEDt na to .."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219014989762560
+    m_Localized: "Pomaleji pros\xEDm!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122688
+    m_Localized: "Dovolte mi, abych v\xE1m uk\xE1zal va\u0161i novou kancel\xE1\u0159."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122689
+    m_Localized: "Bezpe\u010Dn\xFD? Ne, fakt ne."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122690
+    m_Localized: "Jste si jisti, \u017Ee je to bezpe\u010Dn\xE9?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122691
+    m_Localized: "Mus\xEDm pro v\xE1s n\u011Bkoho, aby se setkal"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122692
+    m_Localized: "Ve va\u0161em masu!?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511296
+    m_Localized: Ah Dang, tady jdeme znovu.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511297
+    m_Localized: Ne, nooooo!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511298
+    m_Localized: "Byla to z\xE1bava, zat\xEDmco to trvalo."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511299
+    m_Localized: "Mysl\xEDm, \u017Ee jsi vypadal docela dob\u0159e v b\xEDl\xE9m"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511300
+    m_Localized: "Ach! Stop, rozhazuji m\u011B ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511301
+    m_Localized: "M\u011Bl jsem po\u017E\xE1dat o jejich telefonn\xED \u010D\xEDslo."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511302
+    m_Localized: Tady jsi.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511303
+    m_Localized: "Se c\xEDt\xED l\xE9pe?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511304
+    m_Localized: "Lep\u0161\xED ne\u017E to? V \u017E\xE1dn\xE9m p\u0159\xEDpad\u011B!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511305
+    m_Localized: "Po\u010Dkej, myslel jsem, \u017Ee retoningobul\xE1tor d\xE1v\xE1
+      m\xE9 oble\u010Den\xED zp\u011Bt?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511306
+    m_Localized: "Rozpo\u010Det byl p\u0159\xEDli\u0161 mal\xFD."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511307
+    m_Localized: "Zatracen\u011B firem ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511310
+    m_Localized: "Kdo t\u011B nechal le\u017Eet?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511311
+    m_Localized: "Poj\u010Fme t\u011B dostat zp\u011Bt"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511312
+    m_Localized: "Dne\u0161n\xED pot\u0159et\xED, co?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511313
+    m_Localized: "Tentokr\xE1t to nebyla moje chyba!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511314
+    m_Localized: "Doba zlomu skon\u010Dila."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511315
+    m_Localized: Co ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511316
+    m_Localized: Je to ...?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511317
+    m_Localized: "To vypad\xE1 tak t\u011B\u017Ece ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511318
+    m_Localized: "Obrovsk\xFD kondom ..?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511319
+    m_Localized: "Vypad\xE1 to, \u017Ee se n\u011Bkdo bavil."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511320
+    m_Localized: "P\u0159\xE1l bych si, \u017Ee jsem byl j\xE1 ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511321
+    m_Localized: "Dob\u0159e vypad\xE1, kdo se uvoln\xED!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511322
+    m_Localized: "Promi\u0148, nech m\u011B tedy jen p\u0159evr\xE1tit na svou stanici."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511323
+    m_Localized: "Haha, v\xE1l\xEDm ti \u017E\xE1dn\xE9 starosti."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511324
+    m_Localized: "Dob\u0159e vypad\xE1, kdo se uvoln\xED!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511325
+    m_Localized: "Promi\u0148, M'am."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511326
+    m_Localized: Znovu??
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511327
+    m_Localized: Nemohl jsem ti odolat!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511328
+    m_Localized: "V\xEDtej zp\u011Bt!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511329
+    m_Localized: "Neud\u011Blali jsme to jen?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511330
+    m_Localized: "P\u0159ipustit to. Miloval jsi to poprv\xE9."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511331
+    m_Localized: "Zp\u011Bt tak brzy?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511332
+    m_Localized: "Mus\xEDme se p\u0159estat setkat takhle!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511334
+    m_Localized: "V\xEDtej v klubu"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511335
+    m_Localized: "Roztaven\xFD na cum u\u017E?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511336
+    m_Localized: "Nic nezbylo ne\u017E cum"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511337
+    m_Localized: "Ud\u011Bl\xE1te dobrou n\xE1klad."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511338
+    m_Localized: "Zcela m\u011B m\u011Bkk\xE9?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511339
+    m_Localized: "Je \u010Das ud\u011Blat nepo\u0159\xE1dek!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511340
+    m_Localized: "Rad\u011Bji tam bude\u0161 pohodln\xFD"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511341
+    m_Localized: "V\xEDtejte na palub\u011B."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511342
+    m_Localized: "Mo\u017En\xE1 dal\u0161\xED bude v\xEDce pln\u011Bn\xED"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511343
+    m_Localized: "U\u017Eij si to!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511344
+    m_Localized: "U\u017Eijte si, zat\xEDmco to trv\xE1!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511345
+    m_Localized: "Odpo\u010Dinout si.."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511346
+    m_Localized: "Nebojte se, nakonec t\u011B nech\xE1m ven."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511347
+    m_Localized: "Uvid\xEDme, jak dlouho vydr\u017E\xEDte ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511348
+    m_Localized: "Ach, geezi, jsem tak velk\xFD a kulat\xFD!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511349
+    m_Localized: "Zaj\xEDmalo by m\u011B, kolik toho dok\xE1\u017Eu"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511350
+    m_Localized: "Nev\xE1hejte se kroutit kolem ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511351
+    m_Localized: "P\u0159esn\u011B tam, kam pat\u0159\xEDte ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511352
+    m_Localized: "Budu si s tebou vz\xEDt \u010Das ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511353
+    m_Localized: "C\xEDt\xEDte se tam tak dob\u0159e ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511354
+    m_Localized: "Squirm v\u0161e, co chcete ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661248
+    m_Localized: "V po\u0159\xE1dku \u010Das se vr\xE1tit do pr\xE1ce"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661249
+    m_Localized: "P\u0159eru\u0161uje se, zp\u011Bt do pr\xE1ce."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631384211456
+    m_Localized: "V\xEDtejte na firemn\xED stanici GLORPCO 789 ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988672
+    m_Localized: "N\u011Bkte\u0159\xED zam\u011Bstnanci zde po\u017E\xE1dali trochu
+      prostoje."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988673
+    m_Localized: "Va\u0161e c\xEDle jsou n\xE1sleduj\xEDc\xED ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988674
+    m_Localized: "Prvn\xED je kaplanov\xE1 krysa ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988675
+    m_Localized: "Druh\xFDm je stanice va\u0159it ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988676
+    m_Localized: "Zat\u0159et\xED je v\u011Bdeck\xFD t\xFDm Kangaroo ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988677
+    m_Localized: "A kone\u010Dn\u011B, kapit\xE1n stanic"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988678
+    m_Localized: "Na rozd\xEDl od p\u0159edchoz\xEDch mis\xED je toto m\xEDsto velmi
+      st\xEDsn\u011Bn\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988679
+    m_Localized: "Budete muset \u010Dasto vykl\xE1dat, abyste se vyhnuli uv\xEDznut\xED
+      ...."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988680
+    m_Localized: "Pokud jdete p\u0159es palubu, ne\u0159\xEDkej, \u017Ee jsem v\xE1s
+      varoval ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51459478631534592
+    m_Localized: Kredity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122693
+    m_Localized: "Vypad\xE1te ve mn\u011B mnohem l\xE9pe!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122694
+    m_Localized: "Nejsem dost hezk\xFD?!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49313416873562112
+    m_Localized: "Nem\u016F\u017Eu uv\u011B\u0159it, \u017Ee se to kone\u010Dn\u011B
+      d\u011Bje!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49313416902922240
+    m_Localized: "P\xE1ni, opravdu m\u011B to saje!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566463746048
+    m_Localized: "Jdete n\u011B\u010Deho, k\xE1mo?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494784
+    m_Localized: "Poj\u010Fme se dostat hloub\u011Bji!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494785
+    m_Localized: "Poj\u010Fme v\xE1s zastr\u010Dit."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494786
+    m_Localized: "Poj\u010Fme se trochu p\u0159ibl\xED\u017Eit ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494787
+    m_Localized: "\u010Cekaj\xED na v\xE1s va\u0161i kolegov\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494788
+    m_Localized: "\u010Cekaj\xED na v\xE1s va\u0161i p\u0159\xE1tel\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494789
+    m_Localized: "Ach, budu si to u\u017E\xEDvat."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494790
+    m_Localized: Down Go
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494791
+    m_Localized: "W-\u010Dek\xE1n\xED!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494792
+    m_Localized: "O-oh drah\xE1 ...!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494793
+    m_Localized: "Zapnout skr\u010Den\xED"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511355
+    m_Localized: "M\xE1te pro m\u011B n\xE1klad?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511356
+    m_Localized: "Oh, j\xE1 .."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511357
+    m_Localized: "Jsem tak zatla\u010Den\xFD ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511358
+    m_Localized: "B\xFDt jemn\xFD v po\u0159\xE1dku?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511359
+    m_Localized: "uhh .. zkus\xEDm to."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511360
+    m_Localized: "Bu\u010F rychl\xFD, mus\xEDm b\xFDt n\u011Bkde."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511361
+    m_Localized: "\u010Cekal jsem na n\u011Bkoho tak dlouho!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511362
+    m_Localized: "Mysl\xED\u0161, \u017Ee n\xE1s n\u011Bkdo uvid\xED?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511363
+    m_Localized: "M\xE1m n\u011Bkoho, aby se setkal."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511364
+    m_Localized: Maso?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49223706696273922
+    m_Localized: "To je hodn\u011B cum!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49223706696273923
+    m_Localized: Woah, moc!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51459478665089025
+    m_Localized: "Budu unikat cel\xFD den ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282248963149824
+    m_Localized: "Kancel\xE1\u0159"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675776
+    m_Localized: "\u017Dralok p\u016Fj\u010Dky v kancel\xE1\u0159i m\xE1 pro v\xE1s
+      misi."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675777
+    m_Localized: Sklad
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675778
+    m_Localized: "Cum kv\xF3ta ve skladu vzrostla! Pomozte jim!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675779
+    m_Localized: Stanice
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675780
+    m_Localized: "Studie Tachyon Cum vy\u017Eaduje va\u0161i pomoc."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675781
+    m_Localized: "M\u011Bsto"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675782
+    m_Localized: "\u010Cas na mixup s drakem \u0161\xE9fa."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58331949737496576
+    m_Localized: Ach ne, byl jsem chycen!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58331949771051008
+    m_Localized: "Stisknut\xEDm tla\u010D\xEDtka Jump k restartu ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303662993408
+    m_Localized: CV The Shark Boss!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547840
+    m_Localized: "Shark je rozhazov\xE1n o sv\xFDch z\xE1jmech, na kohout je diskr\xE9tn\u011B."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547841
+    m_Localized: Uniknout z oblasti!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547842
+    m_Localized: "Po dokon\u010Den\xED prim\xE1rn\xEDch c\xEDl\u016F unikn\u011Bte
+      pomoc\xED v\xFDtahu."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547843
+    m_Localized: "Nenechte se chytit kancel\xE1\u0159sk\xFDm zabezpe\u010Den\xEDm!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547844
+    m_Localized: "Bezpe\u010Dnostn\xED person\xE1l m\xE1 r\xE1dia, kter\xE1 v\xE1s
+      mohou nahl\xE1sit, bu\u010Fte opatrn\xED."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547845
+    m_Localized: CV Technik Kangaroo!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547846
+    m_Localized: "Hlavn\xED technologie um\xEDst\u011Bn\xE1 v postrann\xED energetick\xE9
+      m\xEDstnosti chce p\u0159est\xE1vku od pr\xE1ce."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547847
+    m_Localized: CV Dozorce Kangaroo!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547848
+    m_Localized: "Dozorce ve zv\xFD\u0161en\xE9m v\xFDhledu tla\u010D\xED pracovn\xEDky
+      p\u0159\xEDli\u0161 tvrd\u011B! Po\u0161lete je na dovolenou a dejte v\u0161em
+      p\u0159est\xE1vku."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547849
+    m_Localized: CV The Office Manager Kangaroo!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547850
+    m_Localized: "Spr\xE1vce skladovac\xED m\xEDstnosti se dost\xE1v\xE1 do pr\xE1ce
+      a chce vyzkou\u0161et n\u011Bco nov\xE9ho."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547851
+    m_Localized: "Nenechte se chytit zabezpe\u010Den\xEDm skladu."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547852
+    m_Localized: "Pou\u017Eijte kamion k \xFAt\u011Bku!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547853
+    m_Localized: "CV Kapit\xE1n Kangaroo!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547854
+    m_Localized: "Kapit\xE1n pot\u0159ebuje dovolenou, najd\u011Bte je v tmav\u011B
+      modr\xE9 zabezpe\u010Den\xE9 oblasti."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547855
+    m_Localized: "CV Kn\u011Bz Rat!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547856
+    m_Localized: "Nach\xE1z\xED se v chr\xE1mu a projevy, p\u0159ive\u010Fte svou
+      deviantn\xED stranu do sv\u011Btla!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547857
+    m_Localized: "CV v\u011Bdec Kangaroo!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547858
+    m_Localized: "V\u011Bdec nach\xE1zej\xEDc\xED se v zelen\xE9 oblasti chce, abyste
+      je chrlili na v\u011Bdu!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547859
+    m_Localized: CV Possum Cook!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547860
+    m_Localized: "Hlava Cook chce, abyste jim pomohli vyzkou\u0161et novou ingredienci
+      t\xEDm, \u017Ee je p\u0159em\u011Bnili na to!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59064884090425344
+    m_Localized: "Nechte pou\u017E\xEDt jeden z v\xFDstupn\xEDch dve\u0159\xED."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547861
+    m_Localized: CV Dragon Boss!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547862
+    m_Localized: "Dragon je hl\xE1\u0161en, \u017Ee m\xE1 obrovsk\xE9ho pt\xE1ka
+      a chrloval vlastn\xED person\xE1l, bu\u010Fte opatrn\xED!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547863
+    m_Localized: Nenechte se chytit CV Police.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59722192836763648
+    m_Localized: "Nov\xE1 hra"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59736315477762048
+    m_Localized: "Vyberte ulo\u017Eit slot"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511333
+    m_Localized: "V\xEDce? \u2764"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661250
+    m_Localized: "Je to tak hezk\xE9, jak se tam krou\u017E\xED ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59758640264781824
+    m_Localized: "Dokon\u010Den\xE9 c\xEDle"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59758640302530560
+    m_Localized: "Doba dokon\u010Den\xED"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60079280086372352
+    m_Localized: "Vra\u0165te se do hlavn\xED nab\xEDdky"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60100337514106880
+    m_Localized: "Nov\xFD rekord!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729936470016
+    m_Localized: "Dobr\xFD pracovn\xED agent, \u0161\xE9f \u017Eraloka je \xFAdajn\u011B
+      mnohem hez\u010D\xED pot\xE9, co si sv\xE9 zlomy oddaly. D\u011Blali sv\u011Bt
+      Horlier, jeden c\xEDl najednou!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729965830144
+    m_Localized: "Mission Complete Agent, pracovn\xEDci skladu byli r\xE1di, \u017Ee
+      m\u011Bli n\u011Bjak\xFD volno a c\xEDle jsou po \u201Edovolen\xE9\u201C ve
+      vysok\xE9 duchu."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729965830145
+    m_Localized: "Dal\u0161\xED agent \xFAsp\u011Bchu. S drakem, kter\xFD m\u011Bl
+      chu\u0165 sv\xE9ho vlastn\xEDho l\xE9ku, jsou pracovn\xEDci mnohem \u0161\u0165astn\u011Bj\u0161\xED."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729965830146
+    m_Localized: "Skv\u011Bl\xFD pracovn\xED agent! Zam\u011Bstnanci stanice jsou
+      v\u0161ichni trochu nahnut\u011Bj\u0161\xED a tolik jejich koleg\u016F mluv\xED
+      o sv\xFDch zku\u0161enostech s v\xE1mi."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60175060938878976
+    m_Localized: "Skr\xFDt \u0161\xE9fa \u017Eraloka (voliteln\xE9)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60175060938878977
+    m_Localized: "Udr\u017Eujte \u0161\xE9fa chr, t\xEDm, \u017Ee nech\xE1te sv\u016Fj
+      kondom v koupeln\u011B!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309898190848
+    m_Localized: "Skr\xFDt hlavu zabezpe\u010Den\xED (voliteln\xE9)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309914968064
+    m_Localized: "Ukryjte kondom obsahuj\xEDc\xED hlavu bezpe\u010Dnosti v bezpe\u010Dnostn\xED
+      \u0161atnu."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309914968065
+    m_Localized: "Skr\xFDt \u0161koln\xEDka (voliteln\xE9)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309914968066
+    m_Localized: "Ukryjte kondom obsahuj\xEDc\xED \u0161kol\xEDka v hlavn\xED chodb\u011B."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60288126066192384
+    m_Localized: "Rad\u011Bji se tam pohodln\u011B"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231205634048
+    m_Localized: "Douf\xE1m, \u017Ee jste p\u0159ipraveni na n\u011Bjak\xFD t\u011B\u017Ek\xFD
+      zvedac\xED agent."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411264
+    m_Localized: "Tenhle nebude jako va\u0161e p\u0159edchoz\xED mise."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411265
+    m_Localized: "Dne\u0161n\xED c\xEDl je \u0161\xE9f drak"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411266
+    m_Localized: "V posledn\xED dob\u011B byli pod velk\xFDm tlakem"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411267
+    m_Localized: "To vedlo k tomu, \u017Ee stres jedli jejich person\xE1l"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411268
+    m_Localized: "Je \u010Das, aby \u0161li na dovolenou"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411269
+    m_Localized: "Bu\u010Fte zvl\xE1\u0161\u0165 opatrn\xED, nebo byste mohli skon\u010Dit
+      jako ten, kdo zb\u011Bhl!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661251
+    m_Localized: "Je to tak tepl\xE9!"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

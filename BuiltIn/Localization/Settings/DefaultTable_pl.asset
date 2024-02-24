@@ -1,0 +1,1363 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: DefaultTable_pl
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: pl
+  m_SharedData: {fileID: 11400000, guid: 801b23fcb4b7b884196ed7584cceb3c9, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 2597174431744
+    m_Localized: NAGI!?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597212180480
+    m_Localized: Co!?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597212180481
+    m_Localized: "Dzwoni\u0119 do bezpiecze\u0144stwa!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597212180482
+    m_Localized: Whoa!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374784
+    m_Localized: "Hej, nie powiniene\u015B tu by\u0107!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374785
+    m_Localized: "Du\u017Cy kr\xF3lik!?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374786
+    m_Localized: Och, to ogromne!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374787
+    m_Localized: "Szef b\u0119dzie taki szalony ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374788
+    m_Localized: "\u015Awi\u0119ta krowa!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374789
+    m_Localized: "Gdzie s\u0105 Twoje ubrania!?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374790
+    m_Localized: "\u015Awi\u0119ta krowa!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374791
+    m_Localized: "O Bo\u017Ce!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374792
+    m_Localized: "Pomoc! Bezpiecze\u0144stwo!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11380743262208
+    m_Localized: "Hej, chc\u0119 dzi\u015B wyj\u015B\u0107 z pracy, masz jakie\u015B
+      pomys\u0142y?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11380772622336
+    m_Localized: "Mog\u0119 co\u015B wymy\u015Bli\u0107 ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 262281009614848
+    m_Localized: "U\u017Cywa pozosta\u0142ych"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424501387264
+    m_Localized: "To jest mi\u0142e!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747392
+    m_Localized: To jest dobre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747393
+    m_Localized: "To jest takie relaksuj\u0105ce"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747394
+    m_Localized: "Absolutnie zachwycaj\u0105ce!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747395
+    m_Localized: Och, uwielbiam to!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747396
+    m_Localized: "Powinienem by\u0142 to zrobi\u0107 wcze\u015Bniej!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747397
+    m_Localized: "To jest czysta b\u0142ogo\u015B\u0107!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747398
+    m_Localized: "Ca\u0142kowita b\u0142ogo\u015B\u0107!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747399
+    m_Localized: "S\u0142odka satysfakcja!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747400
+    m_Localized: "Czysta przyjemno\u015B\u0107!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747401
+    m_Localized: "Po prostu wspania\u0142y!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747402
+    m_Localized: Ah ..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747403
+    m_Localized: "Warto ka\u017Cdej chwili!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747404
+    m_Localized: "Jak we \u015Bnie!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747405
+    m_Localized: Jestem w raju!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747406
+    m_Localized: "Niebia\u0144ska rozkosz!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747407
+    m_Localized: "\u2764"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747408
+    m_Localized: Och, jestem w raju!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747409
+    m_Localized: "Hehe, mi\u0142o."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747410
+    m_Localized: Och!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747411
+    m_Localized: "To spe\u0142nienie marze\u0144!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747412
+    m_Localized: Och, to jak magia!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941696
+    m_Localized: :)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941697
+    m_Localized: :D
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941698
+    m_Localized: MHM ..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941699
+    m_Localized: '*Glorsh*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941700
+    m_Localized: "Male\u0144ki!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941701
+    m_Localized: '*Glorp*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941702
+    m_Localized: "Wspania\u0142y!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941703
+    m_Localized: Fantastyczny!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941704
+    m_Localized: Niesamowity!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941705
+    m_Localized: Genialny!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941706
+    m_Localized: Niesamowity!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941707
+    m_Localized: "Wspania\u0142y!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941708
+    m_Localized: "Wspania\u0142y!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941709
+    m_Localized: Cudowny!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941710
+    m_Localized: '*splort*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941711
+    m_Localized: '*Blorp*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149630550016
+    m_Localized: "Czy s\u0142yszysz mnie agenta 789?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298752
+    m_Localized: "W porz\u0105dku, Twoim celem jest Shark Boss."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298753
+    m_Localized: "Chc\u0105, \u017Ceby\u015B je dyskretnie."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298754
+    m_Localized: "Zawstydzone, je\u015Bli ich wsp\xF3\u0142pracownicy dowiedz\u0105
+      si\u0119, w co si\u0119 znajduj\u0105"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298755
+    m_Localized: "Sprawd\u017A swoje HUD pod k\u0105tem swoich cel\xF3w."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298756
+    m_Localized: Powodzenia tam.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27794504080216064
+    m_Localized: "Rozpocz\u0105\u0107 gr\u0119"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27794504126353408
+    m_Localized: "Zako\u0144czy\u0107 gr\u0119"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28184462674677760
+    m_Localized: Szybki ponowne uruchomienie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 33999910783733760
+    m_Localized: "Wybierz umow\u0119"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34000825808900096
+    m_Localized: "Pomi\u0144 przerywnik filmowy"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34000825808900097
+    m_Localized: "Wr\xF3\u0107"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985526923264
+    m_Localized: "W porz\u0105dku 789, ten b\u0119dzie nieco trudniejszy ni\u017C
+      zwykle"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700480
+    m_Localized: Masz teraz * trzy * cele
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700481
+    m_Localized: Najpierw w biurze przechowywania ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700482
+    m_Localized: "Drugi w tylnej cz\u0119\u015Bci IT ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700483
+    m_Localized: "I na koniec w polu nadzorc\xF3w"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700484
+    m_Localized: "Jak zwykle, staraj si\u0119 nie z\u0142apa\u0107"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700485
+    m_Localized: "Je\u015Bli masz problem z dopasowaniem ich wszystkich od razu,
+      spr\xF3buj u\u017Cy\u0107 rozrzuconych stojak\xF3w."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700486
+    m_Localized: Powodzenia agent.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608362614784
+    m_Localized: ....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974912
+    m_Localized: "Wszel, mam wkr\xF3tce spotkanie ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974913
+    m_Localized: "Chyba jeste\u015B zwolniony!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974914
+    m_Localized: "Szef b\u0119dzie taki szalony ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974915
+    m_Localized: "Du\u017Co miejsca dla nich"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974916
+    m_Localized: "Nadszed\u0142 czas, \u017Ceby\u015B sp\u0119dzi\u0142 wakacje!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974917
+    m_Localized: "Nie przejmuj si\u0119, je\u015Bli to zrobi\u0119!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974918
+    m_Localized: "Zrobisz ogromny \u0142adunek ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974919
+    m_Localized: "Wsu\u0144 si\u0119 ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974920
+    m_Localized: W tch icie cutie ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974921
+    m_Localized: Irytacja...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974922
+    m_Localized: "Och, tak ciep\u0142o ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974923
+    m_Localized: mmmm ....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974924
+    m_Localized: "To by\u0142a nowa koszula!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974925
+    m_Localized: "Lepiej nie m\xF3w nikomu!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974926
+    m_Localized: Bez obietnic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363520
+    m_Localized: "Moje, jakie masz du\u017Ce narz\u0119dzie ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363521
+    m_Localized: "Tym lepiej ci\u0119 zje\u015B\u0107!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363522
+    m_Localized: "Du\u017Cy....."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363523
+    m_Localized: "I staje si\u0119 wi\u0119kszy!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363524
+    m_Localized: "Jak to si\u0119 czuje?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363525
+    m_Localized: "Wspania\u0142y..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363526
+    m_Localized: "Chc\u0119, \u017Ceby\u015B we mnie ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363527
+    m_Localized: "Naprawd\u0119 kalambury!?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363528
+    m_Localized: Przynajmniej kup mi obiad ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363529
+    m_Localized: "Przepraszam, wygl\u0105da na to, \u017Ce jeste\u015B deserem."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363530
+    m_Localized: "Och, to jest ... gor\u0105ce ....."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363531
+    m_Localized: "Pokochasz to, co b\u0119dzie dalej!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363532
+    m_Localized: "B\u0119d\u0119 o mnie walczy\u0107 ...?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363533
+    m_Localized: "Tylko je\u015Bli m\xF3wisz, prosz\u0119."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363534
+    m_Localized: "My\u015Bl\u0119, \u017Ce to bije ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363535
+    m_Localized: "Pomy\u015Bl o tym jak o wakacjach!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363536
+    m_Localized: "Jedz te\u017C moich przyjaci\xF3\u0142!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363537
+    m_Localized: Im wiecej tym lepiej!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363538
+    m_Localized: "Bo\u017Ce, jestem teraz taki ci\u0119\u017Cki ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363539
+    m_Localized: Irytacja...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363540
+    m_Localized: "To by\u0142 du\u017Cy ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363541
+    m_Localized: "Hej, ju\u017C uspok\xF3j si\u0119!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363542
+    m_Localized: "To by\u0142o dobrze ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363543
+    m_Localized: Wszystko moje...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363544
+    m_Localized: Laag
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363545
+    m_Localized: "\u015Arednia"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363546
+    m_Localized: Wysoka
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363547
+    m_Localized: 'Tryb okna
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363548
+    m_Localized: "Rozdzielczo\u015B\u0107"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363549
+    m_Localized: Barwa
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363550
+    m_Localized: Rozmycie w ruchu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363551
+    m_Localized: Artykulacja otoczenia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363552
+    m_Localized: Cienie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363553
+    m_Localized: Trawa
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363554
+    m_Localized: Odbicia w przestrzeni ekranu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363555
+    m_Localized: "Wyg\u0142adzanie kraw\u0119dzi"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363556
+    m_Localized: "Szczeg\xF3\u0142owo\u015B\u0107"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363557
+    m_Localized: "G\u0142o\u015Bno\u015B\u0107"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363558
+    m_Localized: "G\u0142o\u015Bno\u015B\u0107 efekt\xF3w d\u017Awi\u0119kowych"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363559
+    m_Localized: "G\u0142o\u015Bno\u015B\u0107 muzyki"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363560
+    m_Localized: Pole widzenia kamery
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363561
+    m_Localized: Projekcja panini
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363562
+    m_Localized: "G\u0142\u0119bia ostro\u015Bci"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363563
+    m_Localized: "Og\xF3lna jako\u015B\u0107"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363564
+    m_Localized: "Prze\u0142\u0105cz tryb chodzenia"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363565
+    m_Localized: Ekskluzywny
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363566
+    m_Localized: "Pe\u0142en ekran"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363567
+    m_Localized: Maksymalizuj okno
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363568
+    m_Localized: Tryb okienkowy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363569
+    m_Localized: "W\u0142\u0105cz"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363570
+    m_Localized: "J\u0119zyk"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363571
+    m_Localized: Rozgrywka
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363572
+    m_Localized: Audio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363573
+    m_Localized: Opcje
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363574
+    m_Localized: "Wy\u0142\u0105czone"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363575
+    m_Localized: MUIS GEVOELIGHEID
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961408
+    m_Localized: "Wskaz\xF3wki glify"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961409
+    m_Localized: Kontroler Xbox
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961410
+    m_Localized: Kontroler DualShock
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961411
+    m_Localized: Myszka klawiaturowa
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961412
+    m_Localized: Automatyczny
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41667057588686848
+    m_Localized: Grafika
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41668013478957056
+    m_Localized: "Jasno\u015B\u0107 ekranu"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41668828704854016
+    m_Localized: "Target klatek na sekund\u0119"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41669473738477568
+    m_Localized: Vsync
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113281912832
+    m_Localized: "Co to by\u0142o?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078656
+    m_Localized: Huh?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078657
+    m_Localized: "My\u015Bla\u0142em, \u017Ce co\u015B s\u0142ysza\u0142em ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078658
+    m_Localized: Czy to...?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078659
+    m_Localized: "Kto to by\u0142?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078660
+    m_Localized: "Musz\u0119 wymy\u015Bli\u0107 ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219014989762560
+    m_Localized: "Wolniej prosz\u0119!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122688
+    m_Localized: "Pozw\xF3l, \u017Ce poka\u017C\u0119 ci w nowym biurze."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122689
+    m_Localized: Bezpieczna? Nie, nie bardzo.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122690
+    m_Localized: Czy na pewno to jest bezpieczne?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122691
+    m_Localized: "Mam kogo\u015B na spotkanie"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122692
+    m_Localized: "W twoim mi\u0119sie!?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511296
+    m_Localized: "Ach Dang, prosz\u0119 bardzo."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511297
+    m_Localized: Nie, Nooooo!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511298
+    m_Localized: "By\u0142o fajnie dop\xF3ki to trwa\u0142o."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511299
+    m_Localized: "My\u015Bl\u0119, \u017Ce wygl\u0105da\u0142e\u015B ca\u0142kiem
+      dobrze w kolorze bia\u0142ym"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511300
+    m_Localized: "Oh! Przesta\u0144, zawstydzasz mnie ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511301
+    m_Localized: "Powinienem by\u0142 poprosi\u0107 o ich numer telefonu."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511302
+    m_Localized: "Tutaj jeste\u015B."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511303
+    m_Localized: "Czuj\u0119 si\u0119 lepiej?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511304
+    m_Localized: "Lepiej ni\u017C to? Nie ma mowy!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511305
+    m_Localized: "Czekaj, pomy\u015Bla\u0142em, \u017Ce Recumbobulator przywraca
+      moje ubrania?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511306
+    m_Localized: "Bud\u017Cet by\u0142 zbyt ma\u0142y."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511307
+    m_Localized: Darn Corporate ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511310
+    m_Localized: "Kto zostawi\u0142e\u015B, le\u017C\u0105c?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511311
+    m_Localized: "Odzyskajmy ci\u0119"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511312
+    m_Localized: Trzeci raz dzisiaj, co?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511313
+    m_Localized: "Tym razem nie by\u0142a to moja wina!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511314
+    m_Localized: "Czas przerwania min\u0105\u0142."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511315
+    m_Localized: Co...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511316
+    m_Localized: Czy to jest...?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511317
+    m_Localized: "To wygl\u0105da tak ci\u0119\u017Cko ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511318
+    m_Localized: Ogromna prezerwatywa ..?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511319
+    m_Localized: "Wygl\u0105da na to, \u017Ce kto\u015B dobrze si\u0119 bawi\u0142."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511320
+    m_Localized: "Chcia\u0142bym, \u017Ceby to by\u0142o ja ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511321
+    m_Localized: "C\xF3\u017C, wygl\u0105da na rozlu\u017Anienie!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511322
+    m_Localized: "Przepraszam, pozw\xF3l mi wtedy przetoczy\u0107 si\u0119 na moj\u0105
+      stacj\u0119."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511323
+    m_Localized: "Haha, rzuc\u0119 ci\u0119 bez zmartwie\u0144."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511324
+    m_Localized: "C\xF3\u017C, wygl\u0105da na rozlu\u017Anienie!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511325
+    m_Localized: Przepraszam, M'am.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511326
+    m_Localized: Ponownie??
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511327
+    m_Localized: "Nie mog\u0142em ci si\u0119 oprze\u0107!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511328
+    m_Localized: Witamy spowrotem!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511329
+    m_Localized: "Czy nie zrobili\u015Bmy tego?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511330
+    m_Localized: "Przyzna\u0107. Uwielbia\u0142e\u015B to po raz pierwszy."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511331
+    m_Localized: "Wr\xF3\u0107 tak szybko?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511332
+    m_Localized: "Musimy przesta\u0107 tak spotka\u0107!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511334
+    m_Localized: Witaj w klubie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511335
+    m_Localized: "Roztopili si\u0119 ju\u017C do spermy?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511336
+    m_Localized: "Nic nie zosta\u0142o opr\xF3cz cumu"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511337
+    m_Localized: "Zrobisz dobry \u0142adunek."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511338
+    m_Localized: "Zosta\u0142 na mnie mi\u0119kki?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511339
+    m_Localized: "Czas zrobi\u0107 ba\u0142agan!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511340
+    m_Localized: "Lepiej stawaj si\u0119 tam wygodnie"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511341
+    m_Localized: "Witamy na pok\u0142adzie."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511342
+    m_Localized: "Mo\u017Ce nast\u0119pny b\u0119dzie bardziej wype\u0142niaj\u0105cy"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511343
+    m_Localized: "Baw si\u0119 dobrze!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511344
+    m_Localized: "Ciesz si\u0119, gdy trwa!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511345
+    m_Localized: "Zrelaksowa\u0107 si\u0119.."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511346
+    m_Localized: "Nie martw si\u0119, w ko\u0144cu ci\u0119 wypucz\u0119."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511347
+    m_Localized: "Zobaczmy, jak d\u0142ugo przetrwasz ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511348
+    m_Localized: "O rany, jestem taki du\u017Cy i okr\u0105g\u0142y!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511349
+    m_Localized: "Zastanawiam si\u0119, o ile wi\u0119cej mog\u0119 co\u015B zrobi\u0107"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511350
+    m_Localized: "Zapraszam do wi\u0105zania si\u0119 ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511351
+    m_Localized: "W\u0142a\u015Bnie tam, gdzie nale\u017Cysz ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511352
+    m_Localized: "Nie spiesz\u0119 si\u0119 z tob\u0105 ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511353
+    m_Localized: "Czujesz si\u0119 tam tak dobrze ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511354
+    m_Localized: "Wsp\xF3\u0142pracuj, co chcesz ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661248
+    m_Localized: "W porz\u0105dku, aby wr\xF3ci\u0107 do pracy"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661249
+    m_Localized: "Przebija si\u0119, z powrotem do pracy."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631384211456
+    m_Localized: Witamy w stacji korporacyjnej Glorpco 789 ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988672
+    m_Localized: "Niekt\xF3rzy pracownicy tutaj poprosili o troch\u0119 przestoj\xF3w."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988673
+    m_Localized: "Twoje cele s\u0105 nast\u0119puj\u0105ce ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988674
+    m_Localized: Pierwszy jest szczur kapelana ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988675
+    m_Localized: Drugi to stacje gotowane ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988676
+    m_Localized: Po trzecie jest Kangura Science Team ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988677
+    m_Localized: I na koniec kapitan stacji
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988678
+    m_Localized: "W przeciwie\u0144stwie do poprzednich misji to miejsce jest bardzo
+      ciasne"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988679
+    m_Localized: "B\u0119dziesz musia\u0142 cz\u0119sto roz\u0142adowa\u0107, aby
+      unikn\u0105\u0107 utkni\u0119cia ...."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988680
+    m_Localized: "Je\u015Bli przejdziesz za burt\u0119, nie m\xF3w, \u017Ce ci\u0119
+      nie ostrzega\u0142em ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51459478631534592
+    m_Localized: Kredyty
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122693
+    m_Localized: "B\u0119dziesz we mnie znacznie lepiej!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122694
+    m_Localized: "Czy nie jestem wystarczaj\u0105co \u0142adny?!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49313416873562112
+    m_Localized: "Nie mog\u0119 uwierzy\u0107, \u017Ce to w ko\u0144cu si\u0119 dzieje!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49313416902922240
+    m_Localized: "Wow, to naprawd\u0119 mnie wci\u0105ga!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566463746048
+    m_Localized: Idziesz som, gdzie kumpel?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494784
+    m_Localized: "Zosta\u0144my g\u0142\u0119biej!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494785
+    m_Localized: "Zabierzmy ci\u0119."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494786
+    m_Localized: "Przybudujmy troch\u0119 bli\u017Cej ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494787
+    m_Localized: "Czekaj\u0105 na Ciebie twoi koledzy"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494788
+    m_Localized: "Twoi przyjaciele czekaj\u0105 na Ciebie"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494789
+    m_Localized: "Och, b\u0119d\u0119 si\u0119 tym cieszy\u0107."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494790
+    m_Localized: "W d\xF3\u0142 id\u017A"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494791
+    m_Localized: W-Wait!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494792
+    m_Localized: O-oh kochanie ...!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494793
+    m_Localized: "Prze\u0142\u0105cz kucni\u0119cie"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511355
+    m_Localized: "Masz dla mnie \u0142adunek?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511356
+    m_Localized: Och, czy ..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511357
+    m_Localized: "Jestem taki st\u0142umiony ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511358
+    m_Localized: "B\u0105d\u017A delikatny, dobrze?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511359
+    m_Localized: "uhh .. spr\xF3buj\u0119."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511360
+    m_Localized: "B\u0105d\u017A szybki, mam gdzie\u015B by\u0107."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511361
+    m_Localized: "Tak d\u0142ugo na kogo\u015B czeka\u0142em!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511362
+    m_Localized: "My\u015Blisz, \u017Ce kto\u015B nas zobaczy?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511363
+    m_Localized: "Mam kogo\u015B na spotkanie."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511364
+    m_Localized: "Mi\u0119so?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49223706696273922
+    m_Localized: "To du\u017Co spermy!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49223706696273923
+    m_Localized: Woah, tyle!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51459478665089025
+    m_Localized: "B\u0119d\u0119 przecieka\u0142 ca\u0142y dzie\u0144 ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282248963149824
+    m_Localized: Biuro
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675776
+    m_Localized: "Rekin po\u017Cyczki w biurze ma dla ciebie misj\u0119."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675777
+    m_Localized: Magazyn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675778
+    m_Localized: "Cum Cum w magazynie wzr\xF3s\u0142! Pom\xF3\u017C im!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675779
+    m_Localized: Stacja
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675780
+    m_Localized: Badanie tachyon cum wymaga twojej pomocy.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675781
+    m_Localized: Miasto
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675782
+    m_Localized: Czas na mieszanie z Bossem Dragon.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58331949737496576
+    m_Localized: "O nie, zosta\u0142em z\u0142apany!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58331949771051008
+    m_Localized: "Naci\u015Bnij skok, aby ponownie uruchomi\u0107 ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303662993408
+    m_Localized: CV Shark Boss!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547840
+    m_Localized: Shark jest zawstydzony o swoich zainteresowaniach, kutas dyskretnie
+      je.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547841
+    m_Localized: Ucieknij w okolicy!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547842
+    m_Localized: "Po wykonaniu podstawowych cel\xF3w uciekaj za pomoc\u0105 windy."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547843
+    m_Localized: "Nie daj si\u0119 z\u0142apa\u0107 zabezpieczenia biura!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547844
+    m_Localized: "Personel ochrony maj\u0105 radia, kt\xF3re mog\u0105 Ci\u0119 zg\u0142osi\u0107,
+      uwa\u017Caj."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547845
+    m_Localized: CV Kangur technika!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547846
+    m_Localized: "G\u0142owa technologia po\u0142o\u017Cona w bocznym pokoju Power
+      Pok\xF3j chce przerwy od pracy."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547847
+    m_Localized: CV Nadzorca Kangaroo!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547848
+    m_Localized: "Nadzorca w podwy\u017Cszonym Overlook zbyt mocno popycha pracownik\xF3w!
+      Wy\u015Blij je na wakacje i daj wszystkim przerw\u0119."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547849
+    m_Localized: "CV Kangura mened\u017Cera biura!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547850
+    m_Localized: "Mened\u017Cer pokoju magazynowego staje si\u0119 rozbijaj\u0105cy
+      w pracy i chce spr\xF3bowa\u0107 czego\u015B nowego."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547851
+    m_Localized: "Nie daj si\u0119 z\u0142apa\u0107 przez bezpiecze\u0144stwo magazynowe."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547852
+    m_Localized: "U\u017Cyj ci\u0119\u017Car\xF3wki, aby uciec!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547853
+    m_Localized: CV kapitana Kangaroo!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547854
+    m_Localized: "Kapitan potrzebuje wakacji, znajd\u017A je w ciemnoniebieskim bezpiecznym
+      obszarze."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547855
+    m_Localized: "CV Kap\u0142ana szczura!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547856
+    m_Localized: "Po\u0142o\u017Cone w \u015Bwi\u0105tyni wyg\u0142aszaj\u0105c przem\xF3wienia,
+      przynie\u015B ich odchylon\u0105 stron\u0119 w \u015Bwiat\u0142o!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547857
+    m_Localized: CV Kangur naukowy!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547858
+    m_Localized: "Naukowiec z siedzib\u0105 w zielonej okolicy chce, aby\u015B m\xF3g\u0142
+      je ulec nauk\u0119!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547859
+    m_Localized: CV Possum Cook!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547860
+    m_Localized: "G\u0142owa kucharz chce, aby\u015B pom\xF3g\u0142 im wypr\xF3bowa\u0107
+      nowy sk\u0142adnik, zamieniaj\u0105c go w niego!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59064884090425344
+    m_Localized: "Pozostaw przy u\u017Cyciu jednego z drzwi wyj\u015Bciowych."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547861
+    m_Localized: CV The Dragon Boss!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547862
+    m_Localized: "Doniesiono, \u017Ce smok ma ogromnego kutasa i ubija\u0142 w\u0142asny
+      personel, b\u0105d\u017A ostro\u017Cny!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547863
+    m_Localized: "Nie daj si\u0119 z\u0142apa\u0107 policji CV."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59722192836763648
+    m_Localized: Nowa gra
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59736315477762048
+    m_Localized: Wybierz zapisz gniazdo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511333
+    m_Localized: "Wi\u0119cej? \u2764"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661250
+    m_Localized: "To takie mi\u0142e, jak si\u0119 tam kr\u0119cisz ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59758640264781824
+    m_Localized: "Uko\u0144czone cele"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59758640302530560
+    m_Localized: Czas realizacji
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60079280086372352
+    m_Localized: "Wr\xF3\u0107 do menu g\u0142\xF3wnego"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60100337514106880
+    m_Localized: Nowy rekord!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729936470016
+    m_Localized: "Dobry agent pracy, boss rekina jest podobno o wiele \u0142adniejszy
+      po zwalczaniu za\u0142ama\u0144. Sprawili, \u017Ce \u015Bwiat by\u0142 bardziej
+      bardziej bardziej celem!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729965830144
+    m_Localized: "Mission Complete Agent, pracownicy magazynu ch\u0119tnie mieli
+      troch\u0119 czasu wolnego, a cele s\u0105 w dobrym nastroju po \u201Ewakacjach\u201D."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729965830145
+    m_Localized: "Inny agent sukcesu. Z Smok Boss, kt\xF3ry poczu\u0142 sw\xF3j w\u0142asny
+      lekarstwo, pracownicy s\u0105 znacznie szcz\u0119\u015Bliwsi."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729965830146
+    m_Localized: "\u015Awietny agent pracy! Wszyscy pracownicy stacji s\u0105 troch\u0119
+      bardziej napalone, a tak wielu ich koleg\xF3w m\xF3wi o swoich do\u015Bwiadczeniach
+      z tob\u0105."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60175060938878976
+    m_Localized: Ukryj bossa rekina (opcjonalnie)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60175060938878977
+    m_Localized: "Trzymaj szefa, pozostawiaj\u0105c prezerwatyw\u0119 w \u0142azience!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309898190848
+    m_Localized: "Ukryj g\u0142ow\u0119 bezpiecze\u0144stwa (opcjonalnie)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309914968064
+    m_Localized: "Zamknij prezerwatyw\u0119 zawieraj\u0105c\u0105 g\u0142ow\u0119
+      bezpiecze\u0144stwa w szatni bezpiecze\u0144stwa."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309914968065
+    m_Localized: "Ukryj wo\u017Anego (opcjonalnie)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309914968066
+    m_Localized: "Zamknij prezerwatyw\u0119 zawieraj\u0105c\u0105 wo\u017Anego w
+      g\u0142\xF3wnej \u0142azience na korytarzu."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60288126066192384
+    m_Localized: "Lepiej si\u0119 tam wygodnie"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231205634048
+    m_Localized: "Mam nadziej\u0119, \u017Ce jeste\u015B gotowy na jakiego\u015B
+      agenta podnoszenia."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411264
+    m_Localized: "Ten nie b\u0119dzie podobny do twoich poprzednich misji."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411265
+    m_Localized: Dzisiejszy cel to Boss Dragon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411266
+    m_Localized: "Ostatnio byli pod du\u017C\u0105 presj\u0105"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411267
+    m_Localized: "Spowodowa\u0142o to, \u017Ce stres jedzi\u0142 personel"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411268
+    m_Localized: "Nadszed\u0142 czas, aby poszli na wakacje"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411269
+    m_Localized: "B\u0105d\u017A bardzo ostro\u017Cny, bo mo\u017Cesz by\u0107 tym,
+      kt\xF3ry sta\u0142 si\u0119 bia\u0142y!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661251
+    m_Localized: "Jest tak ciep\u0142o!"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

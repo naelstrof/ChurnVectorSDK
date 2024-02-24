@@ -1,0 +1,190 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7617043062146711727
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7709468717635083407}
+  m_Layer: 7
+  m_Name: ChestCratePrefab
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7709468717635083407
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7617043062146711727}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 205, y: 1.5, z: -142.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 9000152868482709560}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &8893569281290313683
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7709468717635083407}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 40675f550205f5044b6672dee9a031f5,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 40675f550205f5044b6672dee9a031f5,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 40675f550205f5044b6672dee9a031f5,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 40675f550205f5044b6672dee9a031f5,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071176
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 40675f550205f5044b6672dee9a031f5,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.707096
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 40675f550205f5044b6672dee9a031f5,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 40675f550205f5044b6672dee9a031f5,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 40675f550205f5044b6672dee9a031f5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 40675f550205f5044b6672dee9a031f5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 40675f550205f5044b6672dee9a031f5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 40675f550205f5044b6672dee9a031f5,
+        type: 3}
+      propertyPath: m_Name
+      value: ChestCrate
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 40675f550205f5044b6672dee9a031f5,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 40675f550205f5044b6672dee9a031f5,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 126
+      objectReference: {fileID: 0}
+    - target: {fileID: 5148817236446094103, guid: 40675f550205f5044b6672dee9a031f5,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5148817236446094103, guid: 40675f550205f5044b6672dee9a031f5,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 126
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 40675f550205f5044b6672dee9a031f5,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5768253044144763586}
+    - targetCorrespondingSourceObject: {fileID: 5148817236446094103, guid: 40675f550205f5044b6672dee9a031f5,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 736082640329962674}
+  m_SourcePrefab: {fileID: 100100000, guid: 40675f550205f5044b6672dee9a031f5, type: 3}
+--- !u!1 &4330224077267909828 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5148817236446094103, guid: 40675f550205f5044b6672dee9a031f5,
+    type: 3}
+  m_PrefabInstance: {fileID: 8893569281290313683}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &736082640329962674
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4330224077267909828}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2999998, y: 0.79999995, z: 0.049999982}
+  m_Center: {x: 0, y: -0.3500152, z: 0.024999991}
+--- !u!1 &8623592797937574530 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 40675f550205f5044b6672dee9a031f5,
+    type: 3}
+  m_PrefabInstance: {fileID: 8893569281290313683}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &5768253044144763586
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8623592797937574530}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2999998, y: 0.8225941, z: 0.45867723}
+  m_Center: {x: 0, y: -0.011297076, z: 0.22933862}
+--- !u!4 &9000152868482709560 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 40675f550205f5044b6672dee9a031f5,
+    type: 3}
+  m_PrefabInstance: {fileID: 8893569281290313683}
+  m_PrefabAsset: {fileID: 0}

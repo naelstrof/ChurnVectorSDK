@@ -1,0 +1,1358 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: DefaultTable_nl
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: nl
+  m_SharedData: {fileID: 11400000, guid: 801b23fcb4b7b884196ed7584cceb3c9, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 2597174431744
+    m_Localized: NAAKT!?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597212180480
+    m_Localized: Wat de!?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597212180481
+    m_Localized: Ik bel beveiliging!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597212180482
+    m_Localized: Whoa!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374784
+    m_Localized: "H\xE9, je zou hier niet moeten zijn!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374785
+    m_Localized: Grote konijn!?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374786
+    m_Localized: Oh het is enorm!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374787
+    m_Localized: Boss wordt zo boos ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374788
+    m_Localized: Heilige koe!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374789
+    m_Localized: Waar zijn je kleren!?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374790
+    m_Localized: Heilige koe!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374791
+    m_Localized: Oh God!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374792
+    m_Localized: Hulp! Beveiliging!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11380743262208
+    m_Localized: "H\xE9, ik wil vandaag niet werken, heb je idee\xEBn?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11380772622336
+    m_Localized: Ik kan iets bedenken...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 262281009614848
+    m_Localized: Resterend gebruik
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424501387264
+    m_Localized: Dit is fijn!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747392
+    m_Localized: Dit voelt goed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747393
+    m_Localized: Dit is zo ontspannend
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747394
+    m_Localized: Absoluut heerlijk!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747395
+    m_Localized: Oh, ik ben hier dol op!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747396
+    m_Localized: Ik had dit eerder moeten doen!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747397
+    m_Localized: Dit is pure gelukzaligheid!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747398
+    m_Localized: Totale gelukzaligheid!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747399
+    m_Localized: Zoete voldoening!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747400
+    m_Localized: Puur plezier!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747401
+    m_Localized: Gewoon prachtig!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747402
+    m_Localized: Ah..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747403
+    m_Localized: Elk moment waard!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747404
+    m_Localized: Zoals een droom!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747405
+    m_Localized: Ik ben in het paradijs!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747406
+    m_Localized: Hemelse genot!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747407
+    m_Localized: "\u2764"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747408
+    m_Localized: Oh, ik ben in het paradijs!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747409
+    m_Localized: Hehe, leuk.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747410
+    m_Localized: Ohh!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747411
+    m_Localized: Dit is een droom die uitkomt!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747412
+    m_Localized: Oh, het is als magie!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941696
+    m_Localized: :)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941697
+    m_Localized: :D
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941698
+    m_Localized: Mhm..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941699
+    m_Localized: '*Glorsh*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941700
+    m_Localized: Wee!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941701
+    m_Localized: '*Glorp*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941702
+    m_Localized: Geweldig!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941703
+    m_Localized: Fantastisch!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941704
+    m_Localized: Ongelooflijk!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941705
+    m_Localized: Briljant!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941706
+    m_Localized: Verbazingwekkend!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941707
+    m_Localized: Prachtig!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941708
+    m_Localized: Fantastisch!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941709
+    m_Localized: Geweldig!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941710
+    m_Localized: '*splort*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941711
+    m_Localized: '*blorp*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149630550016
+    m_Localized: Kun je me horen, agent 789?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298752
+    m_Localized: "Ok\xE9, je doelwit is haaienbaas."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298753
+    m_Localized: Wij willen dat je ze discreet pakt met "CV".
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298754
+    m_Localized: Het is beshamend als hun collega's erachter komen waar hun geil
+      van worden
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298755
+    m_Localized: Controleer uw HUD op uw doelstellingen.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298756
+    m_Localized: Veel succes daar, over.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27794504080216064
+    m_Localized: Spel starten
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27794504126353408
+    m_Localized: Stoppen met spelen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28184462674677760
+    m_Localized: Snel herstarten
+    m_Metadata:
+      m_Items: []
+  - m_Id: 33999910783733760
+    m_Localized: Selecteer contract
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34000825808900096
+    m_Localized: Scene overslaan
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34000825808900097
+    m_Localized: Ga terug
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985526923264
+    m_Localized: "Ok\xE9 789, deze wordt een beetje moeilijker dan normaal"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700480
+    m_Localized: Je hebt *drie* doelen om nu mee om te gaan
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700481
+    m_Localized: Eerst in het opslagruimte kantoor...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700482
+    m_Localized: Tweede in de achterste IT-kamer...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700483
+    m_Localized: En tot slot in de doos van de opzichters
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700484
+    m_Localized: Zoals gewoonlijk, probeer niet gepakt te worden
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700485
+    m_Localized: Als je moeite hebt om ze allemaal tegelijk aan te passen, probeer
+      dan de standaards die verspreid zijn.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700486
+    m_Localized: Veel success agent.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608362614784
+    m_Localized: ....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974912
+    m_Localized: W-wacht Ik heb binnenkort een vergadering...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974913
+    m_Localized: Ik denk dat je ontslagen bent!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974914
+    m_Localized: Baas gaat zo boos worden...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974915
+    m_Localized: Ook veel ruimte voor hen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974916
+    m_Localized: Het is tijd dat je vakantie neemt!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974917
+    m_Localized: Vind het niet erg als ik dat doe!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974918
+    m_Localized: Je maakt een enorme lading...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974919
+    m_Localized: Schuif verder in...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974920
+    m_Localized: In ga je schatje...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974921
+    m_Localized: Huff...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974922
+    m_Localized: Oh zo warm...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974923
+    m_Localized: mmmm....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974924
+    m_Localized: Dat was een nieuwe shirt!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974925
+    m_Localized: Je kunt het beter aan niemand vertellen!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974926
+    m_Localized: Geen beloften
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363520
+    m_Localized: Mijn, wat een groot hulpmiddel heb je...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363521
+    m_Localized: Des te beter om je op te eten!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363522
+    m_Localized: Groot.....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363523
+    m_Localized: En groter worden!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363524
+    m_Localized: Hoe voelt het?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363525
+    m_Localized: Prachtig...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363526
+    m_Localized: Ik wil jou in mij...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363527
+    m_Localized: Vore woordspelingen, echt!?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363528
+    m_Localized: Koop me tenminste eerst een etentje...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363529
+    m_Localized: Sorry, het lijkt erop dat je dessert bent.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363530
+    m_Localized: Oh dit is ...heet.....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363531
+    m_Localized: Je zult dol zijn op wat er daarna gebeurt!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363532
+    m_Localized: Ga je voor me worstelen...?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363533
+    m_Localized: Alleen als je zegt dat je zegt.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363534
+    m_Localized: Ik denk dat dit werkt..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363535
+    m_Localized: Zie het als een vakantie!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363536
+    m_Localized: Eet ook mijn vrienden!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363537
+    m_Localized: Hoe meer zielen hoe meer vreugd!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363538
+    m_Localized: Goh, ik ben nu zo zwaar...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363539
+    m_Localized: Huf...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363540
+    m_Localized: Dat was een grote...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363541
+    m_Localized: Hey, genoegen nemen!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363542
+    m_Localized: Dat voelde goed...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363543
+    m_Localized: Allemaal van mij...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363544
+    m_Localized: Laag
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363545
+    m_Localized: Midden
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363546
+    m_Localized: Hoog
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363547
+    m_Localized: Venstermodus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363548
+    m_Localized: Resolutie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363549
+    m_Localized: Bloei
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363550
+    m_Localized: Bewegingsonscherpte (Motion Blur)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363551
+    m_Localized: Ambient Occlusion
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363552
+    m_Localized: Schaduwen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363553
+    m_Localized: Gras
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363554
+    m_Localized: Schermruimte reflecties
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363555
+    m_Localized: Anti-aliasing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363556
+    m_Localized: Korreligheid
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363557
+    m_Localized: Hoofd Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363558
+    m_Localized: Geluidseffecten Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363559
+    m_Localized: Muziek Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363560
+    m_Localized: Beeldbereik
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363561
+    m_Localized: Panini-projectie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363562
+    m_Localized: Diepte van het scherm (FOV)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363563
+    m_Localized: Algehele kwaliteit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363564
+    m_Localized: Loopsnelheid schakelen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363565
+    m_Localized: Exclusief
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363566
+    m_Localized: Volledig scherm
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363567
+    m_Localized: Maximaal venster
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363568
+    m_Localized: Venster
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363569
+    m_Localized: Aan
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363570
+    m_Localized: Taal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363571
+    m_Localized: Spelgedrag
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363572
+    m_Localized: Audio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363573
+    m_Localized: Opties
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363574
+    m_Localized: Uit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363575
+    m_Localized: Muis gevoeligheid
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961408
+    m_Localized: Tip-tekens
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961409
+    m_Localized: Xbox-controller
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961410
+    m_Localized: Dualshock-controller
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961411
+    m_Localized: Toetsenbord/Muis
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961412
+    m_Localized: Automatisch
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41667057588686848
+    m_Localized: Grafisch
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41668013478957056
+    m_Localized: Scherm helderheid
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41668828704854016
+    m_Localized: Target framerate
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41669473738477568
+    m_Localized: Verticale synchronisatie (VSync)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113281912832
+    m_Localized: Wat was dat?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078656
+    m_Localized: Huh?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078657
+    m_Localized: Ik dacht dat ik iets hoorde...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078658
+    m_Localized: Is dat...?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078659
+    m_Localized: Wie was dat?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078660
+    m_Localized: Moet het uitzoeken..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219014989762560
+    m_Localized: Langzamer alstublieft!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122688
+    m_Localized: Laat me je nieuwe kantoor zien.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122689
+    m_Localized: Veilig? Nee, niet echt.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122690
+    m_Localized: Weet je zeker dat dit veilig is?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122691
+    m_Localized: Ik heb iemand voor je om elkaar te ontmoeten
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122692
+    m_Localized: In uw vlees!?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511296
+    m_Localized: Ah Dang, hier gaan we weer.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511297
+    m_Localized: Nee, nee!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511298
+    m_Localized: Het was leuk zolang het duurde.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511299
+    m_Localized: Ik denk dat je er in het wit er goed uitziet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511300
+    m_Localized: Oh! Hou op, je brengt me in verlegenheid...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511301
+    m_Localized: Ik had om hun telefoonnummer moeten vragen.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511302
+    m_Localized: Daar ben je.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511303
+    m_Localized: Voel je je beter?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511304
+    m_Localized: Beter dan dat? Echt niet!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511305
+    m_Localized: Wacht, ik dacht dat de Recumbobulator mijn kleren terugzette?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511306
+    m_Localized: Begroting was te klein.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511307
+    m_Localized: Verdomd zakelijk...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511310
+    m_Localized: Wie liet je rond liggen?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511311
+    m_Localized: Laten we je terugbrengen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511312
+    m_Localized: "Derde keer vandaag, h\xE8?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511313
+    m_Localized: Het was deze keer niet mijn schuld!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511314
+    m_Localized: De breektijd is voorbij.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511315
+    m_Localized: Wat de...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511316
+    m_Localized: Is dat een...?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511317
+    m_Localized: Dat ziet er zo zwaar uit...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511318
+    m_Localized: Enorm condoom..?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511319
+    m_Localized: Het lijkt erop dat iemand plezier heeft gehad.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511320
+    m_Localized: Ik wou dat ik dat was...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511321
+    m_Localized: Nou nou, kijk wie er aan het niksen is!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511322
+    m_Localized: Sorry, laat me dan gewoon naar mijn station rollen.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511323
+    m_Localized: Haha, ik zal je geen zorgen rollen.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511324
+    m_Localized: Nou nou, kijk wie er aan het niksen is!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511325
+    m_Localized: Sorry, mevrouw.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511326
+    m_Localized: Opnieuw??
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511327
+    m_Localized: Ik kon je niet weerstaan!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511328
+    m_Localized: Welkom terug!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511329
+    m_Localized: Hebben we dit niet gewoon gedaan?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511330
+    m_Localized: Geef het toe. Je vond het de eerste keer geweldig.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511331
+    m_Localized: Zo snel terug?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511332
+    m_Localized: We moeten stoppen met zo elkaar te ontmoeten!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511334
+    m_Localized: Welkom bij de club
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511335
+    m_Localized: Nu al gesmolten in sperma?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511336
+    m_Localized: Er blijft niets anders over dan klaarkomen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511337
+    m_Localized: Je maakt een goede lading.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511338
+    m_Localized: Zacht voor mij geworden?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511339
+    m_Localized: "Tijd om een \u200B\u200Bpuinhoop te maken!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511340
+    m_Localized: Je kunt daar maar beter comfortabel worden
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511341
+    m_Localized: Welkom aan boord.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511342
+    m_Localized: Misschien is de volgende meer vullend
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511343
+    m_Localized: Geniet van je tijd!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511344
+    m_Localized: Geniet van zolang het duurt!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511345
+    m_Localized: Ontspannen..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511346
+    m_Localized: Maak je geen zorgen, ik zal je er uiteindelijk uit laten.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511347
+    m_Localized: Laten we eens kijken hoe lang je meegaat ~
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511348
+    m_Localized: Ohjee, ik ben zo groot en rond!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511349
+    m_Localized: Ik vraag me af hoeveel ik meer kan vullen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511350
+    m_Localized: Voel je vrij om rond te kronkelen ~
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511351
+    m_Localized: Precies waar je thuishoort ~
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511352
+    m_Localized: Ik zal de tijd voor je nemen~
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511353
+    m_Localized: Je voelt zo goed daar beneden ~
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511354
+    m_Localized: Kronkel maar wat je wilt ~
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661248
+    m_Localized: "Ok\xE9, tijd om weer aan het werk te gaan"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661249
+    m_Localized: Werkpauze over, weer aan het werk.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631384211456
+    m_Localized: Welkom bij het Glorpco Corporate Station 789...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988672
+    m_Localized: Een deel van het personeel hier heeft een beetje downtime gevraagd.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988673
+    m_Localized: Je doelen zijn als volgt...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988674
+    m_Localized: Ten eerste is de aalmoezenierrat...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988675
+    m_Localized: Ten tweede is de stations kok...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988676
+    m_Localized: Ten derde is het wetenschapsteam kangoeroe...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988677
+    m_Localized: En tot slot, de kapitein van de stations
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988678
+    m_Localized: In tegenstelling tot eerdere missies is deze plek erg krap
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988679
+    m_Localized: U moet regelmatig lossen om te voorkomen dat u vastloopt...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988680
+    m_Localized: Als je overboord gaat, zeg dan niet dat ik je niet heb gewaarschuwd...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51459478631534592
+    m_Localized: Credits
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122693
+    m_Localized: Je ziet er veel beter uit in mij!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122694
+    m_Localized: Ben ik niet mooi genoeg?!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49313416873562112
+    m_Localized: Ik kan niet geloven dat dit eindelijk gebeurt!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49313416902922240
+    m_Localized: Wauw, het zuigt me echt in!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566463746048
+    m_Localized: Ga je ergens heen, vriend?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494784
+    m_Localized: Laten we met dieper aquinten!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494785
+    m_Localized: Laten we je weglaten.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494786
+    m_Localized: Laten we een beetje dichterbij komen~
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494787
+    m_Localized: Uw collega's wachten op u
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494788
+    m_Localized: Je vrienden wachten op je
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494789
+    m_Localized: Oh ik ga hier van genieten.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494790
+    m_Localized: Je gaat naar beneden
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494791
+    m_Localized: W-Wacht!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494792
+    m_Localized: O-oh schat...!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494793
+    m_Localized: Schakel Hurken
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511355
+    m_Localized: Heb je een lading voor me?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511356
+    m_Localized: Oh doe ik..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511357
+    m_Localized: Ik ben zo opgewonden...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511358
+    m_Localized: "Wees voorzichtig ok\xE9?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511359
+    m_Localized: uhh.. ik zal het proberen.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511360
+    m_Localized: Wees snel, ik moet ergens zijn.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511361
+    m_Localized: Ik heb zo lang op iemand gewacht!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511362
+    m_Localized: Denk je dat iemand ons zal zien?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511363
+    m_Localized: Ik heb iemand die je kunt ontmoeten.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511364
+    m_Localized: Een staaf?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49223706696273922
+    m_Localized: Dat is veel sperma!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49223706696273923
+    m_Localized: Wauw, zoveel!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51459478665089025
+    m_Localized: Ik zal de hele dag lekken...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282248963149824
+    m_Localized: Kantoor
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675776
+    m_Localized: Leninghaai op kantoor heeft een missie voor u.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675777
+    m_Localized: Magazijn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675778
+    m_Localized: Het cum quotum in het magazijn is gestegen! Help ze!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675779
+    m_Localized: Station
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675780
+    m_Localized: De Tachyon Cum -studie vereist uw hulp.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675781
+    m_Localized: Stad
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675782
+    m_Localized: Tijd voor een mix -up met de drakenbaas.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58331949737496576
+    m_Localized: Oh nee, ik ben gepakt!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58331949771051008
+    m_Localized: Druk op de spring knop om opnieuw te starten...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303662993408
+    m_Localized: CV de Haaienbaas!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547840
+    m_Localized: Shark schaamt zich voor hun interesses, cockvore hen discreet op.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547841
+    m_Localized: Ontsnap het gebied!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547842
+    m_Localized: Na het voltooien van de primaire doelstellingen, ontsnap met behulp
+      van de lift.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547843
+    m_Localized: Raak niet gepakt door de beveiliging van kantoor!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547844
+    m_Localized: Beveiligingspersoneel heeft radio's die u kunnen melden, wees voorzichtig.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547845
+    m_Localized: CV de technicus kangoeroe!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547846
+    m_Localized: De hoofdtechnologie in de zijpower Room wil een pauze van het werk.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547847
+    m_Localized: CV de opzichter kangoeroe!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547848
+    m_Localized: De opzichter in de verhoogde over het hoofd ziet de werknemers te
+      hard! Stuur ze op vakantie en geef iedereen een pauze.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547849
+    m_Localized: CV de kantoormanager kangoeroe!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547850
+    m_Localized: De opslagruimte manager wordt speels op het werk en wil iets nieuws
+      proberen.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547851
+    m_Localized: Raak niet gepakt door magazijnbeveiliging.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547852
+    m_Localized: Gebruik de vrachtwagen om te ontsnappen!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547853
+    m_Localized: CV de kapitein kangoeroe!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547854
+    m_Localized: De kapitein heeft een vakantie nodig, vind ze in het donkerblauw
+      beveiligde gebied.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547855
+    m_Localized: CV de priesterrat!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547856
+    m_Localized: Gelegen in de tempel die toespraken geeft, breng je hun afwijkende
+      kant in het licht!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547857
+    m_Localized: CV de wetenschapper kangoeroe!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547858
+    m_Localized: Een wetenschapper in het groene gebied wil dat je ze voor de wetenschap
+      churnt!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547859
+    m_Localized: CV de Possum-kok!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547860
+    m_Localized: "De hoofdkok wil dat je hen helpt een nieuw ingredi\xEBnt uit te
+      proberen door erin te veranderen!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59064884090425344
+    m_Localized: Verlaat het gebruik van een van de uitgangsdeuren.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547861
+    m_Localized: CV de Drakenbaas!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547862
+    m_Localized: De draak heeft naar verluidt een enorme lul en heeft hun eigen personeel
+      in hun lichaam verwerkt, wees voorzichtig!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547863
+    m_Localized: Word niet gepakt door de CV politie.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59722192836763648
+    m_Localized: Nieuw spel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59736315477762048
+    m_Localized: Selecteer een opslag slot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511333
+    m_Localized: "Meer?\u2764"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661250
+    m_Localized: Het is zo leuk hoe je daarbinnen kronkelt ~
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59758640264781824
+    m_Localized: Voltooide doelstellingen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59758640302530560
+    m_Localized: Doorlooptijd
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60079280086372352
+    m_Localized: Keer terug naar het hoofdmenu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60100337514106880
+    m_Localized: Nieuw Record!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729936470016
+    m_Localized: Goed werk agent, de haaienbaas is naar verluidt veel aardiger nadat
+      hij zich aan zijn kinks heeft overgegeven. We maken de wereld geiler, doelwit
+      voor doelwit!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729965830144
+    m_Localized: Missie voltooid agent, de magazijnmedewerkers waren blij dat ze
+      wat vrije tijd hadden en de doelwitten zijn allemaal in goede stemming na hun
+      "vakantie".
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729965830145
+    m_Localized: Nog een succes agent. Nu de drakenbaas zijn eigen medicijn heeft
+      gekregen, zijn de arbeiders veel gelukkiger.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729965830146
+    m_Localized: Geweldig werk agent! Het stationspersoneel is allemaal een beetje
+      geiler omdat zoveel van hun collega's over hun ervaringen met jou praten.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60175060938878976
+    m_Localized: Verberg de haaienbaas (optioneel)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60175060938878977
+    m_Localized: Houd de baas geknipt door hun condoom in een badkamer te laten!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309898190848
+    m_Localized: Verberg het hoofd van de beveiliging (optioneel)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309914968064
+    m_Localized: Stash een condoom met beveiligingshoofd in de kleedkamer van de
+      beveiliging.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309914968065
+    m_Localized: "Verberg de conci\xEBrge (optioneel)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309914968066
+    m_Localized: "Stash een condoom met de conci\xEBrge in de badkamer van de hoofdgang."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60288126066192384
+    m_Localized: Je kunt je daar maar beter op je gemak voelen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231205634048
+    m_Localized: Ik hoop dat je klaar bent voor zwaar werk agent.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411264
+    m_Localized: Deze zal niet zijn zoals je vorige missies.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411265
+    m_Localized: Het doel van vandaag is drakenbaas
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411266
+    m_Localized: Ze hebben de laatste tijd onder veel druk gezeten
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411267
+    m_Localized: Dit heeft ertoe geleid dat ze hun personeel onder stress hebben
+      gezet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411268
+    m_Localized: Het is tijd dat ze op vakantie gingen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411269
+    m_Localized: Wees extra voorzichtig, anders word jij misschien wel degene die
+      wit wordt!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49223706696273920
+    m_Localized: Er blijft niets anders over dan konijnenspunk!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49223706696273921
+    m_Localized: Ze zijn zo zacht nu...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661251
+    m_Localized: Het is zo warm!
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

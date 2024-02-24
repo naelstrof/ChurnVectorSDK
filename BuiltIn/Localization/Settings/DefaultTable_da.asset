@@ -1,0 +1,1350 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: DefaultTable_da
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: da
+  m_SharedData: {fileID: 11400000, guid: 801b23fcb4b7b884196ed7584cceb3c9, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 2597174431744
+    m_Localized: "N\xD8GEN!?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597212180480
+    m_Localized: Hvad!?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597212180481
+    m_Localized: Jeg kalder sikkerhed!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597212180482
+    m_Localized: Whoa!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374784
+    m_Localized: "Hej du skulle ikke v\xE6re her!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374785
+    m_Localized: Stor kanin!?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374786
+    m_Localized: "\xC5h det er enormt!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374787
+    m_Localized: "Boss bliver s\xE5 gal ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374788
+    m_Localized: Hellig ko!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374789
+    m_Localized: "Hvor er dit t\xF8j!?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374790
+    m_Localized: Hellig ko!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374791
+    m_Localized: "\xC5h gosh!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374792
+    m_Localized: "Hj\xE6lp! Sikkerhed!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11380743262208
+    m_Localized: Hej, jeg vil komme ud af arbejde i dag, har nogen ideer?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11380772622336
+    m_Localized: "Jeg kan t\xE6nke p\xE5 noget ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 262281009614848
+    m_Localized: Anvendelser resterende
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424501387264
+    m_Localized: Det her er dejligt!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747392
+    m_Localized: "Dette f\xF8les godt"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747393
+    m_Localized: "Dette er s\xE5 afslappende"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747394
+    m_Localized: Helt dejlig!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747395
+    m_Localized: "\xC5h, jeg elsker dette!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747396
+    m_Localized: "Jeg skulle have gjort dette f\xF8r!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747397
+    m_Localized: Dette er ren lykke!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747398
+    m_Localized: Total Bliss!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747399
+    m_Localized: "S\xF8d tilfredshed!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747400
+    m_Localized: "Ren forn\xF8jelse!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747401
+    m_Localized: Simpelthen pragtfuld!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747402
+    m_Localized: Ah ..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747403
+    m_Localized: "V\xE6rd at hvert \xF8jeblik!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747404
+    m_Localized: "Som en dr\xF8m!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747405
+    m_Localized: Jeg er i paradis!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747406
+    m_Localized: "Himmelsk gl\xE6de!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747407
+    m_Localized: "\u2764"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747408
+    m_Localized: "\xC5h, jeg er i paradis!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747409
+    m_Localized: Hehe, dejlig.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747410
+    m_Localized: Ohh!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747411
+    m_Localized: "Dette er en dr\xF8m, der g\xE5r i opfyldelse!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747412
+    m_Localized: "\xC5h, det er som magi!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941696
+    m_Localized: :)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941697
+    m_Localized: :D
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941698
+    m_Localized: MHM ..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941699
+    m_Localized: '*glorsh*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941700
+    m_Localized: Wee!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941701
+    m_Localized: '*glorp*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941702
+    m_Localized: Fantastisk!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941703
+    m_Localized: Fantastisk!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941704
+    m_Localized: Utrolig!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941705
+    m_Localized: "Str\xE5lende!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941706
+    m_Localized: Fantastiske!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941707
+    m_Localized: Vidunderlig!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941708
+    m_Localized: Fremragende!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941709
+    m_Localized: Vidunderlig!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941710
+    m_Localized: '*splort*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941711
+    m_Localized: '*Blorp*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149630550016
+    m_Localized: "Kan du h\xF8re mig agent 789?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298752
+    m_Localized: "Okay dit m\xE5l er boss haj."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298753
+    m_Localized: De vil have dig til at cv dem diskret.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298754
+    m_Localized: Embarasseret, hvis deres kolleger finder ud af, hvad de er i
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298755
+    m_Localized: "Kontroller din HUD for dine m\xE5l."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298756
+    m_Localized: Held og lykke derude, over.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27794504080216064
+    m_Localized: Start Spil
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27794504126353408
+    m_Localized: Afslut spil
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28184462674677760
+    m_Localized: Hurtig genstart
+    m_Metadata:
+      m_Items: []
+  - m_Id: 33999910783733760
+    m_Localized: "V\xE6lg kontrakt"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34000825808900096
+    m_Localized: "Spring oversk\xE5rescene"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34000825808900097
+    m_Localized: "G\xE5 tilbage"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985526923264
+    m_Localized: "Okay 789, denne vil v\xE6re lidt h\xE5rdere end normalt"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700480
+    m_Localized: "Du har * tre * m\xE5l at tackle nu"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700481
+    m_Localized: "F\xF8rst i Office Office ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700482
+    m_Localized: "Anden bagp\xE5 det rum ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700483
+    m_Localized: Og til sidst i overseers -boksen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700484
+    m_Localized: "Pr\xF8v som normalt ikke at blive fanget"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700485
+    m_Localized: "Hvis du har problemer med at montere dem alle p\xE5 \xE9n gang,
+      kan du pr\xF8ve at bruge tribunerne spredt rundt."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700486
+    m_Localized: Held og lykke agent.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608362614784
+    m_Localized: ....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974912
+    m_Localized: "W-Vait Jeg har snart et m\xF8de ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974913
+    m_Localized: "G\xE6t du er fyret!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974914
+    m_Localized: "Boss bliver s\xE5 gal ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974915
+    m_Localized: "Masser af plads til dem ogs\xE5"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974916
+    m_Localized: "Det er p\xE5 tide, at du tog en ferie!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974917
+    m_Localized: "Har ikke noget imod det, hvis jeg g\xF8r det!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974918
+    m_Localized: Du laver en enorm belastning ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974919
+    m_Localized: Glid ind i ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974920
+    m_Localized: "I du g\xE5r Cutie ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974921
+    m_Localized: Huff ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974922
+    m_Localized: "\xC5h s\xE5 varm ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974923
+    m_Localized: mmmm ....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974924
+    m_Localized: Det var en ny skjorte!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974925
+    m_Localized: "Du m\xE5 hellere ikke fort\xE6lle nogen!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974926
+    m_Localized: "Ingen l\xF8fter"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363520
+    m_Localized: "Min, hvilket stort v\xE6rkt\xF8j du har ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363521
+    m_Localized: "S\xE5 bedre at spise dig med!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363522
+    m_Localized: Stor.....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363523
+    m_Localized: "Og bliver st\xF8rre!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363524
+    m_Localized: "Hvordan f\xF8les det?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363525
+    m_Localized: Vidunderlig...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363526
+    m_Localized: Jeg vil have dig inde i mig ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363527
+    m_Localized: Vore ordspil, virkelig!?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363528
+    m_Localized: "K\xF8b i det mindste mig middag f\xF8rst ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363529
+    m_Localized: Beklager, det ser ud til, at du er dessert.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363530
+    m_Localized: "\xC5h dette er ... varmt ....."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363531
+    m_Localized: "Du vil elske, hvad der sker dern\xE6st!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363532
+    m_Localized: "Vil k\xE6mpe for mig ...?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363533
+    m_Localized: Kun hvis du siger tak.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363534
+    m_Localized: "Jeg antager, at dette sl\xE5r arbejde ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363535
+    m_Localized: "T\xE6nk p\xE5 det som en ferie!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363536
+    m_Localized: "Spis ogs\xE5 mine venner!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363537
+    m_Localized: Jo flere jo bedre!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363538
+    m_Localized: "Gosh jeg er s\xE5 tung nu ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363539
+    m_Localized: Huff ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363540
+    m_Localized: Det var en stor ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363541
+    m_Localized: "Hej sl\xE5 sig ned allerede!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363542
+    m_Localized: "Det f\xF8ltes godt ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363543
+    m_Localized: Kun min...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363544
+    m_Localized: Lav
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363545
+    m_Localized: Medium
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363546
+    m_Localized: "H\xF8j"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363547
+    m_Localized: Vindue-mode
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363548
+    m_Localized: "L\xF8sning"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363549
+    m_Localized: Bloom
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363550
+    m_Localized: "Bev\xE6gelse sl\xF8res"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363551
+    m_Localized: Omgivende okklusion
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363552
+    m_Localized: Skygger
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363553
+    m_Localized: "Gr\xE6s"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363554
+    m_Localized: Screen Space Reflections
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363555
+    m_Localized: Anti-aliasing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363556
+    m_Localized: Filmkorn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363557
+    m_Localized: Mastervolumen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363558
+    m_Localized: Lydeffekter volumen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363559
+    m_Localized: Musikvolumen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363560
+    m_Localized: Kamera fov
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363561
+    m_Localized: Panini -projektion
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363562
+    m_Localized: Dybdeskarphed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363563
+    m_Localized: Samlet kvalitet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363564
+    m_Localized: "Skift g\xE5tur"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363565
+    m_Localized: Eksklusiv
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363566
+    m_Localized: "Fuld sk\xE6rm"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363567
+    m_Localized: Maxed Window
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363568
+    m_Localized: Vindues
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363569
+    m_Localized: "P\xE5"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363570
+    m_Localized: Sprog
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363571
+    m_Localized: Gameplay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363572
+    m_Localized: Lyd
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363573
+    m_Localized: Muligheder
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363574
+    m_Localized: Af
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363575
+    m_Localized: "Musens f\xF8lsomhed"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961408
+    m_Localized: Tip glyfer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961409
+    m_Localized: Xbox -controller
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961410
+    m_Localized: Dualshock -controller
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961411
+    m_Localized: Tastatur/mus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961412
+    m_Localized: Automatisk
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41667057588686848
+    m_Localized: Grafik
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41668013478957056
+    m_Localized: "Sk\xE6rmlysstyrke"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41668828704854016
+    m_Localized: "M\xE5lrammer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41669473738477568
+    m_Localized: Synchronisation verticale
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113281912832
+    m_Localized: Hvad var det?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078656
+    m_Localized: Huh?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078657
+    m_Localized: "Jeg troede, jeg h\xF8rte noget ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078658
+    m_Localized: Er det...?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078659
+    m_Localized: Hvem var det?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078660
+    m_Localized: Skal finde ud af det ..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219014989762560
+    m_Localized: Langsommere, tak!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122688
+    m_Localized: Lad mig vise dig til dit nye kontor.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122689
+    m_Localized: Sikker? Nej ikke rigtigt.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122690
+    m_Localized: "Er du sikker p\xE5, at dette er sikkert?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122691
+    m_Localized: "Jeg har nogen til dig at m\xF8des"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122692
+    m_Localized: "I dit k\xF8d!?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511296
+    m_Localized: "Ah dang, her g\xE5r vi igen."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511297
+    m_Localized: Nej, Nooooo!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511298
+    m_Localized: Det var sjovt, mens det varede.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511299
+    m_Localized: "Jeg synes du s\xE5 godt ud i hvidt"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511300
+    m_Localized: "\xC5h! Stop, du embarasserer mig ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511301
+    m_Localized: Jeg skulle have bedt om deres telefonnummer.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511302
+    m_Localized: Der er du.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511303
+    m_Localized: Har det bedre?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511304
+    m_Localized: "Bedre end det? P\xE5 ingen m\xE5de!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511305
+    m_Localized: "Vent, jeg troede, at liggerrobulatoren s\xE6tter mit t\xF8j tilbage?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511306
+    m_Localized: Budgettet var for lille.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511307
+    m_Localized: Darn Corporate ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511310
+    m_Localized: "Hvem lod dig l\xE6gge dig rundt?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511311
+    m_Localized: "Lad os f\xE5 dig tilbage"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511312
+    m_Localized: Tredje gang i dag, ikke?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511313
+    m_Localized: Det var ikke min skyld denne gang!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511314
+    m_Localized: Pausetiden er forbi.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511315
+    m_Localized: Hvad...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511316
+    m_Localized: Er det en ...?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511317
+    m_Localized: "Der ser s\xE5 tung ud ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511318
+    m_Localized: "K\xE6mpe kondom ..?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511319
+    m_Localized: Det ser ud til, at nogen havde det sjovt.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511320
+    m_Localized: "Ville \xF8nske det var mig ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511321
+    m_Localized: Godt ser ud, hvem der slapper af!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511322
+    m_Localized: Undskyld, lad mig bare rulle til min station da.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511323
+    m_Localized: Haha, jeg ruller dig ingen bekymringer.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511324
+    m_Localized: Godt ser ud, hvem der slapper af!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511325
+    m_Localized: Beklager, M'am.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511326
+    m_Localized: En gang til??
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511327
+    m_Localized: "Jeg kunne ikke modst\xE5 dig!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511328
+    m_Localized: Velkommen tilbage!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511329
+    m_Localized: Gjorde vi ikke bare dette?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511330
+    m_Localized: "Indr\xF8m det. Du elskede det f\xF8rste gang."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511331
+    m_Localized: "Tilbage s\xE5 snart?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511332
+    m_Localized: "Vi er n\xF8dt til at stoppe med at m\xF8de s\xE5dan!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511334
+    m_Localized: Velkommen i klubben
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511335
+    m_Localized: Smeltet ned til cum allerede?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511336
+    m_Localized: Intet tilbage end cum
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511337
+    m_Localized: Du laver en god belastning.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511338
+    m_Localized: "Borte bl\xF8dt p\xE5 mig?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511339
+    m_Localized: "Tid til at g\xF8re et rod!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511340
+    m_Localized: Du skal hellere blive behagelig derinde
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511341
+    m_Localized: Velkommen ombord.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511342
+    m_Localized: "M\xE5ske n\xE6ste vil v\xE6re mere fyldning"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511343
+    m_Localized: Nyd din tid!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511344
+    m_Localized: Nyd, mens det varer!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511345
+    m_Localized: Slap af..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511346
+    m_Localized: Bare rolig, jeg slipper dig ud, til sidst.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511347
+    m_Localized: "Lad os se, hvor l\xE6nge du varer ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511348
+    m_Localized: "\xC5h geez, jeg er s\xE5 stor og rund!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511349
+    m_Localized: "Jeg spekulerer p\xE5, hvor meget mere jeg kan fylde"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511350
+    m_Localized: Du er velkommen til at vride rundt ~
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511351
+    m_Localized: "Lige hvor du h\xF8rer hjemme ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511352
+    m_Localized: Jeg tager min tid med dig ~
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511353
+    m_Localized: "Du har det s\xE5 godt dernede ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511354
+    m_Localized: "Skr\xE6l alt hvad du vil ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661248
+    m_Localized: "Okay tid til at komme tilbage p\xE5 arbejde"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661249
+    m_Localized: Bryder over, tilbage til arbejde.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631384211456
+    m_Localized: Velkommen til Glorpco Corporate Station 789 ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988672
+    m_Localized: Nogle af personalet her har anmodet om lidt nedetid.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988673
+    m_Localized: "Dine m\xE5l er som f\xF8lger ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988674
+    m_Localized: "F\xF8rst er kapellanrotten ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988675
+    m_Localized: For det andet er stationerne kok ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988676
+    m_Localized: For det tredje er videnskabsteamet kenguru ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988677
+    m_Localized: Og til sidst stationens kaptajn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988678
+    m_Localized: "I mods\xE6tning til tidligere missioner er dette sted meget trangt"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988679
+    m_Localized: "Du bliver n\xF8dt til at losse ofte for at undg\xE5 at sidde fast
+      ...."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988680
+    m_Localized: "Hvis du g\xE5r over bord, skal du ikke sige, at jeg ikke advarede
+      dig ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51459478631534592
+    m_Localized: Kreditter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122693
+    m_Localized: Du ser meget bedre ud i mig!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122694
+    m_Localized: Er jeg ikke smuk nok?!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49313416873562112
+    m_Localized: Jeg kan ikke tro, at dette endelig sker!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49313416902922240
+    m_Localized: Wow, det suger mig virkelig ind!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566463746048
+    m_Localized: "G\xE5r du noget, kammerat?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494784
+    m_Localized: "Lad os f\xE5 Aquinted Deeper!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494785
+    m_Localized: "Lad os f\xE5 dig gemt v\xE6k."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494786
+    m_Localized: "Lad os komme lidt n\xE6rmere ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494787
+    m_Localized: "Dine kolleger venter p\xE5 dig"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494788
+    m_Localized: "Dine venner venter p\xE5 dig"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494789
+    m_Localized: "\xC5h, jeg vil nyde dette."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494790
+    m_Localized: "Ned g\xE5r du"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494791
+    m_Localized: W-Vait!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494792
+    m_Localized: "O-oh k\xE6re ...!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494793
+    m_Localized: Skift crouch
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511355
+    m_Localized: Har du en belastning for mig?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511356
+    m_Localized: "\xC5h g\xF8r jeg .."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511357
+    m_Localized: "Jeg er s\xE5 oph\xE6ngt ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511358
+    m_Localized: "V\xE6r blid okay?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511359
+    m_Localized: "Uhh .. Jeg pr\xF8ver."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511360
+    m_Localized: "V\xE6r hurtig, jeg har et sted at v\xE6re."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511361
+    m_Localized: "Jeg har ventet s\xE5 l\xE6nge p\xE5 nogen!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511362
+    m_Localized: Tror nogen vil se os?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511363
+    m_Localized: "Jeg har nogen til dig at m\xF8des."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511364
+    m_Localized: "K\xF8d?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49223706696273922
+    m_Localized: Det er en masse sperm!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49223706696273923
+    m_Localized: "Woah, s\xE5 meget!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51459478665089025
+    m_Localized: "Jeg l\xE6kker hele dagen ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282248963149824
+    m_Localized: Kontor
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675776
+    m_Localized: "L\xE5nhaj p\xE5 kontoret har en mission for dig."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675777
+    m_Localized: Lager
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675778
+    m_Localized: "Cum -kvote p\xE5 lageret er steget! Hj\xE6lp dem!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675779
+    m_Localized: Station
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675780
+    m_Localized: "Tachyon cum -unders\xF8gelsen kr\xE6ver din hj\xE6lp."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675781
+    m_Localized: By
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675782
+    m_Localized: Tid til en mixup med Dragon -chefen.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58331949737496576
+    m_Localized: "\xC5h nej, jeg er blevet fanget!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58331949771051008
+    m_Localized: "Tryk p\xE5 Jump for at genstarte ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303662993408
+    m_Localized: CV The Shark Boss!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547840
+    m_Localized: Haj er pinlig over deres interesser, pik vore dem diskret.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547841
+    m_Localized: "Undslippe omr\xE5det!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547842
+    m_Localized: "Efter at have afsluttet prim\xE6re m\xE5l skal du undslippe ved
+      hj\xE6lp af elevatoren."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547843
+    m_Localized: Bliv ikke fanget af Office Security!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547844
+    m_Localized: "Sikkerhedspersonale har radioer, der kan rapportere dig, v\xE6r
+      forsigtig."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547845
+    m_Localized: CV Teknikeren Kangaroo!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547846
+    m_Localized: "Hovedteknologien, der ligger i Side Power Room, \xF8nsker en pause
+      fra arbejde."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547847
+    m_Localized: CV The Overseer Kangaroo!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547848
+    m_Localized: "Overv\xE5geren i den forh\xF8jede overse er at skubbe arbejderne
+      for h\xE5rdt! Send dem p\xE5 en ferie og giv alle en pause."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547849
+    m_Localized: CV Office Manager Kangaroo!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547850
+    m_Localized: "Opbevaringsrumschefen bliver frisk p\xE5 jobbet og vil pr\xF8ve
+      noget nyt."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547851
+    m_Localized: Bliv ikke fanget af Warehouse Security.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547852
+    m_Localized: Brug lastbilen til at flygte!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547853
+    m_Localized: CV Kaptajn Kangaroo!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547854
+    m_Localized: "Kaptajnen har brug for en ferie, find dem i det m\xF8rkebl\xE5
+      sikre omr\xE5de."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547855
+    m_Localized: "CV Pr\xE6sten Rat!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547856
+    m_Localized: Placeret i templet, der holder taler, bring deres afvigende side
+      ind i lyset!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547857
+    m_Localized: CV Videnskabsmanden Kangaroo!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547858
+    m_Localized: "En videnskabsmand beliggende i det gr\xF8nne omr\xE5de vil have
+      dig til at kaste dem til videnskab!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547859
+    m_Localized: CV The Possum Cook!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547860
+    m_Localized: "Hovedkogen vil have dig til at hj\xE6lpe dem med at pr\xF8ve en
+      ny ingrediens ved at omdanne dem til den!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59064884090425344
+    m_Localized: "Efterlad ved hj\xE6lp af en af \u200B\u200Budgangsd\xF8rene."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547861
+    m_Localized: CV Dragon Boss!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547862
+    m_Localized: "Det rapporteres, at dragen har en enorm pik og har kastet deres
+      eget personale, v\xE6r forsigtig!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547863
+    m_Localized: Bliv ikke fanget af CV -politiet.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59722192836763648
+    m_Localized: Nyt spil
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59736315477762048
+    m_Localized: "V\xE6lg Gem slot"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511333
+    m_Localized: "Mere? \u2764"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661250
+    m_Localized: "Det er s\xE5 dejligt, hvordan du kr\xF8ller sig derinde ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59758640264781824
+    m_Localized: "Afsluttede m\xE5l"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59758640302530560
+    m_Localized: "F\xE6rdigg\xF8relsestid"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60079280086372352
+    m_Localized: Vend tilbage til hovedmenuen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60100337514106880
+    m_Localized: Ny rekord!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729936470016
+    m_Localized: "Good Work Agent, hajchefen er angiveligt meget p\xE6nere efter
+      at have f\xE5et deres kinks fork\xE6let. Gjorde verden horne, et m\xE5l ad
+      gangen!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729965830144
+    m_Localized: "Mission Complete Agent, lagerarbejderne var glade for at have lidt
+      tid fri, og m\xE5lene er alle i h\xF8je hum\xF8r efter deres \"ferie\"."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729965830145
+    m_Localized: En anden succesagent. Med Dragon -chefen fik en smag af deres egen
+      medicin, er arbejderne meget gladere.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729965830146
+    m_Localized: "Fantastisk arbejdsagent! Stationspersonalet er alle lidt hornier
+      med s\xE5 mange af deres kolleger, der taler om deres oplevelse med dig."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60175060938878976
+    m_Localized: Skjul hajchefen (valgfrit)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60175060938878977
+    m_Localized: "Hold chefen klynget ved at forlade deres kondom i et badev\xE6relse!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309898190848
+    m_Localized: Skjul sikkerhedschefen (valgfrit)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309914968064
+    m_Localized: Stash et kondom, der indeholder chef for sikkerhed i sikkerhedsskabet.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309914968065
+    m_Localized: Skjul vagtmesteren (valgfrit)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309914968066
+    m_Localized: "Stash et kondom, der indeholder vagtmesteren i hovedhalsbadev\xE6relset."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60288126066192384
+    m_Localized: Du skal hellere blive komfortabel derinde
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231205634048
+    m_Localized: "Jeg h\xE5ber, du er klar til et tungt l\xF8ftemiddel."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411264
+    m_Localized: "Denne vil ikke v\xE6re som dine tidligere missioner."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411265
+    m_Localized: "Dagens m\xE5l er boss dragon"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411266
+    m_Localized: "De har v\xE6ret under meget pres for nylig"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411267
+    m_Localized: Dette har resulteret i, at de stresser med at spise deres personale
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411268
+    m_Localized: "Det var p\xE5 tide, at de gik p\xE5 ferie"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411269
+    m_Localized: "V\xE6r ekstra forsigtig, eller du kan ende med at blive den, der
+      blev hvid!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661251
+    m_Localized: "Det er s\xE5 varmt!"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

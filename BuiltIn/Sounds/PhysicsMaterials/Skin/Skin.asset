@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5173f839d5887e4c9579721ba9bff3d, type: 3}
+  m_Name: Skin
+  m_EditorClassIdentifier: 
+  associatedPhysicMaterials:
+  - {fileID: 13400000, guid: 6b99811ed4b56c94296e8b351ee59cda, type: 2}
+  - {fileID: 13400000, guid: 997ff0d6b21968b45bce39438c394829, type: 2}
+  associatedMaterials: []
+  massKgPerCubicMeter: 1000
+  impactInfos:
+  - collisionWith: -1
+    responseType: 1
+    soundEffect: {fileID: 11400000, guid: 772f74e5bc0970348a40e8d598487db8, type: 2}
+    visualEffects: []
+  - collisionWith: -1
+    responseType: 4
+    soundEffect: {fileID: 11400000, guid: 707af1398c804ec44a65cab916ddc9c7, type: 2}
+    visualEffects: []
+  materialType: 1

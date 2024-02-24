@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5173f839d5887e4c9579721ba9bff3d, type: 3}
+  m_Name: Carpet
+  m_EditorClassIdentifier: 
+  associatedPhysicMaterials:
+  - {fileID: 13400000, guid: 2fd9d85c73456ce44abf01332d5af513, type: 2}
+  associatedMaterials:
+  - {fileID: 2100000, guid: ab8673eeaeb8fdb4e945ec81d2834b09, type: 2}
+  massKgPerCubicMeter: 73
+  impactInfos:
+  - collisionWith: -1
+    responseType: 3
+    soundEffect: {fileID: 11400000, guid: 3f8eae22d50317c4f80ae736251ecc63, type: 2}
+    visualEffects:
+    - {fileID: 8926484042661614526, guid: 05a3db88a78f1524d86148ff660b7779, type: 3}
+  materialType: 1

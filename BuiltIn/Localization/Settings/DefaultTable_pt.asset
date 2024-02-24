@@ -1,0 +1,1357 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: DefaultTable_pt
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: pt
+  m_SharedData: {fileID: 11400000, guid: 801b23fcb4b7b884196ed7584cceb3c9, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 2597174431744
+    m_Localized: NU!?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597212180480
+    m_Localized: O que!?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597212180481
+    m_Localized: "Estou chamando a seguran\xE7a!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597212180482
+    m_Localized: Uau!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374784
+    m_Localized: "Ei, voc\xEA n\xE3o deveria estar aqui!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374785
+    m_Localized: Big Rabbit!?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374786
+    m_Localized: "Oh \xE9 enorme!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374787
+    m_Localized: "O chefe vai ficar t\xE3o bravo ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374788
+    m_Localized: Vaca sagrada!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374789
+    m_Localized: "Onde est\xE3o suas roupas!?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374790
+    m_Localized: Vaca sagrada!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374791
+    m_Localized: Oh Deus!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374792
+    m_Localized: "Ajuda! Seguran\xE7a!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11380743262208
+    m_Localized: "Ei, eu quero sair do trabalho hoje, ter alguma id\xE9ia?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11380772622336
+    m_Localized: Eu posso pensar em algo ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 262281009614848
+    m_Localized: Usa restante
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424501387264
+    m_Localized: "Isso \xE9 legal!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747392
+    m_Localized: "Isso \xE9 bom"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747393
+    m_Localized: "Isso \xE9 t\xE3o relaxante"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747394
+    m_Localized: Absolutamente delicioso!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747395
+    m_Localized: Oh, estou adorando isso!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747396
+    m_Localized: Eu deveria ter feito isso mais cedo!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747397
+    m_Localized: "Isso \xE9 pura felicidade!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747398
+    m_Localized: Bliss Total!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747399
+    m_Localized: "Doce satisfa\xE7\xE3o!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747400
+    m_Localized: Puro prazer!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747401
+    m_Localized: "Simplesmente espl\xEAndido!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747402
+    m_Localized: Ah ..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747403
+    m_Localized: Vale cada momento!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747404
+    m_Localized: Como um sonho!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747405
+    m_Localized: "Estou no para\xEDso!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747406
+    m_Localized: Deleite celestial!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747407
+    m_Localized: "\u2764"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747408
+    m_Localized: "Oh, estou no para\xEDso!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747409
+    m_Localized: Hehe, bom.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747410
+    m_Localized: Ohh!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747411
+    m_Localized: "Este \xE9 um sonho tornado realidade!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747412
+    m_Localized: "Oh, \xE9 como m\xE1gica!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941696
+    m_Localized: :)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941697
+    m_Localized: :D
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941698
+    m_Localized: Mhm ..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941699
+    m_Localized: '*glorsh*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941700
+    m_Localized: Wee!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941701
+    m_Localized: '*GLORP*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941702
+    m_Localized: "Incr\xEDvel!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941703
+    m_Localized: "Fant\xE1stico!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941704
+    m_Localized: "Incr\xEDvel!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941705
+    m_Localized: Brilhante!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941706
+    m_Localized: "Incr\xEDvel!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941707
+    m_Localized: Maravilhoso!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941708
+    m_Localized: Excelente!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941709
+    m_Localized: Maravilhoso!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941710
+    m_Localized: '*Splort*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941711
+    m_Localized: '*BLORP*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149630550016
+    m_Localized: "Voc\xEA pode me ouvir agente 789?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298752
+    m_Localized: "Tudo bem, seu alvo \xE9 o chefe de tubar\xE3o."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298753
+    m_Localized: "Eles querem que voc\xEA os CV discretamente."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298754
+    m_Localized: "Envergonhado se seus colegas de trabalho descobrirem o que est\xE3o
+      em"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298755
+    m_Localized: Verifique seu HUD para obter seus objetivos.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298756
+    m_Localized: "Boa sorte l\xE1 fora, por a\xED."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27794504080216064
+    m_Localized: "Come\xE7ar o jogo"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27794504126353408
+    m_Localized: Desistir do jogo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28184462674677760
+    m_Localized: "Reiniciar r\xE1pido"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 33999910783733760
+    m_Localized: Selecione contrato
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34000825808900096
+    m_Localized: Pule a cena
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34000825808900097
+    m_Localized: Volte
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985526923264
+    m_Localized: "Tudo bem 789, este vai ser um pouco mais dif\xEDcil do que o normal"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700480
+    m_Localized: "Voc\xEA tem * tr\xEAs * alvos para lidar agora"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700481
+    m_Localized: "Primeiro no escrit\xF3rio da sala de armazenamento ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700482
+    m_Localized: Segundo na sala traseira ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700483
+    m_Localized: E, finalmente, na caixa de superintendentes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700484
+    m_Localized: "Como sempre, tente n\xE3o ser pego"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700485
+    m_Localized: "Se voc\xEA tiver problemas para encaix\xE1 -los de uma s\xF3 vez,
+      tente usar os suportes espalhados."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700486
+    m_Localized: Boa sorte agente.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608362614784
+    m_Localized: ....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974912
+    m_Localized: "W-wait eu tenho uma reuni\xE3o em breve ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974913
+    m_Localized: "Acho que voc\xEA \xE9 demitido!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974914
+    m_Localized: "O chefe vai ficar t\xE3o bravo ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974915
+    m_Localized: "Muito espa\xE7o para eles tamb\xE9m"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974916
+    m_Localized: "\xC9 hora de voc\xEA tirar f\xE9rias!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974917
+    m_Localized: "N\xE3o se importe se eu fizer!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974918
+    m_Localized: "Voc\xEA vai fazer uma carga enorme ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974919
+    m_Localized: Deslize em ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974920
+    m_Localized: "Em voc\xEA vai fofo ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974921
+    m_Localized: Huff ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974922
+    m_Localized: "Oh t\xE3o quente ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974923
+    m_Localized: mmmm ....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974924
+    m_Localized: Essa foi uma nova camisa!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974925
+    m_Localized: "\xC9 melhor voc\xEA n\xE3o contar a ningu\xE9m!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974926
+    m_Localized: Sem promessas
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363520
+    m_Localized: "Meu, que grande ferramenta voc\xEA tem ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363521
+    m_Localized: "Muito melhor para comer voc\xEA!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363522
+    m_Localized: Grande.....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363523
+    m_Localized: E ficando maior!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363524
+    m_Localized: "Como est\xE1?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363525
+    m_Localized: Maravilhoso...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363526
+    m_Localized: "Eu quero voc\xEA dentro de mim..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363527
+    m_Localized: Vore trocadilhos, realmente!?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363528
+    m_Localized: Pelo menos me compre o jantar primeiro ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363529
+    m_Localized: "Desculpe, parece que voc\xEA \xE9 uma sobremesa."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363530
+    m_Localized: "Oh isso \xE9 ... quente ....."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363531
+    m_Localized: "Voc\xEA vai adorar o que acontece a seguir!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363532
+    m_Localized: Vai lutar por mim ...?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363533
+    m_Localized: "Somente se voc\xEA disser, por favor."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363534
+    m_Localized: Eu acho que isso supera o trabalho ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363535
+    m_Localized: "Pense nisso como f\xE9rias!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363536
+    m_Localized: "Coma meus amigos tamb\xE9m!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363537
+    m_Localized: Quanto mais melhor!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363538
+    m_Localized: "Puxa, estou t\xE3o pesado agora ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363539
+    m_Localized: Huff ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363540
+    m_Localized: Isso foi grande ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363541
+    m_Localized: "Ei, j\xE1 se acalme!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363542
+    m_Localized: Isso foi bom ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363543
+    m_Localized: Tudo meu...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363544
+    m_Localized: Laag
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363545
+    m_Localized: Midden
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363546
+    m_Localized: Hoog
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363547
+    m_Localized: Modo Janela
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363548
+    m_Localized: "Resolu\xE7\xE3o"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363549
+    m_Localized: Efeito Bloom
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363550
+    m_Localized: Desfoque de Movimento
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363551
+    m_Localized: "Oclus\xE3o de Ambiente"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363552
+    m_Localized: Sombras
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363553
+    m_Localized: Grama
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363554
+    m_Localized: "Reflex\xF5es em Espa\xE7o de Tela"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363555
+    m_Localized: Antisserrilhamento
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363556
+    m_Localized: "Granula\xE7\xE3o de Filme"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363557
+    m_Localized: Volume Principal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363558
+    m_Localized: Volume dos Efeitos Sonoros
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363559
+    m_Localized: "Volume da M\xFAsica"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363560
+    m_Localized: "Campo de Vis\xE3o"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363561
+    m_Localized: "Proje\xE7\xE3o Panini"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363562
+    m_Localized: "Dist\xE2ncia da Vista"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363563
+    m_Localized: Qualidade Geral
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363564
+    m_Localized: Alternar para Caminhada
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363565
+    m_Localized: Exclusivo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363566
+    m_Localized: Tela Cheia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363567
+    m_Localized: Maximizado
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363568
+    m_Localized: Modo Janela
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363569
+    m_Localized: Ligado
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363570
+    m_Localized: Idioma
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363571
+    m_Localized: Gameplay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363572
+    m_Localized: "\xC1udio"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363573
+    m_Localized: "Op\xE7\xF5es"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363574
+    m_Localized: Uit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363575
+    m_Localized: Sensibilidade do mouse
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961408
+    m_Localized: Dica glifos
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961409
+    m_Localized: Controlador Xbox
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961410
+    m_Localized: Controlador DualShock
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961411
+    m_Localized: Teclado mouse
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961412
+    m_Localized: "Autom\xE1tico"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41667057588686848
+    m_Localized: "Gr\xE1ficos"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41668013478957056
+    m_Localized: "Brilho do ecr\xE3"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41668828704854016
+    m_Localized: Target Famerate
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41669473738477568
+    m_Localized: Vsync
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113281912832
+    m_Localized: "O que \xE9 que foi isso?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078656
+    m_Localized: Huh?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078657
+    m_Localized: Eu pensei ter ouvido algo ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078658
+    m_Localized: "\xC9 aquele...?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078659
+    m_Localized: Quem era aquele?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078660
+    m_Localized: Tenho que descobrir ..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219014989762560
+    m_Localized: Devagar por favor!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122688
+    m_Localized: "Deixe -me mostrar voc\xEA ao seu novo escrit\xF3rio."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122689
+    m_Localized: "Seguro? N\xE3o, na verdade n\xE3o."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122690
+    m_Localized: "Tem certeza de que isso \xE9 seguro?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122691
+    m_Localized: "Eu tenho algu\xE9m para voc\xEA conhecer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122692
+    m_Localized: Na sua carne!?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511296
+    m_Localized: "Ah Dang, aqui vamos n\xF3s novamente."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511297
+    m_Localized: "N\xE3o, N\xE3\xE3\xE3o!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511298
+    m_Localized: Foi divertido enquanto durou.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511299
+    m_Localized: "Eu acho que voc\xEA parecia muito bom em branco"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511300
+    m_Localized: "Oh! Pare, voc\xEA est\xE1 me envergonhando ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511301
+    m_Localized: "Eu deveria ter pedido o n\xFAmero de telefone deles."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511302
+    m_Localized: "A\xED est\xE1 voc\xEA."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511303
+    m_Localized: Se sentindo melhor?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511304
+    m_Localized: Melhor do que isso? Sem chance!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511305
+    m_Localized: Espere, eu pensei que o reclinato coloca minhas roupas de volta?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511306
+    m_Localized: "O or\xE7amento era muito pequeno."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511307
+    m_Localized: Darnagem corporativa ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511310
+    m_Localized: Quem te deixou deitado?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511311
+    m_Localized: Vamos te levar de volta
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511312
+    m_Localized: Terceira vez hoje, hein?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511313
+    m_Localized: "N\xE3o foi minha culpa desta vez!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511314
+    m_Localized: "O tempo de interrup\xE7\xE3o acabou."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511315
+    m_Localized: O que...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511316
+    m_Localized: "Isso \xE9 um...?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511317
+    m_Localized: "Isso parece t\xE3o pesado ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511318
+    m_Localized: Preservativo enorme ..?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511319
+    m_Localized: "Parece que algu\xE9m se divertiu."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511320
+    m_Localized: Gostaria que fosse eu ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511321
+    m_Localized: Bem, bem, parece que se afasta!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511322
+    m_Localized: "Desculpe, deixe -me rolar para a minha esta\xE7\xE3o ent\xE3o."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511323
+    m_Localized: "Haha, eu n\xE3o vou te preocupar."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511324
+    m_Localized: Bem, bem, parece que se afasta!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511325
+    m_Localized: "Desculpe, n\xE3o."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511326
+    m_Localized: De novo??
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511327
+    m_Localized: "Eu n\xE3o pude resistir a voc\xEA!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511328
+    m_Localized: Bem vindo de volta!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511329
+    m_Localized: "N\xE3o fizemos isso?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511330
+    m_Localized: "Admite. Voc\xEA adorou a primeira vez."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511331
+    m_Localized: "De volta t\xE3o cedo?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511332
+    m_Localized: Temos que parar de nos encontrar assim!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511334
+    m_Localized: Bem-vindo ao clube
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511335
+    m_Localized: "J\xE1 derreteu at\xE9 gozar?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511336
+    m_Localized: "Nada restante al\xE9m de porra"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511337
+    m_Localized: "Voc\xEA far\xE1 uma boa carga."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511338
+    m_Localized: Ficou suave em mim?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511339
+    m_Localized: "Hora de fazer uma bagun\xE7a!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511340
+    m_Localized: "\xC9 melhor voc\xEA ficar confort\xE1vel l\xE1"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511341
+    m_Localized: Bem vindo a bordo.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511342
+    m_Localized: "Talvez o pr\xF3ximo seja mais recheio"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511343
+    m_Localized: Aproveite seu tempo!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511344
+    m_Localized: Aproveite enquanto dura!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511345
+    m_Localized: Relaxar..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511346
+    m_Localized: "N\xE3o se preocupe, eu vou deixar voc\xEA sair, eventualmente."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511347
+    m_Localized: "Vamos ver quanto tempo voc\xEA dura ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511348
+    m_Localized: "Oh nossa, sou t\xE3o grande e redonda!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511349
+    m_Localized: Eu me pergunto quanto mais eu posso encher
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511350
+    m_Localized: "Sinta -se \xE0 vontade para se contorcer ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511351
+    m_Localized: "Exatamente onde voc\xEA pertence ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511352
+    m_Localized: "Eu estarei levando meu tempo com voc\xEA ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511353
+    m_Localized: "Voc\xEA se sente t\xE3o bem l\xE1 em baixo ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511354
+    m_Localized: Contorcendo tudo o que quiser ~
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661248
+    m_Localized: Tudo bem, hora de voltar ao trabalho
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661249
+    m_Localized: Quebra, de volta ao trabalho.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631384211456
+    m_Localized: "Bem -vindo \xE0 esta\xE7\xE3o corporativa de Glorpco 789 ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988672
+    m_Localized: "Alguns dos funcion\xE1rios aqui solicitaram um pouco de tempo de
+      inatividade."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988673
+    m_Localized: "Seus alvos s\xE3o os seguintes ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988674
+    m_Localized: "Primeiro \xE9 o rato do capel\xE3o ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988675
+    m_Localized: "Segundo, as esta\xE7\xF5es cozinham ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988676
+    m_Localized: "Terceiro \xE9 a equipe de ci\xEAncias Kangaroo ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988677
+    m_Localized: "E, finalmente, o capit\xE3o das esta\xE7\xF5es"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988678
+    m_Localized: "Ao contr\xE1rio das miss\xF5es anteriores, este lugar est\xE1 muito
+      apertado"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988679
+    m_Localized: "Voc\xEA precisar\xE1 descarregar com frequ\xEAncia para evitar
+      ficar preso ...."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988680
+    m_Localized: "Se voc\xEA for exagerado, n\xE3o diga que n\xE3o te avisei ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51459478631534592
+    m_Localized: "Cr\xE9ditos"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122693
+    m_Localized: "Voc\xEA ficar\xE1 muito melhor em mim!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122694
+    m_Localized: "N\xE3o sou suficientemente bonito?!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49313416873562112
+    m_Localized: "Eu n\xE3o posso acreditar que isso finalmente est\xE1 acontecendo!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49313416902922240
+    m_Localized: "Uau, realmente est\xE1 me chupando!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566463746048
+    m_Localized: Indo algum lugar amigo?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494784
+    m_Localized: Vamos ficar mais profundos!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494785
+    m_Localized: "Vamos deix\xE1 -lo escondido."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494786
+    m_Localized: Vamos nos aproximar um pouco ~
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494787
+    m_Localized: "Seus colegas esperam voc\xEA"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494788
+    m_Localized: "Seus amigos esperam voc\xEA"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494789
+    m_Localized: Oh, eu vou gostar disso.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494790
+    m_Localized: "Para baixo, voc\xEA vai"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494791
+    m_Localized: W-Wait!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494792
+    m_Localized: O-oh querido ...!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494793
+    m_Localized: Alternar agachar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511355
+    m_Localized: Tem uma carga para mim?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511356
+    m_Localized: Oh eu ..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511357
+    m_Localized: "Estou t\xE3o reprimido ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511358
+    m_Localized: Seja gentil ok?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511359
+    m_Localized: uhh .. vou tentar.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511360
+    m_Localized: "Seja r\xE1pido que tenho algum lugar para estar."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511361
+    m_Localized: "Estou esperando tanto tempo por algu\xE9m!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511362
+    m_Localized: "Acha que algu\xE9m vai nos ver?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511363
+    m_Localized: "Eu tenho algu\xE9m para voc\xEA conhecer."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511364
+    m_Localized: Carne?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49223706696273922
+    m_Localized: "Isso \xE9 muito esperma!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49223706696273923
+    m_Localized: Woah, muito!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51459478665089025
+    m_Localized: Eu estarei vazando o dia todo ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282248963149824
+    m_Localized: "Escrit\xF3rio"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675776
+    m_Localized: "O empr\xE9stimo de tubar\xE3o no escrit\xF3rio tem uma miss\xE3o
+      para voc\xEA."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675777
+    m_Localized: "Armaz\xE9m"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675778
+    m_Localized: "A cota cum no armaz\xE9m subiu! Ajude -os!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675779
+    m_Localized: "Esta\xE7\xE3o"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675780
+    m_Localized: "O estudo de Tachyon Cum requer sua assist\xEAncia."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675781
+    m_Localized: Cidade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675782
+    m_Localized: "Hora de uma mistura com o chefe do drag\xE3o."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58331949737496576
+    m_Localized: "Oh n\xE3o, eu fui pego!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58331949771051008
+    m_Localized: Pressione o salto para reiniciar ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303662993408
+    m_Localized: "CV O chefe de tubar\xE3o!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547840
+    m_Localized: "O tubar\xE3o est\xE1 envergonhado sobre seus interesses, Cock os
+      vive discretamente."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547841
+    m_Localized: "Fuja da \xE1rea!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547842
+    m_Localized: "Depois de concluir os objetivos prim\xE1rios, escape usando o elevador."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547843
+    m_Localized: "N\xE3o seja pego pela seguran\xE7a do escrit\xF3rio!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547844
+    m_Localized: "O pessoal de seguran\xE7a tem r\xE1dios que podem denunci\xE1 -lo,
+      tenha cuidado."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547845
+    m_Localized: "CV O T\xE9cnico Kangaroo!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547846
+    m_Localized: "A tecnologia da cabe\xE7a localizada na sala de energia lateral
+      quer uma pausa do trabalho."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547847
+    m_Localized: CV o kangaroo do superintendente!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547848
+    m_Localized: "O superintendente do Overlook elevado est\xE1 empurrando os trabalhadores
+      com muita for\xE7a! Envie -os de f\xE9rias e d\xEA um tempo a todos."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547849
+    m_Localized: "CV O gerente do escrit\xF3rio Kangaroo!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547850
+    m_Localized: "O gerente de armazenamento est\xE1 ficando brincalh\xE3o no trabalho
+      e quer tentar algo novo."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547851
+    m_Localized: "N\xE3o seja pego pela seguran\xE7a do armaz\xE9m."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547852
+    m_Localized: "Use o caminh\xE3o para escapar!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547853
+    m_Localized: "CV O Capit\xE3o Kangaroo!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547854
+    m_Localized: "O capit\xE3o precisa de f\xE9rias, encontre -os na \xE1rea de seguran\xE7a
+      azul escura."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547855
+    m_Localized: CV O Rato Sacerdote!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547856
+    m_Localized: "Localizado no templo que d\xE1 discursos, traga seu lado desviante
+      para a luz!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547857
+    m_Localized: CV O Kangaroo do Cientista!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547858
+    m_Localized: "Um cientista localizado na \xE1rea verde quer que voc\xEA os agite
+      para a ci\xEAncia!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547859
+    m_Localized: CV O POSSUM Cook!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547860
+    m_Localized: "O cozinheiro da cabe\xE7a quer que voc\xEA os ajude a experimentar
+      um novo ingrediente, transformando -os nele!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59064884090425344
+    m_Localized: "Saia usando uma das portas de sa\xEDda."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547861
+    m_Localized: "CV O chefe do drag\xE3o!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547862
+    m_Localized: "\xC9 relatado que o drag\xE3o tem um pau enorme e tem agitado sua
+      pr\xF3pria equipe, tenha cuidado!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547863
+    m_Localized: "N\xE3o seja pego pela pol\xEDcia do CV."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59722192836763648
+    m_Localized: Novo jogo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59736315477762048
+    m_Localized: Selecione Salvar slot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511333
+    m_Localized: "Mais? \u2764"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661250
+    m_Localized: "\xC9 t\xE3o bom como voc\xEA se contorce l\xE1 ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59758640264781824
+    m_Localized: "Objetivos conclu\xEDdos"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59758640302530560
+    m_Localized: "Tempo de conclus\xE3o"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60079280086372352
+    m_Localized: Voltar ao menu principal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60100337514106880
+    m_Localized: Novo recorde!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729936470016
+    m_Localized: "Bom agente de trabalho, o chefe do tubar\xE3o \xE9 muito melhor
+      depois de se entregar. Estavam deixando o mundo mais com tens\xE3o, um alvo
+      de cada vez!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729965830144
+    m_Localized: "Agente Completo da Miss\xE3o, os trabalhadores do armaz\xE9m ficaram
+      felizes em ter um tempo de folga e os alvos est\xE3o todos de bom humor ap\xF3s
+      suas \"f\xE9rias\"."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729965830145
+    m_Localized: "Outro agente de sucesso. Com o chefe do drag\xE3o, deu um gostinho
+      de seu pr\xF3prio rem\xE9dio, os trabalhadores s\xE3o muito mais felizes."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729965830146
+    m_Localized: "\xD3timo agente de trabalho! A equipe da esta\xE7\xE3o est\xE1
+      um pouco mais excitada, com tantos colegas falando sobre sua experi\xEAncia
+      com voc\xEA."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60175060938878976
+    m_Localized: "Ocultar o chefe do tubar\xE3o (opcional)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60175060938878977
+    m_Localized: Mantenha o chefe agitado deixando seu preservativo em um banheiro!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309898190848
+    m_Localized: "Esconder a cabe\xE7a da seguran\xE7a (opcional)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309914968064
+    m_Localized: "Esconder um preservativo contendo a cabe\xE7a de seguran\xE7a no
+      vesti\xE1rio de seguran\xE7a."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309914968065
+    m_Localized: Esconder o zelador (opcional)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309914968066
+    m_Localized: "Esconder um preservativo que cont\xE9m o zelador no banheiro principal
+      do corredor."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60288126066192384
+    m_Localized: "\xC9 melhor voc\xEA se sentir confort\xE1vel l\xE1"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231205634048
+    m_Localized: "Espero que voc\xEA esteja pronto para algum agente de eleva\xE7\xE3o
+      pesada."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411264
+    m_Localized: "Este n\xE3o ser\xE1 como suas miss\xF5es anteriores."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411265
+    m_Localized: "Target de hoje \xE9 o chefe drag\xE3o"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411266
+    m_Localized: "Eles est\xE3o sob muita press\xE3o ultimamente"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411267
+    m_Localized: Isso resultou no estresse de comer sua equipe
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411268
+    m_Localized: "\xC9 hora de eles passaram de f\xE9rias"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411269
+    m_Localized: "Tenha muito cuidado ou voc\xEA pode acabar sendo o que ficou branco!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661251
+    m_Localized: "Est\xE1 t\xE3o quente!"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

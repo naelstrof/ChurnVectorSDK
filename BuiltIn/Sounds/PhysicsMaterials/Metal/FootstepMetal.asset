@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3c414e0ed6d9f44b95ed89cafe5934c, type: 3}
+  m_Name: FootstepMetal
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 4e0c04b3c597d984d8ea8733e40ed8af, type: 3}
+  - {fileID: 8300000, guid: f56b5edae4a8b7c4e8c0fed7c4474fe5, type: 3}
+  - {fileID: 8300000, guid: 7933ead63d85d5e44bf0fa71f5382c78, type: 3}
+  - {fileID: 8300000, guid: e866f66376051c746855759c2dfe4bd3, type: 3}
+  volume: 0.5
+  pitchVariance: 0.1
+  targetGroup: {fileID: -4405560266422439704, guid: 93ac2fed59ed12d4da4f41eb5ad57c39,
+    type: 2}
+  soundInterestLevel: 0.15
+  isObviousPlayerNoise: 1

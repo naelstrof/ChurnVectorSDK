@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3c414e0ed6d9f44b95ed89cafe5934c, type: 3}
+  m_Name: ChurnPack
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 39151359ec18c8645a8865e0a1c5209c, type: 3}
+  - {fileID: 8300000, guid: 81e7f54f3e5d2dc40bab2e66f97b8aff, type: 3}
+  - {fileID: 8300000, guid: 3b6021c5d32181b46b181f35802cb602, type: 3}
+  - {fileID: 8300000, guid: 0b89c540edde108469cf2d427fa29da3, type: 3}
+  - {fileID: 8300000, guid: 538c37626c18fdc4785ea9f7de2aace7, type: 3}
+  - {fileID: 8300000, guid: e3e37d024329c7d4f8753d46750dcd95, type: 3}
+  volume: 1
+  pitchVariance: 0.4
+  targetGroup: {fileID: -4405560266422439704, guid: 93ac2fed59ed12d4da4f41eb5ad57c39,
+    type: 2}
+  soundInterestLevel: 0.26
+  isObviousPlayerNoise: 1
+  important: 0

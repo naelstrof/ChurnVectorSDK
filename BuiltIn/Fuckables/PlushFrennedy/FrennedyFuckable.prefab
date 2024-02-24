@@ -1,0 +1,384 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1278512354937871949
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2829278831478096885}
+  m_Layer: 0
+  m_Name: ButtPenetrable4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2829278831478096885
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1278512354937871949}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: -0.0457, z: 0.447}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1760331508312962866}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1325917346663378853
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 726789971700625680}
+  m_Layer: 0
+  m_Name: ButtPenetrable2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &726789971700625680
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1325917346663378853}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: -0.0176, z: 0.0033}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1760331508312962866}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3412597470036704624
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1090329460061635550}
+  m_Layer: 0
+  m_Name: CondomAttachLocation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1090329460061635550
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3412597470036704624}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.9713265, y: -0.000000035890668, z: -0.000000012183074, w: -0.23774987}
+  m_LocalPosition: {x: -0.0075000264, y: -0.0024992824, z: 0.30399936}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1760331508312962866}
+  m_LocalEulerAnglesHint: {x: 117.507996, y: 0, z: 0}
+--- !u!1 &5737144051517717327
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 379678968764978443}
+  m_Layer: 0
+  m_Name: ButtPenetrable3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &379678968764978443
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5737144051517717327}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0.0132, z: 0.1715}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1760331508312962866}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6740127698543309904
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9099170816876883516}
+  m_Layer: 0
+  m_Name: ButtPenetrable1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9099170816876883516
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6740127698543309904}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.1009, z: -0.1593}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1760331508312962866}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &5108983133748204293
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 728c430499631d247a453720c56b3b11,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.344
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 728c430499631d247a453720c56b3b11,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.679
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 728c430499631d247a453720c56b3b11,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.061
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 728c430499631d247a453720c56b3b11,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9470815
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 728c430499631d247a453720c56b3b11,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.31122133
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 728c430499631d247a453720c56b3b11,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.024538046
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 728c430499631d247a453720c56b3b11,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.07467202
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 728c430499631d247a453720c56b3b11,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 36.382
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 728c430499631d247a453720c56b3b11,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 728c430499631d247a453720c56b3b11,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -9.016
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 728c430499631d247a453720c56b3b11,
+        type: 3}
+      propertyPath: m_Name
+      value: FrennedyFuckable
+      objectReference: {fileID: 0}
+    - target: {fileID: 1630794972795428178, guid: 728c430499631d247a453720c56b3b11,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: b3f185f85cda59d46bd0c89c2d5c56e1, type: 2}
+    - target: {fileID: 1630794972795428178, guid: 728c430499631d247a453720c56b3b11,
+        type: 3}
+      propertyPath: m_BlendShapeWeights.Array.data[1]
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -2410774654761442249, guid: 728c430499631d247a453720c56b3b11,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9099170816876883516}
+    - targetCorrespondingSourceObject: {fileID: -2410774654761442249, guid: 728c430499631d247a453720c56b3b11,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 726789971700625680}
+    - targetCorrespondingSourceObject: {fileID: -2410774654761442249, guid: 728c430499631d247a453720c56b3b11,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 379678968764978443}
+    - targetCorrespondingSourceObject: {fileID: -2410774654761442249, guid: 728c430499631d247a453720c56b3b11,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2829278831478096885}
+    - targetCorrespondingSourceObject: {fileID: -2410774654761442249, guid: 728c430499631d247a453720c56b3b11,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1090329460061635550}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 728c430499631d247a453720c56b3b11,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6352129106663408022}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 728c430499631d247a453720c56b3b11,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5916202786512053484}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 728c430499631d247a453720c56b3b11,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2819586400141971623}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 728c430499631d247a453720c56b3b11,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7455917735775693034}
+  m_SourcePrefab: {fileID: 100100000, guid: 728c430499631d247a453720c56b3b11, type: 3}
+--- !u!4 &1760331508312962866 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2410774654761442249, guid: 728c430499631d247a453720c56b3b11,
+    type: 3}
+  m_PrefabInstance: {fileID: 5108983133748204293}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2387491722340294965 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -1746039836113800656, guid: 728c430499631d247a453720c56b3b11,
+    type: 3}
+  m_PrefabInstance: {fileID: 5108983133748204293}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5343425053781077588 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 728c430499631d247a453720c56b3b11,
+    type: 3}
+  m_PrefabInstance: {fileID: 5108983133748204293}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6352129106663408022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5343425053781077588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e0550636f1faf54ea9fada34b07cd10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  points:
+  - {fileID: 9099170816876883516}
+  - {fileID: 726789971700625680}
+  - {fileID: 379678968764978443}
+  - {fileID: 2829278831478096885}
+  listeners:
+  - rid: 1888142087200440325
+  actualHoleStartT: 0.066
+  references:
+    version: 2
+    RefIds:
+    - rid: 1888142087200440325
+      type: {class: SimpleBlendshapeListener, ns: PenetrationTech, asm: Naelstrof.PenetrationTech}
+      data:
+        t: 0.65
+        offsetCorrectionBone: {fileID: 2387491722340294965}
+        targets:
+        - skinnedMeshRenderer: {fileID: 5784731284612894295}
+          blendshapeName: HeadUp
+          blendshapeID: 1
+        baseGirthRadius: 0.001
+        blendShapeGirthRadius: 0.025
+        overdrive: 0
+--- !u!136 &5916202786512053484
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5343425053781077588}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.1
+  m_Height: 0.52
+  m_Direction: 1
+  m_Center: {x: -1.492011e-10, y: 0.1, z: 0}
+--- !u!114 &2819586400141971623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5343425053781077588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bc67c190c547e3459c0f74a553dede5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  penetrableTargets:
+  - {fileID: 6352129106663408022}
+  renderTargets:
+  - {fileID: 5784731284612894295}
+  detailOnly: 0
+--- !u!114 &7455917735775693034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5343425053781077588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abc36ec581651e042bcd6fbde9a10157, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderers:
+  - {fileID: 5784731284612894295}
+--- !u!137 &5784731284612894295 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1630794972795428178, guid: 728c430499631d247a453720c56b3b11,
+    type: 3}
+  m_PrefabInstance: {fileID: 5108983133748204293}
+  m_PrefabAsset: {fileID: 0}

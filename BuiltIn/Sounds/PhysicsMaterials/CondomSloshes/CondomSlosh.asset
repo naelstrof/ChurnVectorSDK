@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3c414e0ed6d9f44b95ed89cafe5934c, type: 3}
+  m_Name: CondomSlosh
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 580f83e8518b12b439eb79ba05c530a6, type: 3}
+  - {fileID: 8300000, guid: 32221b26ffe2e544183ac7262a3ca66f, type: 3}
+  - {fileID: 8300000, guid: b6252817b73d15d4589942cc2c2e6fb4, type: 3}
+  - {fileID: 8300000, guid: 0cd7ed07e5386284197ede913977763f, type: 3}
+  volume: 1
+  pitchVariance: 0.1
+  targetGroup: {fileID: -4405560266422439704, guid: 93ac2fed59ed12d4da4f41eb5ad57c39,
+    type: 2}
+  soundInterestLevel: 0.1
+  isObviousPlayerNoise: 0
+  important: 0

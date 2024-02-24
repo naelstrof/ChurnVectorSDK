@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &671073104321931357
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 705222933326370458, guid: c55954fc241d52e4599c2dc0a682a515,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 948366666521829704, guid: c55954fc241d52e4599c2dc0a682a515,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9045551
+      objectReference: {fileID: 0}
+    - target: {fileID: 948366666521829704, guid: c55954fc241d52e4599c2dc0a682a515,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.04536371
+      objectReference: {fileID: 0}
+    - target: {fileID: 948366666521829704, guid: c55954fc241d52e4599c2dc0a682a515,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.028173797
+      objectReference: {fileID: 0}
+    - target: {fileID: 3310872180912802204, guid: c55954fc241d52e4599c2dc0a682a515,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7008983179959048958, guid: c55954fc241d52e4599c2dc0a682a515,
+        type: 3}
+      propertyPath: m_Name
+      value: CivilianRatHoodie
+      objectReference: {fileID: 0}
+    - target: {fileID: 7008983179959048959, guid: c55954fc241d52e4599c2dc0a682a515,
+        type: 3}
+      propertyPath: actor.startingAction
+      value: 7979792660923154444
+      objectReference: {fileID: 0}
+    - target: {fileID: 7008983179959048959, guid: c55954fc241d52e4599c2dc0a682a515,
+        type: 3}
+      propertyPath: managedReferences[7979792660923154444]
+      value: Assembly-CSharp ActorActions.ActionBeACivilian
+      objectReference: {fileID: 0}
+    - target: {fileID: 7008983179959049474, guid: c55954fc241d52e4599c2dc0a682a515,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -20.013
+      objectReference: {fileID: 0}
+    - target: {fileID: 7008983179959049474, guid: c55954fc241d52e4599c2dc0a682a515,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.037
+      objectReference: {fileID: 0}
+    - target: {fileID: 7008983179959049474, guid: c55954fc241d52e4599c2dc0a682a515,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 11.669218
+      objectReference: {fileID: 0}
+    - target: {fileID: 7008983179959049474, guid: c55954fc241d52e4599c2dc0a682a515,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7008983179959049474, guid: c55954fc241d52e4599c2dc0a682a515,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7008983179959049474, guid: c55954fc241d52e4599c2dc0a682a515,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7008983179959049474, guid: c55954fc241d52e4599c2dc0a682a515,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7008983179959049474, guid: c55954fc241d52e4599c2dc0a682a515,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7008983179959049474, guid: c55954fc241d52e4599c2dc0a682a515,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7008983179959049474, guid: c55954fc241d52e4599c2dc0a682a515,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8147523213620762116, guid: c55954fc241d52e4599c2dc0a682a515,
+        type: 3}
+      propertyPath: clothesRenderers.Array.data[0]
+      value: 
+      objectReference: {fileID: 4570728570655831702}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c55954fc241d52e4599c2dc0a682a515, type: 3}
+--- !u!137 &4570728570655831702 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 3908662706433302219, guid: c55954fc241d52e4599c2dc0a682a515,
+    type: 3}
+  m_PrefabInstance: {fileID: 671073104321931357}
+  m_PrefabAsset: {fileID: 0}

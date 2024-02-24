@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5173f839d5887e4c9579721ba9bff3d, type: 3}
+  m_Name: Metal
+  m_EditorClassIdentifier: 
+  associatedPhysicMaterials:
+  - {fileID: 13400000, guid: fc700de5cf42bc640b07a31efd03087f, type: 2}
+  associatedMaterials:
+  - {fileID: 2100000, guid: 74c5876190a822b42becc1b76c22b366, type: 2}
+  - {fileID: 2100000, guid: c7c8767083495574a93c9feedc83588d, type: 2}
+  - {fileID: 2100000, guid: c0fa9018ba0f9ec4f9b38051b4d3309e, type: 2}
+  - {fileID: 2100000, guid: f5db27ede2de00240be395182753c538, type: 2}
+  - {fileID: 2100000, guid: e2e8184fc2b9b274886da3d81547414e, type: 2}
+  - {fileID: 2100000, guid: 2ed2197d6b90fcd458ed13d8bbfe534a, type: 2}
+  - {fileID: 2100000, guid: 58d4149540279314dac43e07052a119e, type: 2}
+  - {fileID: 2100000, guid: b370af7f39ab5694e9744938aa776096, type: 2}
+  - {fileID: 2100000, guid: 468346a378e3a22488538ee36708dce6, type: 2}
+  - {fileID: 2100000, guid: 712b7bb5dd5d08e458ae633a6fb8ce06, type: 2}
+  - {fileID: 2100000, guid: 1dbfbda461adff74c86bb2f8632be830, type: 2}
+  - {fileID: 2100000, guid: 8d9c4d8bb4b4f714899dcd13ac6c02ac, type: 2}
+  - {fileID: 2100000, guid: 9fb4f1f7464bdf44b84d1f76880ae63c, type: 2}
+  - {fileID: 2100000, guid: 8ed52a21ac3c81741a493d3bc6b7bf32, type: 2}
+  - {fileID: 2100000, guid: 277d103e8e1e4d34f93b171bd0cd6097, type: 2}
+  - {fileID: 2100000, guid: 80bd3f9670c5cfb428a9e52a5caff70f, type: 3}
+  - {fileID: 2100000, guid: d1348951e1ab770468f739cb8e31c8a9, type: 3}
+  - {fileID: 2100000, guid: fa4bbbe763bc3544da66dceae69cb5ee, type: 2}
+  - {fileID: 2100000, guid: bbd0e99c9cb63ce4883a4188aeb611c9, type: 2}
+  - {fileID: 2100000, guid: 5c8dc9264af670b419f5251126ac4358, type: 2}
+  - {fileID: 2100000, guid: 7303e83e366d0be42aa0c4fad6344238, type: 2}
+  - {fileID: 2100000, guid: 6454967a666c6c74eb4857d8fb681882, type: 2}
+  - {fileID: 2100000, guid: 2d983387322244a458afff68685d2fe0, type: 2}
+  massKgPerCubicMeter: 7000
+  impactInfos:
+  - collisionWith: 2
+    responseType: 1
+    soundEffect: {fileID: 11400000, guid: 94f68315ad8aaf94f86d059ed6d51e70, type: 2}
+    visualEffects:
+    - {fileID: 8926484042661614526, guid: 5caed00ae9bb35b44a08bf5e3e0c2973, type: 3}
+  - collisionWith: 1
+    responseType: 1
+    soundEffect: {fileID: 11400000, guid: aa9ddecf507778c41b6648b1b467239c, type: 2}
+    visualEffects: []
+  - collisionWith: -1
+    responseType: 4
+    soundEffect: {fileID: 11400000, guid: 5d1c90db9894ba24b808de1cb1676dc4, type: 2}
+    visualEffects: []
+  - collisionWith: -1
+    responseType: 2
+    soundEffect: {fileID: 11400000, guid: 5ffcd612538f8d741b3de888be8ae70f, type: 2}
+    visualEffects: []
+  materialType: 2

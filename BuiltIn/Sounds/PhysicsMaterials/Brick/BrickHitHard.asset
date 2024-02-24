@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3c414e0ed6d9f44b95ed89cafe5934c, type: 3}
+  m_Name: BrickHitHard
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 55e29cfc82dd7fd4eb76c2bd278b4c2a, type: 3}
+  - {fileID: 8300000, guid: 4c4aba3def01a094d91403627e8c2590, type: 3}
+  - {fileID: 8300000, guid: 52bbe199a4a7c794499dbb74f2d0ea51, type: 3}
+  - {fileID: 8300000, guid: 92e1f5d43019ce34fb640a8f8b80675a, type: 3}
+  volume: 1
+  pitchVariance: 0.1
+  targetGroup: {fileID: -4405560266422439704, guid: 93ac2fed59ed12d4da4f41eb5ad57c39,
+    type: 2}
+  soundInterestLevel: 0.1
+  isObviousPlayerNoise: 0

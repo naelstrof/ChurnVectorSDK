@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3c414e0ed6d9f44b95ed89cafe5934c, type: 3}
+  m_Name: WoodImpactHard
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: f671700da816cf942809c6742e52dd43, type: 3}
+  - {fileID: 8300000, guid: da8fce79a5c351f449a59311972eba46, type: 3}
+  - {fileID: 8300000, guid: bc866858ecffbb342aeb39aa924bef05, type: 3}
+  - {fileID: 8300000, guid: afedb9783b148de488de8622c29908e9, type: 3}
+  - {fileID: 8300000, guid: 4907cd01301686a42af7fdbb042f9775, type: 3}
+  - {fileID: 8300000, guid: d599c1679d3b138478d686a2bf97c526, type: 3}
+  volume: 1
+  pitchVariance: 0.1
+  targetGroup: {fileID: -4405560266422439704, guid: 93ac2fed59ed12d4da4f41eb5ad57c39,
+    type: 2}
+  soundInterestLevel: 0.1
+  isObviousPlayerNoise: 0

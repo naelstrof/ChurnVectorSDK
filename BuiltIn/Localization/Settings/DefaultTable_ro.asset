@@ -1,0 +1,1366 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: DefaultTable_ro
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: ro
+  m_SharedData: {fileID: 11400000, guid: 801b23fcb4b7b884196ed7584cceb3c9, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 2597174431744
+    m_Localized: GOL!?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597212180480
+    m_Localized: Ce!?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597212180481
+    m_Localized: Sun la securitate!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597212180482
+    m_Localized: Vai!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374784
+    m_Localized: "Hei, nu ar trebui s\u0103 fii aici!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374785
+    m_Localized: Iepure mare!?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374786
+    m_Localized: "Oh, este uria\u0219!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374787
+    m_Localized: "Boss va fi at\xE2t de nebun ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374788
+    m_Localized: "Vac\u0103 sf\xE2nt\u0103!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374789
+    m_Localized: Unde sunt hainele tale!?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374790
+    m_Localized: "Vac\u0103 sf\xE2nt\u0103!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374791
+    m_Localized: Oh Doamne!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374792
+    m_Localized: Ajutor! Securitate!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11380743262208
+    m_Localized: "Hei, vreau s\u0103 ies din munc\u0103 ast\u0103zi, s\u0103 am idei?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11380772622336
+    m_Localized: "M\u0103 pot g\xE2ndi la ceva ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 262281009614848
+    m_Localized: "Folose\u0219te r\u0103mase"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424501387264
+    m_Localized: Asta e dragut!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747392
+    m_Localized: Acest lucru se simte bine
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747393
+    m_Localized: "Acest lucru este at\xE2t de relaxant"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747394
+    m_Localized: "Absolut \xEEnc\xE2nt\u0103tor!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747395
+    m_Localized: Oh, iubesc asta!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747396
+    m_Localized: "Ar fi trebuit s\u0103 fac asta mai devreme!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747397
+    m_Localized: "Aceasta este binecuv\xE2ntare pur\u0103!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747398
+    m_Localized: Bliss Total!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747399
+    m_Localized: "Satisfac\u021Bie dulce!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747400
+    m_Localized: "Pl\u0103cere pur\u0103!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747401
+    m_Localized: "Pur \u0219i simplu splendid!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747402
+    m_Localized: Ah..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747403
+    m_Localized: "Merit\u0103 fiecare moment!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747404
+    m_Localized: Ca un vis!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747405
+    m_Localized: "Sunt \xEEn paradis!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747406
+    m_Localized: Deliciul ceresc!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747407
+    m_Localized: "\u2764"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747408
+    m_Localized: "Oh, sunt \xEEn paradis!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747409
+    m_Localized: "Hehe, dr\u0103gu\u021B."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747410
+    m_Localized: Ohh!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747411
+    m_Localized: Acesta este un vis devenit realitate!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747412
+    m_Localized: Oh, este ca magia!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941696
+    m_Localized: :)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941697
+    m_Localized: :D
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941698
+    m_Localized: MHM ..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941699
+    m_Localized: '*Glorsh*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941700
+    m_Localized: Noi!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941701
+    m_Localized: '*GLORP*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941702
+    m_Localized: Minunat!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941703
+    m_Localized: Fantastic!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941704
+    m_Localized: Incredibil!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941705
+    m_Localized: Sclipitor!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941706
+    m_Localized: Uimitor!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941707
+    m_Localized: Minunat!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941708
+    m_Localized: Superb!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941709
+    m_Localized: Minunat!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941710
+    m_Localized: '*splort*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941711
+    m_Localized: '*borp*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149630550016
+    m_Localized: "M\u0103 auzi agent 789?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298752
+    m_Localized: "Bine, \u021Binta ta este \u0219eful rechinului."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298753
+    m_Localized: "Vor s\u0103 le cv discret."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298754
+    m_Localized: "\xCEngrozi\u021Bi dac\u0103 colegii lor afl\u0103 \xEEn ce se afl\u0103"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298755
+    m_Localized: "Verifica\u021Bi -v\u0103 HUD -ul pentru obiectivele dvs."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298756
+    m_Localized: Noroc acolo, peste.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27794504080216064
+    m_Localized: Incepe jocul
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27794504126353408
+    m_Localized: "P\u0103r\u0103se\u0219te jocul"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28184462674677760
+    m_Localized: "Reporni\u021Bi rapid"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 33999910783733760
+    m_Localized: "Selecta\u021Bi contract"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34000825808900096
+    m_Localized: Skip Cutscene
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34000825808900097
+    m_Localized: "\xCEntoarce-te"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985526923264
+    m_Localized: "Bine 789, acesta va fi un pic mai dur dec\xE2t de obicei"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700480
+    m_Localized: "Ave\u021Bi * trei * \u021Binte cu care s\u0103 face\u021Bi fa\u021B\u0103
+      acum"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700481
+    m_Localized: "Mai \xEEnt\xE2i \xEEn biroul de depozitare ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700482
+    m_Localized: "Al doilea \xEEn camera din spate ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700483
+    m_Localized: "\u0218i \xEEn sf\xE2r\u0219it \xEEn cutia supraveghetoare"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700484
+    m_Localized: "Ca de obicei, \xEEncearc\u0103 s\u0103 nu fii prins"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700485
+    m_Localized: "Dac\u0103 ave\u021Bi probleme s\u0103 le potrivi\u021Bi pe toate,
+      \xEEncerca\u021Bi s\u0103 folosi\u021Bi standurile \xEEmpr\u0103\u0219tiate."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700486
+    m_Localized: Agent de noroc.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608362614784
+    m_Localized: ....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974912
+    m_Localized: "W-wait am o \xEEnt\xE2lnire \xEEn cur\xE2nd ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974913
+    m_Localized: "B\u0103nuiesc c\u0103 e\u0219ti concediat!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974914
+    m_Localized: "Boss va fi at\xE2t de nebun ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974915
+    m_Localized: "O mul\u021Bime de spa\u021Bii pentru ei \u0219i pentru ei"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974916
+    m_Localized: "E timpul s\u0103 -\u021Bi iei o vacan\u021B\u0103!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974917
+    m_Localized: "Nu te deranja dac\u0103 o fac!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974918
+    m_Localized: "Vei face o \xEEnc\u0103rc\u0103tur\u0103 uria\u0219\u0103 ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974919
+    m_Localized: "Glisa\u021Bi \xEEn ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974920
+    m_Localized: "\xCEn tine, Cutie ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974921
+    m_Localized: Acces de furie...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974922
+    m_Localized: "Oh, at\xE2t de cald ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974923
+    m_Localized: mmmm ....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974924
+    m_Localized: "A fost o c\u0103ma\u0219\u0103 nou\u0103!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974925
+    m_Localized: "Mai bine nu spune nim\u0103nui!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974926
+    m_Localized: "F\u0103r\u0103 promisiuni"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363520
+    m_Localized: Al meu, ce instrument mare ai ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363521
+    m_Localized: "Cu at\xE2t mai bine s\u0103 te m\u0103n\xE2nci!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363522
+    m_Localized: Mare.....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363523
+    m_Localized: "\u0218i devine mai mare!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363524
+    m_Localized: Cum se simte?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363525
+    m_Localized: Minunat...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363526
+    m_Localized: "Te vreau \xEEn mine ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363527
+    m_Localized: "VORE PUN, \xEEntr -adev\u0103r!?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363528
+    m_Localized: "M\u0103car cump\u0103r\u0103 -mi cina mai \xEEnt\xE2i ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363529
+    m_Localized: "\xCEmi pare r\u0103u, se pare c\u0103 e\u0219ti desert."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363530
+    m_Localized: Oh, asta este ... fierbinte .....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363531
+    m_Localized: "\xCE\u021Bi va pl\u0103cea ce se \xEEnt\xE2mpl\u0103 \xEEn continuare!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363532
+    m_Localized: "O s\u0103 m\u0103 lupt pentru mine ...?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363533
+    m_Localized: "Numai dac\u0103 spui, te rog."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363534
+    m_Localized: "Cred c\u0103 acest lucru func\u021Bioneaz\u0103 ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363535
+    m_Localized: "G\xE2ndi\u021Bi -v\u0103 la asta ca la vacan\u021B\u0103!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363536
+    m_Localized: "M\u0103n\xE2nc\u0103 \u0219i prietenii mei!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363537
+    m_Localized: Cu cat mai multi cu atat mai bine!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363538
+    m_Localized: "Doamne, sunt at\xE2t de grea acum ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363539
+    m_Localized: Acces de furie...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363540
+    m_Localized: A fost unul mare ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363541
+    m_Localized: "Hei, stabile\u0219te -te deja!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363542
+    m_Localized: "Asta s -a sim\u021Bit bine ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363543
+    m_Localized: Toate ale mele...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363544
+    m_Localized: Laag
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363545
+    m_Localized: Midden
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363546
+    m_Localized: Hoog
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363547
+    m_Localized: "Modul fereastr\u0103"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363548
+    m_Localized: "Rezolu\u0163ie"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363549
+    m_Localized: a inflori
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363550
+    m_Localized: Neclaritate de miscare
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363551
+    m_Localized: "Ocluzie ambiental\u0103"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363552
+    m_Localized: Umbre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363553
+    m_Localized: "Iarb\u0103"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363554
+    m_Localized: "Reflec\u021Bii de spa\u021Biu pe ecran"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363555
+    m_Localized: Anti-aliasing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363556
+    m_Localized: Film Grain
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363557
+    m_Localized: Volumul principal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363558
+    m_Localized: Volumul efectelor sonore
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363559
+    m_Localized: Volumul muzicii
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363560
+    m_Localized: Camera FOV
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363561
+    m_Localized: "Proiec\u021Bie panini"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363562
+    m_Localized: Adancimea terenului
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363563
+    m_Localized: "Calitate general\u0103"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363564
+    m_Localized: "Comuta\u021Bi plimbarea"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363565
+    m_Localized: Exclusiv
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363566
+    m_Localized: Ecran complet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363567
+    m_Localized: "Fereastr\u0103 maxim\u0103"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363568
+    m_Localized: "Fereastr\u0103"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363569
+    m_Localized: Pe
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363570
+    m_Localized: Limba
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363571
+    m_Localized: Gameplay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363572
+    m_Localized: Audio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363573
+    m_Localized: "Op\u021Biuni"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363574
+    m_Localized: Uit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363575
+    m_Localized: MUIS GEVOELIGHEID
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961408
+    m_Localized: Sugestie glife
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961409
+    m_Localized: Controller Xbox
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961410
+    m_Localized: Controller dualshock
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961411
+    m_Localized: Tastatura mouse
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961412
+    m_Localized: Automat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41667057588686848
+    m_Localized: "Grafic\u0103"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41668013478957056
+    m_Localized: Luminozitatea ecranului
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41668828704854016
+    m_Localized: Target framerat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41669473738477568
+    m_Localized: Vsync
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113281912832
+    m_Localized: Ce a fost asta?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078656
+    m_Localized: Nu?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078657
+    m_Localized: "Am crezut c\u0103 am auzit ceva ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078658
+    m_Localized: Este asta...?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078659
+    m_Localized: Cine a fost acela?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078660
+    m_Localized: "Trebuie s\u0103 -mi dau seama .."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219014989762560
+    m_Localized: Mai incet, te rog!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122688
+    m_Localized: "Permite\u021Bi -mi s\u0103 v\u0103 ar\u0103t la noul dvs. birou."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122689
+    m_Localized: Sigur? Nu, nu chiar.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122690
+    m_Localized: "E\u0219ti sigur c\u0103 acest lucru este sigur?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122691
+    m_Localized: "Am pe cineva pe care s\u0103 -l \xEEnt\xE2lne\u0219ti"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122692
+    m_Localized: "\xCEn carnea ta!?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511296
+    m_Localized: Ah Dang, aici mergem din nou.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511297
+    m_Localized: Nu, nooooo!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511298
+    m_Localized: "A fost distractiv c\xE2t a durat."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511299
+    m_Localized: "Cred c\u0103 ai ar\u0103tat destul de bine \xEEn alb"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511300
+    m_Localized: "Oh! Opri\u021Bi -v\u0103, m\u0103 \xEEmbr\u0103\u021Bi\u0219a\u021Bi
+      ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511301
+    m_Localized: "Ar fi trebuit s\u0103 le cer num\u0103rul de telefon."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511302
+    m_Localized: "Acolo e\u0219ti."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511303
+    m_Localized: "M\u0103 simt mai bine?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511304
+    m_Localized: "Mai bine dec\xE2t at\xE2t? \xCEn nici un caz!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511305
+    m_Localized: "Stai, am crezut c\u0103 Recubobulatorul \xEEmi pune hainele \xEEnapoi?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511306
+    m_Localized: Bugetul era prea mic.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511307
+    m_Localized: Darn Corporate ...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511310
+    m_Localized: "Cine te -a l\u0103sat s\u0103 te a\u0219ezi?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511311
+    m_Localized: "S\u0103 v\u0103 readucem \xEEnapoi"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511312
+    m_Localized: "A treia oar\u0103 ast\u0103zi, nu?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511313
+    m_Localized: Nu a fost vina mea de data asta!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511314
+    m_Localized: "Timpul de pauz\u0103 s -a terminat."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511315
+    m_Localized: Ce...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511316
+    m_Localized: Este un ...?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511317
+    m_Localized: "Arat\u0103 at\xE2t de greu ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511318
+    m_Localized: "Prezervativ uria\u0219 ..?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511319
+    m_Localized: "Se pare c\u0103 cineva s -a distrat."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511320
+    m_Localized: "A\u0219 vrea s\u0103 fiu eu ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511321
+    m_Localized: "Ei bine, arat\u0103, cui se sl\u0103be\u0219te!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511322
+    m_Localized: "\xCEmi pare r\u0103u, las\u0103 -m\u0103 doar s\u0103 m\u0103 rostogolesc
+      la sta\u021Bia mea."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511323
+    m_Localized: "Haha, nu v\u0103 voi face griji."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511324
+    m_Localized: "Ei bine, arat\u0103, cui se sl\u0103be\u0219te!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511325
+    m_Localized: "\xCEmi pare r\u0103u, M'am."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511326
+    m_Localized: Din nou??
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511327
+    m_Localized: "Nu a\u0219 putea s\u0103 v\u0103 rezist!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511328
+    m_Localized: Bine ai revenit!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511329
+    m_Localized: "Nu am f\u0103cut doar asta?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511330
+    m_Localized: "Recunoaste. \u021Ai -a pl\u0103cut prima dat\u0103."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511331
+    m_Localized: "\xCEnapoi at\xE2t de cur\xE2nd?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511332
+    m_Localized: "Trebuie s\u0103 \xEEncet\u0103m s\u0103 ne \xEEnt\xE2lnim a\u0219a!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511334
+    m_Localized: "Bun venit \xEEn club"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511335
+    m_Localized: "S -a topit deja la sperm\u0103?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511336
+    m_Localized: "Nimic nu a mai r\u0103mas dec\xE2t cum"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511337
+    m_Localized: "Vei face o \xEEnc\u0103rc\u0103tur\u0103 bun\u0103."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511338
+    m_Localized: Ai plecat moale pe mine?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511339
+    m_Localized: "E timpul s\u0103 faci o mizerie!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511340
+    m_Localized: Mai bine devii confortabil acolo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511341
+    m_Localized: Bun venit la bord.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511342
+    m_Localized: "Poate c\u0103 urm\u0103torul va fi mai umplut"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511343
+    m_Localized: Bucura-te de timpul tau!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511344
+    m_Localized: "Bucura\u021Bi -v\u0103 c\xE2t dureaz\u0103!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511345
+    m_Localized: "Relaxa\u021Bi-v\u0103.."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511346
+    m_Localized: "Nu v\u0103 face\u021Bi griji c\u0103 v\u0103 voi l\u0103sa s\u0103
+      ie\u0219i\u021Bi, \xEEn cele din urm\u0103."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511347
+    m_Localized: "S\u0103 vedem c\xE2t timp dureaz\u0103 ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511348
+    m_Localized: "Oh, geez, sunt at\xE2t de mare \u0219i rotund!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511349
+    m_Localized: "M\u0103 \xEEntreb c\xE2t mai mult pot face chestii"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511350
+    m_Localized: "Sim\u021Bi\u021Bi -v\u0103 liber s\u0103 v\u0103 plimba\u021Bi
+      \xEEn jurul ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511351
+    m_Localized: "Chiar unde apar\u021Bii ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511352
+    m_Localized: "\xCEmi voi lua timpul cu tine ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511353
+    m_Localized: "Te sim\u021Bi at\xE2t de bine acolo jos ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511354
+    m_Localized: Squirm tot ce vrei ~
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661248
+    m_Localized: "Bine timp pentru a reveni la munc\u0103"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661249
+    m_Localized: "Se rupe, \xEEnapoi la munc\u0103."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631384211456
+    m_Localized: "Bine a\u021Bi venit la GLorpco Corporate Station 789 ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988672
+    m_Localized: O parte din personalul de aici au solicitat un pic de oprire.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988673
+    m_Localized: "Obiectivele tale sunt urm\u0103toarele ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988674
+    m_Localized: "\xCEn primul r\xE2nd este \u0219obolanul capelan ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988675
+    m_Localized: "Al doilea este sta\u021Biile g\u0103tesc ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988676
+    m_Localized: "\xCEn al treilea r\xE2nd este cangurul echipei \u0219tiin\u021Bifice
+      ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988677
+    m_Localized: "\u0218i, \xEEn sf\xE2r\u0219it, c\u0103pitanul sta\u021Biilor"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988678
+    m_Localized: "Spre deosebire de misiunile anterioare, acest loc este foarte \xEEnghesuit"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988679
+    m_Localized: "Va trebui s\u0103 desc\u0103rca\u021Bi frecvent pentru a evita
+      s\u0103 v\u0103 bloca\u021Bi ...."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988680
+    m_Localized: "Dac\u0103 trece\u021Bi peste bord nu spune\u021Bi c\u0103 nu v
+      -am avertizat ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51459478631534592
+    m_Localized: credite
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122693
+    m_Localized: "Vei ar\u0103ta mult mai bine \xEEn mine!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122694
+    m_Localized: Nu sunt destul de mult?!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49313416873562112
+    m_Localized: "Nu pot s\u0103 cred c\u0103 acest lucru se \xEEnt\xE2mpl\u0103
+      \xEEn sf\xE2r\u0219it!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49313416902922240
+    m_Localized: "Uau, chiar m\u0103 suge!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566463746048
+    m_Localized: Mergi pe undeva amice?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494784
+    m_Localized: "S\u0103 ob\u021Binem mai ad\xE2nc!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494785
+    m_Localized: "S\u0103 te \xEEndep\u0103rtezi."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494786
+    m_Localized: "S\u0103 ne apropiem un pic mai aproape ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494787
+    m_Localized: "Colegii t\u0103i te a\u0219teapt\u0103"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494788
+    m_Localized: "Prietenii t\u0103i te a\u0219teapt\u0103"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494789
+    m_Localized: "Oh, m\u0103 voi bucura de asta."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494790
+    m_Localized: Te duci
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494791
+    m_Localized: Wait!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494792
+    m_Localized: "O-oh drag\u0103 ...!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494793
+    m_Localized: "Comuta\u021Bi ghemuirea"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511355
+    m_Localized: "Ai o \xEEnc\u0103rc\u0103tur\u0103 pentru mine?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511356
+    m_Localized: Oh, eu ..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511357
+    m_Localized: "Sunt at\xE2t de ridicat ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511358
+    m_Localized: "Fii bl\xE2nd bine?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511359
+    m_Localized: "uhh .. voi \xEEncerca."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511360
+    m_Localized: "Fii repede, am undeva s\u0103 fiu."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511361
+    m_Localized: "Am a\u0219teptat at\xE2t de mult pentru cineva!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511362
+    m_Localized: "Crezi c\u0103 cineva ne va vedea?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511363
+    m_Localized: "Am pe cineva pe care s\u0103 -l \xEEnt\xE2lne\u0219ti."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511364
+    m_Localized: Carne?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49223706696273922
+    m_Localized: "Este o mul\u021Bime de sperm\u0103!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49223706696273923
+    m_Localized: "Woah, at\xE2t de mult!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51459478665089025
+    m_Localized: "Voi scurge toat\u0103 ziua ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282248963149824
+    m_Localized: Birou
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675776
+    m_Localized: "Rechinul de \xEEmprumut la birou are o misiune pentru tine."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675777
+    m_Localized: Depozit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675778
+    m_Localized: "Cota cum la depozit a crescut! Ajut\u0103 -i s\u0103 ias\u0103!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675779
+    m_Localized: Statie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675780
+    m_Localized: "Studiul Tachyon cum necesit\u0103 asisten\u021Ba dvs."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675781
+    m_Localized: "Ora\u0219"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675782
+    m_Localized: "E timpul pentru un amestec cu \u0219eful dragonului."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58331949737496576
+    m_Localized: Oh, nu, am fost prins!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58331949771051008
+    m_Localized: "Ap\u0103sa\u021Bi salt pentru a reporni ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303662993408
+    m_Localized: "CV \u0219eful rechinului!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547840
+    m_Localized: "Rechinul este jenat cu privire la interesele lor, coco\u0219ul
+      \xEEi va face discret."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547841
+    m_Localized: "Evadeaz\u0103 zona!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547842
+    m_Localized: "Dup\u0103 finalizarea obiectivelor primare, sc\u0103pa\u021Bi folosind
+      elevatorul."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547843
+    m_Localized: Nu fi prins de securitatea biroului!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547844
+    m_Localized: "Personalul de securitate are radio care v\u0103 pot raporta, fi\u021Bi
+      aten\u021Bi."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547845
+    m_Localized: CV Tehnicianul Tehnician!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547846
+    m_Localized: "Tehnologia de cap situat\u0103 \xEEn sala de putere lateral\u0103
+      dore\u0219te o pauz\u0103 de la serviciu."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547847
+    m_Localized: CV Kangaroo de supraveghere!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547848
+    m_Localized: "Supraveghetorul din OverLoold Eleved \xEEi \xEEmpinge pe muncitori
+      prea tare! Trimite -le \xEEntr -o vacan\u021B\u0103 \u0219i d\u0103 -i tuturor
+      o pauz\u0103."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547849
+    m_Localized: CV Office Manager Kangaroo!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547850
+    m_Localized: "Managerul de depozitare se confrunt\u0103 cu o lucrare \u0219i
+      vrea s\u0103 \xEEncerce ceva nou."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547851
+    m_Localized: "Nu fi\u021Bi prin\u0219i de securitatea depozitului."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547852
+    m_Localized: "Folosi\u021Bi camionul pentru a sc\u0103pa!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547853
+    m_Localized: CV Captain Kangaroo!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547854
+    m_Localized: "C\u0103pitanul are nevoie de o vacan\u021B\u0103, s\u0103 le g\u0103seasc\u0103
+      \xEEn zona sigur\u0103 a albastru \xEEnchis."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547855
+    m_Localized: "CV preotul \u0219obolan!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547856
+    m_Localized: "Situat \xEEn templu d\xE2nd discursuri, aduce\u021Bi -le partea
+      deviant\u0103 \xEEn lumin\u0103!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547857
+    m_Localized: "CV omul de \u0219tiin\u021B\u0103 Kangaroo!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547858
+    m_Localized: "Un om de \u0219tiin\u021B\u0103 situat \xEEn zona verde dore\u0219te
+      s\u0103 le strecura\u021Bi pentru \u0219tiin\u021B\u0103!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547859
+    m_Localized: CV Possum Cook!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547860
+    m_Localized: "Cook -ul \u0219efului vrea s\u0103 -i ajute s\u0103 \xEEncerce
+      un nou ingredient transform\xE2ndu -i \xEEn el!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59064884090425344
+    m_Localized: "L\u0103sa\u021Bi folosind una dintre u\u0219ile de ie\u0219ire."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547861
+    m_Localized: "CV \u0219eful dragonului!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547862
+    m_Localized: "Dragonul este raportat c\u0103 are o pula imens\u0103 \u0219i \u0219i
+      -a prins propriul personal, ave\u021Bi grij\u0103!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547863
+    m_Localized: "Nu fi prins de poli\u021Bia CV."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59722192836763648
+    m_Localized: Joc nou
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59736315477762048
+    m_Localized: "Selecta\u021Bi Salva\u021Bi slotul"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511333
+    m_Localized: "Mai mult? \u2764"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661250
+    m_Localized: "Este at\xE2t de frumos cum te plimbi acolo ~"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59758640264781824
+    m_Localized: Obiective completate
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59758640302530560
+    m_Localized: Timpul de finalizare
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60079280086372352
+    m_Localized: "Reveni\u021Bi la meniul principal"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60100337514106880
+    m_Localized: Un nou record!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729936470016
+    m_Localized: "Se pare c\u0103 se pare mult mai frumos agent de lucru, \u0219eful
+      rechinului este mult mai frumos dup\u0103 ce \u0219i -a r\u0103sf\u0103\u021Bat
+      kink -urile. F\u0103ceau lumea mai excitat\u0103, o \u021Bint\u0103 la un moment
+      dat!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729965830144
+    m_Localized: "Agent complet al misiunii, lucr\u0103torii depozitului au fost
+      ferici\u021Bi s\u0103 aib\u0103 ceva timp liber, iar \u021Bintele sunt cu spirit
+      \xEEnalt dup\u0103 \u201Evacan\u021Ba\u201D lor."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729965830145
+    m_Localized: "Un alt agent de succes. Cu \u0219eful dragonului, av\xE2nd \xEEn
+      vedere un gust al propriului lor medicament, muncitorii sunt mult mai ferici\u021Bi."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729965830146
+    m_Localized: "Mare agent de lucru! Personalul sta\u021Biei este un pic mai excitat,
+      cu at\xE2t de mul\u021Bi dintre colegii lor care vorbesc despre experien\u021Ba
+      lor cu tine."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60175060938878976
+    m_Localized: "Ascunde \u0219eful rechinului (op\u021Bional)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60175060938878977
+    m_Localized: "P\u0103stra\u021Bi \u0219eful \xEEnfipt l\u0103s\xE2ndu -\u0219i
+      prezervativul \xEEntr -o baie!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309898190848
+    m_Localized: "Ascunde\u021Bi \u0219eful de securitate (op\u021Bional)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309914968064
+    m_Localized: "\xCEndep\u0103rta\u021Bi un prezervativ care con\u021Bine \u0219ef
+      de securitate \xEEn vestiarul de securitate."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309914968065
+    m_Localized: "Ascunde\u021Bi consilierul (op\u021Bional)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309914968066
+    m_Localized: "\xCEndep\u0103rta\u021Bi un prezervativ care con\u021Bine consilierul
+      \xEEn baia holului principal."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60288126066192384
+    m_Localized: "Mai bine te sim\u021Bi confortabil acolo"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231205634048
+    m_Localized: "Sper c\u0103 e\u0219ti preg\u0103tit pentru un agent de ridicare
+      greu."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411264
+    m_Localized: Acesta nu va fi ca misiunile anterioare.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411265
+    m_Localized: "Tinta de ast\u0103zi este Boss Dragon"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411266
+    m_Localized: "Au fost sub mult\u0103 presiune \xEEn ultima vreme"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411267
+    m_Localized: "Acest lucru a dus la stresul lor s\u0103 -\u0219i m\u0103n\xE2nce
+      personalul"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411268
+    m_Localized: "E timpul s\u0103 plece \xEEntr -o vacan\u021B\u0103"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411269
+    m_Localized: "Fii mai atent sau s -ar putea s\u0103 fii cel transformat alb!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661251
+    m_Localized: "Este at\xE2t de cald!"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

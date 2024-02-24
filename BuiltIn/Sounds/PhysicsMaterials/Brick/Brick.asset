@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5173f839d5887e4c9579721ba9bff3d, type: 3}
+  m_Name: Brick
+  m_EditorClassIdentifier: 
+  associatedPhysicMaterials:
+  - {fileID: 13400000, guid: 3ee7c1a58757e9d448cc52257982c019, type: 2}
+  - {fileID: 13400000, guid: 76bcb468adce6734aabb05568c6bd455, type: 2}
+  associatedMaterials:
+  - {fileID: 2100000, guid: 7e9f1bdceebf0704ebf69d67ec7e2db1, type: 2}
+  - {fileID: 2100000, guid: 8d9c4d8bb4b4f714899dcd13ac6c02ac, type: 2}
+  - {fileID: 2100000, guid: d044c480a30fabf4f8a1b4e700d9afac, type: 2}
+  - {fileID: 2100000, guid: 04035506ba7b125439bba8e8ed9e9751, type: 2}
+  - {fileID: 2100000, guid: 70af0e98cb88cca49aa1e70ac01fad38, type: 2}
+  - {fileID: 2100000, guid: f3f453ea19ccd57458d40fafa7da3df6, type: 2}
+  - {fileID: 2100000, guid: 73983081d269b9f4aa35adae4a4f13e9, type: 2}
+  - {fileID: 2100000, guid: b0c9dc1e3c171754aa827d4042187036, type: 2}
+  - {fileID: 2100000, guid: cadc17c6e4a1dd841807e28ed6fdad53, type: 2}
+  - {fileID: 2100000, guid: 947eb108336fd40418c034338111e617, type: 2}
+  - {fileID: 2100000, guid: f29ce6983931763478e140368fe4f882, type: 2}
+  - {fileID: 2100000, guid: e4946f7c4474cff489d6a53b59ab9aaf, type: 3}
+  - {fileID: 2100000, guid: 601ca90a7ce644e4a94c45d5addbbac9, type: 3}
+  - {fileID: 2100000, guid: 0f9e80052e6eacf419862718aef62b5f, type: 2}
+  - {fileID: 2100000, guid: 78c9479eec3fea8459437bcd39deeda8, type: 2}
+  - {fileID: 2100000, guid: 9fd1891a6ba67f64eb2261891741123c, type: 2}
+  - {fileID: 2100000, guid: 4b2c9be1b4298f646ba97ed3f37f22de, type: 2}
+  - {fileID: 2100000, guid: a6057fb2433d440439d4dc123a3136e0, type: 2}
+  - {fileID: 2100000, guid: b055fe63065eb38428bba22a8e893c14, type: 2}
+  - {fileID: 2100000, guid: 7057fa564493e85469d9c7de951b2c7d, type: 2}
+  - {fileID: 2100000, guid: 31c11f8f164bd744cb9d75eb805c886c, type: 2}
+  - {fileID: 2100000, guid: 9e7e63c360f30e24d94a056f3adacc1c, type: 2}
+  - {fileID: 2100000, guid: 1c27380168232b940a191cc7b3d828a3, type: 2}
+  - {fileID: 2100000, guid: d78197f8bdafcbd4faeca33e763d249e, type: 2}
+  - {fileID: 2100000, guid: 8727b9ffeec48034ca4f9d1d24fd1a63, type: 2}
+  - {fileID: 2100000, guid: bafb8b0210c09c4428ca3b0db4209683, type: 2}
+  - {fileID: 2100000, guid: 7138279768c923640aeae2c6196b06f0, type: 2}
+  - {fileID: 2100000, guid: 17ab8a6c3b6a22a4582a1197fdb7b304, type: 2}
+  - {fileID: 2100000, guid: 4c01ca01ff9773049b3d8ff168a7ec30, type: 2}
+  - {fileID: 2100000, guid: 626eed4853f766e4aa5526cb22f0717b, type: 2}
+  - {fileID: 2100000, guid: 892bbf0b8faece9478130c2c4ef5fa9e, type: 2}
+  - {fileID: 2100000, guid: feb6d5bf05ada1943b28b037c88dc03d, type: 2}
+  - {fileID: 2100000, guid: 72b320d55f5bd444487eff16806c7d83, type: 2}
+  - {fileID: 2100000, guid: 621df61a4285e634480cb5a3ad65b4c3, type: 2}
+  - {fileID: 2100000, guid: a77b170a44966584e973eae32fff721a, type: 2}
+  - {fileID: 2100000, guid: 4762864472d78694bb95eb113720a308, type: 2}
+  - {fileID: 2100000, guid: cdd42cf27111f674fbda22de9f0398b6, type: 2}
+  - {fileID: 2100000, guid: 814512e4628d128489d352ccdc1c13c3, type: 2}
+  - {fileID: 2100000, guid: 3736d876761fae94db9c18d79822d355, type: 2}
+  - {fileID: 2100000, guid: 23b12dd6d0221964694f556eab65e260, type: 2}
+  - {fileID: 2100000, guid: 13d9d105e6564634b9afc93d3ff5d76c, type: 2}
+  - {fileID: 2100000, guid: 438844f1dbf014341bbbaa5488170e27, type: 2}
+  - {fileID: 2100000, guid: 9511092a84b330d4083f6edb2abc6018, type: 2}
+  - {fileID: 2100000, guid: f5cbaee2c031dc943b7bfd2c96866bb8, type: 2}
+  - {fileID: 2100000, guid: 9f14ffbee0ee77d4496f66aee7187f59, type: 2}
+  - {fileID: 2100000, guid: b76db246246e86a489f061e9bc9b10d6, type: 2}
+  - {fileID: 2100000, guid: c44775a71f32e95469cde706545005ed, type: 2}
+  - {fileID: 2100000, guid: 1e9ef79624c9f394a9e1692a2886348f, type: 2}
+  - {fileID: 2100000, guid: dff3ffd8620c23248acf2815a5497758, type: 2}
+  massKgPerCubicMeter: 500
+  impactInfos:
+  - collisionWith: 1
+    responseType: 1
+    soundEffect: {fileID: 11400000, guid: b3aeb0ce5ecdf5d48ba3a6a2b3e751ba, type: 2}
+    visualEffects: []
+  - collisionWith: 2
+    responseType: 1
+    soundEffect: {fileID: 11400000, guid: 5ee46e7beaaa26f44a8293de2c840926, type: 2}
+    visualEffects:
+    - {fileID: 8926484042661614526, guid: 05a3db88a78f1524d86148ff660b7779, type: 3}
+  - collisionWith: -1
+    responseType: 3
+    soundEffect: {fileID: 11400000, guid: c7cafe5cecfeaef469d2cac7df9f26c6, type: 2}
+    visualEffects: []
+  materialType: 2

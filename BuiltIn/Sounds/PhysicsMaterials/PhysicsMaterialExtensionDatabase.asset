@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42b1f0885465b0542815f749318d6675, type: 3}
+  m_Name: PhysicsMaterialExtensionDatabase
+  m_EditorClassIdentifier: 
+  extensions:
+  - {fileID: 11400000, guid: 8ad87e31fccf4ce47b8b0b1fea5c941f, type: 2}
+  - {fileID: 11400000, guid: efd95b68ef01b894c9a1b39828dd07fc, type: 2}
+  - {fileID: 11400000, guid: 2074cf8f407d82f48abbcad90d0053a0, type: 2}
+  - {fileID: 11400000, guid: 538c6fc67444a2d4987256fbc4dd4d56, type: 2}
+  - {fileID: 11400000, guid: 133d631ca9dcde748ae4bd92d4fdab25, type: 2}
+  - {fileID: 11400000, guid: 49a3ae54d8787d64899d0636ec8e4050, type: 2}
+  - {fileID: 11400000, guid: 82d903fb8bbb5074eb84ae5e28207e7b, type: 2}
+  - {fileID: 11400000, guid: cf40e8beb655da64fa3be8ccf786d446, type: 2}
+  - {fileID: 11400000, guid: c1d6a9ac80542c944b50ac6c75d0b076, type: 2}
+  defaultExtension: {fileID: 11400000, guid: 42bce50b797802d4d9c55293ff166dea, type: 2}

@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5173f839d5887e4c9579721ba9bff3d, type: 3}
+  m_Name: Plastic
+  m_EditorClassIdentifier: 
+  associatedPhysicMaterials:
+  - {fileID: 13400000, guid: 99a8b73e39e83c3439d1655fb9b4b9aa, type: 2}
+  associatedMaterials:
+  - {fileID: 2100000, guid: b13ec6c334aae7e4d85c764a7dee014e, type: 2}
+  - {fileID: 2100000, guid: b375886c1bc3b2743a9e8032fce76b32, type: 2}
+  - {fileID: 2100000, guid: 2bfde3b4acfbe6c4690a23aa3e21c672, type: 2}
+  - {fileID: 2100000, guid: 350eb657caf713e4aa6b3230169cb566, type: 2}
+  - {fileID: 2100000, guid: ca201f292850f6140a878e05bbf2ef56, type: 2}
+  - {fileID: 2100000, guid: 2ad18706f70043749be2b6034d2bef2b, type: 2}
+  - {fileID: 2100000, guid: c64ac0b8e92214c48ad4cf575e8aa89d, type: 2}
+  - {fileID: 2100000, guid: c0ea998c666a7a945b35db42946d6cb1, type: 2}
+  - {fileID: 2100000, guid: bbbadae8be2888e4b8db20b39ce0e2c8, type: 2}
+  - {fileID: 2100000, guid: 7ef7f81093d4a994a852f8268d0785c2, type: 2}
+  - {fileID: 2100000, guid: 58a50ee1e8bc9154c9ecd7e548cec861, type: 2}
+  - {fileID: 2100000, guid: a977fce8f2817434da7d7a5795329d09, type: 2}
+  massKgPerCubicMeter: 225
+  impactInfos:
+  - collisionWith: 2
+    responseType: 1
+    soundEffect: {fileID: 11400000, guid: 80731e582a8e25c4cb35f53d9ed23d3d, type: 2}
+    visualEffects:
+    - {fileID: 8926484042661614526, guid: 05a3db88a78f1524d86148ff660b7779, type: 3}
+  - collisionWith: 1
+    responseType: 1
+    soundEffect: {fileID: 11400000, guid: e3c03f78cff21b047a9e0094550a99e5, type: 2}
+    visualEffects: []
+  - collisionWith: 1
+    responseType: 4
+    soundEffect: {fileID: 11400000, guid: 351d70e659c44264dad57f01e774e2dc, type: 2}
+    visualEffects: []
+  - collisionWith: 2
+    responseType: 4
+    soundEffect: {fileID: 11400000, guid: cb40b46109bea5f458cd74b0640beb52, type: 2}
+    visualEffects: []
+  materialType: 2

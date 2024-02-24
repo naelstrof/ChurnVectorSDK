@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3c414e0ed6d9f44b95ed89cafe5934c, type: 3}
+  m_Name: FootstepCardboard
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 11806358a6bc9a14594b0e17fad134ce, type: 3}
+  - {fileID: 8300000, guid: 3ae02e78aba7d7245a6022b359cb1eb8, type: 3}
+  - {fileID: 8300000, guid: b87cc71729ebe4c40a0df79b63e2d415, type: 3}
+  - {fileID: 8300000, guid: a976ef65864d3bf4ebf6f3263b153fd5, type: 3}
+  - {fileID: 8300000, guid: ae25de10da0d7c04b8a856d3f746bb49, type: 3}
+  - {fileID: 8300000, guid: b11c9f9512f91674486d32fc35802257, type: 3}
+  volume: 1
+  pitchVariance: 0.1
+  targetGroup: {fileID: -4405560266422439704, guid: 93ac2fed59ed12d4da4f41eb5ad57c39,
+    type: 2}
+  soundInterestLevel: 0.1
+  isObviousPlayerNoise: 1

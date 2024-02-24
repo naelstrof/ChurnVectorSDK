@@ -1,0 +1,1353 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: DefaultTable_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 801b23fcb4b7b884196ed7584cceb3c9, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 2597174431744
+    m_Localized: NAKED!?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597212180480
+    m_Localized: What the!?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597212180481
+    m_Localized: I'm calling security!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597212180482
+    m_Localized: Whoa!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374784
+    m_Localized: Hey you shouldn't be here!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374785
+    m_Localized: Big rabbit!?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374786
+    m_Localized: Oh its huge!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374787
+    m_Localized: Boss is gonna be so mad...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374788
+    m_Localized: Holy cow!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374789
+    m_Localized: Where are your clothes!?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374790
+    m_Localized: Holy cow!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374791
+    m_Localized: Oh gosh!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2597216374792
+    m_Localized: Help! Security!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11380743262208
+    m_Localized: Hey I want to get out of work today, have any ideas?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11380772622336
+    m_Localized: I can think of something...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 262281009614848
+    m_Localized: Uses Remaining
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424501387264
+    m_Localized: This is nice!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747392
+    m_Localized: This feels good
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747393
+    m_Localized: This is so relaxing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747394
+    m_Localized: Absolutely delightful!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747395
+    m_Localized: Oh, I'm loving this!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747396
+    m_Localized: I should have done this sooner!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747397
+    m_Localized: This is pure bliss!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747398
+    m_Localized: Total bliss!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747399
+    m_Localized: Sweet satisfaction!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747400
+    m_Localized: Pure pleasure!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747401
+    m_Localized: Simply splendid!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747402
+    m_Localized: Ah..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747403
+    m_Localized: Worth every moment!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747404
+    m_Localized: Like a dream!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747405
+    m_Localized: I'm in paradise!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747406
+    m_Localized: Heavenly delight!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747407
+    m_Localized: "\u2764"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747408
+    m_Localized: Oh, I'm in paradise!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747409
+    m_Localized: Hehe, nice.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747410
+    m_Localized: Ohh!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747411
+    m_Localized: This is a dream come true!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424530747412
+    m_Localized: Oh, it's like magic!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941696
+    m_Localized: :)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941697
+    m_Localized: :D
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941698
+    m_Localized: Mhm..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941699
+    m_Localized: '*glorsh*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941700
+    m_Localized: Wee!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941701
+    m_Localized: '*glorp*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941702
+    m_Localized: Awesome!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941703
+    m_Localized: Fantastic!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941704
+    m_Localized: Incredible!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941705
+    m_Localized: Brilliant!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941706
+    m_Localized: Amazing!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941707
+    m_Localized: Wonderful!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941708
+    m_Localized: Superb!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941709
+    m_Localized: Marvelous!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941710
+    m_Localized: '*splort*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 267424534941711
+    m_Localized: '*blorp*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149630550016
+    m_Localized: Can you hear me agent 789?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298752
+    m_Localized: Alright your target is Boss Shark.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298753
+    m_Localized: They want you to CV them discretely.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298754
+    m_Localized: Embarassed if their coworkers find out what they're into
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298755
+    m_Localized: Check your HUD for your objectives.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27565149668298756
+    m_Localized: Good luck out there, over.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27794504080216064
+    m_Localized: Start game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27794504126353408
+    m_Localized: Quit game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28184462674677760
+    m_Localized: Quick Restart
+    m_Metadata:
+      m_Items: []
+  - m_Id: 33999910783733760
+    m_Localized: Select Contract
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34000825808900096
+    m_Localized: Skip Cutscene
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34000825808900097
+    m_Localized: Go back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985526923264
+    m_Localized: Alright 789, this one is going to be a bit tougher than usual
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700480
+    m_Localized: You have *Three* targets to deal with now
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700481
+    m_Localized: First in the storage room office...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700482
+    m_Localized: Second in the rear IT room...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700483
+    m_Localized: And lastly in the overseers box
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700484
+    m_Localized: As usual, try not to get caught
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700485
+    m_Localized: If you have trouble fitting them all in at once try using the stands
+      scattered around.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35808985543700486
+    m_Localized: Good luck agent.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608362614784
+    m_Localized: ....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974912
+    m_Localized: W-Wait I have a meeting soon...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974913
+    m_Localized: Guess you're sacked!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974914
+    m_Localized: Boss is gonna be so mad...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974915
+    m_Localized: Plenty of room for them too
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974916
+    m_Localized: It's time you took a vacation!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974917
+    m_Localized: Don't mind if I do!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974918
+    m_Localized: You'll make a huge load...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974919
+    m_Localized: Slide on in...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974920
+    m_Localized: In you go cutie...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974921
+    m_Localized: Huff...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974922
+    m_Localized: Oh so warm...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974923
+    m_Localized: mmmm....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974924
+    m_Localized: That was a new shirt!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974925
+    m_Localized: You better not tell anyone!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608391974926
+    m_Localized: No promises
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363520
+    m_Localized: My, what a big tool you have...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363521
+    m_Localized: All the better to eat you with!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363522
+    m_Localized: Big.....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363523
+    m_Localized: And getting bigger!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363524
+    m_Localized: Hows it feel?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363525
+    m_Localized: Wonderful...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363526
+    m_Localized: I want you inside of me...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363527
+    m_Localized: Vore puns, really!?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363528
+    m_Localized: At least buy me dinner first...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363529
+    m_Localized: Sorry, it looks like you're dessert.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363530
+    m_Localized: Oh this is...hot.....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363531
+    m_Localized: You'll love what happens next!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363532
+    m_Localized: Gonna struggle for me...?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363533
+    m_Localized: Only if you say please.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363534
+    m_Localized: I guess this beats work...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363535
+    m_Localized: Think of it as a vacation!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363536
+    m_Localized: Eat my friends too!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363537
+    m_Localized: The more the merrier!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363538
+    m_Localized: Gosh I'm so heavy now...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363539
+    m_Localized: Huff...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363540
+    m_Localized: That was a big one...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363541
+    m_Localized: Hey settle down already!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363542
+    m_Localized: That felt good...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363543
+    m_Localized: All mine...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363544
+    m_Localized: Low
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363545
+    m_Localized: Medium
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363546
+    m_Localized: High
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363547
+    m_Localized: Window Mode
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363548
+    m_Localized: Resolution
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363549
+    m_Localized: Bloom
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363550
+    m_Localized: Motion Blur
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363551
+    m_Localized: Ambient Occlusion
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363552
+    m_Localized: Shadows
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363553
+    m_Localized: Grass
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363554
+    m_Localized: Screen Space Reflections
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363555
+    m_Localized: Anti-Aliasing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363556
+    m_Localized: Film Grain
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363557
+    m_Localized: Master Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363558
+    m_Localized: Sound Effects Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363559
+    m_Localized: Music Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363560
+    m_Localized: Camera FOV
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363561
+    m_Localized: Panini Projection
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363562
+    m_Localized: Depth of Field
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363563
+    m_Localized: Overall Quality
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363564
+    m_Localized: Toggle Walk
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363565
+    m_Localized: Exclusive
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363566
+    m_Localized: Fullscreen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363567
+    m_Localized: Maxed Window
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363568
+    m_Localized: Windowed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363569
+    m_Localized: On
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363570
+    m_Localized: Language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363571
+    m_Localized: Gameplay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363572
+    m_Localized: Audio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363573
+    m_Localized: Options
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363574
+    m_Localized: Off
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41664608400363575
+    m_Localized: Mouse Sensitivity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961408
+    m_Localized: Hint Glyphs
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961409
+    m_Localized: Xbox Controller
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961410
+    m_Localized: DualShock Controller
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961411
+    m_Localized: Keyboard/Mouse
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41665534594961412
+    m_Localized: Automatic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41667057588686848
+    m_Localized: Graphics
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41668013478957056
+    m_Localized: Screen Brightness
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41668828704854016
+    m_Localized: Target Framerate
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41669473738477568
+    m_Localized: VSync
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113281912832
+    m_Localized: What was that?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078656
+    m_Localized: Huh?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078657
+    m_Localized: I thought I heard something...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078658
+    m_Localized: Is that...?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078659
+    m_Localized: Who was that?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44160113307078660
+    m_Localized: Gotta figure out..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219014989762560
+    m_Localized: Slower, please!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122688
+    m_Localized: Let me show you to your new office.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122689
+    m_Localized: Safe? No, not really.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122690
+    m_Localized: Are you sure this is safe?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122691
+    m_Localized: I've got someone for you to meet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122692
+    m_Localized: In your meat!?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122693
+    m_Localized: You'll look much better in me!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015019122694
+    m_Localized: Aren't I pretty enough?!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661248
+    m_Localized: Alright time to get back to work
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511296
+    m_Localized: Ah dang, here we go again.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511297
+    m_Localized: no, nooooo!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511298
+    m_Localized: It was fun while it lasted.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511299
+    m_Localized: I think you looked pretty good in white
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511300
+    m_Localized: Oh! Stop, you're embarassing me...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511301
+    m_Localized: I should have asked for their phone number.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511302
+    m_Localized: There you are.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511303
+    m_Localized: Feeling better?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511304
+    m_Localized: Better than that? No way!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511305
+    m_Localized: Wait, I thought the recumbobulator puts my clothes back?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511306
+    m_Localized: Budget was too small.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511307
+    m_Localized: Darn corporate...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511310
+    m_Localized: Who left you laying around?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511311
+    m_Localized: Lets get you back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511312
+    m_Localized: Third time today, huh?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511313
+    m_Localized: It wasn't my fault this time!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511314
+    m_Localized: Break time is over.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511315
+    m_Localized: What the...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511316
+    m_Localized: Is that a...?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511317
+    m_Localized: That looks so heavy...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511318
+    m_Localized: Huge condom..?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511319
+    m_Localized: Looks like someone had fun.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511320
+    m_Localized: Wish that was me...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511321
+    m_Localized: Well well looks whos slacking off!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511322
+    m_Localized: Sorry let me just roll to my station then.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511323
+    m_Localized: Haha, I'll roll you no worries.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511324
+    m_Localized: Well well looks whos slacking off!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511325
+    m_Localized: Sorry, m'am.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511326
+    m_Localized: Again??
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511327
+    m_Localized: I couldn't resist you!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511328
+    m_Localized: Welcome back!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511329
+    m_Localized: Didn't we just do this?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511330
+    m_Localized: Admit it. You loved it the first time.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511331
+    m_Localized: Back so soon?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511332
+    m_Localized: We have to stop meeting like this!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511333
+    m_Localized: "More?\u2764"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511334
+    m_Localized: Welcome to the club
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511335
+    m_Localized: Melted down to cum already?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511336
+    m_Localized: Nothing left but cum
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511337
+    m_Localized: You'll make a good load.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511338
+    m_Localized: Gone soft on me?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511339
+    m_Localized: Time to make a mess!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511340
+    m_Localized: You better get comfy in there
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511341
+    m_Localized: Welcome aboard.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511342
+    m_Localized: Maybe next one will be more filling
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511343
+    m_Localized: Enjoy your time!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511344
+    m_Localized: Enjoy while it lasts!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511345
+    m_Localized: Relax..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511346
+    m_Localized: Dont worry i will let you out, eventually.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511347
+    m_Localized: Lets see how long you last~
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511348
+    m_Localized: Oh geez, Im so big and round!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511349
+    m_Localized: I wonder how much more i can stuff
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511350
+    m_Localized: Feel free to wriggle around~
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511351
+    m_Localized: Right where you belong~
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511352
+    m_Localized: I will be taking my time with you~
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511353
+    m_Localized: You feel so good down there~
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511354
+    m_Localized: Squirm all you want~
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511355
+    m_Localized: Got a load for me?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511356
+    m_Localized: Oh do I..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511357
+    m_Localized: I'm so pent up...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511358
+    m_Localized: Be gentle okay?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511359
+    m_Localized: uhh.. I'll try.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511360
+    m_Localized: Be quick I've got somewhere to be.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511361
+    m_Localized: I've been waiting so long for someone!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511362
+    m_Localized: Think anyone will see us?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511363
+    m_Localized: I've got someone for you to meet.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49219015027511364
+    m_Localized: Meat?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49223706696273920
+    m_Localized: Nothing left but bunny spunk!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49223706696273921
+    m_Localized: They are so soft now...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49223706696273922
+    m_Localized: That's a lot of cum!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49223706696273923
+    m_Localized: Woah, so much!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661249
+    m_Localized: Breaks over, back to work.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661250
+    m_Localized: Its so nice how you wriggle in there~
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49239933124661251
+    m_Localized: Its so warm!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49313416873562112
+    m_Localized: I cant believe this is finally happening!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49313416902922240
+    m_Localized: Wow, it really is sucking me in!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631384211456
+    m_Localized: Welcome to the GlorpCo corporate station 789...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988672
+    m_Localized: Some of the staff here have requested a bit of downtime.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988673
+    m_Localized: Your targets are as follows...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988674
+    m_Localized: First is the Chaplain Rat...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988675
+    m_Localized: Second is the stations cook...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988676
+    m_Localized: Thirdly is the science team Kangaroo...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988677
+    m_Localized: And lastly, the stations Captain
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988678
+    m_Localized: Unlike previous missions this place is very cramped
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988679
+    m_Localized: You will need to unload frequently to avoid getting stuck....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49407631400988680
+    m_Localized: If you go overboard don't say I didn't warn you...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51459478631534592
+    m_Localized: Credits
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51459478665089025
+    m_Localized: I will be leaking all day...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566463746048
+    m_Localized: Going somwhere buddy?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494784
+    m_Localized: Lets get aquinted deeper!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494785
+    m_Localized: Lets get you tucked away.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494786
+    m_Localized: Lets get a bit closer~
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494787
+    m_Localized: Your colleagues await you
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494788
+    m_Localized: Your friends await you
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494789
+    m_Localized: Oh im going to enjoy this.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494790
+    m_Localized: Down you go
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494791
+    m_Localized: W-Wait!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494792
+    m_Localized: O-Oh Dear...!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896566501494793
+    m_Localized: Toggle Crouch
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282248963149824
+    m_Localized: Office
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675776
+    m_Localized: Loan shark at the office has a mission for you.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675777
+    m_Localized: Warehouse
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675778
+    m_Localized: The cum quota at the warehouse has gone up! Help them out!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675779
+    m_Localized: Station
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675780
+    m_Localized: The tachyon cum study requires your assistance.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675781
+    m_Localized: City
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58282249017675782
+    m_Localized: Time for a mixup with the dragon boss.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58331949737496576
+    m_Localized: Oh no I've been caught!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58331949771051008
+    m_Localized: Press Jump to restart...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303662993408
+    m_Localized: CV the Shark boss!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547840
+    m_Localized: Shark is embarassed about their interests, cock vore them discreetly.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547841
+    m_Localized: Escape the area!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547842
+    m_Localized: After completing primary objectives, escape using the elevator.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547843
+    m_Localized: Don't get caught by the Office security!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547844
+    m_Localized: Security personnel have radios that can report you, be careful.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547845
+    m_Localized: CV the technician Kangaroo!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547846
+    m_Localized: The head tech located in the side power room wants a break from
+      work.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547847
+    m_Localized: CV the Overseer Kangaroo!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547848
+    m_Localized: The overseer in the elevated overlook is pushing the workers too
+      hard! Send them on a vacation and give everyone a break.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547849
+    m_Localized: CV the Office Manager Kangaroo!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547850
+    m_Localized: The storage room manager is getting frisky on the job and wants
+      to try something new.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547851
+    m_Localized: Don't get caught by warehouse security.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547852
+    m_Localized: Use the truck to escape!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547853
+    m_Localized: CV the Captain Kangaroo!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547854
+    m_Localized: The captain needs a vacation, find them in the dark blue secure
+      area.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547855
+    m_Localized: CV the Priest Rat!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547856
+    m_Localized: Located in the temple giving speeches, bring their deviant side
+      into the light!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547857
+    m_Localized: CV the Scientist Kangaroo!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547858
+    m_Localized: A scientist located in the green area wants you to churn them for
+      science!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547859
+    m_Localized: CV the Possum Cook!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547860
+    m_Localized: The head cook wants you to help them try out a new ingredient by
+      turning them into it!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547861
+    m_Localized: CV the Dragon boss!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547862
+    m_Localized: The dragon is reported to have a huge dick and has been churning
+      their own staff, be careful!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59060303696547863
+    m_Localized: Don't get caught by the CV Police.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59064884090425344
+    m_Localized: Leave using one of the exit doors.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59722192836763648
+    m_Localized: New Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59736315477762048
+    m_Localized: Select save slot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59758640264781824
+    m_Localized: Completed objectives
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59758640302530560
+    m_Localized: Completion time
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60079280086372352
+    m_Localized: Return to Main Menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60100337514106880
+    m_Localized: New Record!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729936470016
+    m_Localized: Good work agent, the shark boss is reportedly much nicer after having
+      their kinks indulged. Were making the world hornier, one target at a time!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729965830144
+    m_Localized: Mission complete agent, the warehouse workers were happy to have
+      some time off and the targets are all in high spirits after their "vacation".
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729965830145
+    m_Localized: Another success agent. With the dragon boss given a taste of their
+      own medicine the workers are much happier.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60147729965830146
+    m_Localized: Great work agent! The station staff are all a little hornier with
+      so many of their colleagues talking about their experience with you.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60175060938878976
+    m_Localized: Hide the shark boss (Optional)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60175060938878977
+    m_Localized: Keep the boss churned by leaving their condom in a bathroom!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309898190848
+    m_Localized: Hide the head of security (Optional)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309914968064
+    m_Localized: Stash a condom containing head of security in the security locker
+      room.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309914968065
+    m_Localized: Hide the Janitor (Optional)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60181309914968066
+    m_Localized: Stash a condom containing the janitor in the main hallway bathroom.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60288126066192384
+    m_Localized: You better get comfortable in there
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231205634048
+    m_Localized: I hope you're ready for some heavy lifting Agent.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411264
+    m_Localized: This one won't be like your previous missions.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411265
+    m_Localized: Todays target is Boss Dragon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411266
+    m_Localized: They have been under a lot of pressure lately
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411267
+    m_Localized: This has resulted in them stress eating their staff
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411268
+    m_Localized: Its time they went on a vacation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62087231222411269
+    m_Localized: Be extra careful or you might end up being the one turned white!
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []
