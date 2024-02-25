@@ -1,11 +1,12 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 [SelectionBase]
-public class CharacterLoader : MonoBehaviour {
+public class CharacterLoader : InitializationManagerInitialized {
     [SerializeField] private CharacterSpawnInfo characterSpawnInfo;
 
     public AsyncOperationHandle<Civilian> GetCharacterAsync() {
@@ -13,19 +14,7 @@ public class CharacterLoader : MonoBehaviour {
         return characterSpawnInfo.GetCharacter(transform.position, desiredRotation);
     }
 
-    void Start() {
-        Quaternion desiredRotation = QuaternionExtensions.LookRotationUpPriority(transform.forward, Vector3.up);
-        var handle = characterSpawnInfo.GetCharacter(transform.position, desiredRotation);
-        handle.Completed += OnCompletedSpawnCharacter;
-        SceneLoader.AddLoadingRequirement(this);
-    }
-
-    private void OnDestroy() {
-        SceneLoader.RemoveLoadingRequirement(this);
-    }
-
     private void OnCompletedSpawnCharacter(AsyncOperationHandle<Civilian> obj) {
-        SceneLoader.RemoveLoadingRequirement(this);
         var characterBase = obj.Result;
 
         characterBase.GetBody().position = transform.position;
@@ -37,5 +26,16 @@ public class CharacterLoader : MonoBehaviour {
         characterBase.GetBody().velocity = Vector3.zero;
         
         gameObject.SetActive(false);
+    }
+
+    public override InitializationManager.InitializationStage GetInitializationStage() {
+        return InitializationManager.InitializationStage.AfterMods;
+    }
+
+    public override void OnInitialized(DoneInitializingAction doneInitializingAction) {
+        Quaternion desiredRotation = QuaternionExtensions.LookRotationUpPriority(transform.forward, Vector3.up);
+        var handle = characterSpawnInfo.GetCharacter(transform.position, desiredRotation);
+        handle.Completed += OnCompletedSpawnCharacter;
+        handle.Completed += (obj) => doneInitializingAction?.Invoke(this);
     }
 }

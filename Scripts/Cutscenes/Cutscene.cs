@@ -63,7 +63,7 @@ public class Cutscene {
     }
     public IEnumerator Begin(GameObject owner) {
         yield return null;
-        yield return new WaitUntil(()=>currentPlayingCutscene == null && !SceneLoader.IsLoading());
+        yield return new WaitUntil(()=>currentPlayingCutscene == null && InitializationManager.GetCurrentStage() == InitializationManager.InitializationStage.FinishedLoading);
         GameManager.GetPlayerInput().actions["SkipCutscene"].performed += OnSkip;
         try {
             currentPlayingCutscene = this;

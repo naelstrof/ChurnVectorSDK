@@ -6,6 +6,7 @@ using SimpleJSON;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Assertions;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour {
@@ -36,12 +37,8 @@ public class LevelManager : MonoBehaviour {
         }
 
         loading = true;
-        levels = new List<Level>();
-        instance = this;
-        List<string> keys = new List<string> {"ChurnVectorLevel"};
-        var loadHandle = Addressables.LoadAssetsAsync<Level>(keys, OnFoundLevel, Addressables.MergeMode.Union, false);
-        loadHandle.Completed += (handle) => loading = false;
     }
+
 
     private void OnFoundLevel(Level level) {
         if (levels.Contains(level)) {
@@ -90,7 +87,18 @@ public class LevelManager : MonoBehaviour {
         SaveManager.Save();
     }
 
-    private void Start() {
+    private IEnumerator Start() {
+        yield return new WaitUntil(() => !Modding.IsLoading());
+        levels = new List<Level>();
+        instance = this;
+        
+        List<string> keys = new List<string> {"ChurnVectorLevel"};
+        var loadHandle = Addressables.LoadAssetsAsync<Level>(keys, OnFoundLevel, Addressables.MergeMode.Union, false);
+        loadHandle.Completed += OnLoadedLevels;
+    }
+
+    private void OnLoadedLevels(AsyncOperationHandle<IList<Level>> obj) {
+        loading = false;
         if (GetCurrentLevel() != null) {
             StartLevel(GetCurrentLevel(), false);
         }

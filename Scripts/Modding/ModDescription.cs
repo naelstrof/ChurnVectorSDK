@@ -16,6 +16,10 @@ public class ModDescription {
         public string existingGUID;
         public string replacementGUID;
     }
+
+    public IReadOnlyCollection<ReplacementCharacter> GetReplacementCharacters() {
+        return replacementCharacters.AsReadOnly();
+    }
     
     public ModDescription(FileInfo jsonFileInfo) {
         if (jsonFileInfo.Directory == null) {

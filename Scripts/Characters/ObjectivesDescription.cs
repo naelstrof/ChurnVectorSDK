@@ -1,10 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using UnityEngine;
 
-public class ObjectivesDescription : MonoBehaviour {
+public class ObjectivesDescription : InitializationManagerInitialized {
     [SerializeField, SerializeReference, SubclassSelector]
     private List<Objective> objectives;
 
@@ -18,16 +17,20 @@ public class ObjectivesDescription : MonoBehaviour {
         FindObjectOfType<ObjectiveManager>(true).SetObjectives(objectives);
     }
 
-    private void OnEnable() {
+    public override InitializationManager.InitializationStage GetInitializationStage() {
+        return InitializationManager.InitializationStage.AfterLevelLoad;
+    }
+
+    public override void OnInitialized(DoneInitializingAction doneInitializingAction) {
         foreach (var objective in objectives) {
             objective.OnRegister();
         }
     }
-
-    private void OnDisable() {
+    protected override void OnDestroy() {
         foreach (var objective in objectives) {
             objective.OnUnregister();
         }
+        base.OnDestroy();
     }
     
     public static List<Objective> GetObjectives() {

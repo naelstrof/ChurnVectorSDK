@@ -14,6 +14,16 @@ public class Modding : MonoBehaviour {
     private static List<IResourceLocator> locators = new List<IResourceLocator>();
     private static Dictionary<string, List<Object>> recordedLoads = new();
     public const string uniquePathReplacementID = "{fe63e628-ea59-46e9-8411-850a7865c194}";
+    private static bool loading = true;
+    private static int remainingLoads = 0;
+
+    public static bool IsLoading() => loading || remainingLoads != 0;
+    public static IReadOnlyCollection<Mod> GetMods() {
+        if (IsLoading()) {
+            throw new UnityException( "Tried to get a character before modding was done... Please use the InitializationManager to ensure things are ready...");
+        }
+        return mods.AsReadOnly();
+    }
     
     private struct TagActionPair {
         public string tag;
@@ -56,6 +66,7 @@ public class Modding : MonoBehaviour {
             }
         }
         foreach (var mod in mods) {
+            remainingLoads++;
             mod.finishedLoading += OnModFinishedLoading;
             mod.Load();
         }
@@ -70,6 +81,10 @@ public class Modding : MonoBehaviour {
                     pair.loadedAction?.Invoke(obj);
                 });
             }
+        }
+        remainingLoads--;
+        if (remainingLoads == 0) {
+            loading = false;
         }
     }
 

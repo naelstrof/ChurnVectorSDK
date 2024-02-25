@@ -10,22 +10,24 @@ public class CharacterSpawnInfo {
     [SerializeField] private List<CharacterGroup> overrideGroups;
     [SerializeField] private List<CharacterGroup> overrideUseByGroups;
     private AsyncOperationHandle<Civilian> handle;
-
+    
     public AsyncOperationHandle<Civilian> GetCharacter() {
-        if (handle.IsValid()) {
-            return handle;
-        }
-        //handle = civilianPrefab.LoadAssetAsync<GameObject>();
-        handle = civilianPrefab.InstantiateAsync();
-        handle.Completed += OnLoadComplete;
-        return handle;
+        return GetCharacter(Vector3.zero, Quaternion.identity);
     }
     public AsyncOperationHandle<Civilian> GetCharacter(Vector3 position, Quaternion rotation) {
         if (handle.IsValid()) {
             return handle;
         }
-        //handle = civilianPrefab.LoadAssetAsync<GameObject>();
-        handle = civilianPrefab.InstantiateAsync(position, rotation);
+
+        CivilianReference realReference = civilianPrefab;
+        foreach (var mod in Modding.GetMods()) {
+            foreach (var replacement in mod.GetDescription().GetReplacementCharacters()) {
+                if (replacement.existingGUID == realReference.AssetGUID) {
+                    realReference = new CivilianReference(replacement.replacementGUID);
+                }
+            } 
+        }
+        handle = realReference.InstantiateAsync(position, rotation);
         handle.Completed += OnLoadComplete;
         return handle;
     }

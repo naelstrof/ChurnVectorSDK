@@ -123,11 +123,12 @@ public class Level : ScriptableObject {
             yield return SceneLoader.LoadScene(scene);
         }
         SceneManager.sceneUnloaded += OnEnd;
+        InitializationManager.InitializeAll();
         var cameraSetupRoutine = SetupOrbitCamera();
         var objectiveSetupRoutine = SetupObjectives();
         yield return cameraSetupRoutine;
         yield return objectiveSetupRoutine;
-        yield return new WaitUntil(()=>!SceneLoader.IsLoading());
+        yield return new WaitUntil(()=>InitializationManager.GetCurrentStage() == InitializationManager.InitializationStage.FinishedLoading);
         
         if (FindObjectsOfType<CharacterLoader>(true).Length == 0) {
             Debug.LogError("No character loaders found, place them to spawn the player and NPCs!");

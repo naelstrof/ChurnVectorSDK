@@ -12,19 +12,7 @@ public class SceneLoader : MonoBehaviour {
     private List<bool> activeMemory;
     private static SceneLoader instance;
     private static bool loadingLevel;
-    private static List<MonoBehaviour> loadingStill = new List<MonoBehaviour>();
 
-    public static void AddLoadingRequirement(MonoBehaviour self) {
-        if (!loadingStill.Contains(self)) {
-            loadingStill.Add(self);
-        }
-    }
-    
-    public static void RemoveLoadingRequirement(MonoBehaviour self) {
-        if (loadingStill.Contains(self)) {
-            loadingStill.Remove(self);
-        }
-    }
     private void Awake() {
         if (instance == null) {
             activeMemory = new List<bool>();
@@ -32,15 +20,6 @@ public class SceneLoader : MonoBehaviour {
         } else {
             Destroy(this);
         }
-    }
-
-    public static bool IsLoading() {
-        loadingStill.RemoveAll(MatchNullLoaders);
-        return loadingLevel || loadingStill.Count > 0;
-    }
-
-    private static bool MatchNullLoaders(MonoBehaviour x) {
-        return x == null;
     }
 
     public static Coroutine LoadScene( AssetReferenceScene scene ) {
@@ -69,8 +48,9 @@ public class SceneLoader : MonoBehaviour {
             var handle = Addressables.LoadSceneAsync(scene);
             yield return handle;
             loadingLevel = false;
-            yield return new WaitForSecondsRealtime(1f);
-            yield return new WaitUntil(() => !IsLoading());
+            yield return null;
+            InitializationManager.InitializeAll();
+            yield return new WaitUntil(() => InitializationManager.GetCurrentStage() == InitializationManager.InitializationStage.FinishedLoading);
         } finally {
             loadingLevel = false;
             for (int i=0;i<hideWhileLoading.Count;i++) {

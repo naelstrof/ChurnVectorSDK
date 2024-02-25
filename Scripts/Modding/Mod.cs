@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Steamworks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.AddressableAssets.ResourceLocators;
@@ -42,7 +39,8 @@ public abstract class Mod {
         }
 
         var catalogContents = catalogFile.OpenText().ReadToEnd();
-        catalogContents = catalogContents.Replace(Modding.uniquePathReplacementID, GetModPath().FullName);
+        var jsonValidPath = GetModPath().FullName.Replace(@"\", @"\\");
+        catalogContents = catalogContents.Replace(Modding.uniquePathReplacementID, jsonValidPath);
 
         var catalogOverrideFilePath = Path.Combine(catalogFile.Directory.FullName, uniqueFileName);
         StreamWriter writer = new StreamWriter(catalogOverrideFilePath);

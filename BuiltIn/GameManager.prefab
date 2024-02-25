@@ -7186,6 +7186,8 @@ GameObject:
   - component: {fileID: 4813826164823385680}
   - component: {fileID: 2281652566183328438}
   - component: {fileID: 290909807014089343}
+  - component: {fileID: 5763554425781617895}
+  - component: {fileID: 7733026038034759911}
   m_Layer: 5
   m_Name: GameManager
   m_TagString: Untagged
@@ -7783,6 +7785,30 @@ MonoBehaviour:
     m_SubObjectType: 
     m_EditorAssetChanged: 0
     name: MainMenu
+--- !u!114 &5763554425781617895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4943892592661157620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24df9142ff0a4f845b27c3c89c575d6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7733026038034759911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4943892592661157620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37177ba53af973b41b7295f2a2dd67e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5069517305171113586
 GameObject:
   m_ObjectHideFlags: 0
@@ -15324,7 +15350,7 @@ PrefabInstance:
     - target: {fileID: 4614752349011840884, guid: 00ecd2edd8fc0c74eb29a0bc814af1d4,
         type: 3}
       propertyPath: m_fontSize
-      value: 8
+      value: 8.15
       objectReference: {fileID: 0}
     - target: {fileID: 6702234079679004405, guid: 00ecd2edd8fc0c74eb29a0bc814af1d4,
         type: 3}
