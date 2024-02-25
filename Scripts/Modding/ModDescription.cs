@@ -10,6 +10,12 @@ public class ModDescription {
     private string description;
     private PublishedFileId_t? publishedFileId;
     private Texture2D preview;
+    private List<ReplacementCharacter> replacementCharacters;
+
+    public struct ReplacementCharacter {
+        public string existingGUID;
+        public string replacementGUID;
+    }
     
     public ModDescription(FileInfo jsonFileInfo) {
         if (jsonFileInfo.Directory == null) {
@@ -28,6 +34,17 @@ public class ModDescription {
         }
         if (rootNode.HasKey("title")) {
             title = rootNode["title"];
+        }
+
+        replacementCharacters = new List<ReplacementCharacter>();
+        if (rootNode.HasKey("replacementCharacters")) {
+            JSONArray characters = rootNode["replacementCharacters"].AsArray;
+            foreach (var pair in characters) {
+                replacementCharacters.Add(new ReplacementCharacter {
+                    existingGUID = pair.Value["existingCharacter"],
+                    replacementGUID = pair.Value["replacementCharacter"]
+                });
+            }
         }
 
         var previewPng = new FileInfo(Path.Join(jsonFileInfo.Directory.FullName, "preview.png"));

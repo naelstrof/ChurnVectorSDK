@@ -38,6 +38,7 @@ public class ModProfile : ScriptableObject {
         [SerializeField] private CivilianReference existingCharacter;
         [SerializeField] private CivilianReference replacementCharacter;
         public CivilianReference GetReplacementCharacter() => replacementCharacter;
+        public CivilianReference GetExistingCharacter() => existingCharacter;
     }
     
     [SerializeField] private List<LevelReference> levels;
@@ -139,6 +140,15 @@ public class ModProfile : ScriptableObject {
             }
         }
         infoJson["tags"] = arrayNode;
+        var replacementJSON = new JSONArray();
+        foreach (var replacement in replacementCharacters) {
+            JSONNode characterReplacement = JSONNode.Parse("{}");
+            characterReplacement["existingCharacter"] = replacement.GetExistingCharacter().AssetGUID;
+            characterReplacement["replacementCharacter"] = replacement.GetReplacementCharacter().AssetGUID;
+            replacementJSON.Add(characterReplacement);
+        }
+        infoJson["replacementCharacters"] = replacementJSON;
+        
         StreamWriter infoWriter = new StreamWriter(Path.Combine(Application.persistentDataPath, "mods", name, "info.json"));
         infoWriter.Write(infoJson.ToString(2));
         infoWriter.Close();
