@@ -10,9 +10,12 @@ using UnityEngine.AddressableAssets;
 
 using UnityEditor.AddressableAssets;
 using UnityEditor.AddressableAssets.Build;
+using UnityEditor.AddressableAssets.Build.DataBuilders;
 using UnityEditor.AddressableAssets.Settings;
+using UnityEditor.AddressableAssets.Settings.GroupSchemas;
 using UnityEngine.Rendering;
 
+[CreateAssetMenu(fileName = "New ModProfile", menuName = "Data/Mod Profile", order = 36)]
 public class ModProfile : ScriptableObject {
     [SerializeField]
     private string title;
@@ -49,10 +52,11 @@ public class ModProfile : ScriptableObject {
     [ContextMenu("Build")]
     private void Build() {
         var settings = AddressableAssetSettingsDefaultObject.Settings;
-        var group = settings.FindGroup("Default Local Group");
+        var group = settings.DefaultGroup;
         // Clear the group
         Undo.RecordObject(group, "Set default group to modded items.");
-        foreach (var entry in group.entries) {
+        var entries = new List<AddressableAssetEntry>(group.entries);
+        foreach (var entry in entries) {
             group.RemoveAssetEntry(entry);
         }
         // Add our stuff to the group
@@ -70,8 +74,51 @@ public class ModProfile : ScriptableObject {
                 settings.CreateOrMoveEntry(replacementCharacterID, group, false, false);
             }
         }
-        settings.profileSettings.SetValue(settings.activeProfileId, "Local.BuildPath", Path.Combine("[UnityEngine.Application.persistentDataPath]", "mods", name, "[BuildTarget]"));
-        settings.profileSettings.SetValue(settings.activeProfileId, "Local.LoadPath", Path.Combine(Modding.uniquePathReplacementID, "[BuildTarget]"));
+        var defaultBuildPath = "[UnityEngine.AddressableAssets.Addressables.BuildPath]/[BuildTarget]";
+        var defaultLoadPath = "{UnityEngine.AddressableAssets.Addressables.RuntimePath}/[BuildTarget]";
+        
+        settings.profileSettings.SetValue(settings.activeProfileId, "Local.BuildPath", defaultBuildPath);
+        settings.profileSettings.SetValue(settings.activeProfileId, "Local.LoadPath", defaultLoadPath);
+        
+        var modBuildPath = $"[UnityEngine.Application.persistentDataPath]/mods/{name}/[BuildTarget]";
+        var modLoadPath = $"{Modding.uniquePathReplacementID}/[BuildTarget]";
+
+        var buildPathInfo = settings.profileSettings.GetProfileDataByName("ChurnVectorMod.BuildPath");
+        if (buildPathInfo == null) {
+            settings.profileSettings.CreateValue("ChurnVectorMod.BuildPath", modBuildPath);
+            settings.profileSettings.CreateValue("ChurnVectorMod.LoadPath", modLoadPath);
+            settings.profileSettings.SetValue(settings.activeProfileId, "ChurnVectorMod.BuildPath", modBuildPath);
+            settings.profileSettings.SetValue(settings.activeProfileId, "ChurnVectorMod.LoadPath", modLoadPath);
+        } else {
+            settings.profileSettings.SetValue(settings.activeProfileId, "ChurnVectorMod.BuildPath", modBuildPath);
+            settings.profileSettings.SetValue(settings.activeProfileId, "ChurnVectorMod.LoadPath", modLoadPath);
+        }
+
+        ExternalCatalogSetup externalCatalog = ScriptableObject.CreateInstance<ExternalCatalogSetup>();
+        externalCatalog.AssetGroups = new List<AddressableAssetGroup> { group };
+        buildPathInfo = settings.profileSettings.GetProfileDataByName("ChurnVectorMod.BuildPath");
+        externalCatalog.BuildPath.SetVariableById(settings, buildPathInfo.Id);
+        var runtimeLoadPathInfo = settings.profileSettings.GetProfileDataByName("ChurnVectorMod.LoadPath");
+        externalCatalog.RuntimeLoadPath.SetVariableById(settings, runtimeLoadPathInfo.Id);
+        externalCatalog.CatalogName = name;
+
+        var schema = group.GetSchema<BundledAssetGroupSchema>();
+        schema.BuildPath.SetVariableById(settings, buildPathInfo.Id);
+        schema.LoadPath.SetVariableById(settings, runtimeLoadPathInfo.Id);
+        
+        BuildScriptPackedMultiCatalogMode multicatalog = (BuildScriptPackedMultiCatalogMode)settings.DataBuilders.FirstOrDefault((builder) => builder is BuildScriptPackedMultiCatalogMode);
+        if (multicatalog == null) {
+            multicatalog = CreateInstance<BuildScriptPackedMultiCatalogMode>();
+            multicatalog.ExternalCatalogs = new List<ExternalCatalogSetup> { externalCatalog };
+            AssetDatabase.CreateAsset(multicatalog, Path.Combine(settings.DataBuilderFolder, "BuildScriptPackedMultiCatalog.asset"));
+            Undo.RecordObject(settings, "Added builder to settings.");
+            settings.DataBuilders.Add(multicatalog);
+        }
+        Undo.RecordObject(multicatalog, "Set externalCatalogs");
+        multicatalog.ExternalCatalogs = new List<ExternalCatalogSetup> { externalCatalog };
+        Undo.RecordObject(settings, "Set active build index");
+        settings.ActivePlayerDataBuilderIndex = settings.DataBuilders.IndexOf(multicatalog);
+
         BuildForPlatform(BuildTarget.StandaloneWindows64);
         //BuildForPlatform(BuildTarget.StandaloneLinux64);
         //BuildForPlatform(BuildTarget.StandaloneOSX);
@@ -89,6 +136,8 @@ public class ModProfile : ScriptableObject {
         }
         infoJson["tags"] = arrayNode;
         StreamWriter infoWriter = new StreamWriter(Path.Combine(Application.persistentDataPath, "mods", name, "info.json"));
+        infoWriter.Write(infoJson.ToString(2));
+        infoWriter.Close();
         WriteOutSpriteToPath(Path.Combine(Application.persistentDataPath, "mods", name, "preview.png"), icon);
     }
 
