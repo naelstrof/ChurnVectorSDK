@@ -7,6 +7,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 
 public static class FixupOnLoad {
+    //Doesn't trigger on import, of course. Why would it??
     [InitializeOnLoadMethod]
     private static void OnLoad() {
         var localizationSettings = AssetDatabase.LoadAssetAtPath<LocalizationSettings>(AssetDatabase.GUIDToAssetPath("c281d4ec57da5fd4ebe03d7b7fd9a9a3"));

@@ -101,6 +101,7 @@ public class ModProfile : ScriptableObject {
         var runtimeLoadPathInfo = settings.profileSettings.GetProfileDataByName("ChurnVectorMod.LoadPath");
         externalCatalog.RuntimeLoadPath.SetVariableById(settings, runtimeLoadPathInfo.Id);
         externalCatalog.CatalogName = name;
+        AssetDatabase.CreateAsset(externalCatalog, Path.Combine(settings.DataBuilderFolder, "ExternalCatalog.asset"));
 
         var schema = group.GetSchema<BundledAssetGroupSchema>();
         schema.BuildPath.SetVariableById(settings, buildPathInfo.Id);
