@@ -64,6 +64,9 @@ public class ModProfile : ScriptableObject {
             settings.CreateOrMoveEntry(level.AssetGUID, group, false, false);
         }
 
+        PlayerSettings.companyName = "ArchivalEugeneNaelstrof";
+        PlayerSettings.productName = "ChurnVector";
+
         var churnVectorCharacters = settings.FindGroup("ChurnVectorCharacters");
         var characterEntries = churnVectorCharacters.entries;
         foreach (var replacement in replacementCharacters) {
