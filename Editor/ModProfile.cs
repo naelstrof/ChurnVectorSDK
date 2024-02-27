@@ -361,7 +361,7 @@ public class ModProfile : ScriptableObject {
 	private void OnSubmitItem(SubmitItemUpdateResult_t param, bool biofailure) {
 		uploading = false;
 		if (param.m_eResult == EResult.k_EResultOK) {
-			SetStatus("Upload success! Check the URL to see your post", 1f, MessageType.Info);
+			SetStatus($"Upload success! Check https://steamcommunity.com/sharedfiles/filedetails/?id={steamWorkshopID} to see your item.", 1f, MessageType.Info);
 			Debug.Log(status.message);
 		} else {
 			SetStatus($"Upload failed with error {param.m_eResult}. Check https://partner.steamgames.com/doc/api/ISteamUGC#SubmitItemUpdateResult_t for more information.", 1f, MessageType.Error);
