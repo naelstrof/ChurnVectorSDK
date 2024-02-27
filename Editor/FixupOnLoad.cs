@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.AddressableAssets;
+using UnityEditor.AddressableAssets.Build;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
 using UnityEngine.Rendering;
@@ -22,5 +24,13 @@ public static class FixupOnLoad {
             QualitySettings.renderPipeline = overrideGraphicsPipelineAsset;
             GraphicsSettings.RegisterRenderPipelineSettings<HDRenderPipeline>(graphicsSettings);
         }
+        
+        var settings = AddressableAssetSettingsDefaultObject.Settings;
+        Undo.RecordObject(settings, "Ensuring settings are set up correctly.");
+        settings.BuildRemoteCatalog = true;
+        settings.UniqueBundleIds = false;
+        settings.ShaderBundleNaming = ShaderBundleNaming.Custom;
+        settings.ShaderBundleCustomNaming = "ChurnVector";
+        EditorUtility.SetDirty(settings);
     }
 }

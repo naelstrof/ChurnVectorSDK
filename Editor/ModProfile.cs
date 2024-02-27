@@ -383,6 +383,7 @@ public class ModProfile : ScriptableObject {
             settings.CreateOrMoveEntry(level.AssetGUID, group, false, false);
         }
 
+
         PlayerSettings.companyName = "ArchivalEugeneNaelstrof";
         PlayerSettings.productName = "ChurnVector";
 
@@ -416,6 +417,8 @@ public class ModProfile : ScriptableObject {
             settings.profileSettings.SetValue(settings.activeProfileId, "ChurnVectorMod.BuildPath", modBuildPath);
             settings.profileSettings.SetValue(settings.activeProfileId, "ChurnVectorMod.LoadPath", modLoadPath);
         }
+        
+        EditorUtility.SetDirty(group);
 
         ExternalCatalogSetup externalCatalog = ScriptableObject.CreateInstance<ExternalCatalogSetup>();
         externalCatalog.AssetGroups = new List<AddressableAssetGroup> { group };
@@ -443,11 +446,16 @@ public class ModProfile : ScriptableObject {
         Undo.RecordObject(settings, "Set active build index");
         settings.ActivePlayerDataBuilderIndex = settings.DataBuilders.IndexOf(multicatalog);
 
+        if (Directory.Exists(GetBuiltPath())) {
+	        Directory.Delete(GetBuiltPath(), true);
+        }
+        
         BuildForPlatform(BuildTarget.StandaloneWindows64);
         //BuildForPlatform(BuildTarget.StandaloneLinux64);
         //BuildForPlatform(BuildTarget.StandaloneOSX);
         
         Save();
+        EditorUtility.RevealInFinder(GetBuiltPath());
     }
 
     private void Save() {
