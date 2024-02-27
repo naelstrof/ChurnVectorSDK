@@ -29,7 +29,6 @@ public class SteamWorkshopDownloader : MonoBehaviour {
     }
 
     private void SetStatus(string message, float progress, StatusType statusType) {
-        Debug.Log($"[Steam Workshop Downloader]: {message}");
         status = new Status {
             message = message,
             progress = progress,

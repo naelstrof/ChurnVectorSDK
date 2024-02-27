@@ -6,9 +6,17 @@ using UnityEngine;
 public abstract class InitializationManagerInitialized : MonoBehaviour {
     public abstract InitializationManager.InitializationStage GetInitializationStage();
 
-    public delegate void DoneInitializingAction(InitializationManagerInitialized obj);
+    public class PleaseRememberToCallDoneInitialization {
+        protected PleaseRememberToCallDoneInitialization() { }
+    }
 
-    public abstract void OnInitialized(DoneInitializingAction doneInitializingAction);
+    public class IWillRememberToCallDoneInitialization : PleaseRememberToCallDoneInitialization {
+        public IWillRememberToCallDoneInitialization() { }
+    }
+
+    public delegate PleaseRememberToCallDoneInitialization DoneInitializingAction(InitializationManagerInitialized obj);
+
+    public abstract PleaseRememberToCallDoneInitialization OnInitialized(DoneInitializingAction doneInitializingAction);
 
     protected virtual void OnEnable() {
         InitializationManager.TrackObject(this);

@@ -21,10 +21,11 @@ public class ObjectivesDescription : InitializationManagerInitialized {
         return InitializationManager.InitializationStage.AfterLevelLoad;
     }
 
-    public override void OnInitialized(DoneInitializingAction doneInitializingAction) {
+    public override PleaseRememberToCallDoneInitialization OnInitialized(DoneInitializingAction doneInitializingAction) {
         foreach (var objective in objectives) {
             objective.OnRegister();
         }
+        return doneInitializingAction?.Invoke(this);
     }
     protected override void OnDestroy() {
         foreach (var objective in objectives) {

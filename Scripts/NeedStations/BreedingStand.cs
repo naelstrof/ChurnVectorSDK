@@ -134,7 +134,7 @@ public class BreedingStand : NeedStation, ICumContainer {
         currentCondom.OnCondomSetFluid(cumAccumulation);
     }
 
-    public override void OnInitialized(DoneInitializingAction doneInitializingAction) {
+    public override PleaseRememberToCallDoneInitialization OnInitialized(DoneInitializingAction doneInitializingAction) {
         if (penetrable == null) {
             penetrable = GetComponent<Penetrable>();
         }
@@ -142,6 +142,6 @@ public class BreedingStand : NeedStation, ICumContainer {
         var link = penetrable.gameObject.AddComponent<LinkPenetrableToCumContainer>();
         link.SetCumContainer(this);
         SetBroken(false);
-        base.OnInitialized(doneInitializingAction);
+        return base.OnInitialized(doneInitializingAction);
     }
 }

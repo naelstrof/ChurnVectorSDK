@@ -52,9 +52,9 @@ public class PlushFuckStation : BreedingStand {
         }
     }
 
-    public override void OnInitialized(DoneInitializingAction doneInitializingAction) {
+    public override PleaseRememberToCallDoneInitialization OnInitialized(DoneInitializingAction doneInitializingAction) {
         penetrable = plushInUse.GetComponentInChildren<Penetrable>();
-        base.OnInitialized(doneInitializingAction);
         plushInUse.SetActive(false);
+        return base.OnInitialized(doneInitializingAction);
     }
 }

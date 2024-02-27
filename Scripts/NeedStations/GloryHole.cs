@@ -188,17 +188,18 @@ public class GloryHole : BreedingStand {
         Gizmos.DrawLine(animator.GetBoneTransform(HumanBodyBones.RightLowerLeg).position, animator.GetBoneTransform(HumanBodyBones.RightFoot).position);
     }
 
-    public override void OnInitialized(DoneInitializingAction doneInitializingAction) {
+    public override PleaseRememberToCallDoneInitialization OnInitialized(DoneInitializingAction doneInitializingAction) {
         handle = submissivePrefabReference.GetCharacter();
+        lastUseTime = Time.time;
         if (handle.IsDone) {
             OnCompletedLoadSubmissive(handle);
-            base.OnInitialized(doneInitializingAction);
             initialized = true;
+            lastUseTime = Time.time;
+            return base.OnInitialized(doneInitializingAction);
         } else {
             done = doneInitializingAction;
             handle.Completed += OnCompletedLoadSubmissive;
+            return new IWillRememberToCallDoneInitialization();
         }
-
-        lastUseTime = Time.time;
     }
 }

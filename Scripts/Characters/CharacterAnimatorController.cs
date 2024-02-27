@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Naelstrof.Easing;
@@ -136,6 +137,15 @@ public class CharacterAnimatorController : MonoBehaviour {
         cockVoreSizeChange.OnEnable();
         cockVoreSizeChange.SetSizeInstant(0f);
         cumInflation.OnEnable();
+        Pauser.pauseChanged += OnPauseChanged;
+    }
+
+    private void OnPauseChanged(bool paused) {
+        enabled = !paused;
+    }
+
+    private void OnDestroy() {
+        Pauser.pauseChanged -= OnPauseChanged;
     }
 
     private void OnEnable() {
@@ -187,6 +197,7 @@ public class CharacterAnimatorController : MonoBehaviour {
         SetUpXRay();
         StartCoroutine(BlinkRoutine());
         hasClothes = true;
+        OnPauseChanged(Pauser.GetPaused());
     }
 
     private void OnGrabOther(IInteractable other) {
@@ -639,7 +650,7 @@ public class CharacterAnimatorController : MonoBehaviour {
             AudioPack.PlayClipAtPoint(clothRipPack, transform.position);
         }
 
-        if (clothRipAsset != null) {
+        if (clothRipAsset != null && clothRip != null) {
             clothRip.transform.SetParent(null, true);
             clothRip.transform.rotation = Quaternion.identity;
             clothRip.Play();

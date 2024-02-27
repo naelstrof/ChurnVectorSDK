@@ -219,9 +219,9 @@ public class NeedStation : InitializationManagerInitialized, IInteractable {
         return InitializationManager.InitializationStage.AfterMods;
     }
 
-    public override void OnInitialized(DoneInitializingAction doneInitializingAction) {
+    public override PleaseRememberToCallDoneInitialization OnInitialized(DoneInitializingAction doneInitializingAction) {
         attachedCollider = GetComponent<Collider>();
-        doneInitializingAction?.Invoke(this);
+        return doneInitializingAction?.Invoke(this);
     }
 
     protected override void OnEnable() {

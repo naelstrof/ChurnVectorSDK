@@ -38,9 +38,10 @@ public class InitializationManager : MonoBehaviour {
         }
         return trackedBehaviors[targetStage].Count == 0;
     }
-    public static void UntrackObject(InitializationManagerInitialized obj) {
+    public static InitializationManagerInitialized.PleaseRememberToCallDoneInitialization UntrackObject(InitializationManagerInitialized obj) {
         var targetStage = obj.GetInitializationStage();
         trackedBehaviors[targetStage].Remove(obj);
+        return new InitializationManagerInitialized.IWillRememberToCallDoneInitialization();
     }
     private void Awake() {
         if (instance == null) {
@@ -68,14 +69,24 @@ public class InitializationManager : MonoBehaviour {
         if (trackedBehaviors.TryGetValue(InitializationStage.AfterMods, out var behaviors)) {
             List<InitializationManagerInitialized> copy = new List<InitializationManagerInitialized>(behaviors);
             foreach (var obj in copy) {
-                obj.OnInitialized(UntrackObject);
+                try {
+                    obj.OnInitialized(UntrackObject);
+                } catch (Exception e) {
+                    Debug.LogException(e);
+                }
             }
             yield return new WaitUntil(() => FinishedLoading(InitializationStage.AfterMods));
         }
+        
         currentStage = InitializationStage.AfterLevelLoad;
         if (trackedBehaviors.TryGetValue(InitializationStage.AfterLevelLoad, out var afterLevelLoadBehaviors)) {
-            foreach (var obj in afterLevelLoadBehaviors) {
-                obj.OnInitialized(UntrackObject);
+            List<InitializationManagerInitialized> copy = new List<InitializationManagerInitialized>(afterLevelLoadBehaviors);
+            foreach (var obj in copy) {
+                try {
+                    obj.OnInitialized(UntrackObject);
+                } catch (Exception e) {
+                    Debug.LogException(e);
+                }
             }
             yield return new WaitUntil(() => FinishedLoading(InitializationStage.AfterLevelLoad));
         }

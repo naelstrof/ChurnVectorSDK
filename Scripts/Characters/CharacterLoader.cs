@@ -32,10 +32,11 @@ public class CharacterLoader : InitializationManagerInitialized {
         return InitializationManager.InitializationStage.AfterMods;
     }
 
-    public override void OnInitialized(DoneInitializingAction doneInitializingAction) {
+    public override PleaseRememberToCallDoneInitialization OnInitialized(DoneInitializingAction doneInitializingAction) {
         Quaternion desiredRotation = QuaternionExtensions.LookRotationUpPriority(transform.forward, Vector3.up);
         var handle = characterSpawnInfo.GetCharacter(transform.position, desiredRotation);
         handle.Completed += OnCompletedSpawnCharacter;
         handle.Completed += (obj) => doneInitializingAction?.Invoke(this);
+        return new IWillRememberToCallDoneInitialization();
     }
 }
