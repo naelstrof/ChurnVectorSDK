@@ -76,12 +76,19 @@ public class Modding : MonoBehaviour {
     }
 
     private void LoadMods() {
-        foreach (var directory in Directory.EnumerateDirectories(Path.Combine(Application.persistentDataPath,"mods"))) {
-            try {
-                AddMod(new LocalMod(new DirectoryInfo(directory)));
-            } catch (Exception e) {
-                Debug.LogException(e);
+        var dir = Path.Combine(Application.persistentDataPath, "mods");
+        if (Directory.Exists(dir)) {
+            foreach (var directory in Directory.EnumerateDirectories(dir)) {
+                try {
+                    AddMod(new LocalMod(new DirectoryInfo(directory)));
+                } catch (Exception e) {
+                    Debug.LogException(e);
+                }
             }
+        }
+        if(mods.Count == 0) {
+            loading = false;
+            return;
         }
         foreach (var mod in mods) {
             remainingLoads++;

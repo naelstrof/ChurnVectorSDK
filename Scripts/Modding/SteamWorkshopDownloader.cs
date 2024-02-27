@@ -54,6 +54,10 @@ public class SteamWorkshopDownloader : MonoBehaviour {
             yield break;
         }
         var subscribedItemCount = SteamUGC.GetNumSubscribedItems();
+        if(subscribedItemCount == 0) {
+            SetStatus("Successfully installed all subscribed items.", 1f, StatusType.Done); 
+            yield break;
+        }
         var subscribedIDs = new PublishedFileId_t[subscribedItemCount];
         uint populatedCount = SteamUGC.GetSubscribedItems(subscribedIDs, subscribedItemCount);
         var queryRequest = SteamUGC.CreateQueryUGCDetailsRequest(subscribedIDs, populatedCount);
