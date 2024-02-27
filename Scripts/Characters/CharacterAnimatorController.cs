@@ -46,8 +46,8 @@ public class CharacterAnimatorController : MonoBehaviour {
     [SerializeField] private Texture2D clothTexture;
     [SerializeField] private Color clothColor;
     
-    [SerializeField] private List<SkinnedMeshRenderer> bodyRenderers;
-    [SerializeField] private List<SkinnedMeshRenderer> clothesRenderers;
+    [FormerlySerializedAs("bodyRenderers")] [SerializeField] private List<SkinnedMeshRenderer> nakedBodyRenderers;
+    [FormerlySerializedAs("clothesRenderers")] [SerializeField] private List<SkinnedMeshRenderer> clothedBodyRenderers;
     [SerializeField] private List<Transform> boobOomphEffect;
     [SerializeField] private InflatableCurve bounceCurve;
     [Header("Cock vore pred settings")]
@@ -55,6 +55,7 @@ public class CharacterAnimatorController : MonoBehaviour {
     [SerializeField] private InflatableCurve tipOpenCurve;
     [Header("Penetrable settings")]
     [SerializeField] private Inflatable cumInflation;
+    [SerializeField] private List<string> dickTipOpenBlendshapes;
     private float totalGrabMovement;
     
     private List<int> dickTipIndicies = new List<int>();
@@ -96,10 +97,10 @@ public class CharacterAnimatorController : MonoBehaviour {
         }
 
         this.hasClothes = hasClothes;
-        foreach (var cloth in clothesRenderers) {
+        foreach (var cloth in clothedBodyRenderers) {
             cloth.gameObject.SetActive(hasClothes);
         }
-        foreach (var body in bodyRenderers) {
+        foreach (var body in nakedBodyRenderers) {
             body.gameObject.SetActive(!hasClothes);
         }
 
@@ -124,12 +125,15 @@ public class CharacterAnimatorController : MonoBehaviour {
         }
         groundMask = LayerMask.GetMask("World");
         if (dick != null) {
-            dickTipIndicies.Add(dick.sharedMesh.GetBlendShapeIndex("TipOpen"));
-            dickTipIndicies.Add(dick.sharedMesh.GetBlendShapeIndex("+ TipOpenMore"));
-            dickTipIndicies.Add(dick.sharedMesh.GetBlendShapeIndex("+ TipOpenMore 2"));
-            dickTipIndicies.Add(dick.sharedMesh.GetBlendShapeIndex("+ TipOpenMore 3"));
-            dickTipIndicies.Add(dick.sharedMesh.GetBlendShapeIndex("HeadLarge"));
-            dickTipIndicies.RemoveAll((a)=>a==-1);
+            foreach (var blendshapeName in dickTipOpenBlendshapes) {
+                var index = dick.sharedMesh.GetBlendShapeIndex(blendshapeName);
+                if (index == -1) {
+                    Debug.LogWarning($"Couldn't find blendshape {blendshapeName} on mesh {dick}", dick.gameObject);
+                    continue;
+                }
+                dickTipIndicies.Add(index);
+            }
+            dickTipIndicies.RemoveAll((a) => a == -1);
         }
 
         boner.OnEnable();
@@ -451,7 +455,7 @@ public class CharacterAnimatorController : MonoBehaviour {
             grimaced = true;
         }
 
-        foreach (var ren in bodyRenderers) {
+        foreach (var ren in nakedBodyRenderers) {
             foreach (var mat in ren.materials) {
                 float maxRadiusFromDickBlendshapes = 0.3f;
                 mat.SetFloat(TipRadius, Mathf.Min(status.dickTipRadius, maxRadiusFromDickBlendshapes)*0.5f);

@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using PenetrationTech;
 using UnityEngine;
 using UnityEngine.VFX;
@@ -52,9 +53,9 @@ public class PlushFuckStation : BreedingStand {
         }
     }
 
-    public override PleaseRememberToCallDoneInitialization OnInitialized(DoneInitializingAction doneInitializingAction) {
+    public override Task OnInitialized() {
         penetrable = plushInUse.GetComponentInChildren<Penetrable>();
         plushInUse.SetActive(false);
-        return base.OnInitialized(doneInitializingAction);
+        return base.OnInitialized();
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -26,9 +27,10 @@ public class InitializationManager : MonoBehaviour {
         if (trackedBehaviors[targetStage].Contains(obj)) {
             return;
         }
-        trackedBehaviors[targetStage].Add(obj);
         if (targetStage < currentStage) {
-            obj.OnInitialized(UntrackObject);
+            obj.OnInitialized();
+        } else {
+            trackedBehaviors[targetStage].Add(obj);
         }
     }
 
@@ -38,10 +40,9 @@ public class InitializationManager : MonoBehaviour {
         }
         return trackedBehaviors[targetStage].Count == 0;
     }
-    public static InitializationManagerInitialized.PleaseRememberToCallDoneInitialization UntrackObject(InitializationManagerInitialized obj) {
+    public static void UntrackObject(InitializationManagerInitialized obj) {
         var targetStage = obj.GetInitializationStage();
-        trackedBehaviors[targetStage].Remove(obj);
-        return new InitializationManagerInitialized.IWillRememberToCallDoneInitialization();
+        trackedBehaviors?[targetStage]?.Remove(obj);
     }
     private void Awake() {
         if (instance == null) {
@@ -62,34 +63,30 @@ public class InitializationManager : MonoBehaviour {
         }
     }
 
+    private async Task InitializeStage(InitializationStage stage) {
+        List<Task> taskPool = new List<Task>();
+        if (trackedBehaviors.TryGetValue(stage, out var behaviors)) {
+            foreach (var obj in behaviors) {
+                try {
+                    taskPool.Add(obj.OnInitialized());
+                } catch (Exception e) {
+                    Debug.LogException(e);
+                }
+            }
+            await Task.WhenAll(taskPool);
+            trackedBehaviors[stage].Clear();
+        }
+    }
+
     private IEnumerator InitializeAllRoutine() {
         currentStage = InitializationStage.Unloaded;
         yield return new WaitUntil(() => !Modding.IsLoading());
         currentStage = InitializationStage.AfterMods;
-        if (trackedBehaviors.TryGetValue(InitializationStage.AfterMods, out var behaviors)) {
-            List<InitializationManagerInitialized> copy = new List<InitializationManagerInitialized>(behaviors);
-            foreach (var obj in copy) {
-                try {
-                    obj.OnInitialized(UntrackObject);
-                } catch (Exception e) {
-                    Debug.LogException(e);
-                }
-            }
-            yield return new WaitUntil(() => FinishedLoading(InitializationStage.AfterMods));
-        }
-        
+        var afterModsTask = InitializeStage(currentStage);
+        yield return new WaitUntil(() => afterModsTask.IsCompleted);
         currentStage = InitializationStage.AfterLevelLoad;
-        if (trackedBehaviors.TryGetValue(InitializationStage.AfterLevelLoad, out var afterLevelLoadBehaviors)) {
-            List<InitializationManagerInitialized> copy = new List<InitializationManagerInitialized>(afterLevelLoadBehaviors);
-            foreach (var obj in copy) {
-                try {
-                    obj.OnInitialized(UntrackObject);
-                } catch (Exception e) {
-                    Debug.LogException(e);
-                }
-            }
-            yield return new WaitUntil(() => FinishedLoading(InitializationStage.AfterLevelLoad));
-        }
+        var afterLevelLoadTask = InitializeStage(currentStage);
+        yield return new WaitUntil(() => afterLevelLoadTask.IsCompleted);
         currentStage = InitializationStage.FinishedLoading;
         initializeRoutine = null;
     }

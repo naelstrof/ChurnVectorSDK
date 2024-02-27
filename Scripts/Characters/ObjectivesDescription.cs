@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class ObjectivesDescription : InitializationManagerInitialized {
@@ -21,11 +22,11 @@ public class ObjectivesDescription : InitializationManagerInitialized {
         return InitializationManager.InitializationStage.AfterLevelLoad;
     }
 
-    public override PleaseRememberToCallDoneInitialization OnInitialized(DoneInitializingAction doneInitializingAction) {
+    public override Task OnInitialized() {
         foreach (var objective in objectives) {
             objective.OnRegister();
         }
-        return doneInitializingAction?.Invoke(this);
+        return base.OnInitialized();
     }
     protected override void OnDestroy() {
         foreach (var objective in objectives) {

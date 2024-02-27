@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ActorActions;
 using AI.Events;
 using PenetrationTech;
@@ -29,37 +30,10 @@ public class GloryHole : BreedingStand {
     private static readonly int UpDownAmount = Animator.StringToHash("UpDownAmount");
     private static readonly int Depth = Animator.StringToHash("Depth");
     private AsyncOperationHandle<Civilian> handle;
-    private DoneInitializingAction done;
     private bool initialized = false;
 
 
     private void OnCompletedLoadSubmissive(AsyncOperationHandle<Civilian> obj) {
-        Transform transform1 = transform;
-        submissive = obj.Result;
-        submissive.GetActor()?.OverrideActionNow(new ActionWaitToBeFilledWithCum());
-        submissiveController = submissive.GetComponentInChildren<CharacterAnimatorController>();
-        civilianController = submissive.GetDisplayAnimator().runtimeAnimatorController;
-        submissive.GetDisplayAnimator().runtimeAnimatorController = submissiveAnimatorController;
-        submissive.SetFacingDirection(submissiveTargetPosition.rotation);
-        submissive.SetIgnorePlayer(true);
-        submissiveLock ??= submissive.ticketLock.AddLock(this);
-        var needStationInfo = submissive.GetDisplayAnimator().gameObject.AddComponent<NeedStationInfo>();
-        needStationInfo.SetOwner(this);
-        needStationInfo.SetTargets(submissiveIKTargets);
-        penetrable = submissive.GetComponentInChildren<Penetrable>();
-        var parentConstraint = submissive.transform.gameObject.AddComponent<ParentConstraint>();
-        parentConstraint.SetSources(new List<ConstraintSource>() { new(){sourceTransform = submissiveTargetPosition, weight = 1f}});
-        parentConstraint.constraintActive = true;
-        parentConstraint.translationOffsets = new[] { Vector3.zero };
-        parentConstraint.rotationOffsets = new[] { Vector3.zero };
-        foreach (var r in submissive.GetComponentsInChildren<SkinnedMeshRenderer>()) {
-            foreach(var mat in r.materials) {
-                mat.EnableKeyword("_PENETRABLEDEFORM_ON");
-            }
-        }
-        submissiveController.SetClothes(false);
-        base.OnInitialized(done);
-        initialized = true;
     }
 
     public override bool CanInteract(CharacterBase from) {
@@ -188,18 +162,33 @@ public class GloryHole : BreedingStand {
         Gizmos.DrawLine(animator.GetBoneTransform(HumanBodyBones.RightLowerLeg).position, animator.GetBoneTransform(HumanBodyBones.RightFoot).position);
     }
 
-    public override PleaseRememberToCallDoneInitialization OnInitialized(DoneInitializingAction doneInitializingAction) {
+    public override async Task OnInitialized() {
         handle = submissivePrefabReference.GetCharacter();
         lastUseTime = Time.time;
-        if (handle.IsDone) {
-            OnCompletedLoadSubmissive(handle);
-            initialized = true;
-            lastUseTime = Time.time;
-            return base.OnInitialized(doneInitializingAction);
-        } else {
-            done = doneInitializingAction;
-            handle.Completed += OnCompletedLoadSubmissive;
-            return new IWillRememberToCallDoneInitialization();
+        await handle.Task;
+        submissive = handle.Result;
+        submissive.GetActor()?.OverrideActionNow(new ActionWaitToBeFilledWithCum());
+        submissiveController = submissive.GetComponentInChildren<CharacterAnimatorController>();
+        civilianController = submissive.GetDisplayAnimator().runtimeAnimatorController;
+        submissive.GetDisplayAnimator().runtimeAnimatorController = submissiveAnimatorController;
+        submissive.SetFacingDirection(submissiveTargetPosition.rotation);
+        submissive.SetIgnorePlayer(true);
+        submissiveLock ??= submissive.ticketLock.AddLock(this);
+        var needStationInfo = submissive.GetDisplayAnimator().gameObject.AddComponent<NeedStationInfo>();
+        needStationInfo.SetOwner(this);
+        needStationInfo.SetTargets(submissiveIKTargets);
+        penetrable = submissive.GetComponentInChildren<Penetrable>();
+        var parentConstraint = submissive.transform.gameObject.AddComponent<ParentConstraint>();
+        parentConstraint.SetSources(new List<ConstraintSource>() { new(){sourceTransform = submissiveTargetPosition, weight = 1f}});
+        parentConstraint.constraintActive = true;
+        parentConstraint.translationOffsets = new[] { Vector3.zero };
+        parentConstraint.rotationOffsets = new[] { Vector3.zero };
+        foreach (var r in submissive.GetComponentsInChildren<SkinnedMeshRenderer>()) {
+            foreach(var mat in r.materials) {
+                mat.EnableKeyword("_PENETRABLEDEFORM_ON");
+            }
         }
+        submissiveController.SetClothes(false);
+        initialized = true;
     }
 }

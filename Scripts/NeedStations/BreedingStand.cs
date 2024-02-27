@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using PenetrationTech;
 using UnityEngine;
 using UnityEngine.VFX;
@@ -134,7 +135,7 @@ public class BreedingStand : NeedStation, ICumContainer {
         currentCondom.OnCondomSetFluid(cumAccumulation);
     }
 
-    public override PleaseRememberToCallDoneInitialization OnInitialized(DoneInitializingAction doneInitializingAction) {
+    public override Task OnInitialized() {
         if (penetrable == null) {
             penetrable = GetComponent<Penetrable>();
         }
@@ -142,6 +143,6 @@ public class BreedingStand : NeedStation, ICumContainer {
         var link = penetrable.gameObject.AddComponent<LinkPenetrableToCumContainer>();
         link.SetCumContainer(this);
         SetBroken(false);
-        return base.OnInitialized(doneInitializingAction);
+        return base.OnInitialized();
     }
 }

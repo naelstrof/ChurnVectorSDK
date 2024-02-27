@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Animations;
 
@@ -219,9 +220,9 @@ public class NeedStation : InitializationManagerInitialized, IInteractable {
         return InitializationManager.InitializationStage.AfterMods;
     }
 
-    public override PleaseRememberToCallDoneInitialization OnInitialized(DoneInitializingAction doneInitializingAction) {
+    public override Task OnInitialized() {
         attachedCollider = GetComponent<Collider>();
-        return doneInitializingAction?.Invoke(this);
+        return base.OnInitialized();
     }
 
     protected override void OnEnable() {

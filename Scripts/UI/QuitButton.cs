@@ -27,15 +27,23 @@ public class QuitButton : MonoBehaviour {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode arg1) {
+    private async void OnSceneLoaded(Scene scene, LoadSceneMode arg1) {
         if (LevelManager.IsLevel(scene)) {
-            quitDisplay.text = returnToMainMenuString.GetLocalizedString();
+            quitDisplay.text = await returnToMainMenuString.GetLocalizedStringAsync().Task;
+            // Destroyed before string get completed...
+            if (quitDisplay == null) {
+                return;
+            }
             var lse = quitDisplay.gameObject.GetComponent<LocalizeStringEvent>();
             if (lse != null) {
                 lse.StringReference = returnToMainMenuString;
             }
         } else {
-            quitDisplay.text = quitString.GetLocalizedString();
+            quitDisplay.text = await quitString.GetLocalizedStringAsync().Task;
+            // Destroyed before string get completed...
+            if (quitDisplay == null) {
+                return;
+            }
             var lse = quitDisplay.gameObject.GetComponent<LocalizeStringEvent>();
             if (lse != null) {
                 lse.StringReference = quitString;

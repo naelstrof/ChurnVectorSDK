@@ -246,21 +246,15 @@ MonoBehaviour:
   volumeSolid: 8
   volumeChurned: 1
   dialogueTheme: {fileID: 11400000, guid: 24dfcba50b4388148a8ceca4d809d64c, type: 2}
-  inputGenerator:
-    rid: 7979792686680375298
   balls:
     inflater:
       bounce: {fileID: 11400000, guid: b2df0e3fa0b4eb74782ac1368940a6b9, type: 2}
       listeners:
       - rid: 7979792681648783413
   headSprite: {fileID: 21300000, guid: d6cc8fe1fa6d2a04eb134e721b1cbc22, type: 3}
-  groups:
-  - {fileID: 11400000, guid: defff335b5c5897459c6d04f5565d930, type: 2}
-  usedByGroups:
-  - {fileID: 11400000, guid: 8db00cd22a4c48141ad6aa6f4896f0c4, type: 2}
   speed: 2.8
+  animationGroup: []
   noseOffset: {x: 0.00000009252983, y: 0.07744124, z: 0.23975444}
-  cockvoreEvent: {fileID: 11400000, guid: d9284e6cc3b6cb14bae070f7e926f8b1, type: 2}
   taserOutput: {fileID: 0}
   references:
     version: 2
@@ -270,9 +264,6 @@ MonoBehaviour:
       data:
         ballsRoot: {fileID: 76467336091759914}
         targetJiggleRig: {fileID: 5013488253486909112}
-    - rid: 7979792686680375298
-      type: {class: InputGeneratorPlayerPossession, ns: , asm: com.gatordragongames.churn-vector.sdk}
-      data: 
 --- !u!1 &9062792784552882153
 GameObject:
   m_ObjectHideFlags: 0
@@ -950,8 +941,8 @@ MonoBehaviour:
   clothRipAsset: {fileID: 0}
   clothTexture: {fileID: 0}
   clothColor: {r: 0, g: 0, b: 0, a: 0}
-  bodyRenderers: []
-  clothesRenderers: []
+  nakedBodyRenderers: []
+  clothedBodyRenderers: []
   boobOomphEffect: []
   bounceCurve: {fileID: 11400000, guid: b2df0e3fa0b4eb74782ac1368940a6b9, type: 2}
   bulgeCurve: {fileID: 11400000, guid: eeef56254ffeb3245b4a7e5332fabbfb, type: 2}
@@ -959,6 +950,12 @@ MonoBehaviour:
   cumInflation:
     bounce: {fileID: 0}
     listeners: []
+  dickTipOpenBlendshapes:
+  - TipOpen
+  - + TipOpenMore
+  - + TipOpenMore 2
+  - + TipOpenMore 3
+  - HeadLarge
   references:
     version: 2
     RefIds:
