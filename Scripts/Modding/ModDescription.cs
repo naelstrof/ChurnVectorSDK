@@ -12,6 +12,8 @@ public class ModDescription {
     private Texture2D preview;
     private List<ReplacementCharacter> replacementCharacters;
 
+    public string GetTitle() => title;
+    public PublishedFileId_t? GetPublishedFileID() => publishedFileId;
     public struct ReplacementCharacter {
         public string existingGUID;
         public string replacementGUID;

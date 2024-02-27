@@ -210,6 +210,7 @@ public class ModProfile : ScriptableObject {
 		var handle = SteamRemoteStorage.UGCDownloadToLocation(details.m_hPreviewFile, GetSteamDownloadPreviewPath(), 0);
 		onFinishedDownload.Set(handle);
 		SetStatus("Downloading workshop preview.", 0f, MessageType.Info);
+        EditorUtility.SetDirty(this);
     }
 
     private void OnFinishDownloadPreview(RemoteStorageDownloadUGCResult_t param, bool biofailure) {
@@ -231,7 +232,9 @@ public class ModProfile : ScriptableObject {
         ti.textureType = TextureImporterType.Sprite;
         ti.SaveAndReimport();
         Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(assetPath);
+        Undo.RecordObject(this, "Changed icon");
         previewIcon = sprite;
+        EditorUtility.SetDirty(this);
 		SetStatus("Successfully downloaded fresh metadata!", 1f, MessageType.Info);
     }
 
@@ -256,6 +259,7 @@ public class ModProfile : ScriptableObject {
 			SetStatus("Please build your mod before trying to upload it!", 1f, MessageType.Error);
 			throw new UnityException(status.message);
 		}
+		
 		if (previewIcon == null) {
 			SetStatus( "You MUST supply a preview icon! This is required, sorry! Use win+shift+s to take a quick crop image in the editor.", 1f, MessageType.Error);
 			throw new UnityException(status.message);
@@ -297,6 +301,8 @@ public class ModProfile : ScriptableObject {
     private UGCUpdateHandle_t ugcUpdateHandle;
 	CallResult<SubmitItemUpdateResult_t> onSubmitItemUpdateCallback;
     private void ItemUpdate() {
+	    Save(); // Make sure we serialize out our item ID, if it has changed.
+	    
 	    SetStatus("Setting item description...", 0f, MessageType.Info);
 		ugcUpdateHandle = SteamUGC.StartItemUpdate(AppID, (PublishedFileId_t)steamWorkshopID);
 		if (!SteamUGC.SetItemDescription(ugcUpdateHandle, description)) {
@@ -440,10 +446,15 @@ public class ModProfile : ScriptableObject {
         BuildForPlatform(BuildTarget.StandaloneWindows64);
         //BuildForPlatform(BuildTarget.StandaloneLinux64);
         //BuildForPlatform(BuildTarget.StandaloneOSX);
+        
+        Save();
+    }
 
+    private void Save() {
         JSONNode infoJson = JSONNode.Parse("{}");
         infoJson["title"] = title;
         infoJson["description"] = description;
+        infoJson["publishedFileId"] = steamWorkshopID;
         AssetDatabase.TryGetGUIDAndLocalFileIdentifier(previewIcon, out string iconGUID, out long localid);
         infoJson["spriteGUID"] = iconGUID;
         var arrayNode = new JSONArray();
@@ -465,7 +476,9 @@ public class ModProfile : ScriptableObject {
         StreamWriter infoWriter = new StreamWriter(Path.Combine(Application.persistentDataPath, "mods", name, "info.json"));
         infoWriter.Write(infoJson.ToString(2));
         infoWriter.Close();
-        WriteOutSpriteToPath(GetBuiltPreviewPath(), previewIcon);
+        if (previewIcon != null) {
+	        WriteOutSpriteToPath(GetBuiltPreviewPath(), previewIcon);
+        }
     }
 
     private void WriteOutSpriteToPath(string path, Sprite sprite) {

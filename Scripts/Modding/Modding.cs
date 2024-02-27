@@ -42,8 +42,27 @@ public class Modding : MonoBehaviour {
         }
         modActions.Add(pair);
     }
-    private void Start() {
+    IEnumerator Start() {
+        yield return new WaitUntil(() => SteamWorkshopDownloader.GetStatus().statusType == SteamWorkshopDownloader.StatusType.Done);
         LoadMods();
+    }
+
+    public static void AddMod(LocalMod newMod) {
+        var newModID = newMod.GetDescription().GetPublishedFileID();
+        if (!newModID.HasValue) {
+            mods.Add(newMod);
+            return;
+        }
+
+        foreach (var mod in mods) {
+            var existingModID = mod.GetDescription().GetPublishedFileID();
+            if (!existingModID.HasValue) {
+                continue;
+            }
+            Debug.LogError($"Tried to install a mod twice! Ignoring one mod named {newMod.GetDescription().GetTitle()}.");
+            return;
+        }
+        mods.Add(newMod);
     }
 
     private void RememberLoad(string tag, Object obj) {
@@ -57,10 +76,9 @@ public class Modding : MonoBehaviour {
     }
 
     private void LoadMods() {
-        mods = new List<Mod>();
         foreach (var directory in Directory.EnumerateDirectories(Path.Combine(Application.persistentDataPath,"mods"))) {
             try {
-                mods.Add(new LocalMod(new DirectoryInfo(directory)));
+                AddMod(new LocalMod(new DirectoryInfo(directory)));
             } catch (Exception e) {
                 Debug.LogException(e);
             }
