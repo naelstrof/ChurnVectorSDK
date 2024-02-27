@@ -29,17 +29,9 @@ public class GloryHole : BreedingStand {
     private static readonly int UpDownAmount = Animator.StringToHash("UpDownAmount");
     private static readonly int Depth = Animator.StringToHash("Depth");
     private AsyncOperationHandle<Civilian> handle;
+    private DoneInitializingAction done;
+    private bool initialized = false;
 
-    protected override void Awake() {
-        handle = submissivePrefabReference.GetCharacter();
-        if (handle.IsDone) {
-            OnCompletedLoadSubmissive(handle);
-        } else {
-            handle.Completed += OnCompletedLoadSubmissive;
-        }
-
-        lastUseTime = Time.time;
-    }
 
     private void OnCompletedLoadSubmissive(AsyncOperationHandle<Civilian> obj) {
         Transform transform1 = transform;
@@ -66,7 +58,8 @@ public class GloryHole : BreedingStand {
             }
         }
         submissiveController.SetClothes(false);
-        base.Awake();
+        base.OnInitialized(done);
+        initialized = true;
     }
 
     public override bool CanInteract(CharacterBase from) {
@@ -86,7 +79,7 @@ public class GloryHole : BreedingStand {
     }
 
     protected override void Update() {
-        if (!handle.IsDone) {
+        if (!initialized) {
             return;
         }
         if (simulation != null) {
@@ -193,5 +186,19 @@ public class GloryHole : BreedingStand {
         Gizmos.DrawLine(animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg).position, animator.GetBoneTransform(HumanBodyBones.LeftFoot).position);
         Gizmos.DrawLine(animator.GetBoneTransform(HumanBodyBones.RightUpperLeg).position, animator.GetBoneTransform(HumanBodyBones.RightLowerLeg).position);
         Gizmos.DrawLine(animator.GetBoneTransform(HumanBodyBones.RightLowerLeg).position, animator.GetBoneTransform(HumanBodyBones.RightFoot).position);
+    }
+
+    public override void OnInitialized(DoneInitializingAction doneInitializingAction) {
+        handle = submissivePrefabReference.GetCharacter();
+        if (handle.IsDone) {
+            OnCompletedLoadSubmissive(handle);
+            base.OnInitialized(doneInitializingAction);
+            initialized = true;
+        } else {
+            done = doneInitializingAction;
+            handle.Completed += OnCompletedLoadSubmissive;
+        }
+
+        lastUseTime = Time.time;
     }
 }

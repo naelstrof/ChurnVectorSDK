@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ChurnVectorCharacters_BundledAssetGroupSchema
   m_EditorClassIdentifier: 
   m_Group: {fileID: 11400000, guid: 2c762abe82009c24a90a707bddfe1ec4, type: 2}
-  m_InternalBundleIdMode: 1
+  m_InternalBundleIdMode: 0
   m_Compression: 1
   m_IncludeAddressInCatalog: 1
   m_IncludeGUIDInCatalog: 1
@@ -41,5 +41,5 @@ MonoBehaviour:
   m_AssetBundleProviderType:
     m_AssemblyName: Unity.ResourceManager, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     m_ClassName: UnityEngine.ResourceManagement.ResourceProviders.AssetBundleProvider
-  m_BundleNaming: 0
+  m_BundleNaming: 1
   m_AssetLoadMode: 0

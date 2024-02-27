@@ -23,6 +23,9 @@ public class InitializationManager : MonoBehaviour {
             trackedBehaviors.Add(targetStage, new List<InitializationManagerInitialized>());
         }
         
+        if (trackedBehaviors[targetStage].Contains(obj)) {
+            return;
+        }
         trackedBehaviors[targetStage].Add(obj);
         if (targetStage < currentStage) {
             obj.OnInitialized(UntrackObject);
@@ -62,15 +65,16 @@ public class InitializationManager : MonoBehaviour {
         currentStage = InitializationStage.Unloaded;
         yield return new WaitUntil(() => !Modding.IsLoading());
         currentStage = InitializationStage.AfterMods;
-        if (trackedBehaviors.ContainsKey(InitializationStage.AfterMods)) {
-            foreach (var obj in trackedBehaviors[InitializationStage.AfterMods]) {
+        if (trackedBehaviors.TryGetValue(InitializationStage.AfterMods, out var behaviors)) {
+            List<InitializationManagerInitialized> copy = new List<InitializationManagerInitialized>(behaviors);
+            foreach (var obj in copy) {
                 obj.OnInitialized(UntrackObject);
             }
             yield return new WaitUntil(() => FinishedLoading(InitializationStage.AfterMods));
         }
         currentStage = InitializationStage.AfterLevelLoad;
-        if (trackedBehaviors.ContainsKey(InitializationStage.AfterLevelLoad)) {
-            foreach (var obj in trackedBehaviors[InitializationStage.AfterLevelLoad]) {
+        if (trackedBehaviors.TryGetValue(InitializationStage.AfterLevelLoad, out var afterLevelLoadBehaviors)) {
+            foreach (var obj in afterLevelLoadBehaviors) {
                 obj.OnInitialized(UntrackObject);
             }
             yield return new WaitUntil(() => FinishedLoading(InitializationStage.AfterLevelLoad));

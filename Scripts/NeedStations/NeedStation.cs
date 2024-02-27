@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
 
-public class NeedStation : MonoBehaviour, IInteractable {
+public class NeedStation : InitializationManagerInitialized, IInteractable {
     [SerializeField, SerializeReference, SubclassSelector]
     private List<GameEventResponse> onUsedResponses;
     private static RaycastHit[] raycastHits = new RaycastHit[16];
@@ -180,10 +180,6 @@ public class NeedStation : MonoBehaviour, IInteractable {
         StartCoroutine(LerpToTransform(from));
     }
 
-    private void Awake() {
-        attachedCollider = GetComponent<Collider>();
-    }
-
     public virtual void OnEndInteract(CharacterBase from) {
         beingUsedBy = null;
         from.ticketLock.RemoveLock(ref lockTicket);
@@ -218,12 +214,22 @@ public class NeedStation : MonoBehaviour, IInteractable {
         Activate();
         beingUsedBy.StopInteractionWith(this);
     }
-    
-    public void OnEnable() {
+
+    public override InitializationManager.InitializationStage GetInitializationStage() {
+        return InitializationManager.InitializationStage.AfterMods;
+    }
+
+    public override void OnInitialized(DoneInitializingAction doneInitializingAction) {
+        attachedCollider = GetComponent<Collider>();
+        doneInitializingAction?.Invoke(this);
+    }
+
+    protected override void OnEnable() {
+        base.OnEnable();
         InteractableLibrary.AddInteractable(this);
     }
 
-    public void OnDisable() {
+    protected void OnDisable() {
         if (beingUsedBy != null) {
             beingUsedBy.StopInteractionWith(this);
         }

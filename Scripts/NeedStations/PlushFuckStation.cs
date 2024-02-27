@@ -12,12 +12,6 @@ public class PlushFuckStation : BreedingStand {
     [SerializeField]
     private Texture2D clothTexture;
 
-    protected override void Awake() {
-        penetrable = plushInUse.GetComponentInChildren<Penetrable>();
-        base.Awake();
-        plushInUse.SetActive(false);
-    }
-
     public override void OnBeginInteract(CharacterBase from) {
         base.OnBeginInteract(from);
         plushInUse.SetActive(true);
@@ -56,5 +50,11 @@ public class PlushFuckStation : BreedingStand {
                 obj.gameObject.SetActive(true);
             }
         }
+    }
+
+    public override void OnInitialized(DoneInitializingAction doneInitializingAction) {
+        penetrable = plushInUse.GetComponentInChildren<Penetrable>();
+        base.OnInitialized(doneInitializingAction);
+        plushInUse.SetActive(false);
     }
 }

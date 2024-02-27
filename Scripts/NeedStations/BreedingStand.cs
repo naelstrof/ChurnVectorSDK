@@ -24,15 +24,6 @@ public class BreedingStand : NeedStation, ICumContainer {
     private static readonly int ThrustBackForward = Animator.StringToHash("ThrustBackForward");
     private static readonly int ThrustDownUp = Animator.StringToHash("ThrustDownUp");
 
-    protected virtual void Awake() {
-        if (penetrable == null) {
-            penetrable = GetComponent<Penetrable>();
-        }
-
-        var link = penetrable.gameObject.AddComponent<LinkPenetrableToCumContainer>();
-        link.SetCumContainer(this);
-        SetBroken(false);
-    }
 
     protected virtual void Update() {
         if (simulation != null) {
@@ -141,5 +132,16 @@ public class BreedingStand : NeedStation, ICumContainer {
 
         cumAccumulation += amount;
         currentCondom.OnCondomSetFluid(cumAccumulation);
+    }
+
+    public override void OnInitialized(DoneInitializingAction doneInitializingAction) {
+        if (penetrable == null) {
+            penetrable = GetComponent<Penetrable>();
+        }
+
+        var link = penetrable.gameObject.AddComponent<LinkPenetrableToCumContainer>();
+        link.SetCumContainer(this);
+        SetBroken(false);
+        base.OnInitialized(doneInitializingAction);
     }
 }

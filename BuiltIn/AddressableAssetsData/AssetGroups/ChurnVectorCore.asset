@@ -3717,8 +3717,449 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 73ac7e50e72da744e84051ae34978410
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Kangaroo/KangarooClothes.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 73c176f402d2c2f4d929aa5da7585d17
+    m_Address: Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipelineResources/Material/DefaultHDMaterial.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a78749087a2c20b4085f3b03ff1dabad
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/Extras/Shared/Vertex
+      Colors.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d671e2589f19fdb4282b287a541136f5
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Kangaroo/Kangaroo.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f16da1f19671dac4497f488ae818416f
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Kangaroo/SimpleKangaroo.fbx
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b32f72eaeaac6064c86ca204efddd3f3
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/VFX/ClothRip.vfx
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7e870ee698555364da4f3c090c44669c
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Sounds/ClothRip.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1ef3e2cd4279a324f832a569f5567ed7
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/Extras/Shared/GenericMaterials/plasticgrain_NormalMap.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7b66c3ed09333fa44894c30b6b9f41ba
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/Extras/Shared/GenericMaterials/plasticgrain_MaskMap.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 56d88090f94407a46accbc23f09122a8
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/Extras/Shared/GenericMaterials/plasticgrain_BaseColorMap.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 441e17f3ae86356469b38b25887d60b8
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/VFX/clothrip_mask.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 34c327237393df34ca64f7b3d040dc26
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Sounds/Public
+      Domain/possum_scream.ogg
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: be6edbd0143e5c845992b8916c80e1bb
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Sounds/Public
+      Domain/nerd_sigh.ogg
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 12c5145cad1b19743a9add8a562126e2
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Sounds/Public
+      Domain/mouse_squeak.ogg
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 422010aba31a68b4ab85939fad02d872
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Sounds/Public
+      Domain/625497__abhisheky948__animal-dog-bark-08.wav
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7ef5c7240a540d4418de6b14cb0b841e
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Sounds/Public
+      Domain/507756__johnny2810__cloth_rip.ogg
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ccbcdb36805e90848a18a8d43d2528df
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Dialogue/PossumScream.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bbe909d225823ef479efa16356f9bb06
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Dialogue/PossumDialogue.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 46c19b20461ff9942a7ea2a1dc2ca230
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Dialogue/NerdSigh.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 89f6803d936315e4aafe928ff38c1f29
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Dialogue/NerdDialogue.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b51576a010fc7284b94fee4808cf717e
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Dialogue/MouseSqueak.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6944d3f6ac6d6c74789c3bc2eceda477
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Dialogue/MouseDialogue.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 93fbc9cbf64b76941887c3334da9a92e
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Dialogue/CopDialogue.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c11ea811cb25e1144bfea3392722f5ce
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Dialogue/Bork.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 41af4fa36b9ca074fb161c23176a7e67
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Rat/RatTailSettings.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6690c213261fff04797bcfc0aa273da4
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Rat/RatMaybe_low_RatMat_Normal.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c40449a7451783943b6c6c5470a19490
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Rat/RatMaybe_low_RatMat_MaskMap.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 41ede70ae9c19d6499460527f1bd8056
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Rat/RatMaybe_low_RatMat_BaseMap.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 55ac9c6a940e8064a9db4fb7fafef7e9
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Rat/RatMaybe_low_Hair_Normal.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1e078097916400b4aa92bf101d2c1649
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Rat/RatMaybe_low_Hair_MaskMap.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eb46809fc2ee5354883ed8de97ce92e2
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Rat/RatMaybe_low_Hair_BaseMap.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bc8d0cb9d0582ec468080a7d3e03b6bb
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Rat/RatMaybe.blend
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c1f4449cbcf3f404d82b5d355002f0ba
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Rat/RatHair.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 182161db3aab8bb40b0a92e0f9bc7543
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Rat/ratClothes_RatClothes_Normal.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8ccbc062384d528459ad97e6104f4583
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Rat/ratClothes_RatClothes_MaskMap.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2cd00e926b1caa140bac34afa66ada6b
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Rat/ratClothes_RatClothes_BaseMap.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 52e42ede3b1439d4d851115d925eb272
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Rat/RatClothes.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0c6093888fe84f645988caef94b99726
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Rat/RatBody.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a03fe93111dee7b4e994c5013a69d862
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Rat/Mouse.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5baee51735e97b0428f330258905984f
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Rat/BodyNaked(Clone).mesh
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dd59d9296299585429cd0bf7792c6f27
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Possum/PossumTailSettings.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 554b3e5f73de1d24b8f274c8cd018b06
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Possum/PossumEyes.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f1f4f6fa4d957e14cbb328a8e2720f67
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Possum/possumEye_BaseColor.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6c720ac4a592b3b40aea993df5fd5b99
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Possum/PossumDick.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4ab6fd58f2672a248aba3473a7a09841
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Possum/PossumBody.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f9cf75a278e31864e8c40976b4131cf5
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Possum/Possum_low_Body_Normal.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 306ddb461a7065041b5f54d95d1fdde0
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Possum/Possum_low_Body_MaskMap.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 71f51a1e61b59b04398bac4f1e5ce3f4
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Possum/Possum_low_Body_BaseMap.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c9d23afc50b547e4bb535e3240be9ef5
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Possum/Possum.fbx
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c40c7e4f3b1a2e347a523554bbc81c18
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Possum/HumanoidDick_DefaultMaterial_Normal.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 824d7aca0704158498c1ef6ffe348929
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Possum/HumanoidDick_DefaultMaterial_MaskMap.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fe8d7918c6a07e049987ea0c1a50d54d
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Possum/HumanoidDick_DefaultMaterial_BaseMap.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f532e999cc8fa1a4cb2d320412049f0d
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Possum/HumanoidDick.blend
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bfb60b13b8ac8134ca4067b132ef5fe2
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Possum/CookFit_CookFit_Normal.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0124fdb902b12c54fa7876a42af6b972
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Possum/CookFit_CookFit_MaskMap.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1c0383fbe6a92e345a22ecee1439bd23
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Possum/CookFit_CookFit_BaseMap.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4e5cb775b191873409576f151ca4f47b
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Possum/Body(Clone).mesh
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d53953fd61bd48f4e9f80c3ae101507d
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Kangaroo/SimpleKangaroo_low_Kangaroo_Normal.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 108ecaa418104c54987c35a7da4a9e5d
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Kangaroo/SimpleKangaroo_low_Kangaroo_MaskMap.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 875bd9994b037c2468b43096e01be5da
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Kangaroo/SimpleKangaroo_low_Kangaroo_BaseMap.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 84c1a4d865536b14494664762d838706
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Kangaroo/KangaTailSettings.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c06064995c261e4468744ed874d02602
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Kangaroo/KangarooClothes_KangaClothes_Normal.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9f4f8877f7f9bac4b8f725453c705ad7
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Kangaroo/KangarooClothes_KangaClothes_MaskMap.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6e70a6feb091db74aa271f9ce5fc9514
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Kangaroo/KangarooClothes_KangaClothes_BaseMap.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 81602a2e4632e824a8d14f9aaafed612
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Kangaroo/Kangaroo.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 90b94ba1441fd9e4fa476accae06a3c5
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Kangaroo/KangaBreastSettings.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a47640ebd65fe4f4a972087bbbfeabf6
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Kangaroo/Body(Clone).mesh
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f47a5fc26c7403346afb008b53a65859
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/JiggleRigSimpleLOD.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 09c5808f14506fc48ab2f3e25dca0e83
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/GenericAnimations/Idle.fbx
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 89293589b4088124183a2396deb3f068
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Dragon/DragonTail.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f3df229021f5b0e44ada029cbc1f1933
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Cop/KoboldEye_OpenGLNormal.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 60eb3afe1ef36f64fad70585a234bd75
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Cop/InnoKobEye_BaseColor.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b76e5bfb04a08ab468764c4d2d823c17
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Cop/Gun.blend
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 99f7710da16e61e4083f2acce102ee53
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Cop/DobermanEquipment_low_DobermanEquipment_Normal.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a9000eadf9d768a4f948fdccd9b717e4
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Cop/DobermanEquipment_low_DobermanEquipment_MaskMap.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 61a7ef33a92803243909dd6dc2671000
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Cop/DobermanEquipment_low_DobermanEquipment_BaseMap.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b7e1711897c4cea47a9b1d2b5527e02c
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Cop/Doberman_low_DobermanBody_Normal.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f65475e988d4993469618334c371372a
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Cop/Doberman_low_DobermanBody_MaskMap.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 20d20425d8bd7ca40af619c9d0a3ad94
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Cop/Doberman_low_DobermanBody_BaseMap.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 18712d14c7c598d45b8abcc91379aebc
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Cop/DobBlockoutRigged.fbx
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 656cac149a4bf9c44a363bf3293d7183
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Cop/CopTailJiggleSettings.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bd6e278cfbc5a834d8c4384a09b20325
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Cop/CopOverrideController.overrideController
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c9cc62cce6baeae498b5b8f9bf0abe6b
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Cop/CopMaterial.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f43ebcae469b0c442b19e50c79083418
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Cop/CopEyes.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 55f82ea674ebd51458a9e931a734e67e
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Cop/CopEquipment.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a7507d38014718541b91822d27a2ac1a
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/Cop/Body(Clone).mesh
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0946975ef88accb48aea4c4c25cc0294
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/BigBounce.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
-  m_Settings: {fileID: 11400000, guid: d6f15c56fb6f6084da6987e06d36c051, type: 2}
+  m_Settings: {fileID: 11400000, guid: 45ba01601caec634d960d95861748758, type: 2}
   m_SchemaSet:
     m_Schemas:
     - {fileID: 11400000, guid: 2c216cc6ad10b854fa31158acc0adb41, type: 2}
