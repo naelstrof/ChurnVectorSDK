@@ -30,7 +30,7 @@ First install the following Unity Packages in order, top to bottom.
 9. `https://github.com/naelstrof/UnityPenetrationTech.git#v8.0.0`
 10. `https://github.com/rlabrecque/Steamworks.NET.git?path=/com.rlabrecque.steamworks.net#20.2.0`
 11. `https://github.com/naelstrof/SkinnedMeshDecals.git#v7.0.0`
-12. `com.unity.addressables`
+12. `https://github.com/juniordiscart/com.unity.addressables.git`
 13. `https://github.com/naelstrof/ChurnVectorSDK.git`
 
 The SDK is very large ~(500mb), we tried to restrict it to only required game assets. Though most are uncompressed source files. I don't want to maintain a separate low-quality branch so too bad!
