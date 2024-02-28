@@ -21,7 +21,7 @@ namespace Naelstrof.Inflatable {
             rig.jiggleSettings = ballBlend;
         }
         public override void OnSizeChanged(float newSize) {
-            ballsRoot.localScale = startScale*Mathf.Max(newSize*0.5f+1f,1f);
+            ballsRoot.localScale = startScale*Mathf.Max(newSize*0.5f+0.5f,1f);
             if (ballBlend != null) {
                 ballBlend.normalizedBlend = Mathf.Clamp01((newSize - 1f) / 2f);
             }
