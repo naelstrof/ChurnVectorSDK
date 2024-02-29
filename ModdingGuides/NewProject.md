@@ -21,7 +21,8 @@ During installing packages, Unity will ask to be rebooted several times. Just pr
 12. `https://github.com/juniordiscart/com.unity.addressables.git`
 13. `https://github.com/naelstrof/ChurnVectorSDK.git`
 
-Something something load the test scene and hit play to see the game actually work
+Once this is done copy the Example Scene folder found in `Packages/Churn Vector SDK/ModdingGuides` to your project, Open the scene within and hit play, if everything worked you should be in the example scene!
+If it doesn't, check your console for errors, sometimes the addressables break and need to be reimported, you can find these in `Packages/Churn Vector SDK/BuildIn`. Right click on the AddressableAssetsData folder and hit Reimport (Not reimport all, just reimport)
 
-After downloading the packages, you will lastly need to make sure that the `steam_appid.txt` file that appears in your Unity
+Lastly need to make sure that the `steam_appid.txt` file that appears in your Unity
 project contains the following: `2686900`, otherwise steam workshop integration won't work.
