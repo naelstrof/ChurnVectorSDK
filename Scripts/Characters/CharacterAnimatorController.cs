@@ -512,7 +512,20 @@ public class CharacterAnimatorController : MonoBehaviour {
         animator.SetBool(Sprinting, character.IsSprinting());
         animator.SetFloat(CrouchAmount, character.GetCrouchAmount());
         var civ = (Civilian)character;
-        animator.SetBool(Aiming, civ.GetAimingWeapon() && civ.IsCop());
+        animator.SetBool(Aiming, (civ.GetAimingWeapon() || civ.GetTaseTarget() != null) && civ.IsCop());
+    }
+
+    private float aimLerp;
+    private void OnAnimatorIK(int layerIndex) {
+        var civ = (Civilian)character;
+        bool shouldAim = civ.GetAimingWeapon() && civ.IsCop() && !civ.IsInteracting() && !civ.IsGrabbed();
+        float targetAim = shouldAim ? 1f : 0f;
+        aimLerp = Mathf.MoveTowards(aimLerp, targetAim, Time.deltaTime * 8f);
+        if (aimLerp != 0f) {
+            Vector3 aimPosition = character.transform.position + character.GetLookDirection() * 5f;
+            animator.SetLookAtPosition(aimPosition);
+            animator.SetLookAtWeight(aimLerp*0.75f, aimLerp*0.75f, aimLerp*0.25f, aimLerp*0.25f);
+        }
     }
 
     private void OnMovementChanged(Vector3 wishDirection, Quaternion facingDirection) {
@@ -731,4 +744,5 @@ public class CharacterAnimatorController : MonoBehaviour {
     public void SetCumInflationAmount(float amount) {
         cumInflation.SetSize(Mathf.Sqrt(amount), this);
     }
+    
 }

@@ -40,6 +40,7 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
     [SerializeField]
     private Sprite headSprite;
     public Quaternion GetFacingDirection() => facingDirection;
+    public Vector3 GetLookDirection() => inputGenerator.GetLookDirection();
     public void SetFacingDirection(Quaternion facingDirection) => this.facingDirection = facingDirection;
     private bool wasGrounded;
     public delegate void MovementChangeAction(Vector3 wishDirection, Quaternion facingDirection);
