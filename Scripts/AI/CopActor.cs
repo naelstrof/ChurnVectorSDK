@@ -4,8 +4,6 @@ using UnityEngine;
 namespace AI {
     
 public partial class CharacterActor : Actor {
-    private List<float> baseRoots = new();
-
     public override CharacterBase GetTaseTarget() => character.GetTaseTarget();
     
     public override List<Civilian> GetAllCops() {
@@ -31,12 +29,11 @@ public partial class CharacterActor : Actor {
         if (Vector3.Dot(dirToBarrel, dirToCharacter) < 0f) {
             barrelPosition = character.transform.position;
         }
-        var shot = new ProjectilePrediction.ShotConfiguration(
-            barrelPosition, Vector3.zero, Physics.gravity,
-            targetPosition, velocity,
-            target.GetGrounded() ? Vector3.zero : Physics.gravity, Projectile.speed,
-            delay);
-        if (ProjectilePrediction.TryGetFastestShotDirection(baseRoots, shot, out Vector3 shootDirection)) {
+
+        var shooter = ProjectilePrediction.Target.GetShotTarget(barrelPosition, character.GetBody().velocity, character.GetGrounded());
+        var pTarget = ProjectilePrediction.Target.GetShotTarget(target.transform.position, velocity, target.GetGrounded());
+        var shotQuery = ProjectilePrediction.ShotQuery.GetShotQuery(shooter, pTarget, Projectile.speed, Physics.gravity);
+        if (shotQuery.TryGetAimDirectionForFastball(out Vector3 shootDirection, delay)) {
             aimDirection = shootDirection;
             return true;
         }
