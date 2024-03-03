@@ -57,8 +57,6 @@ Setting materials up is as follows:
 Once all of the materials are set up, Right click in your project window and create a new Prefab.
 Open the prefab, drag your imported model in from the project window and then, in the inspector, set their X and Z position to 0 and the Y position to -1.
 
-> This is important so to highlight this information again, the X and Z position to ZERO (0) and the Y position to Negative one (-1)
-
 > If you have a naked and clothed version these will be clipping through eachother currently, go ahead and expand the Hierarchy to show your armature and meshes. Click on the naked mesh and then in your inspector window click on the tick next to the name in order to disable it. We will configure the clothing values in Part 2 to toggle between the clothed and naked version by programatically enabling and disabling meshes like this.
 
 Drag your prefab into the scene and check that all of the materials are correct and that the character model sits properly with the bottom of their feet lined up with the movement gizmo.
@@ -87,7 +85,7 @@ To configure the Civilian script:
 4) Balls - don't touch this section just yet, this is for setting up the characters naughty bits that we aren't using in this guide
 5) Head Sprite - this is the icon that appears on the players HUD after ingesting a character and what shows up on their condom. If you don't have any art of your character and don't want to draw some yourself, just take a screenshot in blender and use that! (If you want to do that later just pick an existing one for now)
 6) Speed is the rate at which a character moves. Generally its a good idea to keep this under the players base move speed (2.8) so that they can catch up to your character while undetected
-7) Animation Group - this is a group setting used by some animation stations to play different animations depending on the characters animation group. This is currently a work in progress but can be leveraged by modders to make custom animations that only play for their character instead of everyone. (we use "Tall" to play some special animations for the giraffe in the base game!)
+7) Animation Group - this is a group setting used by some animation stations to play different animations depending on the characters animation group. This is currently a work in progress but  we use "Tall" to play some special animations for the giraffe right now!
 For now you will probably want to not touch this unless your character fits one of the pre-defined groups here.
 8) Taser output - Again this is probably not for now, just ignore this value
 
