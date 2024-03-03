@@ -26,3 +26,9 @@ If it doesn't, check your console for errors, sometimes the addressables break a
 
 Lastly need to make sure that the `steam_appid.txt` file that appears in your Unity
 project contains the following: `2686900`, otherwise steam workshop integration won't work.
+
+### Mod Profiles
+As an extra step that you will need to know for when you finish all of this, you need to create a mod profile object by right clicking in your project window and selecting `Create -> Data -> Mod Profile`
+This profile is how you actually build your mod, anything you can do currently is listed in this object.
+
+Right now you can add new levels and replace characters (If you make a new character for a new level rather than replacing an existing character thats fine too!)
