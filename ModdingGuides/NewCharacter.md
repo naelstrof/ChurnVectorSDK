@@ -135,3 +135,13 @@ Congratulations, you have imported your character into the game with all of the 
 An important note here is that this will not add your character to any existing maps in the game as they are considered a new prefab rather than over-writing an old one.
 In order to do this please refer to the Mod Profile section of the new project document!
 
+### FAQ
+#### My character is digitgrade and the animations make their legs break
+
+This is because Unity's humanoid rig expects just that, a human. In this case this is the same problem that every VRChat player with legs that aren't perfectly straight have encountered and in order to fix this you simply need to add some extra bones and add rotation constraints to the digitgrade ones.
+Its a slightly complex topic to get right and requires a bunch of images so just go google how to do digitgrade legs in unity and you should find a pretty straightforward guide (Kaideart has a really nice one!)
+
+#### My character is floating or in the floor
+
+This happens when the character or the needs station they are using are not set to the right height - if the character walks around fine and then sinks into the floor during a needs station thats fine, you didn't do anything wrong it just means the needs station is wrong.
+If however your character is floating or under the floor while walking around then this is an issue with the character, either you didn't align them right in the avatar configuration menu or you forgot to set their y transform to -1, go check back up the top of the guide as it outlines how to do this.
