@@ -8,15 +8,15 @@ using UnityEngine.AI;
 using UnityEngine.VFX;
 
 public abstract class CharacterDetector : CharacterBase {
-    private static List<CharacterDetector> characters = new ();
+    private static List<CharacterDetector> characters = new();
     public static void AddTrackingGameObjectToAll(GameObject obj) {
-        foreach(var character in characters) {
+        foreach (var character in characters) {
             character.AddTrackingGameObject(obj);
         }
     }
-    
+
     public static void RemoveTrackingGameObjectFromAll(GameObject obj) {
-        foreach(var character in characters) {
+        foreach (var character in characters) {
             character.RemoveTrackingGameObject(obj);
         }
 
@@ -29,13 +29,13 @@ public abstract class CharacterDetector : CharacterBase {
     private static NavMeshPath audioPath;
     private Transform headTransform;
     private Vector3 localEyeCenter;
-    
+
     private const float spottedInSeconds = 3.5f;
     private const float visionConeDegrees = 55f;
     private const float maxSightDistance = 25f;
-    
+
     private bool ignorePlayer;
-    
+
     private List<CharacterDetector> nearbyDetectors;
     private List<GameObject> trackedGameObjects;
     public KnowledgeDatabase knowledgeDatabase;
@@ -68,16 +68,15 @@ public abstract class CharacterDetector : CharacterBase {
         knowledgeDatabase = new KnowledgeDatabase(this);
         characters.Add(this);
         headTransform = GetLimb(HumanBodyBones.Head);
-        localEyeCenter = headTransform.InverseTransformPoint((GetDisplayAnimator().GetBoneTransform(HumanBodyBones.LeftEye).position + GetDisplayAnimator().GetBoneTransform(HumanBodyBones.RightEye).position)*0.5f);
+        localEyeCenter = headTransform.InverseTransformPoint((GetDisplayAnimator().GetBoneTransform(HumanBodyBones.LeftEye).position + GetDisplayAnimator().GetBoneTransform(HumanBodyBones.RightEye).position) * 0.5f);
         audioPath = new NavMeshPath();
         trackedGameObjects = new();
         var detectorDisplayDisks = Instantiate(GameManager.GetLibrary().detectorDisplayDisks, transform, true);
-        Vector3 projection = Vector3.Project(GetDisplayAnimator().GetBoneTransform(HumanBodyBones.Head).position + Vector3.up * 0.5f, Vector3.up);
-        detectorDisplayDisks.transform.position = transform.position + projection + Vector3.down;
+        detectorDisplayDisks.transform.position = GetDisplayAnimator().GetBoneTransform(HumanBodyBones.Head).position + (Vector3.up * 0.5f);
     }
 
     private IEnumerator StartRoutine() {
-        yield return new WaitUntil(()=>GetPlayer() != null);
+        yield return new WaitUntil(() => GetPlayer() != null);
         if (trackedGameObjects.Contains(GetPlayer().gameObject)) {
             yield break;
         }
@@ -94,10 +93,10 @@ public abstract class CharacterDetector : CharacterBase {
         }
 
         Vector3 lookPosition = targetTransform.transform.position;
-        
-        Vector3 diff = (lookPosition-eyePosition);
+
+        Vector3 diff = (lookPosition - eyePosition);
         Vector3 dir = diff.normalized;
-        
+
         Vector3 dirToPlayer = (target.transform.position - transform.position).normalized;
         float angleFromFacingDirectionToPlayer = Vector3.Angle(GetFacingDirection() * Vector3.forward, dirToPlayer);
         if (angleFromFacingDirectionToPlayer > visionConeDegrees) {
@@ -105,7 +104,7 @@ public abstract class CharacterDetector : CharacterBase {
         }
 
         if (diff.magnitude > maxSightDistance) {
-            Debug.DrawLine(eyePosition, eyePosition+dir*maxSightDistance, Color.red);
+            Debug.DrawLine(eyePosition, eyePosition + dir * maxSightDistance, Color.red);
             return false;
         }
         int hits = Physics.RaycastNonAlloc(eyePosition, dir, raycastHits, diff.magnitude, visibilityMask);
@@ -132,19 +131,16 @@ public abstract class CharacterDetector : CharacterBase {
         Vector3 dir = diff.normalized;
 
         float facingAmount = Vector3.Dot(GetFacingDirection() * Vector3.forward, dir);
-        if (facingAmount < 0.1f)
-        {
+        if (facingAmount < 0.1f) {
             return false;
         }
 
-        if (diff.magnitude > maxSightDistance)
-        {
+        if (diff.magnitude > maxSightDistance) {
             Debug.DrawLine(eyePosition, eyePosition + dir * maxSightDistance, Color.red);
             return false;
         }
         int hits = Physics.RaycastNonAlloc(eyePosition, dir, raycastHits, diff.magnitude, solidWorldMask);
-        if (hits > 0)
-        {
+        if (hits > 0) {
             Debug.DrawLine(eyePosition, raycastHits[0].point, Color.red);
             return false;
         }
@@ -188,11 +184,12 @@ public abstract class CharacterDetector : CharacterBase {
 
         if (!CanSee(target)) return;
         float distanceMultiplier = distanceToPlayer / maxSightDistance;
-        float multiplier = (1f-distanceMultiplier);
-        
+        float multiplier = (1f - distanceMultiplier);
+
         if (target.TryGetComponent(out CharacterBase character)) {
-            multiplier *= Mathf.Sqrt(1f+character.GetBallVolume()*0.1f);
+            multiplier *= Mathf.Sqrt(1f + character.GetBallVolume() * 0.1f);
             multiplier *= (character.GetGrabbed() != null ? 2f : 1f);
+            multiplier *= (character.ticketLock.GetLocked() ? 0.5f : 1f);
         } else { // Must be a condom, we detect those much faster.
             multiplier += 1f;
         }
@@ -202,29 +199,29 @@ public abstract class CharacterDetector : CharacterBase {
                 multiplier *= 2f;
             } else if (player.IsSprinting()) {
                 float playerSpeed = player.GetBody().velocity.magnitude;
-                multiplier *= 1f+2f*Mathf.Clamp01(playerSpeed);
+                multiplier *= 1f + 2f * Mathf.Clamp01(playerSpeed);
             } else if (player.GetBallVolume() <= 1f && this is Civilian civilian && civilian.GetActor()?.IsCop() == false && !CanCockVorePlayer()) { // Civilians are less sensitive to a character trying to be sneaky
                 multiplier *= Mathf.Lerp(0.8f, 0.6f, player.GetCrouchAmount());
             }
         }
 
-        float facingAmount = (visionConeDegrees*2f - angleFromFacingDirectionToPlayer)/visionConeDegrees;
+        float facingAmount = (visionConeDegrees * 2f - angleFromFacingDirectionToPlayer) / visionConeDegrees;
         multiplier *= Mathf.Clamp01(facingAmount);
         float maxSpottedInSeconds = 6.5f;
-        knowledgeDatabase.AddAwareness( target,Time.deltaTime * Mathf.Max(1f/maxSpottedInSeconds,1f/spottedInSeconds * multiplier), KnowledgeDatabase.KnowledgeLevel.Alert, target.transform.position);
+        knowledgeDatabase.AddAwareness(target, Time.deltaTime * Mathf.Max(1f / maxSpottedInSeconds, 1f / spottedInSeconds * multiplier), KnowledgeDatabase.KnowledgeLevel.Alert, target.transform.position);
     }
 
     protected override void Update() {
         base.Update();
         if (grabbedBy != null) {
-            knowledgeDatabase.AddAwareness( grabbedBy.gameObject, Time.deltaTime, KnowledgeDatabase.KnowledgeLevel.Alert, grabbedBy.transform.position);
+            knowledgeDatabase.AddAwareness(grabbedBy.gameObject, Time.deltaTime, KnowledgeDatabase.KnowledgeLevel.Alert, grabbedBy.transform.position);
         }
         knowledgeDatabase.Update();
-        if (ticketLock.GetLocked()) {
-            return;
-        }
         foreach (var character in trackedGameObjects) {
             AttemptDetect(character);
+        }
+        if (ticketLock.GetLocked()) {
+            return;
         }
     }
 
@@ -251,7 +248,7 @@ public abstract class CharacterDetector : CharacterBase {
                 yield return new WaitForSeconds(1f);
                 continue;
             }
-            
+
             for (int i = 0; i < hits; i++) {
                 Collider collider = colliders[i];
                 if (!collider.TryGetComponent(out CharacterDetector detector)) continue;
@@ -276,7 +273,7 @@ public abstract class CharacterDetector : CharacterBase {
                     if (audioPath.corners.Length >= 2) {
                         dir = (audioPath.corners[^2] - collider.transform.position).normalized;
                     }
-                    detector.OnHearInvestigativeAudioPack(owner, pack, source.transform.position, dir, audioDistance/unobstructedRadius);
+                    detector.OnHearInvestigativeAudioPack(owner, pack, source.transform.position, dir, audioDistance / unobstructedRadius);
                 }
             }
 
@@ -286,7 +283,7 @@ public abstract class CharacterDetector : CharacterBase {
                 visual.transform.position = source.transform.position;
                 var vfx = visual.GetComponent<VisualEffect>();
                 vfx.visualEffectAsset = GameManager.GetLibrary().audioVisualizer;
-                vfx.SetFloat("InterestLevel", pack.GetInterestLevel().Remap(veryInterestingNoiseLevel,1f,0f,1f)*volume);
+                vfx.SetFloat("InterestLevel", pack.GetInterestLevel().Remap(veryInterestingNoiseLevel, 1f, 0f, 1f) * volume);
                 vfx.SetFloat("Radius", unobstructedRadius);
                 Destroy(visual, 1.1f);
             }
@@ -343,7 +340,7 @@ public abstract class CharacterDetector : CharacterBase {
         GetActor()?.RaiseEvent(new GrabbedByCharacter(from));
         knowledgeDatabase.AddAwareness(from.gameObject, 100f, KnowledgeDatabase.KnowledgeLevel.Alert, from.transform.position);
     }
-    
+
     protected override void OnCharacterImpact(Collider by, ImpactAnalysis impactAnalysis) {
         base.OnCharacterImpact(by, impactAnalysis);
         CharacterBase other = by.GetComponentInParent<CharacterBase>();
@@ -351,10 +348,10 @@ public abstract class CharacterDetector : CharacterBase {
             if (other.IsPlayer()) {
                 knowledgeDatabase.AddAwareness(other.gameObject, 0.5f, KnowledgeDatabase.KnowledgeLevel.Alert, other.transform.position);
             }
-            Vector3 dir = Vector3.Normalize(transform.position-other.transform.position);
+            Vector3 dir = Vector3.Normalize(transform.position - other.transform.position);
             float angle = Vector3.SignedAngle(other.GetBody().velocity.normalized, dir, Vector3.up);
             const float arbitraryPushForceMultiplier = 4f;
-            body.AddForce(Vector3.Cross(other.GetBody().velocity, Mathf.Sign(angle) * Vector3.down)*arbitraryPushForceMultiplier, ForceMode.Impulse);
+            body.AddForce(Vector3.Cross(other.GetBody().velocity, Mathf.Sign(angle) * Vector3.down) * arbitraryPushForceMultiplier, ForceMode.Impulse);
             GetActor()?.RaiseEvent(new Shoved(other, impactAnalysis));
         }
     }
@@ -364,12 +361,12 @@ public abstract class CharacterDetector : CharacterBase {
             return;
         }
         if (cryRoutine == null && knowledge.target == GetPlayer().gameObject && knowledge.GetKnowledgeLevel() == KnowledgeDatabase.KnowledgeLevel.Alert) {
-            StartCoroutine(DialogueLibrary.GetDialogue(DialogueLibrary.DialogueGroupType.CivExclaim).Begin( new List<DialogueCharacter> { DialogueCharacterSpecificCharacter.Get(this), new DialogueCharacterPlayer() }));
+            StartCoroutine(DialogueLibrary.GetDialogue(DialogueLibrary.DialogueGroupType.CivExclaim).Begin(new List<DialogueCharacter> { DialogueCharacterSpecificCharacter.Get(this), new DialogueCharacterPlayer() }));
             cryRoutine = StartCoroutine(Cry());
         }
 
         if (knowledge.GetKnowledgeLevel() == KnowledgeDatabase.KnowledgeLevel.Investigative && lastLevel == KnowledgeDatabase.KnowledgeLevel.Ignorant) {
-            StartCoroutine(DialogueLibrary.GetDialogue(DialogueLibrary.DialogueGroupType.Investigate).Begin( new List<DialogueCharacter> { DialogueCharacterSpecificCharacter.Get(this), new DialogueCharacterPlayer() }));
+            StartCoroutine(DialogueLibrary.GetDialogue(DialogueLibrary.DialogueGroupType.Investigate).Begin(new List<DialogueCharacter> { DialogueCharacterSpecificCharacter.Get(this), new DialogueCharacterPlayer() }));
         }
 
         GetActor()?.RaiseEvent(new KnowledgeChanged(knowledge));
