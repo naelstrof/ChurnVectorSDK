@@ -19,8 +19,4 @@ If something isn't clearly licensed, it is All Rights Reserved.
 
 # Installation
 
-This package on its own will allow you to 'run' churn vector locally with a few considerations and missing assets (namely levels, any assets we haven't released and paid assets that we can't distribute)
-
-To get started, clone this repository via git and then head over to the Modding Guides folder either here or on your machine. The guides are written in Markdown which github automatically formats so you may have an easier time viewing it here.
-
-Start with `ModdingGuides\NewProject.md`, each guide will tell you what you need to have done prior so don't worry about accidentally reading the wrong guide early!
+To make a mod you **don't** need to download this repository via git. Before you do anything head over to the ModdingGuides folder via the Code tab and click on `ModdingGuides\NewProject.md` to get started!
