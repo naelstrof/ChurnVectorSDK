@@ -2,7 +2,7 @@
 
 This guide contains information on setting up a new modding project to a state that will allow you to start any of the other modding guides defined here
 
-To start, create a new unity project using the 3D Core template, to the same Editor version that the SDK is currently created in (Currently 2022.3.10f1)
+To start, create a new unity project using the 3D Core template, to the same Editor version that the SDK is currently created in (Currently [2022.3.10f1](https://unity.com/releases/editor/whats-new/2022.3.10))
 
 With your project created, open the Unity package manager (Window -> Package Manager) and add the following packages via their Git URL:
 During installing packages, Unity will ask to be rebooted several times. Just press OK each time it asks.
