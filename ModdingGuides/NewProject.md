@@ -10,7 +10,7 @@ During installing packages, Unity will ask to be rebooted several times. Just pr
 1. `https://github.com/mackysoft/Unity-SerializeReferenceExtensions.git?path=Assets/MackySoft/MackySoft.SerializeReferenceExtensions#1.3.0`
 2. `https://github.com/naelstrof/UnityScriptableSettings.git#v2.4.5`
 3. `https://github.com/naelstrof/com.naelstrof.extensions.git#v0.0.1`
-4. `https://github.com/naelstrof/com.naelstrof.projectiles.git#v0.0.1`
+4. `https://github.com/naelstrof/com.naelstrof.projectiles.git#v1.0.0`
 5. `https://github.com/naelstrof/com.naelstrof.easing.git#v0.0.1`
 6. `https://github.com/naelstrof/com.naelstrof.orbitcam.git#v0.0.1`
 7. `https://github.com/naelstrof/UnityJigglePhysics.git#v7.0.3`
