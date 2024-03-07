@@ -22,13 +22,18 @@ During installing packages, Unity will ask to be rebooted several times. Just pr
 13. `https://github.com/naelstrof/ChurnVectorSDK.git`
 
 Once this is done copy the Example Scene folder found in `Packages/Churn Vector SDK/ModdingGuides` to your project, Open the scene within and hit play, if everything worked you should be in the example scene!
-If it doesn't, check your console for errors, sometimes the addressables break and need to be reimported, you can find these in `Packages/Churn Vector SDK/BuildIn`. Right click on the AddressableAssetsData folder and hit Reimport (Not reimport all, just reimport)
+If it doesn't, check your console for errors and try the following:
+1) Sometimes the addressables break and need to be reimported, right click on `Packages/Churn Vector SDK/BuiltIn/AddressableAssetsData`. Reimport **(Not reimport all, just reimport)**
+2) Likewise sometimes the effects break, you can tell if when you hit play the effects like the pot breaking or funny white liquid come out as squares. Reimport `Packages/Churn Vector Sdk/BuiltIn/VFX`
+3) You might also run into an issue where the scripts fail to import, find `Packages/Churn Vector Sdk/Scripts` and reimport the folder.
 
-Lastly need to make sure that the `steam_appid.txt` file that appears in your Unity
-project contains the following: `2686900`, otherwise steam workshop integration won't work.
+Lastly need to make sure that the `steam_appid.txt` file that appears in your Unity project contains the following: `2686900`, otherwise steam workshop integration won't work.
+Note that this may not appear when you first run the game so just remember this for later.
 
 ### Mod Profiles
 As an extra step that you will need to know for when you finish all of this, you need to create a mod profile object by right clicking in your project window and selecting `Create -> Data -> Mod Profile`
 This profile is how you actually build your mod, anything you can do currently is listed in this object.
 
 Right now you can add new levels and replace characters (If you make a new character for a new level rather than replacing an existing character thats fine too!)
+
+Congratulations, with your project set up you may now continue and learn how to [Import a new character](https://github.com/naelstrof/ChurnVectorSDK/blob/main/ModdingGuides/NewCharacter.md)
