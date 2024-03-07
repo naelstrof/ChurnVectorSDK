@@ -155,3 +155,8 @@ Its a slightly complex topic to get right and requires a bunch of images so just
 This happens when the character or the needs station they are using are not set to the right height - if the character walks around fine and then sinks into the floor during a needs station thats fine, you didn't do anything wrong it just means the needs station is positioned incorrectly.
 
 If however your character is floating or under the floor while walking between needs stations then this is an issue with the character, either you didn't align them right in the avatar configuration menu or you forgot to set their y transform to -1, go check back up the top of the guide as it outlines how to do this.
+
+#### My characters jaw is open
+
+This happens if you exported your model with the jaw open rather than closed, the easiest solution to this is to go back into the avatar rig configuration, remove the jaw bone and then in the prefab, rotate it to be closed.
+The better fix would be to go back to your 3d editor of choice and set the mouth being closed as the default pose of the avatar but this can be complex to do if the model is already finished and has blend/shape keys so don't worry too much if you can't do that.
