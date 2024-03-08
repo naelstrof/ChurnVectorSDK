@@ -37,7 +37,7 @@ public partial class CharacterBase {
         }
 
         var configuration = new OrbitCameraBasicConfiguration();
-        var pivot = other.GetBallsTransform().gameObject.AddComponent<OrbitCameraPivotBasic>();
+        var pivot = other.voreContainer.GetStorageTransform().gameObject.AddComponent<OrbitCameraPivotBasic>();
         pivot.SetInfo(Vector2.one * 0.5f, 4f, 65f);
         configuration.SetPivot(pivot);
         OrbitCamera.AddConfiguration(configuration);

@@ -34,8 +34,10 @@ public class InputGeneratorPlayerPossession : InputGenerator {
         input.actions["Reload"].performed += OnReloadWeapon;
         input.actions.Enable();
         character = gameObject.GetComponent<CharacterBase>();
-        character.cockVoreMachine.cockVoreStart += OnCockVoreStart;
-        character.cockVoreMachine.cockVoreEnd += OnCockVoreEnd;
+        if (character.voreMachine != null) {
+            character.voreMachine.cockVoreStart += OnCockCockVoreStart;
+            character.voreMachine.cockVoreEnd += OnCockCockVoreEnd;
+        }
         pivots = new List<OrbitCameraPivotBase>();
         shoulderConfig = CreateShoulderConfig(character);
         oogleConfig = CreateOogleConfig(character);
@@ -188,8 +190,10 @@ public class InputGeneratorPlayerPossession : InputGenerator {
         input.actions["CrouchToggle"].performed -= OnCrouchPerformed;
         input.actions["FireWeapon"].canceled -= OnFireWeapon;
         input.actions["Reload"].performed -= OnReloadWeapon;
-        character.cockVoreMachine.cockVoreStart -= OnCockVoreStart;
-        character.cockVoreMachine.cockVoreEnd -= OnCockVoreEnd;
+        if (character.voreMachine != null) {
+            character.voreMachine.cockVoreStart -= OnCockCockVoreStart;
+            character.voreMachine.cockVoreEnd -= OnCockCockVoreEnd;
+        }
     }
 
     private void OnInteractInputStarted(InputAction.CallbackContext ctx) {
@@ -263,10 +267,10 @@ public class InputGeneratorPlayerPossession : InputGenerator {
         return input.actions["AimWeapon"].IsPressed();
     }
 
-    private void OnCockVoreStart(VoreMachine.CockVoreStatus status) {
+    private void OnCockCockVoreStart(CockVoreMachine.VoreStatus status) {
         OrbitCamera.AddConfiguration(oogleConfig);
     }
-    private void OnCockVoreEnd(VoreMachine.CockVoreStatus status) {
+    private void OnCockCockVoreEnd(CockVoreMachine.VoreStatus status) {
         OrbitCamera.RemoveConfiguration(oogleConfig);
     }
 }

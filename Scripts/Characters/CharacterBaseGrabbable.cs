@@ -16,7 +16,7 @@ public class CharacterBaseEditor : Editor {
 }
 #endif
 
-public partial class CharacterBase : IInteractable, ICockVorable {
+public partial class CharacterBase : IInteractable, IVorable {
     [SerializeField,HideInInspector]
     private Vector3 noseOffset;
     
@@ -58,7 +58,7 @@ public partial class CharacterBase : IInteractable, ICockVorable {
             this.self = self;
         }
         public void OnAnimatorIK(int layerIndex) {
-            if (self.IsCockvoring()) {
+            if (self.IsVoring()) {
                 animator.SetLookAtPosition(target.GetDisplayAnimator().GetBoneTransform(HumanBodyBones.Head).position);
                 animator.SetLookAtWeight(0.1f, 0f, 0.1f, 0.5f, 0.1f);
                 return;
@@ -94,7 +94,7 @@ public partial class CharacterBase : IInteractable, ICockVorable {
     public delegate void CockVoreAction(CharacterBase other);
 
     public event CockVoreAction startCockVoreAsPrey;
-    public event VoreMachine.CockVoreEventAction updateCockVoreAsPrey;
+    public event CockVoreMachine.CockVoreEventAction updateCockVoreAsPrey;
     public event CockVoreAction endCockVoreAsPrey;
     public event CockVoreAction cancelCockVoreAsPrey;
 
@@ -141,7 +141,7 @@ public partial class CharacterBase : IInteractable, ICockVorable {
     }
 
     private void UpdateGrabbable() {
-        if (grabbedBy != null && !grabbedBy.IsCockvoring()) {
+        if (grabbedBy != null && !grabbedBy.IsVoring()) {
             Vector3 dir = transform.position - grabbedBy.transform.position;
             grabbedBy.SetFacingDirection(Quaternion.RotateTowards(grabbedBy.GetFacingDirection(),QuaternionExtensions.LookRotationUpPriority(dir.normalized, Vector3.up), Time.deltaTime*270f));
         }
@@ -224,7 +224,7 @@ public partial class CharacterBase : IInteractable, ICockVorable {
         return true;
     }
 
-    public void OnStartCockvoreAsPrey(CharacterBase from) {
+    public void OnStartVoreAsPrey(CharacterBase from) {
         from.ticketLock.RemoveLock(ref grabLock);
         ticket ??= ticketLock.AddLock(from);
 
@@ -235,7 +235,7 @@ public partial class CharacterBase : IInteractable, ICockVorable {
         startCockVoreAsPrey?.Invoke(this);
     }
 
-    public void OnCockVoreVisualsUpdateAsPrey(VoreMachine.CockVoreStatus status) {
+    public void OnVoreVisualsUpdateAsPrey(CockVoreMachine.VoreStatus status) {
         var otherCVRotation = GetCockVoreRotation(1f-status.progressAdjusted);
         Quaternion neededRotation = status.dickTipRotation * Quaternion.Inverse(otherCVRotation);
         transform.rotation = neededRotation * transform.rotation;
@@ -254,7 +254,7 @@ public partial class CharacterBase : IInteractable, ICockVorable {
         updateCockVoreAsPrey?.Invoke(status);
     }
 
-    public void OnFinishedCockvoreAsPrey(CharacterBase from) {
+    public void OnFinishedVoreAsPrey(CharacterBase from) {
         body.rotation = QuaternionExtensions.LookRotationUpPriority(transform.forward, Vector3.up);
         if (grabbedBy != null) {
             grabLock ??= grabbedBy.ticketLock.AddLock(this, TicketLock.LockFlags.FacingDirectionLock);
@@ -268,7 +268,7 @@ public partial class CharacterBase : IInteractable, ICockVorable {
         gameObject.SetActive(false);
     }
 
-    public void OnCancelledCockvoreAsPrey(CharacterBase from) {
+    public void OnCancelledVoreAsPrey(CharacterBase from) {
         if (grabbedBy != null) {
             grabLock ??= grabbedBy.ticketLock.AddLock(this, TicketLock.LockFlags.FacingDirectionLock);
         }

@@ -41,9 +41,11 @@ public class BreedingStand : NeedStation, ICumContainer {
 
     protected void FixedUpdate() {
         if (simulation == null || beingUsedBy == null) return;
-        var ballsBody = beingUsedBy.GetBallsRigidbody();
-        if (ballsBody != null) {
-            ballsBody.AddForce(OrbitCamera.GetCamera().transform.forward*8f, ForceMode.Acceleration);
+        if (beingUsedBy.voreContainer is Balls balls) {
+            var ballsBody = balls.GetBallsRigidbody();
+            if (ballsBody != null) {
+                ballsBody.AddForce(OrbitCamera.GetCamera().transform.forward * 8f, ForceMode.Acceleration);
+            }
         }
     }
 
@@ -63,9 +65,12 @@ public class BreedingStand : NeedStation, ICumContainer {
         currentDick.Penetrate(penetrable);
         simulation = new FuckSimulation(OrbitCamera.GetCamera(), currentDick.GetRootBone(), penetrable, currentDick, from.GetDisplayAnimator());
         OrbitCamera.AddConfiguration(fuckConfiguration);
-        var ballsBody = beingUsedBy.GetBallsRigidbody();
-        if (ballsBody != null) {
-            Physics.IgnoreCollision(ballsBody.gameObject.GetComponent<SphereCollider>(), beingUsedBy.GetComponent<CapsuleCollider>(), true);
+        if (from.voreContainer is Balls balls) {
+            var ballsBody = balls.GetBallsRigidbody();
+            if (ballsBody != null) {
+                Physics.IgnoreCollision(ballsBody.gameObject.GetComponent<SphereCollider>(),
+                    beingUsedBy.GetComponent<CapsuleCollider>(), true);
+            }
         }
     }
 
@@ -90,11 +95,14 @@ public class BreedingStand : NeedStation, ICumContainer {
     }
 
     public override void OnEndInteract(CharacterBase from) {
-        var ballsBody = from.GetBallsRigidbody();
-        if (ballsBody != null) {
-            Physics.IgnoreCollision(ballsBody.gameObject.GetComponent<SphereCollider>(), from.GetComponent<CapsuleCollider>(), false);
+        if (from.voreContainer is Balls balls) {
+            var ballsBody = balls.GetBallsRigidbody();
+            if (ballsBody != null) {
+                Physics.IgnoreCollision(ballsBody.gameObject.GetComponent<SphereCollider>(),
+                    from.GetComponent<CapsuleCollider>(), false);
+            }
         }
-        
+
         base.OnEndInteract(from);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;

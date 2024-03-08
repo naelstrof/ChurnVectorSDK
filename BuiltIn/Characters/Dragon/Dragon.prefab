@@ -144,34 +144,34 @@ MonoBehaviour:
   volumeSolid: 22
   volumeChurned: 8
   dialogueTheme: {fileID: 11400000, guid: 24dfcba50b4388148a8ceca4d809d64c, type: 2}
-  inputGenerator:
-    rid: 7979792723557482507
-  balls:
-    inflater:
-      bounce: {fileID: 11400000, guid: 0946975ef88accb48aea4c4c25cc0294, type: 2}
-      listeners:
-      - rid: 1888142181656166402
+  voreContainer:
+    rid: 4566295080408711196
   headSprite: {fileID: 21300000, guid: ad302ab7aaaa5da488643d71f0dccfb1, type: 3}
   speed: 2.5
+  animationGroup: []
+  voreMachine:
+    rid: 4566295080408711193
   noseOffset: {x: -0.0000005157538, y: 0.21486193, z: 0.50899535}
   taserOutput: {fileID: 0}
   references:
     version: 2
     RefIds:
-    - rid: 1888142181656166402
+    - rid: 4566295080408711193
+      type: {class: CockVoreMachine, ns: , asm: com.gatordragongames.churn-vector.sdk}
+      data:
+        dick: {fileID: 4440937284145147774}
+    - rid: 4566295080408711196
+      type: {class: Balls, ns: , asm: com.gatordragongames.churn-vector.sdk}
+      data:
+        inflater:
+          bounce: {fileID: 11400000, guid: b2df0e3fa0b4eb74782ac1368940a6b9, type: 2}
+          listeners:
+          - rid: 4566295080408711197
+    - rid: 4566295080408711197
       type: {class: BallInflatableTransform, ns: Naelstrof.Inflatable, asm: com.gatordragongames.churn-vector.sdk}
       data:
         ballsRoot: {fileID: 8524118899704123236}
         targetJiggleRig: {fileID: 8378805077160646720}
-    - rid: 7979792723557482507
-      type: {class: CharacterActor, ns: AI, asm: com.gatordragongames.churn-vector.sdk}
-      data:
-        debug: 0
-        startingAction:
-          rid: 7979792723557482508
-    - rid: 7979792723557482508
-      type: {class: ActionBeCockVoreHungry, ns: ActorActions, asm: com.gatordragongames.churn-vector.sdk}
-      data: 
 --- !u!114 &2528838446124304494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -713,8 +713,8 @@ MonoBehaviour:
   clothRipAsset: {fileID: 0}
   clothTexture: {fileID: 0}
   clothColor: {r: 0, g: 0, b: 0, a: 0}
-  bodyRenderers: []
-  clothesRenderers: []
+  nakedBodyRenderers: []
+  clothedBodyRenderers: []
   boobOomphEffect:
   - {fileID: 2133556903442954288}
   - {fileID: 1628379526353301680}
@@ -726,6 +726,7 @@ MonoBehaviour:
   cumInflation:
     bounce: {fileID: 0}
     listeners: []
+  dickTipOpenBlendshapes: []
   references:
     version: 2
     RefIds:

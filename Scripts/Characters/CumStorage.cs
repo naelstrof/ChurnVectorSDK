@@ -77,6 +77,11 @@ public class CumStorage {
 
     private List<CumSource> sources;
     public void AddChurnable(IChurnable churnable) {
+        foreach (var s in sources) {
+            if (s.GetChurnable() != churnable) continue;
+            Debug.LogError("Tried to add a churnable twice! This should never happen.");
+            return;
+        }
         var source = new CumSource(churnable);
         sources.Add(source);
         startChurn?.Invoke(source);

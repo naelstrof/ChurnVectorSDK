@@ -25,9 +25,12 @@ public class OrbitCameraCharacterHitmanConfiguration : OrbitCameraConfiguration 
 
     public override OrbitCameraData GetData(Camera cam) {
         if (ballsPivot == null) {
-            if (!character.GetBallsTransform().gameObject.TryGetComponent(out ballsPivot)) {
-                ballsPivot = character.GetBallsTransform().gameObject.AddComponent<OrbitCameraPivotBasic>();
-                ballsPivot.SetInfo(new Vector2(0.5f, 0.4f), 2f, 70f);
+            if (character.voreContainer != null) {
+                if (!character.voreContainer.GetStorageTransform().gameObject.TryGetComponent(out ballsPivot)) {
+                    ballsPivot = character.voreContainer.GetStorageTransform().gameObject
+                        .AddComponent<OrbitCameraPivotBasic>();
+                    ballsPivot.SetInfo(new Vector2(0.5f, 0.4f), 2f, 70f);
+                }
             }
         }
         
@@ -35,7 +38,6 @@ public class OrbitCameraCharacterHitmanConfiguration : OrbitCameraConfiguration 
             lastData ??= OrbitCamera.GetCurrentCameraData();
             return lastData.Value;
         }
-        
         
         // The forward unit vector of the camera, goes from (0,-1,0) to (0,1,0) based on how down/up we're looking.
         Vector3 forward = cam.transform.forward;
@@ -46,9 +48,13 @@ public class OrbitCameraCharacterHitmanConfiguration : OrbitCameraConfiguration 
         OrbitCameraData shoulderCamera = standPivot.GetData(cam);
         OrbitCameraData hitmanCamera = OrbitCameraData.Lerp(shoulderCamera,crouchCamera, character.GetCrouchAmount());
         OrbitCameraData hitmanCameraWithButt = OrbitCameraData.Lerp(buttPivotCenter.GetData(cam),hitmanCamera, downUpSoftReveresed);
-        OrbitCameraData hitmanCameraWithButtAndBalls = OrbitCameraData.Lerp(hitmanCameraWithButt, ballsPivot.GetData(cam), Mathf.Lerp(0f,0.4f,character.GetBallVolume()));
+        if (ballsPivot != null) {
+            OrbitCameraData hitmanCameraWithButtAndBalls = OrbitCameraData.Lerp(hitmanCameraWithButt, ballsPivot.GetData(cam), Mathf.Lerp(0f, 0.4f, character.GetBallVolume()));
+            lastData = hitmanCameraWithButtAndBalls;
+        } else {
+            lastData = hitmanCameraWithButt;
+        }
 
-        lastData = hitmanCameraWithButtAndBalls;
         return lastData.Value;
     }
 }

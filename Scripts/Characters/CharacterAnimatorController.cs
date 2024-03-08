@@ -159,7 +159,6 @@ public class CharacterAnimatorController : MonoBehaviour {
         character.usedInteractable += OnUsedInteractable;
         character.movementChanged += OnMovementChanged;
         character.velocityChanged += OnVelocityChanged;
-        character.ballsChanged += OnBallSizeChanged;
         character.tased += OnTased;
 
         character.grabChanged += OnGrabChanged;
@@ -167,11 +166,18 @@ public class CharacterAnimatorController : MonoBehaviour {
         character.updateCockVoreAsPrey += OnCockVoreUpdateAsPrey;
         character.endCockVoreAsPrey += OnCockVoreEndAsPrey;
         character.cancelCockVoreAsPrey += OnCockVoreEndAsPrey;
+        if (character.voreContainer != null) {
+            if (character.voreContainer is Balls balls) {
+                balls.ballsChanged += OnBallSizeChanged;
+            }
+        }
 
-        character.cockVoreMachine.cockVoreStart += OnCockVoreStart;
-        character.cockVoreMachine.cockVoreUpdate += OnCockVoreProgressChanged;
-        character.cockVoreMachine.cockVoreEnd += OnCockVoreEnd;
-        
+        if (character.voreMachine != null) {
+            character.voreMachine.cockVoreStart += OnCockCockVoreStart;
+            character.voreMachine.cockVoreUpdate += OnCockCockVoreProgressChanged;
+            character.voreMachine.cockVoreEnd += OnCockCockVoreEnd;
+        }
+
         if (character is Civilian civilian) {
             civilian.reloaded += OnReloadWeapon;
         }
@@ -218,25 +224,29 @@ public class CharacterAnimatorController : MonoBehaviour {
     private IEnumerator ChurningRoutine() {
         animator.SetBool(Churning, true);
         float bulgeAmount = 0f;
-        while (!character.GetStorage().GetDoneChurning()) {
-            float movementFreq = 0.25f;
-            float bulgeFreq = 1f;
-            float perlinX = Mathf.PerlinNoise(Time.time*movementFreq, 0f).Remap(0f,1f,-0.25f, 0.25f);
-            float perlinY = Mathf.PerlinNoise(0f, Time.time*movementFreq).Remap(0f,1f,-0.25f,0.25f);
-            foreach (var material in dickMaterials) {
-                material.SetVector(BulgeOffset, new Vector4(perlinX, perlinY, 0f, 0f));
-                bulgeAmount = Mathf.Clamp01(Mathf.Sin(Time.time * bulgeFreq) * 3f);
-                material.SetFloat(BulgeAmount, bulgeAmount);
-            }
-            yield return null;
-        }
+        if (character.voreContainer != null) {
+            while (!character.voreContainer.GetStorage().GetDoneChurning()) {
+                float movementFreq = 0.25f;
+                float bulgeFreq = 1f;
+                float perlinX = Mathf.PerlinNoise(Time.time * movementFreq, 0f).Remap(0f, 1f, -0.25f, 0.25f);
+                float perlinY = Mathf.PerlinNoise(0f, Time.time * movementFreq).Remap(0f, 1f, -0.25f, 0.25f);
+                foreach (var material in dickMaterials) {
+                    material.SetVector(BulgeOffset, new Vector4(perlinX, perlinY, 0f, 0f));
+                    bulgeAmount = Mathf.Clamp01(Mathf.Sin(Time.time * bulgeFreq) * 3f);
+                    material.SetFloat(BulgeAmount, bulgeAmount);
+                }
 
-        while (bulgeAmount != 0f) {
-            bulgeAmount = Mathf.MoveTowards(bulgeAmount, 0f, Time.deltaTime);
-            foreach (var material in dickMaterials) {
-                material.SetFloat(BulgeAmount, bulgeAmount);
+                yield return null;
             }
-            yield return null;
+
+            while (bulgeAmount != 0f) {
+                bulgeAmount = Mathf.MoveTowards(bulgeAmount, 0f, Time.deltaTime);
+                foreach (var material in dickMaterials) {
+                    material.SetFloat(BulgeAmount, bulgeAmount);
+                }
+
+                yield return null;
+            }
         }
 
         animator.SetBool(Churning, false);
@@ -398,7 +408,11 @@ public class CharacterAnimatorController : MonoBehaviour {
         if (character is CharacterDetector detector) {
             detector.knowledgeDatabase.knowledgeLevelChanged += OnKnowledgeLevelChanged;
         }
-        character.GetStorage().startChurn += OnStartChurn;
+
+        if (character.voreContainer != null) {
+            character.voreContainer.GetStorage().startChurn += OnStartChurn;
+        }
+
         character.ticketLock.locksChanged += OnLocksChanged;
     }
 
@@ -407,8 +421,12 @@ public class CharacterAnimatorController : MonoBehaviour {
         character.usedInteractable -= OnUsedInteractable;
         character.movementChanged -= OnMovementChanged;
         character.velocityChanged -= OnVelocityChanged;
-        character.ballsChanged -= OnBallSizeChanged;
-        character.GetStorage().startChurn -= OnStartChurn;
+        if (character.voreContainer != null) {
+            if (character.voreContainer is Balls balls) {
+                balls.ballsChanged -= OnBallSizeChanged;
+            }
+            character.voreContainer.GetStorage().startChurn -= OnStartChurn;
+        }
         character.grabChanged -= OnGrabChanged;
         character.startCockVoreAsPrey -= OnCockVoreStartAsPrey;
         character.updateCockVoreAsPrey -= OnCockVoreUpdateAsPrey;
@@ -422,9 +440,12 @@ public class CharacterAnimatorController : MonoBehaviour {
             civilian.reloaded -= OnReloadWeapon;
         }
 
-        character.cockVoreMachine.cockVoreStart -= OnCockVoreStart;
-        character.cockVoreMachine.cockVoreUpdate -= OnCockVoreProgressChanged;
-        character.cockVoreMachine.cockVoreEnd -= OnCockVoreEnd;
+        if (character.voreMachine != null) {
+
+            character.voreMachine.cockVoreStart -= OnCockCockVoreStart;
+            character.voreMachine.cockVoreUpdate -= OnCockCockVoreProgressChanged;
+            character.voreMachine.cockVoreEnd -= OnCockCockVoreEnd;
+        }
 
         if (balls != null) {
             balls.localPosition = localBallsPosition;
@@ -449,7 +470,7 @@ public class CharacterAnimatorController : MonoBehaviour {
         }
     }
 
-    private void OnCockVoreUpdateAsPrey(VoreMachine.CockVoreStatus status) {
+    private void OnCockVoreUpdateAsPrey(CockVoreMachine.VoreStatus status) {
         if (status.progress > 0.5f && !grimaced) {
             SetEmotion("Grimace", 2f);
             grimaced = true;
@@ -535,21 +556,21 @@ public class CharacterAnimatorController : MonoBehaviour {
         transform.rotation = facingDirection;
     }
 
-    private void OnCockVoreStart(VoreMachine.CockVoreStatus status) {
+    private void OnCockCockVoreStart(CockVoreMachine.VoreStatus status) {
         boner.SetSize(1f, this);
         lastBonerTime = Time.time;
         animator.SetInteger(VoreAnimation, Random.Range(0, 3));
         animator.SetBool("Voring", true);
         cockVoreSizeChange.SetSize(1f, this);
     }
-    private void OnCockVoreEnd(VoreMachine.CockVoreStatus status) {
+    private void OnCockCockVoreEnd(CockVoreMachine.VoreStatus status) {
         status.dickTipRadius = 0f;
         SetDickTipOpenAmount(0f);
         cockVoreSizeChange.SetSize(0f, this);
         animator.SetBool("Voring", false);
     }
 
-    private void OnCockVoreProgressChanged(VoreMachine.CockVoreStatus status) {
+    private void OnCockCockVoreProgressChanged(CockVoreMachine.VoreStatus status) {
         animator.SetFloat(VoringProgress, status.progress);
         float bulgeAdjust = bulgeCurve.EvaluateCurve(status.progress);
         foreach (var mat in dickMaterials) {

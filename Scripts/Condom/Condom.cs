@@ -97,7 +97,7 @@ public class Condom : MonoBehaviour, IInteractable {
             mat.SetVector("_SquishBivector", biVector);
         }
 
-        if (grabbedBy != null && !grabbedBy.IsCockvoring()) {
+        if (grabbedBy != null && !grabbedBy.IsVoring()) {
             Vector3 dir = transform.position - grabbedBy.transform.position;
             grabbedBy.SetFacingDirection(Quaternion.RotateTowards(grabbedBy.GetFacingDirection(),QuaternionExtensions.LookRotationUpPriority(dir.normalized, Vector3.up), Time.deltaTime*270f));
         }

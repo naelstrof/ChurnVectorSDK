@@ -16,8 +16,11 @@ public class ChurnHandler : MonoBehaviour {
     }
 
     private void OnPlayerDisable(CharacterBase player) {
-        player.GetStorage().startChurn -= OnStartChurn;
-        player.GetStorage().drained -= OnDrained;
+        if (player.voreContainer != null) {
+            player.voreContainer.GetStorage().startChurn -= OnStartChurn;
+            player.voreContainer.GetStorage().drained -= OnDrained;
+        }
+
         foreach (var pair in spawnedPrefabs) {
             Destroy(pair.Value.gameObject);
         }
@@ -25,13 +28,15 @@ public class ChurnHandler : MonoBehaviour {
     }
 
     private void OnPlayerEnable(CharacterBase player) {
-        player.GetStorage().startChurn += OnStartChurn;
-        player.GetStorage().drained += OnDrained;
-        foreach (var cumSource in player.GetStorage().GetSources()) {
-            var churnPanelGameObject = Instantiate(churnPanelPrefab.gameObject, transform);
-            var churnPanel = churnPanelGameObject.GetComponent<ChurnPanel>();
-            churnPanel.Initialize(cumSource);
-            spawnedPrefabs.Add(cumSource, churnPanel);
+        if (player.voreContainer != null) {
+            player.voreContainer.GetStorage().startChurn += OnStartChurn;
+            player.voreContainer.GetStorage().drained += OnDrained;
+            foreach (var cumSource in player.voreContainer.GetStorage().GetSources()) {
+                var churnPanelGameObject = Instantiate(churnPanelPrefab.gameObject, transform);
+                var churnPanel = churnPanelGameObject.GetComponent<ChurnPanel>();
+                churnPanel.Initialize(cumSource);
+                spawnedPrefabs.Add(cumSource, churnPanel);
+            }
         }
     }
 

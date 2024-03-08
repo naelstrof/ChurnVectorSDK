@@ -32,8 +32,8 @@ public class MusicManager : MonoBehaviour {
         ObjectiveManager.objectiveChanged += OnObjectivesChanged;
         var player = CharacterBase.GetPlayer();
         if (player != null) {
-            player.cockVoreMachine.cockVoreStart += OnCockVoreStart;
-            player.cockVoreMachine.cockVoreEnd += OnCockVoreEnd;
+            player.voreMachine.cockVoreStart += OnCockCockVoreStart;
+            player.voreMachine.cockVoreEnd += OnCockCockVoreEnd;
         }
         startBriefing.triggered += OnStartBriefing;
         endBriefing.triggered += OnEndBriefing;
@@ -74,12 +74,12 @@ public class MusicManager : MonoBehaviour {
         Switch(briefingState, false);
     }
 
-    private void OnCockVoreStart(VoreMachine.CockVoreStatus status) {
+    private void OnCockCockVoreStart(CockVoreMachine.VoreStatus status) {
         if (KnowledgeDatabase.GetMaxPlayerKnowledgeLevel() == KnowledgeDatabase.KnowledgeLevel.Ignorant) {
             Switch(cockVoreState, false);
         }
     }
-    private void OnCockVoreEnd(VoreMachine.CockVoreStatus status) {
+    private void OnCockCockVoreEnd(CockVoreMachine.VoreStatus status) {
         if (!hasChurned && KnowledgeDatabase.GetMaxPlayerKnowledgeLevel() == KnowledgeDatabase.KnowledgeLevel.Ignorant) {
             hasChurned = true;
             if (currentState != completedPrimaryObjectives) {
@@ -96,8 +96,8 @@ public class MusicManager : MonoBehaviour {
         KnowledgeDatabase.ForcePoll();
         var player = CharacterBase.GetPlayer();
         if (player != null) {
-            player.cockVoreMachine.cockVoreStart += OnCockVoreStart;
-            player.cockVoreMachine.cockVoreEnd += OnCockVoreEnd;
+            player.voreMachine.cockVoreStart += OnCockCockVoreStart;
+            player.voreMachine.cockVoreEnd += OnCockCockVoreEnd;
         }
         hasChurned = false;
         if (scene.name == "MainMenu") {

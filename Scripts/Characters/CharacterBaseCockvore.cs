@@ -9,7 +9,8 @@ public partial class CharacterBase {
     private ParticleSystem leakSystem;
     private Modifier voreSpeedModifier;
     private Coroutine waitRoutine;
-    public VoreMachine cockVoreMachine = new VoreMachine();
+    [SerializeField, SerializeReference, SubclassSelector]
+    public VoreMachine voreMachine;
     private Coroutine churnRoutine;
     
     
@@ -42,12 +43,18 @@ public partial class CharacterBase {
     private void AwakeCockVore() {
         //cockVoreDick = GetComponentInChildren<Penetrator>();
         InitializeCockvoreDick();
-        cockVoreMachine.Initialize(this, cockVoreDick);
-        cockVoreMachine.cockVoreStart += OnCockVoreStart;
-        cockVoreMachine.cockVoreUpdate += OnCockVoreUpdate;
-        cockVoreMachine.cockVoreEnd += OnCockVoreEnd;
+        if (voreMachine != null) {
+            voreMachine.Initialize(this);
+            voreMachine.cockVoreStart += OnCockCockVoreStart;
+            voreMachine.cockVoreUpdate += OnCockCockVoreUpdate;
+            voreMachine.cockVoreEnd += OnCockCockVoreEnd;
+        }
+
+        if (voreContainer != null) {
+            voreContainer.GetStorage().startChurn += OnChurnStart;
+        }
+
         voreSpeedModifier = new Modifier(1f);
-        balls.GetStorage().startChurn += OnChurnStart;
     }
 
     private void OnChurnStart(CumStorage.CumSource churnable) {
@@ -56,20 +63,20 @@ public partial class CharacterBase {
 
     private IEnumerator ChurnRoutine(CumStorage.CumSource churnable) {
         yield return new WaitUntil(churnable.GetDoneChurning);
-        if (IsCockvoring()) {
+        if (IsVoring()) {
             yield break;
         }
 
         StartCoroutine(DialogueLibrary.GetDialogue(DialogueLibrary.DialogueGroupType.ChurnFinished).Begin(new List<DialogueCharacter> {
             DialogueCharacterSpecificCharacter.Get(this),
-            DialogueCharacterInanimateObject.Get(balls.GetBallsTransform(), DialogueLibrary.GetCondomTheme()),
+            DialogueCharacterInanimateObject.Get(voreContainer.GetStorageTransform(), DialogueLibrary.GetCondomTheme()),
         }));
         churnRoutine = null;
     }
 
     private void UpdateCockVore() {
         if (activeInteractable != null) {
-            var newCockVorable = activeInteractable.transform.GetComponent<ICockVorable>();
+            var newCockVorable = activeInteractable.transform.GetComponent<IVorable>();
             if (newCockVorable != null && activeInteractable != null) {
                 waitRoutine ??= StartCoroutine(WaitAndThenCockVore(newCockVorable));
             }
@@ -77,28 +84,33 @@ public partial class CharacterBase {
     }
 
     private void LateUpdateCockVore() {
-        cockVoreMachine.LateUpdate();
+        voreMachine?.LateUpdate();
         SetLeakState();
     }
 
-    private IEnumerator WaitAndThenCockVore(ICockVorable cockVorable) {
+    private IEnumerator WaitAndThenCockVore(IVorable vorable) {
+        if (voreMachine == null) {
+            waitRoutine = null;
+            yield break;
+        }
+        
         try {
             for (int i = 0; i < 10; i++) {
-                if (inputGenerator.GetWishDirection() != Vector3.zero || cockVoreMachine.IsCockvoring()) {
+                if (inputGenerator.GetWishDirection() != Vector3.zero || voreMachine.IsVoring()) {
                     i = 0;
                 }
                 yield return new WaitForSeconds(0.12f);
             }
 
-            if (cockVoreDick != null && !cockVoreMachine.IsCockvoring() && activeInteractable != null && activeInteractable.transform.GetComponent<ICockVorable>() == cockVorable) {
-                cockVoreMachine.StartVore(cockVorable);
+            if (cockVoreDick != null && !voreMachine.IsVoring() && activeInteractable != null && activeInteractable.transform.GetComponent<IVorable>() == vorable) {
+                voreMachine.StartVore(vorable);
             }
         } finally {
             waitRoutine = null;
         }
     }
     
-    private void OnCockVoreStart(VoreMachine.CockVoreStatus status) {
+    private void OnCockCockVoreStart(CockVoreMachine.VoreStatus status) {
         if (Random.Range(0f, 1f) > 0.25f) {
             StartCoroutine(DialogueLibrary.GetDialogue(DialogueLibrary.DialogueGroupType.Vore).Begin(new List<DialogueCharacter> {
                 DialogueCharacterSpecificCharacter.Get(status.other.transform.GetComponent<CharacterBase>()),
@@ -109,21 +121,21 @@ public partial class CharacterBase {
         cockVoreFaceDirectionLock ??= ticketLock.AddLock(this, TicketLock.LockFlags.FacingDirectionLock | TicketLock.LockFlags.IgnoreUsables);
         AddSpeedModifier(voreSpeedModifier);
     }
-    private void OnCockVoreEnd(VoreMachine.CockVoreStatus status) {
+    private void OnCockCockVoreEnd(CockVoreMachine.VoreStatus status) {
         ticketLock.RemoveLock(ref cockVoreFaceDirectionLock);
         RemoveSpeedModifier(voreSpeedModifier);
     }
-    private void OnCockVoreUpdate(VoreMachine.CockVoreStatus status) {
+    private void OnCockCockVoreUpdate(CockVoreMachine.VoreStatus status) {
         voreSpeedModifier.SetMultiplier(Easing.Cubic.In(status.progress));
     }
     
     private void SetLeakState() {
-        if (leakSystem == null) {
+        if (leakSystem == null || voreContainer == null) {
             return;
         }
-        var r = GetStorage().GetVolume() - 2f;
+        var r = voreContainer.GetStorage().GetVolume() - 2f;
         if(r <= 0f) r = 0f;
-        if (cockVoreMachine.IsCockvoring() || !GetStorage().GetDoneChurning()) r += 1f;
+        if (voreMachine.IsVoring() || !voreContainer.GetStorage().GetDoneChurning()) r += 1f;
         if (!leakSystem.isPlaying) {
             leakSystem.Play();
         }
@@ -139,5 +151,5 @@ public partial class CharacterBase {
         emissionModule.rateOverTime = rate > 0f ? 60f : 0f;
     }
     
-    public bool IsCockvoring() => cockVoreMachine.IsCockvoring();
+    public bool IsVoring() => voreMachine?.IsVoring() ?? false;
 }

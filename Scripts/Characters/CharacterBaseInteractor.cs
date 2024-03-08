@@ -148,7 +148,7 @@ public partial class CharacterBase {
         activeInteractable.OnBeginInteract(this);
     }
     protected virtual void OnEndInteractInput(IInteractable interactable) {
-        cockVoreMachine.StopVore();
+        voreMachine?.StopVore();
         activeInteractable.OnEndInteract(this);
         activeInteractable = null;
     }

@@ -246,20 +246,30 @@ MonoBehaviour:
   volumeSolid: 8
   volumeChurned: 1
   dialogueTheme: {fileID: 11400000, guid: 24dfcba50b4388148a8ceca4d809d64c, type: 2}
-  balls:
-    inflater:
-      bounce: {fileID: 11400000, guid: b2df0e3fa0b4eb74782ac1368940a6b9, type: 2}
-      listeners:
-      - rid: 7979792681648783413
+  voreContainer:
+    rid: 4566295080408711194
   headSprite: {fileID: 21300000, guid: d6cc8fe1fa6d2a04eb134e721b1cbc22, type: 3}
   speed: 2.8
   animationGroup: []
+  voreMachine:
+    rid: 4566295080408711192
   noseOffset: {x: 0.00000009252983, y: 0.07744124, z: 0.23975444}
   taserOutput: {fileID: 0}
   references:
     version: 2
     RefIds:
-    - rid: 7979792681648783413
+    - rid: 4566295080408711192
+      type: {class: CockVoreMachine, ns: , asm: com.gatordragongames.churn-vector.sdk}
+      data:
+        dick: {fileID: 6538193691137572327}
+    - rid: 4566295080408711194
+      type: {class: Balls, ns: , asm: com.gatordragongames.churn-vector.sdk}
+      data:
+        inflater:
+          bounce: {fileID: 11400000, guid: b2df0e3fa0b4eb74782ac1368940a6b9, type: 2}
+          listeners:
+          - rid: 4566295080408711195
+    - rid: 4566295080408711195
       type: {class: BallInflatableTransform, ns: Naelstrof.Inflatable, asm: com.gatordragongames.churn-vector.sdk}
       data:
         ballsRoot: {fileID: 76467336091759914}

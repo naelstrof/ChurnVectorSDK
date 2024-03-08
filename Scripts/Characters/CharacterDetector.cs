@@ -195,7 +195,7 @@ public abstract class CharacterDetector : CharacterBase {
         }
 
         if (target.TryGetComponent(out CharacterBase player) && player.IsPlayer()) {
-            if (player.IsCockvoring()) {
+            if (player.IsVoring()) {
                 multiplier *= 2f;
             } else if (player.IsSprinting()) {
                 float playerSpeed = player.GetBody().velocity.magnitude;
