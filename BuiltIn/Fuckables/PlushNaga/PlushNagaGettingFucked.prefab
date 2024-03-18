@@ -222,7 +222,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 4300000, guid: bd0a671719f3c0f4eac544e830ba02c9, type: 2}
+      objectReference: {fileID: 4300000, guid: 85dc34e2937fb1a4d9589115dafa8996, type: 2}
     - target: {fileID: 1630794972795428178, guid: 9fea3eb611c5a6a478bc355dc504faf6,
         type: 3}
       propertyPath: m_BlendShapeWeights.Array.data[0]
@@ -265,19 +265,23 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9fea3eb611c5a6a478bc355dc504faf6,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1767879671676583849}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9fea3eb611c5a6a478bc355dc504faf6,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6801369426032337087}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9fea3eb611c5a6a478bc355dc504faf6,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 7972438796052084562}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9fea3eb611c5a6a478bc355dc504faf6,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2636341747489058604}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9fea3eb611c5a6a478bc355dc504faf6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8218626892154631885}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9fea3eb611c5a6a478bc355dc504faf6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3482359859207518862}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9fea3eb611c5a6a478bc355dc504faf6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2820736341612168149}
   m_SourcePrefab: {fileID: 100100000, guid: 9fea3eb611c5a6a478bc355dc504faf6, type: 3}
 --- !u!1 &702911324779886183 stripped
 GameObject:
@@ -285,58 +289,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 360384666178915126}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1767879671676583849
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 702911324779886183}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e0550636f1faf54ea9fada34b07cd10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  points:
-  - {fileID: 656295979762030279}
-  - {fileID: 8118970435428179428}
-  - {fileID: 9127260884171136550}
-  - {fileID: 3179769470239822704}
-  listeners:
-  - rid: 1888142087200440322
-  actualHoleStartT: 0.083
-  references:
-    version: 2
-    RefIds:
-    - rid: 1888142087200440322
-      type: {class: SimpleBlendshapeListener, ns: PenetrationTech, asm: Naelstrof.PenetrationTech}
-      data:
-        t: 0.725
-        offsetCorrectionBone: {fileID: 8892369121988048656}
-        targets:
-        - skinnedMeshRenderer: {fileID: 1414667475573888612}
-          blendshapeName: HeadUp
-          blendshapeID: 2
-        baseGirthRadius: 0.01
-        blendShapeGirthRadius: 0.03
-        overdrive: 0
---- !u!114 &6801369426032337087
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 702911324779886183}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bc67c190c547e3459c0f74a553dede5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  penetrableTargets:
-  - {fileID: 1767879671676583849}
-  renderTargets:
-  - {fileID: 1414667475573888612}
-  detailOnly: 0
 --- !u!136 &7972438796052084562
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -374,6 +326,68 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderers:
   - {fileID: 1414667475573888612}
+--- !u!114 &8218626892154631885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 702911324779886183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b5e019e89c3f044688cff9641915de0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transforms:
+  - {fileID: 656295979762030279}
+  - {fileID: 8118970435428179428}
+  - {fileID: 9127260884171136550}
+  - {fileID: 3179769470239822704}
+  entranceTransform: {fileID: 656295979762030279}
+  shouldTruncate: 1
+  truncateNormalizedDistance: 0.115
+  holeStartNormalizedDistance: 0.113
+  shouldClip: 1
+  clippingRange:
+    startNormalizedDistance: 0.213
+    allowAllTheWayThrough: 1
+    endNormalizedDistance: 0.478
+  penetrableFriction: 0.5
+--- !u!114 &3482359859207518862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 702911324779886183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 770cf13d3e4a66c46bd39efaa51e1f24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  penetrables:
+  - {fileID: 8218626892154631885}
+  targetRenderers:
+  - {fileID: 1414667475573888612}
+  detailOnly: 0
+--- !u!114 &2820736341612168149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 702911324779886183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08ac187c94122ce4984e4af223572710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetPenetrable: {fileID: 8218626892154631885}
+  blendshape:
+    skinnedMeshRenderer: {fileID: 1414667475573888612}
+    blendshapeName: HeadUp
+    blendshapeID: 2
+  normalizedDistance: 0.545
 --- !u!137 &1414667475573888612 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 1630794972795428178, guid: 9fea3eb611c5a6a478bc355dc504faf6,
@@ -383,12 +397,6 @@ SkinnedMeshRenderer:
 --- !u!4 &4821950850957137862 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4041042569517933328, guid: 9fea3eb611c5a6a478bc355dc504faf6,
-    type: 3}
-  m_PrefabInstance: {fileID: 360384666178915126}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &8892369121988048656 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -114739073978434522, guid: 9fea3eb611c5a6a478bc355dc504faf6,
     type: 3}
   m_PrefabInstance: {fileID: 360384666178915126}
   m_PrefabAsset: {fileID: 0}

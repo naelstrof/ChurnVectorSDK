@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using PenetrationTech;
+using DPG;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -59,11 +59,17 @@ public class BreedingStand : NeedStation, ICumContainer {
     }
 
     public override void OnBeginInteract(CharacterBase from) {
-        from.SetFacingDirection(QuaternionExtensions.LookRotationUpPriority(penetrable.GetPath().GetVelocityFromT(0).normalized, Vector3.up));
+        Vector3 dir = penetrable.GetPoints()[1] - penetrable.GetPoints()[0];
+        from.SetFacingDirection(QuaternionExtensions.LookRotationUpPriority(dir.normalized, Vector3.up));
         base.OnBeginInteract(from);
         currentDick = from.GetComponentInChildren<Penetrator>();
-        currentDick.Penetrate(penetrable);
-        simulation = new FuckSimulation(OrbitCamera.GetCamera(), currentDick.GetRootBone(), penetrable, currentDick, from.GetDisplayAnimator());
+        if (currentDick is PenetratorJiggleDeform jiggleDeformDick) {
+            jiggleDeformDick.SetLinkedPenetrable(penetrable);
+        } else {
+            throw new UnityException("Don't currently support anything except jiggle deform dicks...");
+        }
+
+        simulation = new FuckSimulation(OrbitCamera.GetCamera(), currentDick.GetRootTransform(), penetrable, currentDick, from.GetDisplayAnimator());
         OrbitCamera.AddConfiguration(fuckConfiguration);
         if (from.voreContainer is Balls balls) {
             var ballsBody = balls.GetBallsRigidbody();
@@ -106,10 +112,11 @@ public class BreedingStand : NeedStation, ICumContainer {
         base.OnEndInteract(from);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        currentDick.Penetrate(null);
-        currentDick.SetTargetHole(null);
-        currentDick.Penetrate(null);
-        currentDick.SetTargetHole(null);
+        if (currentDick is PenetratorJiggleDeform jiggleDeformDick) {
+            jiggleDeformDick.SetLinkedPenetrable(null);
+        } else {
+            throw new UnityException("Don't currently support anything except jiggle deform dicks...");
+        }
         simulation = null;
         OrbitCamera.RemoveConfiguration(fuckConfiguration);
     }

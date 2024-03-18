@@ -192,11 +192,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 14e0a43a18459694a816fde3a7abd01a
-    m_Address: GirthUnwrapRaw
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f87673a2b085f9e46b1933b557ddc31c
     m_Address: Plap
     m_ReadOnly: 0

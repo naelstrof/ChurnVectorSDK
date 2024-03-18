@@ -140,7 +140,7 @@ public class LevelManager : MonoBehaviour {
 
     private IEnumerator LevelEndRoutine(bool returnToMainMenu) {
         levelEndEvent.Raise();
-        yield return null;
+        yield return new WaitForSecondsRealtime(0.2f);
         yield return new WaitUntil(() => !Cutscene.CutsceneIsPlaying());
         if (returnToMainMenu) {
             yield return SceneLoader.LoadScene(mainMenu);

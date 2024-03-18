@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using PenetrationTech;
+using DPG;
 using SkinnedMeshDecals;
 using UnityEngine;
 
@@ -9,6 +9,8 @@ public class CumCollision : MonoBehaviour {
     private Material blitMaterial;
     [SerializeField]
     private Penetrator attachedDick;
+
+    private static CatmullSpline cachedSpline;
     
     private ParticleSystem cumSystem;
     private List<ParticleCollisionEvent> particleCollisionEvents;
@@ -36,15 +38,17 @@ public class CumCollision : MonoBehaviour {
         }
     }
 
-    private void Update() {
+    private void LateUpdate() {
         if (attachedDick == null) {
             return;
         }
 
-        var spline = attachedDick.GetPath();
-        transform.position = spline.GetPositionFromDistance(attachedDick.GetWorldLength()*0.9f);
+        cachedSpline ??= new CatmullSpline(new[] { Vector3.zero, Vector3.one });
+        attachedDick.GetFinalizedSpline(ref cachedSpline, out var distanceAlongSpline, out var insertionLerp, out var penetrationArgs);
+        
+        transform.position = cachedSpline.GetPositionFromDistance(attachedDick.GetSquashStretchedWorldLength()+distanceAlongSpline);
         transform.rotation =
-            Quaternion.LookRotation(spline.GetVelocityFromDistance(attachedDick.GetWorldLength() * 0.9f).normalized,
+            Quaternion.LookRotation(cachedSpline.GetVelocityFromDistance(attachedDick.GetSquashStretchedWorldLength()+distanceAlongSpline).normalized,
                 Vector3.up);
     }
 

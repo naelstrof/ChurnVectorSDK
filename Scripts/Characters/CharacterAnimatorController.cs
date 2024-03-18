@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Naelstrof.Easing;
 using Naelstrof.Inflatable;
-using PenetrationTech;
+using DPG;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.VFX;
@@ -361,7 +361,7 @@ public class CharacterAnimatorController : MonoBehaviour {
             copyr.materials = copyrMaterials.ToArray();
             copyr.enabled = XRayHandler.GetXRayAmount() != 0f;
             copyr.gameObject.SetActive(true);
-            foreach (var p in transform.parent.GetComponentsInChildren<ProceduralDeformation>()) {
+            foreach (var p in transform.parent.GetComponentsInChildren<PenetrableProcedural>()) {
                 p.AddTargetRenderer(copyr);
             }
 
@@ -379,8 +379,7 @@ public class CharacterAnimatorController : MonoBehaviour {
             copyr.enabled = XRayHandler.GetXRayAmount() != 0f;
             copyr.gameObject.SetActive(true);
             foreach (var p in transform.parent.GetComponentsInChildren<Penetrator>(true)) {
-                var renderers = p.GetTargetRenderers();
-                renderers.Add(new RendererSubMeshMask() { mask = ~0, renderer=copyr });
+                p.AddOutputRenderer(copyr);
             }
             foreach (var listener in boner.listeners) {
                 if (listener is InflatableBlendShape blendshape) {

@@ -255,29 +255,27 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 728c430499631d247a453720c56b3b11,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6352129106663408022}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 728c430499631d247a453720c56b3b11,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 5916202786512053484}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 728c430499631d247a453720c56b3b11,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2819586400141971623}
+      addedObject: {fileID: 7455917735775693034}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 728c430499631d247a453720c56b3b11,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7455917735775693034}
+      addedObject: {fileID: 7669462085825092468}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 728c430499631d247a453720c56b3b11,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 475440586059217613}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 728c430499631d247a453720c56b3b11,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5191581983339731826}
   m_SourcePrefab: {fileID: 100100000, guid: 728c430499631d247a453720c56b3b11, type: 3}
 --- !u!4 &1760331508312962866 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -2410774654761442249, guid: 728c430499631d247a453720c56b3b11,
-    type: 3}
-  m_PrefabInstance: {fileID: 5108983133748204293}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2387491722340294965 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -1746039836113800656, guid: 728c430499631d247a453720c56b3b11,
     type: 3}
   m_PrefabInstance: {fileID: 5108983133748204293}
   m_PrefabAsset: {fileID: 0}
@@ -287,41 +285,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 5108983133748204293}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6352129106663408022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5343425053781077588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e0550636f1faf54ea9fada34b07cd10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  points:
-  - {fileID: 9099170816876883516}
-  - {fileID: 726789971700625680}
-  - {fileID: 379678968764978443}
-  - {fileID: 2829278831478096885}
-  listeners:
-  - rid: 1888142087200440325
-  actualHoleStartT: 0.066
-  references:
-    version: 2
-    RefIds:
-    - rid: 1888142087200440325
-      type: {class: SimpleBlendshapeListener, ns: PenetrationTech, asm: Naelstrof.PenetrationTech}
-      data:
-        t: 0.65
-        offsetCorrectionBone: {fileID: 2387491722340294965}
-        targets:
-        - skinnedMeshRenderer: {fileID: 5784731284612894295}
-          blendshapeName: HeadUp
-          blendshapeID: 1
-        baseGirthRadius: 0.001
-        blendShapeGirthRadius: 0.025
-        overdrive: 0
 --- !u!136 &5916202786512053484
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -345,23 +308,6 @@ CapsuleCollider:
   m_Height: 0.52
   m_Direction: 1
   m_Center: {x: -1.492011e-10, y: 0.1, z: 0}
---- !u!114 &2819586400141971623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5343425053781077588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bc67c190c547e3459c0f74a553dede5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  penetrableTargets:
-  - {fileID: 6352129106663408022}
-  renderTargets:
-  - {fileID: 5784731284612894295}
-  detailOnly: 0
 --- !u!114 &7455917735775693034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,6 +322,68 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderers:
   - {fileID: 5784731284612894295}
+--- !u!114 &7669462085825092468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5343425053781077588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b5e019e89c3f044688cff9641915de0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transforms:
+  - {fileID: 9099170816876883516}
+  - {fileID: 726789971700625680}
+  - {fileID: 379678968764978443}
+  - {fileID: 2829278831478096885}
+  entranceTransform: {fileID: 9099170816876883516}
+  shouldTruncate: 1
+  truncateNormalizedDistance: 0.084
+  holeStartNormalizedDistance: 0.084
+  shouldClip: 1
+  clippingRange:
+    startNormalizedDistance: 0.176
+    allowAllTheWayThrough: 1
+    endNormalizedDistance: 0.507
+  penetrableFriction: 0.5
+--- !u!114 &475440586059217613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5343425053781077588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 770cf13d3e4a66c46bd39efaa51e1f24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  penetrables:
+  - {fileID: 7669462085825092468}
+  targetRenderers:
+  - {fileID: 5784731284612894295}
+  detailOnly: 0
+--- !u!114 &5191581983339731826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5343425053781077588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08ac187c94122ce4984e4af223572710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetPenetrable: {fileID: 7669462085825092468}
+  blendshape:
+    skinnedMeshRenderer: {fileID: 5784731284612894295}
+    blendshapeName: HeadUp
+    blendshapeID: 1
+  normalizedDistance: 0.565
 --- !u!137 &5784731284612894295 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 1630794972795428178, guid: 728c430499631d247a453720c56b3b11,

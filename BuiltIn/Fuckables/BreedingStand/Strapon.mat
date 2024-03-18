@@ -185,7 +185,7 @@ Material:
     - _Anisotropy: 0
     - _BlendMode: 0
     - _CoatMask: 0.174
-    - _CompressibleDistance: 0.5
+    - _CompressibleDistance: 1
     - _CullMode: 2
     - _CullModeForward: 2
     - _Cutoff: 0.5
@@ -235,6 +235,7 @@ Material:
     - _NormalMapSpace: 0
     - _NormalScale: 1
     - _OpaqueCullMode: 2
+    - _PENETRATION_DEFORMATION: 0
     - _PENETRATION_DEFORMATION_DETAIL: 0
     - _PPDLodThreshold: 5
     - _PPDMaxSamples: 15

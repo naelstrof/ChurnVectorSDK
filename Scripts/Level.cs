@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SimpleJSON;
 #if UNITY_EDITOR
+using UnityEditor.SceneManagement;
 #endif
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -121,6 +122,14 @@ public class Level : ScriptableObject {
         Pauser.ForcePause(true);
         if (scene != null && (forceReload || !IsSceneLoaded())) {
             yield return SceneLoader.LoadScene(scene);
+        } else if (forceReload && IsSceneLoaded()) {
+#if UNITY_EDITOR
+            var handle = EditorSceneManager.LoadSceneAsyncInPlayMode(SceneManager.GetActiveScene().path, new LoadSceneParameters() { loadSceneMode = LoadSceneMode.Single, localPhysicsMode = LocalPhysicsMode.Physics3D });
+            yield return new WaitUntil(() => handle.isDone);
+#endif
+        } else if (!IsSceneLoaded()) {
+            Debug.Log(IsSceneLoaded());
+            throw new UnityException("Can't load arbitrary unaddressable scenes. Please configure them properly!");
         }
         SceneManager.sceneUnloaded += OnEnd;
         InitializationManager.InitializeAll();

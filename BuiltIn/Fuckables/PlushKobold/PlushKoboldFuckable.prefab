@@ -260,10 +260,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d6debe8e5f5adbb48a1722038bac13f6,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6799870717959632733}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d6debe8e5f5adbb48a1722038bac13f6,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1643014276289619538}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d6debe8e5f5adbb48a1722038bac13f6,
         type: 3}
@@ -272,7 +268,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d6debe8e5f5adbb48a1722038bac13f6,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3487799507697452676}
+      addedObject: {fileID: 868520426915443080}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d6debe8e5f5adbb48a1722038bac13f6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5650462159907095968}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d6debe8e5f5adbb48a1722038bac13f6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4954795900102663111}
   m_SourcePrefab: {fileID: 100100000, guid: d6debe8e5f5adbb48a1722038bac13f6, type: 3}
 --- !u!4 &249086850667478767 stripped
 Transform:
@@ -292,28 +296,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6138441546895210975}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6799870717959632733
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6481042434208629902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e0550636f1faf54ea9fada34b07cd10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  points:
-  - {fileID: 2410130249497334013}
-  - {fileID: 7983811378664744634}
-  - {fileID: 2955178200208091142}
-  - {fileID: 6927203609423244129}
-  listeners: []
-  actualHoleStartT: 0.065
-  references:
-    version: 2
-    RefIds: []
 --- !u!136 &1643014276289619538
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -351,7 +333,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderers:
   - {fileID: 4868847989705598093}
---- !u!114 &3487799507697452676
+--- !u!114 &868520426915443080
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -360,11 +342,56 @@ MonoBehaviour:
   m_GameObject: {fileID: 6481042434208629902}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bc67c190c547e3459c0f74a553dede5, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b5e019e89c3f044688cff9641915de0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  penetrableTargets:
-  - {fileID: 6799870717959632733}
-  renderTargets:
+  transforms:
+  - {fileID: 2410130249497334013}
+  - {fileID: 7983811378664744634}
+  - {fileID: 2955178200208091142}
+  - {fileID: 6927203609423244129}
+  entranceTransform: {fileID: 2410130249497334013}
+  shouldTruncate: 1
+  truncateNormalizedDistance: 0.076
+  holeStartNormalizedDistance: 0.076
+  shouldClip: 1
+  clippingRange:
+    startNormalizedDistance: 0.22
+    allowAllTheWayThrough: 1
+    endNormalizedDistance: 0.52
+  penetrableFriction: 0.5
+--- !u!114 &5650462159907095968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6481042434208629902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 770cf13d3e4a66c46bd39efaa51e1f24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  penetrables:
+  - {fileID: 868520426915443080}
+  targetRenderers:
   - {fileID: 4868847989705598093}
   detailOnly: 0
+--- !u!114 &4954795900102663111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6481042434208629902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08ac187c94122ce4984e4af223572710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetPenetrable: {fileID: 868520426915443080}
+  blendshape:
+    skinnedMeshRenderer: {fileID: 4868847989705598093}
+    blendshapeName: HeadUp
+    blendshapeID: 1
+  normalizedDistance: 0.587

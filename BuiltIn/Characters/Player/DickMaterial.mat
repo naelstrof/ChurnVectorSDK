@@ -193,6 +193,7 @@ Material:
     - _EnableFogOnTransparent: 1
     - _EnableGeometricSpecularAA: 0
     - _EnergyConservingSpecularColor: 1
+    - _GirthRadius: 0.1
     - _HeightAmplitude: 0.02
     - _HeightCenter: 0.5
     - _HeightMapParametrization: 0
@@ -219,6 +220,8 @@ Material:
     - _PPDMinSamples: 5
     - _PPDPrimitiveLength: 1
     - _PPDPrimitiveWidth: 1
+    - _PenetratorOffsetLength: 0
+    - _PenetratorWorldLength: 1
     - _RayTracing: 0
     - _ReceivesSSR: 1
     - _ReceivesSSRTransparent: 0
@@ -258,6 +261,8 @@ Material:
     - _TransparentSortPriority: 0
     - _TransparentWritingMotionVec: 0
     - _TransparentZWrite: 0
+    - _TruncateLength: 999
+    - _TruncateSpherize: 0
     - _UVBase: 0
     - _UVDetail: 0
     - _UVEmissive: 0
@@ -284,6 +289,11 @@ Material:
     - _EmissiveColorLDR: {r: 0, g: 0, b: 0, a: 1}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _PenetratorForwardWorld: {r: 0, g: 0, b: 0, a: 0}
+    - _PenetratorRightWorld: {r: 0, g: 0, b: 0, a: 0}
+    - _PenetratorRootWorld: {r: 0, g: 0, b: 0, a: 0}
+    - _PenetratorStartWorld: {r: 0, g: 0, b: 0, a: 0}
+    - _PenetratorUpWorld: {r: 0, g: 0, b: 0, a: 0}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _ThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
     - _TransmittanceColor: {r: 1, g: 1, b: 1, a: 1}

@@ -174,18 +174,20 @@ MonoBehaviour:
   volumeSolid: 4
   volumeChurned: 1
   dialogueTheme: {fileID: 11400000, guid: 6944d3f6ac6d6c74789c3bc2eceda477, type: 2}
-  balls:
-    inflater:
-      bounce: {fileID: 11400000, guid: 0946975ef88accb48aea4c4c25cc0294, type: 2}
-      listeners: []
+  voreContainer:
+    rid: -2
   headSprite: {fileID: 21300000, guid: a03fe93111dee7b4e994c5013a69d862, type: 3}
   speed: 1.6
   animationGroup: []
+  voreMachine:
+    rid: -2
   noseOffset: {x: 0, y: 0.051521707, z: 0.3157489}
   taserOutput: {fileID: 0}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &5651573853789787295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -693,11 +695,11 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: bc8d0cb9d0582ec468080a7d3e03b6bb,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4587456129175084918}
+      addedObject: {fileID: 2857192798612336081}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: bc8d0cb9d0582ec468080a7d3e03b6bb,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 751924057205179274}
+      addedObject: {fileID: 4311155450435576867}
     - targetCorrespondingSourceObject: {fileID: -3646755201719406309, guid: bc8d0cb9d0582ec468080a7d3e03b6bb,
         type: 3}
       insertIndex: -1
@@ -798,6 +800,12 @@ Transform:
 --- !u!137 &3908662706433302219 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 5134032369011657153, guid: bc8d0cb9d0582ec468080a7d3e03b6bb,
+    type: 3}
+  m_PrefabInstance: {fileID: 8143039434267957002}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3925032960826223741 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -4073110492322382985, guid: bc8d0cb9d0582ec468080a7d3e03b6bb,
     type: 3}
   m_PrefabInstance: {fileID: 8143039434267957002}
   m_PrefabAsset: {fileID: 0}
@@ -1010,9 +1018,9 @@ MonoBehaviour:
     type: 3}
   clothTexture: {fileID: 2800000, guid: 2cd00e926b1caa140bac34afa66ada6b, type: 3}
   clothColor: {r: 0.9528302, g: 0.9528302, b: 0.9528302, a: 1}
-  bodyRenderers:
+  nakedBodyRenderers:
   - {fileID: 8655014405779903}
-  clothesRenderers:
+  clothedBodyRenderers:
   - {fileID: 823484836604558476}
   boobOomphEffect:
   - {fileID: 5794777896929783378}
@@ -1024,6 +1032,7 @@ MonoBehaviour:
     bounce: {fileID: 11400000, guid: 0946975ef88accb48aea4c4c25cc0294, type: 2}
     listeners:
     - rid: 3525424941468221442
+  dickTipOpenBlendshapes: []
   references:
     version: 2
     RefIds:
@@ -1086,7 +1095,7 @@ MonoBehaviour:
   wind: {x: 0, y: 0, z: 0}
   levelOfDetail: {fileID: 11400000, guid: f47a5fc26c7403346afb008b53a65859, type: 2}
   debugDraw: 0
---- !u!114 &4587456129175084918
+--- !u!114 &2857192798612336081
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1095,20 +1104,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 9061395184197511771}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e0550636f1faf54ea9fada34b07cd10, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b5e019e89c3f044688cff9641915de0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  points:
+  transforms:
   - {fileID: 8000069025083225969}
   - {fileID: 8203785637045857159}
+  - {fileID: 3925032960826223741}
   - {fileID: 8890300507474521531}
   - {fileID: 2837316652050853443}
-  listeners: []
-  actualHoleStartT: 0
-  references:
-    version: 2
-    RefIds: []
---- !u!114 &751924057205179274
+  entranceTransform: {fileID: 8000069025083225969}
+  shouldTruncate: 1
+  truncateNormalizedDistance: 0.078
+  holeStartNormalizedDistance: 0.08
+  shouldClip: 1
+  clippingRange:
+    startNormalizedDistance: 0.182
+    allowAllTheWayThrough: 1
+    endNormalizedDistance: 0.644
+  penetrableFriction: 0.5
+--- !u!114 &4311155450435576867
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1117,11 +1132,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 9061395184197511771}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bc67c190c547e3459c0f74a553dede5, type: 3}
+  m_Script: {fileID: 11500000, guid: 770cf13d3e4a66c46bd39efaa51e1f24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  penetrableTargets:
-  - {fileID: 4587456129175084918}
-  renderTargets:
+  penetrables:
+  - {fileID: 2857192798612336081}
+  targetRenderers:
   - {fileID: 8655014405779903}
   detailOnly: 0

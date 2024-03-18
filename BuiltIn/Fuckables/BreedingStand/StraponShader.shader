@@ -6,8 +6,9 @@ Shader "StraponShader"
 	{
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
 		[Toggle(_PENETRATION_DEFORMATION_DETAIL_ON)] _PENETRATION_DEFORMATION_DETAIL("_PENETRATION_DEFORMATION_DETAIL", Float) = 0
-		_CompressibleDistance("CompressibleDistance", Range( 0 , 1)) = 0.3
-		_PenetrationSmoothness("PenetrationSmoothness", Range( 0 , 10)) = 2
+		[Toggle(_PENETRATION_DEFORMATION_ON)] _PENETRATION_DEFORMATION("_PENETRATION_DEFORMATION", Float) = 0
+		_CompressibleDistance("CompressibleDistance", Range( 0 , 10)) = 1
+		_PenetrationSmoothness("PenetrationSmoothness", Range( 0 , 10)) = 4
 		_ThicknessMultiplier("ThicknessMultiplier", Range( 0 , 1)) = 0
 		_CoatMask("CoatMask", Range( 0 , 1)) = 1
 		_Alpha("Alpha", Range( 0 , 1)) = 0.2916001
@@ -483,7 +484,8 @@ Shader "StraponShader"
 
 			#define ASE_NEEDS_VERT_POSITION
 			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -497,6 +499,7 @@ Shader "StraponShader"
 				float4 tangentOS : TANGENT;
 				float4 uv1 : TEXCOORD1;
 				float4 uv2 : TEXCOORD2;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -743,24 +746,31 @@ Shader "StraponShader"
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( outputPackedVaryingsMeshToPS );
 
-				float localGetDeformationFromPenetrators_float8_g3 = ( 0.0 );
-				float4 appendResult17_g3 = (float4(inputMesh.positionOS , 1.0));
-				float4 transform16_g3 = mul(GetObjectToWorldMatrix(),appendResult17_g3);
-				transform16_g3.xyz = GetAbsolutePositionWS((transform16_g3).xyz);
-				float3 worldPosition8_g3 = (transform16_g3).xyz;
-				float4 texCoord3_g3 = inputMesh.uv2;
-				texCoord3_g3.xy = inputMesh.uv2.xy * float2( 1,1 ) + float2( 0,0 );
-				float4 uv28_g3 = texCoord3_g3;
-				float compressibleDistance8_g3 = _CompressibleDistance;
-				float smoothness8_g3 = _PenetrationSmoothness;
-				float3 deformedPosition8_g3 = float3( 0,0,0 );
+				float3 temp_output_10_0_g4 = inputMesh.positionOS;
+				float localGetDeformationFromPenetrators_float8_g4 = ( 0.0 );
+				float4 appendResult17_g4 = (float4(temp_output_10_0_g4 , 1.0));
+				float4 transform16_g4 = mul(GetObjectToWorldMatrix(),appendResult17_g4);
+				transform16_g4.xyz = GetAbsolutePositionWS((transform16_g4).xyz);
+				float3 worldPosition8_g4 = (transform16_g4).xyz;
+				float4 texCoord3_g4 = inputMesh.uv2;
+				texCoord3_g4.xy = inputMesh.uv2.xy * float2( 1,1 ) + float2( 0,0 );
+				float4 uv28_g4 = texCoord3_g4;
+				float compressibleDistance8_g4 = _CompressibleDistance;
+				float smoothness8_g4 = _PenetrationSmoothness;
+				float3 deformedPosition8_g4 = float3( 0,0,0 );
 				{
-				GetDeformationFromPenetrators_float(worldPosition8_g3,uv28_g3,compressibleDistance8_g3,smoothness8_g3,deformedPosition8_g3);
+				GetDeformationFromPenetrators_float(worldPosition8_g4,uv28_g4,compressibleDistance8_g4,smoothness8_g4,deformedPosition8_g4);
 				}
-				float4 appendResult21_g3 = (float4(deformedPosition8_g3 , 1.0));
-				float4 localWorldVar19_g3 = appendResult21_g3;
-				(localWorldVar19_g3).xyz = GetCameraRelativePositionWS((localWorldVar19_g3).xyz);
-				float4 transform19_g3 = mul(GetWorldToObjectMatrix(),localWorldVar19_g3);
+				float4 appendResult21_g4 = (float4(deformedPosition8_g4 , 1.0));
+				float4 localWorldVar19_g4 = appendResult21_g4;
+				(localWorldVar19_g4).xyz = GetCameraRelativePositionWS((localWorldVar19_g4).xyz);
+				float4 transform19_g4 = mul(GetWorldToObjectMatrix(),localWorldVar19_g4);
+				#ifdef _PENETRATION_DEFORMATION_ON
+				float3 staticSwitch24_g4 = (transform19_g4).xyz;
+				#else
+				float3 staticSwitch24_g4 = temp_output_10_0_g4;
+				#endif
+				float3 lerpResult60 = lerp( inputMesh.positionOS , staticSwitch24_g4 , inputMesh.ase_color.r);
 				
 				outputPackedVaryingsMeshToPS.ase_texcoord5.xy = inputMesh.ase_texcoord.xy;
 				
@@ -772,7 +782,7 @@ Shader "StraponShader"
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = (transform19_g3).xyz;
+				float3 vertexValue = lerpResult60;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -804,6 +814,7 @@ Shader "StraponShader"
 				float4 tangentOS : TANGENT;
 				float4 uv1 : TEXCOORD1;
 				float4 uv2 : TEXCOORD2;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -825,6 +836,7 @@ Shader "StraponShader"
 				o.tangentOS = v.tangentOS;
 				o.uv1 = v.uv1;
 				o.uv2 = v.uv2;
+				o.ase_color = v.ase_color;
 				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
@@ -872,6 +884,7 @@ Shader "StraponShader"
 				o.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
 				o.uv1 = patch[0].uv1 * bary.x + patch[1].uv1 * bary.y + patch[2].uv1 * bary.z;
 				o.uv2 = patch[0].uv2 * bary.x + patch[1].uv2 * bary.y + patch[2].uv2 * bary.z;
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
@@ -1199,7 +1212,8 @@ Shader "StraponShader"
 
 			#define ASE_NEEDS_VERT_POSITION
 			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -1215,7 +1229,7 @@ Shader "StraponShader"
 				float4 uv1 : TEXCOORD1;
 				float4 uv2 : TEXCOORD2;
 				float4 uv3 : TEXCOORD3;
-				
+				float4 ase_color : COLOR;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1443,24 +1457,31 @@ Shader "StraponShader"
 				UNITY_SETUP_INSTANCE_ID(inputMesh);
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
 
-				float localGetDeformationFromPenetrators_float8_g3 = ( 0.0 );
-				float4 appendResult17_g3 = (float4(inputMesh.positionOS , 1.0));
-				float4 transform16_g3 = mul(GetObjectToWorldMatrix(),appendResult17_g3);
-				transform16_g3.xyz = GetAbsolutePositionWS((transform16_g3).xyz);
-				float3 worldPosition8_g3 = (transform16_g3).xyz;
-				float4 texCoord3_g3 = inputMesh.uv2;
-				texCoord3_g3.xy = inputMesh.uv2.xy * float2( 1,1 ) + float2( 0,0 );
-				float4 uv28_g3 = texCoord3_g3;
-				float compressibleDistance8_g3 = _CompressibleDistance;
-				float smoothness8_g3 = _PenetrationSmoothness;
-				float3 deformedPosition8_g3 = float3( 0,0,0 );
+				float3 temp_output_10_0_g4 = inputMesh.positionOS;
+				float localGetDeformationFromPenetrators_float8_g4 = ( 0.0 );
+				float4 appendResult17_g4 = (float4(temp_output_10_0_g4 , 1.0));
+				float4 transform16_g4 = mul(GetObjectToWorldMatrix(),appendResult17_g4);
+				transform16_g4.xyz = GetAbsolutePositionWS((transform16_g4).xyz);
+				float3 worldPosition8_g4 = (transform16_g4).xyz;
+				float4 texCoord3_g4 = inputMesh.uv2;
+				texCoord3_g4.xy = inputMesh.uv2.xy * float2( 1,1 ) + float2( 0,0 );
+				float4 uv28_g4 = texCoord3_g4;
+				float compressibleDistance8_g4 = _CompressibleDistance;
+				float smoothness8_g4 = _PenetrationSmoothness;
+				float3 deformedPosition8_g4 = float3( 0,0,0 );
 				{
-				GetDeformationFromPenetrators_float(worldPosition8_g3,uv28_g3,compressibleDistance8_g3,smoothness8_g3,deformedPosition8_g3);
+				GetDeformationFromPenetrators_float(worldPosition8_g4,uv28_g4,compressibleDistance8_g4,smoothness8_g4,deformedPosition8_g4);
 				}
-				float4 appendResult21_g3 = (float4(deformedPosition8_g3 , 1.0));
-				float4 localWorldVar19_g3 = appendResult21_g3;
-				(localWorldVar19_g3).xyz = GetCameraRelativePositionWS((localWorldVar19_g3).xyz);
-				float4 transform19_g3 = mul(GetWorldToObjectMatrix(),localWorldVar19_g3);
+				float4 appendResult21_g4 = (float4(deformedPosition8_g4 , 1.0));
+				float4 localWorldVar19_g4 = appendResult21_g4;
+				(localWorldVar19_g4).xyz = GetCameraRelativePositionWS((localWorldVar19_g4).xyz);
+				float4 transform19_g4 = mul(GetWorldToObjectMatrix(),localWorldVar19_g4);
+				#ifdef _PENETRATION_DEFORMATION_ON
+				float3 staticSwitch24_g4 = (transform19_g4).xyz;
+				#else
+				float3 staticSwitch24_g4 = temp_output_10_0_g4;
+				#endif
+				float3 lerpResult60 = lerp( inputMesh.positionOS , staticSwitch24_g4 , inputMesh.ase_color.r);
 				
 				outputPackedVaryingsMeshToPS.ase_texcoord2.xy = inputMesh.uv0.xy;
 				
@@ -1472,7 +1493,7 @@ Shader "StraponShader"
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = (transform19_g3).xyz;
+				float3 vertexValue = lerpResult60;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -1508,7 +1529,8 @@ Shader "StraponShader"
 				float4 uv1 : TEXCOORD1;
 				float4 uv2 : TEXCOORD2;
 				float4 uv3 : TEXCOORD3;
-				
+				float4 ase_color : COLOR;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1530,7 +1552,7 @@ Shader "StraponShader"
 				o.uv1 = v.uv1;
 				o.uv2 = v.uv2;
 				o.uv3 = v.uv3;
-				
+				o.ase_color = v.ase_color;
 				return o;
 			}
 
@@ -1579,7 +1601,7 @@ Shader "StraponShader"
 				o.uv1 = patch[0].uv1 * bary.x + patch[1].uv1 * bary.y + patch[2].uv1 * bary.z;
 				o.uv2 = patch[0].uv2 * bary.x + patch[1].uv2 * bary.y + patch[2].uv2 * bary.z;
 				o.uv3 = patch[0].uv3 * bary.x + patch[1].uv3 * bary.y + patch[2].uv3 * bary.z;
-				
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1893,7 +1915,8 @@ Shader "StraponShader"
 
 			#define ASE_NEEDS_VERT_POSITION
 			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -1905,6 +1928,7 @@ Shader "StraponShader"
 				float3 positionOS : POSITION;
 				float3 normalOS : NORMAL;
 				float4 ase_texcoord2 : TEXCOORD2;
+				float4 ase_color : COLOR;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -2078,24 +2102,31 @@ Shader "StraponShader"
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( outputPackedVaryingsMeshToPS );
 
-				float localGetDeformationFromPenetrators_float8_g3 = ( 0.0 );
-				float4 appendResult17_g3 = (float4(inputMesh.positionOS , 1.0));
-				float4 transform16_g3 = mul(GetObjectToWorldMatrix(),appendResult17_g3);
-				transform16_g3.xyz = GetAbsolutePositionWS((transform16_g3).xyz);
-				float3 worldPosition8_g3 = (transform16_g3).xyz;
-				float4 texCoord3_g3 = inputMesh.ase_texcoord2;
-				texCoord3_g3.xy = inputMesh.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
-				float4 uv28_g3 = texCoord3_g3;
-				float compressibleDistance8_g3 = _CompressibleDistance;
-				float smoothness8_g3 = _PenetrationSmoothness;
-				float3 deformedPosition8_g3 = float3( 0,0,0 );
+				float3 temp_output_10_0_g4 = inputMesh.positionOS;
+				float localGetDeformationFromPenetrators_float8_g4 = ( 0.0 );
+				float4 appendResult17_g4 = (float4(temp_output_10_0_g4 , 1.0));
+				float4 transform16_g4 = mul(GetObjectToWorldMatrix(),appendResult17_g4);
+				transform16_g4.xyz = GetAbsolutePositionWS((transform16_g4).xyz);
+				float3 worldPosition8_g4 = (transform16_g4).xyz;
+				float4 texCoord3_g4 = inputMesh.ase_texcoord2;
+				texCoord3_g4.xy = inputMesh.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
+				float4 uv28_g4 = texCoord3_g4;
+				float compressibleDistance8_g4 = _CompressibleDistance;
+				float smoothness8_g4 = _PenetrationSmoothness;
+				float3 deformedPosition8_g4 = float3( 0,0,0 );
 				{
-				GetDeformationFromPenetrators_float(worldPosition8_g3,uv28_g3,compressibleDistance8_g3,smoothness8_g3,deformedPosition8_g3);
+				GetDeformationFromPenetrators_float(worldPosition8_g4,uv28_g4,compressibleDistance8_g4,smoothness8_g4,deformedPosition8_g4);
 				}
-				float4 appendResult21_g3 = (float4(deformedPosition8_g3 , 1.0));
-				float4 localWorldVar19_g3 = appendResult21_g3;
-				(localWorldVar19_g3).xyz = GetCameraRelativePositionWS((localWorldVar19_g3).xyz);
-				float4 transform19_g3 = mul(GetWorldToObjectMatrix(),localWorldVar19_g3);
+				float4 appendResult21_g4 = (float4(deformedPosition8_g4 , 1.0));
+				float4 localWorldVar19_g4 = appendResult21_g4;
+				(localWorldVar19_g4).xyz = GetCameraRelativePositionWS((localWorldVar19_g4).xyz);
+				float4 transform19_g4 = mul(GetWorldToObjectMatrix(),localWorldVar19_g4);
+				#ifdef _PENETRATION_DEFORMATION_ON
+				float3 staticSwitch24_g4 = (transform19_g4).xyz;
+				#else
+				float3 staticSwitch24_g4 = temp_output_10_0_g4;
+				#endif
+				float3 lerpResult60 = lerp( inputMesh.positionOS , staticSwitch24_g4 , inputMesh.ase_color.r);
 				
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -2103,7 +2134,7 @@ Shader "StraponShader"
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = (transform19_g3).xyz;
+				float3 vertexValue = lerpResult60;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -2125,6 +2156,7 @@ Shader "StraponShader"
 				float3 positionOS : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
 				float4 ase_texcoord2 : TEXCOORD2;
+				float4 ase_color : COLOR;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -2143,6 +2175,7 @@ Shader "StraponShader"
 				o.positionOS = v.positionOS;
 				o.normalOS = v.normalOS;
 				o.ase_texcoord2 = v.ase_texcoord2;
+				o.ase_color = v.ase_color;
 				return o;
 			}
 
@@ -2187,6 +2220,7 @@ Shader "StraponShader"
 				o.positionOS = patch[0].positionOS * bary.x + patch[1].positionOS * bary.y + patch[2].positionOS * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
 				o.ase_texcoord2 = patch[0].ase_texcoord2 * bary.x + patch[1].ase_texcoord2 * bary.y + patch[2].ase_texcoord2 * bary.z;
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -2495,7 +2529,8 @@ Shader "StraponShader"
 
 			#define ASE_NEEDS_VERT_POSITION
 			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -2507,6 +2542,7 @@ Shader "StraponShader"
 				float3 positionOS : POSITION;
 				float3 normalOS : NORMAL;
 				float4 ase_texcoord2 : TEXCOORD2;
+				float4 ase_color : COLOR;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -2676,24 +2712,31 @@ Shader "StraponShader"
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( outputPackedVaryingsMeshToPS );
 
-				float localGetDeformationFromPenetrators_float8_g3 = ( 0.0 );
-				float4 appendResult17_g3 = (float4(inputMesh.positionOS , 1.0));
-				float4 transform16_g3 = mul(GetObjectToWorldMatrix(),appendResult17_g3);
-				transform16_g3.xyz = GetAbsolutePositionWS((transform16_g3).xyz);
-				float3 worldPosition8_g3 = (transform16_g3).xyz;
-				float4 texCoord3_g3 = inputMesh.ase_texcoord2;
-				texCoord3_g3.xy = inputMesh.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
-				float4 uv28_g3 = texCoord3_g3;
-				float compressibleDistance8_g3 = _CompressibleDistance;
-				float smoothness8_g3 = _PenetrationSmoothness;
-				float3 deformedPosition8_g3 = float3( 0,0,0 );
+				float3 temp_output_10_0_g4 = inputMesh.positionOS;
+				float localGetDeformationFromPenetrators_float8_g4 = ( 0.0 );
+				float4 appendResult17_g4 = (float4(temp_output_10_0_g4 , 1.0));
+				float4 transform16_g4 = mul(GetObjectToWorldMatrix(),appendResult17_g4);
+				transform16_g4.xyz = GetAbsolutePositionWS((transform16_g4).xyz);
+				float3 worldPosition8_g4 = (transform16_g4).xyz;
+				float4 texCoord3_g4 = inputMesh.ase_texcoord2;
+				texCoord3_g4.xy = inputMesh.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
+				float4 uv28_g4 = texCoord3_g4;
+				float compressibleDistance8_g4 = _CompressibleDistance;
+				float smoothness8_g4 = _PenetrationSmoothness;
+				float3 deformedPosition8_g4 = float3( 0,0,0 );
 				{
-				GetDeformationFromPenetrators_float(worldPosition8_g3,uv28_g3,compressibleDistance8_g3,smoothness8_g3,deformedPosition8_g3);
+				GetDeformationFromPenetrators_float(worldPosition8_g4,uv28_g4,compressibleDistance8_g4,smoothness8_g4,deformedPosition8_g4);
 				}
-				float4 appendResult21_g3 = (float4(deformedPosition8_g3 , 1.0));
-				float4 localWorldVar19_g3 = appendResult21_g3;
-				(localWorldVar19_g3).xyz = GetCameraRelativePositionWS((localWorldVar19_g3).xyz);
-				float4 transform19_g3 = mul(GetWorldToObjectMatrix(),localWorldVar19_g3);
+				float4 appendResult21_g4 = (float4(deformedPosition8_g4 , 1.0));
+				float4 localWorldVar19_g4 = appendResult21_g4;
+				(localWorldVar19_g4).xyz = GetCameraRelativePositionWS((localWorldVar19_g4).xyz);
+				float4 transform19_g4 = mul(GetWorldToObjectMatrix(),localWorldVar19_g4);
+				#ifdef _PENETRATION_DEFORMATION_ON
+				float3 staticSwitch24_g4 = (transform19_g4).xyz;
+				#else
+				float3 staticSwitch24_g4 = temp_output_10_0_g4;
+				#endif
+				float3 lerpResult60 = lerp( inputMesh.positionOS , staticSwitch24_g4 , inputMesh.ase_color.r);
 				
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -2701,7 +2744,7 @@ Shader "StraponShader"
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = (transform19_g3).xyz;
+				float3 vertexValue = lerpResult60;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -2723,6 +2766,7 @@ Shader "StraponShader"
 				float3 positionOS : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
 				float4 ase_texcoord2 : TEXCOORD2;
+				float4 ase_color : COLOR;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -2741,6 +2785,7 @@ Shader "StraponShader"
 				o.positionOS = v.positionOS;
 				o.normalOS = v.normalOS;
 				o.ase_texcoord2 = v.ase_texcoord2;
+				o.ase_color = v.ase_color;
 				return o;
 			}
 
@@ -2785,6 +2830,7 @@ Shader "StraponShader"
 				o.positionOS = patch[0].positionOS * bary.x + patch[1].positionOS * bary.y + patch[2].positionOS * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
 				o.ase_texcoord2 = patch[0].ase_texcoord2 * bary.x + patch[1].ase_texcoord2 * bary.y + patch[2].ase_texcoord2 * bary.z;
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -3063,7 +3109,8 @@ Shader "StraponShader"
 
 			#define ASE_NEEDS_VERT_POSITION
 			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -3076,6 +3123,7 @@ Shader "StraponShader"
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
 				float4 ase_texcoord2 : TEXCOORD2;
+				float4 ase_color : COLOR;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -3253,24 +3301,31 @@ Shader "StraponShader"
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( outputPackedVaryingsMeshToPS );
 
-				float localGetDeformationFromPenetrators_float8_g3 = ( 0.0 );
-				float4 appendResult17_g3 = (float4(inputMesh.positionOS , 1.0));
-				float4 transform16_g3 = mul(GetObjectToWorldMatrix(),appendResult17_g3);
-				transform16_g3.xyz = GetAbsolutePositionWS((transform16_g3).xyz);
-				float3 worldPosition8_g3 = (transform16_g3).xyz;
-				float4 texCoord3_g3 = inputMesh.ase_texcoord2;
-				texCoord3_g3.xy = inputMesh.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
-				float4 uv28_g3 = texCoord3_g3;
-				float compressibleDistance8_g3 = _CompressibleDistance;
-				float smoothness8_g3 = _PenetrationSmoothness;
-				float3 deformedPosition8_g3 = float3( 0,0,0 );
+				float3 temp_output_10_0_g4 = inputMesh.positionOS;
+				float localGetDeformationFromPenetrators_float8_g4 = ( 0.0 );
+				float4 appendResult17_g4 = (float4(temp_output_10_0_g4 , 1.0));
+				float4 transform16_g4 = mul(GetObjectToWorldMatrix(),appendResult17_g4);
+				transform16_g4.xyz = GetAbsolutePositionWS((transform16_g4).xyz);
+				float3 worldPosition8_g4 = (transform16_g4).xyz;
+				float4 texCoord3_g4 = inputMesh.ase_texcoord2;
+				texCoord3_g4.xy = inputMesh.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
+				float4 uv28_g4 = texCoord3_g4;
+				float compressibleDistance8_g4 = _CompressibleDistance;
+				float smoothness8_g4 = _PenetrationSmoothness;
+				float3 deformedPosition8_g4 = float3( 0,0,0 );
 				{
-				GetDeformationFromPenetrators_float(worldPosition8_g3,uv28_g3,compressibleDistance8_g3,smoothness8_g3,deformedPosition8_g3);
+				GetDeformationFromPenetrators_float(worldPosition8_g4,uv28_g4,compressibleDistance8_g4,smoothness8_g4,deformedPosition8_g4);
 				}
-				float4 appendResult21_g3 = (float4(deformedPosition8_g3 , 1.0));
-				float4 localWorldVar19_g3 = appendResult21_g3;
-				(localWorldVar19_g3).xyz = GetCameraRelativePositionWS((localWorldVar19_g3).xyz);
-				float4 transform19_g3 = mul(GetWorldToObjectMatrix(),localWorldVar19_g3);
+				float4 appendResult21_g4 = (float4(deformedPosition8_g4 , 1.0));
+				float4 localWorldVar19_g4 = appendResult21_g4;
+				(localWorldVar19_g4).xyz = GetCameraRelativePositionWS((localWorldVar19_g4).xyz);
+				float4 transform19_g4 = mul(GetWorldToObjectMatrix(),localWorldVar19_g4);
+				#ifdef _PENETRATION_DEFORMATION_ON
+				float3 staticSwitch24_g4 = (transform19_g4).xyz;
+				#else
+				float3 staticSwitch24_g4 = temp_output_10_0_g4;
+				#endif
+				float3 lerpResult60 = lerp( inputMesh.positionOS , staticSwitch24_g4 , inputMesh.ase_color.r);
 				
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -3278,7 +3333,7 @@ Shader "StraponShader"
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = (transform19_g3).xyz;
+				float3 vertexValue = lerpResult60;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -3307,6 +3362,7 @@ Shader "StraponShader"
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
 				float4 ase_texcoord2 : TEXCOORD2;
+				float4 ase_color : COLOR;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -3326,6 +3382,7 @@ Shader "StraponShader"
 				o.normalOS = v.normalOS;
 				o.tangentOS = v.tangentOS;
 				o.ase_texcoord2 = v.ase_texcoord2;
+				o.ase_color = v.ase_color;
 				return o;
 			}
 
@@ -3371,6 +3428,7 @@ Shader "StraponShader"
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
 				o.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
 				o.ase_texcoord2 = patch[0].ase_texcoord2 * bary.x + patch[1].ase_texcoord2 * bary.y + patch[2].ase_texcoord2 * bary.z;
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -3689,7 +3747,8 @@ Shader "StraponShader"
 
 			#define ASE_NEEDS_VERT_POSITION
 			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -3703,6 +3762,7 @@ Shader "StraponShader"
 				float3 previousPositionOS : TEXCOORD4;
 				float3 precomputedVelocity : TEXCOORD5;
 				float4 ase_texcoord2 : TEXCOORD2;
+				float4 ase_color : COLOR;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -3871,24 +3931,31 @@ Shader "StraponShader"
 			AttributesMesh ApplyMeshModification(AttributesMesh inputMesh, float3 timeParameters, inout PackedVaryingsMeshToPS outputPackedVaryingsMeshToPS )
 			{
 				_TimeParameters.xyz = timeParameters;
-				float localGetDeformationFromPenetrators_float8_g3 = ( 0.0 );
-				float4 appendResult17_g3 = (float4(inputMesh.positionOS , 1.0));
-				float4 transform16_g3 = mul(GetObjectToWorldMatrix(),appendResult17_g3);
-				transform16_g3.xyz = GetAbsolutePositionWS((transform16_g3).xyz);
-				float3 worldPosition8_g3 = (transform16_g3).xyz;
-				float4 texCoord3_g3 = inputMesh.ase_texcoord2;
-				texCoord3_g3.xy = inputMesh.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
-				float4 uv28_g3 = texCoord3_g3;
-				float compressibleDistance8_g3 = _CompressibleDistance;
-				float smoothness8_g3 = _PenetrationSmoothness;
-				float3 deformedPosition8_g3 = float3( 0,0,0 );
+				float3 temp_output_10_0_g4 = inputMesh.positionOS;
+				float localGetDeformationFromPenetrators_float8_g4 = ( 0.0 );
+				float4 appendResult17_g4 = (float4(temp_output_10_0_g4 , 1.0));
+				float4 transform16_g4 = mul(GetObjectToWorldMatrix(),appendResult17_g4);
+				transform16_g4.xyz = GetAbsolutePositionWS((transform16_g4).xyz);
+				float3 worldPosition8_g4 = (transform16_g4).xyz;
+				float4 texCoord3_g4 = inputMesh.ase_texcoord2;
+				texCoord3_g4.xy = inputMesh.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
+				float4 uv28_g4 = texCoord3_g4;
+				float compressibleDistance8_g4 = _CompressibleDistance;
+				float smoothness8_g4 = _PenetrationSmoothness;
+				float3 deformedPosition8_g4 = float3( 0,0,0 );
 				{
-				GetDeformationFromPenetrators_float(worldPosition8_g3,uv28_g3,compressibleDistance8_g3,smoothness8_g3,deformedPosition8_g3);
+				GetDeformationFromPenetrators_float(worldPosition8_g4,uv28_g4,compressibleDistance8_g4,smoothness8_g4,deformedPosition8_g4);
 				}
-				float4 appendResult21_g3 = (float4(deformedPosition8_g3 , 1.0));
-				float4 localWorldVar19_g3 = appendResult21_g3;
-				(localWorldVar19_g3).xyz = GetCameraRelativePositionWS((localWorldVar19_g3).xyz);
-				float4 transform19_g3 = mul(GetWorldToObjectMatrix(),localWorldVar19_g3);
+				float4 appendResult21_g4 = (float4(deformedPosition8_g4 , 1.0));
+				float4 localWorldVar19_g4 = appendResult21_g4;
+				(localWorldVar19_g4).xyz = GetCameraRelativePositionWS((localWorldVar19_g4).xyz);
+				float4 transform19_g4 = mul(GetWorldToObjectMatrix(),localWorldVar19_g4);
+				#ifdef _PENETRATION_DEFORMATION_ON
+				float3 staticSwitch24_g4 = (transform19_g4).xyz;
+				#else
+				float3 staticSwitch24_g4 = temp_output_10_0_g4;
+				#endif
+				float3 lerpResult60 = lerp( inputMesh.positionOS , staticSwitch24_g4 , inputMesh.ase_color.r);
 				
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -3896,7 +3963,7 @@ Shader "StraponShader"
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = (transform19_g3).xyz;
+				float3 vertexValue = lerpResult60;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -3992,6 +4059,7 @@ Shader "StraponShader"
 				float3 previousPositionOS : TEXCOORD4;
 				float3 precomputedVelocity : TEXCOORD5;
 				float4 ase_texcoord2 : TEXCOORD2;
+				float4 ase_color : COLOR;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -4014,6 +4082,7 @@ Shader "StraponShader"
 				o.precomputedVelocity = v.precomputedVelocity;
 				#endif
 				o.ase_texcoord2 = v.ase_texcoord2;
+				o.ase_color = v.ase_color;
 				return o;
 			}
 
@@ -4062,6 +4131,7 @@ Shader "StraponShader"
 					o.precomputedVelocity = patch[0].precomputedVelocity * bary.x + patch[1].precomputedVelocity * bary.y + patch[2].precomputedVelocity * bary.z;
 				#endif
 				o.ase_texcoord2 = patch[0].ase_texcoord2 * bary.x + patch[1].ase_texcoord2 * bary.y + patch[2].ase_texcoord2 * bary.z;
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -4415,7 +4485,8 @@ Shader "StraponShader"
 
 			#define ASE_NEEDS_VERT_POSITION
 			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -4431,6 +4502,7 @@ Shader "StraponShader"
 				float4 uv2 : TEXCOORD2;
 				float3 previousPositionOS : TEXCOORD4;
 				float3 precomputedVelocity : TEXCOORD5;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -4675,24 +4747,31 @@ Shader "StraponShader"
 			AttributesMesh ApplyMeshModification(AttributesMesh inputMesh, float3 timeParameters, inout PackedVaryingsMeshToPS outputPackedVaryingsMeshToPS )
 			{
 				_TimeParameters.xyz = timeParameters;
-				float localGetDeformationFromPenetrators_float8_g3 = ( 0.0 );
-				float4 appendResult17_g3 = (float4(inputMesh.positionOS , 1.0));
-				float4 transform16_g3 = mul(GetObjectToWorldMatrix(),appendResult17_g3);
-				transform16_g3.xyz = GetAbsolutePositionWS((transform16_g3).xyz);
-				float3 worldPosition8_g3 = (transform16_g3).xyz;
-				float4 texCoord3_g3 = inputMesh.uv2;
-				texCoord3_g3.xy = inputMesh.uv2.xy * float2( 1,1 ) + float2( 0,0 );
-				float4 uv28_g3 = texCoord3_g3;
-				float compressibleDistance8_g3 = _CompressibleDistance;
-				float smoothness8_g3 = _PenetrationSmoothness;
-				float3 deformedPosition8_g3 = float3( 0,0,0 );
+				float3 temp_output_10_0_g4 = inputMesh.positionOS;
+				float localGetDeformationFromPenetrators_float8_g4 = ( 0.0 );
+				float4 appendResult17_g4 = (float4(temp_output_10_0_g4 , 1.0));
+				float4 transform16_g4 = mul(GetObjectToWorldMatrix(),appendResult17_g4);
+				transform16_g4.xyz = GetAbsolutePositionWS((transform16_g4).xyz);
+				float3 worldPosition8_g4 = (transform16_g4).xyz;
+				float4 texCoord3_g4 = inputMesh.uv2;
+				texCoord3_g4.xy = inputMesh.uv2.xy * float2( 1,1 ) + float2( 0,0 );
+				float4 uv28_g4 = texCoord3_g4;
+				float compressibleDistance8_g4 = _CompressibleDistance;
+				float smoothness8_g4 = _PenetrationSmoothness;
+				float3 deformedPosition8_g4 = float3( 0,0,0 );
 				{
-				GetDeformationFromPenetrators_float(worldPosition8_g3,uv28_g3,compressibleDistance8_g3,smoothness8_g3,deformedPosition8_g3);
+				GetDeformationFromPenetrators_float(worldPosition8_g4,uv28_g4,compressibleDistance8_g4,smoothness8_g4,deformedPosition8_g4);
 				}
-				float4 appendResult21_g3 = (float4(deformedPosition8_g3 , 1.0));
-				float4 localWorldVar19_g3 = appendResult21_g3;
-				(localWorldVar19_g3).xyz = GetCameraRelativePositionWS((localWorldVar19_g3).xyz);
-				float4 transform19_g3 = mul(GetWorldToObjectMatrix(),localWorldVar19_g3);
+				float4 appendResult21_g4 = (float4(deformedPosition8_g4 , 1.0));
+				float4 localWorldVar19_g4 = appendResult21_g4;
+				(localWorldVar19_g4).xyz = GetCameraRelativePositionWS((localWorldVar19_g4).xyz);
+				float4 transform19_g4 = mul(GetWorldToObjectMatrix(),localWorldVar19_g4);
+				#ifdef _PENETRATION_DEFORMATION_ON
+				float3 staticSwitch24_g4 = (transform19_g4).xyz;
+				#else
+				float3 staticSwitch24_g4 = temp_output_10_0_g4;
+				#endif
+				float3 lerpResult60 = lerp( inputMesh.positionOS , staticSwitch24_g4 , inputMesh.ase_color.r);
 				
 				outputPackedVaryingsMeshToPS.ase_texcoord7.xy = inputMesh.ase_texcoord.xy;
 				
@@ -4704,7 +4783,7 @@ Shader "StraponShader"
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = (transform19_g3).xyz;
+				float3 vertexValue = lerpResult60;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -4796,6 +4875,7 @@ Shader "StraponShader"
 				float4 tangentOS : TANGENT;
 				float4 uv1 : TEXCOORD1;
 				float4 uv2 : TEXCOORD2;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -4817,6 +4897,7 @@ Shader "StraponShader"
 				o.tangentOS = v.tangentOS;
 				o.uv1 = v.uv1;
 				o.uv2 = v.uv2;
+				o.ase_color = v.ase_color;
 				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
@@ -4864,6 +4945,7 @@ Shader "StraponShader"
 				o.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
 				o.uv1 = patch[0].uv1 * bary.x + patch[1].uv1 * bary.y + patch[2].uv1 * bary.z;
 				o.uv2 = patch[0].uv2 * bary.x + patch[1].uv2 * bary.y + patch[2].uv2 * bary.z;
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
@@ -5314,7 +5396,8 @@ Shader "StraponShader"
 
 			#define ASE_NEEDS_VERT_POSITION
 			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			struct VertexInput
@@ -5323,6 +5406,7 @@ Shader "StraponShader"
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
 				float4 ase_texcoord2 : TEXCOORD2;
+				float4 ase_color : COLOR;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -5450,31 +5534,38 @@ Shader "StraponShader"
 				UNITY_SETUP_INSTANCE_ID(inputMesh);
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, o );
 
-				float localGetDeformationFromPenetrators_float8_g3 = ( 0.0 );
-				float4 appendResult17_g3 = (float4(inputMesh.positionOS , 1.0));
-				float4 transform16_g3 = mul(GetObjectToWorldMatrix(),appendResult17_g3);
-				transform16_g3.xyz = GetAbsolutePositionWS((transform16_g3).xyz);
-				float3 worldPosition8_g3 = (transform16_g3).xyz;
-				float4 texCoord3_g3 = inputMesh.ase_texcoord2;
-				texCoord3_g3.xy = inputMesh.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
-				float4 uv28_g3 = texCoord3_g3;
-				float compressibleDistance8_g3 = _CompressibleDistance;
-				float smoothness8_g3 = _PenetrationSmoothness;
-				float3 deformedPosition8_g3 = float3( 0,0,0 );
+				float3 temp_output_10_0_g4 = inputMesh.positionOS;
+				float localGetDeformationFromPenetrators_float8_g4 = ( 0.0 );
+				float4 appendResult17_g4 = (float4(temp_output_10_0_g4 , 1.0));
+				float4 transform16_g4 = mul(GetObjectToWorldMatrix(),appendResult17_g4);
+				transform16_g4.xyz = GetAbsolutePositionWS((transform16_g4).xyz);
+				float3 worldPosition8_g4 = (transform16_g4).xyz;
+				float4 texCoord3_g4 = inputMesh.ase_texcoord2;
+				texCoord3_g4.xy = inputMesh.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
+				float4 uv28_g4 = texCoord3_g4;
+				float compressibleDistance8_g4 = _CompressibleDistance;
+				float smoothness8_g4 = _PenetrationSmoothness;
+				float3 deformedPosition8_g4 = float3( 0,0,0 );
 				{
-				GetDeformationFromPenetrators_float(worldPosition8_g3,uv28_g3,compressibleDistance8_g3,smoothness8_g3,deformedPosition8_g3);
+				GetDeformationFromPenetrators_float(worldPosition8_g4,uv28_g4,compressibleDistance8_g4,smoothness8_g4,deformedPosition8_g4);
 				}
-				float4 appendResult21_g3 = (float4(deformedPosition8_g3 , 1.0));
-				float4 localWorldVar19_g3 = appendResult21_g3;
-				(localWorldVar19_g3).xyz = GetCameraRelativePositionWS((localWorldVar19_g3).xyz);
-				float4 transform19_g3 = mul(GetWorldToObjectMatrix(),localWorldVar19_g3);
+				float4 appendResult21_g4 = (float4(deformedPosition8_g4 , 1.0));
+				float4 localWorldVar19_g4 = appendResult21_g4;
+				(localWorldVar19_g4).xyz = GetCameraRelativePositionWS((localWorldVar19_g4).xyz);
+				float4 transform19_g4 = mul(GetWorldToObjectMatrix(),localWorldVar19_g4);
+				#ifdef _PENETRATION_DEFORMATION_ON
+				float3 staticSwitch24_g4 = (transform19_g4).xyz;
+				#else
+				float3 staticSwitch24_g4 = temp_output_10_0_g4;
+				#endif
+				float3 lerpResult60 = lerp( inputMesh.positionOS , staticSwitch24_g4 , inputMesh.ase_color.r);
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue =  (transform19_g3).xyz;
+				float3 vertexValue =  lerpResult60;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
 				#else
@@ -5501,6 +5592,7 @@ Shader "StraponShader"
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
 				float4 ase_texcoord2 : TEXCOORD2;
+				float4 ase_color : COLOR;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -5520,6 +5612,7 @@ Shader "StraponShader"
 				o.normalOS = v.normalOS;
 				o.tangentOS = v.tangentOS;
 				o.ase_texcoord2 = v.ase_texcoord2;
+				o.ase_color = v.ase_color;
 				return o;
 			}
 
@@ -5565,6 +5658,7 @@ Shader "StraponShader"
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
 				o.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
 				o.ase_texcoord2 = patch[0].ase_texcoord2 * bary.x + patch[1].ase_texcoord2 * bary.y + patch[2].ase_texcoord2 * bary.z;
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -5891,31 +5985,34 @@ Shader "StraponShader"
 }
 /*ASEBEGIN
 Version=19201
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;META;0;1;META;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;3;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;SceneSelectionPass;0;3;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;4;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;DepthOnly;0;4;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;True;True;0;True;_StencilRefDepth;255;False;;255;True;_StencilWriteMaskDepth;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;1;False;;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;6;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;TransparentBackface;0;6;TransparentBackface;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelOne;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelTwo;False;False;False;False;False;True;0;True;_ZWrite;True;0;True;_ZTestTransparent;False;True;1;LightMode=TransparentBackface;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;7;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;TransparentDepthPrepass;0;7;TransparentDepthPrepass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;True;True;0;True;_StencilRefDepth;255;False;;255;True;_StencilWriteMaskDepth;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;1;False;;False;False;True;1;LightMode=TransparentDepthPrepass;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;8;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;TransparentDepthPostpass;0;8;TransparentDepthPostpass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=TransparentDepthPostpass;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;9;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;Forward;0;9;Forward;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;True;0;True;_CullModeForward;False;False;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelOne;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelTwo;False;False;False;True;True;0;True;_StencilRef;255;False;;255;True;_StencilWriteMask;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;0;True;_ZWrite;True;0;True;_ZTestDepthEqualForOpaque;False;True;1;LightMode=Forward;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;10;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;ScenePickingPass;0;10;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;3;False;;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.DiffusionProfileNode;39;172.3674,224.3481;Float;False;Property;_DiffusionProfile;DiffusionProfile;9;0;Create;True;0;0;0;False;0;False;0;0;False;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;40;111.7587,-166.6404;Inherit;False;Property;_Alpha;Alpha;6;0;Create;True;0;0;0;False;0;False;0.2916001;0.1;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;META;0;1;META;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;3;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;SceneSelectionPass;0;3;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;4;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;DepthOnly;0;4;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;True;True;0;True;_StencilRefDepth;255;False;;255;True;_StencilWriteMaskDepth;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;1;False;;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;6;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;TransparentBackface;0;6;TransparentBackface;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelOne;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelTwo;False;False;False;False;False;True;0;True;_ZWrite;True;0;True;_ZTestTransparent;False;True;1;LightMode=TransparentBackface;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;7;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;TransparentDepthPrepass;0;7;TransparentDepthPrepass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;True;True;0;True;_StencilRefDepth;255;False;;255;True;_StencilWriteMaskDepth;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;1;False;;False;False;True;1;LightMode=TransparentDepthPrepass;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;8;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;TransparentDepthPostpass;0;8;TransparentDepthPostpass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=TransparentDepthPostpass;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;9;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;Forward;0;9;Forward;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;True;0;True;_CullModeForward;False;False;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelOne;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelTwo;False;False;False;True;True;0;True;_StencilRef;255;False;;255;True;_StencilWriteMask;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;0;True;_ZWrite;True;0;True;_ZTestDepthEqualForOpaque;False;True;1;LightMode=Forward;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;10;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;ScenePickingPass;0;10;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;3;False;;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.DiffusionProfileNode;39;172.3674,224.3481;Float;False;Property;_DiffusionProfile;DiffusionProfile;10;0;Create;True;0;0;0;False;0;False;0;0;False;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;40;111.7587,-166.6404;Inherit;False;Property;_Alpha;Alpha;7;0;Create;True;0;0;0;False;0;False;0.2916001;0.1;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;41;22.44438,-46.2003;Inherit;False;Constant;_Float0;Float 0;9;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;38;44.19842,33.17134;Inherit;False;Property;_RefractionIndex;RefractionIndex;8;0;Create;True;0;0;0;False;0;False;0.038;0.035;-0.2;0.2;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;38;44.19842,33.17134;Inherit;False;Property;_RefractionIndex;RefractionIndex;9;0;Create;True;0;0;0;False;0;False;0.038;0.035;-0.2;0.2;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;42;362.9151,47.07936;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;732.0752,-88.2106;Float;False;True;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;StraponShader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;GBuffer;0;0;GBuffer;34;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;True;True;True;True;0;True;_LightLayersMaskBuffer4;False;False;False;False;False;False;False;True;True;0;True;_StencilRefGBuffer;255;False;;255;True;_StencilWriteMaskGBuffer;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;True;False;True;7;True;_ZTestGBuffer;False;True;1;LightMode=GBuffer;False;False;0;;0;0;Standard;39;Surface Type;1;638211650863799257;  Rendering Pass;1;0;  Refraction Model;2;638211658464669302;    Blending Mode;0;0;    Blend Preserves Specular;1;0;  Back Then Front Rendering;0;0;  Transparent Depth Prepass;0;0;  Transparent Depth Postpass;0;0;  ZWrite;0;0;  Z Test;4;0;Double-Sided;0;0;Alpha Clipping;1;638210200265227910;  Use Shadow Threshold;0;0;Material Type,InvertActionOnDeselection;5;638211654109199336;  Energy Conserving Specular;1;0;  Transmission,InvertActionOnDeselection;0;0;Forward Only;0;0;Receive Decals;1;0;Receives SSR;1;0;Receive SSR Transparent;0;0;Motion Vectors;1;0;  Add Precomputed Velocity;0;0;Specular AA;0;0;Specular Occlusion Mode;1;0;Override Baked GI;0;0;Depth Offset;0;0;DOTS Instancing;0;0;GPU Instancing;1;0;LOD CrossFade;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position;0;638208589227485235;0;11;True;True;True;True;True;True;False;False;False;True;True;False;;False;0
-Node;AmplifyShaderEditor.RangedFloatNode;51;301.8288,-46.52133;Inherit;False;Property;_CoatMask;CoatMask;5;0;Create;True;0;0;0;False;0;False;1;0.174;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;53;732.0752,406.7894;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;MotionVectors;0;5;MotionVectors;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;True;True;0;True;_StencilRefMV;255;False;;255;True;_StencilWriteMaskMV;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;1;False;;False;False;True;1;LightMode=MotionVectors;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.RangedFloatNode;51;301.8288,-46.52133;Inherit;False;Property;_CoatMask;CoatMask;6;0;Create;True;0;0;0;False;0;False;1;0.174;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;53;732.0752,406.7894;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;MotionVectors;0;5;MotionVectors;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;True;True;0;True;_StencilRefMV;255;False;;255;True;_StencilWriteMaskMV;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;1;False;;False;False;True;1;LightMode=MotionVectors;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;44;201.103,356.3173;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;37;-618.067,361.7363;Inherit;True;Property;_ThicknessMap;ThicknessMap;7;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;55;143.0908,-723.4462;Inherit;False;Property;_BaseColor;BaseColor;11;0;Create;True;0;0;0;False;0;False;0,0,0,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;56;-102.7385,130.7369;Inherit;False;Property;_Smoothness;Smoothness;10;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;43;-496.334,614.6962;Inherit;False;Property;_ThicknessMultiplier;ThicknessMultiplier;4;0;Create;True;0;0;0;False;0;False;0;1;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;54;166.1521,514.5368;Inherit;False;PenetrableDeformation;0;;3;014b2db8766710a4c8429222ab5b0977;0;4;10;FLOAT3;0,0,0;False;11;FLOAT4;0,0,0,0;False;12;FLOAT;0;False;13;FLOAT;0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.RangedFloatNode;58;-237.7099,769.7639;Inherit;False;Property;_CompressibleDistance;CompressibleDistance;2;0;Create;True;0;0;0;False;0;False;0.3;0.3;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;57;-117.5578,965.3262;Inherit;False;Property;_PenetrationSmoothness;PenetrationSmoothness;3;0;Create;True;0;0;0;False;0;False;2;2;0;10;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SamplerNode;37;-618.067,361.7363;Inherit;True;Property;_ThicknessMap;ThicknessMap;8;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;55;143.0908,-723.4462;Inherit;False;Property;_BaseColor;BaseColor;12;0;Create;True;0;0;0;False;0;False;0,0,0,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;56;-102.7385,130.7369;Inherit;False;Property;_Smoothness;Smoothness;11;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;43;-496.334,614.6962;Inherit;False;Property;_ThicknessMultiplier;ThicknessMultiplier;5;0;Create;True;0;0;0;False;0;False;0;1;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;57;-117.5578,965.3262;Inherit;False;Property;_PenetrationSmoothness;PenetrationSmoothness;4;0;Create;True;0;0;0;False;0;False;4;2;0;10;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;58;-237.7099,769.7639;Inherit;False;Property;_CompressibleDistance;CompressibleDistance;3;0;Create;True;0;0;0;False;0;False;1;0.3;0;10;0;1;FLOAT;0
+Node;AmplifyShaderEditor.LerpOp;60;654.7483,477.381;Inherit;False;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.PosVertexDataNode;61;384.7483,362.381;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.VertexColorNode;59;385.7483,659.381;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.FunctionNode;62;174.3824,508.666;Inherit;False;PenetrableDeformation;0;;4;7ff1b70ed2c7b9e43aecbec8a912cc8c;0;4;10;FLOAT3;0,0,0;False;11;FLOAT4;0,0,0,0;False;12;FLOAT;0;False;13;FLOAT;0;False;1;FLOAT3;0
 WireConnection;42;0;41;0
 WireConnection;42;1;38;0
 WireConnection;0;0;55;0
@@ -5927,10 +6024,13 @@ WireConnection;0;17;42;0
 WireConnection;0;18;55;0
 WireConnection;0;19;44;0
 WireConnection;0;62;39;0
-WireConnection;0;11;54;0
+WireConnection;0;11;60;0
 WireConnection;44;0;37;1
 WireConnection;44;1;43;0
-WireConnection;54;12;58;0
-WireConnection;54;13;57;0
+WireConnection;60;0;61;0
+WireConnection;60;1;62;0
+WireConnection;60;2;59;1
+WireConnection;62;12;58;0
+WireConnection;62;13;57;0
 ASEEND*/
-//CHKSM=E3463204A6B51C511E4446611ACBB7B136A8F417
+//CHKSM=197DF86346FEE3F755B882CE0B9FC9C580682ABE

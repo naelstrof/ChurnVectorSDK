@@ -17,6 +17,7 @@ public class InputGeneratorPlayerPossession : InputGenerator {
     private float toggleCrouchAmount = 0f;
     private CharacterBase character;
     private Coroutine switchShoulderRoutine;
+    private CatmullSpline cachedSpline;
     
     private OrbitCameraPivotBasic headPivot;
     private OrbitCameraPivotBasic crouchPivot;
@@ -127,9 +128,11 @@ public class InputGeneratorPlayerPossession : InputGenerator {
         if (character.GetDickPenetrator() == null) {
             dickPivotObj.transform.position = animator.GetBoneTransform(HumanBodyBones.Hips).position;
         } else {
-            Vector3 tipPos = character.GetDickPenetrator().GetPath().GetPositionFromT(1f);
-            Vector3 tipDir = character.GetDickPenetrator().GetPath().GetVelocityFromT(1f).normalized;
-            float projectionAmount = this.character.GetDickPenetrator().GetWorldLength();
+            cachedSpline ??= new CatmullSpline(new [] { Vector3.zero, Vector3.one });
+            character.GetDickPenetrator().GetFinalizedSpline(ref cachedSpline, out var distanceAlongSpline, out var insertionLerp, out var penetrationArgs);
+            Vector3 tipPos = cachedSpline.GetPositionFromDistance(distanceAlongSpline+character.GetDickPenetrator().GetSquashStretchedWorldLength());
+            Vector3 tipDir = cachedSpline.GetVelocityFromDistance(distanceAlongSpline+character.GetDickPenetrator().GetSquashStretchedWorldLength()).normalized;
+            float projectionAmount = this.character.GetDickPenetrator().GetSquashStretchedWorldLength();
             dickPivotObj.transform.position = tipPos + tipDir * projectionAmount;
         }
         var dickPivot = dickPivotObj.GetComponent<OrbitCameraPivotBasic>();

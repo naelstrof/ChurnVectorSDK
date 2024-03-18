@@ -173,19 +173,21 @@ MonoBehaviour:
   volumeSolid: 14
   volumeChurned: 6
   dialogueTheme: {fileID: 11400000, guid: 229f4cd9a3f3c70448ef8f6b82c80306, type: 2}
-  balls:
-    inflater:
-      bounce: {fileID: 11400000, guid: 0946975ef88accb48aea4c4c25cc0294, type: 2}
-      listeners: []
+  voreContainer:
+    rid: -2
   headSprite: {fileID: 21300000, guid: a1b032523ccbb134493915c9746fd459, type: 3}
   speed: 2
   animationGroup:
   - {fileID: 11400000, guid: 1f96d61d76628314981622ea16fb9c3c, type: 2}
+  voreMachine:
+    rid: -2
   noseOffset: {x: -0.00000021867729, y: 0.11733427, z: 0.4076442}
   taserOutput: {fileID: 0}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &1872371555391279105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,6 +259,11 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 50ab760396fda6a4c91e50b3bc12e386,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7199469533716687791, guid: 50ab760396fda6a4c91e50b3bc12e386,
+        type: 3}
+      propertyPath: m_BlendShapeWeights.Array.data[0]
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -6031793551388877028, guid: 50ab760396fda6a4c91e50b3bc12e386,
@@ -403,7 +410,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 4300000, guid: adde00079c968724da15956b5773dd36, type: 2}
+      objectReference: {fileID: 4300000, guid: 85dc34e2937fb1a4d9589115dafa8996, type: 2}
     - target: {fileID: 1630794972795428178, guid: 50ab760396fda6a4c91e50b3bc12e386,
         type: 3}
       propertyPath: m_BlendShapeWeights.Array.data[0]
@@ -490,11 +497,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 50ab760396fda6a4c91e50b3bc12e386,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 46895119919321748}
+      addedObject: {fileID: 7003096131685993523}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 50ab760396fda6a4c91e50b3bc12e386,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4818344768037092241}
+      addedObject: {fileID: 6921177096094240051}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 50ab760396fda6a4c91e50b3bc12e386,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8488516156406127767}
     - targetCorrespondingSourceObject: {fileID: -3646755201719406309, guid: 50ab760396fda6a4c91e50b3bc12e386,
         type: 3}
       insertIndex: -1
@@ -571,15 +582,15 @@ RotationConstraint:
   m_Sources:
   - sourceTransform: {fileID: 1364179026341837687}
     weight: 1
---- !u!4 &1298659854311335069 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -4073110492322382985, guid: 50ab760396fda6a4c91e50b3bc12e386,
-    type: 3}
-  m_PrefabInstance: {fileID: 6159978536875368426}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1364179026341837687 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4066140993138187107, guid: 50ab760396fda6a4c91e50b3bc12e386,
+    type: 3}
+  m_PrefabInstance: {fileID: 6159978536875368426}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1696181403487991336 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -4398143094986708542, guid: 50ab760396fda6a4c91e50b3bc12e386,
     type: 3}
   m_PrefabInstance: {fileID: 6159978536875368426}
   m_PrefabAsset: {fileID: 0}
@@ -733,9 +744,9 @@ MonoBehaviour:
     type: 3}
   clothTexture: {fileID: 2800000, guid: 335e1d096ac3f7a4b932c6fd2dd9f0bc, type: 3}
   clothColor: {r: 1, g: 1, b: 1, a: 1}
-  bodyRenderers:
+  nakedBodyRenderers:
   - {fileID: 4890096332171788984}
-  clothesRenderers:
+  clothedBodyRenderers:
   - {fileID: 5290317024154438587}
   boobOomphEffect:
   - {fileID: 8364995562444842674}
@@ -747,6 +758,7 @@ MonoBehaviour:
     bounce: {fileID: 11400000, guid: b2df0e3fa0b4eb74782ac1368940a6b9, type: 2}
     listeners:
     - rid: 3525424874128670726
+  dickTipOpenBlendshapes: []
   references:
     version: 2
     RefIds:
@@ -817,7 +829,7 @@ MonoBehaviour:
   wind: {x: 0, y: 0, z: 0}
   levelOfDetail: {fileID: 11400000, guid: f47a5fc26c7403346afb008b53a65859, type: 2}
   debugDraw: 0
---- !u!114 &46895119919321748
+--- !u!114 &7003096131685993523
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -826,41 +838,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 6466546768274367163}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e0550636f1faf54ea9fada34b07cd10, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b5e019e89c3f044688cff9641915de0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  points:
+  transforms:
   - {fileID: 3456093781489585767}
   - {fileID: 203556495889327836}
-  - {fileID: 1298659854311335069}
+  - {fileID: 1696181403487991336}
   - {fileID: 2670669000295670391}
-  - {fileID: 7391277589601651532}
-  listeners:
-  - rid: 3525424874128670724
-  - rid: 3525424874128670727
-  actualHoleStartT: 0.057
-  references:
-    version: 2
-    RefIds:
-    - rid: 3525424874128670724
-      type: {class: ClipListener, ns: PenetrationTech, asm: Naelstrof.PenetrationTech}
-      data:
-        t: 0.134
-        allowForAllTheWayThrough: 0
-        endT: 1
-    - rid: 3525424874128670727
-      type: {class: SimpleBlendshapeListener, ns: PenetrationTech, asm: Naelstrof.PenetrationTech}
-      data:
-        t: 0.031
-        offsetCorrectionBone: {fileID: 7869226289494901047}
-        targets:
-        - skinnedMeshRenderer: {fileID: 4890096332171788984}
-          blendshapeName: AA
-          blendshapeID: 1
-        baseGirthRadius: 0
-        blendShapeGirthRadius: 0.03
-        overdrive: 0
---- !u!114 &4818344768037092241
+  entranceTransform: {fileID: 3456093781489585767}
+  shouldTruncate: 1
+  truncateNormalizedDistance: 0.182
+  holeStartNormalizedDistance: 0.182
+  shouldClip: 1
+  clippingRange:
+    startNormalizedDistance: 0.276
+    allowAllTheWayThrough: 0
+    endNormalizedDistance: 0
+  penetrableFriction: 0.5
+--- !u!114 &6921177096094240051
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -869,14 +865,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 6466546768274367163}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bc67c190c547e3459c0f74a553dede5, type: 3}
+  m_Script: {fileID: 11500000, guid: 770cf13d3e4a66c46bd39efaa51e1f24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  penetrableTargets:
-  - {fileID: 46895119919321748}
-  renderTargets:
+  penetrables:
+  - {fileID: 7003096131685993523}
+  targetRenderers:
   - {fileID: 4890096332171788984}
   detailOnly: 0
+--- !u!114 &8488516156406127767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6466546768274367163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08ac187c94122ce4984e4af223572710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetPenetrable: {fileID: 7003096131685993523}
+  blendshape:
+    skinnedMeshRenderer: {fileID: 4890096332171788984}
+    blendshapeName: Talk
+    blendshapeID: 0
+  normalizedDistance: 0.078
 --- !u!4 &6669750986471353693 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8506432213329169737, guid: 50ab760396fda6a4c91e50b3bc12e386,
@@ -909,12 +923,6 @@ RotationConstraint:
   m_Sources:
   - sourceTransform: {fileID: 5166014418285687775}
     weight: 1
---- !u!4 &7391277589601651532 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3742407835892290726, guid: 50ab760396fda6a4c91e50b3bc12e386,
-    type: 3}
-  m_PrefabInstance: {fileID: 6159978536875368426}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7528864667917696152 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4825812260448001166, guid: 50ab760396fda6a4c91e50b3bc12e386,

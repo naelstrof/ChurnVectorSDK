@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using PenetrationTech;
+using DPG;
 using SkinnedMeshDecals;
 using UnityEngine;
 using UnityEngine.VFX;
@@ -20,6 +20,8 @@ public class CockVoreMachine : VoreMachine {
     
     private CharacterBase pred;
     private float lastDecalTime;
+    
+    private static CatmullSpline cachedSpline;
     
     public override bool IsVoring() => currentVores.Count != 0;
 
@@ -68,6 +70,9 @@ public class CockVoreMachine : VoreMachine {
     }
 
     public override void LateUpdate() {
+        cachedSpline ??= new CatmullSpline(new[] { Vector3.zero, Vector3.one });
+        dick.GetFinalizedSpline(ref cachedSpline, out var distanceAlongSpline, out var insertionLerp, out var penetrationArgs);
+        removeVores.Clear();
         foreach(var status in currentVores) {
             const float duration = 8f;
             if (status.progress is >= 0f and < 1f) {
@@ -87,13 +92,12 @@ public class CockVoreMachine : VoreMachine {
 
                 var cockVoreCurve = GameManager.GetLibrary().cockVorePath;
                 float tAdjust = cockVoreCurve.EvaluateCurve(t);
-                var path = dick.GetPath();
-                float cockLength = dick.GetWorldLength();
+                float cockLength = dick.GetSquashStretchedWorldLength()+distanceAlongSpline;
                 float distanceAlongDick = cockLength * tAdjust;
-                Vector3 normal = path.GetVelocityFromDistance(cockLength).normalized;
-                Vector3 binormal = path.GetBinormalFromT(path.GetTimeFromDistance(cockLength)).normalized;
+                Vector3 normal = cachedSpline.GetVelocityFromDistance(cockLength).normalized;
+                Vector3 binormal = cachedSpline.GetBinormalFromT(cachedSpline.GetTimeFromDistance(cockLength)).normalized;
                 Quaternion endRotation = Quaternion.LookRotation(normal, binormal);
-                Vector3 position = path.GetPositionFromDistance(cockLength);
+                Vector3 position = cachedSpline.GetPositionFromDistance(cockLength);
                 bigSplash.transform.position = position;
                 bigSplash.transform.rotation = endRotation;
                 status.dickTipRotation = endRotation;
@@ -117,7 +121,7 @@ public class CockVoreMachine : VoreMachine {
                 }
 
                 cockVoreUpdate?.Invoke(status);
-                return;
+                continue;
             }
 
             if (loopingCockGlorpSound != null) {
@@ -143,7 +147,6 @@ public class CockVoreMachine : VoreMachine {
         foreach (var status in removeVores) {
             currentVores.Remove(status);
         }
-        removeVores.Clear();
     }
 
 }

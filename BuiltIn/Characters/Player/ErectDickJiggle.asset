@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravityMultiplier: 0.1
   friction: 0.05
-  angleElasticity: 0.6
+  angleElasticity: 0.5
   blend: 1
   airDrag: 0.01
-  lengthElasticity: 0.4
+  lengthElasticity: 1
   elasticitySoften: 0.2
   radiusMultiplier: 0.12
   radiusCurve:

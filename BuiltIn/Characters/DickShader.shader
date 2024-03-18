@@ -5,13 +5,18 @@ Shader "DickShader"
 	Properties
 	{
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
-		[HideInInspector]_DickRootWorld("DickRootWorld", Vector) = (0,0,0,0)
-		[HideInInspector]_DickForwardWorld("DickForwardWorld", Vector) = (0,0,0,0)
-		[HideInInspector]_DickRightWorld("DickRightWorld", Vector) = (0,0,0,0)
-		[HideInInspector]_DickUpWorld("DickUpWorld", Vector) = (0,0,0,0)
-		[HideInInspector]_SquashStretchCorrection("_SquashStretchCorrection", Float) = 1
-		[HideInInspector]_DistanceToHole("_DistanceToHole", Float) = 0
-		[HideInInspector]_DickWorldLength("_DickWorldLength", Float) = 1
+		[HideInInspector]_PenetratorRootWorld("PenetratorRootWorld", Vector) = (0,0,0,0)
+		[HideInInspector]_PenetratorStartWorld("PenetratorStartWorld", Vector) = (0,0,0,0)
+		[HideInInspector]_PenetratorForwardWorld("PenetratorForwardWorld", Vector) = (0,0,0,0)
+		[HideInInspector]_PenetratorRightWorld("PenetratorRightWorld", Vector) = (0,0,0,0)
+		[HideInInspector]_PenetratorUpWorld("PenetratorUpWorld", Vector) = (0,0,0,0)
+		[HideInInspector]_TruncateLength("TruncateLength", Float) = 999
+		[HideInInspector]_SquashStretchCorrection("SquashStretchCorrection", Float) = 1
+		[HideInInspector]_DistanceToHole("DistanceToHole", Float) = 0
+		[HideInInspector]_PenetratorWorldLength("PenetratorWorldLength", Float) = 1
+		[HideInInspector]_PenetratorOffsetLength("PenetratorOffsetLength", Float) = 0
+		[Toggle(_TRUNCATESPHERIZE_ON)] _TruncateSpherize("TruncateSpherize", Float) = 0
+		_GirthRadius("GirthRadius", Float) = 0.1
 		_BaseColorMap("BaseColorMap", 2D) = "white" {}
 		_MaskMap("MaskMap", 2D) = "gray" {}
 		_NormalMap("NormalMap", 2D) = "bump" {}
@@ -398,23 +403,27 @@ Shader "DickShader"
 			float4 _MaskMap_ST;
 			float4 _BaseColorMap_ST;
 			float4 _NormalMap_ST;
-			float3 _DickOffset;
+			float3 _PenetratorStartWorld;
 			float3 _DickForward;
-			float3 _DickForwardWorld;
-			float3 _DickUpWorld;
-			float3 _WorldDickNormal;
-			float3 _DickRootWorld;
+			float3 _PenetratorForwardWorld;
+			float3 _PenetratorUpWorld;
+			float3 _DickOffset;
+			float3 _PenetratorRootWorld;
 			float3 _WorldDickPosition;
 			float3 _WorldDickBinormal;
-			float3 _DickRightWorld;
+			float3 _PenetratorRightWorld;
+			float3 _WorldDickNormal;
+			float _BulgeProgress;
 			float _Angle;
 			float _TipRadius;
 			float _BulgeRadius;
 			float _BulgeBlend;
 			float _SquashStretchCorrection;
 			float _DistanceToHole;
-			float _DickWorldLength;
-			float _BulgeProgress;
+			float _PenetratorWorldLength;
+			float _TruncateLength;
+			float _GirthRadius;
+			float _PenetratorOffsetLength;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -502,7 +511,8 @@ Shader "DickShader"
 			#define ASE_NEEDS_VERT_NORMAL
 			#define ASE_NEEDS_VERT_TANGENT
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#pragma multi_compile_local __ _TRUNCATESPHERIZE_ON
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -568,6 +578,21 @@ Shader "DickShader"
 			float3 MyCustomExpression32_g265( float3 pos )
 			{
 				return GetAbsolutePositionWS(pos);
+			}
+			
+			float3x3 ChangeOfBasis169_g1( float3 right, float3 up, float3 forward )
+			{
+				float3x3 basisTransform = 0;
+				    basisTransform[0][0] = right.x;
+				    basisTransform[0][1] = right.y;
+				    basisTransform[0][2] = right.z;
+				    basisTransform[1][0] = up.x;
+				    basisTransform[1][1] = up.y;
+				    basisTransform[1][2] = up.z;
+				    basisTransform[2][0] = forward.x;
+				    basisTransform[2][1] = forward.y;
+				    basisTransform[2][2] = forward.z;
+				return basisTransform;
 			}
 			
 			float3x3 ChangeOfBasis9_g1( float3 right, float3 up, float3 forward )
@@ -848,10 +873,18 @@ Shader "DickShader"
 				#endif
 				float3 temp_output_48_0 = staticSwitch13_g265;
 				float localToCatmullRomSpace_float56_g1 = ( 0.0 );
-				float3 worldDickRootPos56_g1 = _DickRootWorld;
-				float3 right9_g1 = _DickRightWorld;
-				float3 up9_g1 = _DickUpWorld;
-				float3 forward9_g1 = _DickForwardWorld;
+				float3 penetratorRootWorld122_g1 = _PenetratorRootWorld;
+				float3 worldPenetratorRootPos56_g1 = penetratorRootWorld122_g1;
+				float3 penetratorRightWorld139_g1 = _PenetratorRightWorld;
+				float3 right169_g1 = penetratorRightWorld139_g1;
+				float3 penetratorUpWorld134_g1 = _PenetratorUpWorld;
+				float3 up169_g1 = penetratorUpWorld134_g1;
+				float3 penetratorForwardWorld126_g1 = _PenetratorForwardWorld;
+				float3 forward169_g1 = penetratorForwardWorld126_g1;
+				float3x3 localChangeOfBasis169_g1 = ChangeOfBasis169_g1( right169_g1 , up169_g1 , forward169_g1 );
+				float3 right9_g1 = penetratorRightWorld139_g1;
+				float3 up9_g1 = penetratorUpWorld134_g1;
+				float3 forward9_g1 = penetratorForwardWorld126_g1;
 				float3x3 localChangeOfBasis9_g1 = ChangeOfBasis9_g1( right9_g1 , up9_g1 , forward9_g1 );
 				float3 normalizeResult37 = normalize( _DickForward );
 				float3 temp_output_36_0 = ( ( _BulgeProgress * normalizeResult37 ) + _DickOffset );
@@ -863,22 +896,33 @@ Shader "DickShader"
 				float4 appendResult67_g1 = (float4(lerpResult33 , 1.0));
 				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
 				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
-				float3 temp_output_68_0_g1 = (transform66_g1).xyz;
-				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( temp_output_68_0_g1 - _DickRootWorld ) );
+				float3 localPenetratorSpaceVertexPosition142_g1 = ( (transform66_g1).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g1 ) );
+				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
 				float3 break15_g1 = temp_output_12_0_g1;
 				float temp_output_18_0_g1 = ( break15_g1.z * _SquashStretchCorrection );
 				float3 appendResult26_g1 = (float3(break15_g1.x , break15_g1.y , temp_output_18_0_g1));
 				float3 appendResult25_g1 = (float3(( break15_g1.x / _SquashStretchCorrection ) , ( break15_g1.y / _SquashStretchCorrection ) , temp_output_18_0_g1));
-				float temp_output_17_0_g1 = ( _DistanceToHole * 0.5 );
+				float distanceToHole180_g1 = _DistanceToHole;
+				float temp_output_17_0_g1 = ( distanceToHole180_g1 * 0.5 );
 				float smoothstepResult23_g1 = smoothstep( 0.0 , temp_output_17_0_g1 , temp_output_18_0_g1);
-				float smoothstepResult22_g1 = smoothstep( _DistanceToHole , temp_output_17_0_g1 , temp_output_18_0_g1);
+				float smoothstepResult22_g1 = smoothstep( distanceToHole180_g1 , temp_output_17_0_g1 , temp_output_18_0_g1);
 				float3 lerpResult31_g1 = lerp( appendResult26_g1 , appendResult25_g1 , min( smoothstepResult23_g1 , smoothstepResult22_g1 ));
-				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( _DistanceToHole - ( _DickWorldLength * ( _DistanceToHole / ( _SquashStretchCorrection * _DickWorldLength ) ) ) ) * float3(0,0,1) ) ) , step( _DistanceToHole , temp_output_18_0_g1 ));
-				float3 newPosition44_g1 = ( _DickRootWorld + mul( transpose( localChangeOfBasis9_g1 ), lerpResult32_g1 ) );
-				float3 worldPosition56_g1 = newPosition44_g1;
-				float3 worldDickForward56_g1 = _DickForwardWorld;
-				float3 worldDickUp56_g1 = _DickUpWorld;
-				float3 worldDickRight56_g1 = _DickRightWorld;
+				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( distanceToHole180_g1 - ( ( distanceToHole180_g1 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
+				float3 squashStretchedPosition44_g1 = lerpResult32_g1;
+				float3 temp_output_150_0_g1 = ( float3(0,0,1) * _TruncateLength );
+				float3 temp_output_149_0_g1 = ( squashStretchedPosition44_g1 - temp_output_150_0_g1 );
+				float3 normalizeResult156_g1 = normalize( temp_output_149_0_g1 );
+				float3 lerpResult152_g1 = lerp( temp_output_149_0_g1 , ( normalizeResult156_g1 * min( length( temp_output_149_0_g1 ) , _GirthRadius ) ) , saturate( ( temp_output_149_0_g1.z * ( 1.0 / _GirthRadius ) ) ));
+				#ifdef _TRUNCATESPHERIZE_ON
+				float3 staticSwitch116_g1 = ( lerpResult152_g1 + temp_output_150_0_g1 );
+				#else
+				float3 staticSwitch116_g1 = squashStretchedPosition44_g1;
+				#endif
+				float3 TruncatedPosition147_g1 = ( penetratorRootWorld122_g1 + mul( transpose( localChangeOfBasis169_g1 ), staticSwitch116_g1 ) );
+				float3 worldPosition56_g1 = ( TruncatedPosition147_g1 + ( penetratorForwardWorld126_g1 * _PenetratorOffsetLength ) );
+				float3 worldPenetratorForward56_g1 = penetratorForwardWorld126_g1;
+				float3 worldPenetratorUp56_g1 = penetratorUpWorld134_g1;
+				float3 worldPenetratorRight56_g1 = penetratorRightWorld139_g1;
 				float3 temp_output_50_0_g265 = inputMesh.normalOS;
 				float2 break146_g266 = normalizeResult41_g266;
 				float4 appendResult139_g266 = (float4(temp_output_48_0_g266 , break146_g266.x , break146_g266.y , 0.0));
@@ -906,7 +950,7 @@ Shader "DickShader"
 				float3 worldNormalOUT56_g1 = float3( 0,0,0 );
 				float4 worldTangentOUT56_g1 = float4( 0,0,0,0 );
 				{
-				ToCatmullRomSpace_float(worldDickRootPos56_g1,worldPosition56_g1,worldDickForward56_g1,worldDickUp56_g1,worldDickRight56_g1,worldNormal56_g1,worldTangent56_g1,worldPositionOUT56_g1,worldNormalOUT56_g1,worldTangentOUT56_g1);
+				ToCatmullRomSpace_float(worldPenetratorRootPos56_g1,worldPosition56_g1,worldPenetratorForward56_g1,worldPenetratorUp56_g1,worldPenetratorRight56_g1,worldNormal56_g1,worldTangent56_g1,worldPositionOUT56_g1,worldNormalOUT56_g1,worldTangentOUT56_g1);
 				}
 				float4 appendResult73_g1 = (float4(worldPositionOUT56_g1 , 1.0));
 				float4 localWorldVar72_g1 = appendResult73_g1;
@@ -1274,23 +1318,27 @@ Shader "DickShader"
 			float4 _MaskMap_ST;
 			float4 _BaseColorMap_ST;
 			float4 _NormalMap_ST;
-			float3 _DickOffset;
+			float3 _PenetratorStartWorld;
 			float3 _DickForward;
-			float3 _DickForwardWorld;
-			float3 _DickUpWorld;
-			float3 _WorldDickNormal;
-			float3 _DickRootWorld;
+			float3 _PenetratorForwardWorld;
+			float3 _PenetratorUpWorld;
+			float3 _DickOffset;
+			float3 _PenetratorRootWorld;
 			float3 _WorldDickPosition;
 			float3 _WorldDickBinormal;
-			float3 _DickRightWorld;
+			float3 _PenetratorRightWorld;
+			float3 _WorldDickNormal;
+			float _BulgeProgress;
 			float _Angle;
 			float _TipRadius;
 			float _BulgeRadius;
 			float _BulgeBlend;
 			float _SquashStretchCorrection;
 			float _DistanceToHole;
-			float _DickWorldLength;
-			float _BulgeProgress;
+			float _PenetratorWorldLength;
+			float _TruncateLength;
+			float _GirthRadius;
+			float _PenetratorOffsetLength;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -1378,7 +1426,8 @@ Shader "DickShader"
 			#define ASE_NEEDS_VERT_NORMAL
 			#define ASE_NEEDS_VERT_TANGENT
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#pragma multi_compile_local __ _TRUNCATESPHERIZE_ON
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -1442,6 +1491,21 @@ Shader "DickShader"
 			float3 MyCustomExpression32_g265( float3 pos )
 			{
 				return GetAbsolutePositionWS(pos);
+			}
+			
+			float3x3 ChangeOfBasis169_g1( float3 right, float3 up, float3 forward )
+			{
+				float3x3 basisTransform = 0;
+				    basisTransform[0][0] = right.x;
+				    basisTransform[0][1] = right.y;
+				    basisTransform[0][2] = right.z;
+				    basisTransform[1][0] = up.x;
+				    basisTransform[1][1] = up.y;
+				    basisTransform[1][2] = up.z;
+				    basisTransform[2][0] = forward.x;
+				    basisTransform[2][1] = forward.y;
+				    basisTransform[2][2] = forward.z;
+				return basisTransform;
 			}
 			
 			float3x3 ChangeOfBasis9_g1( float3 right, float3 up, float3 forward )
@@ -1707,10 +1771,18 @@ Shader "DickShader"
 				#endif
 				float3 temp_output_48_0 = staticSwitch13_g265;
 				float localToCatmullRomSpace_float56_g1 = ( 0.0 );
-				float3 worldDickRootPos56_g1 = _DickRootWorld;
-				float3 right9_g1 = _DickRightWorld;
-				float3 up9_g1 = _DickUpWorld;
-				float3 forward9_g1 = _DickForwardWorld;
+				float3 penetratorRootWorld122_g1 = _PenetratorRootWorld;
+				float3 worldPenetratorRootPos56_g1 = penetratorRootWorld122_g1;
+				float3 penetratorRightWorld139_g1 = _PenetratorRightWorld;
+				float3 right169_g1 = penetratorRightWorld139_g1;
+				float3 penetratorUpWorld134_g1 = _PenetratorUpWorld;
+				float3 up169_g1 = penetratorUpWorld134_g1;
+				float3 penetratorForwardWorld126_g1 = _PenetratorForwardWorld;
+				float3 forward169_g1 = penetratorForwardWorld126_g1;
+				float3x3 localChangeOfBasis169_g1 = ChangeOfBasis169_g1( right169_g1 , up169_g1 , forward169_g1 );
+				float3 right9_g1 = penetratorRightWorld139_g1;
+				float3 up9_g1 = penetratorUpWorld134_g1;
+				float3 forward9_g1 = penetratorForwardWorld126_g1;
 				float3x3 localChangeOfBasis9_g1 = ChangeOfBasis9_g1( right9_g1 , up9_g1 , forward9_g1 );
 				float3 normalizeResult37 = normalize( _DickForward );
 				float3 temp_output_36_0 = ( ( _BulgeProgress * normalizeResult37 ) + _DickOffset );
@@ -1722,22 +1794,33 @@ Shader "DickShader"
 				float4 appendResult67_g1 = (float4(lerpResult33 , 1.0));
 				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
 				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
-				float3 temp_output_68_0_g1 = (transform66_g1).xyz;
-				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( temp_output_68_0_g1 - _DickRootWorld ) );
+				float3 localPenetratorSpaceVertexPosition142_g1 = ( (transform66_g1).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g1 ) );
+				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
 				float3 break15_g1 = temp_output_12_0_g1;
 				float temp_output_18_0_g1 = ( break15_g1.z * _SquashStretchCorrection );
 				float3 appendResult26_g1 = (float3(break15_g1.x , break15_g1.y , temp_output_18_0_g1));
 				float3 appendResult25_g1 = (float3(( break15_g1.x / _SquashStretchCorrection ) , ( break15_g1.y / _SquashStretchCorrection ) , temp_output_18_0_g1));
-				float temp_output_17_0_g1 = ( _DistanceToHole * 0.5 );
+				float distanceToHole180_g1 = _DistanceToHole;
+				float temp_output_17_0_g1 = ( distanceToHole180_g1 * 0.5 );
 				float smoothstepResult23_g1 = smoothstep( 0.0 , temp_output_17_0_g1 , temp_output_18_0_g1);
-				float smoothstepResult22_g1 = smoothstep( _DistanceToHole , temp_output_17_0_g1 , temp_output_18_0_g1);
+				float smoothstepResult22_g1 = smoothstep( distanceToHole180_g1 , temp_output_17_0_g1 , temp_output_18_0_g1);
 				float3 lerpResult31_g1 = lerp( appendResult26_g1 , appendResult25_g1 , min( smoothstepResult23_g1 , smoothstepResult22_g1 ));
-				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( _DistanceToHole - ( _DickWorldLength * ( _DistanceToHole / ( _SquashStretchCorrection * _DickWorldLength ) ) ) ) * float3(0,0,1) ) ) , step( _DistanceToHole , temp_output_18_0_g1 ));
-				float3 newPosition44_g1 = ( _DickRootWorld + mul( transpose( localChangeOfBasis9_g1 ), lerpResult32_g1 ) );
-				float3 worldPosition56_g1 = newPosition44_g1;
-				float3 worldDickForward56_g1 = _DickForwardWorld;
-				float3 worldDickUp56_g1 = _DickUpWorld;
-				float3 worldDickRight56_g1 = _DickRightWorld;
+				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( distanceToHole180_g1 - ( ( distanceToHole180_g1 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
+				float3 squashStretchedPosition44_g1 = lerpResult32_g1;
+				float3 temp_output_150_0_g1 = ( float3(0,0,1) * _TruncateLength );
+				float3 temp_output_149_0_g1 = ( squashStretchedPosition44_g1 - temp_output_150_0_g1 );
+				float3 normalizeResult156_g1 = normalize( temp_output_149_0_g1 );
+				float3 lerpResult152_g1 = lerp( temp_output_149_0_g1 , ( normalizeResult156_g1 * min( length( temp_output_149_0_g1 ) , _GirthRadius ) ) , saturate( ( temp_output_149_0_g1.z * ( 1.0 / _GirthRadius ) ) ));
+				#ifdef _TRUNCATESPHERIZE_ON
+				float3 staticSwitch116_g1 = ( lerpResult152_g1 + temp_output_150_0_g1 );
+				#else
+				float3 staticSwitch116_g1 = squashStretchedPosition44_g1;
+				#endif
+				float3 TruncatedPosition147_g1 = ( penetratorRootWorld122_g1 + mul( transpose( localChangeOfBasis169_g1 ), staticSwitch116_g1 ) );
+				float3 worldPosition56_g1 = ( TruncatedPosition147_g1 + ( penetratorForwardWorld126_g1 * _PenetratorOffsetLength ) );
+				float3 worldPenetratorForward56_g1 = penetratorForwardWorld126_g1;
+				float3 worldPenetratorUp56_g1 = penetratorUpWorld134_g1;
+				float3 worldPenetratorRight56_g1 = penetratorRightWorld139_g1;
 				float3 temp_output_50_0_g265 = inputMesh.normalOS;
 				float2 break146_g266 = normalizeResult41_g266;
 				float4 appendResult139_g266 = (float4(temp_output_48_0_g266 , break146_g266.x , break146_g266.y , 0.0));
@@ -1765,7 +1848,7 @@ Shader "DickShader"
 				float3 worldNormalOUT56_g1 = float3( 0,0,0 );
 				float4 worldTangentOUT56_g1 = float4( 0,0,0,0 );
 				{
-				ToCatmullRomSpace_float(worldDickRootPos56_g1,worldPosition56_g1,worldDickForward56_g1,worldDickUp56_g1,worldDickRight56_g1,worldNormal56_g1,worldTangent56_g1,worldPositionOUT56_g1,worldNormalOUT56_g1,worldTangentOUT56_g1);
+				ToCatmullRomSpace_float(worldPenetratorRootPos56_g1,worldPosition56_g1,worldPenetratorForward56_g1,worldPenetratorUp56_g1,worldPenetratorRight56_g1,worldNormal56_g1,worldTangent56_g1,worldPositionOUT56_g1,worldNormalOUT56_g1,worldTangentOUT56_g1);
 				}
 				float4 appendResult73_g1 = (float4(worldPositionOUT56_g1 , 1.0));
 				float4 localWorldVar72_g1 = appendResult73_g1;
@@ -2126,23 +2209,27 @@ Shader "DickShader"
 			float4 _MaskMap_ST;
 			float4 _BaseColorMap_ST;
 			float4 _NormalMap_ST;
-			float3 _DickOffset;
+			float3 _PenetratorStartWorld;
 			float3 _DickForward;
-			float3 _DickForwardWorld;
-			float3 _DickUpWorld;
-			float3 _WorldDickNormal;
-			float3 _DickRootWorld;
+			float3 _PenetratorForwardWorld;
+			float3 _PenetratorUpWorld;
+			float3 _DickOffset;
+			float3 _PenetratorRootWorld;
 			float3 _WorldDickPosition;
 			float3 _WorldDickBinormal;
-			float3 _DickRightWorld;
+			float3 _PenetratorRightWorld;
+			float3 _WorldDickNormal;
+			float _BulgeProgress;
 			float _Angle;
 			float _TipRadius;
 			float _BulgeRadius;
 			float _BulgeBlend;
 			float _SquashStretchCorrection;
 			float _DistanceToHole;
-			float _DickWorldLength;
-			float _BulgeProgress;
+			float _PenetratorWorldLength;
+			float _TruncateLength;
+			float _GirthRadius;
+			float _PenetratorOffsetLength;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -2226,7 +2313,8 @@ Shader "DickShader"
 			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_VERT_NORMAL
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#pragma multi_compile_local __ _TRUNCATESPHERIZE_ON
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -2284,6 +2372,21 @@ Shader "DickShader"
 			float3 MyCustomExpression32_g265( float3 pos )
 			{
 				return GetAbsolutePositionWS(pos);
+			}
+			
+			float3x3 ChangeOfBasis169_g1( float3 right, float3 up, float3 forward )
+			{
+				float3x3 basisTransform = 0;
+				    basisTransform[0][0] = right.x;
+				    basisTransform[0][1] = right.y;
+				    basisTransform[0][2] = right.z;
+				    basisTransform[1][0] = up.x;
+				    basisTransform[1][1] = up.y;
+				    basisTransform[1][2] = up.z;
+				    basisTransform[2][0] = forward.x;
+				    basisTransform[2][1] = forward.y;
+				    basisTransform[2][2] = forward.z;
+				return basisTransform;
 			}
 			
 			float3x3 ChangeOfBasis9_g1( float3 right, float3 up, float3 forward )
@@ -2497,10 +2600,18 @@ Shader "DickShader"
 				#endif
 				float3 temp_output_48_0 = staticSwitch13_g265;
 				float localToCatmullRomSpace_float56_g1 = ( 0.0 );
-				float3 worldDickRootPos56_g1 = _DickRootWorld;
-				float3 right9_g1 = _DickRightWorld;
-				float3 up9_g1 = _DickUpWorld;
-				float3 forward9_g1 = _DickForwardWorld;
+				float3 penetratorRootWorld122_g1 = _PenetratorRootWorld;
+				float3 worldPenetratorRootPos56_g1 = penetratorRootWorld122_g1;
+				float3 penetratorRightWorld139_g1 = _PenetratorRightWorld;
+				float3 right169_g1 = penetratorRightWorld139_g1;
+				float3 penetratorUpWorld134_g1 = _PenetratorUpWorld;
+				float3 up169_g1 = penetratorUpWorld134_g1;
+				float3 penetratorForwardWorld126_g1 = _PenetratorForwardWorld;
+				float3 forward169_g1 = penetratorForwardWorld126_g1;
+				float3x3 localChangeOfBasis169_g1 = ChangeOfBasis169_g1( right169_g1 , up169_g1 , forward169_g1 );
+				float3 right9_g1 = penetratorRightWorld139_g1;
+				float3 up9_g1 = penetratorUpWorld134_g1;
+				float3 forward9_g1 = penetratorForwardWorld126_g1;
 				float3x3 localChangeOfBasis9_g1 = ChangeOfBasis9_g1( right9_g1 , up9_g1 , forward9_g1 );
 				float3 normalizeResult37 = normalize( _DickForward );
 				float3 temp_output_36_0 = ( ( _BulgeProgress * normalizeResult37 ) + _DickOffset );
@@ -2512,22 +2623,33 @@ Shader "DickShader"
 				float4 appendResult67_g1 = (float4(lerpResult33 , 1.0));
 				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
 				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
-				float3 temp_output_68_0_g1 = (transform66_g1).xyz;
-				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( temp_output_68_0_g1 - _DickRootWorld ) );
+				float3 localPenetratorSpaceVertexPosition142_g1 = ( (transform66_g1).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g1 ) );
+				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
 				float3 break15_g1 = temp_output_12_0_g1;
 				float temp_output_18_0_g1 = ( break15_g1.z * _SquashStretchCorrection );
 				float3 appendResult26_g1 = (float3(break15_g1.x , break15_g1.y , temp_output_18_0_g1));
 				float3 appendResult25_g1 = (float3(( break15_g1.x / _SquashStretchCorrection ) , ( break15_g1.y / _SquashStretchCorrection ) , temp_output_18_0_g1));
-				float temp_output_17_0_g1 = ( _DistanceToHole * 0.5 );
+				float distanceToHole180_g1 = _DistanceToHole;
+				float temp_output_17_0_g1 = ( distanceToHole180_g1 * 0.5 );
 				float smoothstepResult23_g1 = smoothstep( 0.0 , temp_output_17_0_g1 , temp_output_18_0_g1);
-				float smoothstepResult22_g1 = smoothstep( _DistanceToHole , temp_output_17_0_g1 , temp_output_18_0_g1);
+				float smoothstepResult22_g1 = smoothstep( distanceToHole180_g1 , temp_output_17_0_g1 , temp_output_18_0_g1);
 				float3 lerpResult31_g1 = lerp( appendResult26_g1 , appendResult25_g1 , min( smoothstepResult23_g1 , smoothstepResult22_g1 ));
-				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( _DistanceToHole - ( _DickWorldLength * ( _DistanceToHole / ( _SquashStretchCorrection * _DickWorldLength ) ) ) ) * float3(0,0,1) ) ) , step( _DistanceToHole , temp_output_18_0_g1 ));
-				float3 newPosition44_g1 = ( _DickRootWorld + mul( transpose( localChangeOfBasis9_g1 ), lerpResult32_g1 ) );
-				float3 worldPosition56_g1 = newPosition44_g1;
-				float3 worldDickForward56_g1 = _DickForwardWorld;
-				float3 worldDickUp56_g1 = _DickUpWorld;
-				float3 worldDickRight56_g1 = _DickRightWorld;
+				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( distanceToHole180_g1 - ( ( distanceToHole180_g1 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
+				float3 squashStretchedPosition44_g1 = lerpResult32_g1;
+				float3 temp_output_150_0_g1 = ( float3(0,0,1) * _TruncateLength );
+				float3 temp_output_149_0_g1 = ( squashStretchedPosition44_g1 - temp_output_150_0_g1 );
+				float3 normalizeResult156_g1 = normalize( temp_output_149_0_g1 );
+				float3 lerpResult152_g1 = lerp( temp_output_149_0_g1 , ( normalizeResult156_g1 * min( length( temp_output_149_0_g1 ) , _GirthRadius ) ) , saturate( ( temp_output_149_0_g1.z * ( 1.0 / _GirthRadius ) ) ));
+				#ifdef _TRUNCATESPHERIZE_ON
+				float3 staticSwitch116_g1 = ( lerpResult152_g1 + temp_output_150_0_g1 );
+				#else
+				float3 staticSwitch116_g1 = squashStretchedPosition44_g1;
+				#endif
+				float3 TruncatedPosition147_g1 = ( penetratorRootWorld122_g1 + mul( transpose( localChangeOfBasis169_g1 ), staticSwitch116_g1 ) );
+				float3 worldPosition56_g1 = ( TruncatedPosition147_g1 + ( penetratorForwardWorld126_g1 * _PenetratorOffsetLength ) );
+				float3 worldPenetratorForward56_g1 = penetratorForwardWorld126_g1;
+				float3 worldPenetratorUp56_g1 = penetratorUpWorld134_g1;
+				float3 worldPenetratorRight56_g1 = penetratorRightWorld139_g1;
 				float3 temp_output_50_0_g265 = inputMesh.normalOS;
 				float2 break146_g266 = normalizeResult41_g266;
 				float4 appendResult139_g266 = (float4(temp_output_48_0_g266 , break146_g266.x , break146_g266.y , 0.0));
@@ -2555,7 +2677,7 @@ Shader "DickShader"
 				float3 worldNormalOUT56_g1 = float3( 0,0,0 );
 				float4 worldTangentOUT56_g1 = float4( 0,0,0,0 );
 				{
-				ToCatmullRomSpace_float(worldDickRootPos56_g1,worldPosition56_g1,worldDickForward56_g1,worldDickUp56_g1,worldDickRight56_g1,worldNormal56_g1,worldTangent56_g1,worldPositionOUT56_g1,worldNormalOUT56_g1,worldTangentOUT56_g1);
+				ToCatmullRomSpace_float(worldPenetratorRootPos56_g1,worldPosition56_g1,worldPenetratorForward56_g1,worldPenetratorUp56_g1,worldPenetratorRight56_g1,worldNormal56_g1,worldTangent56_g1,worldPositionOUT56_g1,worldNormalOUT56_g1,worldTangentOUT56_g1);
 				}
 				float4 appendResult73_g1 = (float4(worldPositionOUT56_g1 , 1.0));
 				float4 localWorldVar72_g1 = appendResult73_g1;
@@ -2874,23 +2996,27 @@ Shader "DickShader"
 			float4 _MaskMap_ST;
 			float4 _BaseColorMap_ST;
 			float4 _NormalMap_ST;
-			float3 _DickOffset;
+			float3 _PenetratorStartWorld;
 			float3 _DickForward;
-			float3 _DickForwardWorld;
-			float3 _DickUpWorld;
-			float3 _WorldDickNormal;
-			float3 _DickRootWorld;
+			float3 _PenetratorForwardWorld;
+			float3 _PenetratorUpWorld;
+			float3 _DickOffset;
+			float3 _PenetratorRootWorld;
 			float3 _WorldDickPosition;
 			float3 _WorldDickBinormal;
-			float3 _DickRightWorld;
+			float3 _PenetratorRightWorld;
+			float3 _WorldDickNormal;
+			float _BulgeProgress;
 			float _Angle;
 			float _TipRadius;
 			float _BulgeRadius;
 			float _BulgeBlend;
 			float _SquashStretchCorrection;
 			float _DistanceToHole;
-			float _DickWorldLength;
-			float _BulgeProgress;
+			float _PenetratorWorldLength;
+			float _TruncateLength;
+			float _GirthRadius;
+			float _PenetratorOffsetLength;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -2975,7 +3101,8 @@ Shader "DickShader"
 			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_VERT_NORMAL
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#pragma multi_compile_local __ _TRUNCATESPHERIZE_ON
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -3033,6 +3160,21 @@ Shader "DickShader"
 			float3 MyCustomExpression32_g265( float3 pos )
 			{
 				return GetAbsolutePositionWS(pos);
+			}
+			
+			float3x3 ChangeOfBasis169_g1( float3 right, float3 up, float3 forward )
+			{
+				float3x3 basisTransform = 0;
+				    basisTransform[0][0] = right.x;
+				    basisTransform[0][1] = right.y;
+				    basisTransform[0][2] = right.z;
+				    basisTransform[1][0] = up.x;
+				    basisTransform[1][1] = up.y;
+				    basisTransform[1][2] = up.z;
+				    basisTransform[2][0] = forward.x;
+				    basisTransform[2][1] = forward.y;
+				    basisTransform[2][2] = forward.z;
+				return basisTransform;
 			}
 			
 			float3x3 ChangeOfBasis9_g1( float3 right, float3 up, float3 forward )
@@ -3242,10 +3384,18 @@ Shader "DickShader"
 				#endif
 				float3 temp_output_48_0 = staticSwitch13_g265;
 				float localToCatmullRomSpace_float56_g1 = ( 0.0 );
-				float3 worldDickRootPos56_g1 = _DickRootWorld;
-				float3 right9_g1 = _DickRightWorld;
-				float3 up9_g1 = _DickUpWorld;
-				float3 forward9_g1 = _DickForwardWorld;
+				float3 penetratorRootWorld122_g1 = _PenetratorRootWorld;
+				float3 worldPenetratorRootPos56_g1 = penetratorRootWorld122_g1;
+				float3 penetratorRightWorld139_g1 = _PenetratorRightWorld;
+				float3 right169_g1 = penetratorRightWorld139_g1;
+				float3 penetratorUpWorld134_g1 = _PenetratorUpWorld;
+				float3 up169_g1 = penetratorUpWorld134_g1;
+				float3 penetratorForwardWorld126_g1 = _PenetratorForwardWorld;
+				float3 forward169_g1 = penetratorForwardWorld126_g1;
+				float3x3 localChangeOfBasis169_g1 = ChangeOfBasis169_g1( right169_g1 , up169_g1 , forward169_g1 );
+				float3 right9_g1 = penetratorRightWorld139_g1;
+				float3 up9_g1 = penetratorUpWorld134_g1;
+				float3 forward9_g1 = penetratorForwardWorld126_g1;
 				float3x3 localChangeOfBasis9_g1 = ChangeOfBasis9_g1( right9_g1 , up9_g1 , forward9_g1 );
 				float3 normalizeResult37 = normalize( _DickForward );
 				float3 temp_output_36_0 = ( ( _BulgeProgress * normalizeResult37 ) + _DickOffset );
@@ -3257,22 +3407,33 @@ Shader "DickShader"
 				float4 appendResult67_g1 = (float4(lerpResult33 , 1.0));
 				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
 				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
-				float3 temp_output_68_0_g1 = (transform66_g1).xyz;
-				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( temp_output_68_0_g1 - _DickRootWorld ) );
+				float3 localPenetratorSpaceVertexPosition142_g1 = ( (transform66_g1).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g1 ) );
+				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
 				float3 break15_g1 = temp_output_12_0_g1;
 				float temp_output_18_0_g1 = ( break15_g1.z * _SquashStretchCorrection );
 				float3 appendResult26_g1 = (float3(break15_g1.x , break15_g1.y , temp_output_18_0_g1));
 				float3 appendResult25_g1 = (float3(( break15_g1.x / _SquashStretchCorrection ) , ( break15_g1.y / _SquashStretchCorrection ) , temp_output_18_0_g1));
-				float temp_output_17_0_g1 = ( _DistanceToHole * 0.5 );
+				float distanceToHole180_g1 = _DistanceToHole;
+				float temp_output_17_0_g1 = ( distanceToHole180_g1 * 0.5 );
 				float smoothstepResult23_g1 = smoothstep( 0.0 , temp_output_17_0_g1 , temp_output_18_0_g1);
-				float smoothstepResult22_g1 = smoothstep( _DistanceToHole , temp_output_17_0_g1 , temp_output_18_0_g1);
+				float smoothstepResult22_g1 = smoothstep( distanceToHole180_g1 , temp_output_17_0_g1 , temp_output_18_0_g1);
 				float3 lerpResult31_g1 = lerp( appendResult26_g1 , appendResult25_g1 , min( smoothstepResult23_g1 , smoothstepResult22_g1 ));
-				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( _DistanceToHole - ( _DickWorldLength * ( _DistanceToHole / ( _SquashStretchCorrection * _DickWorldLength ) ) ) ) * float3(0,0,1) ) ) , step( _DistanceToHole , temp_output_18_0_g1 ));
-				float3 newPosition44_g1 = ( _DickRootWorld + mul( transpose( localChangeOfBasis9_g1 ), lerpResult32_g1 ) );
-				float3 worldPosition56_g1 = newPosition44_g1;
-				float3 worldDickForward56_g1 = _DickForwardWorld;
-				float3 worldDickUp56_g1 = _DickUpWorld;
-				float3 worldDickRight56_g1 = _DickRightWorld;
+				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( distanceToHole180_g1 - ( ( distanceToHole180_g1 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
+				float3 squashStretchedPosition44_g1 = lerpResult32_g1;
+				float3 temp_output_150_0_g1 = ( float3(0,0,1) * _TruncateLength );
+				float3 temp_output_149_0_g1 = ( squashStretchedPosition44_g1 - temp_output_150_0_g1 );
+				float3 normalizeResult156_g1 = normalize( temp_output_149_0_g1 );
+				float3 lerpResult152_g1 = lerp( temp_output_149_0_g1 , ( normalizeResult156_g1 * min( length( temp_output_149_0_g1 ) , _GirthRadius ) ) , saturate( ( temp_output_149_0_g1.z * ( 1.0 / _GirthRadius ) ) ));
+				#ifdef _TRUNCATESPHERIZE_ON
+				float3 staticSwitch116_g1 = ( lerpResult152_g1 + temp_output_150_0_g1 );
+				#else
+				float3 staticSwitch116_g1 = squashStretchedPosition44_g1;
+				#endif
+				float3 TruncatedPosition147_g1 = ( penetratorRootWorld122_g1 + mul( transpose( localChangeOfBasis169_g1 ), staticSwitch116_g1 ) );
+				float3 worldPosition56_g1 = ( TruncatedPosition147_g1 + ( penetratorForwardWorld126_g1 * _PenetratorOffsetLength ) );
+				float3 worldPenetratorForward56_g1 = penetratorForwardWorld126_g1;
+				float3 worldPenetratorUp56_g1 = penetratorUpWorld134_g1;
+				float3 worldPenetratorRight56_g1 = penetratorRightWorld139_g1;
 				float3 temp_output_50_0_g265 = inputMesh.normalOS;
 				float2 break146_g266 = normalizeResult41_g266;
 				float4 appendResult139_g266 = (float4(temp_output_48_0_g266 , break146_g266.x , break146_g266.y , 0.0));
@@ -3300,7 +3461,7 @@ Shader "DickShader"
 				float3 worldNormalOUT56_g1 = float3( 0,0,0 );
 				float4 worldTangentOUT56_g1 = float4( 0,0,0,0 );
 				{
-				ToCatmullRomSpace_float(worldDickRootPos56_g1,worldPosition56_g1,worldDickForward56_g1,worldDickUp56_g1,worldDickRight56_g1,worldNormal56_g1,worldTangent56_g1,worldPositionOUT56_g1,worldNormalOUT56_g1,worldTangentOUT56_g1);
+				ToCatmullRomSpace_float(worldPenetratorRootPos56_g1,worldPosition56_g1,worldPenetratorForward56_g1,worldPenetratorUp56_g1,worldPenetratorRight56_g1,worldNormal56_g1,worldTangent56_g1,worldPositionOUT56_g1,worldNormalOUT56_g1,worldTangentOUT56_g1);
 				}
 				float4 appendResult73_g1 = (float4(worldPositionOUT56_g1 , 1.0));
 				float4 localWorldVar72_g1 = appendResult73_g1;
@@ -3590,23 +3751,27 @@ Shader "DickShader"
 			float4 _MaskMap_ST;
 			float4 _BaseColorMap_ST;
 			float4 _NormalMap_ST;
-			float3 _DickOffset;
+			float3 _PenetratorStartWorld;
 			float3 _DickForward;
-			float3 _DickForwardWorld;
-			float3 _DickUpWorld;
-			float3 _WorldDickNormal;
-			float3 _DickRootWorld;
+			float3 _PenetratorForwardWorld;
+			float3 _PenetratorUpWorld;
+			float3 _DickOffset;
+			float3 _PenetratorRootWorld;
 			float3 _WorldDickPosition;
 			float3 _WorldDickBinormal;
-			float3 _DickRightWorld;
+			float3 _PenetratorRightWorld;
+			float3 _WorldDickNormal;
+			float _BulgeProgress;
 			float _Angle;
 			float _TipRadius;
 			float _BulgeRadius;
 			float _BulgeBlend;
 			float _SquashStretchCorrection;
 			float _DistanceToHole;
-			float _DickWorldLength;
-			float _BulgeProgress;
+			float _PenetratorWorldLength;
+			float _TruncateLength;
+			float _GirthRadius;
+			float _PenetratorOffsetLength;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -3693,7 +3858,8 @@ Shader "DickShader"
 			#define ASE_NEEDS_VERT_NORMAL
 			#define ASE_NEEDS_VERT_TANGENT
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#pragma multi_compile_local __ _TRUNCATESPHERIZE_ON
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -3754,6 +3920,21 @@ Shader "DickShader"
 			float3 MyCustomExpression32_g265( float3 pos )
 			{
 				return GetAbsolutePositionWS(pos);
+			}
+			
+			float3x3 ChangeOfBasis169_g1( float3 right, float3 up, float3 forward )
+			{
+				float3x3 basisTransform = 0;
+				    basisTransform[0][0] = right.x;
+				    basisTransform[0][1] = right.y;
+				    basisTransform[0][2] = right.z;
+				    basisTransform[1][0] = up.x;
+				    basisTransform[1][1] = up.y;
+				    basisTransform[1][2] = up.z;
+				    basisTransform[2][0] = forward.x;
+				    basisTransform[2][1] = forward.y;
+				    basisTransform[2][2] = forward.z;
+				return basisTransform;
 			}
 			
 			float3x3 ChangeOfBasis9_g1( float3 right, float3 up, float3 forward )
@@ -3969,10 +4150,18 @@ Shader "DickShader"
 				#endif
 				float3 temp_output_48_0 = staticSwitch13_g265;
 				float localToCatmullRomSpace_float56_g1 = ( 0.0 );
-				float3 worldDickRootPos56_g1 = _DickRootWorld;
-				float3 right9_g1 = _DickRightWorld;
-				float3 up9_g1 = _DickUpWorld;
-				float3 forward9_g1 = _DickForwardWorld;
+				float3 penetratorRootWorld122_g1 = _PenetratorRootWorld;
+				float3 worldPenetratorRootPos56_g1 = penetratorRootWorld122_g1;
+				float3 penetratorRightWorld139_g1 = _PenetratorRightWorld;
+				float3 right169_g1 = penetratorRightWorld139_g1;
+				float3 penetratorUpWorld134_g1 = _PenetratorUpWorld;
+				float3 up169_g1 = penetratorUpWorld134_g1;
+				float3 penetratorForwardWorld126_g1 = _PenetratorForwardWorld;
+				float3 forward169_g1 = penetratorForwardWorld126_g1;
+				float3x3 localChangeOfBasis169_g1 = ChangeOfBasis169_g1( right169_g1 , up169_g1 , forward169_g1 );
+				float3 right9_g1 = penetratorRightWorld139_g1;
+				float3 up9_g1 = penetratorUpWorld134_g1;
+				float3 forward9_g1 = penetratorForwardWorld126_g1;
 				float3x3 localChangeOfBasis9_g1 = ChangeOfBasis9_g1( right9_g1 , up9_g1 , forward9_g1 );
 				float3 normalizeResult37 = normalize( _DickForward );
 				float3 temp_output_36_0 = ( ( _BulgeProgress * normalizeResult37 ) + _DickOffset );
@@ -3984,22 +4173,33 @@ Shader "DickShader"
 				float4 appendResult67_g1 = (float4(lerpResult33 , 1.0));
 				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
 				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
-				float3 temp_output_68_0_g1 = (transform66_g1).xyz;
-				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( temp_output_68_0_g1 - _DickRootWorld ) );
+				float3 localPenetratorSpaceVertexPosition142_g1 = ( (transform66_g1).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g1 ) );
+				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
 				float3 break15_g1 = temp_output_12_0_g1;
 				float temp_output_18_0_g1 = ( break15_g1.z * _SquashStretchCorrection );
 				float3 appendResult26_g1 = (float3(break15_g1.x , break15_g1.y , temp_output_18_0_g1));
 				float3 appendResult25_g1 = (float3(( break15_g1.x / _SquashStretchCorrection ) , ( break15_g1.y / _SquashStretchCorrection ) , temp_output_18_0_g1));
-				float temp_output_17_0_g1 = ( _DistanceToHole * 0.5 );
+				float distanceToHole180_g1 = _DistanceToHole;
+				float temp_output_17_0_g1 = ( distanceToHole180_g1 * 0.5 );
 				float smoothstepResult23_g1 = smoothstep( 0.0 , temp_output_17_0_g1 , temp_output_18_0_g1);
-				float smoothstepResult22_g1 = smoothstep( _DistanceToHole , temp_output_17_0_g1 , temp_output_18_0_g1);
+				float smoothstepResult22_g1 = smoothstep( distanceToHole180_g1 , temp_output_17_0_g1 , temp_output_18_0_g1);
 				float3 lerpResult31_g1 = lerp( appendResult26_g1 , appendResult25_g1 , min( smoothstepResult23_g1 , smoothstepResult22_g1 ));
-				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( _DistanceToHole - ( _DickWorldLength * ( _DistanceToHole / ( _SquashStretchCorrection * _DickWorldLength ) ) ) ) * float3(0,0,1) ) ) , step( _DistanceToHole , temp_output_18_0_g1 ));
-				float3 newPosition44_g1 = ( _DickRootWorld + mul( transpose( localChangeOfBasis9_g1 ), lerpResult32_g1 ) );
-				float3 worldPosition56_g1 = newPosition44_g1;
-				float3 worldDickForward56_g1 = _DickForwardWorld;
-				float3 worldDickUp56_g1 = _DickUpWorld;
-				float3 worldDickRight56_g1 = _DickRightWorld;
+				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( distanceToHole180_g1 - ( ( distanceToHole180_g1 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
+				float3 squashStretchedPosition44_g1 = lerpResult32_g1;
+				float3 temp_output_150_0_g1 = ( float3(0,0,1) * _TruncateLength );
+				float3 temp_output_149_0_g1 = ( squashStretchedPosition44_g1 - temp_output_150_0_g1 );
+				float3 normalizeResult156_g1 = normalize( temp_output_149_0_g1 );
+				float3 lerpResult152_g1 = lerp( temp_output_149_0_g1 , ( normalizeResult156_g1 * min( length( temp_output_149_0_g1 ) , _GirthRadius ) ) , saturate( ( temp_output_149_0_g1.z * ( 1.0 / _GirthRadius ) ) ));
+				#ifdef _TRUNCATESPHERIZE_ON
+				float3 staticSwitch116_g1 = ( lerpResult152_g1 + temp_output_150_0_g1 );
+				#else
+				float3 staticSwitch116_g1 = squashStretchedPosition44_g1;
+				#endif
+				float3 TruncatedPosition147_g1 = ( penetratorRootWorld122_g1 + mul( transpose( localChangeOfBasis169_g1 ), staticSwitch116_g1 ) );
+				float3 worldPosition56_g1 = ( TruncatedPosition147_g1 + ( penetratorForwardWorld126_g1 * _PenetratorOffsetLength ) );
+				float3 worldPenetratorForward56_g1 = penetratorForwardWorld126_g1;
+				float3 worldPenetratorUp56_g1 = penetratorUpWorld134_g1;
+				float3 worldPenetratorRight56_g1 = penetratorRightWorld139_g1;
 				float3 temp_output_50_0_g265 = inputMesh.normalOS;
 				float2 break146_g266 = normalizeResult41_g266;
 				float4 appendResult139_g266 = (float4(temp_output_48_0_g266 , break146_g266.x , break146_g266.y , 0.0));
@@ -4027,7 +4227,7 @@ Shader "DickShader"
 				float3 worldNormalOUT56_g1 = float3( 0,0,0 );
 				float4 worldTangentOUT56_g1 = float4( 0,0,0,0 );
 				{
-				ToCatmullRomSpace_float(worldDickRootPos56_g1,worldPosition56_g1,worldDickForward56_g1,worldDickUp56_g1,worldDickRight56_g1,worldNormal56_g1,worldTangent56_g1,worldPositionOUT56_g1,worldNormalOUT56_g1,worldTangentOUT56_g1);
+				ToCatmullRomSpace_float(worldPenetratorRootPos56_g1,worldPosition56_g1,worldPenetratorForward56_g1,worldPenetratorUp56_g1,worldPenetratorRight56_g1,worldNormal56_g1,worldTangent56_g1,worldPositionOUT56_g1,worldNormalOUT56_g1,worldTangentOUT56_g1);
 				}
 				float4 appendResult73_g1 = (float4(worldPositionOUT56_g1 , 1.0));
 				float4 localWorldVar72_g1 = appendResult73_g1;
@@ -4380,23 +4580,27 @@ Shader "DickShader"
 			float4 _MaskMap_ST;
 			float4 _BaseColorMap_ST;
 			float4 _NormalMap_ST;
-			float3 _DickOffset;
+			float3 _PenetratorStartWorld;
 			float3 _DickForward;
-			float3 _DickForwardWorld;
-			float3 _DickUpWorld;
-			float3 _WorldDickNormal;
-			float3 _DickRootWorld;
+			float3 _PenetratorForwardWorld;
+			float3 _PenetratorUpWorld;
+			float3 _DickOffset;
+			float3 _PenetratorRootWorld;
 			float3 _WorldDickPosition;
 			float3 _WorldDickBinormal;
-			float3 _DickRightWorld;
+			float3 _PenetratorRightWorld;
+			float3 _WorldDickNormal;
+			float _BulgeProgress;
 			float _Angle;
 			float _TipRadius;
 			float _BulgeRadius;
 			float _BulgeBlend;
 			float _SquashStretchCorrection;
 			float _DistanceToHole;
-			float _DickWorldLength;
-			float _BulgeProgress;
+			float _PenetratorWorldLength;
+			float _TruncateLength;
+			float _GirthRadius;
+			float _PenetratorOffsetLength;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -4482,7 +4686,8 @@ Shader "DickShader"
 			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_VERT_NORMAL
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#pragma multi_compile_local __ _TRUNCATESPHERIZE_ON
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -4545,6 +4750,21 @@ Shader "DickShader"
 			float3 MyCustomExpression32_g265( float3 pos )
 			{
 				return GetAbsolutePositionWS(pos);
+			}
+			
+			float3x3 ChangeOfBasis169_g1( float3 right, float3 up, float3 forward )
+			{
+				float3x3 basisTransform = 0;
+				    basisTransform[0][0] = right.x;
+				    basisTransform[0][1] = right.y;
+				    basisTransform[0][2] = right.z;
+				    basisTransform[1][0] = up.x;
+				    basisTransform[1][1] = up.y;
+				    basisTransform[1][2] = up.z;
+				    basisTransform[2][0] = forward.x;
+				    basisTransform[2][1] = forward.y;
+				    basisTransform[2][2] = forward.z;
+				return basisTransform;
 			}
 			
 			float3x3 ChangeOfBasis9_g1( float3 right, float3 up, float3 forward )
@@ -4751,10 +4971,18 @@ Shader "DickShader"
 				#endif
 				float3 temp_output_48_0 = staticSwitch13_g265;
 				float localToCatmullRomSpace_float56_g1 = ( 0.0 );
-				float3 worldDickRootPos56_g1 = _DickRootWorld;
-				float3 right9_g1 = _DickRightWorld;
-				float3 up9_g1 = _DickUpWorld;
-				float3 forward9_g1 = _DickForwardWorld;
+				float3 penetratorRootWorld122_g1 = _PenetratorRootWorld;
+				float3 worldPenetratorRootPos56_g1 = penetratorRootWorld122_g1;
+				float3 penetratorRightWorld139_g1 = _PenetratorRightWorld;
+				float3 right169_g1 = penetratorRightWorld139_g1;
+				float3 penetratorUpWorld134_g1 = _PenetratorUpWorld;
+				float3 up169_g1 = penetratorUpWorld134_g1;
+				float3 penetratorForwardWorld126_g1 = _PenetratorForwardWorld;
+				float3 forward169_g1 = penetratorForwardWorld126_g1;
+				float3x3 localChangeOfBasis169_g1 = ChangeOfBasis169_g1( right169_g1 , up169_g1 , forward169_g1 );
+				float3 right9_g1 = penetratorRightWorld139_g1;
+				float3 up9_g1 = penetratorUpWorld134_g1;
+				float3 forward9_g1 = penetratorForwardWorld126_g1;
 				float3x3 localChangeOfBasis9_g1 = ChangeOfBasis9_g1( right9_g1 , up9_g1 , forward9_g1 );
 				float3 normalizeResult37 = normalize( _DickForward );
 				float3 temp_output_36_0 = ( ( _BulgeProgress * normalizeResult37 ) + _DickOffset );
@@ -4766,22 +4994,33 @@ Shader "DickShader"
 				float4 appendResult67_g1 = (float4(lerpResult33 , 1.0));
 				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
 				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
-				float3 temp_output_68_0_g1 = (transform66_g1).xyz;
-				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( temp_output_68_0_g1 - _DickRootWorld ) );
+				float3 localPenetratorSpaceVertexPosition142_g1 = ( (transform66_g1).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g1 ) );
+				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
 				float3 break15_g1 = temp_output_12_0_g1;
 				float temp_output_18_0_g1 = ( break15_g1.z * _SquashStretchCorrection );
 				float3 appendResult26_g1 = (float3(break15_g1.x , break15_g1.y , temp_output_18_0_g1));
 				float3 appendResult25_g1 = (float3(( break15_g1.x / _SquashStretchCorrection ) , ( break15_g1.y / _SquashStretchCorrection ) , temp_output_18_0_g1));
-				float temp_output_17_0_g1 = ( _DistanceToHole * 0.5 );
+				float distanceToHole180_g1 = _DistanceToHole;
+				float temp_output_17_0_g1 = ( distanceToHole180_g1 * 0.5 );
 				float smoothstepResult23_g1 = smoothstep( 0.0 , temp_output_17_0_g1 , temp_output_18_0_g1);
-				float smoothstepResult22_g1 = smoothstep( _DistanceToHole , temp_output_17_0_g1 , temp_output_18_0_g1);
+				float smoothstepResult22_g1 = smoothstep( distanceToHole180_g1 , temp_output_17_0_g1 , temp_output_18_0_g1);
 				float3 lerpResult31_g1 = lerp( appendResult26_g1 , appendResult25_g1 , min( smoothstepResult23_g1 , smoothstepResult22_g1 ));
-				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( _DistanceToHole - ( _DickWorldLength * ( _DistanceToHole / ( _SquashStretchCorrection * _DickWorldLength ) ) ) ) * float3(0,0,1) ) ) , step( _DistanceToHole , temp_output_18_0_g1 ));
-				float3 newPosition44_g1 = ( _DickRootWorld + mul( transpose( localChangeOfBasis9_g1 ), lerpResult32_g1 ) );
-				float3 worldPosition56_g1 = newPosition44_g1;
-				float3 worldDickForward56_g1 = _DickForwardWorld;
-				float3 worldDickUp56_g1 = _DickUpWorld;
-				float3 worldDickRight56_g1 = _DickRightWorld;
+				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( distanceToHole180_g1 - ( ( distanceToHole180_g1 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
+				float3 squashStretchedPosition44_g1 = lerpResult32_g1;
+				float3 temp_output_150_0_g1 = ( float3(0,0,1) * _TruncateLength );
+				float3 temp_output_149_0_g1 = ( squashStretchedPosition44_g1 - temp_output_150_0_g1 );
+				float3 normalizeResult156_g1 = normalize( temp_output_149_0_g1 );
+				float3 lerpResult152_g1 = lerp( temp_output_149_0_g1 , ( normalizeResult156_g1 * min( length( temp_output_149_0_g1 ) , _GirthRadius ) ) , saturate( ( temp_output_149_0_g1.z * ( 1.0 / _GirthRadius ) ) ));
+				#ifdef _TRUNCATESPHERIZE_ON
+				float3 staticSwitch116_g1 = ( lerpResult152_g1 + temp_output_150_0_g1 );
+				#else
+				float3 staticSwitch116_g1 = squashStretchedPosition44_g1;
+				#endif
+				float3 TruncatedPosition147_g1 = ( penetratorRootWorld122_g1 + mul( transpose( localChangeOfBasis169_g1 ), staticSwitch116_g1 ) );
+				float3 worldPosition56_g1 = ( TruncatedPosition147_g1 + ( penetratorForwardWorld126_g1 * _PenetratorOffsetLength ) );
+				float3 worldPenetratorForward56_g1 = penetratorForwardWorld126_g1;
+				float3 worldPenetratorUp56_g1 = penetratorUpWorld134_g1;
+				float3 worldPenetratorRight56_g1 = penetratorRightWorld139_g1;
 				float3 temp_output_50_0_g265 = inputMesh.normalOS;
 				float2 break146_g266 = normalizeResult41_g266;
 				float4 appendResult139_g266 = (float4(temp_output_48_0_g266 , break146_g266.x , break146_g266.y , 0.0));
@@ -4809,7 +5048,7 @@ Shader "DickShader"
 				float3 worldNormalOUT56_g1 = float3( 0,0,0 );
 				float4 worldTangentOUT56_g1 = float4( 0,0,0,0 );
 				{
-				ToCatmullRomSpace_float(worldDickRootPos56_g1,worldPosition56_g1,worldDickForward56_g1,worldDickUp56_g1,worldDickRight56_g1,worldNormal56_g1,worldTangent56_g1,worldPositionOUT56_g1,worldNormalOUT56_g1,worldTangentOUT56_g1);
+				ToCatmullRomSpace_float(worldPenetratorRootPos56_g1,worldPosition56_g1,worldPenetratorForward56_g1,worldPenetratorUp56_g1,worldPenetratorRight56_g1,worldNormal56_g1,worldTangent56_g1,worldPositionOUT56_g1,worldNormalOUT56_g1,worldTangentOUT56_g1);
 				}
 				float4 appendResult73_g1 = (float4(worldPositionOUT56_g1 , 1.0));
 				float4 localWorldVar72_g1 = appendResult73_g1;
@@ -5263,23 +5502,27 @@ Shader "DickShader"
 			float4 _MaskMap_ST;
 			float4 _BaseColorMap_ST;
 			float4 _NormalMap_ST;
-			float3 _DickOffset;
+			float3 _PenetratorStartWorld;
 			float3 _DickForward;
-			float3 _DickForwardWorld;
-			float3 _DickUpWorld;
-			float3 _WorldDickNormal;
-			float3 _DickRootWorld;
+			float3 _PenetratorForwardWorld;
+			float3 _PenetratorUpWorld;
+			float3 _DickOffset;
+			float3 _PenetratorRootWorld;
 			float3 _WorldDickPosition;
 			float3 _WorldDickBinormal;
-			float3 _DickRightWorld;
+			float3 _PenetratorRightWorld;
+			float3 _WorldDickNormal;
+			float _BulgeProgress;
 			float _Angle;
 			float _TipRadius;
 			float _BulgeRadius;
 			float _BulgeBlend;
 			float _SquashStretchCorrection;
 			float _DistanceToHole;
-			float _DickWorldLength;
-			float _BulgeProgress;
+			float _PenetratorWorldLength;
+			float _TruncateLength;
+			float _GirthRadius;
+			float _PenetratorOffsetLength;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -5370,7 +5613,8 @@ Shader "DickShader"
 			#define ASE_NEEDS_VERT_NORMAL
 			#define ASE_NEEDS_VERT_TANGENT
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#pragma multi_compile_local __ _TRUNCATESPHERIZE_ON
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -5441,6 +5685,21 @@ Shader "DickShader"
 			float3 MyCustomExpression32_g265( float3 pos )
 			{
 				return GetAbsolutePositionWS(pos);
+			}
+			
+			float3x3 ChangeOfBasis169_g1( float3 right, float3 up, float3 forward )
+			{
+				float3x3 basisTransform = 0;
+				    basisTransform[0][0] = right.x;
+				    basisTransform[0][1] = right.y;
+				    basisTransform[0][2] = right.z;
+				    basisTransform[1][0] = up.x;
+				    basisTransform[1][1] = up.y;
+				    basisTransform[1][2] = up.z;
+				    basisTransform[2][0] = forward.x;
+				    basisTransform[2][1] = forward.y;
+				    basisTransform[2][2] = forward.z;
+				return basisTransform;
 			}
 			
 			float3x3 ChangeOfBasis9_g1( float3 right, float3 up, float3 forward )
@@ -5716,10 +5975,18 @@ Shader "DickShader"
 				#endif
 				float3 temp_output_48_0 = staticSwitch13_g265;
 				float localToCatmullRomSpace_float56_g1 = ( 0.0 );
-				float3 worldDickRootPos56_g1 = _DickRootWorld;
-				float3 right9_g1 = _DickRightWorld;
-				float3 up9_g1 = _DickUpWorld;
-				float3 forward9_g1 = _DickForwardWorld;
+				float3 penetratorRootWorld122_g1 = _PenetratorRootWorld;
+				float3 worldPenetratorRootPos56_g1 = penetratorRootWorld122_g1;
+				float3 penetratorRightWorld139_g1 = _PenetratorRightWorld;
+				float3 right169_g1 = penetratorRightWorld139_g1;
+				float3 penetratorUpWorld134_g1 = _PenetratorUpWorld;
+				float3 up169_g1 = penetratorUpWorld134_g1;
+				float3 penetratorForwardWorld126_g1 = _PenetratorForwardWorld;
+				float3 forward169_g1 = penetratorForwardWorld126_g1;
+				float3x3 localChangeOfBasis169_g1 = ChangeOfBasis169_g1( right169_g1 , up169_g1 , forward169_g1 );
+				float3 right9_g1 = penetratorRightWorld139_g1;
+				float3 up9_g1 = penetratorUpWorld134_g1;
+				float3 forward9_g1 = penetratorForwardWorld126_g1;
 				float3x3 localChangeOfBasis9_g1 = ChangeOfBasis9_g1( right9_g1 , up9_g1 , forward9_g1 );
 				float3 normalizeResult37 = normalize( _DickForward );
 				float3 temp_output_36_0 = ( ( _BulgeProgress * normalizeResult37 ) + _DickOffset );
@@ -5731,22 +5998,33 @@ Shader "DickShader"
 				float4 appendResult67_g1 = (float4(lerpResult33 , 1.0));
 				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
 				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
-				float3 temp_output_68_0_g1 = (transform66_g1).xyz;
-				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( temp_output_68_0_g1 - _DickRootWorld ) );
+				float3 localPenetratorSpaceVertexPosition142_g1 = ( (transform66_g1).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g1 ) );
+				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
 				float3 break15_g1 = temp_output_12_0_g1;
 				float temp_output_18_0_g1 = ( break15_g1.z * _SquashStretchCorrection );
 				float3 appendResult26_g1 = (float3(break15_g1.x , break15_g1.y , temp_output_18_0_g1));
 				float3 appendResult25_g1 = (float3(( break15_g1.x / _SquashStretchCorrection ) , ( break15_g1.y / _SquashStretchCorrection ) , temp_output_18_0_g1));
-				float temp_output_17_0_g1 = ( _DistanceToHole * 0.5 );
+				float distanceToHole180_g1 = _DistanceToHole;
+				float temp_output_17_0_g1 = ( distanceToHole180_g1 * 0.5 );
 				float smoothstepResult23_g1 = smoothstep( 0.0 , temp_output_17_0_g1 , temp_output_18_0_g1);
-				float smoothstepResult22_g1 = smoothstep( _DistanceToHole , temp_output_17_0_g1 , temp_output_18_0_g1);
+				float smoothstepResult22_g1 = smoothstep( distanceToHole180_g1 , temp_output_17_0_g1 , temp_output_18_0_g1);
 				float3 lerpResult31_g1 = lerp( appendResult26_g1 , appendResult25_g1 , min( smoothstepResult23_g1 , smoothstepResult22_g1 ));
-				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( _DistanceToHole - ( _DickWorldLength * ( _DistanceToHole / ( _SquashStretchCorrection * _DickWorldLength ) ) ) ) * float3(0,0,1) ) ) , step( _DistanceToHole , temp_output_18_0_g1 ));
-				float3 newPosition44_g1 = ( _DickRootWorld + mul( transpose( localChangeOfBasis9_g1 ), lerpResult32_g1 ) );
-				float3 worldPosition56_g1 = newPosition44_g1;
-				float3 worldDickForward56_g1 = _DickForwardWorld;
-				float3 worldDickUp56_g1 = _DickUpWorld;
-				float3 worldDickRight56_g1 = _DickRightWorld;
+				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( distanceToHole180_g1 - ( ( distanceToHole180_g1 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
+				float3 squashStretchedPosition44_g1 = lerpResult32_g1;
+				float3 temp_output_150_0_g1 = ( float3(0,0,1) * _TruncateLength );
+				float3 temp_output_149_0_g1 = ( squashStretchedPosition44_g1 - temp_output_150_0_g1 );
+				float3 normalizeResult156_g1 = normalize( temp_output_149_0_g1 );
+				float3 lerpResult152_g1 = lerp( temp_output_149_0_g1 , ( normalizeResult156_g1 * min( length( temp_output_149_0_g1 ) , _GirthRadius ) ) , saturate( ( temp_output_149_0_g1.z * ( 1.0 / _GirthRadius ) ) ));
+				#ifdef _TRUNCATESPHERIZE_ON
+				float3 staticSwitch116_g1 = ( lerpResult152_g1 + temp_output_150_0_g1 );
+				#else
+				float3 staticSwitch116_g1 = squashStretchedPosition44_g1;
+				#endif
+				float3 TruncatedPosition147_g1 = ( penetratorRootWorld122_g1 + mul( transpose( localChangeOfBasis169_g1 ), staticSwitch116_g1 ) );
+				float3 worldPosition56_g1 = ( TruncatedPosition147_g1 + ( penetratorForwardWorld126_g1 * _PenetratorOffsetLength ) );
+				float3 worldPenetratorForward56_g1 = penetratorForwardWorld126_g1;
+				float3 worldPenetratorUp56_g1 = penetratorUpWorld134_g1;
+				float3 worldPenetratorRight56_g1 = penetratorRightWorld139_g1;
 				float3 temp_output_50_0_g265 = inputMesh.normalOS;
 				float2 break146_g266 = normalizeResult41_g266;
 				float4 appendResult139_g266 = (float4(temp_output_48_0_g266 , break146_g266.x , break146_g266.y , 0.0));
@@ -5774,7 +6052,7 @@ Shader "DickShader"
 				float3 worldNormalOUT56_g1 = float3( 0,0,0 );
 				float4 worldTangentOUT56_g1 = float4( 0,0,0,0 );
 				{
-				ToCatmullRomSpace_float(worldDickRootPos56_g1,worldPosition56_g1,worldDickForward56_g1,worldDickUp56_g1,worldDickRight56_g1,worldNormal56_g1,worldTangent56_g1,worldPositionOUT56_g1,worldNormalOUT56_g1,worldTangentOUT56_g1);
+				ToCatmullRomSpace_float(worldPenetratorRootPos56_g1,worldPosition56_g1,worldPenetratorForward56_g1,worldPenetratorUp56_g1,worldPenetratorRight56_g1,worldNormal56_g1,worldTangent56_g1,worldPositionOUT56_g1,worldNormalOUT56_g1,worldTangentOUT56_g1);
 				}
 				float4 appendResult73_g1 = (float4(worldPositionOUT56_g1 , 1.0));
 				float4 localWorldVar72_g1 = appendResult73_g1;
@@ -6342,23 +6620,27 @@ Shader "DickShader"
 			float4 _MaskMap_ST;
 			float4 _BaseColorMap_ST;
 			float4 _NormalMap_ST;
-			float3 _DickOffset;
+			float3 _PenetratorStartWorld;
 			float3 _DickForward;
-			float3 _DickForwardWorld;
-			float3 _DickUpWorld;
-			float3 _WorldDickNormal;
-			float3 _DickRootWorld;
+			float3 _PenetratorForwardWorld;
+			float3 _PenetratorUpWorld;
+			float3 _DickOffset;
+			float3 _PenetratorRootWorld;
 			float3 _WorldDickPosition;
 			float3 _WorldDickBinormal;
-			float3 _DickRightWorld;
+			float3 _PenetratorRightWorld;
+			float3 _WorldDickNormal;
+			float _BulgeProgress;
 			float _Angle;
 			float _TipRadius;
 			float _BulgeRadius;
 			float _BulgeBlend;
 			float _SquashStretchCorrection;
 			float _DistanceToHole;
-			float _DickWorldLength;
-			float _BulgeProgress;
+			float _PenetratorWorldLength;
+			float _TruncateLength;
+			float _GirthRadius;
+			float _PenetratorOffsetLength;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -6427,7 +6709,8 @@ Shader "DickShader"
 			#define ASE_NEEDS_VERT_NORMAL
 			#define ASE_NEEDS_VERT_TANGENT
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#pragma multi_compile_local __ _TRUNCATESPHERIZE_ON
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			struct VertexInput
@@ -6479,6 +6762,21 @@ Shader "DickShader"
 			float3 MyCustomExpression32_g265( float3 pos )
 			{
 				return GetAbsolutePositionWS(pos);
+			}
+			
+			float3x3 ChangeOfBasis169_g1( float3 right, float3 up, float3 forward )
+			{
+				float3x3 basisTransform = 0;
+				    basisTransform[0][0] = right.x;
+				    basisTransform[0][1] = right.y;
+				    basisTransform[0][2] = right.z;
+				    basisTransform[1][0] = up.x;
+				    basisTransform[1][1] = up.y;
+				    basisTransform[1][2] = up.z;
+				    basisTransform[2][0] = forward.x;
+				    basisTransform[2][1] = forward.y;
+				    basisTransform[2][2] = forward.z;
+				return basisTransform;
 			}
 			
 			float3x3 ChangeOfBasis9_g1( float3 right, float3 up, float3 forward )
@@ -6648,10 +6946,18 @@ Shader "DickShader"
 				#endif
 				float3 temp_output_48_0 = staticSwitch13_g265;
 				float localToCatmullRomSpace_float56_g1 = ( 0.0 );
-				float3 worldDickRootPos56_g1 = _DickRootWorld;
-				float3 right9_g1 = _DickRightWorld;
-				float3 up9_g1 = _DickUpWorld;
-				float3 forward9_g1 = _DickForwardWorld;
+				float3 penetratorRootWorld122_g1 = _PenetratorRootWorld;
+				float3 worldPenetratorRootPos56_g1 = penetratorRootWorld122_g1;
+				float3 penetratorRightWorld139_g1 = _PenetratorRightWorld;
+				float3 right169_g1 = penetratorRightWorld139_g1;
+				float3 penetratorUpWorld134_g1 = _PenetratorUpWorld;
+				float3 up169_g1 = penetratorUpWorld134_g1;
+				float3 penetratorForwardWorld126_g1 = _PenetratorForwardWorld;
+				float3 forward169_g1 = penetratorForwardWorld126_g1;
+				float3x3 localChangeOfBasis169_g1 = ChangeOfBasis169_g1( right169_g1 , up169_g1 , forward169_g1 );
+				float3 right9_g1 = penetratorRightWorld139_g1;
+				float3 up9_g1 = penetratorUpWorld134_g1;
+				float3 forward9_g1 = penetratorForwardWorld126_g1;
 				float3x3 localChangeOfBasis9_g1 = ChangeOfBasis9_g1( right9_g1 , up9_g1 , forward9_g1 );
 				float3 normalizeResult37 = normalize( _DickForward );
 				float3 temp_output_36_0 = ( ( _BulgeProgress * normalizeResult37 ) + _DickOffset );
@@ -6663,22 +6969,33 @@ Shader "DickShader"
 				float4 appendResult67_g1 = (float4(lerpResult33 , 1.0));
 				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
 				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
-				float3 temp_output_68_0_g1 = (transform66_g1).xyz;
-				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( temp_output_68_0_g1 - _DickRootWorld ) );
+				float3 localPenetratorSpaceVertexPosition142_g1 = ( (transform66_g1).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g1 ) );
+				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
 				float3 break15_g1 = temp_output_12_0_g1;
 				float temp_output_18_0_g1 = ( break15_g1.z * _SquashStretchCorrection );
 				float3 appendResult26_g1 = (float3(break15_g1.x , break15_g1.y , temp_output_18_0_g1));
 				float3 appendResult25_g1 = (float3(( break15_g1.x / _SquashStretchCorrection ) , ( break15_g1.y / _SquashStretchCorrection ) , temp_output_18_0_g1));
-				float temp_output_17_0_g1 = ( _DistanceToHole * 0.5 );
+				float distanceToHole180_g1 = _DistanceToHole;
+				float temp_output_17_0_g1 = ( distanceToHole180_g1 * 0.5 );
 				float smoothstepResult23_g1 = smoothstep( 0.0 , temp_output_17_0_g1 , temp_output_18_0_g1);
-				float smoothstepResult22_g1 = smoothstep( _DistanceToHole , temp_output_17_0_g1 , temp_output_18_0_g1);
+				float smoothstepResult22_g1 = smoothstep( distanceToHole180_g1 , temp_output_17_0_g1 , temp_output_18_0_g1);
 				float3 lerpResult31_g1 = lerp( appendResult26_g1 , appendResult25_g1 , min( smoothstepResult23_g1 , smoothstepResult22_g1 ));
-				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( _DistanceToHole - ( _DickWorldLength * ( _DistanceToHole / ( _SquashStretchCorrection * _DickWorldLength ) ) ) ) * float3(0,0,1) ) ) , step( _DistanceToHole , temp_output_18_0_g1 ));
-				float3 newPosition44_g1 = ( _DickRootWorld + mul( transpose( localChangeOfBasis9_g1 ), lerpResult32_g1 ) );
-				float3 worldPosition56_g1 = newPosition44_g1;
-				float3 worldDickForward56_g1 = _DickForwardWorld;
-				float3 worldDickUp56_g1 = _DickUpWorld;
-				float3 worldDickRight56_g1 = _DickRightWorld;
+				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( distanceToHole180_g1 - ( ( distanceToHole180_g1 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
+				float3 squashStretchedPosition44_g1 = lerpResult32_g1;
+				float3 temp_output_150_0_g1 = ( float3(0,0,1) * _TruncateLength );
+				float3 temp_output_149_0_g1 = ( squashStretchedPosition44_g1 - temp_output_150_0_g1 );
+				float3 normalizeResult156_g1 = normalize( temp_output_149_0_g1 );
+				float3 lerpResult152_g1 = lerp( temp_output_149_0_g1 , ( normalizeResult156_g1 * min( length( temp_output_149_0_g1 ) , _GirthRadius ) ) , saturate( ( temp_output_149_0_g1.z * ( 1.0 / _GirthRadius ) ) ));
+				#ifdef _TRUNCATESPHERIZE_ON
+				float3 staticSwitch116_g1 = ( lerpResult152_g1 + temp_output_150_0_g1 );
+				#else
+				float3 staticSwitch116_g1 = squashStretchedPosition44_g1;
+				#endif
+				float3 TruncatedPosition147_g1 = ( penetratorRootWorld122_g1 + mul( transpose( localChangeOfBasis169_g1 ), staticSwitch116_g1 ) );
+				float3 worldPosition56_g1 = ( TruncatedPosition147_g1 + ( penetratorForwardWorld126_g1 * _PenetratorOffsetLength ) );
+				float3 worldPenetratorForward56_g1 = penetratorForwardWorld126_g1;
+				float3 worldPenetratorUp56_g1 = penetratorUpWorld134_g1;
+				float3 worldPenetratorRight56_g1 = penetratorRightWorld139_g1;
 				float3 temp_output_50_0_g265 = inputMesh.normalOS;
 				float2 break146_g266 = normalizeResult41_g266;
 				float4 appendResult139_g266 = (float4(temp_output_48_0_g266 , break146_g266.x , break146_g266.y , 0.0));
@@ -6706,7 +7023,7 @@ Shader "DickShader"
 				float3 worldNormalOUT56_g1 = float3( 0,0,0 );
 				float4 worldTangentOUT56_g1 = float4( 0,0,0,0 );
 				{
-				ToCatmullRomSpace_float(worldDickRootPos56_g1,worldPosition56_g1,worldDickForward56_g1,worldDickUp56_g1,worldDickRight56_g1,worldNormal56_g1,worldTangent56_g1,worldPositionOUT56_g1,worldNormalOUT56_g1,worldTangentOUT56_g1);
+				ToCatmullRomSpace_float(worldPenetratorRootPos56_g1,worldPosition56_g1,worldPenetratorForward56_g1,worldPenetratorUp56_g1,worldPenetratorRight56_g1,worldNormal56_g1,worldTangent56_g1,worldPositionOUT56_g1,worldNormalOUT56_g1,worldTangentOUT56_g1);
 				}
 				float4 appendResult73_g1 = (float4(worldPositionOUT56_g1 , 1.0));
 				float4 localWorldVar72_g1 = appendResult73_g1;
@@ -7156,12 +7473,12 @@ Node;AmplifyShaderEditor.LerpOp;17;-584.7656,881.6729;Inherit;False;3;0;FLOAT3;0
 Node;AmplifyShaderEditor.TangentVertexDataNode;21;-838.8391,1255.586;Inherit;False;1;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.VertexColorNode;14;-1055.538,1190.004;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.LerpOp;20;-581.4393,1020.286;Inherit;False;3;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0,0,0,0;False;2;FLOAT;0;False;1;FLOAT4;0
-Node;AmplifyShaderEditor.FunctionNode;11;-1140.18,646.7589;Inherit;False;PenetratorDeformation;0;;1;034c1604581464e459076bc562dc2e05;0;3;64;FLOAT3;0,0,0;False;69;FLOAT3;0,0,0;False;71;FLOAT4;0,0,0,0;False;4;FLOAT3;61;FLOAT3;62;FLOAT4;63;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;11;-1140.18,646.7589;Inherit;False;PenetratorDeformation;0;;1;ac383a8a454dc764caec4e7e5816beae;0;3;64;FLOAT3;0,0,0;False;69;FLOAT3;0,0,0;False;71;FLOAT4;0,0,0,0;False;4;FLOAT3;61;FLOAT3;62;FLOAT4;63;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;26;-3108.154,743.9935;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleSubtractOpNode;31;-2629.699,504.0775;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;27;-3406.361,1016.452;Inherit;False;Property;_BulgeRadius;BulgeRadius;14;0;Create;True;0;0;0;False;0;False;0.58;0.58;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.Vector3Node;25;-3407.154,829.9935;Inherit;False;Property;_DickForward;DickForward;22;0;Create;True;0;0;0;False;0;False;0,0,1;0,1,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.Vector3Node;35;-3106.539,934.5379;Inherit;False;Property;_DickOffset;DickOffset;23;0;Create;True;0;0;0;False;0;False;0,0,0;0,1,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.RangedFloatNode;27;-3406.361,1016.452;Inherit;False;Property;_BulgeRadius;BulgeRadius;19;0;Create;True;0;0;0;False;0;False;0.58;0.58;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.Vector3Node;25;-3407.154,829.9935;Inherit;False;Property;_DickForward;DickForward;27;0;Create;True;0;0;0;False;0;False;0,0,1;0,1,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.Vector3Node;35;-3106.539,934.5379;Inherit;False;Property;_DickOffset;DickOffset;28;0;Create;True;0;0;0;False;0;False;0,0,0;0,1,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.SimpleAddOpNode;36;-2903.539,779.5379;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.NormalizeNode;37;-3245.539,848.5379;Inherit;False;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;34;-2420.54,505.538;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;10;False;1;FLOAT;0
@@ -7171,14 +7488,14 @@ Node;AmplifyShaderEditor.SaturateNode;32;-2266.7,334.0735;Inherit;False;1;0;FLOA
 Node;AmplifyShaderEditor.FunctionNode;22;-2681.233,747.1965;Inherit;False;ProjectOnSphere;-1;;2;3366f7fa8574f0646a5b81b51f4db8d0;0;3;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT;0.5;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;41;-2089.259,324.2032;Inherit;False;3;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.VertexColorNode;42;-2532.564,322.1983;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;43;-2381.412,171.5769;Inherit;False;Property;_BulgeBlend;BulgeBlend;13;0;Create;True;0;0;0;False;0;False;1;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;43;-2381.412,171.5769;Inherit;False;Property;_BulgeBlend;BulgeBlend;18;0;Create;True;0;0;0;False;0;False;1;0;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.NormalizeNode;44;-1596.412,749.5769;Inherit;False;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.SamplerNode;45;-536.9493,-372.816;Inherit;True;Property;_BaseColorMap;BaseColorMap;10;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SamplerNode;46;-524.9493,65.18396;Inherit;True;Property;_MaskMap;MaskMap;11;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;gray;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SamplerNode;47;-524.9493,-142.816;Inherit;True;Property;_NormalMap;NormalMap;12;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;bump;Auto;True;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;45;-536.9493,-372.816;Inherit;True;Property;_BaseColorMap;BaseColorMap;15;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;46;-524.9493,65.18396;Inherit;True;Property;_MaskMap;MaskMap;16;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;gray;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;47;-524.9493,-142.816;Inherit;True;Property;_NormalMap;NormalMap;17;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;bump;Auto;True;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleSubtractOpNode;28;-3011.288,535.5629;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.FunctionNode;48;-4197.828,484.6135;Inherit;False;CockVoreSlurpFunction;15;;265;48b4b4d4c94c1d341abf875fe96b8fe0;0;2;49;FLOAT3;0,0,0;False;50;FLOAT3;0,0,0;False;2;FLOAT3;42;FLOAT3;0
-Node;AmplifyShaderEditor.RangedFloatNode;23;-3437.509,725.9806;Inherit;False;Property;_BulgeProgress;BulgeProgress;24;0;Create;True;0;0;0;False;0;False;1;0;-1;3;0;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;48;-4197.828,484.6135;Inherit;False;CockVoreSlurpFunction;20;;265;48b4b4d4c94c1d341abf875fe96b8fe0;0;2;49;FLOAT3;0,0,0;False;50;FLOAT3;0,0,0;False;2;FLOAT3;42;FLOAT3;0
+Node;AmplifyShaderEditor.RangedFloatNode;23;-3437.509,725.9806;Inherit;False;Property;_BulgeProgress;BulgeProgress;29;0;Create;True;0;0;0;False;0;False;1;0;-1;3;0;1;FLOAT;0
 Node;AmplifyShaderEditor.NormalizeNode;38;-2263.696,867.1786;Inherit;False;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.LerpOp;39;-1793.988,784.4831;Inherit;False;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.AbsOpNode;51;-2464.911,1008.415;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
@@ -7239,4 +7556,4 @@ WireConnection;50;0;28;0
 WireConnection;50;1;37;0
 WireConnection;55;0;51;0
 ASEEND*/
-//CHKSM=CB763363DA3FDFEB93B69B95DB0161C8D7392A49
+//CHKSM=4B709FC5247FAC501ACB022925FE2986E5B4854E

@@ -28,10 +28,16 @@ public class ChurnHandler : MonoBehaviour {
     }
 
     private void OnPlayerEnable(CharacterBase player) {
+        foreach (var pair in spawnedPrefabs) {
+            Destroy(pair.Value.gameObject);
+        }
+        spawnedPrefabs.Clear();
+        
         if (player.voreContainer != null) {
             player.voreContainer.GetStorage().startChurn += OnStartChurn;
             player.voreContainer.GetStorage().drained += OnDrained;
             foreach (var cumSource in player.voreContainer.GetStorage().GetSources()) {
+                Debug.Log(cumSource);
                 var churnPanelGameObject = Instantiate(churnPanelPrefab.gameObject, transform);
                 var churnPanel = churnPanelGameObject.GetComponent<ChurnPanel>();
                 churnPanel.Initialize(cumSource);
@@ -46,6 +52,9 @@ public class ChurnHandler : MonoBehaviour {
     }
 
     private void OnStartChurn(CumStorage.CumSource churnable) {
+        if (spawnedPrefabs.ContainsKey(churnable)) {
+            return;
+        }
         var churnPanelGameObject = Instantiate(churnPanelPrefab.gameObject, transform);
         var churnPanel = churnPanelGameObject.GetComponent<ChurnPanel>();
         churnPanel.Initialize(churnable);

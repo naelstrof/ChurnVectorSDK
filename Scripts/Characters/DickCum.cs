@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Naelstrof.Easing;
-using PenetrationTech;
+using DPG;
 using UnityEngine;
 
 public class DickCum : MonoBehaviour {
@@ -51,8 +51,11 @@ public class DickCum : MonoBehaviour {
             if (dick == null) {
                 continue;
             }
-            foreach (var r in dick.GetTargetRenderers()) {
-                dickRenderers.Add(r.renderer as SkinnedMeshRenderer);
+
+            List<Renderer> renderers = new List<Renderer>();
+            dick.GetOutputRenderers(renderers);
+            foreach (var r in renderers) {
+                dickRenderers.Add(r as SkinnedMeshRenderer);
             }
         }
 
@@ -89,7 +92,7 @@ public class DickCum : MonoBehaviour {
 
                 int index = cumParticleSystems.IndexOf(cumParticleSystem);
                 if (index >= 0 && index < targetDicks.Count) {
-                    if (targetDicks[index].TryGetPenetrable(out Penetrable penetrable) == false) {
+                    if (targetDicks[index].GetPenetrationData()?.tipIsInside ?? true) {
                         var emissionModule = cumParticleSystem.emission;
                         emissionModule.rateOverTime = 60f;
                     }
@@ -146,7 +149,7 @@ public class DickCum : MonoBehaviour {
         float pulseStartTime = Time.time;
         float pulseDuration = 0.6f;
         float bumpSize = 0.5f;
-        AudioPack.PlayClipAtPoint(glorp, targetDicks.Count > 0 ? targetDicks[0].GetRootBone().position : transform.position);
+        AudioPack.PlayClipAtPoint(glorp, targetDicks.Count > 0 ? targetDicks[0].GetRootTransform().position : transform.position);
         while (Time.time < pulseStartTime + pulseDuration) {
             float t = (Time.time - pulseStartTime) / pulseDuration;
             float totalProgress = t.Remap(0f, 1f, -bumpSize, 1f + bumpSize);
@@ -169,8 +172,8 @@ public class DickCum : MonoBehaviour {
 
         if (targetDicks != null) {
             foreach (var targetDick in targetDicks) {
-                if (!targetDick.TryGetPenetrable(out Penetrable targetPenetrable)) continue;
-                if (!targetPenetrable.TryGetComponent(out LinkPenetrableToCumContainer link)) continue;
+                if (!targetDick.GetPenetrationData().HasValue) continue;
+                if (!targetDick.GetPenetrationData().Value.penetrable.TryGetComponent(out LinkPenetrableToCumContainer link)) continue;
                 var tryStand = link.GetCumContainer();
                 if (tryStand == null) {
                     continue;

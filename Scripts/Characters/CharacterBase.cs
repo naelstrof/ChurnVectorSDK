@@ -259,7 +259,9 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
     }
 
     private void OnPauseChangedBasic(bool paused) {
-        enabled = !paused;
+        if (enabled != !paused) {
+            enabled = !paused;
+        }
     }
 
     public virtual float GetMaxSpeed() {

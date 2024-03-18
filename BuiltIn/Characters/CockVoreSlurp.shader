@@ -504,7 +504,7 @@ Shader "CockVoreSlurp"
 			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
 			#pragma shader_feature_local _SKINNED_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -1436,7 +1436,7 @@ Shader "CockVoreSlurp"
 			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
 			#pragma shader_feature_local _SKINNED_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -2345,7 +2345,7 @@ Shader "CockVoreSlurp"
 			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
 			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -3040,7 +3040,7 @@ Shader "CockVoreSlurp"
 			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
 			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -3713,7 +3713,7 @@ Shader "CockVoreSlurp"
 			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
 			#pragma shader_feature_local _SKINNED_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -4554,7 +4554,7 @@ Shader "CockVoreSlurp"
 			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
 			#pragma shader_feature_local _SKINNED_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -5516,7 +5516,7 @@ Shader "CockVoreSlurp"
 			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
 			#pragma shader_feature_local _SKINNED_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -6621,7 +6621,7 @@ Shader "CockVoreSlurp"
 			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
 			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			struct VertexInput
@@ -7315,7 +7315,7 @@ Node;AmplifyShaderEditor.VertexColorNode;236;849.7986,847.73;Inherit;False;0;5;C
 Node;AmplifyShaderEditor.RangedFloatNode;233;269.1044,588.3298;Inherit;False;Property;_Smoothness;Smoothness;16;0;Create;True;0;0;0;False;0;False;2;0.5;0;10;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;232;284.1044,492.3298;Inherit;False;Property;_CompressibleDistance;CompressibleDistance;15;0;Create;True;0;0;0;False;0;False;0.15;0.15;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.LerpOp;235;1181.234,294.5477;Inherit;False;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.FunctionNode;231;659.1908,397.5367;Inherit;False;PenetrableDeformation;1;;275;014b2db8766710a4c8429222ab5b0977;0;4;10;FLOAT3;0,0,0;False;11;FLOAT4;0,0,0,0;False;12;FLOAT;0;False;13;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.FunctionNode;231;659.1908,396.5367;Inherit;False;PenetrableDeformation;1;;275;7ff1b70ed2c7b9e43aecbec8a912cc8c;0;4;10;FLOAT3;0,0,0;False;11;FLOAT4;0,0,0,0;False;12;FLOAT;0;False;13;FLOAT;0;False;1;FLOAT3;0
 WireConnection;0;0;230;0
 WireConnection;0;1;230;5
 WireConnection;0;3;230;3
@@ -7339,4 +7339,4 @@ WireConnection;231;10;229;0
 WireConnection;231;12;232;0
 WireConnection;231;13;233;0
 ASEEND*/
-//CHKSM=8CFDF0CF2890FDCCEE2F731E625DA238ED6A2806
+//CHKSM=5E2F358905AF6D4381A34214FAC2A7C82E229567

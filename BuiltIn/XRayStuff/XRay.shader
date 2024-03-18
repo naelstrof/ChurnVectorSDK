@@ -271,7 +271,7 @@ Shader "XRay"
 			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
 			#pragma shader_feature_local _SKINNED_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			struct VertexInput
@@ -937,7 +937,7 @@ Shader "XRay"
 			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
 			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			struct VertexInput
@@ -1512,7 +1512,7 @@ Shader "XRay"
 			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
 			#pragma shader_feature_local _SKINNED_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			struct VertexInput
@@ -2106,7 +2106,7 @@ Shader "XRay"
 			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
 			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			struct VertexInput
@@ -2578,7 +2578,7 @@ Shader "XRay"
 			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
 			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			struct VertexInput
@@ -3079,7 +3079,7 @@ Shader "XRay"
 			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
 			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			struct VertexInput
@@ -3707,7 +3707,7 @@ Shader "XRay"
 			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
 			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#include "Packages/com.naelstrof.penetrationtech/Shaders/Penetration.cginc"
+			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			struct VertexInput
@@ -4313,7 +4313,7 @@ Node;AmplifyShaderEditor.RangedFloatNode;271;653.1749,854.0126;Inherit;False;Pro
 Node;AmplifyShaderEditor.VertexColorNode;274;1215.948,913.3509;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.FunctionNode;229;638.2106,333.2184;Inherit;False;CockVoreSlurpFunction;9;;274;48b4b4d4c94c1d341abf875fe96b8fe0;0;2;49;FLOAT3;0,0,0;False;50;FLOAT3;0,0,0;False;2;FLOAT3;42;FLOAT3;0
 Node;AmplifyShaderEditor.LerpOp;275;1738.592,456.7726;Inherit;False;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.FunctionNode;272;1069.906,530.5699;Inherit;False;PenetrableDeformation;6;;277;014b2db8766710a4c8429222ab5b0977;0;4;10;FLOAT3;0,0,0;False;11;FLOAT4;0,0,0,0;False;12;FLOAT;0;False;13;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.FunctionNode;272;1069.906,530.5699;Inherit;False;PenetrableDeformation;6;;277;7ff1b70ed2c7b9e43aecbec8a912cc8c;0;4;10;FLOAT3;0,0,0;False;11;FLOAT4;0,0,0,0;False;12;FLOAT;0;False;13;FLOAT;0;False;1;FLOAT3;0
 WireConnection;262;0;276;18
 WireConnection;262;1;276;18
 WireConnection;262;2;276;0
@@ -4326,4 +4326,4 @@ WireConnection;272;10;229;0
 WireConnection;272;12;270;0
 WireConnection;272;13;271;0
 ASEEND*/
-//CHKSM=9DA61E2B4591B36FB18D545204C7949C9C95D184
+//CHKSM=FC3B389082EDCBD1E0D911EEBFCAA358E021454D

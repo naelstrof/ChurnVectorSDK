@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using PenetrationTech;
+using DPG;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -117,7 +115,7 @@ public partial class CharacterBase : IInteractable, IVorable {
         cockVoreTransformPath.Add(GetDisplayAnimator().GetBoneTransform(HumanBodyBones.Neck));
         cockVoreTransformPath.Add(GetDisplayAnimator().GetBoneTransform(HumanBodyBones.Head));
 
-        path = new CatmullSpline();
+        path = new CatmullSpline(new []{Vector3.zero,Vector3.one});
         positionPath = new List<Vector3>();
     }
 
@@ -317,7 +315,7 @@ public partial class CharacterBase : IInteractable, IVorable {
 
         Gizmos.color = Color.red;
         if (path == null || path.GetWeights().Count != (cockVoreTransformPath.Count-1)*4) {
-            path = new CatmullSpline();
+            path = new CatmullSpline(new []{Vector3.zero,Vector3.one});
             positionPath = new List<Vector3>();
         }
         positionPath.Clear();

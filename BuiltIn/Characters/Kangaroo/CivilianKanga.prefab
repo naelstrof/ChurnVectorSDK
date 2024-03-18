@@ -204,17 +204,20 @@ MonoBehaviour:
   volumeSolid: 6
   volumeChurned: 2
   dialogueTheme: {fileID: 11400000, guid: 89f6803d936315e4aafe928ff38c1f29, type: 2}
-  balls:
-    inflater:
-      bounce: {fileID: 11400000, guid: 0946975ef88accb48aea4c4c25cc0294, type: 2}
-      listeners: []
+  voreContainer:
+    rid: -2
   headSprite: {fileID: 21300000, guid: 81602a2e4632e824a8d14f9aaafed612, type: 3}
   speed: 1.8
+  animationGroup: []
+  voreMachine:
+    rid: -2
   noseOffset: {x: -0.000000014787084, y: 0.08224833, z: 0.2480854}
   taserOutput: {fileID: 0}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &8166203703214864727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -434,6 +437,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SimpleKangaroo
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f16da1f19671dac4497f488ae818416f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1630794972795428178, guid: f16da1f19671dac4497f488ae818416f,
         type: 3}
       propertyPath: m_Mesh
@@ -498,11 +506,11 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f16da1f19671dac4497f488ae818416f,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 699618563632018711}
+      addedObject: {fileID: 7423083872928357054}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f16da1f19671dac4497f488ae818416f,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4945950913435472976}
+      addedObject: {fileID: 7213457230357396117}
   m_SourcePrefab: {fileID: 100100000, guid: f16da1f19671dac4497f488ae818416f, type: 3}
 --- !u!4 &511646549639108066 stripped
 Transform:
@@ -638,9 +646,9 @@ MonoBehaviour:
     type: 3}
   clothTexture: {fileID: 2800000, guid: 6e70a6feb091db74aa271f9ce5fc9514, type: 3}
   clothColor: {r: 0.8773585, g: 0.8773585, b: 0.8773585, a: 1}
-  bodyRenderers:
+  nakedBodyRenderers:
   - {fileID: 7049461805760132397}
-  clothesRenderers:
+  clothedBodyRenderers:
   - {fileID: 9163467040647635272}
   boobOomphEffect:
   - {fileID: 6205902810688524583}
@@ -652,6 +660,7 @@ MonoBehaviour:
     bounce: {fileID: 11400000, guid: 0946975ef88accb48aea4c4c25cc0294, type: 2}
     listeners:
     - rid: 1888142363566538754
+  dickTipOpenBlendshapes: []
   references:
     version: 2
     RefIds:
@@ -661,7 +670,7 @@ MonoBehaviour:
         blendShapeName: Cumflate
         skinnedMeshRenderers:
         - {fileID: 7049461805760132397}
---- !u!114 &699618563632018711
+--- !u!114 &7423083872928357054
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -670,20 +679,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 8913871176300746030}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e0550636f1faf54ea9fada34b07cd10, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b5e019e89c3f044688cff9641915de0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  points:
+  transforms:
   - {fileID: 6544838662813015397}
   - {fileID: 4775820953739344089}
   - {fileID: 2700718090800398547}
   - {fileID: 5776624104123685573}
-  listeners: []
-  actualHoleStartT: 0.046
-  references:
-    version: 2
-    RefIds: []
---- !u!114 &4945950913435472976
+  entranceTransform: {fileID: 0}
+  shouldTruncate: 1
+  truncateNormalizedDistance: 0.044
+  holeStartNormalizedDistance: 0.045
+  shouldClip: 1
+  clippingRange:
+    startNormalizedDistance: 0.204
+    allowAllTheWayThrough: 0
+    endNormalizedDistance: 0
+  penetrableFriction: 0.5
+--- !u!114 &7213457230357396117
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -692,12 +706,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8913871176300746030}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bc67c190c547e3459c0f74a553dede5, type: 3}
+  m_Script: {fileID: 11500000, guid: 770cf13d3e4a66c46bd39efaa51e1f24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  penetrableTargets:
-  - {fileID: 699618563632018711}
-  renderTargets:
+  penetrables:
+  - {fileID: 7423083872928357054}
+  targetRenderers:
   - {fileID: 7049461805760132397}
   detailOnly: 0
 --- !u!4 &9012922518260323022 stripped

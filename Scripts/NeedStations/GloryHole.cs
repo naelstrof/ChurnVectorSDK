@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ActorActions;
 using AI.Events;
-using PenetrationTech;
+using DPG;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -31,7 +31,7 @@ public class GloryHole : BreedingStand {
     private static readonly int Depth = Animator.StringToHash("Depth");
     private AsyncOperationHandle<Civilian> handle;
     private bool initialized = false;
-
+    private CatmullSpline cachedSpline;
 
     private void OnCompletedLoadSubmissive(AsyncOperationHandle<Civilian> obj) {
     }
@@ -77,11 +77,15 @@ public class GloryHole : BreedingStand {
             knotForcePosition -= knotForcePosition * (Time.deltaTime*4f);
             knotForcePosition = Vector3.ProjectOnPlane(knotForcePosition, Vector3.Cross((submissive.GetDisplayAnimator().transform.position-beingUsedBy.GetDisplayAnimator().transform.position).normalized, Vector3.up));
             knotForcePosition = Vector3.ClampMagnitude(knotForcePosition, 1f);
-        
-            submissive.GetDisplayAnimator().SetFloat(PushPullAmount, Vector3.Dot(knotForcePosition, penetrable.GetPath().GetVelocityFromDistance(penetrable.GetActualHoleDistanceFromStartOfSpline()).normalized));
+
+            penetrable.GetHole(out var holePosition, out var holeNormal);
+            submissive.GetDisplayAnimator().SetFloat(PushPullAmount, Vector3.Dot(knotForcePosition, holeNormal));
             submissive.GetDisplayAnimator().SetFloat(UpDownAmount, Vector3.Dot(knotForcePosition,Vector3.up));
-            var length = currentDick.GetWorldLength();
-            float currentDepth = (length - Vector3.Distance(penetrable.GetPath().GetPositionFromT(0f), currentDick.GetRootBone().position)) / length;
+            //var length = currentDick.GetSquashStretchedWorldLength();
+            //float currentDepth = (length - Vector3.Distance(penetrable.GetPath().GetPositionFromT(0f), currentDick.GetRootBone().position)) / length;
+            cachedSpline ??= new CatmullSpline(new[] { Vector3.zero, Vector3.one });
+            currentDick.GetFinalizedSpline(ref cachedSpline, out var distanceAlongSpline, out var insertionLerp, out var penetrationArgs);
+            float currentDepth = penetrationArgs?.penetrationDepth ?? 0f;
             float diff = Mathf.Abs(currentDepth-lastFuckDepth);
             lastFuckDepth = currentDepth;
             fuckIntensity += diff;

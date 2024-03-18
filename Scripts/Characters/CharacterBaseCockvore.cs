@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Naelstrof.Easing;
-using PenetrationTech;
+using DPG;
 using UnityEngine;
 
 public partial class CharacterBase {
@@ -12,6 +12,9 @@ public partial class CharacterBase {
     [SerializeField, SerializeReference, SubclassSelector]
     public VoreMachine voreMachine;
     private Coroutine churnRoutine;
+    private DickCum dickCum;
+
+    private float? lastPenetrationDepth;
     
     
     private TicketLock.Ticket cockVoreFaceDirectionLock;
@@ -29,15 +32,22 @@ public partial class CharacterBase {
         if (cockVoreDick == null) {
             return;
         }
-        var dickCum = gameObject.AddComponent<DickCum>();
+        dickCum = gameObject.AddComponent<DickCum>();
         var cumParticleSystem = Instantiate(GameManager.GetLibrary().cumPrefab.gameObject, transform).GetComponent<CumCollision>();
         leakSystem = Instantiate(GameManager.GetLibrary().cumPrefab.gameObject, transform).GetComponent<ParticleSystem>();
         leakSystem.GetComponent<CumCollision>().SetAttachedDick(cockVoreDick);
         cumParticleSystem.SetAttachedDick(cockVoreDick);
         dickCum.SetInfo(cumParticleSystem.GetComponent<ParticleSystem>(), cockVoreDick, GameManager.GetLibrary().glorpPack, this);
-        var dickMovementListener = new DickMovementListener();
-        dickMovementListener.SetDickCumTarget(dickCum);
-        cockVoreDick.listeners.Add(dickMovementListener);
+        cockVoreDick.penetrated += OnPenetration;
+    }
+
+    private void OnPenetration(Penetrator penetrator, Penetrable penetrable, Penetrator.PenetrationArgs penetrationArgs, Penetrable.PenetrationResult result) {
+        float movement = penetrationArgs.penetrationDepth - (lastPenetrationDepth ?? penetrationArgs.penetrationDepth);
+        if (Mathf.Abs(movement) < 0.001f) {
+            return;
+        }
+        dickCum.AddStimulation(movement);
+        lastPenetrationDepth = penetrationArgs.penetrationDepth;
     }
 
     private void AwakeCockVore() {

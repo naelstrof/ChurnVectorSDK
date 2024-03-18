@@ -1,8 +1,9 @@
-using PenetrationTech;
+using DPG;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class FuckSimulation {
+    private CatmullSpline cachedSpline;
     public Vector3 GetHipPosition() {
         float smoothing = 1f;
         double t = ((Time.timeAsDouble - smoothing*Time.fixedDeltaTime) - lastFrame.time) / Time.fixedDeltaTime;
@@ -20,11 +21,23 @@ public class FuckSimulation {
         private Transform hipTransform;
         public Vector3 hipPosition;
         public Vector3 lastHipPosition;
-        public float length => penetrator.GetWorldLength();
-        public Vector3 dickPosition => hipPosition+hipTransform.TransformVector(hipTransform.InverseTransformPoint(penetrator.GetRootBone().position));
-        public float GetKnotForce(float worldLengthAlongDick) => penetrator.GetKnotForce(worldLengthAlongDick);
-        public bool isInside => penetrator.TryGetPenetrable(out Penetrable penetrable);
-        public CatmullSpline spline => penetrator.GetPath();
+        private CatmullSpline cachedSpline;
+        public float length => penetrator.GetSquashStretchedWorldLength();
+        public Vector3 dickPosition => hipPosition+hipTransform.TransformVector(hipTransform.InverseTransformPoint(penetrator.GetRootTransform().position));
+
+        public float GetKnotForce() {
+            return penetrator.GetPenetrationData()?.knotForce ?? 0f;
+        }
+        public bool isInside => penetrator.GetPenetrationData()?.tipIsInside ?? false;
+
+        public float GetDistanceFromHole(Penetrable hole) {
+            cachedSpline ??= new CatmullSpline(new[] { Vector3.zero, Vector3.one });
+            penetrator.GetFinalizedSpline(ref cachedSpline, out var distanceAlongSpline, out var insertionLerp, out var penetrationArgs);
+            if (penetrationArgs.HasValue) {
+                return penetrationArgs.Value.penetratorData.GetWorldLength() - penetrationArgs.Value.penetrationDepth;
+            }
+            return Vector3.Distance(dickPosition, hole.GetPoints()[0]);
+        }
         private Penetrator penetrator;
         public DickData(Transform hipTransform, Penetrator penetrator) {
             this.penetrator = penetrator;
@@ -56,7 +69,12 @@ public class FuckSimulation {
         this.penetratorAnimator = penetratorAnimator;
         hole = targetHole;
         dick = new DickData(hipTransform, targetPenetrator);
-        targetPenetrator.SetTargetHole(targetHole);
+        if (targetPenetrator is PenetratorJiggleDeform jiggleDeformPenetrator) {
+            jiggleDeformPenetrator.SetLinkedPenetrable(targetHole);
+        } else {
+            throw new UnityException("Don't support that type of penetrator!");
+        }
+
         lastFrame = new Frame{hipPosition = hipTransform.position, time = Time.timeAsDouble-Time.fixedDeltaTime};
         currentFrame = new Frame{hipPosition = hipTransform.position, time = Time.timeAsDouble};
     }
@@ -72,10 +90,10 @@ public class FuckSimulation {
     
     private void SubStep(float dt, double time) {
         Vector3 correctiveForce = Vector3.zero;
-        
-        Vector3 holeNormal = -hole.GetPath().GetVelocityFromT(0).normalized;
-        Vector3 holePosition = hole.GetPath().GetPositionFromT(0);
-        float splineDistanceToHole = Vector3.Distance(holePosition, dick.dickPosition) + hole.GetActualHoleDistanceFromStartOfSpline();
+
+        hole.GetHole(out var holePosition, out var holeNormal);
+        holeNormal *= -1;
+        float splineDistanceToHole = dick.GetDistanceFromHole(hole);
         
         // Hip alignment onto XY-camera plane with the hole.
         Vector3 alignmentVector = penetratorAnimator.transform.right;//cam.transform.forward;
@@ -121,7 +139,7 @@ public class FuckSimulation {
         if (dick.isInside) {
             Vector3 holeToDickDir = Vector3.Normalize(dick.hipPosition - holePosition);
             float arbitraryKnotForceAdjustment = 1.4f;
-            float knotForce = dick.GetKnotForce(splineDistanceToHole) * dt * arbitraryKnotForceAdjustment;
+            float knotForce = dick.GetKnotForce() * dt * arbitraryKnotForceAdjustment;
             correctiveForce -= holeToDickDir * knotForce;
             dick.hipPosition -= holeToDickDir * knotForce;
         }
