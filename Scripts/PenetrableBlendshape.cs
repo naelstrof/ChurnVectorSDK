@@ -14,9 +14,16 @@ public class PenetrableBlendshape : MonoBehaviour {
 
     private void OnEnable() {
         targetPenetrable.penetrated += OnPenetrated;
+        targetPenetrable.unpenetrated += OnUnpenetrated;
     }
+
+    private void OnUnpenetrated(Penetrable penetrable, Penetrator penetrator) {
+        blendshape.skinnedMeshRenderer.SetBlendShapeWeight(blendshape.blendshapeID, 0f);
+    }
+
     private void OnDisable() {
         targetPenetrable.penetrated -= OnPenetrated;
+        targetPenetrable.unpenetrated -= OnUnpenetrated;
     }
 
     private void OnPenetrated(Penetrable penetrable, Penetrator penetrator, Penetrator.PenetrationArgs penetrationargs) {

@@ -687,9 +687,8 @@ MonoBehaviour:
   - {fileID: 4775820953739344089}
   - {fileID: 2700718090800398547}
   - {fileID: 5776624104123685573}
-  entranceTransform: {fileID: 0}
   shouldTruncate: 1
-  truncateNormalizedDistance: 0.044
+  truncateNormalizedDistance: 0.13
   holeStartNormalizedDistance: 0.045
   shouldClip: 1
   clippingRange:

@@ -348,6 +348,10 @@ public class CharacterAnimatorController : MonoBehaviour {
     }
 
     private void SetUpXRay() {
+        if (xrayRenderers != null) {
+            return;
+        }
+        
         xrayRenderers = new List<Renderer>();
 
         List<Renderer> decalableAndXRayableRenderers = new List<Renderer>();

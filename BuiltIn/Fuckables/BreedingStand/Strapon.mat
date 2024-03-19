@@ -172,7 +172,7 @@ Material:
     - _ATDistance: 1
     - _AddPrecomputedVelocity: 0
     - _AlbedoAffectEmissive: 0
-    - _Alpha: 0.1
+    - _Alpha: 0.391
     - _AlphaCutoff: 0.5
     - _AlphaCutoffEnable: 0
     - _AlphaCutoffPostpass: 0.5
@@ -183,8 +183,9 @@ Material:
     - _AlphaToMask: 0
     - _AlphaToMaskInspectorValue: 0
     - _Anisotropy: 0
+    - _Bias: 0
     - _BlendMode: 0
-    - _CoatMask: 0.174
+    - _CoatMask: 0.343
     - _CompressibleDistance: 1
     - _CullMode: 2
     - _CullModeForward: 2
@@ -242,15 +243,17 @@ Material:
     - _PPDMinSamples: 5
     - _PPDPrimitiveLength: 1
     - _PPDPrimitiveWidth: 1
-    - _PenetrationSmoothness: 5.12
+    - _PenetrationSmoothness: 4
+    - _Power: 0.8
     - _RayTracing: 0
     - _ReceivesSSR: 1
     - _ReceivesSSRTransparent: 0
-    - _RefractionIndex: 0.035
+    - _RefractionIndex: 0.01
     - _RefractionModel: 0
     - _RenderQueueType: 4
     - _RequireSplitLighting: 0
-    - _Smoothness: 0.61
+    - _Scale: 1.021
+    - _Smoothness: 0.73
     - _SmoothnessMultiplier: 0.55
     - _SmoothnessRemapMax: 1
     - _SmoothnessRemapMin: 0
@@ -294,9 +297,9 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 0
     m_Colors:
-    - _BaseColor: {r: 0.39881763, g: 0.0047169924, b: 1, a: 1}
+    - _BaseColor: {r: 0.26283014, g: 0.13300994, b: 0.46226412, a: 0.7372549}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
-    - _Color: {r: 0.3988176, g: 0.0047169924, b: 1, a: 1}
+    - _Color: {r: 0.2628301, g: 0.13300991, b: 0.46226406, a: 0.7372549}
     - _DickForwardWorld: {r: 0, g: 0, b: 0, a: 0}
     - _DickRightWorld: {r: 0, g: 0, b: 0, a: 0}
     - _DickRootWorld: {r: 0, g: 0, b: 0, a: 0}
@@ -308,6 +311,7 @@ Material:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissiveColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissiveColorLDR: {r: 0, g: 0, b: 0, a: 1}
+    - _FrenelColor: {r: 0.6426165, g: 0.18632075, b: 0.745283, a: 1}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}

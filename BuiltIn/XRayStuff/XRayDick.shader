@@ -14,13 +14,10 @@ Shader "XRayDick"
 		[HideInInspector]_PenetratorForwardWorld("PenetratorForwardWorld", Vector) = (0,0,0,0)
 		[HideInInspector]_PenetratorRightWorld("PenetratorRightWorld", Vector) = (0,0,0,0)
 		[HideInInspector]_PenetratorUpWorld("PenetratorUpWorld", Vector) = (0,0,0,0)
-		[HideInInspector]_TruncateLength("TruncateLength", Float) = 999
 		[HideInInspector]_SquashStretchCorrection("SquashStretchCorrection", Float) = 1
 		[HideInInspector]_DistanceToHole("DistanceToHole", Float) = 0
 		[HideInInspector]_PenetratorWorldLength("PenetratorWorldLength", Float) = 1
 		[HideInInspector]_PenetratorOffsetLength("PenetratorOffsetLength", Float) = 0
-		[Toggle(_TRUNCATESPHERIZE_ON)] _TruncateSpherize("TruncateSpherize", Float) = 0
-		_GirthRadius("GirthRadius", Float) = 0.1
 		_WorldDickPosition("WorldDickPosition", Vector) = (0,0,0,0)
 		_WorldDickNormal("WorldDickNormal", Vector) = (0,1,0,0)
 		_WorldDickBinormal("WorldDickBinormal", Vector) = (0,0,1,0)
@@ -276,7 +273,6 @@ Shader "XRayDick"
 			#define ASE_NEEDS_FRAG_RELATIVE_WORLD_POS
 			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#pragma multi_compile_local __ _TRUNCATESPHERIZE_ON
 			#pragma shader_feature_local _SKINNED_ON
 			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
@@ -309,17 +305,15 @@ Shader "XRayDick"
 			float3 _PenetratorUpWorld;
 			float3 _PenetratorForwardWorld;
 			float3 _PenetratorStartWorld;
-			float3 _WorldDickPosition;
-			float3 _WorldDickBinormal;
 			float3 _WorldDickNormal;
-			float _Angle;
-			float _TipRadius;
-			float _TruncateLength;
-			float _GirthRadius;
-			float _PenetratorWorldLength;
-			float _DistanceToHole;
+			float3 _WorldDickBinormal;
+			float3 _WorldDickPosition;
 			float _SquashStretchCorrection;
+			float _DistanceToHole;
+			float _PenetratorWorldLength;
 			float _PenetratorOffsetLength;
+			float _TipRadius;
+			float _Angle;
 			float _DistanceFade;
 			float4 _EmissionColor;
 			float _RenderQueueType;
@@ -384,22 +378,7 @@ Shader "XRayDick"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
 
-			float3x3 ChangeOfBasis169_g277( float3 right, float3 up, float3 forward )
-			{
-				float3x3 basisTransform = 0;
-				    basisTransform[0][0] = right.x;
-				    basisTransform[0][1] = right.y;
-				    basisTransform[0][2] = right.z;
-				    basisTransform[1][0] = up.x;
-				    basisTransform[1][1] = up.y;
-				    basisTransform[1][2] = up.z;
-				    basisTransform[2][0] = forward.x;
-				    basisTransform[2][1] = forward.y;
-				    basisTransform[2][2] = forward.z;
-				return basisTransform;
-			}
-			
-			float3x3 ChangeOfBasis9_g277( float3 right, float3 up, float3 forward )
+			float3x3 ChangeOfBasis9_g1( float3 right, float3 up, float3 forward )
 			{
 				float3x3 basisTransform = 0;
 				    basisTransform[0][0] = right.x;
@@ -592,68 +571,54 @@ Shader "XRayDick"
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
-				float localToCatmullRomSpace_float56_g277 = ( 0.0 );
-				float3 penetratorRootWorld122_g277 = _PenetratorRootWorld;
-				float3 worldPenetratorRootPos56_g277 = penetratorRootWorld122_g277;
-				float3 penetratorRightWorld139_g277 = _PenetratorRightWorld;
-				float3 right169_g277 = penetratorRightWorld139_g277;
-				float3 penetratorUpWorld134_g277 = _PenetratorUpWorld;
-				float3 up169_g277 = penetratorUpWorld134_g277;
-				float3 penetratorForwardWorld126_g277 = _PenetratorForwardWorld;
-				float3 forward169_g277 = penetratorForwardWorld126_g277;
-				float3x3 localChangeOfBasis169_g277 = ChangeOfBasis169_g277( right169_g277 , up169_g277 , forward169_g277 );
-				float3 right9_g277 = penetratorRightWorld139_g277;
-				float3 up9_g277 = penetratorUpWorld134_g277;
-				float3 forward9_g277 = penetratorForwardWorld126_g277;
-				float3x3 localChangeOfBasis9_g277 = ChangeOfBasis9_g277( right9_g277 , up9_g277 , forward9_g277 );
-				float4 appendResult67_g277 = (float4(inputMesh.positionOS , 1.0));
-				float4 transform66_g277 = mul(GetObjectToWorldMatrix(),appendResult67_g277);
-				transform66_g277.xyz = GetAbsolutePositionWS((transform66_g277).xyz);
-				float3 localPenetratorSpaceVertexPosition142_g277 = ( (transform66_g277).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g277 ) );
-				float3 temp_output_12_0_g277 = mul( localChangeOfBasis9_g277, ( localPenetratorSpaceVertexPosition142_g277 - penetratorRootWorld122_g277 ) );
-				float3 break15_g277 = temp_output_12_0_g277;
-				float temp_output_18_0_g277 = ( break15_g277.z * _SquashStretchCorrection );
-				float3 appendResult26_g277 = (float3(break15_g277.x , break15_g277.y , temp_output_18_0_g277));
-				float3 appendResult25_g277 = (float3(( break15_g277.x / _SquashStretchCorrection ) , ( break15_g277.y / _SquashStretchCorrection ) , temp_output_18_0_g277));
-				float distanceToHole180_g277 = _DistanceToHole;
-				float temp_output_17_0_g277 = ( distanceToHole180_g277 * 0.5 );
-				float smoothstepResult23_g277 = smoothstep( 0.0 , temp_output_17_0_g277 , temp_output_18_0_g277);
-				float smoothstepResult22_g277 = smoothstep( distanceToHole180_g277 , temp_output_17_0_g277 , temp_output_18_0_g277);
-				float3 lerpResult31_g277 = lerp( appendResult26_g277 , appendResult25_g277 , min( smoothstepResult23_g277 , smoothstepResult22_g277 ));
-				float3 lerpResult32_g277 = lerp( lerpResult31_g277 , ( temp_output_12_0_g277 + ( ( distanceToHole180_g277 - ( ( distanceToHole180_g277 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g277 , temp_output_18_0_g277 ));
-				float3 squashStretchedPosition44_g277 = lerpResult32_g277;
-				float3 temp_output_150_0_g277 = ( float3(0,0,1) * _TruncateLength );
-				float3 temp_output_149_0_g277 = ( squashStretchedPosition44_g277 - temp_output_150_0_g277 );
-				float3 normalizeResult156_g277 = normalize( temp_output_149_0_g277 );
-				float3 lerpResult152_g277 = lerp( temp_output_149_0_g277 , ( normalizeResult156_g277 * min( length( temp_output_149_0_g277 ) , _GirthRadius ) ) , saturate( ( temp_output_149_0_g277.z * ( 1.0 / _GirthRadius ) ) ));
-				#ifdef _TRUNCATESPHERIZE_ON
-				float3 staticSwitch116_g277 = ( lerpResult152_g277 + temp_output_150_0_g277 );
-				#else
-				float3 staticSwitch116_g277 = squashStretchedPosition44_g277;
-				#endif
-				float3 TruncatedPosition147_g277 = ( penetratorRootWorld122_g277 + mul( transpose( localChangeOfBasis169_g277 ), staticSwitch116_g277 ) );
-				float3 worldPosition56_g277 = ( TruncatedPosition147_g277 + ( penetratorForwardWorld126_g277 * _PenetratorOffsetLength ) );
-				float3 worldPenetratorForward56_g277 = penetratorForwardWorld126_g277;
-				float3 worldPenetratorUp56_g277 = penetratorUpWorld134_g277;
-				float3 worldPenetratorRight56_g277 = penetratorRightWorld139_g277;
-				float4 appendResult86_g277 = (float4(inputMesh.normalOS , 0.0));
-				float3 normalizeResult87_g277 = normalize( (mul( GetObjectToWorldMatrix(), appendResult86_g277 )).xyz );
-				float3 worldNormal56_g277 = normalizeResult87_g277;
-				float4 break93_g277 = inputMesh.ase_tangent;
-				float4 appendResult89_g277 = (float4(break93_g277.x , break93_g277.y , break93_g277.z , 0.0));
-				float3 normalizeResult91_g277 = normalize( (mul( GetObjectToWorldMatrix(), appendResult89_g277 )).xyz );
-				float4 appendResult94_g277 = (float4(normalizeResult91_g277 , break93_g277.w));
-				float4 worldTangent56_g277 = appendResult94_g277;
-				float3 worldPositionOUT56_g277 = float3( 0,0,0 );
-				float3 worldNormalOUT56_g277 = float3( 0,0,0 );
-				float4 worldTangentOUT56_g277 = float4( 0,0,0,0 );
+				float localToCatmullRomSpace_float56_g1 = ( 0.0 );
+				float3 penetratorRootWorld122_g1 = _PenetratorRootWorld;
+				float3 worldPenetratorRootPos56_g1 = penetratorRootWorld122_g1;
+				float3 penetratorRightWorld139_g1 = _PenetratorRightWorld;
+				float3 right9_g1 = penetratorRightWorld139_g1;
+				float3 penetratorUpWorld134_g1 = _PenetratorUpWorld;
+				float3 up9_g1 = penetratorUpWorld134_g1;
+				float3 penetratorForwardWorld126_g1 = _PenetratorForwardWorld;
+				float3 forward9_g1 = penetratorForwardWorld126_g1;
+				float3x3 localChangeOfBasis9_g1 = ChangeOfBasis9_g1( right9_g1 , up9_g1 , forward9_g1 );
+				float4 appendResult67_g1 = (float4(inputMesh.positionOS , 1.0));
+				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
+				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
+				float3 localPenetratorSpaceVertexPosition142_g1 = ( (transform66_g1).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g1 ) );
+				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
+				float3 break15_g1 = temp_output_12_0_g1;
+				float temp_output_18_0_g1 = ( break15_g1.z * _SquashStretchCorrection );
+				float3 appendResult26_g1 = (float3(break15_g1.x , break15_g1.y , temp_output_18_0_g1));
+				float3 appendResult25_g1 = (float3(( break15_g1.x / _SquashStretchCorrection ) , ( break15_g1.y / _SquashStretchCorrection ) , temp_output_18_0_g1));
+				float distanceToHole180_g1 = _DistanceToHole;
+				float temp_output_17_0_g1 = ( distanceToHole180_g1 * 0.5 );
+				float smoothstepResult23_g1 = smoothstep( 0.0 , temp_output_17_0_g1 , temp_output_18_0_g1);
+				float smoothstepResult22_g1 = smoothstep( distanceToHole180_g1 , temp_output_17_0_g1 , temp_output_18_0_g1);
+				float3 lerpResult31_g1 = lerp( appendResult26_g1 , appendResult25_g1 , min( smoothstepResult23_g1 , smoothstepResult22_g1 ));
+				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( distanceToHole180_g1 - ( ( distanceToHole180_g1 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
+				float3 squashStretchedPosition44_g1 = lerpResult32_g1;
+				float3 worldPosition56_g1 = ( ( mul( transpose( localChangeOfBasis9_g1 ), squashStretchedPosition44_g1 ) + penetratorRootWorld122_g1 ) + ( penetratorForwardWorld126_g1 * _PenetratorOffsetLength ) );
+				float3 worldPenetratorForward56_g1 = penetratorForwardWorld126_g1;
+				float3 worldPenetratorUp56_g1 = penetratorUpWorld134_g1;
+				float3 worldPenetratorRight56_g1 = penetratorRightWorld139_g1;
+				float4 appendResult86_g1 = (float4(inputMesh.normalOS , 0.0));
+				float3 normalizeResult87_g1 = normalize( (mul( GetObjectToWorldMatrix(), appendResult86_g1 )).xyz );
+				float3 worldNormal56_g1 = normalizeResult87_g1;
+				float4 break93_g1 = inputMesh.ase_tangent;
+				float4 appendResult89_g1 = (float4(break93_g1.x , break93_g1.y , break93_g1.z , 0.0));
+				float3 normalizeResult91_g1 = normalize( (mul( GetObjectToWorldMatrix(), appendResult89_g1 )).xyz );
+				float4 appendResult94_g1 = (float4(normalizeResult91_g1 , break93_g1.w));
+				float4 worldTangent56_g1 = appendResult94_g1;
+				float3 worldPositionOUT56_g1 = float3( 0,0,0 );
+				float3 worldNormalOUT56_g1 = float3( 0,0,0 );
+				float4 worldTangentOUT56_g1 = float4( 0,0,0,0 );
 				{
-				ToCatmullRomSpace_float(worldPenetratorRootPos56_g277,worldPosition56_g277,worldPenetratorForward56_g277,worldPenetratorUp56_g277,worldPenetratorRight56_g277,worldNormal56_g277,worldTangent56_g277,worldPositionOUT56_g277,worldNormalOUT56_g277,worldTangentOUT56_g277);
+				ToCatmullRomSpace_float(worldPenetratorRootPos56_g1,worldPosition56_g1,worldPenetratorForward56_g1,worldPenetratorUp56_g1,worldPenetratorRight56_g1,worldNormal56_g1,worldTangent56_g1,worldPositionOUT56_g1,worldNormalOUT56_g1,worldTangentOUT56_g1);
 				}
-				float4 appendResult73_g277 = (float4(worldPositionOUT56_g277 , 1.0));
-				float4 localWorldVar72_g277 = appendResult73_g277;
-				(localWorldVar72_g277).xyz = GetCameraRelativePositionWS((localWorldVar72_g277).xyz);
-				float4 transform72_g277 = mul(GetWorldToObjectMatrix(),localWorldVar72_g277);
+				float4 appendResult73_g1 = (float4(worldPositionOUT56_g1 , 1.0));
+				float4 localWorldVar72_g1 = appendResult73_g1;
+				(localWorldVar72_g1).xyz = GetCameraRelativePositionWS((localWorldVar72_g1).xyz);
+				float4 transform72_g1 = mul(GetWorldToObjectMatrix(),localWorldVar72_g1);
 				float3 normalizeResult27_g280 = normalize( _WorldDickNormal );
 				float3 normalizeResult31_g280 = normalize( _WorldDickBinormal );
 				float3 normalizeResult29_g280 = normalize( cross( normalizeResult27_g280 , normalizeResult31_g280 ) );
@@ -688,12 +653,12 @@ Shader "XRayDick"
 				#ifdef _COCKVORESQUISHENABLED_ON
 				float3 staticSwitch13_g278 = (transform29_g278).xyz;
 				#else
-				float3 staticSwitch13_g278 = (transform72_g277).xyz;
+				float3 staticSwitch13_g278 = (transform72_g1).xyz;
 				#endif
 				
-				float4 appendResult75_g277 = (float4(worldNormalOUT56_g277 , 0.0));
-				float3 normalizeResult76_g277 = normalize( (mul( GetWorldToObjectMatrix(), appendResult75_g277 )).xyz );
-				float3 temp_output_50_0_g278 = normalizeResult76_g277;
+				float4 appendResult75_g1 = (float4(worldNormalOUT56_g1 , 0.0));
+				float3 normalizeResult76_g1 = normalize( (mul( GetWorldToObjectMatrix(), appendResult75_g1 )).xyz );
+				float3 temp_output_50_0_g278 = normalizeResult76_g1;
 				float2 break146_g279 = normalizeResult41_g279;
 				float4 appendResult139_g279 = (float4(temp_output_48_0_g279 , break146_g279.x , break146_g279.y , 0.0));
 				float3 normalizeResult144_g279 = normalize( (mul( invertVal44_g279, appendResult139_g279 )).xyz );
@@ -1015,7 +980,6 @@ Shader "XRayDick"
 			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_VERT_NORMAL
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#pragma multi_compile_local __ _TRUNCATESPHERIZE_ON
 			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
@@ -1044,17 +1008,15 @@ Shader "XRayDick"
 			float3 _PenetratorUpWorld;
 			float3 _PenetratorForwardWorld;
 			float3 _PenetratorStartWorld;
-			float3 _WorldDickPosition;
-			float3 _WorldDickBinormal;
 			float3 _WorldDickNormal;
-			float _Angle;
-			float _TipRadius;
-			float _TruncateLength;
-			float _GirthRadius;
-			float _PenetratorWorldLength;
-			float _DistanceToHole;
+			float3 _WorldDickBinormal;
+			float3 _WorldDickPosition;
 			float _SquashStretchCorrection;
+			float _DistanceToHole;
+			float _PenetratorWorldLength;
 			float _PenetratorOffsetLength;
+			float _TipRadius;
+			float _Angle;
 			float _DistanceFade;
 			float4 _EmissionColor;
 			float _RenderQueueType;
@@ -1119,22 +1081,7 @@ Shader "XRayDick"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
 
-			float3x3 ChangeOfBasis169_g277( float3 right, float3 up, float3 forward )
-			{
-				float3x3 basisTransform = 0;
-				    basisTransform[0][0] = right.x;
-				    basisTransform[0][1] = right.y;
-				    basisTransform[0][2] = right.z;
-				    basisTransform[1][0] = up.x;
-				    basisTransform[1][1] = up.y;
-				    basisTransform[1][2] = up.z;
-				    basisTransform[2][0] = forward.x;
-				    basisTransform[2][1] = forward.y;
-				    basisTransform[2][2] = forward.z;
-				return basisTransform;
-			}
-			
-			float3x3 ChangeOfBasis9_g277( float3 right, float3 up, float3 forward )
+			float3x3 ChangeOfBasis9_g1( float3 right, float3 up, float3 forward )
 			{
 				float3x3 basisTransform = 0;
 				    basisTransform[0][0] = right.x;
@@ -1237,68 +1184,54 @@ Shader "XRayDick"
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
-				float localToCatmullRomSpace_float56_g277 = ( 0.0 );
-				float3 penetratorRootWorld122_g277 = _PenetratorRootWorld;
-				float3 worldPenetratorRootPos56_g277 = penetratorRootWorld122_g277;
-				float3 penetratorRightWorld139_g277 = _PenetratorRightWorld;
-				float3 right169_g277 = penetratorRightWorld139_g277;
-				float3 penetratorUpWorld134_g277 = _PenetratorUpWorld;
-				float3 up169_g277 = penetratorUpWorld134_g277;
-				float3 penetratorForwardWorld126_g277 = _PenetratorForwardWorld;
-				float3 forward169_g277 = penetratorForwardWorld126_g277;
-				float3x3 localChangeOfBasis169_g277 = ChangeOfBasis169_g277( right169_g277 , up169_g277 , forward169_g277 );
-				float3 right9_g277 = penetratorRightWorld139_g277;
-				float3 up9_g277 = penetratorUpWorld134_g277;
-				float3 forward9_g277 = penetratorForwardWorld126_g277;
-				float3x3 localChangeOfBasis9_g277 = ChangeOfBasis9_g277( right9_g277 , up9_g277 , forward9_g277 );
-				float4 appendResult67_g277 = (float4(inputMesh.positionOS , 1.0));
-				float4 transform66_g277 = mul(GetObjectToWorldMatrix(),appendResult67_g277);
-				transform66_g277.xyz = GetAbsolutePositionWS((transform66_g277).xyz);
-				float3 localPenetratorSpaceVertexPosition142_g277 = ( (transform66_g277).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g277 ) );
-				float3 temp_output_12_0_g277 = mul( localChangeOfBasis9_g277, ( localPenetratorSpaceVertexPosition142_g277 - penetratorRootWorld122_g277 ) );
-				float3 break15_g277 = temp_output_12_0_g277;
-				float temp_output_18_0_g277 = ( break15_g277.z * _SquashStretchCorrection );
-				float3 appendResult26_g277 = (float3(break15_g277.x , break15_g277.y , temp_output_18_0_g277));
-				float3 appendResult25_g277 = (float3(( break15_g277.x / _SquashStretchCorrection ) , ( break15_g277.y / _SquashStretchCorrection ) , temp_output_18_0_g277));
-				float distanceToHole180_g277 = _DistanceToHole;
-				float temp_output_17_0_g277 = ( distanceToHole180_g277 * 0.5 );
-				float smoothstepResult23_g277 = smoothstep( 0.0 , temp_output_17_0_g277 , temp_output_18_0_g277);
-				float smoothstepResult22_g277 = smoothstep( distanceToHole180_g277 , temp_output_17_0_g277 , temp_output_18_0_g277);
-				float3 lerpResult31_g277 = lerp( appendResult26_g277 , appendResult25_g277 , min( smoothstepResult23_g277 , smoothstepResult22_g277 ));
-				float3 lerpResult32_g277 = lerp( lerpResult31_g277 , ( temp_output_12_0_g277 + ( ( distanceToHole180_g277 - ( ( distanceToHole180_g277 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g277 , temp_output_18_0_g277 ));
-				float3 squashStretchedPosition44_g277 = lerpResult32_g277;
-				float3 temp_output_150_0_g277 = ( float3(0,0,1) * _TruncateLength );
-				float3 temp_output_149_0_g277 = ( squashStretchedPosition44_g277 - temp_output_150_0_g277 );
-				float3 normalizeResult156_g277 = normalize( temp_output_149_0_g277 );
-				float3 lerpResult152_g277 = lerp( temp_output_149_0_g277 , ( normalizeResult156_g277 * min( length( temp_output_149_0_g277 ) , _GirthRadius ) ) , saturate( ( temp_output_149_0_g277.z * ( 1.0 / _GirthRadius ) ) ));
-				#ifdef _TRUNCATESPHERIZE_ON
-				float3 staticSwitch116_g277 = ( lerpResult152_g277 + temp_output_150_0_g277 );
-				#else
-				float3 staticSwitch116_g277 = squashStretchedPosition44_g277;
-				#endif
-				float3 TruncatedPosition147_g277 = ( penetratorRootWorld122_g277 + mul( transpose( localChangeOfBasis169_g277 ), staticSwitch116_g277 ) );
-				float3 worldPosition56_g277 = ( TruncatedPosition147_g277 + ( penetratorForwardWorld126_g277 * _PenetratorOffsetLength ) );
-				float3 worldPenetratorForward56_g277 = penetratorForwardWorld126_g277;
-				float3 worldPenetratorUp56_g277 = penetratorUpWorld134_g277;
-				float3 worldPenetratorRight56_g277 = penetratorRightWorld139_g277;
-				float4 appendResult86_g277 = (float4(inputMesh.normalOS , 0.0));
-				float3 normalizeResult87_g277 = normalize( (mul( GetObjectToWorldMatrix(), appendResult86_g277 )).xyz );
-				float3 worldNormal56_g277 = normalizeResult87_g277;
-				float4 break93_g277 = inputMesh.ase_tangent;
-				float4 appendResult89_g277 = (float4(break93_g277.x , break93_g277.y , break93_g277.z , 0.0));
-				float3 normalizeResult91_g277 = normalize( (mul( GetObjectToWorldMatrix(), appendResult89_g277 )).xyz );
-				float4 appendResult94_g277 = (float4(normalizeResult91_g277 , break93_g277.w));
-				float4 worldTangent56_g277 = appendResult94_g277;
-				float3 worldPositionOUT56_g277 = float3( 0,0,0 );
-				float3 worldNormalOUT56_g277 = float3( 0,0,0 );
-				float4 worldTangentOUT56_g277 = float4( 0,0,0,0 );
+				float localToCatmullRomSpace_float56_g1 = ( 0.0 );
+				float3 penetratorRootWorld122_g1 = _PenetratorRootWorld;
+				float3 worldPenetratorRootPos56_g1 = penetratorRootWorld122_g1;
+				float3 penetratorRightWorld139_g1 = _PenetratorRightWorld;
+				float3 right9_g1 = penetratorRightWorld139_g1;
+				float3 penetratorUpWorld134_g1 = _PenetratorUpWorld;
+				float3 up9_g1 = penetratorUpWorld134_g1;
+				float3 penetratorForwardWorld126_g1 = _PenetratorForwardWorld;
+				float3 forward9_g1 = penetratorForwardWorld126_g1;
+				float3x3 localChangeOfBasis9_g1 = ChangeOfBasis9_g1( right9_g1 , up9_g1 , forward9_g1 );
+				float4 appendResult67_g1 = (float4(inputMesh.positionOS , 1.0));
+				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
+				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
+				float3 localPenetratorSpaceVertexPosition142_g1 = ( (transform66_g1).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g1 ) );
+				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
+				float3 break15_g1 = temp_output_12_0_g1;
+				float temp_output_18_0_g1 = ( break15_g1.z * _SquashStretchCorrection );
+				float3 appendResult26_g1 = (float3(break15_g1.x , break15_g1.y , temp_output_18_0_g1));
+				float3 appendResult25_g1 = (float3(( break15_g1.x / _SquashStretchCorrection ) , ( break15_g1.y / _SquashStretchCorrection ) , temp_output_18_0_g1));
+				float distanceToHole180_g1 = _DistanceToHole;
+				float temp_output_17_0_g1 = ( distanceToHole180_g1 * 0.5 );
+				float smoothstepResult23_g1 = smoothstep( 0.0 , temp_output_17_0_g1 , temp_output_18_0_g1);
+				float smoothstepResult22_g1 = smoothstep( distanceToHole180_g1 , temp_output_17_0_g1 , temp_output_18_0_g1);
+				float3 lerpResult31_g1 = lerp( appendResult26_g1 , appendResult25_g1 , min( smoothstepResult23_g1 , smoothstepResult22_g1 ));
+				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( distanceToHole180_g1 - ( ( distanceToHole180_g1 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
+				float3 squashStretchedPosition44_g1 = lerpResult32_g1;
+				float3 worldPosition56_g1 = ( ( mul( transpose( localChangeOfBasis9_g1 ), squashStretchedPosition44_g1 ) + penetratorRootWorld122_g1 ) + ( penetratorForwardWorld126_g1 * _PenetratorOffsetLength ) );
+				float3 worldPenetratorForward56_g1 = penetratorForwardWorld126_g1;
+				float3 worldPenetratorUp56_g1 = penetratorUpWorld134_g1;
+				float3 worldPenetratorRight56_g1 = penetratorRightWorld139_g1;
+				float4 appendResult86_g1 = (float4(inputMesh.normalOS , 0.0));
+				float3 normalizeResult87_g1 = normalize( (mul( GetObjectToWorldMatrix(), appendResult86_g1 )).xyz );
+				float3 worldNormal56_g1 = normalizeResult87_g1;
+				float4 break93_g1 = inputMesh.ase_tangent;
+				float4 appendResult89_g1 = (float4(break93_g1.x , break93_g1.y , break93_g1.z , 0.0));
+				float3 normalizeResult91_g1 = normalize( (mul( GetObjectToWorldMatrix(), appendResult89_g1 )).xyz );
+				float4 appendResult94_g1 = (float4(normalizeResult91_g1 , break93_g1.w));
+				float4 worldTangent56_g1 = appendResult94_g1;
+				float3 worldPositionOUT56_g1 = float3( 0,0,0 );
+				float3 worldNormalOUT56_g1 = float3( 0,0,0 );
+				float4 worldTangentOUT56_g1 = float4( 0,0,0,0 );
 				{
-				ToCatmullRomSpace_float(worldPenetratorRootPos56_g277,worldPosition56_g277,worldPenetratorForward56_g277,worldPenetratorUp56_g277,worldPenetratorRight56_g277,worldNormal56_g277,worldTangent56_g277,worldPositionOUT56_g277,worldNormalOUT56_g277,worldTangentOUT56_g277);
+				ToCatmullRomSpace_float(worldPenetratorRootPos56_g1,worldPosition56_g1,worldPenetratorForward56_g1,worldPenetratorUp56_g1,worldPenetratorRight56_g1,worldNormal56_g1,worldTangent56_g1,worldPositionOUT56_g1,worldNormalOUT56_g1,worldTangentOUT56_g1);
 				}
-				float4 appendResult73_g277 = (float4(worldPositionOUT56_g277 , 1.0));
-				float4 localWorldVar72_g277 = appendResult73_g277;
-				(localWorldVar72_g277).xyz = GetCameraRelativePositionWS((localWorldVar72_g277).xyz);
-				float4 transform72_g277 = mul(GetWorldToObjectMatrix(),localWorldVar72_g277);
+				float4 appendResult73_g1 = (float4(worldPositionOUT56_g1 , 1.0));
+				float4 localWorldVar72_g1 = appendResult73_g1;
+				(localWorldVar72_g1).xyz = GetCameraRelativePositionWS((localWorldVar72_g1).xyz);
+				float4 transform72_g1 = mul(GetWorldToObjectMatrix(),localWorldVar72_g1);
 				float3 normalizeResult27_g280 = normalize( _WorldDickNormal );
 				float3 normalizeResult31_g280 = normalize( _WorldDickBinormal );
 				float3 normalizeResult29_g280 = normalize( cross( normalizeResult27_g280 , normalizeResult31_g280 ) );
@@ -1333,12 +1266,12 @@ Shader "XRayDick"
 				#ifdef _COCKVORESQUISHENABLED_ON
 				float3 staticSwitch13_g278 = (transform29_g278).xyz;
 				#else
-				float3 staticSwitch13_g278 = (transform72_g277).xyz;
+				float3 staticSwitch13_g278 = (transform72_g1).xyz;
 				#endif
 				
-				float4 appendResult75_g277 = (float4(worldNormalOUT56_g277 , 0.0));
-				float3 normalizeResult76_g277 = normalize( (mul( GetWorldToObjectMatrix(), appendResult75_g277 )).xyz );
-				float3 temp_output_50_0_g278 = normalizeResult76_g277;
+				float4 appendResult75_g1 = (float4(worldNormalOUT56_g1 , 0.0));
+				float3 normalizeResult76_g1 = normalize( (mul( GetWorldToObjectMatrix(), appendResult75_g1 )).xyz );
+				float3 temp_output_50_0_g278 = normalizeResult76_g1;
 				float2 break146_g279 = normalizeResult41_g279;
 				float4 appendResult139_g279 = (float4(temp_output_48_0_g279 , break146_g279.x , break146_g279.y , 0.0));
 				float3 normalizeResult144_g279 = normalize( (mul( invertVal44_g279, appendResult139_g279 )).xyz );
@@ -1591,17 +1524,15 @@ Shader "XRayDick"
 			float3 _PenetratorUpWorld;
 			float3 _PenetratorForwardWorld;
 			float3 _PenetratorStartWorld;
-			float3 _WorldDickPosition;
-			float3 _WorldDickBinormal;
 			float3 _WorldDickNormal;
-			float _Angle;
-			float _TipRadius;
-			float _TruncateLength;
-			float _GirthRadius;
-			float _PenetratorWorldLength;
-			float _DistanceToHole;
+			float3 _WorldDickBinormal;
+			float3 _WorldDickPosition;
 			float _SquashStretchCorrection;
+			float _DistanceToHole;
+			float _PenetratorWorldLength;
 			float _PenetratorOffsetLength;
+			float _TipRadius;
+			float _Angle;
 			float _DistanceFade;
 			float4 _EmissionColor;
 			float _RenderQueueType;
@@ -1670,7 +1601,6 @@ Shader "XRayDick"
 			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_VERT_NORMAL
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#pragma multi_compile_local __ _TRUNCATESPHERIZE_ON
 			#pragma shader_feature_local _SKINNED_ON
 			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
@@ -1703,22 +1633,7 @@ Shader "XRayDick"
 			};
 
 
-			float3x3 ChangeOfBasis169_g277( float3 right, float3 up, float3 forward )
-			{
-				float3x3 basisTransform = 0;
-				    basisTransform[0][0] = right.x;
-				    basisTransform[0][1] = right.y;
-				    basisTransform[0][2] = right.z;
-				    basisTransform[1][0] = up.x;
-				    basisTransform[1][1] = up.y;
-				    basisTransform[1][2] = up.z;
-				    basisTransform[2][0] = forward.x;
-				    basisTransform[2][1] = forward.y;
-				    basisTransform[2][2] = forward.z;
-				return basisTransform;
-			}
-			
-			float3x3 ChangeOfBasis9_g277( float3 right, float3 up, float3 forward )
+			float3x3 ChangeOfBasis9_g1( float3 right, float3 up, float3 forward )
 			{
 				float3x3 basisTransform = 0;
 				    basisTransform[0][0] = right.x;
@@ -1876,68 +1791,54 @@ Shader "XRayDick"
 				UNITY_SETUP_INSTANCE_ID( inputMesh );
 				UNITY_TRANSFER_INSTANCE_ID( inputMesh, o );
 
-				float localToCatmullRomSpace_float56_g277 = ( 0.0 );
-				float3 penetratorRootWorld122_g277 = _PenetratorRootWorld;
-				float3 worldPenetratorRootPos56_g277 = penetratorRootWorld122_g277;
-				float3 penetratorRightWorld139_g277 = _PenetratorRightWorld;
-				float3 right169_g277 = penetratorRightWorld139_g277;
-				float3 penetratorUpWorld134_g277 = _PenetratorUpWorld;
-				float3 up169_g277 = penetratorUpWorld134_g277;
-				float3 penetratorForwardWorld126_g277 = _PenetratorForwardWorld;
-				float3 forward169_g277 = penetratorForwardWorld126_g277;
-				float3x3 localChangeOfBasis169_g277 = ChangeOfBasis169_g277( right169_g277 , up169_g277 , forward169_g277 );
-				float3 right9_g277 = penetratorRightWorld139_g277;
-				float3 up9_g277 = penetratorUpWorld134_g277;
-				float3 forward9_g277 = penetratorForwardWorld126_g277;
-				float3x3 localChangeOfBasis9_g277 = ChangeOfBasis9_g277( right9_g277 , up9_g277 , forward9_g277 );
-				float4 appendResult67_g277 = (float4(inputMesh.positionOS , 1.0));
-				float4 transform66_g277 = mul(GetObjectToWorldMatrix(),appendResult67_g277);
-				transform66_g277.xyz = GetAbsolutePositionWS((transform66_g277).xyz);
-				float3 localPenetratorSpaceVertexPosition142_g277 = ( (transform66_g277).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g277 ) );
-				float3 temp_output_12_0_g277 = mul( localChangeOfBasis9_g277, ( localPenetratorSpaceVertexPosition142_g277 - penetratorRootWorld122_g277 ) );
-				float3 break15_g277 = temp_output_12_0_g277;
-				float temp_output_18_0_g277 = ( break15_g277.z * _SquashStretchCorrection );
-				float3 appendResult26_g277 = (float3(break15_g277.x , break15_g277.y , temp_output_18_0_g277));
-				float3 appendResult25_g277 = (float3(( break15_g277.x / _SquashStretchCorrection ) , ( break15_g277.y / _SquashStretchCorrection ) , temp_output_18_0_g277));
-				float distanceToHole180_g277 = _DistanceToHole;
-				float temp_output_17_0_g277 = ( distanceToHole180_g277 * 0.5 );
-				float smoothstepResult23_g277 = smoothstep( 0.0 , temp_output_17_0_g277 , temp_output_18_0_g277);
-				float smoothstepResult22_g277 = smoothstep( distanceToHole180_g277 , temp_output_17_0_g277 , temp_output_18_0_g277);
-				float3 lerpResult31_g277 = lerp( appendResult26_g277 , appendResult25_g277 , min( smoothstepResult23_g277 , smoothstepResult22_g277 ));
-				float3 lerpResult32_g277 = lerp( lerpResult31_g277 , ( temp_output_12_0_g277 + ( ( distanceToHole180_g277 - ( ( distanceToHole180_g277 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g277 , temp_output_18_0_g277 ));
-				float3 squashStretchedPosition44_g277 = lerpResult32_g277;
-				float3 temp_output_150_0_g277 = ( float3(0,0,1) * _TruncateLength );
-				float3 temp_output_149_0_g277 = ( squashStretchedPosition44_g277 - temp_output_150_0_g277 );
-				float3 normalizeResult156_g277 = normalize( temp_output_149_0_g277 );
-				float3 lerpResult152_g277 = lerp( temp_output_149_0_g277 , ( normalizeResult156_g277 * min( length( temp_output_149_0_g277 ) , _GirthRadius ) ) , saturate( ( temp_output_149_0_g277.z * ( 1.0 / _GirthRadius ) ) ));
-				#ifdef _TRUNCATESPHERIZE_ON
-				float3 staticSwitch116_g277 = ( lerpResult152_g277 + temp_output_150_0_g277 );
-				#else
-				float3 staticSwitch116_g277 = squashStretchedPosition44_g277;
-				#endif
-				float3 TruncatedPosition147_g277 = ( penetratorRootWorld122_g277 + mul( transpose( localChangeOfBasis169_g277 ), staticSwitch116_g277 ) );
-				float3 worldPosition56_g277 = ( TruncatedPosition147_g277 + ( penetratorForwardWorld126_g277 * _PenetratorOffsetLength ) );
-				float3 worldPenetratorForward56_g277 = penetratorForwardWorld126_g277;
-				float3 worldPenetratorUp56_g277 = penetratorUpWorld134_g277;
-				float3 worldPenetratorRight56_g277 = penetratorRightWorld139_g277;
-				float4 appendResult86_g277 = (float4(inputMesh.normalOS , 0.0));
-				float3 normalizeResult87_g277 = normalize( (mul( GetObjectToWorldMatrix(), appendResult86_g277 )).xyz );
-				float3 worldNormal56_g277 = normalizeResult87_g277;
-				float4 break93_g277 = inputMesh.ase_tangent;
-				float4 appendResult89_g277 = (float4(break93_g277.x , break93_g277.y , break93_g277.z , 0.0));
-				float3 normalizeResult91_g277 = normalize( (mul( GetObjectToWorldMatrix(), appendResult89_g277 )).xyz );
-				float4 appendResult94_g277 = (float4(normalizeResult91_g277 , break93_g277.w));
-				float4 worldTangent56_g277 = appendResult94_g277;
-				float3 worldPositionOUT56_g277 = float3( 0,0,0 );
-				float3 worldNormalOUT56_g277 = float3( 0,0,0 );
-				float4 worldTangentOUT56_g277 = float4( 0,0,0,0 );
+				float localToCatmullRomSpace_float56_g1 = ( 0.0 );
+				float3 penetratorRootWorld122_g1 = _PenetratorRootWorld;
+				float3 worldPenetratorRootPos56_g1 = penetratorRootWorld122_g1;
+				float3 penetratorRightWorld139_g1 = _PenetratorRightWorld;
+				float3 right9_g1 = penetratorRightWorld139_g1;
+				float3 penetratorUpWorld134_g1 = _PenetratorUpWorld;
+				float3 up9_g1 = penetratorUpWorld134_g1;
+				float3 penetratorForwardWorld126_g1 = _PenetratorForwardWorld;
+				float3 forward9_g1 = penetratorForwardWorld126_g1;
+				float3x3 localChangeOfBasis9_g1 = ChangeOfBasis9_g1( right9_g1 , up9_g1 , forward9_g1 );
+				float4 appendResult67_g1 = (float4(inputMesh.positionOS , 1.0));
+				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
+				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
+				float3 localPenetratorSpaceVertexPosition142_g1 = ( (transform66_g1).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g1 ) );
+				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
+				float3 break15_g1 = temp_output_12_0_g1;
+				float temp_output_18_0_g1 = ( break15_g1.z * _SquashStretchCorrection );
+				float3 appendResult26_g1 = (float3(break15_g1.x , break15_g1.y , temp_output_18_0_g1));
+				float3 appendResult25_g1 = (float3(( break15_g1.x / _SquashStretchCorrection ) , ( break15_g1.y / _SquashStretchCorrection ) , temp_output_18_0_g1));
+				float distanceToHole180_g1 = _DistanceToHole;
+				float temp_output_17_0_g1 = ( distanceToHole180_g1 * 0.5 );
+				float smoothstepResult23_g1 = smoothstep( 0.0 , temp_output_17_0_g1 , temp_output_18_0_g1);
+				float smoothstepResult22_g1 = smoothstep( distanceToHole180_g1 , temp_output_17_0_g1 , temp_output_18_0_g1);
+				float3 lerpResult31_g1 = lerp( appendResult26_g1 , appendResult25_g1 , min( smoothstepResult23_g1 , smoothstepResult22_g1 ));
+				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( distanceToHole180_g1 - ( ( distanceToHole180_g1 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
+				float3 squashStretchedPosition44_g1 = lerpResult32_g1;
+				float3 worldPosition56_g1 = ( ( mul( transpose( localChangeOfBasis9_g1 ), squashStretchedPosition44_g1 ) + penetratorRootWorld122_g1 ) + ( penetratorForwardWorld126_g1 * _PenetratorOffsetLength ) );
+				float3 worldPenetratorForward56_g1 = penetratorForwardWorld126_g1;
+				float3 worldPenetratorUp56_g1 = penetratorUpWorld134_g1;
+				float3 worldPenetratorRight56_g1 = penetratorRightWorld139_g1;
+				float4 appendResult86_g1 = (float4(inputMesh.normalOS , 0.0));
+				float3 normalizeResult87_g1 = normalize( (mul( GetObjectToWorldMatrix(), appendResult86_g1 )).xyz );
+				float3 worldNormal56_g1 = normalizeResult87_g1;
+				float4 break93_g1 = inputMesh.ase_tangent;
+				float4 appendResult89_g1 = (float4(break93_g1.x , break93_g1.y , break93_g1.z , 0.0));
+				float3 normalizeResult91_g1 = normalize( (mul( GetObjectToWorldMatrix(), appendResult89_g1 )).xyz );
+				float4 appendResult94_g1 = (float4(normalizeResult91_g1 , break93_g1.w));
+				float4 worldTangent56_g1 = appendResult94_g1;
+				float3 worldPositionOUT56_g1 = float3( 0,0,0 );
+				float3 worldNormalOUT56_g1 = float3( 0,0,0 );
+				float4 worldTangentOUT56_g1 = float4( 0,0,0,0 );
 				{
-				ToCatmullRomSpace_float(worldPenetratorRootPos56_g277,worldPosition56_g277,worldPenetratorForward56_g277,worldPenetratorUp56_g277,worldPenetratorRight56_g277,worldNormal56_g277,worldTangent56_g277,worldPositionOUT56_g277,worldNormalOUT56_g277,worldTangentOUT56_g277);
+				ToCatmullRomSpace_float(worldPenetratorRootPos56_g1,worldPosition56_g1,worldPenetratorForward56_g1,worldPenetratorUp56_g1,worldPenetratorRight56_g1,worldNormal56_g1,worldTangent56_g1,worldPositionOUT56_g1,worldNormalOUT56_g1,worldTangentOUT56_g1);
 				}
-				float4 appendResult73_g277 = (float4(worldPositionOUT56_g277 , 1.0));
-				float4 localWorldVar72_g277 = appendResult73_g277;
-				(localWorldVar72_g277).xyz = GetCameraRelativePositionWS((localWorldVar72_g277).xyz);
-				float4 transform72_g277 = mul(GetWorldToObjectMatrix(),localWorldVar72_g277);
+				float4 appendResult73_g1 = (float4(worldPositionOUT56_g1 , 1.0));
+				float4 localWorldVar72_g1 = appendResult73_g1;
+				(localWorldVar72_g1).xyz = GetCameraRelativePositionWS((localWorldVar72_g1).xyz);
+				float4 transform72_g1 = mul(GetWorldToObjectMatrix(),localWorldVar72_g1);
 				float3 normalizeResult27_g280 = normalize( _WorldDickNormal );
 				float3 normalizeResult31_g280 = normalize( _WorldDickBinormal );
 				float3 normalizeResult29_g280 = normalize( cross( normalizeResult27_g280 , normalizeResult31_g280 ) );
@@ -1972,12 +1873,12 @@ Shader "XRayDick"
 				#ifdef _COCKVORESQUISHENABLED_ON
 				float3 staticSwitch13_g278 = (transform29_g278).xyz;
 				#else
-				float3 staticSwitch13_g278 = (transform72_g277).xyz;
+				float3 staticSwitch13_g278 = (transform72_g1).xyz;
 				#endif
 				
-				float4 appendResult75_g277 = (float4(worldNormalOUT56_g277 , 0.0));
-				float3 normalizeResult76_g277 = normalize( (mul( GetWorldToObjectMatrix(), appendResult75_g277 )).xyz );
-				float3 temp_output_50_0_g278 = normalizeResult76_g277;
+				float4 appendResult75_g1 = (float4(worldNormalOUT56_g1 , 0.0));
+				float3 normalizeResult76_g1 = normalize( (mul( GetWorldToObjectMatrix(), appendResult75_g1 )).xyz );
+				float3 temp_output_50_0_g278 = normalizeResult76_g1;
 				float2 break146_g279 = normalizeResult41_g279;
 				float4 appendResult139_g279 = (float4(temp_output_48_0_g279 , break146_g279.x , break146_g279.y , 0.0));
 				float3 normalizeResult144_g279 = normalize( (mul( invertVal44_g279, appendResult139_g279 )).xyz );
@@ -2262,17 +2163,15 @@ Shader "XRayDick"
 			float3 _PenetratorUpWorld;
 			float3 _PenetratorForwardWorld;
 			float3 _PenetratorStartWorld;
-			float3 _WorldDickPosition;
-			float3 _WorldDickBinormal;
 			float3 _WorldDickNormal;
-			float _Angle;
-			float _TipRadius;
-			float _TruncateLength;
-			float _GirthRadius;
-			float _PenetratorWorldLength;
-			float _DistanceToHole;
+			float3 _WorldDickBinormal;
+			float3 _WorldDickPosition;
 			float _SquashStretchCorrection;
+			float _DistanceToHole;
+			float _PenetratorWorldLength;
 			float _PenetratorOffsetLength;
+			float _TipRadius;
+			float _Angle;
 			float _DistanceFade;
 			float4 _EmissionColor;
 			float _RenderQueueType;
@@ -2341,7 +2240,6 @@ Shader "XRayDick"
 			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_VERT_NORMAL
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#pragma multi_compile_local __ _TRUNCATESPHERIZE_ON
 			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
@@ -2364,22 +2262,7 @@ Shader "XRayDick"
 			};
 
 
-			float3x3 ChangeOfBasis169_g277( float3 right, float3 up, float3 forward )
-			{
-				float3x3 basisTransform = 0;
-				    basisTransform[0][0] = right.x;
-				    basisTransform[0][1] = right.y;
-				    basisTransform[0][2] = right.z;
-				    basisTransform[1][0] = up.x;
-				    basisTransform[1][1] = up.y;
-				    basisTransform[1][2] = up.z;
-				    basisTransform[2][0] = forward.x;
-				    basisTransform[2][1] = forward.y;
-				    basisTransform[2][2] = forward.z;
-				return basisTransform;
-			}
-			
-			float3x3 ChangeOfBasis9_g277( float3 right, float3 up, float3 forward )
+			float3x3 ChangeOfBasis9_g1( float3 right, float3 up, float3 forward )
 			{
 				float3x3 basisTransform = 0;
 				    basisTransform[0][0] = right.x;
@@ -2475,68 +2358,54 @@ Shader "XRayDick"
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
-				float localToCatmullRomSpace_float56_g277 = ( 0.0 );
-				float3 penetratorRootWorld122_g277 = _PenetratorRootWorld;
-				float3 worldPenetratorRootPos56_g277 = penetratorRootWorld122_g277;
-				float3 penetratorRightWorld139_g277 = _PenetratorRightWorld;
-				float3 right169_g277 = penetratorRightWorld139_g277;
-				float3 penetratorUpWorld134_g277 = _PenetratorUpWorld;
-				float3 up169_g277 = penetratorUpWorld134_g277;
-				float3 penetratorForwardWorld126_g277 = _PenetratorForwardWorld;
-				float3 forward169_g277 = penetratorForwardWorld126_g277;
-				float3x3 localChangeOfBasis169_g277 = ChangeOfBasis169_g277( right169_g277 , up169_g277 , forward169_g277 );
-				float3 right9_g277 = penetratorRightWorld139_g277;
-				float3 up9_g277 = penetratorUpWorld134_g277;
-				float3 forward9_g277 = penetratorForwardWorld126_g277;
-				float3x3 localChangeOfBasis9_g277 = ChangeOfBasis9_g277( right9_g277 , up9_g277 , forward9_g277 );
-				float4 appendResult67_g277 = (float4(inputMesh.positionOS , 1.0));
-				float4 transform66_g277 = mul(GetObjectToWorldMatrix(),appendResult67_g277);
-				transform66_g277.xyz = GetAbsolutePositionWS((transform66_g277).xyz);
-				float3 localPenetratorSpaceVertexPosition142_g277 = ( (transform66_g277).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g277 ) );
-				float3 temp_output_12_0_g277 = mul( localChangeOfBasis9_g277, ( localPenetratorSpaceVertexPosition142_g277 - penetratorRootWorld122_g277 ) );
-				float3 break15_g277 = temp_output_12_0_g277;
-				float temp_output_18_0_g277 = ( break15_g277.z * _SquashStretchCorrection );
-				float3 appendResult26_g277 = (float3(break15_g277.x , break15_g277.y , temp_output_18_0_g277));
-				float3 appendResult25_g277 = (float3(( break15_g277.x / _SquashStretchCorrection ) , ( break15_g277.y / _SquashStretchCorrection ) , temp_output_18_0_g277));
-				float distanceToHole180_g277 = _DistanceToHole;
-				float temp_output_17_0_g277 = ( distanceToHole180_g277 * 0.5 );
-				float smoothstepResult23_g277 = smoothstep( 0.0 , temp_output_17_0_g277 , temp_output_18_0_g277);
-				float smoothstepResult22_g277 = smoothstep( distanceToHole180_g277 , temp_output_17_0_g277 , temp_output_18_0_g277);
-				float3 lerpResult31_g277 = lerp( appendResult26_g277 , appendResult25_g277 , min( smoothstepResult23_g277 , smoothstepResult22_g277 ));
-				float3 lerpResult32_g277 = lerp( lerpResult31_g277 , ( temp_output_12_0_g277 + ( ( distanceToHole180_g277 - ( ( distanceToHole180_g277 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g277 , temp_output_18_0_g277 ));
-				float3 squashStretchedPosition44_g277 = lerpResult32_g277;
-				float3 temp_output_150_0_g277 = ( float3(0,0,1) * _TruncateLength );
-				float3 temp_output_149_0_g277 = ( squashStretchedPosition44_g277 - temp_output_150_0_g277 );
-				float3 normalizeResult156_g277 = normalize( temp_output_149_0_g277 );
-				float3 lerpResult152_g277 = lerp( temp_output_149_0_g277 , ( normalizeResult156_g277 * min( length( temp_output_149_0_g277 ) , _GirthRadius ) ) , saturate( ( temp_output_149_0_g277.z * ( 1.0 / _GirthRadius ) ) ));
-				#ifdef _TRUNCATESPHERIZE_ON
-				float3 staticSwitch116_g277 = ( lerpResult152_g277 + temp_output_150_0_g277 );
-				#else
-				float3 staticSwitch116_g277 = squashStretchedPosition44_g277;
-				#endif
-				float3 TruncatedPosition147_g277 = ( penetratorRootWorld122_g277 + mul( transpose( localChangeOfBasis169_g277 ), staticSwitch116_g277 ) );
-				float3 worldPosition56_g277 = ( TruncatedPosition147_g277 + ( penetratorForwardWorld126_g277 * _PenetratorOffsetLength ) );
-				float3 worldPenetratorForward56_g277 = penetratorForwardWorld126_g277;
-				float3 worldPenetratorUp56_g277 = penetratorUpWorld134_g277;
-				float3 worldPenetratorRight56_g277 = penetratorRightWorld139_g277;
-				float4 appendResult86_g277 = (float4(inputMesh.normalOS , 0.0));
-				float3 normalizeResult87_g277 = normalize( (mul( GetObjectToWorldMatrix(), appendResult86_g277 )).xyz );
-				float3 worldNormal56_g277 = normalizeResult87_g277;
-				float4 break93_g277 = inputMesh.ase_tangent;
-				float4 appendResult89_g277 = (float4(break93_g277.x , break93_g277.y , break93_g277.z , 0.0));
-				float3 normalizeResult91_g277 = normalize( (mul( GetObjectToWorldMatrix(), appendResult89_g277 )).xyz );
-				float4 appendResult94_g277 = (float4(normalizeResult91_g277 , break93_g277.w));
-				float4 worldTangent56_g277 = appendResult94_g277;
-				float3 worldPositionOUT56_g277 = float3( 0,0,0 );
-				float3 worldNormalOUT56_g277 = float3( 0,0,0 );
-				float4 worldTangentOUT56_g277 = float4( 0,0,0,0 );
+				float localToCatmullRomSpace_float56_g1 = ( 0.0 );
+				float3 penetratorRootWorld122_g1 = _PenetratorRootWorld;
+				float3 worldPenetratorRootPos56_g1 = penetratorRootWorld122_g1;
+				float3 penetratorRightWorld139_g1 = _PenetratorRightWorld;
+				float3 right9_g1 = penetratorRightWorld139_g1;
+				float3 penetratorUpWorld134_g1 = _PenetratorUpWorld;
+				float3 up9_g1 = penetratorUpWorld134_g1;
+				float3 penetratorForwardWorld126_g1 = _PenetratorForwardWorld;
+				float3 forward9_g1 = penetratorForwardWorld126_g1;
+				float3x3 localChangeOfBasis9_g1 = ChangeOfBasis9_g1( right9_g1 , up9_g1 , forward9_g1 );
+				float4 appendResult67_g1 = (float4(inputMesh.positionOS , 1.0));
+				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
+				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
+				float3 localPenetratorSpaceVertexPosition142_g1 = ( (transform66_g1).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g1 ) );
+				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
+				float3 break15_g1 = temp_output_12_0_g1;
+				float temp_output_18_0_g1 = ( break15_g1.z * _SquashStretchCorrection );
+				float3 appendResult26_g1 = (float3(break15_g1.x , break15_g1.y , temp_output_18_0_g1));
+				float3 appendResult25_g1 = (float3(( break15_g1.x / _SquashStretchCorrection ) , ( break15_g1.y / _SquashStretchCorrection ) , temp_output_18_0_g1));
+				float distanceToHole180_g1 = _DistanceToHole;
+				float temp_output_17_0_g1 = ( distanceToHole180_g1 * 0.5 );
+				float smoothstepResult23_g1 = smoothstep( 0.0 , temp_output_17_0_g1 , temp_output_18_0_g1);
+				float smoothstepResult22_g1 = smoothstep( distanceToHole180_g1 , temp_output_17_0_g1 , temp_output_18_0_g1);
+				float3 lerpResult31_g1 = lerp( appendResult26_g1 , appendResult25_g1 , min( smoothstepResult23_g1 , smoothstepResult22_g1 ));
+				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( distanceToHole180_g1 - ( ( distanceToHole180_g1 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
+				float3 squashStretchedPosition44_g1 = lerpResult32_g1;
+				float3 worldPosition56_g1 = ( ( mul( transpose( localChangeOfBasis9_g1 ), squashStretchedPosition44_g1 ) + penetratorRootWorld122_g1 ) + ( penetratorForwardWorld126_g1 * _PenetratorOffsetLength ) );
+				float3 worldPenetratorForward56_g1 = penetratorForwardWorld126_g1;
+				float3 worldPenetratorUp56_g1 = penetratorUpWorld134_g1;
+				float3 worldPenetratorRight56_g1 = penetratorRightWorld139_g1;
+				float4 appendResult86_g1 = (float4(inputMesh.normalOS , 0.0));
+				float3 normalizeResult87_g1 = normalize( (mul( GetObjectToWorldMatrix(), appendResult86_g1 )).xyz );
+				float3 worldNormal56_g1 = normalizeResult87_g1;
+				float4 break93_g1 = inputMesh.ase_tangent;
+				float4 appendResult89_g1 = (float4(break93_g1.x , break93_g1.y , break93_g1.z , 0.0));
+				float3 normalizeResult91_g1 = normalize( (mul( GetObjectToWorldMatrix(), appendResult89_g1 )).xyz );
+				float4 appendResult94_g1 = (float4(normalizeResult91_g1 , break93_g1.w));
+				float4 worldTangent56_g1 = appendResult94_g1;
+				float3 worldPositionOUT56_g1 = float3( 0,0,0 );
+				float3 worldNormalOUT56_g1 = float3( 0,0,0 );
+				float4 worldTangentOUT56_g1 = float4( 0,0,0,0 );
 				{
-				ToCatmullRomSpace_float(worldPenetratorRootPos56_g277,worldPosition56_g277,worldPenetratorForward56_g277,worldPenetratorUp56_g277,worldPenetratorRight56_g277,worldNormal56_g277,worldTangent56_g277,worldPositionOUT56_g277,worldNormalOUT56_g277,worldTangentOUT56_g277);
+				ToCatmullRomSpace_float(worldPenetratorRootPos56_g1,worldPosition56_g1,worldPenetratorForward56_g1,worldPenetratorUp56_g1,worldPenetratorRight56_g1,worldNormal56_g1,worldTangent56_g1,worldPositionOUT56_g1,worldNormalOUT56_g1,worldTangentOUT56_g1);
 				}
-				float4 appendResult73_g277 = (float4(worldPositionOUT56_g277 , 1.0));
-				float4 localWorldVar72_g277 = appendResult73_g277;
-				(localWorldVar72_g277).xyz = GetCameraRelativePositionWS((localWorldVar72_g277).xyz);
-				float4 transform72_g277 = mul(GetWorldToObjectMatrix(),localWorldVar72_g277);
+				float4 appendResult73_g1 = (float4(worldPositionOUT56_g1 , 1.0));
+				float4 localWorldVar72_g1 = appendResult73_g1;
+				(localWorldVar72_g1).xyz = GetCameraRelativePositionWS((localWorldVar72_g1).xyz);
+				float4 transform72_g1 = mul(GetWorldToObjectMatrix(),localWorldVar72_g1);
 				float3 normalizeResult27_g280 = normalize( _WorldDickNormal );
 				float3 normalizeResult31_g280 = normalize( _WorldDickBinormal );
 				float3 normalizeResult29_g280 = normalize( cross( normalizeResult27_g280 , normalizeResult31_g280 ) );
@@ -2571,12 +2440,12 @@ Shader "XRayDick"
 				#ifdef _COCKVORESQUISHENABLED_ON
 				float3 staticSwitch13_g278 = (transform29_g278).xyz;
 				#else
-				float3 staticSwitch13_g278 = (transform72_g277).xyz;
+				float3 staticSwitch13_g278 = (transform72_g1).xyz;
 				#endif
 				
-				float4 appendResult75_g277 = (float4(worldNormalOUT56_g277 , 0.0));
-				float3 normalizeResult76_g277 = normalize( (mul( GetWorldToObjectMatrix(), appendResult75_g277 )).xyz );
-				float3 temp_output_50_0_g278 = normalizeResult76_g277;
+				float4 appendResult75_g1 = (float4(worldNormalOUT56_g1 , 0.0));
+				float3 normalizeResult76_g1 = normalize( (mul( GetWorldToObjectMatrix(), appendResult75_g1 )).xyz );
+				float3 temp_output_50_0_g278 = normalizeResult76_g1;
 				float2 break146_g279 = normalizeResult41_g279;
 				float4 appendResult139_g279 = (float4(temp_output_48_0_g279 , break146_g279.x , break146_g279.y , 0.0));
 				float3 normalizeResult144_g279 = normalize( (mul( invertVal44_g279, appendResult139_g279 )).xyz );
@@ -2807,17 +2676,15 @@ Shader "XRayDick"
 			float3 _PenetratorUpWorld;
 			float3 _PenetratorForwardWorld;
 			float3 _PenetratorStartWorld;
-			float3 _WorldDickPosition;
-			float3 _WorldDickBinormal;
 			float3 _WorldDickNormal;
-			float _Angle;
-			float _TipRadius;
-			float _TruncateLength;
-			float _GirthRadius;
-			float _PenetratorWorldLength;
-			float _DistanceToHole;
+			float3 _WorldDickBinormal;
+			float3 _WorldDickPosition;
 			float _SquashStretchCorrection;
+			float _DistanceToHole;
+			float _PenetratorWorldLength;
 			float _PenetratorOffsetLength;
+			float _TipRadius;
+			float _Angle;
 			float _DistanceFade;
 			float4 _EmissionColor;
 			float _RenderQueueType;
@@ -2885,7 +2752,6 @@ Shader "XRayDick"
 			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_VERT_NORMAL
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#pragma multi_compile_local __ _TRUNCATESPHERIZE_ON
 			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
@@ -2907,22 +2773,7 @@ Shader "XRayDick"
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
-			float3x3 ChangeOfBasis169_g277( float3 right, float3 up, float3 forward )
-			{
-				float3x3 basisTransform = 0;
-				    basisTransform[0][0] = right.x;
-				    basisTransform[0][1] = right.y;
-				    basisTransform[0][2] = right.z;
-				    basisTransform[1][0] = up.x;
-				    basisTransform[1][1] = up.y;
-				    basisTransform[1][2] = up.z;
-				    basisTransform[2][0] = forward.x;
-				    basisTransform[2][1] = forward.y;
-				    basisTransform[2][2] = forward.z;
-				return basisTransform;
-			}
-			
-			float3x3 ChangeOfBasis9_g277( float3 right, float3 up, float3 forward )
+			float3x3 ChangeOfBasis9_g1( float3 right, float3 up, float3 forward )
 			{
 				float3x3 basisTransform = 0;
 				    basisTransform[0][0] = right.x;
@@ -3024,68 +2875,54 @@ Shader "XRayDick"
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
-				float localToCatmullRomSpace_float56_g277 = ( 0.0 );
-				float3 penetratorRootWorld122_g277 = _PenetratorRootWorld;
-				float3 worldPenetratorRootPos56_g277 = penetratorRootWorld122_g277;
-				float3 penetratorRightWorld139_g277 = _PenetratorRightWorld;
-				float3 right169_g277 = penetratorRightWorld139_g277;
-				float3 penetratorUpWorld134_g277 = _PenetratorUpWorld;
-				float3 up169_g277 = penetratorUpWorld134_g277;
-				float3 penetratorForwardWorld126_g277 = _PenetratorForwardWorld;
-				float3 forward169_g277 = penetratorForwardWorld126_g277;
-				float3x3 localChangeOfBasis169_g277 = ChangeOfBasis169_g277( right169_g277 , up169_g277 , forward169_g277 );
-				float3 right9_g277 = penetratorRightWorld139_g277;
-				float3 up9_g277 = penetratorUpWorld134_g277;
-				float3 forward9_g277 = penetratorForwardWorld126_g277;
-				float3x3 localChangeOfBasis9_g277 = ChangeOfBasis9_g277( right9_g277 , up9_g277 , forward9_g277 );
-				float4 appendResult67_g277 = (float4(inputMesh.positionOS , 1.0));
-				float4 transform66_g277 = mul(GetObjectToWorldMatrix(),appendResult67_g277);
-				transform66_g277.xyz = GetAbsolutePositionWS((transform66_g277).xyz);
-				float3 localPenetratorSpaceVertexPosition142_g277 = ( (transform66_g277).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g277 ) );
-				float3 temp_output_12_0_g277 = mul( localChangeOfBasis9_g277, ( localPenetratorSpaceVertexPosition142_g277 - penetratorRootWorld122_g277 ) );
-				float3 break15_g277 = temp_output_12_0_g277;
-				float temp_output_18_0_g277 = ( break15_g277.z * _SquashStretchCorrection );
-				float3 appendResult26_g277 = (float3(break15_g277.x , break15_g277.y , temp_output_18_0_g277));
-				float3 appendResult25_g277 = (float3(( break15_g277.x / _SquashStretchCorrection ) , ( break15_g277.y / _SquashStretchCorrection ) , temp_output_18_0_g277));
-				float distanceToHole180_g277 = _DistanceToHole;
-				float temp_output_17_0_g277 = ( distanceToHole180_g277 * 0.5 );
-				float smoothstepResult23_g277 = smoothstep( 0.0 , temp_output_17_0_g277 , temp_output_18_0_g277);
-				float smoothstepResult22_g277 = smoothstep( distanceToHole180_g277 , temp_output_17_0_g277 , temp_output_18_0_g277);
-				float3 lerpResult31_g277 = lerp( appendResult26_g277 , appendResult25_g277 , min( smoothstepResult23_g277 , smoothstepResult22_g277 ));
-				float3 lerpResult32_g277 = lerp( lerpResult31_g277 , ( temp_output_12_0_g277 + ( ( distanceToHole180_g277 - ( ( distanceToHole180_g277 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g277 , temp_output_18_0_g277 ));
-				float3 squashStretchedPosition44_g277 = lerpResult32_g277;
-				float3 temp_output_150_0_g277 = ( float3(0,0,1) * _TruncateLength );
-				float3 temp_output_149_0_g277 = ( squashStretchedPosition44_g277 - temp_output_150_0_g277 );
-				float3 normalizeResult156_g277 = normalize( temp_output_149_0_g277 );
-				float3 lerpResult152_g277 = lerp( temp_output_149_0_g277 , ( normalizeResult156_g277 * min( length( temp_output_149_0_g277 ) , _GirthRadius ) ) , saturate( ( temp_output_149_0_g277.z * ( 1.0 / _GirthRadius ) ) ));
-				#ifdef _TRUNCATESPHERIZE_ON
-				float3 staticSwitch116_g277 = ( lerpResult152_g277 + temp_output_150_0_g277 );
-				#else
-				float3 staticSwitch116_g277 = squashStretchedPosition44_g277;
-				#endif
-				float3 TruncatedPosition147_g277 = ( penetratorRootWorld122_g277 + mul( transpose( localChangeOfBasis169_g277 ), staticSwitch116_g277 ) );
-				float3 worldPosition56_g277 = ( TruncatedPosition147_g277 + ( penetratorForwardWorld126_g277 * _PenetratorOffsetLength ) );
-				float3 worldPenetratorForward56_g277 = penetratorForwardWorld126_g277;
-				float3 worldPenetratorUp56_g277 = penetratorUpWorld134_g277;
-				float3 worldPenetratorRight56_g277 = penetratorRightWorld139_g277;
-				float4 appendResult86_g277 = (float4(inputMesh.normalOS , 0.0));
-				float3 normalizeResult87_g277 = normalize( (mul( GetObjectToWorldMatrix(), appendResult86_g277 )).xyz );
-				float3 worldNormal56_g277 = normalizeResult87_g277;
-				float4 break93_g277 = inputMesh.ase_tangent;
-				float4 appendResult89_g277 = (float4(break93_g277.x , break93_g277.y , break93_g277.z , 0.0));
-				float3 normalizeResult91_g277 = normalize( (mul( GetObjectToWorldMatrix(), appendResult89_g277 )).xyz );
-				float4 appendResult94_g277 = (float4(normalizeResult91_g277 , break93_g277.w));
-				float4 worldTangent56_g277 = appendResult94_g277;
-				float3 worldPositionOUT56_g277 = float3( 0,0,0 );
-				float3 worldNormalOUT56_g277 = float3( 0,0,0 );
-				float4 worldTangentOUT56_g277 = float4( 0,0,0,0 );
+				float localToCatmullRomSpace_float56_g1 = ( 0.0 );
+				float3 penetratorRootWorld122_g1 = _PenetratorRootWorld;
+				float3 worldPenetratorRootPos56_g1 = penetratorRootWorld122_g1;
+				float3 penetratorRightWorld139_g1 = _PenetratorRightWorld;
+				float3 right9_g1 = penetratorRightWorld139_g1;
+				float3 penetratorUpWorld134_g1 = _PenetratorUpWorld;
+				float3 up9_g1 = penetratorUpWorld134_g1;
+				float3 penetratorForwardWorld126_g1 = _PenetratorForwardWorld;
+				float3 forward9_g1 = penetratorForwardWorld126_g1;
+				float3x3 localChangeOfBasis9_g1 = ChangeOfBasis9_g1( right9_g1 , up9_g1 , forward9_g1 );
+				float4 appendResult67_g1 = (float4(inputMesh.positionOS , 1.0));
+				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
+				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
+				float3 localPenetratorSpaceVertexPosition142_g1 = ( (transform66_g1).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g1 ) );
+				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
+				float3 break15_g1 = temp_output_12_0_g1;
+				float temp_output_18_0_g1 = ( break15_g1.z * _SquashStretchCorrection );
+				float3 appendResult26_g1 = (float3(break15_g1.x , break15_g1.y , temp_output_18_0_g1));
+				float3 appendResult25_g1 = (float3(( break15_g1.x / _SquashStretchCorrection ) , ( break15_g1.y / _SquashStretchCorrection ) , temp_output_18_0_g1));
+				float distanceToHole180_g1 = _DistanceToHole;
+				float temp_output_17_0_g1 = ( distanceToHole180_g1 * 0.5 );
+				float smoothstepResult23_g1 = smoothstep( 0.0 , temp_output_17_0_g1 , temp_output_18_0_g1);
+				float smoothstepResult22_g1 = smoothstep( distanceToHole180_g1 , temp_output_17_0_g1 , temp_output_18_0_g1);
+				float3 lerpResult31_g1 = lerp( appendResult26_g1 , appendResult25_g1 , min( smoothstepResult23_g1 , smoothstepResult22_g1 ));
+				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( distanceToHole180_g1 - ( ( distanceToHole180_g1 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
+				float3 squashStretchedPosition44_g1 = lerpResult32_g1;
+				float3 worldPosition56_g1 = ( ( mul( transpose( localChangeOfBasis9_g1 ), squashStretchedPosition44_g1 ) + penetratorRootWorld122_g1 ) + ( penetratorForwardWorld126_g1 * _PenetratorOffsetLength ) );
+				float3 worldPenetratorForward56_g1 = penetratorForwardWorld126_g1;
+				float3 worldPenetratorUp56_g1 = penetratorUpWorld134_g1;
+				float3 worldPenetratorRight56_g1 = penetratorRightWorld139_g1;
+				float4 appendResult86_g1 = (float4(inputMesh.normalOS , 0.0));
+				float3 normalizeResult87_g1 = normalize( (mul( GetObjectToWorldMatrix(), appendResult86_g1 )).xyz );
+				float3 worldNormal56_g1 = normalizeResult87_g1;
+				float4 break93_g1 = inputMesh.ase_tangent;
+				float4 appendResult89_g1 = (float4(break93_g1.x , break93_g1.y , break93_g1.z , 0.0));
+				float3 normalizeResult91_g1 = normalize( (mul( GetObjectToWorldMatrix(), appendResult89_g1 )).xyz );
+				float4 appendResult94_g1 = (float4(normalizeResult91_g1 , break93_g1.w));
+				float4 worldTangent56_g1 = appendResult94_g1;
+				float3 worldPositionOUT56_g1 = float3( 0,0,0 );
+				float3 worldNormalOUT56_g1 = float3( 0,0,0 );
+				float4 worldTangentOUT56_g1 = float4( 0,0,0,0 );
 				{
-				ToCatmullRomSpace_float(worldPenetratorRootPos56_g277,worldPosition56_g277,worldPenetratorForward56_g277,worldPenetratorUp56_g277,worldPenetratorRight56_g277,worldNormal56_g277,worldTangent56_g277,worldPositionOUT56_g277,worldNormalOUT56_g277,worldTangentOUT56_g277);
+				ToCatmullRomSpace_float(worldPenetratorRootPos56_g1,worldPosition56_g1,worldPenetratorForward56_g1,worldPenetratorUp56_g1,worldPenetratorRight56_g1,worldNormal56_g1,worldTangent56_g1,worldPositionOUT56_g1,worldNormalOUT56_g1,worldTangentOUT56_g1);
 				}
-				float4 appendResult73_g277 = (float4(worldPositionOUT56_g277 , 1.0));
-				float4 localWorldVar72_g277 = appendResult73_g277;
-				(localWorldVar72_g277).xyz = GetCameraRelativePositionWS((localWorldVar72_g277).xyz);
-				float4 transform72_g277 = mul(GetWorldToObjectMatrix(),localWorldVar72_g277);
+				float4 appendResult73_g1 = (float4(worldPositionOUT56_g1 , 1.0));
+				float4 localWorldVar72_g1 = appendResult73_g1;
+				(localWorldVar72_g1).xyz = GetCameraRelativePositionWS((localWorldVar72_g1).xyz);
+				float4 transform72_g1 = mul(GetWorldToObjectMatrix(),localWorldVar72_g1);
 				float3 normalizeResult27_g280 = normalize( _WorldDickNormal );
 				float3 normalizeResult31_g280 = normalize( _WorldDickBinormal );
 				float3 normalizeResult29_g280 = normalize( cross( normalizeResult27_g280 , normalizeResult31_g280 ) );
@@ -3120,12 +2957,12 @@ Shader "XRayDick"
 				#ifdef _COCKVORESQUISHENABLED_ON
 				float3 staticSwitch13_g278 = (transform29_g278).xyz;
 				#else
-				float3 staticSwitch13_g278 = (transform72_g277).xyz;
+				float3 staticSwitch13_g278 = (transform72_g1).xyz;
 				#endif
 				
-				float4 appendResult75_g277 = (float4(worldNormalOUT56_g277 , 0.0));
-				float3 normalizeResult76_g277 = normalize( (mul( GetWorldToObjectMatrix(), appendResult75_g277 )).xyz );
-				float3 temp_output_50_0_g278 = normalizeResult76_g277;
+				float4 appendResult75_g1 = (float4(worldNormalOUT56_g1 , 0.0));
+				float3 normalizeResult76_g1 = normalize( (mul( GetWorldToObjectMatrix(), appendResult75_g1 )).xyz );
+				float3 temp_output_50_0_g278 = normalizeResult76_g1;
 				float2 break146_g279 = normalizeResult41_g279;
 				float4 appendResult139_g279 = (float4(temp_output_48_0_g279 , break146_g279.x , break146_g279.y , 0.0));
 				float3 normalizeResult144_g279 = normalize( (mul( invertVal44_g279, appendResult139_g279 )).xyz );
@@ -3379,17 +3216,15 @@ Shader "XRayDick"
 			float3 _PenetratorUpWorld;
 			float3 _PenetratorForwardWorld;
 			float3 _PenetratorStartWorld;
-			float3 _WorldDickPosition;
-			float3 _WorldDickBinormal;
 			float3 _WorldDickNormal;
-			float _Angle;
-			float _TipRadius;
-			float _TruncateLength;
-			float _GirthRadius;
-			float _PenetratorWorldLength;
-			float _DistanceToHole;
+			float3 _WorldDickBinormal;
+			float3 _WorldDickPosition;
 			float _SquashStretchCorrection;
+			float _DistanceToHole;
+			float _PenetratorWorldLength;
 			float _PenetratorOffsetLength;
+			float _TipRadius;
+			float _Angle;
 			float _DistanceFade;
 			float4 _EmissionColor;
 			float _RenderQueueType;
@@ -3458,7 +3293,6 @@ Shader "XRayDick"
 			#define ASE_NEEDS_VERT_NORMAL
 			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#pragma multi_compile_local __ _TRUNCATESPHERIZE_ON
 			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
@@ -3485,22 +3319,7 @@ Shader "XRayDick"
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
-			float3x3 ChangeOfBasis169_g277( float3 right, float3 up, float3 forward )
-			{
-				float3x3 basisTransform = 0;
-				    basisTransform[0][0] = right.x;
-				    basisTransform[0][1] = right.y;
-				    basisTransform[0][2] = right.z;
-				    basisTransform[1][0] = up.x;
-				    basisTransform[1][1] = up.y;
-				    basisTransform[1][2] = up.z;
-				    basisTransform[2][0] = forward.x;
-				    basisTransform[2][1] = forward.y;
-				    basisTransform[2][2] = forward.z;
-				return basisTransform;
-			}
-			
-			float3x3 ChangeOfBasis9_g277( float3 right, float3 up, float3 forward )
+			float3x3 ChangeOfBasis9_g1( float3 right, float3 up, float3 forward )
 			{
 				float3x3 basisTransform = 0;
 				    basisTransform[0][0] = right.x;
@@ -3600,68 +3419,54 @@ Shader "XRayDick"
 			VertexInput ApplyMeshModification(VertexInput inputMesh, float3 timeParameters, inout VertexOutput o )
 			{
 				_TimeParameters.xyz = timeParameters;
-				float localToCatmullRomSpace_float56_g277 = ( 0.0 );
-				float3 penetratorRootWorld122_g277 = _PenetratorRootWorld;
-				float3 worldPenetratorRootPos56_g277 = penetratorRootWorld122_g277;
-				float3 penetratorRightWorld139_g277 = _PenetratorRightWorld;
-				float3 right169_g277 = penetratorRightWorld139_g277;
-				float3 penetratorUpWorld134_g277 = _PenetratorUpWorld;
-				float3 up169_g277 = penetratorUpWorld134_g277;
-				float3 penetratorForwardWorld126_g277 = _PenetratorForwardWorld;
-				float3 forward169_g277 = penetratorForwardWorld126_g277;
-				float3x3 localChangeOfBasis169_g277 = ChangeOfBasis169_g277( right169_g277 , up169_g277 , forward169_g277 );
-				float3 right9_g277 = penetratorRightWorld139_g277;
-				float3 up9_g277 = penetratorUpWorld134_g277;
-				float3 forward9_g277 = penetratorForwardWorld126_g277;
-				float3x3 localChangeOfBasis9_g277 = ChangeOfBasis9_g277( right9_g277 , up9_g277 , forward9_g277 );
-				float4 appendResult67_g277 = (float4(inputMesh.positionOS , 1.0));
-				float4 transform66_g277 = mul(GetObjectToWorldMatrix(),appendResult67_g277);
-				transform66_g277.xyz = GetAbsolutePositionWS((transform66_g277).xyz);
-				float3 localPenetratorSpaceVertexPosition142_g277 = ( (transform66_g277).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g277 ) );
-				float3 temp_output_12_0_g277 = mul( localChangeOfBasis9_g277, ( localPenetratorSpaceVertexPosition142_g277 - penetratorRootWorld122_g277 ) );
-				float3 break15_g277 = temp_output_12_0_g277;
-				float temp_output_18_0_g277 = ( break15_g277.z * _SquashStretchCorrection );
-				float3 appendResult26_g277 = (float3(break15_g277.x , break15_g277.y , temp_output_18_0_g277));
-				float3 appendResult25_g277 = (float3(( break15_g277.x / _SquashStretchCorrection ) , ( break15_g277.y / _SquashStretchCorrection ) , temp_output_18_0_g277));
-				float distanceToHole180_g277 = _DistanceToHole;
-				float temp_output_17_0_g277 = ( distanceToHole180_g277 * 0.5 );
-				float smoothstepResult23_g277 = smoothstep( 0.0 , temp_output_17_0_g277 , temp_output_18_0_g277);
-				float smoothstepResult22_g277 = smoothstep( distanceToHole180_g277 , temp_output_17_0_g277 , temp_output_18_0_g277);
-				float3 lerpResult31_g277 = lerp( appendResult26_g277 , appendResult25_g277 , min( smoothstepResult23_g277 , smoothstepResult22_g277 ));
-				float3 lerpResult32_g277 = lerp( lerpResult31_g277 , ( temp_output_12_0_g277 + ( ( distanceToHole180_g277 - ( ( distanceToHole180_g277 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g277 , temp_output_18_0_g277 ));
-				float3 squashStretchedPosition44_g277 = lerpResult32_g277;
-				float3 temp_output_150_0_g277 = ( float3(0,0,1) * _TruncateLength );
-				float3 temp_output_149_0_g277 = ( squashStretchedPosition44_g277 - temp_output_150_0_g277 );
-				float3 normalizeResult156_g277 = normalize( temp_output_149_0_g277 );
-				float3 lerpResult152_g277 = lerp( temp_output_149_0_g277 , ( normalizeResult156_g277 * min( length( temp_output_149_0_g277 ) , _GirthRadius ) ) , saturate( ( temp_output_149_0_g277.z * ( 1.0 / _GirthRadius ) ) ));
-				#ifdef _TRUNCATESPHERIZE_ON
-				float3 staticSwitch116_g277 = ( lerpResult152_g277 + temp_output_150_0_g277 );
-				#else
-				float3 staticSwitch116_g277 = squashStretchedPosition44_g277;
-				#endif
-				float3 TruncatedPosition147_g277 = ( penetratorRootWorld122_g277 + mul( transpose( localChangeOfBasis169_g277 ), staticSwitch116_g277 ) );
-				float3 worldPosition56_g277 = ( TruncatedPosition147_g277 + ( penetratorForwardWorld126_g277 * _PenetratorOffsetLength ) );
-				float3 worldPenetratorForward56_g277 = penetratorForwardWorld126_g277;
-				float3 worldPenetratorUp56_g277 = penetratorUpWorld134_g277;
-				float3 worldPenetratorRight56_g277 = penetratorRightWorld139_g277;
-				float4 appendResult86_g277 = (float4(inputMesh.normalOS , 0.0));
-				float3 normalizeResult87_g277 = normalize( (mul( GetObjectToWorldMatrix(), appendResult86_g277 )).xyz );
-				float3 worldNormal56_g277 = normalizeResult87_g277;
-				float4 break93_g277 = inputMesh.ase_tangent;
-				float4 appendResult89_g277 = (float4(break93_g277.x , break93_g277.y , break93_g277.z , 0.0));
-				float3 normalizeResult91_g277 = normalize( (mul( GetObjectToWorldMatrix(), appendResult89_g277 )).xyz );
-				float4 appendResult94_g277 = (float4(normalizeResult91_g277 , break93_g277.w));
-				float4 worldTangent56_g277 = appendResult94_g277;
-				float3 worldPositionOUT56_g277 = float3( 0,0,0 );
-				float3 worldNormalOUT56_g277 = float3( 0,0,0 );
-				float4 worldTangentOUT56_g277 = float4( 0,0,0,0 );
+				float localToCatmullRomSpace_float56_g1 = ( 0.0 );
+				float3 penetratorRootWorld122_g1 = _PenetratorRootWorld;
+				float3 worldPenetratorRootPos56_g1 = penetratorRootWorld122_g1;
+				float3 penetratorRightWorld139_g1 = _PenetratorRightWorld;
+				float3 right9_g1 = penetratorRightWorld139_g1;
+				float3 penetratorUpWorld134_g1 = _PenetratorUpWorld;
+				float3 up9_g1 = penetratorUpWorld134_g1;
+				float3 penetratorForwardWorld126_g1 = _PenetratorForwardWorld;
+				float3 forward9_g1 = penetratorForwardWorld126_g1;
+				float3x3 localChangeOfBasis9_g1 = ChangeOfBasis9_g1( right9_g1 , up9_g1 , forward9_g1 );
+				float4 appendResult67_g1 = (float4(inputMesh.positionOS , 1.0));
+				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
+				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
+				float3 localPenetratorSpaceVertexPosition142_g1 = ( (transform66_g1).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g1 ) );
+				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
+				float3 break15_g1 = temp_output_12_0_g1;
+				float temp_output_18_0_g1 = ( break15_g1.z * _SquashStretchCorrection );
+				float3 appendResult26_g1 = (float3(break15_g1.x , break15_g1.y , temp_output_18_0_g1));
+				float3 appendResult25_g1 = (float3(( break15_g1.x / _SquashStretchCorrection ) , ( break15_g1.y / _SquashStretchCorrection ) , temp_output_18_0_g1));
+				float distanceToHole180_g1 = _DistanceToHole;
+				float temp_output_17_0_g1 = ( distanceToHole180_g1 * 0.5 );
+				float smoothstepResult23_g1 = smoothstep( 0.0 , temp_output_17_0_g1 , temp_output_18_0_g1);
+				float smoothstepResult22_g1 = smoothstep( distanceToHole180_g1 , temp_output_17_0_g1 , temp_output_18_0_g1);
+				float3 lerpResult31_g1 = lerp( appendResult26_g1 , appendResult25_g1 , min( smoothstepResult23_g1 , smoothstepResult22_g1 ));
+				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( distanceToHole180_g1 - ( ( distanceToHole180_g1 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
+				float3 squashStretchedPosition44_g1 = lerpResult32_g1;
+				float3 worldPosition56_g1 = ( ( mul( transpose( localChangeOfBasis9_g1 ), squashStretchedPosition44_g1 ) + penetratorRootWorld122_g1 ) + ( penetratorForwardWorld126_g1 * _PenetratorOffsetLength ) );
+				float3 worldPenetratorForward56_g1 = penetratorForwardWorld126_g1;
+				float3 worldPenetratorUp56_g1 = penetratorUpWorld134_g1;
+				float3 worldPenetratorRight56_g1 = penetratorRightWorld139_g1;
+				float4 appendResult86_g1 = (float4(inputMesh.normalOS , 0.0));
+				float3 normalizeResult87_g1 = normalize( (mul( GetObjectToWorldMatrix(), appendResult86_g1 )).xyz );
+				float3 worldNormal56_g1 = normalizeResult87_g1;
+				float4 break93_g1 = inputMesh.ase_tangent;
+				float4 appendResult89_g1 = (float4(break93_g1.x , break93_g1.y , break93_g1.z , 0.0));
+				float3 normalizeResult91_g1 = normalize( (mul( GetObjectToWorldMatrix(), appendResult89_g1 )).xyz );
+				float4 appendResult94_g1 = (float4(normalizeResult91_g1 , break93_g1.w));
+				float4 worldTangent56_g1 = appendResult94_g1;
+				float3 worldPositionOUT56_g1 = float3( 0,0,0 );
+				float3 worldNormalOUT56_g1 = float3( 0,0,0 );
+				float4 worldTangentOUT56_g1 = float4( 0,0,0,0 );
 				{
-				ToCatmullRomSpace_float(worldPenetratorRootPos56_g277,worldPosition56_g277,worldPenetratorForward56_g277,worldPenetratorUp56_g277,worldPenetratorRight56_g277,worldNormal56_g277,worldTangent56_g277,worldPositionOUT56_g277,worldNormalOUT56_g277,worldTangentOUT56_g277);
+				ToCatmullRomSpace_float(worldPenetratorRootPos56_g1,worldPosition56_g1,worldPenetratorForward56_g1,worldPenetratorUp56_g1,worldPenetratorRight56_g1,worldNormal56_g1,worldTangent56_g1,worldPositionOUT56_g1,worldNormalOUT56_g1,worldTangentOUT56_g1);
 				}
-				float4 appendResult73_g277 = (float4(worldPositionOUT56_g277 , 1.0));
-				float4 localWorldVar72_g277 = appendResult73_g277;
-				(localWorldVar72_g277).xyz = GetCameraRelativePositionWS((localWorldVar72_g277).xyz);
-				float4 transform72_g277 = mul(GetWorldToObjectMatrix(),localWorldVar72_g277);
+				float4 appendResult73_g1 = (float4(worldPositionOUT56_g1 , 1.0));
+				float4 localWorldVar72_g1 = appendResult73_g1;
+				(localWorldVar72_g1).xyz = GetCameraRelativePositionWS((localWorldVar72_g1).xyz);
+				float4 transform72_g1 = mul(GetWorldToObjectMatrix(),localWorldVar72_g1);
 				float3 normalizeResult27_g280 = normalize( _WorldDickNormal );
 				float3 normalizeResult31_g280 = normalize( _WorldDickBinormal );
 				float3 normalizeResult29_g280 = normalize( cross( normalizeResult27_g280 , normalizeResult31_g280 ) );
@@ -3696,12 +3501,12 @@ Shader "XRayDick"
 				#ifdef _COCKVORESQUISHENABLED_ON
 				float3 staticSwitch13_g278 = (transform29_g278).xyz;
 				#else
-				float3 staticSwitch13_g278 = (transform72_g277).xyz;
+				float3 staticSwitch13_g278 = (transform72_g1).xyz;
 				#endif
 				
-				float4 appendResult75_g277 = (float4(worldNormalOUT56_g277 , 0.0));
-				float3 normalizeResult76_g277 = normalize( (mul( GetWorldToObjectMatrix(), appendResult75_g277 )).xyz );
-				float3 temp_output_50_0_g278 = normalizeResult76_g277;
+				float4 appendResult75_g1 = (float4(worldNormalOUT56_g1 , 0.0));
+				float3 normalizeResult76_g1 = normalize( (mul( GetWorldToObjectMatrix(), appendResult75_g1 )).xyz );
+				float3 temp_output_50_0_g278 = normalizeResult76_g1;
 				float2 break146_g279 = normalizeResult41_g279;
 				float4 appendResult139_g279 = (float4(temp_output_48_0_g279 , break146_g279.x , break146_g279.y , 0.0));
 				float3 normalizeResult144_g279 = normalize( (mul( invertVal44_g279, appendResult139_g279 )).xyz );
@@ -4079,17 +3884,15 @@ Shader "XRayDick"
 			float3 _PenetratorUpWorld;
 			float3 _PenetratorForwardWorld;
 			float3 _PenetratorStartWorld;
-			float3 _WorldDickPosition;
-			float3 _WorldDickBinormal;
 			float3 _WorldDickNormal;
-			float _Angle;
-			float _TipRadius;
-			float _TruncateLength;
-			float _GirthRadius;
-			float _PenetratorWorldLength;
-			float _DistanceToHole;
+			float3 _WorldDickBinormal;
+			float3 _WorldDickPosition;
 			float _SquashStretchCorrection;
+			float _DistanceToHole;
+			float _PenetratorWorldLength;
 			float _PenetratorOffsetLength;
+			float _TipRadius;
+			float _Angle;
 			float _DistanceFade;
 			float4 _EmissionColor;
 			float _RenderQueueType;
@@ -4159,7 +3962,6 @@ Shader "XRayDick"
 			#define ASE_NEEDS_VERT_NORMAL
 			#define ASE_NEEDS_VERT_TANGENT
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#pragma multi_compile_local __ _TRUNCATESPHERIZE_ON
 			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
@@ -4183,22 +3985,7 @@ Shader "XRayDick"
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
-			float3x3 ChangeOfBasis169_g277( float3 right, float3 up, float3 forward )
-			{
-				float3x3 basisTransform = 0;
-				    basisTransform[0][0] = right.x;
-				    basisTransform[0][1] = right.y;
-				    basisTransform[0][2] = right.z;
-				    basisTransform[1][0] = up.x;
-				    basisTransform[1][1] = up.y;
-				    basisTransform[1][2] = up.z;
-				    basisTransform[2][0] = forward.x;
-				    basisTransform[2][1] = forward.y;
-				    basisTransform[2][2] = forward.z;
-				return basisTransform;
-			}
-			
-			float3x3 ChangeOfBasis9_g277( float3 right, float3 up, float3 forward )
+			float3x3 ChangeOfBasis9_g1( float3 right, float3 up, float3 forward )
 			{
 				float3x3 basisTransform = 0;
 				    basisTransform[0][0] = right.x;
@@ -4302,68 +4089,54 @@ Shader "XRayDick"
 				UNITY_SETUP_INSTANCE_ID(inputMesh);
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, o );
 
-				float localToCatmullRomSpace_float56_g277 = ( 0.0 );
-				float3 penetratorRootWorld122_g277 = _PenetratorRootWorld;
-				float3 worldPenetratorRootPos56_g277 = penetratorRootWorld122_g277;
-				float3 penetratorRightWorld139_g277 = _PenetratorRightWorld;
-				float3 right169_g277 = penetratorRightWorld139_g277;
-				float3 penetratorUpWorld134_g277 = _PenetratorUpWorld;
-				float3 up169_g277 = penetratorUpWorld134_g277;
-				float3 penetratorForwardWorld126_g277 = _PenetratorForwardWorld;
-				float3 forward169_g277 = penetratorForwardWorld126_g277;
-				float3x3 localChangeOfBasis169_g277 = ChangeOfBasis169_g277( right169_g277 , up169_g277 , forward169_g277 );
-				float3 right9_g277 = penetratorRightWorld139_g277;
-				float3 up9_g277 = penetratorUpWorld134_g277;
-				float3 forward9_g277 = penetratorForwardWorld126_g277;
-				float3x3 localChangeOfBasis9_g277 = ChangeOfBasis9_g277( right9_g277 , up9_g277 , forward9_g277 );
-				float4 appendResult67_g277 = (float4(inputMesh.positionOS , 1.0));
-				float4 transform66_g277 = mul(GetObjectToWorldMatrix(),appendResult67_g277);
-				transform66_g277.xyz = GetAbsolutePositionWS((transform66_g277).xyz);
-				float3 localPenetratorSpaceVertexPosition142_g277 = ( (transform66_g277).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g277 ) );
-				float3 temp_output_12_0_g277 = mul( localChangeOfBasis9_g277, ( localPenetratorSpaceVertexPosition142_g277 - penetratorRootWorld122_g277 ) );
-				float3 break15_g277 = temp_output_12_0_g277;
-				float temp_output_18_0_g277 = ( break15_g277.z * _SquashStretchCorrection );
-				float3 appendResult26_g277 = (float3(break15_g277.x , break15_g277.y , temp_output_18_0_g277));
-				float3 appendResult25_g277 = (float3(( break15_g277.x / _SquashStretchCorrection ) , ( break15_g277.y / _SquashStretchCorrection ) , temp_output_18_0_g277));
-				float distanceToHole180_g277 = _DistanceToHole;
-				float temp_output_17_0_g277 = ( distanceToHole180_g277 * 0.5 );
-				float smoothstepResult23_g277 = smoothstep( 0.0 , temp_output_17_0_g277 , temp_output_18_0_g277);
-				float smoothstepResult22_g277 = smoothstep( distanceToHole180_g277 , temp_output_17_0_g277 , temp_output_18_0_g277);
-				float3 lerpResult31_g277 = lerp( appendResult26_g277 , appendResult25_g277 , min( smoothstepResult23_g277 , smoothstepResult22_g277 ));
-				float3 lerpResult32_g277 = lerp( lerpResult31_g277 , ( temp_output_12_0_g277 + ( ( distanceToHole180_g277 - ( ( distanceToHole180_g277 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g277 , temp_output_18_0_g277 ));
-				float3 squashStretchedPosition44_g277 = lerpResult32_g277;
-				float3 temp_output_150_0_g277 = ( float3(0,0,1) * _TruncateLength );
-				float3 temp_output_149_0_g277 = ( squashStretchedPosition44_g277 - temp_output_150_0_g277 );
-				float3 normalizeResult156_g277 = normalize( temp_output_149_0_g277 );
-				float3 lerpResult152_g277 = lerp( temp_output_149_0_g277 , ( normalizeResult156_g277 * min( length( temp_output_149_0_g277 ) , _GirthRadius ) ) , saturate( ( temp_output_149_0_g277.z * ( 1.0 / _GirthRadius ) ) ));
-				#ifdef _TRUNCATESPHERIZE_ON
-				float3 staticSwitch116_g277 = ( lerpResult152_g277 + temp_output_150_0_g277 );
-				#else
-				float3 staticSwitch116_g277 = squashStretchedPosition44_g277;
-				#endif
-				float3 TruncatedPosition147_g277 = ( penetratorRootWorld122_g277 + mul( transpose( localChangeOfBasis169_g277 ), staticSwitch116_g277 ) );
-				float3 worldPosition56_g277 = ( TruncatedPosition147_g277 + ( penetratorForwardWorld126_g277 * _PenetratorOffsetLength ) );
-				float3 worldPenetratorForward56_g277 = penetratorForwardWorld126_g277;
-				float3 worldPenetratorUp56_g277 = penetratorUpWorld134_g277;
-				float3 worldPenetratorRight56_g277 = penetratorRightWorld139_g277;
-				float4 appendResult86_g277 = (float4(inputMesh.normalOS , 0.0));
-				float3 normalizeResult87_g277 = normalize( (mul( GetObjectToWorldMatrix(), appendResult86_g277 )).xyz );
-				float3 worldNormal56_g277 = normalizeResult87_g277;
-				float4 break93_g277 = inputMesh.tangentOS;
-				float4 appendResult89_g277 = (float4(break93_g277.x , break93_g277.y , break93_g277.z , 0.0));
-				float3 normalizeResult91_g277 = normalize( (mul( GetObjectToWorldMatrix(), appendResult89_g277 )).xyz );
-				float4 appendResult94_g277 = (float4(normalizeResult91_g277 , break93_g277.w));
-				float4 worldTangent56_g277 = appendResult94_g277;
-				float3 worldPositionOUT56_g277 = float3( 0,0,0 );
-				float3 worldNormalOUT56_g277 = float3( 0,0,0 );
-				float4 worldTangentOUT56_g277 = float4( 0,0,0,0 );
+				float localToCatmullRomSpace_float56_g1 = ( 0.0 );
+				float3 penetratorRootWorld122_g1 = _PenetratorRootWorld;
+				float3 worldPenetratorRootPos56_g1 = penetratorRootWorld122_g1;
+				float3 penetratorRightWorld139_g1 = _PenetratorRightWorld;
+				float3 right9_g1 = penetratorRightWorld139_g1;
+				float3 penetratorUpWorld134_g1 = _PenetratorUpWorld;
+				float3 up9_g1 = penetratorUpWorld134_g1;
+				float3 penetratorForwardWorld126_g1 = _PenetratorForwardWorld;
+				float3 forward9_g1 = penetratorForwardWorld126_g1;
+				float3x3 localChangeOfBasis9_g1 = ChangeOfBasis9_g1( right9_g1 , up9_g1 , forward9_g1 );
+				float4 appendResult67_g1 = (float4(inputMesh.positionOS , 1.0));
+				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
+				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
+				float3 localPenetratorSpaceVertexPosition142_g1 = ( (transform66_g1).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g1 ) );
+				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
+				float3 break15_g1 = temp_output_12_0_g1;
+				float temp_output_18_0_g1 = ( break15_g1.z * _SquashStretchCorrection );
+				float3 appendResult26_g1 = (float3(break15_g1.x , break15_g1.y , temp_output_18_0_g1));
+				float3 appendResult25_g1 = (float3(( break15_g1.x / _SquashStretchCorrection ) , ( break15_g1.y / _SquashStretchCorrection ) , temp_output_18_0_g1));
+				float distanceToHole180_g1 = _DistanceToHole;
+				float temp_output_17_0_g1 = ( distanceToHole180_g1 * 0.5 );
+				float smoothstepResult23_g1 = smoothstep( 0.0 , temp_output_17_0_g1 , temp_output_18_0_g1);
+				float smoothstepResult22_g1 = smoothstep( distanceToHole180_g1 , temp_output_17_0_g1 , temp_output_18_0_g1);
+				float3 lerpResult31_g1 = lerp( appendResult26_g1 , appendResult25_g1 , min( smoothstepResult23_g1 , smoothstepResult22_g1 ));
+				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( distanceToHole180_g1 - ( ( distanceToHole180_g1 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
+				float3 squashStretchedPosition44_g1 = lerpResult32_g1;
+				float3 worldPosition56_g1 = ( ( mul( transpose( localChangeOfBasis9_g1 ), squashStretchedPosition44_g1 ) + penetratorRootWorld122_g1 ) + ( penetratorForwardWorld126_g1 * _PenetratorOffsetLength ) );
+				float3 worldPenetratorForward56_g1 = penetratorForwardWorld126_g1;
+				float3 worldPenetratorUp56_g1 = penetratorUpWorld134_g1;
+				float3 worldPenetratorRight56_g1 = penetratorRightWorld139_g1;
+				float4 appendResult86_g1 = (float4(inputMesh.normalOS , 0.0));
+				float3 normalizeResult87_g1 = normalize( (mul( GetObjectToWorldMatrix(), appendResult86_g1 )).xyz );
+				float3 worldNormal56_g1 = normalizeResult87_g1;
+				float4 break93_g1 = inputMesh.tangentOS;
+				float4 appendResult89_g1 = (float4(break93_g1.x , break93_g1.y , break93_g1.z , 0.0));
+				float3 normalizeResult91_g1 = normalize( (mul( GetObjectToWorldMatrix(), appendResult89_g1 )).xyz );
+				float4 appendResult94_g1 = (float4(normalizeResult91_g1 , break93_g1.w));
+				float4 worldTangent56_g1 = appendResult94_g1;
+				float3 worldPositionOUT56_g1 = float3( 0,0,0 );
+				float3 worldNormalOUT56_g1 = float3( 0,0,0 );
+				float4 worldTangentOUT56_g1 = float4( 0,0,0,0 );
 				{
-				ToCatmullRomSpace_float(worldPenetratorRootPos56_g277,worldPosition56_g277,worldPenetratorForward56_g277,worldPenetratorUp56_g277,worldPenetratorRight56_g277,worldNormal56_g277,worldTangent56_g277,worldPositionOUT56_g277,worldNormalOUT56_g277,worldTangentOUT56_g277);
+				ToCatmullRomSpace_float(worldPenetratorRootPos56_g1,worldPosition56_g1,worldPenetratorForward56_g1,worldPenetratorUp56_g1,worldPenetratorRight56_g1,worldNormal56_g1,worldTangent56_g1,worldPositionOUT56_g1,worldNormalOUT56_g1,worldTangentOUT56_g1);
 				}
-				float4 appendResult73_g277 = (float4(worldPositionOUT56_g277 , 1.0));
-				float4 localWorldVar72_g277 = appendResult73_g277;
-				(localWorldVar72_g277).xyz = GetCameraRelativePositionWS((localWorldVar72_g277).xyz);
-				float4 transform72_g277 = mul(GetWorldToObjectMatrix(),localWorldVar72_g277);
+				float4 appendResult73_g1 = (float4(worldPositionOUT56_g1 , 1.0));
+				float4 localWorldVar72_g1 = appendResult73_g1;
+				(localWorldVar72_g1).xyz = GetCameraRelativePositionWS((localWorldVar72_g1).xyz);
+				float4 transform72_g1 = mul(GetWorldToObjectMatrix(),localWorldVar72_g1);
 				float3 normalizeResult27_g280 = normalize( _WorldDickNormal );
 				float3 normalizeResult31_g280 = normalize( _WorldDickBinormal );
 				float3 normalizeResult29_g280 = normalize( cross( normalizeResult27_g280 , normalizeResult31_g280 ) );
@@ -4398,12 +4171,12 @@ Shader "XRayDick"
 				#ifdef _COCKVORESQUISHENABLED_ON
 				float3 staticSwitch13_g278 = (transform29_g278).xyz;
 				#else
-				float3 staticSwitch13_g278 = (transform72_g277).xyz;
+				float3 staticSwitch13_g278 = (transform72_g1).xyz;
 				#endif
 				
-				float4 appendResult75_g277 = (float4(worldNormalOUT56_g277 , 0.0));
-				float3 normalizeResult76_g277 = normalize( (mul( GetWorldToObjectMatrix(), appendResult75_g277 )).xyz );
-				float3 temp_output_50_0_g278 = normalizeResult76_g277;
+				float4 appendResult75_g1 = (float4(worldNormalOUT56_g1 , 0.0));
+				float3 normalizeResult76_g1 = normalize( (mul( GetWorldToObjectMatrix(), appendResult75_g1 )).xyz );
+				float3 temp_output_50_0_g278 = normalizeResult76_g1;
 				float2 break146_g279 = normalizeResult41_g279;
 				float4 appendResult139_g279 = (float4(temp_output_48_0_g279 , break146_g279.x , break146_g279.y , 0.0));
 				float3 normalizeResult144_g279 = normalize( (mul( invertVal44_g279, appendResult139_g279 )).xyz );
@@ -4824,14 +4597,14 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;267;1614.556,-72.17564;Floa
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;268;1614.556,-72.17564;Float;False;False;-1;2;Rendering.HighDefinition.HDUnlitGUI;0;13;New Amplify Shader;7f5cb9c3ea6481f469fdd856555439ef;True;DistortionVectors;0;6;DistortionVectors;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;4;1;False;;1;False;;4;1;False;;1;False;;True;1;False;;1;False;;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;True;True;0;True;_StencilRefDistortionVec;255;False;;255;True;_StencilWriteMaskDistortionVec;7;False;;3;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;False;True;1;LightMode=DistortionVectors;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;269;1614.556,-72.17564;Float;False;False;-1;2;Rendering.HighDefinition.HDUnlitGUI;0;13;New Amplify Shader;7f5cb9c3ea6481f469fdd856555439ef;True;ScenePickingPass;0;7;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;3;False;;False;True;1;LightMode=Picking;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.FunctionNode;277;1108.418,-151.6713;Inherit;False;XRayAlpha;0;;273;ae038c7b9c7a9ca46880701b6b51a204;0;0;2;COLOR;18;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;276;931.832,447.4134;Inherit;False;PenetratorDeformation;6;;277;ac383a8a454dc764caec4e7e5816beae;0;3;64;FLOAT3;0,0,0;False;69;FLOAT3;0,0,0;False;71;FLOAT4;0,0,0,0;False;4;FLOAT3;61;FLOAT3;62;FLOAT4;63;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;229;1492.405,449.0431;Inherit;False;CockVoreSlurpFunction;21;;278;48b4b4d4c94c1d341abf875fe96b8fe0;0;2;49;FLOAT3;0,0,0;False;50;FLOAT3;0,0,0;False;2;FLOAT3;42;FLOAT3;0
+Node;AmplifyShaderEditor.FunctionNode;229;1206.405,22.04309;Inherit;False;CockVoreSlurpFunction;18;;278;48b4b4d4c94c1d341abf875fe96b8fe0;0;2;49;FLOAT3;0,0,0;False;50;FLOAT3;0,0,0;False;2;FLOAT3;42;FLOAT3;0
+Node;AmplifyShaderEditor.FunctionNode;279;594.3303,14.67859;Inherit;False;XRayPenetratorDeformation;6;;1;3476704922f83404cb3d7b07afa9415e;0;3;64;FLOAT3;0,0,0;False;69;FLOAT3;0,0,0;False;71;FLOAT4;0,0,0,0;False;4;FLOAT3;61;FLOAT3;62;FLOAT4;63;FLOAT;0
 WireConnection;262;0;277;18
 WireConnection;262;1;277;18
 WireConnection;262;2;277;0
 WireConnection;262;6;229;0
 WireConnection;262;7;229;42
-WireConnection;229;49;276;61
-WireConnection;229;50;276;62
+WireConnection;229;49;279;61
+WireConnection;229;50;279;62
 ASEEND*/
-//CHKSM=26D5017C74633DDEC1E6A69E50CC9C81CCDCCB7E
+//CHKSM=AE4C80457FC1A8B00BE7531A70BE9538ABE472B0

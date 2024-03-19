@@ -9,16 +9,15 @@ Shader "StraponShader"
 		[Toggle(_PENETRATION_DEFORMATION_ON)] _PENETRATION_DEFORMATION("_PENETRATION_DEFORMATION", Float) = 0
 		_CompressibleDistance("CompressibleDistance", Range( 0 , 10)) = 1
 		_PenetrationSmoothness("PenetrationSmoothness", Range( 0 , 10)) = 4
-		_ThicknessMultiplier("ThicknessMultiplier", Range( 0 , 1)) = 0
 		_CoatMask("CoatMask", Range( 0 , 1)) = 1
-		_Alpha("Alpha", Range( 0 , 1)) = 0.2916001
-		_ThicknessMap("ThicknessMap", 2D) = "white" {}
-		_RefractionIndex("RefractionIndex", Range( -0.2 , 0.2)) = 0.038
 		
 		[DiffusionProfile]_DiffusionProfile("DiffusionProfile", Float) = 0[HideInInspector]_DiffusionProfile_Asset("DiffusionProfile", Vector) = ( 0, 0, 0, 0 )
 		_Smoothness("Smoothness", Range( 0 , 1)) = 0
 		_BaseColor("BaseColor", Color) = (0,0,0,0)
-		[HideInInspector] _texcoord( "", 2D ) = "white" {}
+		_Power("Power", Range( 0 , 10)) = 2.173913
+		_Scale("Scale", Range( 0 , 3)) = 1
+		_Bias("Bias", Range( -1 , 1)) = 0
+		_FrenelColor("FrenelColor", Color) = (0,0,0,0)
 
 		[HideInInspector] _RenderQueueType("Render Queue Type", Float) = 5
 		[HideInInspector][ToggleUI] _AddPrecomputedVelocity("Add Precomputed Velocity", Float) = 1
@@ -311,8 +310,7 @@ Shader "StraponShader"
             #pragma instancing_options renderinglayer
             #define ASE_ABSOLUTE_VERTEX_POS 1
             #define _MATERIAL_FEATURE_TRANSMISSION 1
-            #define _HAS_REFRACTION 1
-            #define _REFRACTION_SPHERE 1
+            #define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
             #define _MATERIAL_FEATURE_CLEAR_COAT 1
             #define HAVE_MESH_MODIFICATION
             #define ASE_SRP_VERSION 140008
@@ -392,14 +390,14 @@ Shader "StraponShader"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColor;
-			float4 _ThicknessMap_ST;
+			float4 _FrenelColor;
 			float _CompressibleDistance;
 			float _PenetrationSmoothness;
+			float _Bias;
+			float _Scale;
+			float _Power;
 			float _CoatMask;
 			float _Smoothness;
-			float _Alpha;
-			float _ThicknessMultiplier;
-			float _RefractionIndex;
 			float _DiffusionProfile;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
@@ -463,8 +461,7 @@ Shader "StraponShader"
 			int _PassValue;
             #endif
 
-			sampler2D _ThicknessMap;
-
+			
 
             #ifdef DEBUG_DISPLAY
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
@@ -483,6 +480,8 @@ Shader "StraponShader"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
 			#define ASE_NEEDS_VERT_POSITION
+			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
+			#define ASE_NEEDS_FRAG_WORLD_NORMAL
 			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
 			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
 			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
@@ -500,7 +499,6 @@ Shader "StraponShader"
 				float4 uv1 : TEXCOORD1;
 				float4 uv2 : TEXCOORD2;
 				float4 ase_color : COLOR;
-				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -512,7 +510,7 @@ Shader "StraponShader"
 				float4 tangentWS : TEXCOORD2;
 				float4 uv1 : TEXCOORD3;
 				float4 uv2 : TEXCOORD4;
-				float4 ase_texcoord5 : TEXCOORD5;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
@@ -772,10 +770,6 @@ Shader "StraponShader"
 				#endif
 				float3 lerpResult60 = lerp( inputMesh.positionOS , staticSwitch24_g4 , inputMesh.ase_color.r);
 				
-				outputPackedVaryingsMeshToPS.ase_texcoord5.xy = inputMesh.ase_texcoord.xy;
-				
-				//setting value to unused interpolator channels and avoid initialization warnings
-				outputPackedVaryingsMeshToPS.ase_texcoord5.zw = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
@@ -815,7 +809,6 @@ Shader "StraponShader"
 				float4 uv1 : TEXCOORD1;
 				float4 uv2 : TEXCOORD2;
 				float4 ase_color : COLOR;
-				float4 ase_texcoord : TEXCOORD0;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -837,7 +830,6 @@ Shader "StraponShader"
 				o.uv1 = v.uv1;
 				o.uv2 = v.uv2;
 				o.ase_color = v.ase_color;
-				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -885,7 +877,6 @@ Shader "StraponShader"
 				o.uv1 = patch[0].uv1 * bary.x + patch[1].uv1 * bary.y + patch[2].uv1 * bary.z;
 				o.uv2 = patch[0].uv2 * bary.x + patch[1].uv2 * bary.y + patch[2].uv2 * bary.z;
 				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -941,10 +932,11 @@ Shader "StraponShader"
 				BuiltinData builtinData;
 
 				GlobalSurfaceDescription surfaceDescription = (GlobalSurfaceDescription)0;
-				float2 uv_ThicknessMap = packedInput.ase_texcoord5.xy * _ThicknessMap_ST.xy + _ThicknessMap_ST.zw;
-				float temp_output_44_0 = ( tex2D( _ThicknessMap, uv_ThicknessMap ).r * _ThicknessMultiplier );
+				float fresnelNdotV64 = dot( normalWS, V );
+				float fresnelNode64 = ( _Bias + _Scale * pow( 1.0 - fresnelNdotV64, _Power ) );
+				float4 lerpResult65 = lerp( _BaseColor , _FrenelColor , fresnelNode64);
 				
-				surfaceDescription.BaseColor = _BaseColor.rgb;
+				surfaceDescription.BaseColor = lerpResult65.rgb;
 				surfaceDescription.Normal = float3( 0, 0, 1 );
 				surfaceDescription.BentNormal = float3( 0, 0, 1 );
 				surfaceDescription.CoatMask = _CoatMask;
@@ -957,7 +949,7 @@ Shader "StraponShader"
 				surfaceDescription.Emission = 0;
 				surfaceDescription.Smoothness = _Smoothness;
 				surfaceDescription.Occlusion = 1;
-				surfaceDescription.Alpha = _Alpha;
+				surfaceDescription.Alpha = lerpResult65.a;
 
 				#ifdef _ALPHATEST_ON
 				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
@@ -980,13 +972,13 @@ Shader "StraponShader"
 				#endif
 
 				#if defined(_HAS_REFRACTION) || defined(_MATERIAL_FEATURE_TRANSMISSION)
-				surfaceDescription.Thickness = temp_output_44_0;
+				surfaceDescription.Thickness = 0;
 				#endif
 
 				#ifdef _HAS_REFRACTION
-				surfaceDescription.RefractionIndex = ( 1.0 + _RefractionIndex );
-				surfaceDescription.RefractionColor = _BaseColor.rgb;
-				surfaceDescription.RefractionDistance = temp_output_44_0;
+				surfaceDescription.RefractionIndex = 1;
+				surfaceDescription.RefractionColor = float3( 1, 1, 1 );
+				surfaceDescription.RefractionDistance = 0;
 				#endif
 
 				#ifdef _MATERIAL_FEATURE_SUBSURFACE_SCATTERING
@@ -1053,8 +1045,7 @@ Shader "StraponShader"
 			#pragma instancing_options renderinglayer
 			#define ASE_ABSOLUTE_VERTEX_POS 1
 			#define _MATERIAL_FEATURE_TRANSMISSION 1
-			#define _HAS_REFRACTION 1
-			#define _REFRACTION_SPHERE 1
+			#define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
 			#define _MATERIAL_FEATURE_CLEAR_COAT 1
 			#define HAVE_MESH_MODIFICATION
 			#define ASE_SRP_VERSION 140008
@@ -1120,14 +1111,14 @@ Shader "StraponShader"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColor;
-			float4 _ThicknessMap_ST;
+			float4 _FrenelColor;
 			float _CompressibleDistance;
 			float _PenetrationSmoothness;
+			float _Bias;
+			float _Scale;
+			float _Power;
 			float _CoatMask;
 			float _Smoothness;
-			float _Alpha;
-			float _ThicknessMultiplier;
-			float _RefractionIndex;
 			float _DiffusionProfile;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
@@ -1191,8 +1182,7 @@ Shader "StraponShader"
 			int _PassValue;
             #endif
 
-			sampler2D _ThicknessMap;
-
+			
 
             #ifdef DEBUG_DISPLAY
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
@@ -1211,6 +1201,7 @@ Shader "StraponShader"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
 			#define ASE_NEEDS_VERT_POSITION
+			#define ASE_NEEDS_VERT_NORMAL
 			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
 			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
 			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
@@ -1241,6 +1232,7 @@ Shader "StraponShader"
 				float4 LightCoord : TEXCOORD1;
 				#endif
 				float4 ase_texcoord2 : TEXCOORD2;
+				float4 ase_texcoord3 : TEXCOORD3;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
 				FRONT_FACE_TYPE cullFace : FRONT_FACE_SEMANTIC;
@@ -1483,10 +1475,15 @@ Shader "StraponShader"
 				#endif
 				float3 lerpResult60 = lerp( inputMesh.positionOS , staticSwitch24_g4 , inputMesh.ase_color.r);
 				
-				outputPackedVaryingsMeshToPS.ase_texcoord2.xy = inputMesh.uv0.xy;
+				float3 ase_worldPos = GetAbsolutePositionWS( TransformObjectToWorld( (inputMesh.positionOS).xyz ) );
+				outputPackedVaryingsMeshToPS.ase_texcoord2.xyz = ase_worldPos;
+				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
+				outputPackedVaryingsMeshToPS.ase_texcoord3.xyz = ase_worldNormal;
+				
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
-				outputPackedVaryingsMeshToPS.ase_texcoord2.zw = 0;
+				outputPackedVaryingsMeshToPS.ase_texcoord2.w = 0;
+				outputPackedVaryingsMeshToPS.ase_texcoord3.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
@@ -1642,10 +1639,15 @@ Shader "StraponShader"
 				SurfaceData surfaceData;
 				BuiltinData builtinData;
 				GlobalSurfaceDescription surfaceDescription = (GlobalSurfaceDescription)0;
-				float2 uv_ThicknessMap = packedInput.ase_texcoord2.xy * _ThicknessMap_ST.xy + _ThicknessMap_ST.zw;
-				float temp_output_44_0 = ( tex2D( _ThicknessMap, uv_ThicknessMap ).r * _ThicknessMultiplier );
+				float3 ase_worldPos = packedInput.ase_texcoord2.xyz;
+				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - ase_worldPos );
+				ase_worldViewDir = normalize(ase_worldViewDir);
+				float3 ase_worldNormal = packedInput.ase_texcoord3.xyz;
+				float fresnelNdotV64 = dot( ase_worldNormal, ase_worldViewDir );
+				float fresnelNode64 = ( _Bias + _Scale * pow( 1.0 - fresnelNdotV64, _Power ) );
+				float4 lerpResult65 = lerp( _BaseColor , _FrenelColor , fresnelNode64);
 				
-				surfaceDescription.BaseColor = _BaseColor.rgb;
+				surfaceDescription.BaseColor = lerpResult65.rgb;
 				surfaceDescription.Normal = float3( 0, 0, 1 );
 				surfaceDescription.BentNormal = float3( 0, 0, 1 );
 				surfaceDescription.CoatMask = _CoatMask;
@@ -1658,7 +1660,7 @@ Shader "StraponShader"
 				surfaceDescription.Emission = 0;
 				surfaceDescription.Smoothness = _Smoothness;
 				surfaceDescription.Occlusion = 1;
-				surfaceDescription.Alpha = _Alpha;
+				surfaceDescription.Alpha = lerpResult65.a;
 
 				#ifdef _ALPHATEST_ON
 				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
@@ -1674,13 +1676,13 @@ Shader "StraponShader"
 				#endif
 
 				#if defined(_HAS_REFRACTION) || defined(_MATERIAL_FEATURE_TRANSMISSION)
-				surfaceDescription.Thickness = temp_output_44_0;
+				surfaceDescription.Thickness = 1;
 				#endif
 
 				#ifdef _HAS_REFRACTION
-				surfaceDescription.RefractionIndex = ( 1.0 + _RefractionIndex );
-				surfaceDescription.RefractionColor = _BaseColor.rgb;
-				surfaceDescription.RefractionDistance = temp_output_44_0;
+				surfaceDescription.RefractionIndex = 1;
+				surfaceDescription.RefractionColor = float3( 1, 1, 1 );
+				surfaceDescription.RefractionDistance = 0;
 				#endif
 
 				#ifdef _MATERIAL_FEATURE_SUBSURFACE_SCATTERING
@@ -1748,8 +1750,7 @@ Shader "StraponShader"
 			#pragma instancing_options renderinglayer
 			#define ASE_ABSOLUTE_VERTEX_POS 1
 			#define _MATERIAL_FEATURE_TRANSMISSION 1
-			#define _HAS_REFRACTION 1
-			#define _REFRACTION_SPHERE 1
+			#define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
 			#define _MATERIAL_FEATURE_CLEAR_COAT 1
 			#define HAVE_MESH_MODIFICATION
 			#define ASE_SRP_VERSION 140008
@@ -1824,14 +1825,14 @@ Shader "StraponShader"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColor;
-			float4 _ThicknessMap_ST;
+			float4 _FrenelColor;
 			float _CompressibleDistance;
 			float _PenetrationSmoothness;
+			float _Bias;
+			float _Scale;
+			float _Power;
 			float _CoatMask;
 			float _Smoothness;
-			float _Alpha;
-			float _ThicknessMultiplier;
-			float _RefractionIndex;
 			float _DiffusionProfile;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
@@ -1914,6 +1915,8 @@ Shader "StraponShader"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
 			#define ASE_NEEDS_VERT_POSITION
+			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
+			#define ASE_NEEDS_VERT_NORMAL
 			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
 			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
 			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
@@ -1936,7 +1939,7 @@ Shader "StraponShader"
 			{
 				SV_POSITION_QUALIFIERS float4 positionCS : SV_Position;
 				float3 positionRWS : TEXCOORD0;
-				
+				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
@@ -2128,6 +2131,12 @@ Shader "StraponShader"
 				#endif
 				float3 lerpResult60 = lerp( inputMesh.positionOS , staticSwitch24_g4 , inputMesh.ase_color.r);
 				
+				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
+				outputPackedVaryingsMeshToPS.ase_texcoord1.xyz = ase_worldNormal;
+				
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				outputPackedVaryingsMeshToPS.ase_texcoord1.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
@@ -2299,8 +2308,12 @@ Shader "StraponShader"
 				float3 V = GetWorldSpaceNormalizeViewDir(input.positionRWS);
 
 				AlphaSurfaceDescription surfaceDescription = (AlphaSurfaceDescription)0;
+				float3 ase_worldNormal = packedInput.ase_texcoord1.xyz;
+				float fresnelNdotV64 = dot( ase_worldNormal, V );
+				float fresnelNode64 = ( _Bias + _Scale * pow( 1.0 - fresnelNdotV64, _Power ) );
+				float4 lerpResult65 = lerp( _BaseColor , _FrenelColor , fresnelNode64);
 				
-				surfaceDescription.Alpha = _Alpha;
+				surfaceDescription.Alpha = lerpResult65.a;
 
 				#ifdef _ALPHATEST_ON
 				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
@@ -2363,8 +2376,7 @@ Shader "StraponShader"
             #pragma instancing_options renderinglayer
             #define ASE_ABSOLUTE_VERTEX_POS 1
             #define _MATERIAL_FEATURE_TRANSMISSION 1
-            #define _HAS_REFRACTION 1
-            #define _REFRACTION_SPHERE 1
+            #define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
             #define _MATERIAL_FEATURE_CLEAR_COAT 1
             #define HAVE_MESH_MODIFICATION
             #define ASE_SRP_VERSION 140008
@@ -2437,14 +2449,14 @@ Shader "StraponShader"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColor;
-			float4 _ThicknessMap_ST;
+			float4 _FrenelColor;
 			float _CompressibleDistance;
 			float _PenetrationSmoothness;
+			float _Bias;
+			float _Scale;
+			float _Power;
 			float _CoatMask;
 			float _Smoothness;
-			float _Alpha;
-			float _ThicknessMultiplier;
-			float _RefractionIndex;
 			float _DiffusionProfile;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
@@ -2528,6 +2540,8 @@ Shader "StraponShader"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
 			#define ASE_NEEDS_VERT_POSITION
+			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
+			#define ASE_NEEDS_VERT_NORMAL
 			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
 			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
 			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
@@ -2550,7 +2564,7 @@ Shader "StraponShader"
 			{
 				SV_POSITION_QUALIFIERS float4 positionCS : SV_Position;
 				float3 positionRWS : TEXCOORD0;
-				
+				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
@@ -2738,6 +2752,12 @@ Shader "StraponShader"
 				#endif
 				float3 lerpResult60 = lerp( inputMesh.positionOS , staticSwitch24_g4 , inputMesh.ase_color.r);
 				
+				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
+				outputPackedVaryingsMeshToPS.ase_texcoord1.xyz = ase_worldNormal;
+				
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				outputPackedVaryingsMeshToPS.ase_texcoord1.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
@@ -2891,8 +2911,12 @@ Shader "StraponShader"
 				float3 V = GetWorldSpaceNormalizeViewDir(input.positionRWS);
 
 				SceneSurfaceDescription surfaceDescription = (SceneSurfaceDescription)0;
+				float3 ase_worldNormal = packedInput.ase_texcoord1.xyz;
+				float fresnelNdotV64 = dot( ase_worldNormal, V );
+				float fresnelNode64 = ( _Bias + _Scale * pow( 1.0 - fresnelNdotV64, _Power ) );
+				float4 lerpResult65 = lerp( _BaseColor , _FrenelColor , fresnelNode64);
 				
-				surfaceDescription.Alpha = _Alpha;
+				surfaceDescription.Alpha = lerpResult65.a;
 
 				#ifdef _ALPHATEST_ON
 				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
@@ -2943,8 +2967,7 @@ Shader "StraponShader"
             #pragma instancing_options renderinglayer
             #define ASE_ABSOLUTE_VERTEX_POS 1
             #define _MATERIAL_FEATURE_TRANSMISSION 1
-            #define _HAS_REFRACTION 1
-            #define _REFRACTION_SPHERE 1
+            #define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
             #define _MATERIAL_FEATURE_CLEAR_COAT 1
             #define HAVE_MESH_MODIFICATION
             #define ASE_SRP_VERSION 140008
@@ -3018,14 +3041,14 @@ Shader "StraponShader"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColor;
-			float4 _ThicknessMap_ST;
+			float4 _FrenelColor;
 			float _CompressibleDistance;
 			float _PenetrationSmoothness;
+			float _Bias;
+			float _Scale;
+			float _Power;
 			float _CoatMask;
 			float _Smoothness;
-			float _Alpha;
-			float _ThicknessMultiplier;
-			float _RefractionIndex;
 			float _DiffusionProfile;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
@@ -3108,6 +3131,8 @@ Shader "StraponShader"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
 			#define ASE_NEEDS_VERT_POSITION
+			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
+			#define ASE_NEEDS_FRAG_WORLD_NORMAL
 			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
 			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
 			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
@@ -3510,10 +3535,13 @@ Shader "StraponShader"
 				float3 V = GetWorldSpaceNormalizeViewDir(input.positionRWS);
 
 				SmoothSurfaceDescription surfaceDescription = (SmoothSurfaceDescription)0;
+				float fresnelNdotV64 = dot( normalWS, V );
+				float fresnelNode64 = ( _Bias + _Scale * pow( 1.0 - fresnelNdotV64, _Power ) );
+				float4 lerpResult65 = lerp( _BaseColor , _FrenelColor , fresnelNode64);
 				
 				surfaceDescription.Normal = float3( 0, 0, 1 );
 				surfaceDescription.Smoothness = _Smoothness;
-				surfaceDescription.Alpha = _Alpha;
+				surfaceDescription.Alpha = lerpResult65.a;
 
 				#ifdef _ALPHATEST_ON
 				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
@@ -3581,8 +3609,7 @@ Shader "StraponShader"
             #pragma instancing_options renderinglayer
             #define ASE_ABSOLUTE_VERTEX_POS 1
             #define _MATERIAL_FEATURE_TRANSMISSION 1
-            #define _HAS_REFRACTION 1
-            #define _REFRACTION_SPHERE 1
+            #define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
             #define _MATERIAL_FEATURE_CLEAR_COAT 1
             #define HAVE_MESH_MODIFICATION
             #define ASE_SRP_VERSION 140008
@@ -3656,14 +3683,14 @@ Shader "StraponShader"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColor;
-			float4 _ThicknessMap_ST;
+			float4 _FrenelColor;
 			float _CompressibleDistance;
 			float _PenetrationSmoothness;
+			float _Bias;
+			float _Scale;
+			float _Power;
 			float _CoatMask;
 			float _Smoothness;
-			float _Alpha;
-			float _ThicknessMultiplier;
-			float _RefractionIndex;
 			float _DiffusionProfile;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
@@ -3746,6 +3773,8 @@ Shader "StraponShader"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
 			#define ASE_NEEDS_VERT_POSITION
+			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
+			#define ASE_NEEDS_VERT_NORMAL
 			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
 			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
 			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
@@ -3772,7 +3801,7 @@ Shader "StraponShader"
 				float3 vmeshInterp00 : TEXCOORD0;
 				float3 vpassInterpolators0 : TEXCOORD1; //interpolators0
 				float3 vpassInterpolators1 : TEXCOORD2; //interpolators1
-				
+				float4 ase_texcoord3 : TEXCOORD3;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
@@ -3957,6 +3986,12 @@ Shader "StraponShader"
 				#endif
 				float3 lerpResult60 = lerp( inputMesh.positionOS , staticSwitch24_g4 , inputMesh.ase_color.r);
 				
+				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
+				outputPackedVaryingsMeshToPS.ase_texcoord3.xyz = ase_worldNormal;
+				
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				outputPackedVaryingsMeshToPS.ase_texcoord3.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
@@ -4197,10 +4232,14 @@ Shader "StraponShader"
 				BuiltinData builtinData;
 
 				SmoothSurfaceDescription surfaceDescription = (SmoothSurfaceDescription)0;
+				float3 ase_worldNormal = packedInput.ase_texcoord3.xyz;
+				float fresnelNdotV64 = dot( ase_worldNormal, V );
+				float fresnelNode64 = ( _Bias + _Scale * pow( 1.0 - fresnelNdotV64, _Power ) );
+				float4 lerpResult65 = lerp( _BaseColor , _FrenelColor , fresnelNode64);
 				
 				surfaceDescription.Normal = float3( 0, 0, 1 );
 				surfaceDescription.Smoothness = _Smoothness;
-				surfaceDescription.Alpha = _Alpha;
+				surfaceDescription.Alpha = lerpResult65.a;
 
 				#ifdef _ALPHATEST_ON
 				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
@@ -4297,8 +4336,7 @@ Shader "StraponShader"
             #pragma instancing_options renderinglayer
             #define ASE_ABSOLUTE_VERTEX_POS 1
             #define _MATERIAL_FEATURE_TRANSMISSION 1
-            #define _HAS_REFRACTION 1
-            #define _REFRACTION_SPHERE 1
+            #define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
             #define _MATERIAL_FEATURE_CLEAR_COAT 1
             #define HAVE_MESH_MODIFICATION
             #define ASE_SRP_VERSION 140008
@@ -4390,14 +4428,14 @@ Shader "StraponShader"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColor;
-			float4 _ThicknessMap_ST;
+			float4 _FrenelColor;
 			float _CompressibleDistance;
 			float _PenetrationSmoothness;
+			float _Bias;
+			float _Scale;
+			float _Power;
 			float _CoatMask;
 			float _Smoothness;
-			float _Alpha;
-			float _ThicknessMultiplier;
-			float _RefractionIndex;
 			float _DiffusionProfile;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
@@ -4461,8 +4499,7 @@ Shader "StraponShader"
 			int _PassValue;
             #endif
 
-			sampler2D _ThicknessMap;
-
+			
 
             #ifdef DEBUG_DISPLAY
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
@@ -4484,6 +4521,8 @@ Shader "StraponShader"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
 			#define ASE_NEEDS_VERT_POSITION
+			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
+			#define ASE_NEEDS_FRAG_WORLD_NORMAL
 			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
 			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
 			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
@@ -4503,7 +4542,6 @@ Shader "StraponShader"
 				float3 previousPositionOS : TEXCOORD4;
 				float3 precomputedVelocity : TEXCOORD5;
 				float4 ase_color : COLOR;
-				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -4519,7 +4557,7 @@ Shader "StraponShader"
 					float3 vpassPositionCS : TEXCOORD5;
 					float3 vpassPreviousPositionCS : TEXCOORD6;
 				#endif
-				float4 ase_texcoord7 : TEXCOORD7;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
@@ -4773,10 +4811,6 @@ Shader "StraponShader"
 				#endif
 				float3 lerpResult60 = lerp( inputMesh.positionOS , staticSwitch24_g4 , inputMesh.ase_color.r);
 				
-				outputPackedVaryingsMeshToPS.ase_texcoord7.xy = inputMesh.ase_texcoord.xy;
-				
-				//setting value to unused interpolator channels and avoid initialization warnings
-				outputPackedVaryingsMeshToPS.ase_texcoord7.zw = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
@@ -4876,7 +4910,6 @@ Shader "StraponShader"
 				float4 uv1 : TEXCOORD1;
 				float4 uv2 : TEXCOORD2;
 				float4 ase_color : COLOR;
-				float4 ase_texcoord : TEXCOORD0;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -4898,7 +4931,6 @@ Shader "StraponShader"
 				o.uv1 = v.uv1;
 				o.uv2 = v.uv2;
 				o.ase_color = v.ase_color;
-				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -4946,7 +4978,6 @@ Shader "StraponShader"
 				o.uv1 = patch[0].uv1 * bary.x + patch[1].uv1 * bary.y + patch[2].uv1 * bary.z;
 				o.uv2 = patch[0].uv2 * bary.x + patch[1].uv2 * bary.y + patch[2].uv2 * bary.z;
 				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -5036,10 +5067,11 @@ Shader "StraponShader"
 				float3 V = GetWorldSpaceNormalizeViewDir(input.positionRWS);
 
 				GlobalSurfaceDescription surfaceDescription = (GlobalSurfaceDescription)0;
-				float2 uv_ThicknessMap = packedInput.ase_texcoord7.xy * _ThicknessMap_ST.xy + _ThicknessMap_ST.zw;
-				float temp_output_44_0 = ( tex2D( _ThicknessMap, uv_ThicknessMap ).r * _ThicknessMultiplier );
+				float fresnelNdotV64 = dot( normalWS, V );
+				float fresnelNode64 = ( _Bias + _Scale * pow( 1.0 - fresnelNdotV64, _Power ) );
+				float4 lerpResult65 = lerp( _BaseColor , _FrenelColor , fresnelNode64);
 				
-				surfaceDescription.BaseColor = _BaseColor.rgb;
+				surfaceDescription.BaseColor = lerpResult65.rgb;
 				surfaceDescription.Normal = float3( 0, 0, 1 );
 				surfaceDescription.BentNormal = float3( 0, 0, 1 );
 				surfaceDescription.CoatMask = _CoatMask;
@@ -5052,7 +5084,7 @@ Shader "StraponShader"
 				surfaceDescription.Emission = 0;
 				surfaceDescription.Smoothness = _Smoothness;
 				surfaceDescription.Occlusion = 1;
-				surfaceDescription.Alpha = _Alpha;
+				surfaceDescription.Alpha = lerpResult65.a;
 
 				#ifdef _ALPHATEST_ON
 				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
@@ -5068,13 +5100,13 @@ Shader "StraponShader"
 				#endif
 
 				#if defined(_HAS_REFRACTION) || defined(_MATERIAL_FEATURE_TRANSMISSION)
-				surfaceDescription.Thickness = temp_output_44_0;
+				surfaceDescription.Thickness = 1;
 				#endif
 
 				#ifdef _HAS_REFRACTION
-				surfaceDescription.RefractionIndex = ( 1.0 + _RefractionIndex );
-				surfaceDescription.RefractionColor = _BaseColor.rgb;
-				surfaceDescription.RefractionDistance = temp_output_44_0;
+				surfaceDescription.RefractionIndex = 1;
+				surfaceDescription.RefractionColor = float3( 1, 1, 1 );
+				surfaceDescription.RefractionDistance = 0;
 				#endif
 
 				#ifdef _MATERIAL_FEATURE_SUBSURFACE_SCATTERING
@@ -5264,8 +5296,7 @@ Shader "StraponShader"
 			#pragma instancing_options renderinglayer
 			#define ASE_ABSOLUTE_VERTEX_POS 1
 			#define _MATERIAL_FEATURE_TRANSMISSION 1
-			#define _HAS_REFRACTION 1
-			#define _REFRACTION_SPHERE 1
+			#define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
 			#define _MATERIAL_FEATURE_CLEAR_COAT 1
 			#define HAVE_MESH_MODIFICATION
 			#define ASE_SRP_VERSION 140008
@@ -5321,14 +5352,14 @@ Shader "StraponShader"
 			float4 _SelectionID;
             CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColor;
-			float4 _ThicknessMap_ST;
+			float4 _FrenelColor;
 			float _CompressibleDistance;
 			float _PenetrationSmoothness;
+			float _Bias;
+			float _Scale;
+			float _Power;
 			float _CoatMask;
 			float _Smoothness;
-			float _Alpha;
-			float _ThicknessMultiplier;
-			float _RefractionIndex;
 			float _DiffusionProfile;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
@@ -5415,7 +5446,7 @@ Shader "StraponShader"
 				float4 positionCS : SV_POSITION;
 				float3 normalWS : TEXCOORD0;
 				float4 tangentWS : TEXCOORD1;
-				
+				float4 ase_texcoord2 : TEXCOORD2;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
@@ -5560,6 +5591,12 @@ Shader "StraponShader"
 				#endif
 				float3 lerpResult60 = lerp( inputMesh.positionOS , staticSwitch24_g4 , inputMesh.ase_color.r);
 				
+				float3 ase_worldPos = GetAbsolutePositionWS( TransformObjectToWorld( (inputMesh.positionOS).xyz ) );
+				o.ase_texcoord2.xyz = ase_worldPos;
+				
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord2.w = 0;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
 				#else
@@ -5694,8 +5731,14 @@ Shader "StraponShader"
 				PositionInputs posInput = GetPositionInput(input.positionSS.xy, _ScreenSize.zw, input.positionSS.z, input.positionSS.w, input.positionRWS);
 
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
+				float3 ase_worldPos = packedInput.ase_texcoord2.xyz;
+				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - ase_worldPos );
+				ase_worldViewDir = normalize(ase_worldViewDir);
+				float fresnelNdotV64 = dot( packedInput.normalWS, ase_worldViewDir );
+				float fresnelNode64 = ( _Bias + _Scale * pow( 1.0 - fresnelNdotV64, _Power ) );
+				float4 lerpResult65 = lerp( _BaseColor , _FrenelColor , fresnelNode64);
 				
-				surfaceDescription.Alpha = _Alpha;
+				surfaceDescription.Alpha = lerpResult65.a;
 				surfaceDescription.AlphaClipThreshold =  _AlphaCutoff;
 
 
@@ -5994,43 +6037,42 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;7;0,0;Float;False;False;-1;
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;8;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;TransparentDepthPostpass;0;8;TransparentDepthPostpass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=TransparentDepthPostpass;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;9;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;Forward;0;9;Forward;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;True;0;True;_CullModeForward;False;False;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelOne;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelTwo;False;False;False;True;True;0;True;_StencilRef;255;False;;255;True;_StencilWriteMask;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;0;True;_ZWrite;True;0;True;_ZTestDepthEqualForOpaque;False;True;1;LightMode=Forward;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;10;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;ScenePickingPass;0;10;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;3;False;;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.DiffusionProfileNode;39;172.3674,224.3481;Float;False;Property;_DiffusionProfile;DiffusionProfile;10;0;Create;True;0;0;0;False;0;False;0;0;False;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;40;111.7587,-166.6404;Inherit;False;Property;_Alpha;Alpha;7;0;Create;True;0;0;0;False;0;False;0.2916001;0.1;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;41;22.44438,-46.2003;Inherit;False;Constant;_Float0;Float 0;9;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;38;44.19842,33.17134;Inherit;False;Property;_RefractionIndex;RefractionIndex;9;0;Create;True;0;0;0;False;0;False;0.038;0.035;-0.2;0.2;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;42;362.9151,47.07936;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;732.0752,-88.2106;Float;False;True;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;StraponShader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;GBuffer;0;0;GBuffer;34;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;True;True;True;True;0;True;_LightLayersMaskBuffer4;False;False;False;False;False;False;False;True;True;0;True;_StencilRefGBuffer;255;False;;255;True;_StencilWriteMaskGBuffer;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;True;False;True;7;True;_ZTestGBuffer;False;True;1;LightMode=GBuffer;False;False;0;;0;0;Standard;39;Surface Type;1;638211650863799257;  Rendering Pass;1;0;  Refraction Model;2;638211658464669302;    Blending Mode;0;0;    Blend Preserves Specular;1;0;  Back Then Front Rendering;0;0;  Transparent Depth Prepass;0;0;  Transparent Depth Postpass;0;0;  ZWrite;0;0;  Z Test;4;0;Double-Sided;0;0;Alpha Clipping;1;638210200265227910;  Use Shadow Threshold;0;0;Material Type,InvertActionOnDeselection;5;638211654109199336;  Energy Conserving Specular;1;0;  Transmission,InvertActionOnDeselection;0;0;Forward Only;0;0;Receive Decals;1;0;Receives SSR;1;0;Receive SSR Transparent;0;0;Motion Vectors;1;0;  Add Precomputed Velocity;0;0;Specular AA;0;0;Specular Occlusion Mode;1;0;Override Baked GI;0;0;Depth Offset;0;0;DOTS Instancing;0;0;GPU Instancing;1;0;LOD CrossFade;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position;0;638208589227485235;0;11;True;True;True;True;True;True;False;False;False;True;True;False;;False;0
-Node;AmplifyShaderEditor.RangedFloatNode;51;301.8288,-46.52133;Inherit;False;Property;_CoatMask;CoatMask;6;0;Create;True;0;0;0;False;0;False;1;0.174;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.DiffusionProfileNode;39;172.3674,224.3481;Float;False;Property;_DiffusionProfile;DiffusionProfile;6;0;Create;True;0;0;0;False;0;False;0;0;False;0;1;FLOAT;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;732.0752,-88.2106;Float;False;True;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;StraponShader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;GBuffer;0;0;GBuffer;34;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;True;True;True;True;0;True;_LightLayersMaskBuffer4;False;False;False;False;False;False;False;True;True;0;True;_StencilRefGBuffer;255;False;;255;True;_StencilWriteMaskGBuffer;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;True;False;True;7;True;_ZTestGBuffer;False;True;1;LightMode=GBuffer;False;False;0;;0;0;Standard;39;Surface Type;1;638211650863799257;  Rendering Pass;1;0;  Refraction Model;0;638463887410142912;    Blending Mode;0;0;    Blend Preserves Specular;1;0;  Back Then Front Rendering;0;0;  Transparent Depth Prepass;0;0;  Transparent Depth Postpass;0;0;  ZWrite;0;0;  Z Test;4;0;Double-Sided;0;0;Alpha Clipping;1;638210200265227910;  Use Shadow Threshold;0;0;Material Type,InvertActionOnDeselection;5;638463887342237732;  Energy Conserving Specular;1;0;  Transmission,InvertActionOnDeselection;0;0;Forward Only;0;0;Receive Decals;1;0;Receives SSR;1;0;Receive SSR Transparent;0;0;Motion Vectors;1;0;  Add Precomputed Velocity;0;0;Specular AA;0;0;Specular Occlusion Mode;1;0;Override Baked GI;0;0;Depth Offset;0;0;DOTS Instancing;0;0;GPU Instancing;1;0;LOD CrossFade;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position;0;638208589227485235;0;11;True;True;True;True;True;True;False;False;False;True;True;False;;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;53;732.0752,406.7894;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;MotionVectors;0;5;MotionVectors;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;True;True;0;True;_StencilRefMV;255;False;;255;True;_StencilWriteMaskMV;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;1;False;;False;False;True;1;LightMode=MotionVectors;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;44;201.103,356.3173;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;37;-618.067,361.7363;Inherit;True;Property;_ThicknessMap;ThicknessMap;8;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;55;143.0908,-723.4462;Inherit;False;Property;_BaseColor;BaseColor;12;0;Create;True;0;0;0;False;0;False;0,0,0,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;56;-102.7385,130.7369;Inherit;False;Property;_Smoothness;Smoothness;11;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;43;-496.334,614.6962;Inherit;False;Property;_ThicknessMultiplier;ThicknessMultiplier;5;0;Create;True;0;0;0;False;0;False;0;1;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;56;-102.7385,130.7369;Inherit;False;Property;_Smoothness;Smoothness;7;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;57;-117.5578,965.3262;Inherit;False;Property;_PenetrationSmoothness;PenetrationSmoothness;4;0;Create;True;0;0;0;False;0;False;4;2;0;10;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;58;-237.7099,769.7639;Inherit;False;Property;_CompressibleDistance;CompressibleDistance;3;0;Create;True;0;0;0;False;0;False;1;0.3;0;10;0;1;FLOAT;0
 Node;AmplifyShaderEditor.LerpOp;60;654.7483,477.381;Inherit;False;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.PosVertexDataNode;61;384.7483,362.381;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.VertexColorNode;59;385.7483,659.381;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.FunctionNode;62;174.3824,508.666;Inherit;False;PenetrableDeformation;0;;4;7ff1b70ed2c7b9e43aecbec8a912cc8c;0;4;10;FLOAT3;0,0,0;False;11;FLOAT4;0,0,0,0;False;12;FLOAT;0;False;13;FLOAT;0;False;1;FLOAT3;0
-WireConnection;42;0;41;0
-WireConnection;42;1;38;0
-WireConnection;0;0;55;0
+Node;AmplifyShaderEditor.RangedFloatNode;51;298.8288,-37.52133;Inherit;False;Property;_CoatMask;CoatMask;5;0;Create;True;0;0;0;False;0;False;1;0.174;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.ColorNode;63;99.13198,-478.2198;Inherit;False;Property;_FrenelColor;FrenelColor;12;0;Create;True;0;0;0;False;0;False;0,0,0,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;55;50.79082,-723.4462;Inherit;False;Property;_BaseColor;BaseColor;8;0;Create;True;0;0;0;False;0;False;0,0,0,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.LerpOp;65;378.632,-333.9197;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.BreakToComponentsNode;66;592.4318,-398.6198;Inherit;False;COLOR;1;0;COLOR;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
+Node;AmplifyShaderEditor.FresnelNode;64;-16.568,-280.6201;Inherit;False;Standard;WorldNormal;ViewDir;False;False;5;0;FLOAT3;0,0,1;False;4;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;4;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;67;-360.0094,-84.86389;Inherit;False;Property;_Power;Power;9;0;Create;True;0;0;0;False;0;False;2.173913;2;0;10;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;68;-364.0094,-178.8639;Inherit;False;Property;_Scale;Scale;10;0;Create;True;0;0;0;False;0;False;1;2;0;3;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;69;-362.0094,-281.8639;Inherit;False;Property;_Bias;Bias;11;0;Create;True;0;0;0;False;0;False;0;2;-1;1;0;1;FLOAT;0
+WireConnection;0;0;65;0
 WireConnection;0;3;51;0
 WireConnection;0;7;56;0
-WireConnection;0;9;40;0
-WireConnection;0;16;44;0
-WireConnection;0;17;42;0
-WireConnection;0;18;55;0
-WireConnection;0;19;44;0
+WireConnection;0;9;66;3
 WireConnection;0;62;39;0
 WireConnection;0;11;60;0
-WireConnection;44;0;37;1
-WireConnection;44;1;43;0
 WireConnection;60;0;61;0
 WireConnection;60;1;62;0
 WireConnection;60;2;59;1
 WireConnection;62;12;58;0
 WireConnection;62;13;57;0
+WireConnection;65;0;55;0
+WireConnection;65;1;63;0
+WireConnection;65;2;64;0
+WireConnection;66;0;65;0
+WireConnection;64;1;69;0
+WireConnection;64;2;68;0
+WireConnection;64;3;67;0
 ASEEND*/
-//CHKSM=197DF86346FEE3F755B882CE0B9FC9C580682ABE
+//CHKSM=E25AA41ADFFDB9E494E869CC85D77D7CF354B1A3

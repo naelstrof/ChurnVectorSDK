@@ -25,22 +25,20 @@ public class BreedingStand : NeedStation, ICumContainer {
     private static readonly int ThrustBackForward = Animator.StringToHash("ThrustBackForward");
     private static readonly int ThrustDownUp = Animator.StringToHash("ThrustDownUp");
 
-
-    protected virtual void Update() {
-        if (simulation != null) {
-            simulation.SimulateStep(Time.deltaTime);
-            Vector3 desiredHipPositionWorld = simulation.GetHipPosition();
-            Vector3 hipToRoot = -Vector3.up * 0.75f;
-            Vector3 desiredHipPositionAnimatorSpace = beingUsedBy.GetDisplayAnimator().transform.InverseTransformPoint(desiredHipPositionWorld+hipToRoot);
-            float forwardHipThrustAmount = desiredHipPositionAnimatorSpace.z;
-            float upHipThrustAmount = desiredHipPositionAnimatorSpace.y;
-            beingUsedBy.GetDisplayAnimator().SetFloat(ThrustBackForward, forwardHipThrustAmount*2f);
-            beingUsedBy.GetDisplayAnimator().SetFloat(ThrustDownUp, upHipThrustAmount*2f);
-        }
+    protected Vector3 GetThrustValue() {
+        Vector3 desiredHipPositionWorld = simulation.GetHipPosition();
+        Vector3 hipToRoot = -Vector3.up * 0.75f;
+        Vector3 desiredHipPositionAnimatorSpace = beingUsedBy.GetDisplayAnimator().transform.InverseTransformPoint(desiredHipPositionWorld+hipToRoot);
+        float forwardHipThrustAmount = desiredHipPositionAnimatorSpace.z;
+        float upHipThrustAmount = desiredHipPositionAnimatorSpace.y;
+        return new Vector3(0, upHipThrustAmount, forwardHipThrustAmount);
     }
-
-    protected void FixedUpdate() {
+    protected virtual void FixedUpdate() {
         if (simulation == null || beingUsedBy == null) return;
+        simulation.SimulateStep(Time.deltaTime);
+        var thrust = GetThrustValue();
+        beingUsedBy.GetDisplayAnimator().SetFloat(ThrustBackForward, thrust.z*2f);
+        beingUsedBy.GetDisplayAnimator().SetFloat(ThrustDownUp, thrust.y*2f);
         if (beingUsedBy.voreContainer is Balls balls) {
             var ballsBody = balls.GetBallsRigidbody();
             if (ballsBody != null) {

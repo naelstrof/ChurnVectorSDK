@@ -21,6 +21,7 @@ public class GloryHole : BreedingStand {
     private float lastUseTime;
     
     private Vector3 knotForcePosition;
+    private Vector3 knotForceVelocity;
     private float fuckIntensity;
     private float lastFuckDepth;
     private static readonly int BeingFucked = Animator.StringToHash("BeingFucked");
@@ -51,30 +52,26 @@ public class GloryHole : BreedingStand {
             submissive.GetDisplayAnimator().SetBool(BeingFucked, true);
         }
     }
-
-    protected override void Update() {
+    protected override void FixedUpdate() {
+        base.FixedUpdate();
         if (!initialized) {
             return;
         }
         if (simulation != null) {
-            simulation.SimulateStep(Time.deltaTime);
-            Vector3 desiredHipPositionWorld = simulation.GetHipPosition();
-            Debug.DrawRay(desiredHipPositionWorld, Vector3.up, Color.magenta);
-            Vector3 hipToRoot = -Vector3.up * 0.75f;
-            Vector3 desiredHipPositionAnimatorSpace = beingUsedBy.GetDisplayAnimator().transform.InverseTransformPoint(desiredHipPositionWorld+hipToRoot);
-            float forwardHipThrustAmount = desiredHipPositionAnimatorSpace.z;
-            float upHipThrustAmount = desiredHipPositionAnimatorSpace.y;
-            Vector3 thrust = new Vector3(0f, upHipThrustAmount*2f, forwardHipThrustAmount*2f);
-            beingUsedBy.GetDisplayAnimator().SetFloat(BackForward, forwardHipThrustAmount*2f);
-            beingUsedBy.GetDisplayAnimator().SetFloat(DownUp, upHipThrustAmount*2f);
+            var thrust = GetThrustValue();
             
             float arbitraryAdjustment = 1.5f;
             Vector3 correctionForce = simulation.GetCorrrectiveForce() * arbitraryAdjustment;
             if (thrust.magnitude >= 1f) {
                 correctionForce = Vector3.ProjectOnPlane(correctionForce, beingUsedBy.transform.TransformDirection(thrust.normalized));
             }
-            knotForcePosition += correctionForce;
-            knotForcePosition -= knotForcePosition * (Time.deltaTime*4f);
+
+            float knotForceFriction = 0.5f;
+            knotForceVelocity *= 1f-(knotForceFriction*knotForceFriction);
+            knotForceVelocity += correctionForce * (Time.deltaTime * 100f);
+            knotForceVelocity += (Vector3.zero-knotForcePosition) * (Time.deltaTime * 8f);
+
+            knotForcePosition += knotForceVelocity * Time.deltaTime;
             knotForcePosition = Vector3.ProjectOnPlane(knotForcePosition, Vector3.Cross((submissive.GetDisplayAnimator().transform.position-beingUsedBy.GetDisplayAnimator().transform.position).normalized, Vector3.up));
             knotForcePosition = Vector3.ClampMagnitude(knotForcePosition, 1f);
 
@@ -91,7 +88,7 @@ public class GloryHole : BreedingStand {
             fuckIntensity += diff;
             fuckIntensity = Mathf.MoveTowards(fuckIntensity, 0f, Time.deltaTime);
             submissive.GetDisplayAnimator().SetFloat(Depth, diff);
-        } else {
+        } else if (!broken) {
             submissive.GetDisplayAnimator().SetFloat(Depth, 0f);
         }
     }
@@ -193,6 +190,7 @@ public class GloryHole : BreedingStand {
             }
         }
         submissiveController.SetClothes(false);
+        await base.OnInitialized();
         initialized = true;
     }
 }

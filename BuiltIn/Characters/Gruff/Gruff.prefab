@@ -1,69 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1578315143384306515
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3171316807230290855}
-  m_Layer: 0
-  m_Name: JiggleRig
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3171316807230290855
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1578315143384306515}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.68060434, y: 0.015925886, z: 0.009737799, w: 0.73241335}
-  m_LocalPosition: {x: 0.002073596, y: -0.071483485, z: 0.063743316}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 970226996259766426}
-  m_Father: {fileID: 2018222377022493351}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &3753935810633851705
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4340458317446376154}
-  m_Layer: 0
-  m_Name: JiggleTip
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4340458317446376154
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3753935810633851705}
-  serializedVersion: 2
-  m_LocalRotation: {x: -2.1555027e-10, y: 4.667129e-10, z: 2.7284839e-12, w: 1}
-  m_LocalPosition: {x: 0, y: 0.281, z: -0.012}
-  m_LocalScale: {x: 1, y: 0.99999994, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 8272076277321557045}
-  m_Father: {fileID: 970226996259766426}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3989180216065266751
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,37 +30,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6148019091750108084}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &4353818285126555958
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8272076277321557045}
-  m_Layer: 0
-  m_Name: Dick.003
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8272076277321557045
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4353818285126555958}
-  serializedVersion: 2
-  m_LocalRotation: {x: 4.831691e-10, y: 4.667484e-10, z: -2.273737e-12, w: 1}
-  m_LocalPosition: {x: 2.6466296e-10, y: 0.10716645, z: -0.000000030139063}
-  m_LocalScale: {x: 1, y: 0.99999994, z: 0.99999994}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4340458317446376154}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4548949205272540895
 GameObject:
@@ -188,39 +93,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5401875795374469134}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &6524912244700001556
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 970226996259766426}
-  m_Layer: 0
-  m_Name: JiggleMiddle
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &970226996259766426
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6524912244700001556}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.0000002600955, y: -4.2096815e-10, z: 0.0000000069353523,
-    w: 1}
-  m_LocalPosition: {x: 0, y: 0.283, z: -0.019}
-  m_LocalScale: {x: 1, y: 0.9999999, z: 0.9999999}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 4340458317446376154}
-  m_Father: {fileID: 3171316807230290855}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7008983179959048958
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,17 +142,20 @@ MonoBehaviour:
   volumeSolid: 5
   volumeChurned: 1.75
   dialogueTheme: {fileID: 11400000, guid: ba88acc5dbed8664bacc86cfe986845b, type: 2}
-  balls:
-    inflater:
-      bounce: {fileID: 11400000, guid: 0946975ef88accb48aea4c4c25cc0294, type: 2}
-      listeners: []
+  voreContainer:
+    rid: -2
   headSprite: {fileID: 21300000, guid: a8cffcec0e1a78744ac9b8002ec2dafd, type: 3}
   speed: 1.8
+  animationGroup: []
+  voreMachine:
+    rid: -2
   noseOffset: {x: -0.0000003833842, y: 0.10868464, z: 0.2702353}
   taserOutput: {fileID: 0}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &1117326750253890139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,19 +266,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 518462327182465420, guid: ee8b241713235f94f9132cd6c091c96f,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3171316807230290855}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee8b241713235f94f9132cd6c091c96f, type: 3}
---- !u!4 &2018222377022493351 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 518462327182465420, guid: ee8b241713235f94f9132cd6c091c96f,
-    type: 3}
-  m_PrefabInstance: {fileID: 1960147973388733227}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2069792496551259328 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ee8b241713235f94f9132cd6c091c96f,
@@ -716,15 +581,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 12d4bb7d00e85bf42bcd7316173b9df6,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4731760355584091439}
+      addedObject: {fileID: 2984948984365475944}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 12d4bb7d00e85bf42bcd7316173b9df6,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5897282660602159417}
+      addedObject: {fileID: 63572783203174213}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 12d4bb7d00e85bf42bcd7316173b9df6,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 596492201967871811}
+      addedObject: {fileID: 3232016972755467704}
     - targetCorrespondingSourceObject: {fileID: -7683566872636506626, guid: 12d4bb7d00e85bf42bcd7316173b9df6,
         type: 3}
       insertIndex: -1
@@ -768,12 +633,6 @@ RotationConstraint:
   m_Sources:
   - sourceTransform: {fileID: 1135313200878596001}
     weight: 1
---- !u!4 &681268308146985269 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -1122314837758968419, guid: 12d4bb7d00e85bf42bcd7316173b9df6,
-    type: 3}
-  m_PrefabInstance: {fileID: 8725976561706919080}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1135313200878596001 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8564039049059420937, guid: 12d4bb7d00e85bf42bcd7316173b9df6,
@@ -821,6 +680,12 @@ RotationConstraint:
 --- !u!4 &4488693697646603501 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4083658402898753467, guid: 12d4bb7d00e85bf42bcd7316173b9df6,
+    type: 3}
+  m_PrefabInstance: {fileID: 8725976561706919080}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4495017824105390047 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -4073110492322382985, guid: 12d4bb7d00e85bf42bcd7316173b9df6,
     type: 3}
   m_PrefabInstance: {fileID: 8725976561706919080}
   m_PrefabAsset: {fileID: 0}
@@ -958,14 +823,14 @@ MonoBehaviour:
     type: 3}
   clothTexture: {fileID: 2800000, guid: 606bd0f018929be40a119bc21532f41b, type: 3}
   clothColor: {r: 1, g: 0.98486185, b: 0, a: 1}
-  bodyRenderers:
+  nakedBodyRenderers:
   - {fileID: 8050564835548215802}
   - {fileID: 7713825311758361849}
-  clothesRenderers:
+  clothedBodyRenderers:
   - {fileID: 3827861376536338258}
   boobOomphEffect:
   - {fileID: 4512057456334381992}
-  - {fileID: 3171316807230290855}
+  - {fileID: 0}
   bounceCurve: {fileID: 11400000, guid: b2df0e3fa0b4eb74782ac1368940a6b9, type: 2}
   bulgeCurve: {fileID: 0}
   tipOpenCurve: {fileID: 0}
@@ -973,6 +838,7 @@ MonoBehaviour:
     bounce: {fileID: 11400000, guid: 0946975ef88accb48aea4c4c25cc0294, type: 2}
     listeners:
     - rid: 1888142363566538755
+  dickTipOpenBlendshapes: []
   references:
     version: 2
     RefIds:
@@ -1010,7 +876,8 @@ MonoBehaviour:
       type: {class: InflatableBlendShape, ns: Naelstrof.Inflatable, asm: com.naelstrof.inflatable}
       data:
         blendShapeName: Flaccid2
-        skinnedMeshRenderers: []
+        skinnedMeshRenderers:
+        - {fileID: 7713825311758361849}
         curve:
           serializedVersion: 2
           m_Curve:
@@ -1072,10 +939,6 @@ MonoBehaviour:
     jiggleSettings: {fileID: 11400000, guid: c6e4d23faf5c91d49b85986fec52e14f, type: 2}
     ignoredTransforms: []
     colliders: []
-  - rootTransform: {fileID: 3171316807230290855}
-    jiggleSettings: {fileID: 11400000, guid: 85f40fd2305ff1a4bb0ffc86ab2113f1, type: 2}
-    ignoredTransforms: []
-    colliders: []
   - rootTransform: {fileID: 5013569021954433666}
     jiggleSettings: {fileID: 11400000, guid: c6e4d23faf5c91d49b85986fec52e14f, type: 2}
     ignoredTransforms: []
@@ -1083,7 +946,7 @@ MonoBehaviour:
   wind: {x: 0, y: 0, z: 0}
   levelOfDetail: {fileID: 11400000, guid: f47a5fc26c7403346afb008b53a65859, type: 2}
   debugDraw: 0
---- !u!114 &4731760355584091439
+--- !u!114 &2984948984365475944
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1092,29 +955,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 8491973202931735033}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23a7e8f42d640dd4e9bb9648a7e6b732, type: 3}
+  m_Script: {fileID: 11500000, guid: 743b11c141364134d9671bbc4c861731, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localRootForward: {x: 0, y: 1, z: 0}
-  localRootUp: {x: 0, y: 0, z: -1}
-  localRootRight: {x: 1, y: 0, z: 0}
-  rootBone: {fileID: 4512057456334381992}
-  targetRenderers:
-  - renderer: {fileID: 7713825311758361849}
-    mask: -1
-  virtualSquashAndStretch: 1
-  girthUnwrapShader: {fileID: 4800000, guid: 14e0a43a18459694a816fde3a7abd01a, type: 3}
-  penetratedHole: {fileID: 0}
-  penetrationMarginOfError: 0.5
-  autoPenetrate: 0
-  ignorePenetrables: []
-  listeners: []
-  middlePoseTarget: {fileID: 970226996259766426}
-  tipTarget: {fileID: 4340458317446376154}
-  references:
-    version: 2
-    RefIds: []
---- !u!114 &5897282660602159417
+  penetratorData:
+    mask:
+      renderer: {fileID: 7713825311758361849}
+      mask: -1
+    penetratorRootTransform: {fileID: 4512057456334381992}
+    penetratorRootPositionOffset: {x: 0.0000001379085, y: 0.0342463, z: -0.0005155988}
+    penetratorRootForward: {x: -0.00000068860686, y: 0.99988604, z: -0.015099286}
+    penetratorRootUp: {x: -0.0000010331603, y: -0.015099287, z: -0.9998861}
+    girthUnwrapShader: {fileID: 4800000, guid: 34d24fe4568f98c4cae4724e139cb644, type: 3}
+  squashAndStretch: 1
+  penetratorRenderers:
+    renderers:
+    - {fileID: 7713825311758361849}
+  simulatedPointCount: 3
+  jiggleSettings: {fileID: 11400000, guid: 24137bf2fa333b346a22e1d5efa30f0a, type: 2}
+  leftRightCurvature: 0
+  upDownCurvature: -15.8
+  penetratorLengthFriction: 0.502
+  penetratorLengthElasticity: 0.7
+  knotForce: 1
+  linkedPenetrable: {fileID: 0}
+--- !u!114 &63572783203174213
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1123,20 +988,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 8491973202931735033}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e0550636f1faf54ea9fada34b07cd10, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b5e019e89c3f044688cff9641915de0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  points:
+  transforms:
   - {fileID: 1939348986000790317}
-  - {fileID: 681268308146985269}
+  - {fileID: 5401875795374469134}
+  - {fileID: 4495017824105390047}
   - {fileID: 8320883542483050009}
-  - {fileID: 801615825019811815}
-  listeners: []
-  actualHoleStartT: 0.042
-  references:
-    version: 2
-    RefIds: []
---- !u!114 &596492201967871811
+  shouldTruncate: 1
+  truncateNormalizedDistance: 0.039
+  holeStartNormalizedDistance: 0.039
+  shouldClip: 1
+  clippingRange:
+    startNormalizedDistance: 0.123
+    allowAllTheWayThrough: 0
+    endNormalizedDistance: 0
+  penetrableFriction: 0.5
+--- !u!114 &3232016972755467704
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1145,12 +1014,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8491973202931735033}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bc67c190c547e3459c0f74a553dede5, type: 3}
+  m_Script: {fileID: 11500000, guid: 770cf13d3e4a66c46bd39efaa51e1f24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  penetrableTargets:
-  - {fileID: 5897282660602159417}
-  renderTargets:
+  penetrables:
+  - {fileID: 63572783203174213}
+  targetRenderers:
   - {fileID: 8050564835548215802}
   detailOnly: 0
 --- !u!4 &9120453411120186179 stripped

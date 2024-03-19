@@ -56,11 +56,42 @@ Transform:
   m_GameObject: {fileID: 356460781136755721}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.0402, z: 0.4475}
+  m_LocalPosition: {x: 0, y: 0.0539, z: 0.4475}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 203556495889327836}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2079777305631611141
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1322914466088059771}
+  m_Layer: 0
+  m_Name: Oral2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1322914466088059771
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079777305631611141}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.2758, z: 0.0591}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1696181403487991336}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2446477081125324602
 GameObject:
@@ -410,7 +441,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 4300000, guid: 85dc34e2937fb1a4d9589115dafa8996, type: 2}
+      objectReference: {fileID: 4300000, guid: adde00079c968724da15956b5773dd36, type: 2}
     - target: {fileID: 1630794972795428178, guid: 50ab760396fda6a4c91e50b3bc12e386,
         type: 3}
       propertyPath: m_BlendShapeWeights.Array.data[0]
@@ -469,6 +500,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -4398143094986708542, guid: 50ab760396fda6a4c91e50b3bc12e386,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1322914466088059771}
     - targetCorrespondingSourceObject: {fileID: -2904946715968112330, guid: 50ab760396fda6a4c91e50b3bc12e386,
         type: 3}
       insertIndex: -1
@@ -765,7 +800,7 @@ MonoBehaviour:
     - rid: 3525424874128670726
       type: {class: InflatableBlendShape, ns: Naelstrof.Inflatable, asm: com.naelstrof.inflatable}
       data:
-        blendShapeName: Cast
+        blendShapeName: Cumflation
         skinnedMeshRenderers:
         - {fileID: 4890096332171788984}
         curve:
@@ -843,16 +878,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transforms:
   - {fileID: 3456093781489585767}
-  - {fileID: 203556495889327836}
+  - {fileID: 1322914466088059771}
   - {fileID: 1696181403487991336}
   - {fileID: 2670669000295670391}
-  entranceTransform: {fileID: 3456093781489585767}
   shouldTruncate: 1
-  truncateNormalizedDistance: 0.182
-  holeStartNormalizedDistance: 0.182
+  truncateNormalizedDistance: 0.157
+  holeStartNormalizedDistance: 0.155
   shouldClip: 1
   clippingRange:
-    startNormalizedDistance: 0.276
+    startNormalizedDistance: 0.258
     allowAllTheWayThrough: 0
     endNormalizedDistance: 0
   penetrableFriction: 0.5

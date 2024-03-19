@@ -20,7 +20,7 @@ Shader "DickShader"
 		_BaseColorMap("BaseColorMap", 2D) = "white" {}
 		_MaskMap("MaskMap", 2D) = "gray" {}
 		_NormalMap("NormalMap", 2D) = "bump" {}
-		_BulgeBlend("BulgeBlend", Range( 0 , 1)) = 1
+		_BulgeBlend("BulgeBlend", Range( 0 , 1)) = 0
 		_BulgeRadius("BulgeRadius", Range( 0 , 1)) = 0.58
 		_WorldDickPosition("WorldDickPosition", Vector) = (0,0,0,0)
 		_WorldDickNormal("WorldDickNormal", Vector) = (0,1,0,0)
@@ -7488,7 +7488,7 @@ Node;AmplifyShaderEditor.SaturateNode;32;-2266.7,334.0735;Inherit;False;1;0;FLOA
 Node;AmplifyShaderEditor.FunctionNode;22;-2681.233,747.1965;Inherit;False;ProjectOnSphere;-1;;2;3366f7fa8574f0646a5b81b51f4db8d0;0;3;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT;0.5;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;41;-2089.259,324.2032;Inherit;False;3;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.VertexColorNode;42;-2532.564,322.1983;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;43;-2381.412,171.5769;Inherit;False;Property;_BulgeBlend;BulgeBlend;18;0;Create;True;0;0;0;False;0;False;1;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;43;-2381.412,171.5769;Inherit;False;Property;_BulgeBlend;BulgeBlend;18;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.NormalizeNode;44;-1596.412,749.5769;Inherit;False;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SamplerNode;45;-536.9493,-372.816;Inherit;True;Property;_BaseColorMap;BaseColorMap;15;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SamplerNode;46;-524.9493,65.18396;Inherit;True;Property;_MaskMap;MaskMap;16;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;gray;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
@@ -7556,4 +7556,4 @@ WireConnection;50;0;28;0
 WireConnection;50;1;37;0
 WireConnection;55;0;51;0
 ASEEND*/
-//CHKSM=4B709FC5247FAC501ACB022925FE2986E5B4854E
+//CHKSM=440CFCDEBD1FAF4E12A49AB3AE5D9827E8D73448

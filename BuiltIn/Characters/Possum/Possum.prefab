@@ -62,101 +62,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4001295786733802470}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &5505816363855733938
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 701630823225299032}
-  m_Layer: 0
-  m_Name: Dick_end
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &701630823225299032
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5505816363855733938}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.0000000018626454, z: 9.313227e-10, w: 1}
-  m_LocalPosition: {x: -0, y: 0.274, z: 0.019}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 133916092395095948}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &5880616870933417550
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 133916092395095948}
-  m_Layer: 0
-  m_Name: DickMiddle
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &133916092395095948
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5880616870933417550}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.193, z: -0.004}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 701630823225299032}
-  m_Father: {fileID: 8582251631628984791}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &5907758294607836961
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8582251631628984791}
-  m_Layer: 0
-  m_Name: JiggleRoot
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8582251631628984791
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5907758294607836961}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.64798284, y: -0.01066343, z: -0.012248641, w: 0.76148176}
-  m_LocalPosition: {x: -0.0018391255, y: -0.05536518, z: 0.10989502}
-  m_LocalScale: {x: 0.9999999, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 133916092395095948}
-  m_Father: {fileID: 6263047354433517749}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6128805110931295836
 GameObject:
   m_ObjectHideFlags: 0
@@ -299,28 +204,20 @@ MonoBehaviour:
   volumeSolid: 4.5
   volumeChurned: 1.5
   dialogueTheme: {fileID: 11400000, guid: bbe909d225823ef479efa16356f9bb06, type: 2}
-  inputGenerator:
-    rid: 7979792793904611354
-  balls:
-    inflater:
-      bounce: {fileID: 11400000, guid: 0946975ef88accb48aea4c4c25cc0294, type: 2}
-      listeners: []
+  voreContainer:
+    rid: -2
   headSprite: {fileID: 21300000, guid: 89261f4b103c3c9418c0c06a3fe3291c, type: 3}
   speed: 1.8
+  animationGroup: []
+  voreMachine:
+    rid: -2
   noseOffset: {x: -0.000000153288, y: 0.14788021, z: 0.28574982}
   taserOutput: {fileID: 0}
   references:
     version: 2
     RefIds:
-    - rid: 7979792793904611354
-      type: {class: CharacterActor, ns: AI, asm: com.gatordragongames.churn-vector.sdk}
-      data:
-        debug: 0
-        startingAction:
-          rid: 7979792793904611355
-    - rid: 7979792793904611355
-      type: {class: ActionBeACivilian, ns: ActorActions, asm: com.gatordragongames.churn-vector.sdk}
-      data: 
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &451469585334992410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -518,7 +415,7 @@ PrefabInstance:
     - target: {fileID: 635547659545568360, guid: c9d23afc50b547e4bb535e3240be9ef5,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 827075974287967996, guid: c9d23afc50b547e4bb535e3240be9ef5,
         type: 3}
@@ -609,19 +506,19 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c9d23afc50b547e4bb535e3240be9ef5,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3526851187735395706}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c9d23afc50b547e4bb535e3240be9ef5,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1404317093760868955}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c9d23afc50b547e4bb535e3240be9ef5,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4293574995098956426}
+      addedObject: {fileID: 3468291239961129843}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c9d23afc50b547e4bb535e3240be9ef5,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3121817657275583125}
+      addedObject: {fileID: 5952273838633054607}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c9d23afc50b547e4bb535e3240be9ef5,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3731730836839848077}
   m_SourcePrefab: {fileID: 100100000, guid: c9d23afc50b547e4bb535e3240be9ef5, type: 3}
 --- !u!4 &337930375213710285 stripped
 Transform:
@@ -699,14 +596,14 @@ MonoBehaviour:
     type: 3}
   clothTexture: {fileID: 2800000, guid: 1c0383fbe6a92e345a22ecee1439bd23, type: 3}
   clothColor: {r: 1, g: 1, b: 1, a: 1}
-  bodyRenderers:
+  nakedBodyRenderers:
   - {fileID: 2449565228541948473}
   - {fileID: 4513068330942578099}
-  clothesRenderers:
+  clothedBodyRenderers:
   - {fileID: 7024478218289175648}
   boobOomphEffect:
   - {fileID: 8286775880147783427}
-  - {fileID: 8582251631628984791}
+  - {fileID: 0}
   bounceCurve: {fileID: 11400000, guid: b2df0e3fa0b4eb74782ac1368940a6b9, type: 2}
   bulgeCurve: {fileID: 11400000, guid: eeef56254ffeb3245b4a7e5332fabbfb, type: 2}
   tipOpenCurve: {fileID: 11400000, guid: 4f8107d8c8de6d64c8fc9a016cb5f6d2, type: 2}
@@ -714,6 +611,7 @@ MonoBehaviour:
     bounce: {fileID: 11400000, guid: 0946975ef88accb48aea4c4c25cc0294, type: 2}
     listeners:
     - rid: 3525424941468221443
+  dickTipOpenBlendshapes: []
   references:
     version: 2
     RefIds:
@@ -751,7 +649,8 @@ MonoBehaviour:
       type: {class: InflatableBlendShape, ns: Naelstrof.Inflatable, asm: com.naelstrof.inflatable}
       data:
         blendShapeName: Limp
-        skinnedMeshRenderers: []
+        skinnedMeshRenderers:
+        - {fileID: 4513068330942578099}
         curve:
           serializedVersion: 2
           m_Curve:
@@ -815,37 +714,6 @@ MonoBehaviour:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
---- !u!114 &3526851187735395706
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4295954838360937018}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23a7e8f42d640dd4e9bb9648a7e6b732, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  localRootForward: {x: 0, y: 1, z: 0}
-  localRootUp: {x: 0, y: 0, z: -1}
-  localRootRight: {x: 1, y: 0, z: 0}
-  rootBone: {fileID: 8286775880147783427}
-  targetRenderers:
-  - renderer: {fileID: 4513068330942578099}
-    mask: -1
-  virtualSquashAndStretch: 1
-  girthUnwrapShader: {fileID: 4800000, guid: 14e0a43a18459694a816fde3a7abd01a, type: 3}
-  penetratedHole: {fileID: 0}
-  penetrationMarginOfError: 0.5
-  autoPenetrate: 0
-  ignorePenetrables: []
-  listeners: []
-  middlePoseTarget: {fileID: 133916092395095948}
-  tipTarget: {fileID: 701630823225299032}
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &1404317093760868955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -877,14 +745,10 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
     colliders: []
-  - rootTransform: {fileID: 8582251631628984791}
-    jiggleSettings: {fileID: 11400000, guid: 85f40fd2305ff1a4bb0ffc86ab2113f1, type: 2}
-    ignoredTransforms: []
-    colliders: []
   wind: {x: 0, y: 0, z: 0}
   levelOfDetail: {fileID: 11400000, guid: f47a5fc26c7403346afb008b53a65859, type: 2}
   debugDraw: 0
---- !u!114 &4293574995098956426
+--- !u!114 &3468291239961129843
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -893,20 +757,57 @@ MonoBehaviour:
   m_GameObject: {fileID: 4295954838360937018}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e0550636f1faf54ea9fada34b07cd10, type: 3}
+  m_Script: {fileID: 11500000, guid: 743b11c141364134d9671bbc4c861731, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  points:
+  penetratorData:
+    mask:
+      renderer: {fileID: 4513068330942578099}
+      mask: -1
+    penetratorRootTransform: {fileID: 8286775880147783427}
+    penetratorRootPositionOffset: {x: 0.00000006279152, y: 0.022469671, z: -0.0020751841}
+    penetratorRootForward: {x: -0.00000005789786, y: 0.9994286, z: 0.033801373}
+    penetratorRootUp: {x: -0.0000001145071, y: 0.033801377, z: -0.9994287}
+    girthUnwrapShader: {fileID: 4800000, guid: 34d24fe4568f98c4cae4724e139cb644, type: 3}
+  squashAndStretch: 1
+  penetratorRenderers:
+    renderers:
+    - {fileID: 4513068330942578099}
+  simulatedPointCount: 3
+  jiggleSettings: {fileID: 11400000, guid: 24137bf2fa333b346a22e1d5efa30f0a, type: 2}
+  leftRightCurvature: 0
+  upDownCurvature: 13.4
+  penetratorLengthFriction: 0.5
+  penetratorLengthElasticity: 0.7
+  knotForce: 1
+  linkedPenetrable: {fileID: 0}
+--- !u!114 &5952273838633054607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4295954838360937018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b5e019e89c3f044688cff9641915de0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transforms:
   - {fileID: 3141602823482301380}
   - {fileID: 5645768088776926942}
   - {fileID: 1281818808875943323}
   - {fileID: 1172231524997008914}
-  listeners: []
-  actualHoleStartT: 0.043
-  references:
-    version: 2
-    RefIds: []
---- !u!114 &3121817657275583125
+  shouldTruncate: 0
+  truncateNormalizedDistance: 0
+  holeStartNormalizedDistance: 0.051
+  shouldClip: 1
+  clippingRange:
+    startNormalizedDistance: 0.118
+    allowAllTheWayThrough: 1
+    endNormalizedDistance: 0.616
+  penetrableFriction: 0.5
+--- !u!114 &3731730836839848077
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -915,12 +816,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4295954838360937018}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bc67c190c547e3459c0f74a553dede5, type: 3}
+  m_Script: {fileID: 11500000, guid: 770cf13d3e4a66c46bd39efaa51e1f24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  penetrableTargets:
-  - {fileID: 4293574995098956426}
-  renderTargets:
+  penetrables:
+  - {fileID: 5952273838633054607}
+  targetRenderers:
   - {fileID: 2449565228541948473}
   detailOnly: 0
 --- !u!4 &4413096584697779674 stripped
@@ -1013,7 +914,7 @@ PrefabInstance:
     - target: {fileID: -2619749422985145952, guid: f532e999cc8fa1a4cb2d320412049f0d,
         type: 3}
       propertyPath: m_BlendShapeWeights.Array.data[0]
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -2619749422985145952, guid: f532e999cc8fa1a4cb2d320412049f0d,
         type: 3}
@@ -1027,22 +928,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 3742407835892290726, guid: f532e999cc8fa1a4cb2d320412049f0d,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8582251631628984791}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f532e999cc8fa1a4cb2d320412049f0d, type: 3}
 --- !u!137 &4513068330942578099 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -2619749422985145952, guid: f532e999cc8fa1a4cb2d320412049f0d,
-    type: 3}
-  m_PrefabInstance: {fileID: 7279334856361389075}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &6263047354433517749 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3742407835892290726, guid: f532e999cc8fa1a4cb2d320412049f0d,
     type: 3}
   m_PrefabInstance: {fileID: 7279334856361389075}
   m_PrefabAsset: {fileID: 0}

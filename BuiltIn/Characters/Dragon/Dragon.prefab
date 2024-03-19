@@ -1,69 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2440825722283163074
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1356383909268327397}
-  m_Layer: 0
-  m_Name: JiggleMiddle
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1356383909268327397
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2440825722283163074}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0020100812, y: 0.28457704, z: -0.0032929783}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3398328224966048391}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2963363927414139978
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3398328224966048391}
-  m_Layer: 0
-  m_Name: JiggleRoot
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3398328224966048391
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2963363927414139978}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.67668205, y: 0.0005107647, z: 0.0066676885, w: 0.736245}
-  m_LocalPosition: {x: 0.00010729175, y: -0.03493424, z: 0.14405796}
-  m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 0.9999999}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1356383909268327397}
-  - {fileID: 1961864689009750187}
-  m_Father: {fileID: 8060378216735467407}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4600674232057121462
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,7 +95,7 @@ MonoBehaviour:
     - rid: 4566295080408711193
       type: {class: CockVoreMachine, ns: , asm: com.gatordragongames.churn-vector.sdk}
       data:
-        dick: {fileID: 4440937284145147774}
+        dick: {fileID: 0}
     - rid: 4566295080408711196
       type: {class: Balls, ns: , asm: com.gatordragongames.churn-vector.sdk}
       data:
@@ -216,37 +152,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7736806039957682270}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &9154910136283728013
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1961864689009750187}
-  m_Layer: 0
-  m_Name: JiggleTip
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1961864689009750187
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9154910136283728013}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.4914381, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3398328224966048391}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &4391333169267097960
 PrefabInstance:
@@ -558,7 +463,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 835082fcc69eda749a45893014247572,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4440937284145147774}
+      addedObject: {fileID: 5015926320990057210}
     - targetCorrespondingSourceObject: {fileID: 827075974287967996, guid: 835082fcc69eda749a45893014247572,
         type: 3}
       insertIndex: -1
@@ -699,7 +604,6 @@ MonoBehaviour:
     bounce: {fileID: 11400000, guid: b2df0e3fa0b4eb74782ac1368940a6b9, type: 2}
     listeners:
     - rid: 3525424930317664258
-    - rid: 3525424930317664259
   dick: {fileID: 6423564856395859981}
   balls: {fileID: 7884506465655610970}
   ballStorageScale: 1
@@ -719,7 +623,7 @@ MonoBehaviour:
   - {fileID: 2133556903442954288}
   - {fileID: 1628379526353301680}
   - {fileID: 5347582465560940601}
-  - {fileID: 3398328224966048391}
+  - {fileID: 0}
   bounceCurve: {fileID: 11400000, guid: b2df0e3fa0b4eb74782ac1368940a6b9, type: 2}
   bulgeCurve: {fileID: 11400000, guid: eeef56254ffeb3245b4a7e5332fabbfb, type: 2}
   tipOpenCurve: {fileID: 11400000, guid: 4f8107d8c8de6d64c8fc9a016cb5f6d2, type: 2}
@@ -827,34 +731,6 @@ MonoBehaviour:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
-    - rid: 3525424930317664259
-      type: {class: InflatableTransform, ns: Naelstrof.Inflatable, asm: com.naelstrof.inflatable}
-      data:
-        targetTransform: {fileID: 3398328224966048391}
-        curve:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 1
-            inSlope: 1
-            outSlope: 1
-            tangentMode: 34
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0.33333334
-          - serializedVersion: 3
-            time: 1
-            value: 2
-            inSlope: 1
-            outSlope: 1
-            tangentMode: 34
-            weightedMode: 0
-            inWeight: 0.33333334
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
 --- !u!114 &8378805077160646720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -892,15 +768,10 @@ MonoBehaviour:
     jiggleSettings: {fileID: 11400000, guid: 7b346d233f6573048a7e1d846647e70e, type: 2}
     ignoredTransforms: []
     colliders: []
-  - rootTransform: {fileID: 3398328224966048391}
-    jiggleSettings: {fileID: 11400000, guid: 24137bf2fa333b346a22e1d5efa30f0a, type: 2}
-    ignoredTransforms:
-    - {fileID: 5347582465560940601}
-    colliders: []
   wind: {x: 0, y: 0, z: 0}
   levelOfDetail: {fileID: 0}
   debugDraw: 0
---- !u!114 &4440937284145147774
+--- !u!114 &5015926320990057210
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -909,28 +780,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 3472362799718693945}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23a7e8f42d640dd4e9bb9648a7e6b732, type: 3}
+  m_Script: {fileID: 11500000, guid: 743b11c141364134d9671bbc4c861731, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localRootForward: {x: 0, y: 1, z: 0}
-  localRootUp: {x: 0, y: 0, z: -1}
-  localRootRight: {x: 1, y: 0, z: 0}
-  rootBone: {fileID: 5347582465560940601}
-  targetRenderers:
-  - renderer: {fileID: 6423564856395859981}
-    mask: -1
-  virtualSquashAndStretch: 1
-  girthUnwrapShader: {fileID: 4800000, guid: 14e0a43a18459694a816fde3a7abd01a, type: 3}
-  penetratedHole: {fileID: 0}
-  penetrationMarginOfError: 0.5
-  autoPenetrate: 0
-  ignorePenetrables: []
-  listeners: []
-  middlePoseTarget: {fileID: 1356383909268327397}
-  tipTarget: {fileID: 1961864689009750187}
-  references:
-    version: 2
-    RefIds: []
+  penetratorData:
+    mask:
+      renderer: {fileID: 6423564856395859981}
+      mask: -3
+    penetratorRootTransform: {fileID: 5347582465560940601}
+    penetratorRootPositionOffset: {x: 0, y: 0, z: 0}
+    penetratorRootForward: {x: 0, y: 1, z: 0}
+    penetratorRootUp: {x: -0, y: -0, z: 1}
+    girthUnwrapShader: {fileID: 4800000, guid: 34d24fe4568f98c4cae4724e139cb644, type: 3}
+  squashAndStretch: 1
+  penetratorRenderers:
+    renderers:
+    - {fileID: 6423564856395859981}
+  simulatedPointCount: 3
+  jiggleSettings: {fileID: 11400000, guid: 24137bf2fa333b346a22e1d5efa30f0a, type: 2}
+  leftRightCurvature: 0
+  upDownCurvature: -15.3
+  penetratorLengthFriction: 0.5
+  penetratorLengthElasticity: 0.7
+  knotForce: 1
+  linkedPenetrable: {fileID: 0}
 --- !u!4 &3819671203545445343 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8506432213329169737, guid: 835082fcc69eda749a45893014247572,
@@ -1146,11 +1019,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 3742407835892290726, guid: 4aefc804ca159e643acd8be66754ff2c,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3398328224966048391}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4aefc804ca159e643acd8be66754ff2c, type: 3}
 --- !u!4 &5347582465560940601 stripped
@@ -1174,12 +1043,6 @@ Transform:
 --- !u!4 &7884506465655610970 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3555846486766103923, guid: 4aefc804ca159e643acd8be66754ff2c,
-    type: 3}
-  m_PrefabInstance: {fileID: 6643798261183279913}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &8060378216735467407 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3742407835892290726, guid: 4aefc804ca159e643acd8be66754ff2c,
     type: 3}
   m_PrefabInstance: {fileID: 6643798261183279913}
   m_PrefabAsset: {fileID: 0}
