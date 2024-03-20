@@ -838,7 +838,7 @@ MonoBehaviour:
     - rid: 3525424874128670720
       type: {class: InflatableBlendShape, ns: Naelstrof.Inflatable, asm: com.naelstrof.inflatable}
       data:
-        blendShapeName: Sheathed1
+        blendShapeName: Stubby
         skinnedMeshRenderers:
         - {fileID: 205916041200471174}
         curve:

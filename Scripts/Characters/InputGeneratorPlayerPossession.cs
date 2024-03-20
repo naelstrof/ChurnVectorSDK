@@ -23,6 +23,7 @@ public class InputGeneratorPlayerPossession : InputGenerator {
     private OrbitCameraPivotBasic crouchPivot;
 
     private List<OrbitCameraPivotBase> pivots;
+    private bool hasCreatedConfig = false;
     
     public override void Initialize(GameObject gameObject) {
         input = GameManager.GetPlayerInput();
@@ -39,10 +40,15 @@ public class InputGeneratorPlayerPossession : InputGenerator {
             character.voreMachine.cockVoreStart += OnCockCockVoreStart;
             character.voreMachine.cockVoreEnd += OnCockCockVoreEnd;
         }
-        pivots = new List<OrbitCameraPivotBase>();
-        shoulderConfig = CreateShoulderConfig(character);
-        oogleConfig = CreateOogleConfig(character);
-        OrbitCamera.AddConfiguration(shoulderConfig);
+
+        if (!hasCreatedConfig) {
+            pivots = new List<OrbitCameraPivotBase>();
+            shoulderConfig = CreateShoulderConfig(character);
+            oogleConfig = CreateOogleConfig(character);
+            OrbitCamera.AddConfiguration(shoulderConfig);
+            Debug.Log("Added configuration");
+            hasCreatedConfig = true;
+        }
     }
 
     private void OnReloadWeapon(InputAction.CallbackContext obj) {
@@ -183,9 +189,9 @@ public class InputGeneratorPlayerPossession : InputGenerator {
             return;
         }
 
-        foreach (var pivot in pivots) {
-            Object.Destroy(pivot.gameObject);
-        }
+        //foreach (var pivot in pivots) {
+            //Object.Destroy(pivot.gameObject);
+        //}
 
         input.actions["Interact"].started -= OnInteractInputStarted;
         input.actions["Interact"].canceled -= OnInteractInputCancelled;

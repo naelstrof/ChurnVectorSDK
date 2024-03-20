@@ -93,11 +93,11 @@ public class LevelManager : MonoBehaviour {
         instance = this;
         
         List<string> keys = new List<string> {"ChurnVectorLevel"};
-        var loadHandle = Addressables.LoadAssetsAsync<Level>(keys, OnFoundLevel, Addressables.MergeMode.Union, false);
-        loadHandle.Completed += OnLoadedLevels;
-    }
-
-    private void OnLoadedLevels(AsyncOperationHandle<IList<Level>> obj) {
+        var loadHandle = Addressables.LoadAssetsAsync<Level>(keys, (level) => { }, Addressables.MergeMode.Union, false);
+        yield return new WaitUntil(() => loadHandle.IsDone);
+        foreach (var level in loadHandle.Result) {
+            OnFoundLevel(level);
+        }
         loading = false;
         if (GetCurrentLevel() != null) {
             StartLevel(GetCurrentLevel(), false);

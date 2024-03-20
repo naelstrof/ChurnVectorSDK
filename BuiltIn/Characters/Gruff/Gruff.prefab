@@ -830,7 +830,6 @@ MonoBehaviour:
   - {fileID: 3827861376536338258}
   boobOomphEffect:
   - {fileID: 4512057456334381992}
-  - {fileID: 0}
   bounceCurve: {fileID: 11400000, guid: b2df0e3fa0b4eb74782ac1368940a6b9, type: 2}
   bulgeCurve: {fileID: 0}
   tipOpenCurve: {fileID: 0}

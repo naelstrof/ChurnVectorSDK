@@ -27,9 +27,9 @@ public class PenetrableBlendshape : MonoBehaviour {
     }
 
     private void OnPenetrated(Penetrable penetrable, Penetrator penetrator, Penetrator.PenetrationArgs penetrationargs) {
-        float arcLength = penetrationargs.alongSpline.GetLengthFromSubsection(penetrable.GetPoints().Count, penetrationargs.penetrableStartIndex);
+        float arcLength = penetrationargs.alongSpline.GetLengthFromSubsection(penetrable.GetPoints().Count-1, penetrationargs.penetrableStartIndex);
         float triggerDepth = normalizedDistance * arcLength;
-        float maxDistance = 0.1f;
+        float maxDistance = 0.08f;
         float triggerAmount = Mathf.Clamp01(1f-(triggerDepth - penetrationargs.penetrationDepth) / maxDistance);
         blendshape.skinnedMeshRenderer.SetBlendShapeWeight(blendshape.blendshapeID, triggerAmount * 100f);
         //float samplePosition = triggerDepth - penetrationargs.penetratorData.GetWorldLength();

@@ -95,7 +95,7 @@ MonoBehaviour:
     - rid: 4566295080408711193
       type: {class: CockVoreMachine, ns: , asm: com.gatordragongames.churn-vector.sdk}
       data:
-        dick: {fileID: 0}
+        dick: {fileID: 5015926320990057210}
     - rid: 4566295080408711196
       type: {class: Balls, ns: , asm: com.gatordragongames.churn-vector.sdk}
       data:
