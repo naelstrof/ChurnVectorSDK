@@ -564,6 +564,7 @@ public class CharacterAnimatorController : MonoBehaviour {
         lastBonerTime = Time.time;
         animator.SetInteger(VoreAnimation, Random.Range(0, 3));
         animator.SetBool("Voring", true);
+        SetClothes(false);
         cockVoreSizeChange.SetSize(1f, this);
     }
     private void OnCockCockVoreEnd(CockVoreMachine.VoreStatus status) {

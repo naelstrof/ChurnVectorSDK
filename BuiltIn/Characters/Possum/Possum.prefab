@@ -603,7 +603,7 @@ MonoBehaviour:
   - {fileID: 7024478218289175648}
   boobOomphEffect:
   - {fileID: 8286775880147783427}
-  - {fileID: 0}
+  - {fileID: 8019098206489576473}
   bounceCurve: {fileID: 11400000, guid: b2df0e3fa0b4eb74782ac1368940a6b9, type: 2}
   bulgeCurve: {fileID: 11400000, guid: eeef56254ffeb3245b4a7e5332fabbfb, type: 2}
   tipOpenCurve: {fileID: 11400000, guid: 4f8107d8c8de6d64c8fc9a016cb5f6d2, type: 2}
@@ -940,6 +940,12 @@ SkinnedMeshRenderer:
 --- !u!4 &7102138157444320248 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f532e999cc8fa1a4cb2d320412049f0d,
+    type: 3}
+  m_PrefabInstance: {fileID: 7279334856361389075}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8019098206489576473 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 742226625877420042, guid: f532e999cc8fa1a4cb2d320412049f0d,
     type: 3}
   m_PrefabInstance: {fileID: 7279334856361389075}
   m_PrefabAsset: {fileID: 0}
