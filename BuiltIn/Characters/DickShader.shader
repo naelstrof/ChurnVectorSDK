@@ -13,7 +13,6 @@ Shader "DickShader"
 		[HideInInspector]_TruncateLength("TruncateLength", Float) = 999
 		[HideInInspector]_SquashStretchCorrection("SquashStretchCorrection", Float) = 1
 		[HideInInspector]_DistanceToHole("DistanceToHole", Float) = 0
-		[HideInInspector]_PenetratorWorldLength("PenetratorWorldLength", Float) = 1
 		[HideInInspector]_PenetratorOffsetLength("PenetratorOffsetLength", Float) = 0
 		[Toggle(_TRUNCATESPHERIZE_ON)] _TruncateSpherize("TruncateSpherize", Float) = 0
 		_GirthRadius("GirthRadius", Float) = 0.1
@@ -420,7 +419,6 @@ Shader "DickShader"
 			float _BulgeBlend;
 			float _SquashStretchCorrection;
 			float _DistanceToHole;
-			float _PenetratorWorldLength;
 			float _TruncateLength;
 			float _GirthRadius;
 			float _PenetratorOffsetLength;
@@ -897,8 +895,7 @@ Shader "DickShader"
 				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
 				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
 				float3 localPenetratorSpaceVertexPosition142_g1 = ( (transform66_g1).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g1 ) );
-				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
-				float3 break15_g1 = temp_output_12_0_g1;
+				float3 break15_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
 				float temp_output_18_0_g1 = ( break15_g1.z * _SquashStretchCorrection );
 				float3 appendResult26_g1 = (float3(break15_g1.x , break15_g1.y , temp_output_18_0_g1));
 				float3 appendResult25_g1 = (float3(( break15_g1.x / _SquashStretchCorrection ) , ( break15_g1.y / _SquashStretchCorrection ) , temp_output_18_0_g1));
@@ -907,7 +904,7 @@ Shader "DickShader"
 				float smoothstepResult23_g1 = smoothstep( 0.0 , temp_output_17_0_g1 , temp_output_18_0_g1);
 				float smoothstepResult22_g1 = smoothstep( distanceToHole180_g1 , temp_output_17_0_g1 , temp_output_18_0_g1);
 				float3 lerpResult31_g1 = lerp( appendResult26_g1 , appendResult25_g1 , min( smoothstepResult23_g1 , smoothstepResult22_g1 ));
-				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( distanceToHole180_g1 - ( ( distanceToHole180_g1 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
+				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , appendResult26_g1 , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
 				float3 squashStretchedPosition44_g1 = lerpResult32_g1;
 				float3 temp_output_150_0_g1 = ( float3(0,0,1) * _TruncateLength );
 				float3 temp_output_149_0_g1 = ( squashStretchedPosition44_g1 - temp_output_150_0_g1 );
@@ -1335,7 +1332,6 @@ Shader "DickShader"
 			float _BulgeBlend;
 			float _SquashStretchCorrection;
 			float _DistanceToHole;
-			float _PenetratorWorldLength;
 			float _TruncateLength;
 			float _GirthRadius;
 			float _PenetratorOffsetLength;
@@ -1795,8 +1791,7 @@ Shader "DickShader"
 				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
 				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
 				float3 localPenetratorSpaceVertexPosition142_g1 = ( (transform66_g1).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g1 ) );
-				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
-				float3 break15_g1 = temp_output_12_0_g1;
+				float3 break15_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
 				float temp_output_18_0_g1 = ( break15_g1.z * _SquashStretchCorrection );
 				float3 appendResult26_g1 = (float3(break15_g1.x , break15_g1.y , temp_output_18_0_g1));
 				float3 appendResult25_g1 = (float3(( break15_g1.x / _SquashStretchCorrection ) , ( break15_g1.y / _SquashStretchCorrection ) , temp_output_18_0_g1));
@@ -1805,7 +1800,7 @@ Shader "DickShader"
 				float smoothstepResult23_g1 = smoothstep( 0.0 , temp_output_17_0_g1 , temp_output_18_0_g1);
 				float smoothstepResult22_g1 = smoothstep( distanceToHole180_g1 , temp_output_17_0_g1 , temp_output_18_0_g1);
 				float3 lerpResult31_g1 = lerp( appendResult26_g1 , appendResult25_g1 , min( smoothstepResult23_g1 , smoothstepResult22_g1 ));
-				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( distanceToHole180_g1 - ( ( distanceToHole180_g1 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
+				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , appendResult26_g1 , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
 				float3 squashStretchedPosition44_g1 = lerpResult32_g1;
 				float3 temp_output_150_0_g1 = ( float3(0,0,1) * _TruncateLength );
 				float3 temp_output_149_0_g1 = ( squashStretchedPosition44_g1 - temp_output_150_0_g1 );
@@ -2226,7 +2221,6 @@ Shader "DickShader"
 			float _BulgeBlend;
 			float _SquashStretchCorrection;
 			float _DistanceToHole;
-			float _PenetratorWorldLength;
 			float _TruncateLength;
 			float _GirthRadius;
 			float _PenetratorOffsetLength;
@@ -2624,8 +2618,7 @@ Shader "DickShader"
 				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
 				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
 				float3 localPenetratorSpaceVertexPosition142_g1 = ( (transform66_g1).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g1 ) );
-				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
-				float3 break15_g1 = temp_output_12_0_g1;
+				float3 break15_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
 				float temp_output_18_0_g1 = ( break15_g1.z * _SquashStretchCorrection );
 				float3 appendResult26_g1 = (float3(break15_g1.x , break15_g1.y , temp_output_18_0_g1));
 				float3 appendResult25_g1 = (float3(( break15_g1.x / _SquashStretchCorrection ) , ( break15_g1.y / _SquashStretchCorrection ) , temp_output_18_0_g1));
@@ -2634,7 +2627,7 @@ Shader "DickShader"
 				float smoothstepResult23_g1 = smoothstep( 0.0 , temp_output_17_0_g1 , temp_output_18_0_g1);
 				float smoothstepResult22_g1 = smoothstep( distanceToHole180_g1 , temp_output_17_0_g1 , temp_output_18_0_g1);
 				float3 lerpResult31_g1 = lerp( appendResult26_g1 , appendResult25_g1 , min( smoothstepResult23_g1 , smoothstepResult22_g1 ));
-				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( distanceToHole180_g1 - ( ( distanceToHole180_g1 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
+				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , appendResult26_g1 , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
 				float3 squashStretchedPosition44_g1 = lerpResult32_g1;
 				float3 temp_output_150_0_g1 = ( float3(0,0,1) * _TruncateLength );
 				float3 temp_output_149_0_g1 = ( squashStretchedPosition44_g1 - temp_output_150_0_g1 );
@@ -3013,7 +3006,6 @@ Shader "DickShader"
 			float _BulgeBlend;
 			float _SquashStretchCorrection;
 			float _DistanceToHole;
-			float _PenetratorWorldLength;
 			float _TruncateLength;
 			float _GirthRadius;
 			float _PenetratorOffsetLength;
@@ -3408,8 +3400,7 @@ Shader "DickShader"
 				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
 				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
 				float3 localPenetratorSpaceVertexPosition142_g1 = ( (transform66_g1).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g1 ) );
-				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
-				float3 break15_g1 = temp_output_12_0_g1;
+				float3 break15_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
 				float temp_output_18_0_g1 = ( break15_g1.z * _SquashStretchCorrection );
 				float3 appendResult26_g1 = (float3(break15_g1.x , break15_g1.y , temp_output_18_0_g1));
 				float3 appendResult25_g1 = (float3(( break15_g1.x / _SquashStretchCorrection ) , ( break15_g1.y / _SquashStretchCorrection ) , temp_output_18_0_g1));
@@ -3418,7 +3409,7 @@ Shader "DickShader"
 				float smoothstepResult23_g1 = smoothstep( 0.0 , temp_output_17_0_g1 , temp_output_18_0_g1);
 				float smoothstepResult22_g1 = smoothstep( distanceToHole180_g1 , temp_output_17_0_g1 , temp_output_18_0_g1);
 				float3 lerpResult31_g1 = lerp( appendResult26_g1 , appendResult25_g1 , min( smoothstepResult23_g1 , smoothstepResult22_g1 ));
-				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( distanceToHole180_g1 - ( ( distanceToHole180_g1 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
+				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , appendResult26_g1 , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
 				float3 squashStretchedPosition44_g1 = lerpResult32_g1;
 				float3 temp_output_150_0_g1 = ( float3(0,0,1) * _TruncateLength );
 				float3 temp_output_149_0_g1 = ( squashStretchedPosition44_g1 - temp_output_150_0_g1 );
@@ -3768,7 +3759,6 @@ Shader "DickShader"
 			float _BulgeBlend;
 			float _SquashStretchCorrection;
 			float _DistanceToHole;
-			float _PenetratorWorldLength;
 			float _TruncateLength;
 			float _GirthRadius;
 			float _PenetratorOffsetLength;
@@ -4174,8 +4164,7 @@ Shader "DickShader"
 				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
 				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
 				float3 localPenetratorSpaceVertexPosition142_g1 = ( (transform66_g1).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g1 ) );
-				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
-				float3 break15_g1 = temp_output_12_0_g1;
+				float3 break15_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
 				float temp_output_18_0_g1 = ( break15_g1.z * _SquashStretchCorrection );
 				float3 appendResult26_g1 = (float3(break15_g1.x , break15_g1.y , temp_output_18_0_g1));
 				float3 appendResult25_g1 = (float3(( break15_g1.x / _SquashStretchCorrection ) , ( break15_g1.y / _SquashStretchCorrection ) , temp_output_18_0_g1));
@@ -4184,7 +4173,7 @@ Shader "DickShader"
 				float smoothstepResult23_g1 = smoothstep( 0.0 , temp_output_17_0_g1 , temp_output_18_0_g1);
 				float smoothstepResult22_g1 = smoothstep( distanceToHole180_g1 , temp_output_17_0_g1 , temp_output_18_0_g1);
 				float3 lerpResult31_g1 = lerp( appendResult26_g1 , appendResult25_g1 , min( smoothstepResult23_g1 , smoothstepResult22_g1 ));
-				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( distanceToHole180_g1 - ( ( distanceToHole180_g1 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
+				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , appendResult26_g1 , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
 				float3 squashStretchedPosition44_g1 = lerpResult32_g1;
 				float3 temp_output_150_0_g1 = ( float3(0,0,1) * _TruncateLength );
 				float3 temp_output_149_0_g1 = ( squashStretchedPosition44_g1 - temp_output_150_0_g1 );
@@ -4597,7 +4586,6 @@ Shader "DickShader"
 			float _BulgeBlend;
 			float _SquashStretchCorrection;
 			float _DistanceToHole;
-			float _PenetratorWorldLength;
 			float _TruncateLength;
 			float _GirthRadius;
 			float _PenetratorOffsetLength;
@@ -4995,8 +4983,7 @@ Shader "DickShader"
 				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
 				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
 				float3 localPenetratorSpaceVertexPosition142_g1 = ( (transform66_g1).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g1 ) );
-				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
-				float3 break15_g1 = temp_output_12_0_g1;
+				float3 break15_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
 				float temp_output_18_0_g1 = ( break15_g1.z * _SquashStretchCorrection );
 				float3 appendResult26_g1 = (float3(break15_g1.x , break15_g1.y , temp_output_18_0_g1));
 				float3 appendResult25_g1 = (float3(( break15_g1.x / _SquashStretchCorrection ) , ( break15_g1.y / _SquashStretchCorrection ) , temp_output_18_0_g1));
@@ -5005,7 +4992,7 @@ Shader "DickShader"
 				float smoothstepResult23_g1 = smoothstep( 0.0 , temp_output_17_0_g1 , temp_output_18_0_g1);
 				float smoothstepResult22_g1 = smoothstep( distanceToHole180_g1 , temp_output_17_0_g1 , temp_output_18_0_g1);
 				float3 lerpResult31_g1 = lerp( appendResult26_g1 , appendResult25_g1 , min( smoothstepResult23_g1 , smoothstepResult22_g1 ));
-				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( distanceToHole180_g1 - ( ( distanceToHole180_g1 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
+				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , appendResult26_g1 , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
 				float3 squashStretchedPosition44_g1 = lerpResult32_g1;
 				float3 temp_output_150_0_g1 = ( float3(0,0,1) * _TruncateLength );
 				float3 temp_output_149_0_g1 = ( squashStretchedPosition44_g1 - temp_output_150_0_g1 );
@@ -5519,7 +5506,6 @@ Shader "DickShader"
 			float _BulgeBlend;
 			float _SquashStretchCorrection;
 			float _DistanceToHole;
-			float _PenetratorWorldLength;
 			float _TruncateLength;
 			float _GirthRadius;
 			float _PenetratorOffsetLength;
@@ -5999,8 +5985,7 @@ Shader "DickShader"
 				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
 				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
 				float3 localPenetratorSpaceVertexPosition142_g1 = ( (transform66_g1).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g1 ) );
-				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
-				float3 break15_g1 = temp_output_12_0_g1;
+				float3 break15_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
 				float temp_output_18_0_g1 = ( break15_g1.z * _SquashStretchCorrection );
 				float3 appendResult26_g1 = (float3(break15_g1.x , break15_g1.y , temp_output_18_0_g1));
 				float3 appendResult25_g1 = (float3(( break15_g1.x / _SquashStretchCorrection ) , ( break15_g1.y / _SquashStretchCorrection ) , temp_output_18_0_g1));
@@ -6009,7 +5994,7 @@ Shader "DickShader"
 				float smoothstepResult23_g1 = smoothstep( 0.0 , temp_output_17_0_g1 , temp_output_18_0_g1);
 				float smoothstepResult22_g1 = smoothstep( distanceToHole180_g1 , temp_output_17_0_g1 , temp_output_18_0_g1);
 				float3 lerpResult31_g1 = lerp( appendResult26_g1 , appendResult25_g1 , min( smoothstepResult23_g1 , smoothstepResult22_g1 ));
-				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( distanceToHole180_g1 - ( ( distanceToHole180_g1 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
+				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , appendResult26_g1 , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
 				float3 squashStretchedPosition44_g1 = lerpResult32_g1;
 				float3 temp_output_150_0_g1 = ( float3(0,0,1) * _TruncateLength );
 				float3 temp_output_149_0_g1 = ( squashStretchedPosition44_g1 - temp_output_150_0_g1 );
@@ -6637,7 +6622,6 @@ Shader "DickShader"
 			float _BulgeBlend;
 			float _SquashStretchCorrection;
 			float _DistanceToHole;
-			float _PenetratorWorldLength;
 			float _TruncateLength;
 			float _GirthRadius;
 			float _PenetratorOffsetLength;
@@ -6970,8 +6954,7 @@ Shader "DickShader"
 				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
 				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
 				float3 localPenetratorSpaceVertexPosition142_g1 = ( (transform66_g1).xyz - ( _PenetratorStartWorld - penetratorRootWorld122_g1 ) );
-				float3 temp_output_12_0_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
-				float3 break15_g1 = temp_output_12_0_g1;
+				float3 break15_g1 = mul( localChangeOfBasis9_g1, ( localPenetratorSpaceVertexPosition142_g1 - penetratorRootWorld122_g1 ) );
 				float temp_output_18_0_g1 = ( break15_g1.z * _SquashStretchCorrection );
 				float3 appendResult26_g1 = (float3(break15_g1.x , break15_g1.y , temp_output_18_0_g1));
 				float3 appendResult25_g1 = (float3(( break15_g1.x / _SquashStretchCorrection ) , ( break15_g1.y / _SquashStretchCorrection ) , temp_output_18_0_g1));
@@ -6980,7 +6963,7 @@ Shader "DickShader"
 				float smoothstepResult23_g1 = smoothstep( 0.0 , temp_output_17_0_g1 , temp_output_18_0_g1);
 				float smoothstepResult22_g1 = smoothstep( distanceToHole180_g1 , temp_output_17_0_g1 , temp_output_18_0_g1);
 				float3 lerpResult31_g1 = lerp( appendResult26_g1 , appendResult25_g1 , min( smoothstepResult23_g1 , smoothstepResult22_g1 ));
-				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , ( temp_output_12_0_g1 + ( ( distanceToHole180_g1 - ( ( distanceToHole180_g1 / ( _SquashStretchCorrection * _PenetratorWorldLength ) ) * _PenetratorWorldLength ) ) * float3(0,0,1) ) ) , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
+				float3 lerpResult32_g1 = lerp( lerpResult31_g1 , appendResult26_g1 , step( distanceToHole180_g1 , temp_output_18_0_g1 ));
 				float3 squashStretchedPosition44_g1 = lerpResult32_g1;
 				float3 temp_output_150_0_g1 = ( float3(0,0,1) * _TruncateLength );
 				float3 temp_output_149_0_g1 = ( squashStretchedPosition44_g1 - temp_output_150_0_g1 );
@@ -7476,9 +7459,9 @@ Node;AmplifyShaderEditor.LerpOp;20;-581.4393,1020.286;Inherit;False;3;0;FLOAT4;0
 Node;AmplifyShaderEditor.FunctionNode;11;-1140.18,646.7589;Inherit;False;PenetratorDeformation;0;;1;ac383a8a454dc764caec4e7e5816beae;0;3;64;FLOAT3;0,0,0;False;69;FLOAT3;0,0,0;False;71;FLOAT4;0,0,0,0;False;4;FLOAT3;61;FLOAT3;62;FLOAT4;63;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;26;-3108.154,743.9935;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleSubtractOpNode;31;-2629.699,504.0775;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;27;-3406.361,1016.452;Inherit;False;Property;_BulgeRadius;BulgeRadius;19;0;Create;True;0;0;0;False;0;False;0.58;0.58;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.Vector3Node;25;-3407.154,829.9935;Inherit;False;Property;_DickForward;DickForward;27;0;Create;True;0;0;0;False;0;False;0,0,1;0,1,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.Vector3Node;35;-3106.539,934.5379;Inherit;False;Property;_DickOffset;DickOffset;28;0;Create;True;0;0;0;False;0;False;0,0,0;0,1,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.RangedFloatNode;27;-3406.361,1016.452;Inherit;False;Property;_BulgeRadius;BulgeRadius;18;0;Create;True;0;0;0;False;0;False;0.58;0.58;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.Vector3Node;25;-3407.154,829.9935;Inherit;False;Property;_DickForward;DickForward;26;0;Create;True;0;0;0;False;0;False;0,0,1;0,1,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.Vector3Node;35;-3106.539,934.5379;Inherit;False;Property;_DickOffset;DickOffset;27;0;Create;True;0;0;0;False;0;False;0,0,0;0,1,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.SimpleAddOpNode;36;-2903.539,779.5379;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.NormalizeNode;37;-3245.539,848.5379;Inherit;False;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;34;-2420.54,505.538;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;10;False;1;FLOAT;0
@@ -7488,14 +7471,14 @@ Node;AmplifyShaderEditor.SaturateNode;32;-2266.7,334.0735;Inherit;False;1;0;FLOA
 Node;AmplifyShaderEditor.FunctionNode;22;-2681.233,747.1965;Inherit;False;ProjectOnSphere;-1;;2;3366f7fa8574f0646a5b81b51f4db8d0;0;3;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT;0.5;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;41;-2089.259,324.2032;Inherit;False;3;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.VertexColorNode;42;-2532.564,322.1983;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;43;-2381.412,171.5769;Inherit;False;Property;_BulgeBlend;BulgeBlend;18;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;43;-2381.412,171.5769;Inherit;False;Property;_BulgeBlend;BulgeBlend;17;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.NormalizeNode;44;-1596.412,749.5769;Inherit;False;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.SamplerNode;45;-536.9493,-372.816;Inherit;True;Property;_BaseColorMap;BaseColorMap;15;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SamplerNode;46;-524.9493,65.18396;Inherit;True;Property;_MaskMap;MaskMap;16;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;gray;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SamplerNode;47;-524.9493,-142.816;Inherit;True;Property;_NormalMap;NormalMap;17;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;bump;Auto;True;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;45;-536.9493,-372.816;Inherit;True;Property;_BaseColorMap;BaseColorMap;14;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;46;-524.9493,65.18396;Inherit;True;Property;_MaskMap;MaskMap;15;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;gray;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;47;-524.9493,-142.816;Inherit;True;Property;_NormalMap;NormalMap;16;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;bump;Auto;True;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleSubtractOpNode;28;-3011.288,535.5629;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.FunctionNode;48;-4197.828,484.6135;Inherit;False;CockVoreSlurpFunction;20;;265;48b4b4d4c94c1d341abf875fe96b8fe0;0;2;49;FLOAT3;0,0,0;False;50;FLOAT3;0,0,0;False;2;FLOAT3;42;FLOAT3;0
-Node;AmplifyShaderEditor.RangedFloatNode;23;-3437.509,725.9806;Inherit;False;Property;_BulgeProgress;BulgeProgress;29;0;Create;True;0;0;0;False;0;False;1;0;-1;3;0;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;48;-4197.828,484.6135;Inherit;False;CockVoreSlurpFunction;19;;265;48b4b4d4c94c1d341abf875fe96b8fe0;0;2;49;FLOAT3;0,0,0;False;50;FLOAT3;0,0,0;False;2;FLOAT3;42;FLOAT3;0
+Node;AmplifyShaderEditor.RangedFloatNode;23;-3437.509,725.9806;Inherit;False;Property;_BulgeProgress;BulgeProgress;28;0;Create;True;0;0;0;False;0;False;1;0;-1;3;0;1;FLOAT;0
 Node;AmplifyShaderEditor.NormalizeNode;38;-2263.696,867.1786;Inherit;False;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.LerpOp;39;-1793.988,784.4831;Inherit;False;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.AbsOpNode;51;-2464.911,1008.415;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
@@ -7556,4 +7539,4 @@ WireConnection;50;0;28;0
 WireConnection;50;1;37;0
 WireConnection;55;0;51;0
 ASEEND*/
-//CHKSM=440CFCDEBD1FAF4E12A49AB3AE5D9827E8D73448
+//CHKSM=9F01747E17B2BDD470AF395840D32B299940E5CF

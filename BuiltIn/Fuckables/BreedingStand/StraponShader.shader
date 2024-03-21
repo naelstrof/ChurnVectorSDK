@@ -304,13 +304,13 @@ Shader "StraponShader"
 
 			HLSLPROGRAM
 
+            #define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
             #define shader_feature_local _DISABLE_SSR_TRANSPARENT
             #define _SPECULAR_OCCLUSION_FROM_AO 1
             #pragma multi_compile_instancing
             #pragma instancing_options renderinglayer
             #define ASE_ABSOLUTE_VERTEX_POS 1
             #define _MATERIAL_FEATURE_TRANSMISSION 1
-            #define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
             #define _MATERIAL_FEATURE_CLEAR_COAT 1
             #define HAVE_MESH_MODIFICATION
             #define ASE_SRP_VERSION 140008
@@ -1039,13 +1039,13 @@ Shader "StraponShader"
 
 			HLSLPROGRAM
 
+			#define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
 			#define shader_feature_local _DISABLE_SSR_TRANSPARENT
 			#define _SPECULAR_OCCLUSION_FROM_AO 1
 			#pragma multi_compile_instancing
 			#pragma instancing_options renderinglayer
 			#define ASE_ABSOLUTE_VERTEX_POS 1
 			#define _MATERIAL_FEATURE_TRANSMISSION 1
-			#define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
 			#define _MATERIAL_FEATURE_CLEAR_COAT 1
 			#define HAVE_MESH_MODIFICATION
 			#define ASE_SRP_VERSION 140008
@@ -1744,13 +1744,13 @@ Shader "StraponShader"
 
 			HLSLPROGRAM
 
+			#define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
 			#define shader_feature_local _DISABLE_SSR_TRANSPARENT
 			#define _SPECULAR_OCCLUSION_FROM_AO 1
 			#pragma multi_compile_instancing
 			#pragma instancing_options renderinglayer
 			#define ASE_ABSOLUTE_VERTEX_POS 1
 			#define _MATERIAL_FEATURE_TRANSMISSION 1
-			#define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
 			#define _MATERIAL_FEATURE_CLEAR_COAT 1
 			#define HAVE_MESH_MODIFICATION
 			#define ASE_SRP_VERSION 140008
@@ -2370,13 +2370,13 @@ Shader "StraponShader"
 
 			HLSLPROGRAM
 
+            #define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
             #define shader_feature_local _DISABLE_SSR_TRANSPARENT
             #define _SPECULAR_OCCLUSION_FROM_AO 1
             #pragma multi_compile_instancing
             #pragma instancing_options renderinglayer
             #define ASE_ABSOLUTE_VERTEX_POS 1
             #define _MATERIAL_FEATURE_TRANSMISSION 1
-            #define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
             #define _MATERIAL_FEATURE_CLEAR_COAT 1
             #define HAVE_MESH_MODIFICATION
             #define ASE_SRP_VERSION 140008
@@ -2961,13 +2961,13 @@ Shader "StraponShader"
 
 			HLSLPROGRAM
 
+            #define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
             #define shader_feature_local _DISABLE_SSR_TRANSPARENT
             #define _SPECULAR_OCCLUSION_FROM_AO 1
             #pragma multi_compile_instancing
             #pragma instancing_options renderinglayer
             #define ASE_ABSOLUTE_VERTEX_POS 1
             #define _MATERIAL_FEATURE_TRANSMISSION 1
-            #define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
             #define _MATERIAL_FEATURE_CLEAR_COAT 1
             #define HAVE_MESH_MODIFICATION
             #define ASE_SRP_VERSION 140008
@@ -3603,13 +3603,13 @@ Shader "StraponShader"
 
 			HLSLPROGRAM
 
+            #define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
             #define shader_feature_local _DISABLE_SSR_TRANSPARENT
             #define _SPECULAR_OCCLUSION_FROM_AO 1
             #pragma multi_compile_instancing
             #pragma instancing_options renderinglayer
             #define ASE_ABSOLUTE_VERTEX_POS 1
             #define _MATERIAL_FEATURE_TRANSMISSION 1
-            #define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
             #define _MATERIAL_FEATURE_CLEAR_COAT 1
             #define HAVE_MESH_MODIFICATION
             #define ASE_SRP_VERSION 140008
@@ -4330,13 +4330,13 @@ Shader "StraponShader"
 
 			HLSLPROGRAM
 
+            #define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
             #define shader_feature_local _DISABLE_SSR_TRANSPARENT
             #define _SPECULAR_OCCLUSION_FROM_AO 1
             #pragma multi_compile_instancing
             #pragma instancing_options renderinglayer
             #define ASE_ABSOLUTE_VERTEX_POS 1
             #define _MATERIAL_FEATURE_TRANSMISSION 1
-            #define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
             #define _MATERIAL_FEATURE_CLEAR_COAT 1
             #define HAVE_MESH_MODIFICATION
             #define ASE_SRP_VERSION 140008
@@ -5290,13 +5290,13 @@ Shader "StraponShader"
 
             HLSLPROGRAM
 
+			#define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
 			#define shader_feature_local _DISABLE_SSR_TRANSPARENT
 			#define _SPECULAR_OCCLUSION_FROM_AO 1
 			#pragma multi_compile_instancing
 			#pragma instancing_options renderinglayer
 			#define ASE_ABSOLUTE_VERTEX_POS 1
 			#define _MATERIAL_FEATURE_TRANSMISSION 1
-			#define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
 			#define _MATERIAL_FEATURE_CLEAR_COAT 1
 			#define HAVE_MESH_MODIFICATION
 			#define ASE_SRP_VERSION 140008
@@ -6075,4 +6075,4 @@ WireConnection;64;1;69;0
 WireConnection;64;2;68;0
 WireConnection;64;3;67;0
 ASEEND*/
-//CHKSM=E25AA41ADFFDB9E494E869CC85D77D7CF354B1A3
+//CHKSM=8E319D5AFBF07062081D2C8D232D28366EF1FE31

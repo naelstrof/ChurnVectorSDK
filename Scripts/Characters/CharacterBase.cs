@@ -395,7 +395,7 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
     protected virtual void Update() {
         if (!ticketLock.GetLocked(TicketLock.LockFlags.FacingDirectionLock)) {
             Quaternion desiredRotation = QuaternionExtensions.LookRotationUpPriority(inputGenerator.GetLookDirection(), transform.up);
-            facingDirection = Quaternion.RotateTowards(facingDirection, desiredRotation, Time.deltaTime * 180f);
+            facingDirection = Quaternion.RotateTowards(facingDirection, desiredRotation, Time.deltaTime * (30f+Quaternion.Angle(facingDirection,desiredRotation)*4f));
         }
 
         if (ticketLock.GetLocked(TicketLock.LockFlags.Kinematic)) {

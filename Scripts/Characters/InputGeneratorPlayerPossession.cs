@@ -8,8 +8,15 @@ using UnityScriptableSettings;
 public class InputGeneratorPlayerPossession : InputGenerator {
     private OrbitCameraConfiguration shoulderConfig;
     private OrbitCameraConfiguration oogleConfig;
+    private OrbitCameraConfiguration fpsConfig;
+
+    private enum CameraMode {
+        LeftShoulder,
+        RightShoulder,
+        FPS,
+    }
     
-    private bool toggleCamera = true;
+    private CameraMode cameraMode = CameraMode.LeftShoulder;
     private Vector3 lastLook;
     private PlayerInput input;
     private float minCrouch = 0f;
@@ -22,8 +29,12 @@ public class InputGeneratorPlayerPossession : InputGenerator {
     private OrbitCameraPivotBasic headPivot;
     private OrbitCameraPivotBasic crouchPivot;
 
-    private List<OrbitCameraPivotBase> pivots;
     private bool hasCreatedConfig = false;
+    private bool oogling = false;
+    private bool shouldOogle = false;
+    private Vector3 neckLocalScale;
+
+    private OrbitCameraConfiguration currentConfiguration;
     
     public override void Initialize(GameObject gameObject) {
         input = GameManager.GetPlayerInput();
@@ -36,18 +47,29 @@ public class InputGeneratorPlayerPossession : InputGenerator {
         input.actions["Reload"].performed += OnReloadWeapon;
         input.actions.Enable();
         character = gameObject.GetComponent<CharacterBase>();
+        neckLocalScale = character.GetDisplayAnimator().GetBoneTransform(HumanBodyBones.Neck).localScale;
         if (character.voreMachine != null) {
             character.voreMachine.cockVoreStart += OnCockCockVoreStart;
             character.voreMachine.cockVoreEnd += OnCockCockVoreEnd;
         }
 
+        OrbitCamera.configurationChanged += OnConfigurationChanged;
+        
         if (!hasCreatedConfig) {
-            pivots = new List<OrbitCameraPivotBase>();
             shoulderConfig = CreateShoulderConfig(character);
             oogleConfig = CreateOogleConfig(character);
+            fpsConfig = CreateFPSConfig(character);
+            currentConfiguration = shoulderConfig;
             OrbitCamera.AddConfiguration(shoulderConfig);
-            Debug.Log("Added configuration");
             hasCreatedConfig = true;
+        }
+    }
+
+    private void OnConfigurationChanged(OrbitCameraConfiguration previousconfiguration, OrbitCameraConfiguration newconfiguration) {
+        if (newconfiguration == fpsConfig) {
+            character.GetDisplayAnimator().GetBoneTransform(HumanBodyBones.Neck).localScale = neckLocalScale * 0.025f;
+        } else {
+            character.GetDisplayAnimator().GetBoneTransform(HumanBodyBones.Neck).localScale = neckLocalScale;
         }
     }
 
@@ -57,6 +79,25 @@ public class InputGeneratorPlayerPossession : InputGenerator {
 
     private void OnFireWeapon(InputAction.CallbackContext obj) {
         fireWeapon?.Invoke();
+    }
+
+    private OrbitCameraConfiguration CreateFPSConfig(CharacterBase character) {
+        var animator = character.GetDisplayAnimator();
+        GameObject headPivotObj = new GameObject("FPSPivot", typeof(OrbitCameraPivotBasic));
+        headPivotObj.transform.SetParent(animator.transform, false);
+        headPivotObj.transform.position = animator.GetBoneTransform(HumanBodyBones.Head).position + animator.transform.forward * 0.2f + animator.transform.up * 0.1f;
+        var fpsPivot = headPivotObj.GetComponent<OrbitCameraPivotBasic>();
+        fpsPivot.SetInfo(new Vector2(0.5f, 0f), 0.01f, 65f);
+        
+        GameObject crouchPivotObj = new GameObject("FPSCrouchPivot", typeof(OrbitCameraPivotBasic));
+        crouchPivotObj.transform.SetParent(animator.transform, false);
+        crouchPivotObj.transform.position = animator.GetBoneTransform(HumanBodyBones.Head).position + animator.transform.forward * 0.5f - animator.transform.up * 0.35f;
+        var fpsCrouchPivot = crouchPivotObj.GetComponent<OrbitCameraPivotBasic>();
+        fpsCrouchPivot.SetInfo(new Vector2(0.5f, 0.5f), 0.01f, 65f);
+        
+        var config = new OrbitCameraCharacterFPSConfiguration();
+        config.SetPivots(this.character, fpsPivot, fpsCrouchPivot);
+        return config;
     }
 
     private OrbitCameraCharacterHitmanConfiguration CreateShoulderConfig(CharacterBase character) {
@@ -69,21 +110,18 @@ public class InputGeneratorPlayerPossession : InputGenerator {
         headPivotObj.transform.localPosition = headLocalPos.With(x: 0f, z: 0f);
         headPivot = headPivotObj.GetComponent<OrbitCameraPivotBasic>();
         headPivot.SetInfo(new Vector2(0.3f, 0.5f), 1.75f, 65f);
-        pivots.Add(headPivot);
         
         GameObject crouchPivotObj = new GameObject("CrouchPivot", typeof(OrbitCameraPivotBasic));
         crouchPivotObj.transform.SetParent(character.transform);
         crouchPivotObj.transform.localPosition = (headLocalPos-Vector3.down).With(x: 0f, z: 0f)*0.3f + Vector3.down;
         crouchPivot = crouchPivotObj.GetComponent<OrbitCameraPivotBasic>();
         crouchPivot.SetInfo(new Vector2(0.3f, 0.12f), 1.75f, 60f);
-        pivots.Add(crouchPivot);
         
         GameObject buttPivotObj = new GameObject("ButtPivot", typeof(OrbitCameraPivotBasic));
         buttPivotObj.transform.SetParent(animator.GetBoneTransform(HumanBodyBones.Hips));
         buttPivotObj.transform.localPosition = Vector3.zero;
         var buttPivot = buttPivotObj.GetComponent<OrbitCameraPivotBasic>();
         buttPivot.SetInfo(new Vector2(0.5f, 0.25f), 1.75f, 85f);
-        pivots.Add(buttPivot);
         
         var config = new OrbitCameraCharacterHitmanConfiguration();
         config.SetPivots(character, headPivot, crouchPivot, buttPivot);
@@ -99,35 +137,30 @@ public class InputGeneratorPlayerPossession : InputGenerator {
         headPivotObj.transform.localPosition = headLocalPos.With(x: 0f, z: 0f);
         var headCenterPivot = headPivotObj.GetComponent<OrbitCameraPivotBasic>();
         headCenterPivot.SetInfo(new Vector2(0.5f, 0.5f), 1.75f, 65f);
-        pivots.Add(headCenterPivot);
         
         GameObject crouchPivotObj = new GameObject("CrouchCenterPivot", typeof(OrbitCameraPivotBasic));
         crouchPivotObj.transform.SetParent(character.transform);
         crouchPivotObj.transform.localPosition = headLocalPos.With(x: 0f, z: 0f)*0.5f;
         var crouchCenterPivot = crouchPivotObj.GetComponent<OrbitCameraPivotBasic>();
         crouchCenterPivot.SetInfo(new Vector2(0.5f, 0.12f), 1.75f, 60f);
-        pivots.Add(crouchCenterPivot);
         
         GameObject buttCenterPivotObj = new GameObject("ButtCenterPivot", typeof(OrbitCameraPivotBasic));
         buttCenterPivotObj.transform.SetParent(animator.GetBoneTransform(HumanBodyBones.Hips));
         buttCenterPivotObj.transform.localPosition = Vector3.zero;
         var buttCenterPivot = buttCenterPivotObj.GetComponent<OrbitCameraPivotBasic>();
         buttCenterPivot.SetInfo(new Vector2(0.5f, 0.25f), 1.75f, 85f);
-        pivots.Add(buttCenterPivot);
         
         GameObject buttRightPivotObj = new GameObject("ButtRightPivot", typeof(OrbitCameraPivotBasic));
         buttRightPivotObj.transform.SetParent(animator.GetBoneTransform(HumanBodyBones.Hips));
         buttRightPivotObj.transform.localPosition = Vector3.zero;
         var buttRightPivot = buttRightPivotObj.GetComponent<OrbitCameraPivotBasic>();
         buttRightPivot.SetInfo(new Vector2(0.33f, 0.33f), 2f, 85f);
-        pivots.Add(buttRightPivot);
         
         GameObject buttLeftPivotObj = new GameObject("ButtRightPivot", typeof(OrbitCameraPivotBasic));
         buttLeftPivotObj.transform.SetParent(animator.GetBoneTransform(HumanBodyBones.Hips));
         buttLeftPivotObj.transform.localPosition = Vector3.zero;
         var buttLeftPivot = buttLeftPivotObj.GetComponent<OrbitCameraPivotBasic>();
         buttLeftPivot.SetInfo(new Vector2(0.66f, 0.33f), 2f, 85f);
-        pivots.Add(buttLeftPivot);
         
         GameObject dickPivotObj = new GameObject("DickPivot", typeof(OrbitCameraPivotBasic));
         dickPivotObj.transform.SetParent(animator.avatarRoot);
@@ -143,7 +176,6 @@ public class InputGeneratorPlayerPossession : InputGenerator {
         }
         var dickPivot = dickPivotObj.GetComponent<OrbitCameraPivotBasic>();
         dickPivot.SetInfo(new Vector2(0.5f, 0.4f), 2f, 75f);
-        pivots.Add(dickPivot);
 
         var config = new OrbitCameraCharacterOogleConfiguration();
         config.SetPivots(character, headCenterPivot, crouchCenterPivot, buttCenterPivot, buttRightPivot, buttLeftPivot, dickPivot);
@@ -177,22 +209,49 @@ public class InputGeneratorPlayerPossession : InputGenerator {
 
     private void OnCameraPerformed(InputAction.CallbackContext ctx) {
         cameraSwitch?.Invoke();
-        toggleCamera = !toggleCamera;
-        if (switchShoulderRoutine != null) {
-            character.StopCoroutine(switchShoulderRoutine);
+        switch (cameraMode) {
+            case CameraMode.LeftShoulder: cameraMode = CameraMode.RightShoulder; break;
+            case CameraMode.RightShoulder: cameraMode = CameraMode.FPS; break;
+            case CameraMode.FPS: cameraMode = CameraMode.LeftShoulder; break;
         }
-        switchShoulderRoutine = character.StartCoroutine(SetShoulder(toggleCamera));
+
+        switch (cameraMode) {
+            case CameraMode.LeftShoulder:
+            case CameraMode.RightShoulder:
+                if (currentConfiguration != shoulderConfig) {
+                    OrbitCamera.ReplaceConfiguration(currentConfiguration, shoulderConfig);
+                    currentConfiguration = shoulderConfig;
+                }
+                if (switchShoulderRoutine != null) {
+                    character.StopCoroutine(switchShoulderRoutine);
+                }
+                
+                if (!oogling && shouldOogle) {
+                    OrbitCamera.AddConfiguration(oogleConfig);
+                    oogling = true;
+                }
+
+                switchShoulderRoutine = character.StartCoroutine(SetShoulder(cameraMode == CameraMode.LeftShoulder));
+                break;
+            case CameraMode.FPS:
+                if (currentConfiguration != fpsConfig) {
+                    OrbitCamera.ReplaceConfiguration(currentConfiguration, fpsConfig);
+                    currentConfiguration = fpsConfig;
+                }
+
+                if (oogling) {
+                    OrbitCamera.RemoveConfiguration(oogleConfig);
+                    oogling = false;
+                }
+                break;
+        }
     }
 
     public override void CleanUp() {
         if (input == null) {
             return;
         }
-
-        //foreach (var pivot in pivots) {
-            //Object.Destroy(pivot.gameObject);
-        //}
-
+        OrbitCamera.configurationChanged -= OnConfigurationChanged;
         input.actions["Interact"].started -= OnInteractInputStarted;
         input.actions["Interact"].canceled -= OnInteractInputCancelled;
         input.actions["ToggleCamera"].performed -= OnCameraPerformed;
@@ -265,7 +324,7 @@ public class InputGeneratorPlayerPossession : InputGenerator {
     }
 
     public override Vector3 GetLookDirection() {
-        if (GetWishDirection().magnitude > 0.1f || GetAimingWeapon()) {
+        if (GetWishDirection().magnitude > 0.1f || GetAimingWeapon() || currentConfiguration == fpsConfig) {
             lastLook = OrbitCamera.GetPlayerIntendedRotation() * Vector3.forward;
         }
 
@@ -277,9 +336,17 @@ public class InputGeneratorPlayerPossession : InputGenerator {
     }
 
     private void OnCockCockVoreStart(CockVoreMachine.VoreStatus status) {
-        OrbitCamera.AddConfiguration(oogleConfig);
+        shouldOogle = true;
+        if (currentConfiguration != fpsConfig) {
+            oogling = true;
+            OrbitCamera.AddConfiguration(oogleConfig);
+        }
     }
     private void OnCockCockVoreEnd(CockVoreMachine.VoreStatus status) {
-        OrbitCamera.RemoveConfiguration(oogleConfig);
+        shouldOogle = false;
+        if (oogling) {
+            oogling = false;
+            OrbitCamera.RemoveConfiguration(oogleConfig);
+        }
     }
 }

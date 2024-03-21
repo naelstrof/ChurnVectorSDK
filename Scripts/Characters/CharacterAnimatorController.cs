@@ -530,7 +530,7 @@ public class CharacterAnimatorController : MonoBehaviour {
         if (character.ticketLock.GetLocked()) {
             return;
         }
-        Vector3 localAnimatorSpace = Quaternion.Inverse(transform.rotation) * Vector3.ProjectOnPlane(velocity, Vector3.up).normalized;
+        Vector3 localAnimatorSpace = Quaternion.Inverse(transform.rotation) * Vector3.ProjectOnPlane(velocity, Vector3.up);
         animator.SetFloat(ZDirection, localAnimatorSpace.z);
         animator.SetFloat(XDirection, localAnimatorSpace.x);
         animator.SetBool(Sprinting, character.IsSprinting());
