@@ -152,7 +152,7 @@ MonoBehaviour:
   simulatedPointCount: 3
   jiggleSettings: {fileID: 11400000, guid: 24137bf2fa333b346a22e1d5efa30f0a, type: 2}
   leftRightCurvature: 0
-  upDownCurvature: -17.9
+  upDownCurvature: -5
   penetratorLengthFriction: 0.4
   penetratorLengthElasticity: 0.7
   knotForce: 1

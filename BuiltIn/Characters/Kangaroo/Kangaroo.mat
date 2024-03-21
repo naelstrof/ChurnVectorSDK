@@ -65,6 +65,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _EmmisionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _HeightMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -160,7 +164,7 @@ Material:
     - _BlendMode: 0
     - _CoatMask: 0
     - _CockVoreSquishEnabled: 0
-    - _CompressibleDistance: 0.18
+    - _CompressibleDistance: 0.3
     - _CullMode: 2
     - _CullModeForward: 2
     - _Cutoff: 0.5
@@ -181,6 +185,7 @@ Material:
     - _EmissiveExposureWeight: 1
     - _EmissiveIntensity: 1
     - _EmissiveIntensityUnit: 0
+    - _EmmisionStr: 0
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 1
     - _EnableGeometricSpecularAA: 0
@@ -208,6 +213,7 @@ Material:
     - _ObjectSpaceUVMapping: 0
     - _ObjectSpaceUVMappingEmissive: 0
     - _OpaqueCullMode: 2
+    - _PENETRATION_DEFORMATION: 0
     - _PENETRATION_DEFORMATION_DETAIL: 0
     - _PPDLodThreshold: 5
     - _PPDMaxSamples: 15

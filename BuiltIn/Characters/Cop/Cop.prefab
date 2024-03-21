@@ -1108,7 +1108,6 @@ MonoBehaviour:
   - {fileID: 4420009493030199636}
   - {fileID: 5428479726963873809}
   - {fileID: 5661396310696297759}
-  entranceTransform: {fileID: 0}
   shouldTruncate: 1
   truncateNormalizedDistance: 0.04
   holeStartNormalizedDistance: 0.04
@@ -1118,6 +1117,8 @@ MonoBehaviour:
     allowAllTheWayThrough: 1
     endNormalizedDistance: 0.658
   penetrableFriction: 0.5
+  knotForceSampleLocations:
+  - normalizedDistance: 0.04
 --- !u!114 &8483325421276413680
 MonoBehaviour:
   m_ObjectHideFlags: 0

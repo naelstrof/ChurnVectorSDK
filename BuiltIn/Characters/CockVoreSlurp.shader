@@ -17,7 +17,7 @@ Shader "CockVoreSlurp"
 		_Angle("Angle", Range( 0 , 89)) = 45
 		_TipRadius("TipRadius", Range( 0 , 1)) = 0.1
 		_EmmisionStr("EmmisionStr", Range( 0 , 10)) = 0
-		_CompressibleDistance("CompressibleDistance", Range( 0 , 1)) = 0.15
+		_CompressibleDistance("CompressibleDistance", Range( 0 , 1)) = 0.25
 		_Smoothness("Smoothness", Range( 0 , 10)) = 2
 		_MaskMap("MaskMap", 2D) = "black" {}
 		_EmmisionMap("EmmisionMap", 2D) = "black" {}
@@ -7313,9 +7313,9 @@ Node;AmplifyShaderEditor.SimpleMultiplyOpNode;241;896.7369,-117.0041;Inherit;Tru
 Node;AmplifyShaderEditor.RangedFloatNode;238;757.0583,134.6161;Inherit;False;Property;_EmmisionStr;EmmisionStr;14;0;Create;True;0;0;0;False;0;False;0;0;0;10;0;1;FLOAT;0
 Node;AmplifyShaderEditor.VertexColorNode;236;849.7986,847.73;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.RangedFloatNode;233;269.1044,588.3298;Inherit;False;Property;_Smoothness;Smoothness;16;0;Create;True;0;0;0;False;0;False;2;0.5;0;10;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;232;284.1044,492.3298;Inherit;False;Property;_CompressibleDistance;CompressibleDistance;15;0;Create;True;0;0;0;False;0;False;0.15;0.15;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.LerpOp;235;1181.234,294.5477;Inherit;False;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.FunctionNode;231;659.1908,396.5367;Inherit;False;PenetrableDeformation;1;;275;7ff1b70ed2c7b9e43aecbec8a912cc8c;0;4;10;FLOAT3;0,0,0;False;11;FLOAT4;0,0,0,0;False;12;FLOAT;0;False;13;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RangedFloatNode;232;284.1044,492.3298;Inherit;False;Property;_CompressibleDistance;CompressibleDistance;15;0;Create;True;0;0;0;False;0;False;0.25;0.15;0;1;0;1;FLOAT;0
 WireConnection;0;0;230;0
 WireConnection;0;1;230;5
 WireConnection;0;3;230;3
@@ -7339,4 +7339,4 @@ WireConnection;231;10;229;0
 WireConnection;231;12;232;0
 WireConnection;231;13;233;0
 ASEEND*/
-//CHKSM=5E2F358905AF6D4381A34214FAC2A7C82E229567
+//CHKSM=726E06E61F41FEAEEB841B89D6F565A4102741DB

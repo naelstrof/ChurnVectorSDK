@@ -13,6 +13,7 @@ using UnityEngine.SceneManagement;
 
 [CreateAssetMenu(fileName = "New Level", menuName = "Data/Level", order = 56)]
 public class Level : ScriptableObject {
+    // TODO: Make categories, come with modding category and a first campaign category.
     [SerializeField] private LocalizedString localizedLevelName;
     [SerializeField] private LocalizedString localizedLevelDescription;
     [SerializeField] private Sprite levelPreview;

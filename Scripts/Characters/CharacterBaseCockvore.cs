@@ -157,8 +157,15 @@ public partial class CharacterBase {
         main.startSpeed = rate;
         main.startSizeMultiplier = rate * 0.1f;
 
-        var emissionModule = leakSystem.emission;
-        emissionModule.rateOverTime = rate > 0f ? 60f : 0f;
+        float emissionRateValue = rate > 0f ? 60f : 0f;
+        var emissionRate = leakSystem.emission;
+        var data = cockVoreDick.GetPenetrationData();
+        if (data.HasValue) {
+            emissionRate.rateOverTime = data.Value.tipIsInside ? 0f : emissionRateValue;
+        } else {
+            emissionRate.rateOverTime = emissionRateValue;
+        }
+        
     }
     
     public bool IsVoring() => voreMachine?.IsVoring() ?? false;

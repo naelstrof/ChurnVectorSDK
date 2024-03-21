@@ -890,6 +890,9 @@ MonoBehaviour:
     allowAllTheWayThrough: 0
     endNormalizedDistance: 0
   penetrableFriction: 0.5
+  knotForceSampleLocations:
+  - normalizedDistance: 0.157
+  - normalizedDistance: 0.658
 --- !u!114 &6921177096094240051
 MonoBehaviour:
   m_ObjectHideFlags: 0
