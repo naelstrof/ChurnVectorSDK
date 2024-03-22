@@ -31,6 +31,8 @@ public static class FixupOnLoad {
         settings.UniqueBundleIds = false;
         settings.ShaderBundleNaming = ShaderBundleNaming.Custom;
         settings.ShaderBundleCustomNaming = "ChurnVector";
+        settings.MonoScriptBundleNaming = MonoScriptBundleNaming.Custom;
+        settings.MonoScriptBundleCustomNaming = "ChurnVector";
         EditorUtility.SetDirty(settings);
     }
 }
