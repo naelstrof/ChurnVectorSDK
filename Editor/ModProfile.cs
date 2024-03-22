@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using SimpleJSON;
 using Steamworks;
 using UnityEditor;
@@ -19,8 +17,26 @@ using UnityEngine.Rendering;
 
 [CustomEditor(typeof(ModProfile))]
 public class ModProfileEditor : Editor {
+    private static bool SupportsBuildPlatform(BuildTarget target) {
+	    var moduleManager = System.Type.GetType("UnityEditor.Modules.ModuleManager,UnityEditor.dll");
+	    var isPlatformSupportLoaded = moduleManager.GetMethod("IsPlatformSupportLoaded", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+	    var getTargetStringFromBuildTarget = moduleManager.GetMethod("GetTargetStringFromBuildTarget", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+	    return (bool)isPlatformSupportLoaded.Invoke(null,new object[] {(string)getTargetStringFromBuildTarget.Invoke(null, new object[] {target})});
+    }
 	public override void OnInspectorGUI() {
 		base.OnInspectorGUI();
+		if (!SupportsBuildPlatform(BuildTarget.StandaloneWindows64)) {
+			EditorGUILayout.HelpBox("You must install the Windows Mono support for this verison of unity and restart the editor.", MessageType.Error);
+			GUI.enabled = false;
+		}
+		if (!SupportsBuildPlatform(BuildTarget.StandaloneLinux64)) {
+			EditorGUILayout.HelpBox("You must install the Linux Mono support for this verison of unity and restart the editor.", MessageType.Error);
+			GUI.enabled = false;
+		}
+		if (!SupportsBuildPlatform(BuildTarget.StandaloneOSX)) {
+			EditorGUILayout.HelpBox("You must install the Linux Mono support for this verison of unity and restart the editor.", MessageType.Error);
+			GUI.enabled = false;
+		}
 		if (GUILayout.Button("Build Locally")) {
 			((ModProfile)target).Build();
 		}
@@ -449,10 +465,15 @@ public class ModProfile : ScriptableObject {
         if (Directory.Exists(GetBuiltPath())) {
 	        Directory.Delete(GetBuiltPath(), true);
         }
-        
-        BuildForPlatform(BuildTarget.StandaloneWindows64);
-        //BuildForPlatform(BuildTarget.StandaloneLinux64);
-        //BuildForPlatform(BuildTarget.StandaloneOSX);
+
+        var currentBuildTarget = EditorUserBuildSettings.activeBuildTarget;
+        try {
+	        BuildForPlatform(BuildTarget.StandaloneWindows64);
+	        BuildForPlatform(BuildTarget.StandaloneLinux64);
+	        BuildForPlatform(BuildTarget.StandaloneOSX);
+        } finally {
+			EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Standalone, currentBuildTarget);
+        }
         
         Save();
         EditorUtility.RevealInFinder(GetBuiltPath());
