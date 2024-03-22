@@ -181,9 +181,9 @@ public class Level : ScriptableObject {
             var handle = Addressables.InstantiateAsync("ed124e2780a80b14d8c3442fbb7349d7"); // OrbitCamera GUID
             yield return handle;
             var pivot = new GameObject("Default pivot", typeof(OrbitCameraPivotBasic));
-            var basicConfig = new OrbitCameraBasicConfiguration();
-            basicConfig.SetPivot(pivot.GetComponent<OrbitCameraPivotBasic>());
-            OrbitCamera.AddConfiguration(basicConfig);
+            //var basicConfig = new OrbitCameraBasicConfiguration();
+            //basicConfig.SetPivot(pivot.GetComponent<OrbitCameraPivotBasic>());
+            //OrbitCamera.AddConfiguration(basicConfig);
         }
 
         var orbitCam = OrbitCamera.GetCamera();

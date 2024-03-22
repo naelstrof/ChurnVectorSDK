@@ -1,5 +1,65 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &697702588501908881
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1982580966850356551}
+  - component: {fileID: 7468219662958481671}
+  - component: {fileID: 1506767539387987999}
+  m_Layer: 3
+  m_Name: Pivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1982580966850356551
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697702588501908881}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3814587909374643453}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7468219662958481671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697702588501908881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7cefe60a1e61d44f982b3a8c1d1d259, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  screenOffset: {x: 0.5, y: 0.5}
+  desiredDistanceFromPivot: 1
+  baseFOV: 65
+--- !u!114 &1506767539387987999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697702588501908881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc2ff3e18ba2c4b46acce83f995aaa39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7715530794101431526
 GameObject:
   m_ObjectHideFlags: 0
@@ -14,6 +74,7 @@ GameObject:
   - component: {fileID: 8457659542582824472}
   - component: {fileID: 3544157315707859036}
   - component: {fileID: 1021745301321158499}
+  - component: {fileID: 5854982640782454570}
   m_Layer: 3
   m_Name: OrbitCamera
   m_TagString: MainCamera
@@ -33,7 +94,8 @@ Transform:
   m_LocalPosition: {x: 258.444, y: 2.39, z: -140.072}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1982580966850356551}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &4986918927263603707
@@ -244,7 +306,7 @@ MonoBehaviour:
     - rid: 8562588940320899075
       type: {class: OrbitCameraBasicConfiguration, ns: , asm: com.naelstrof.orbitcam}
       data:
-        pivot: {fileID: 0}
+        pivot: {fileID: 7468219662958481671}
         cullingMask:
           serializedVersion: 2
           m_Bits: 4294967295
@@ -261,3 +323,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   antiAliasing: {fileID: 11400000, guid: 60e5ceb642d20db49aaf28e594de4795, type: 2}
+--- !u!114 &5854982640782454570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7715530794101431526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c64bef0d3784fe439e188d86bb2e724, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 697702588501908881}

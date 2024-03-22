@@ -100,8 +100,10 @@ public class LevelManager : MonoBehaviour {
         List<string> keys = new List<string> {"ChurnVectorLevel"};
         var loadHandle = Addressables.LoadAssetsAsync<Level>(keys, (level) => { }, Addressables.MergeMode.Union, false);
         yield return new WaitUntil(() => loadHandle.IsDone);
-        foreach (var level in loadHandle.Result) {
-            OnFoundLevel(level);
+        if (loadHandle.Result != null) {
+            foreach (var level in loadHandle.Result) {
+                OnFoundLevel(level);
+            }
         }
         levels.Sort((a, b) => a.CompareTo(b));
         loading = false;
