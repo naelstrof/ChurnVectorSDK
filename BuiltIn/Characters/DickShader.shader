@@ -11,6 +11,8 @@ Shader "DickShader"
 		[HideInInspector]_PenetratorRightWorld("PenetratorRightWorld", Vector) = (0,0,0,0)
 		[HideInInspector]_PenetratorUpWorld("PenetratorUpWorld", Vector) = (0,0,0,0)
 		[HideInInspector]_TruncateLength("TruncateLength", Float) = 999
+		[HideInInspector]_StartClip("StartClip", Float) = 0
+		[HideInInspector]_EndClip("EndClip", Float) = 0
 		[HideInInspector]_SquashStretchCorrection("SquashStretchCorrection", Float) = 1
 		[HideInInspector]_DistanceToHole("DistanceToHole", Float) = 0
 		[HideInInspector]_PenetratorOffsetLength("PenetratorOffsetLength", Float) = 0
@@ -400,28 +402,30 @@ Shader "DickShader"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _MaskMap_ST;
-			float4 _BaseColorMap_ST;
 			float4 _NormalMap_ST;
-			float3 _PenetratorStartWorld;
-			float3 _DickForward;
-			float3 _PenetratorForwardWorld;
-			float3 _PenetratorUpWorld;
-			float3 _DickOffset;
-			float3 _PenetratorRootWorld;
-			float3 _WorldDickPosition;
-			float3 _WorldDickBinormal;
-			float3 _PenetratorRightWorld;
+			float4 _BaseColorMap_ST;
 			float3 _WorldDickNormal;
+			float3 _WorldDickBinormal;
+			float3 _WorldDickPosition;
+			float3 _PenetratorRootWorld;
+			float3 _PenetratorRightWorld;
+			float3 _PenetratorUpWorld;
+			float3 _PenetratorForwardWorld;
+			float3 _DickForward;
+			float3 _DickOffset;
+			float3 _PenetratorStartWorld;
+			float _PenetratorOffsetLength;
+			float _GirthRadius;
+			float _TruncateLength;
+			float _BulgeRadius;
+			float _SquashStretchCorrection;
+			float _BulgeBlend;
+			float _StartClip;
 			float _BulgeProgress;
 			float _Angle;
 			float _TipRadius;
-			float _BulgeRadius;
-			float _BulgeBlend;
-			float _SquashStretchCorrection;
 			float _DistanceToHole;
-			float _TruncateLength;
-			float _GirthRadius;
-			float _PenetratorOffsetLength;
+			float _EndClip;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -538,6 +542,7 @@ Shader "DickShader"
 				float4 uv1 : TEXCOORD3;
 				float4 uv2 : TEXCOORD4;
 				float4 ase_texcoord5 : TEXCOORD5;
+				float4 ase_texcoord6 : TEXCOORD6;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
@@ -965,10 +970,14 @@ Shader "DickShader"
 				float4 appendResult83_g1 = (float4(normalizeResult80_g1 , break79_g1.w));
 				float4 lerpResult20 = lerp( inputMesh.tangentOS , appendResult83_g1 , inputMesh.ase_color.r);
 				
+				float3 vertexToFrag189_g1 = squashStretchedPosition44_g1;
+				outputPackedVaryingsMeshToPS.ase_texcoord6.xyz = vertexToFrag189_g1;
+				
 				outputPackedVaryingsMeshToPS.ase_texcoord5.xy = inputMesh.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
 				outputPackedVaryingsMeshToPS.ase_texcoord5.zw = 0;
+				outputPackedVaryingsMeshToPS.ase_texcoord6.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
@@ -1141,6 +1150,8 @@ Shader "DickShader"
 				float2 uv_MaskMap = packedInput.ase_texcoord5.xy * _MaskMap_ST.xy + _MaskMap_ST.zw;
 				float4 tex2DNode46 = tex2D( _MaskMap, uv_MaskMap );
 				
+				float3 vertexToFrag189_g1 = packedInput.ase_texcoord6.xyz;
+				
 				surfaceDescription.BaseColor = tex2D( _BaseColorMap, uv_BaseColorMap ).rgb;
 				surfaceDescription.Normal = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
 				surfaceDescription.BentNormal = float3( 0, 0, 1 );
@@ -1154,10 +1165,10 @@ Shader "DickShader"
 				surfaceDescription.Emission = 0;
 				surfaceDescription.Smoothness = tex2DNode46.a;
 				surfaceDescription.Occlusion = tex2DNode46.g;
-				surfaceDescription.Alpha = 1;
+				surfaceDescription.Alpha = ( 1.0 - ( step( _StartClip , vertexToFrag189_g1.z ) * step( vertexToFrag189_g1.z , _EndClip ) ) );
 
 				#ifdef _ALPHATEST_ON
-				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
+				surfaceDescription.AlphaClipThreshold = 0.001;
 				#endif
 
 				#ifdef _ALPHATEST_SHADOW_ON
@@ -1313,28 +1324,30 @@ Shader "DickShader"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _MaskMap_ST;
-			float4 _BaseColorMap_ST;
 			float4 _NormalMap_ST;
-			float3 _PenetratorStartWorld;
-			float3 _DickForward;
-			float3 _PenetratorForwardWorld;
-			float3 _PenetratorUpWorld;
-			float3 _DickOffset;
-			float3 _PenetratorRootWorld;
-			float3 _WorldDickPosition;
-			float3 _WorldDickBinormal;
-			float3 _PenetratorRightWorld;
+			float4 _BaseColorMap_ST;
 			float3 _WorldDickNormal;
+			float3 _WorldDickBinormal;
+			float3 _WorldDickPosition;
+			float3 _PenetratorRootWorld;
+			float3 _PenetratorRightWorld;
+			float3 _PenetratorUpWorld;
+			float3 _PenetratorForwardWorld;
+			float3 _DickForward;
+			float3 _DickOffset;
+			float3 _PenetratorStartWorld;
+			float _PenetratorOffsetLength;
+			float _GirthRadius;
+			float _TruncateLength;
+			float _BulgeRadius;
+			float _SquashStretchCorrection;
+			float _BulgeBlend;
+			float _StartClip;
 			float _BulgeProgress;
 			float _Angle;
 			float _TipRadius;
-			float _BulgeRadius;
-			float _BulgeBlend;
-			float _SquashStretchCorrection;
 			float _DistanceToHole;
-			float _TruncateLength;
-			float _GirthRadius;
-			float _PenetratorOffsetLength;
+			float _EndClip;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -1451,6 +1464,7 @@ Shader "DickShader"
 				float4 LightCoord : TEXCOORD1;
 				#endif
 				float4 ase_texcoord2 : TEXCOORD2;
+				float4 ase_texcoord3 : TEXCOORD3;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
 				FRONT_FACE_TYPE cullFace : FRONT_FACE_SEMANTIC;
@@ -1861,10 +1875,14 @@ Shader "DickShader"
 				float4 appendResult83_g1 = (float4(normalizeResult80_g1 , break79_g1.w));
 				float4 lerpResult20 = lerp( inputMesh.tangentOS , appendResult83_g1 , inputMesh.ase_color.r);
 				
+				float3 vertexToFrag189_g1 = squashStretchedPosition44_g1;
+				outputPackedVaryingsMeshToPS.ase_texcoord3.xyz = vertexToFrag189_g1;
+				
 				outputPackedVaryingsMeshToPS.ase_texcoord2.xy = inputMesh.uv0.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
 				outputPackedVaryingsMeshToPS.ase_texcoord2.zw = 0;
+				outputPackedVaryingsMeshToPS.ase_texcoord3.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
@@ -2027,6 +2045,8 @@ Shader "DickShader"
 				float2 uv_MaskMap = packedInput.ase_texcoord2.xy * _MaskMap_ST.xy + _MaskMap_ST.zw;
 				float4 tex2DNode46 = tex2D( _MaskMap, uv_MaskMap );
 				
+				float3 vertexToFrag189_g1 = packedInput.ase_texcoord3.xyz;
+				
 				surfaceDescription.BaseColor = tex2D( _BaseColorMap, uv_BaseColorMap ).rgb;
 				surfaceDescription.Normal = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
 				surfaceDescription.BentNormal = float3( 0, 0, 1 );
@@ -2040,10 +2060,10 @@ Shader "DickShader"
 				surfaceDescription.Emission = 0;
 				surfaceDescription.Smoothness = tex2DNode46.a;
 				surfaceDescription.Occlusion = tex2DNode46.g;
-				surfaceDescription.Alpha = 1;
+				surfaceDescription.Alpha = ( 1.0 - ( step( _StartClip , vertexToFrag189_g1.z ) * step( vertexToFrag189_g1.z , _EndClip ) ) );
 
 				#ifdef _ALPHATEST_ON
-				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
+				surfaceDescription.AlphaClipThreshold = 0.001;
 				#endif
 
 				#ifdef _ENABLE_GEOMETRIC_SPECULAR_AA
@@ -2202,28 +2222,30 @@ Shader "DickShader"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _MaskMap_ST;
-			float4 _BaseColorMap_ST;
 			float4 _NormalMap_ST;
-			float3 _PenetratorStartWorld;
-			float3 _DickForward;
-			float3 _PenetratorForwardWorld;
-			float3 _PenetratorUpWorld;
-			float3 _DickOffset;
-			float3 _PenetratorRootWorld;
-			float3 _WorldDickPosition;
-			float3 _WorldDickBinormal;
-			float3 _PenetratorRightWorld;
+			float4 _BaseColorMap_ST;
 			float3 _WorldDickNormal;
+			float3 _WorldDickBinormal;
+			float3 _WorldDickPosition;
+			float3 _PenetratorRootWorld;
+			float3 _PenetratorRightWorld;
+			float3 _PenetratorUpWorld;
+			float3 _PenetratorForwardWorld;
+			float3 _DickForward;
+			float3 _DickOffset;
+			float3 _PenetratorStartWorld;
+			float _PenetratorOffsetLength;
+			float _GirthRadius;
+			float _TruncateLength;
+			float _BulgeRadius;
+			float _SquashStretchCorrection;
+			float _BulgeBlend;
+			float _StartClip;
 			float _BulgeProgress;
 			float _Angle;
 			float _TipRadius;
-			float _BulgeRadius;
-			float _BulgeBlend;
-			float _SquashStretchCorrection;
 			float _DistanceToHole;
-			float _TruncateLength;
-			float _GirthRadius;
-			float _PenetratorOffsetLength;
+			float _EndClip;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -2328,7 +2350,7 @@ Shader "DickShader"
 			{
 				SV_POSITION_QUALIFIERS float4 positionCS : SV_Position;
 				float3 positionRWS : TEXCOORD0;
-				
+				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
@@ -2682,6 +2704,12 @@ Shader "DickShader"
 				float3 normalizeResult76_g1 = normalize( (mul( GetWorldToObjectMatrix(), appendResult75_g1 )).xyz );
 				float3 lerpResult17 = lerp( temp_output_48_42 , normalizeResult76_g1 , inputMesh.ase_color.r);
 				
+				float3 vertexToFrag189_g1 = squashStretchedPosition44_g1;
+				outputPackedVaryingsMeshToPS.ase_texcoord1.xyz = vertexToFrag189_g1;
+				
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				outputPackedVaryingsMeshToPS.ase_texcoord1.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
@@ -2853,11 +2881,12 @@ Shader "DickShader"
 				float3 V = GetWorldSpaceNormalizeViewDir(input.positionRWS);
 
 				AlphaSurfaceDescription surfaceDescription = (AlphaSurfaceDescription)0;
+				float3 vertexToFrag189_g1 = packedInput.ase_texcoord1.xyz;
 				
-				surfaceDescription.Alpha = 1;
+				surfaceDescription.Alpha = ( 1.0 - ( step( _StartClip , vertexToFrag189_g1.z ) * step( vertexToFrag189_g1.z , _EndClip ) ) );
 
 				#ifdef _ALPHATEST_ON
-				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
+				surfaceDescription.AlphaClipThreshold = 0.001;
 				#endif
 
 				#ifdef _ALPHATEST_SHADOW_ON
@@ -2987,28 +3016,30 @@ Shader "DickShader"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _MaskMap_ST;
-			float4 _BaseColorMap_ST;
 			float4 _NormalMap_ST;
-			float3 _PenetratorStartWorld;
-			float3 _DickForward;
-			float3 _PenetratorForwardWorld;
-			float3 _PenetratorUpWorld;
-			float3 _DickOffset;
-			float3 _PenetratorRootWorld;
-			float3 _WorldDickPosition;
-			float3 _WorldDickBinormal;
-			float3 _PenetratorRightWorld;
+			float4 _BaseColorMap_ST;
 			float3 _WorldDickNormal;
+			float3 _WorldDickBinormal;
+			float3 _WorldDickPosition;
+			float3 _PenetratorRootWorld;
+			float3 _PenetratorRightWorld;
+			float3 _PenetratorUpWorld;
+			float3 _PenetratorForwardWorld;
+			float3 _DickForward;
+			float3 _DickOffset;
+			float3 _PenetratorStartWorld;
+			float _PenetratorOffsetLength;
+			float _GirthRadius;
+			float _TruncateLength;
+			float _BulgeRadius;
+			float _SquashStretchCorrection;
+			float _BulgeBlend;
+			float _StartClip;
 			float _BulgeProgress;
 			float _Angle;
 			float _TipRadius;
-			float _BulgeRadius;
-			float _BulgeBlend;
-			float _SquashStretchCorrection;
 			float _DistanceToHole;
-			float _TruncateLength;
-			float _GirthRadius;
-			float _PenetratorOffsetLength;
+			float _EndClip;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -3114,7 +3145,7 @@ Shader "DickShader"
 			{
 				SV_POSITION_QUALIFIERS float4 positionCS : SV_Position;
 				float3 positionRWS : TEXCOORD0;
-				
+				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
@@ -3464,6 +3495,12 @@ Shader "DickShader"
 				float3 normalizeResult76_g1 = normalize( (mul( GetWorldToObjectMatrix(), appendResult75_g1 )).xyz );
 				float3 lerpResult17 = lerp( temp_output_48_42 , normalizeResult76_g1 , inputMesh.ase_color.r);
 				
+				float3 vertexToFrag189_g1 = squashStretchedPosition44_g1;
+				outputPackedVaryingsMeshToPS.ase_texcoord1.xyz = vertexToFrag189_g1;
+				
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				outputPackedVaryingsMeshToPS.ase_texcoord1.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
@@ -3617,11 +3654,12 @@ Shader "DickShader"
 				float3 V = GetWorldSpaceNormalizeViewDir(input.positionRWS);
 
 				SceneSurfaceDescription surfaceDescription = (SceneSurfaceDescription)0;
+				float3 vertexToFrag189_g1 = packedInput.ase_texcoord1.xyz;
 				
-				surfaceDescription.Alpha = 1;
+				surfaceDescription.Alpha = ( 1.0 - ( step( _StartClip , vertexToFrag189_g1.z ) * step( vertexToFrag189_g1.z , _EndClip ) ) );
 
 				#ifdef _ALPHATEST_ON
-				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
+				surfaceDescription.AlphaClipThreshold = 0.001;
 				#endif
 
 				#ifdef _DEPTHOFFSET_ON
@@ -3740,28 +3778,30 @@ Shader "DickShader"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _MaskMap_ST;
-			float4 _BaseColorMap_ST;
 			float4 _NormalMap_ST;
-			float3 _PenetratorStartWorld;
-			float3 _DickForward;
-			float3 _PenetratorForwardWorld;
-			float3 _PenetratorUpWorld;
-			float3 _DickOffset;
-			float3 _PenetratorRootWorld;
-			float3 _WorldDickPosition;
-			float3 _WorldDickBinormal;
-			float3 _PenetratorRightWorld;
+			float4 _BaseColorMap_ST;
 			float3 _WorldDickNormal;
+			float3 _WorldDickBinormal;
+			float3 _WorldDickPosition;
+			float3 _PenetratorRootWorld;
+			float3 _PenetratorRightWorld;
+			float3 _PenetratorUpWorld;
+			float3 _PenetratorForwardWorld;
+			float3 _DickForward;
+			float3 _DickOffset;
+			float3 _PenetratorStartWorld;
+			float _PenetratorOffsetLength;
+			float _GirthRadius;
+			float _TruncateLength;
+			float _BulgeRadius;
+			float _SquashStretchCorrection;
+			float _BulgeBlend;
+			float _StartClip;
 			float _BulgeProgress;
 			float _Angle;
 			float _TipRadius;
-			float _BulgeRadius;
-			float _BulgeBlend;
-			float _SquashStretchCorrection;
 			float _DistanceToHole;
-			float _TruncateLength;
-			float _GirthRadius;
-			float _PenetratorOffsetLength;
+			float _EndClip;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -3873,6 +3913,7 @@ Shader "DickShader"
 				float3 normalWS : TEXCOORD1;
 				float4 tangentWS : TEXCOORD2;
 				float4 ase_texcoord3 : TEXCOORD3;
+				float4 ase_texcoord4 : TEXCOORD4;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
@@ -4234,10 +4275,14 @@ Shader "DickShader"
 				float4 appendResult83_g1 = (float4(normalizeResult80_g1 , break79_g1.w));
 				float4 lerpResult20 = lerp( inputMesh.tangentOS , appendResult83_g1 , inputMesh.ase_color.r);
 				
+				float3 vertexToFrag189_g1 = squashStretchedPosition44_g1;
+				outputPackedVaryingsMeshToPS.ase_texcoord4.xyz = vertexToFrag189_g1;
+				
 				outputPackedVaryingsMeshToPS.ase_texcoord3.xy = inputMesh.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
 				outputPackedVaryingsMeshToPS.ase_texcoord3.zw = 0;
+				outputPackedVaryingsMeshToPS.ase_texcoord4.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
@@ -4426,12 +4471,14 @@ Shader "DickShader"
 				float2 uv_MaskMap = packedInput.ase_texcoord3.xy * _MaskMap_ST.xy + _MaskMap_ST.zw;
 				float4 tex2DNode46 = tex2D( _MaskMap, uv_MaskMap );
 				
+				float3 vertexToFrag189_g1 = packedInput.ase_texcoord4.xyz;
+				
 				surfaceDescription.Normal = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
 				surfaceDescription.Smoothness = tex2DNode46.a;
-				surfaceDescription.Alpha = 1;
+				surfaceDescription.Alpha = ( 1.0 - ( step( _StartClip , vertexToFrag189_g1.z ) * step( vertexToFrag189_g1.z , _EndClip ) ) );
 
 				#ifdef _ALPHATEST_ON
-				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
+				surfaceDescription.AlphaClipThreshold = 0.001;
 				#endif
 
 				#ifdef _DEPTHOFFSET_ON
@@ -4567,28 +4614,30 @@ Shader "DickShader"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _MaskMap_ST;
-			float4 _BaseColorMap_ST;
 			float4 _NormalMap_ST;
-			float3 _PenetratorStartWorld;
-			float3 _DickForward;
-			float3 _PenetratorForwardWorld;
-			float3 _PenetratorUpWorld;
-			float3 _DickOffset;
-			float3 _PenetratorRootWorld;
-			float3 _WorldDickPosition;
-			float3 _WorldDickBinormal;
-			float3 _PenetratorRightWorld;
+			float4 _BaseColorMap_ST;
 			float3 _WorldDickNormal;
+			float3 _WorldDickBinormal;
+			float3 _WorldDickPosition;
+			float3 _PenetratorRootWorld;
+			float3 _PenetratorRightWorld;
+			float3 _PenetratorUpWorld;
+			float3 _PenetratorForwardWorld;
+			float3 _DickForward;
+			float3 _DickOffset;
+			float3 _PenetratorStartWorld;
+			float _PenetratorOffsetLength;
+			float _GirthRadius;
+			float _TruncateLength;
+			float _BulgeRadius;
+			float _SquashStretchCorrection;
+			float _BulgeBlend;
+			float _StartClip;
 			float _BulgeProgress;
 			float _Angle;
 			float _TipRadius;
-			float _BulgeRadius;
-			float _BulgeBlend;
-			float _SquashStretchCorrection;
 			float _DistanceToHole;
-			float _TruncateLength;
-			float _GirthRadius;
-			float _PenetratorOffsetLength;
+			float _EndClip;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -4701,6 +4750,7 @@ Shader "DickShader"
 				float3 vpassInterpolators0 : TEXCOORD1; //interpolators0
 				float3 vpassInterpolators1 : TEXCOORD2; //interpolators1
 				float4 ase_texcoord3 : TEXCOORD3;
+				float4 ase_texcoord4 : TEXCOORD4;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
@@ -5047,10 +5097,14 @@ Shader "DickShader"
 				float3 normalizeResult76_g1 = normalize( (mul( GetWorldToObjectMatrix(), appendResult75_g1 )).xyz );
 				float3 lerpResult17 = lerp( temp_output_48_42 , normalizeResult76_g1 , inputMesh.ase_color.r);
 				
+				float3 vertexToFrag189_g1 = squashStretchedPosition44_g1;
+				outputPackedVaryingsMeshToPS.ase_texcoord4.xyz = vertexToFrag189_g1;
+				
 				outputPackedVaryingsMeshToPS.ase_texcoord3.xy = inputMesh.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
 				outputPackedVaryingsMeshToPS.ase_texcoord3.zw = 0;
+				outputPackedVaryingsMeshToPS.ase_texcoord4.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
@@ -5299,12 +5353,14 @@ Shader "DickShader"
 				float2 uv_MaskMap = packedInput.ase_texcoord3.xy * _MaskMap_ST.xy + _MaskMap_ST.zw;
 				float4 tex2DNode46 = tex2D( _MaskMap, uv_MaskMap );
 				
+				float3 vertexToFrag189_g1 = packedInput.ase_texcoord4.xyz;
+				
 				surfaceDescription.Normal = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
 				surfaceDescription.Smoothness = tex2DNode46.a;
-				surfaceDescription.Alpha = 1;
+				surfaceDescription.Alpha = ( 1.0 - ( step( _StartClip , vertexToFrag189_g1.z ) * step( vertexToFrag189_g1.z , _EndClip ) ) );
 
 				#ifdef _ALPHATEST_ON
-				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
+				surfaceDescription.AlphaClipThreshold = 0.001;
 				#endif
 
 				#ifdef _DEPTHOFFSET_ON
@@ -5487,28 +5543,30 @@ Shader "DickShader"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _MaskMap_ST;
-			float4 _BaseColorMap_ST;
 			float4 _NormalMap_ST;
-			float3 _PenetratorStartWorld;
-			float3 _DickForward;
-			float3 _PenetratorForwardWorld;
-			float3 _PenetratorUpWorld;
-			float3 _DickOffset;
-			float3 _PenetratorRootWorld;
-			float3 _WorldDickPosition;
-			float3 _WorldDickBinormal;
-			float3 _PenetratorRightWorld;
+			float4 _BaseColorMap_ST;
 			float3 _WorldDickNormal;
+			float3 _WorldDickBinormal;
+			float3 _WorldDickPosition;
+			float3 _PenetratorRootWorld;
+			float3 _PenetratorRightWorld;
+			float3 _PenetratorUpWorld;
+			float3 _PenetratorForwardWorld;
+			float3 _DickForward;
+			float3 _DickOffset;
+			float3 _PenetratorStartWorld;
+			float _PenetratorOffsetLength;
+			float _GirthRadius;
+			float _TruncateLength;
+			float _BulgeRadius;
+			float _SquashStretchCorrection;
+			float _BulgeBlend;
+			float _StartClip;
 			float _BulgeProgress;
 			float _Angle;
 			float _TipRadius;
-			float _BulgeRadius;
-			float _BulgeBlend;
-			float _SquashStretchCorrection;
 			float _DistanceToHole;
-			float _TruncateLength;
-			float _GirthRadius;
-			float _PenetratorOffsetLength;
+			float _EndClip;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -5634,6 +5692,7 @@ Shader "DickShader"
 					float3 vpassPreviousPositionCS : TEXCOORD6;
 				#endif
 				float4 ase_texcoord7 : TEXCOORD7;
+				float4 ase_texcoord8 : TEXCOORD8;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
@@ -6055,10 +6114,14 @@ Shader "DickShader"
 				float4 appendResult83_g1 = (float4(normalizeResult80_g1 , break79_g1.w));
 				float4 lerpResult20 = lerp( inputMesh.tangentOS , appendResult83_g1 , inputMesh.ase_color.r);
 				
+				float3 vertexToFrag189_g1 = squashStretchedPosition44_g1;
+				outputPackedVaryingsMeshToPS.ase_texcoord8.xyz = vertexToFrag189_g1;
+				
 				outputPackedVaryingsMeshToPS.ase_texcoord7.xy = inputMesh.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
 				outputPackedVaryingsMeshToPS.ase_texcoord7.zw = 0;
+				outputPackedVaryingsMeshToPS.ase_texcoord8.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
@@ -6325,6 +6388,8 @@ Shader "DickShader"
 				float2 uv_MaskMap = packedInput.ase_texcoord7.xy * _MaskMap_ST.xy + _MaskMap_ST.zw;
 				float4 tex2DNode46 = tex2D( _MaskMap, uv_MaskMap );
 				
+				float3 vertexToFrag189_g1 = packedInput.ase_texcoord8.xyz;
+				
 				surfaceDescription.BaseColor = tex2D( _BaseColorMap, uv_BaseColorMap ).rgb;
 				surfaceDescription.Normal = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
 				surfaceDescription.BentNormal = float3( 0, 0, 1 );
@@ -6338,10 +6403,10 @@ Shader "DickShader"
 				surfaceDescription.Emission = 0;
 				surfaceDescription.Smoothness = tex2DNode46.a;
 				surfaceDescription.Occlusion = tex2DNode46.g;
-				surfaceDescription.Alpha = 1;
+				surfaceDescription.Alpha = ( 1.0 - ( step( _StartClip , vertexToFrag189_g1.z ) * step( vertexToFrag189_g1.z , _EndClip ) ) );
 
 				#ifdef _ALPHATEST_ON
-				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
+				surfaceDescription.AlphaClipThreshold = 0.001;
 				#endif
 
 				#ifdef _ENABLE_GEOMETRIC_SPECULAR_AA
@@ -6603,28 +6668,30 @@ Shader "DickShader"
 			float4 _SelectionID;
             CBUFFER_START( UnityPerMaterial )
 			float4 _MaskMap_ST;
-			float4 _BaseColorMap_ST;
 			float4 _NormalMap_ST;
-			float3 _PenetratorStartWorld;
-			float3 _DickForward;
-			float3 _PenetratorForwardWorld;
-			float3 _PenetratorUpWorld;
-			float3 _DickOffset;
-			float3 _PenetratorRootWorld;
-			float3 _WorldDickPosition;
-			float3 _WorldDickBinormal;
-			float3 _PenetratorRightWorld;
+			float4 _BaseColorMap_ST;
 			float3 _WorldDickNormal;
+			float3 _WorldDickBinormal;
+			float3 _WorldDickPosition;
+			float3 _PenetratorRootWorld;
+			float3 _PenetratorRightWorld;
+			float3 _PenetratorUpWorld;
+			float3 _PenetratorForwardWorld;
+			float3 _DickForward;
+			float3 _DickOffset;
+			float3 _PenetratorStartWorld;
+			float _PenetratorOffsetLength;
+			float _GirthRadius;
+			float _TruncateLength;
+			float _BulgeRadius;
+			float _SquashStretchCorrection;
+			float _BulgeBlend;
+			float _StartClip;
 			float _BulgeProgress;
 			float _Angle;
 			float _TipRadius;
-			float _BulgeRadius;
-			float _BulgeBlend;
-			float _SquashStretchCorrection;
 			float _DistanceToHole;
-			float _TruncateLength;
-			float _GirthRadius;
-			float _PenetratorOffsetLength;
+			float _EndClip;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -6711,7 +6778,7 @@ Shader "DickShader"
 				float4 positionCS : SV_POSITION;
 				float3 normalWS : TEXCOORD0;
 				float4 tangentWS : TEXCOORD1;
-				
+				float4 ase_texcoord2 : TEXCOORD2;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
@@ -7018,6 +7085,12 @@ Shader "DickShader"
 				float3 normalizeResult76_g1 = normalize( (mul( GetWorldToObjectMatrix(), appendResult75_g1 )).xyz );
 				float3 lerpResult17 = lerp( temp_output_48_42 , normalizeResult76_g1 , inputMesh.ase_color.r);
 				
+				float3 vertexToFrag189_g1 = squashStretchedPosition44_g1;
+				o.ase_texcoord2.xyz = vertexToFrag189_g1;
+				
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord2.w = 0;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
 				#else
@@ -7149,9 +7222,10 @@ Shader "DickShader"
 				PositionInputs posInput = GetPositionInput(input.positionSS.xy, _ScreenSize.zw, input.positionSS.z, input.positionSS.w, input.positionRWS);
 
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
+				float3 vertexToFrag189_g1 = packedInput.ase_texcoord2.xyz;
 				
-				surfaceDescription.Alpha = 1;
-				surfaceDescription.AlphaClipThreshold =  _AlphaCutoff;
+				surfaceDescription.Alpha = ( 1.0 - ( step( _StartClip , vertexToFrag189_g1.z ) * step( vertexToFrag189_g1.z , _EndClip ) ) );
+				surfaceDescription.AlphaClipThreshold =  0.001;
 
 
 				float3 V = float3(1.0, 1.0, 1.0);
@@ -7440,7 +7514,7 @@ Shader "DickShader"
 }
 /*ASEBEGIN
 Version=19201
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;0,0;Float;False;True;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;DickShader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;GBuffer;0;0;GBuffer;34;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;True;True;True;True;0;True;_LightLayersMaskBuffer4;False;False;False;False;False;False;False;True;True;0;True;_StencilRefGBuffer;255;False;;255;True;_StencilWriteMaskGBuffer;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;False;True;0;True;_ZTestGBuffer;False;True;1;LightMode=GBuffer;False;False;0;;0;0;Standard;39;Surface Type;0;0;  Rendering Pass;1;0;  Refraction Model;0;0;    Blending Mode;0;0;    Blend Preserves Specular;1;0;  Back Then Front Rendering;0;0;  Transparent Depth Prepass;0;0;  Transparent Depth Postpass;0;0;  ZWrite;0;0;  Z Test;4;0;Double-Sided;0;0;Alpha Clipping;0;0;  Use Shadow Threshold;0;0;Material Type,InvertActionOnDeselection;0;0;  Energy Conserving Specular;1;0;  Transmission,InvertActionOnDeselection;0;0;Forward Only;0;0;Receive Decals;1;0;Receives SSR;1;0;Receive SSR Transparent;0;0;Motion Vectors;1;0;  Add Precomputed Velocity;0;0;Specular AA;0;0;Specular Occlusion Mode;1;0;Override Baked GI;0;0;Depth Offset;0;0;DOTS Instancing;0;0;GPU Instancing;1;0;LOD CrossFade;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position;0;638235958401080136;0;11;True;True;True;True;True;True;False;False;False;True;True;False;;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;0,0;Float;False;True;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;DickShader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;GBuffer;0;0;GBuffer;34;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;True;True;True;True;0;True;_LightLayersMaskBuffer4;False;False;False;False;False;False;False;True;True;0;True;_StencilRefGBuffer;255;False;;255;True;_StencilWriteMaskGBuffer;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;False;True;0;True;_ZTestGBuffer;False;True;1;LightMode=GBuffer;False;False;0;;0;0;Standard;39;Surface Type;0;0;  Rendering Pass;1;0;  Refraction Model;0;0;    Blending Mode;0;0;    Blend Preserves Specular;1;0;  Back Then Front Rendering;0;0;  Transparent Depth Prepass;0;0;  Transparent Depth Postpass;0;0;  ZWrite;0;0;  Z Test;4;0;Double-Sided;0;0;Alpha Clipping;1;638467332247601835;  Use Shadow Threshold;0;0;Material Type,InvertActionOnDeselection;0;0;  Energy Conserving Specular;1;0;  Transmission,InvertActionOnDeselection;0;0;Forward Only;0;0;Receive Decals;1;0;Receives SSR;1;0;Receive SSR Transparent;0;0;Motion Vectors;1;0;  Add Precomputed Velocity;0;0;Specular AA;0;0;Specular Occlusion Mode;1;0;Override Baked GI;0;0;Depth Offset;0;0;DOTS Instancing;0;0;GPU Instancing;1;0;LOD CrossFade;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position;0;638235958401080136;0;11;True;True;True;True;True;True;False;False;False;True;True;False;;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;META;0;1;META;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;3;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;SceneSelectionPass;0;3;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
@@ -7486,11 +7560,14 @@ Node;AmplifyShaderEditor.OneMinusNode;52;-2177.911,983.4149;Inherit;False;1;0;FL
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;53;-2001.857,945.42;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.DotProductOpNode;50;-2647.911,949.4149;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SaturateNode;55;-2344.857,1049.42;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;56;-596.0541,380.753;Inherit;False;Constant;_Float0;Float 0;10;0;Create;True;0;0;0;False;0;False;0.001;0;0;0;0;1;FLOAT;0
 WireConnection;0;0;45;0
 WireConnection;0;1;47;0
 WireConnection;0;4;46;1
 WireConnection;0;7;46;4
 WireConnection;0;8;46;2
+WireConnection;0;9;11;0
+WireConnection;0;10;56;0
 WireConnection;0;11;15;0
 WireConnection;0;12;17;0
 WireConnection;0;27;20;0
@@ -7539,4 +7616,4 @@ WireConnection;50;0;28;0
 WireConnection;50;1;37;0
 WireConnection;55;0;51;0
 ASEEND*/
-//CHKSM=9F01747E17B2BDD470AF395840D32B299940E5CF
+//CHKSM=090530D188BA13EA898126D75B2F86068930D2D0
