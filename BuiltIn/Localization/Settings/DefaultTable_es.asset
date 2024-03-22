@@ -252,7 +252,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 27565149668298755
-    m_Localized: Revise su HUD para obtener sus objetivos.
+    m_Localized: Consulta tu HUD para conocer tus objetivos.
     m_Metadata:
       m_Items: []
   - m_Id: 27565149668298756
@@ -276,7 +276,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 34000825808900096
-    m_Localized: Omitir la escena
+    m_Localized: Saltar escena
     m_Metadata:
       m_Items: []
   - m_Id: 34000825808900097
@@ -693,7 +693,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511297
-    m_Localized: "\xA1No, nooooo!"
+    m_Localized: "\xA1no, nooooo!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511298
@@ -709,7 +709,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511301
-    m_Localized: "Deber\xEDa haber pedido su n\xFAmero de tel\xE9fono."
+    m_Localized: "Deber\xEDa haberles pedido su n\xFAmero de tel\xE9fono."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511302
@@ -717,7 +717,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511303
-    m_Localized: "\xBFTe sientes mejor?"
+    m_Localized: "\xBFSe siente mejor?"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511304
@@ -777,7 +777,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511320
-    m_Localized: "Ojal\xE1 ese fuera yo ..."
+    m_Localized: "Ojal\xE1 fuera yo..."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511321
@@ -805,7 +805,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511327
-    m_Localized: "\xA1No pude resistirte!"
+    m_Localized: "\xA1No pude resistirme!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511328
@@ -837,7 +837,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511336
-    m_Localized: "No queda nada m\xE1s que semen"
+    m_Localized: "No queda nada m\xE1s que correrse"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511337
@@ -853,7 +853,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511340
-    m_Localized: "Ser\xE1 mejor que te pongas c\xF3modo"
+    m_Localized: "Ser\xE1 mejor que te pongas c\xF3modo all\xED."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511341
@@ -877,7 +877,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511346
-    m_Localized: "No te preocupes, te dejar\xE9 salir, eventualmente."
+    m_Localized: "No te preocupes, eventualmente te dejar\xE9 salir."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511347
@@ -1156,7 +1156,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547843
-    m_Localized: "\xA1No te dejes atrapar por la seguridad de la oficina!"
+    m_Localized: "\xA1No te dejes atrapar por la seguridad de la Oficina!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547844
@@ -1357,6 +1357,22 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 62087231222411269
     m_Localized: "\xA1Ten mucho cuidado, o ser\xE1s t\xFA el que acabe en sus bolas!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677888
+    m_Localized: "Campa\xF1a de vectores de abandono"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677889
+    m_Localized: El Agente 789 toma varios contratos dentro de CV City...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677890
+    m_Localized: Modificado
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677891
+    m_Localized: "\xA1Varios niveles por parte de la comunidad!"
     m_Metadata:
       m_Items: []
   references:

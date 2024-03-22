@@ -252,7 +252,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 27565149668298755
-    m_Localized: Controleer uw HUD op uw doelstellingen.
+    m_Localized: Controleer uw HUD voor uw doelstellingen.
     m_Metadata:
       m_Items: []
   - m_Id: 27565149668298756
@@ -272,7 +272,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 33999910783733760
-    m_Localized: Selecteer contract
+    m_Localized: Selecteer Contract
     m_Metadata:
       m_Items: []
   - m_Id: 34000825808900096
@@ -465,7 +465,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363541
-    m_Localized: Hey, genoegen nemen!
+    m_Localized: "H\xE9, ga maar zitten!"
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363542
@@ -645,7 +645,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 44160113307078656
-    m_Localized: Huh?
+    m_Localized: "H\xE8?"
     m_Metadata:
       m_Items: []
   - m_Id: 44160113307078657
@@ -689,11 +689,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511296
-    m_Localized: Ah Dang, hier gaan we weer.
+    m_Localized: Ah dang, daar gaan we weer.
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511297
-    m_Localized: Nee, nee!
+    m_Localized: nee, neeeeee!
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511298
@@ -725,7 +725,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511305
-    m_Localized: Wacht, ik dacht dat de Recumbobulator mijn kleren terugzette?
+    m_Localized: Wacht, ik dacht dat de recumbobulator mijn kleren teruglegt?
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511306
@@ -737,7 +737,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511310
-    m_Localized: Wie liet je rond liggen?
+    m_Localized: Wie heeft jou laten liggen?
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511311
@@ -753,7 +753,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511314
-    m_Localized: De breektijd is voorbij.
+    m_Localized: De pauzetijd is voorbij.
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511315
@@ -785,11 +785,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511322
-    m_Localized: Sorry, laat me dan gewoon naar mijn station rollen.
+    m_Localized: Sorry, laat me dan gewoon naar mijn station rijden.
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511323
-    m_Localized: Haha, ik zal je geen zorgen rollen.
+    m_Localized: Haha, ik rol je zonder zorgen.
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511324
@@ -813,7 +813,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511329
-    m_Localized: Hebben we dit niet gewoon gedaan?
+    m_Localized: Hebben we dit niet net gedaan?
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511330
@@ -841,19 +841,19 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511337
-    m_Localized: Je maakt een goede lading.
+    m_Localized: Je zult een goede lading maken.
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511338
-    m_Localized: Zacht voor mij geworden?
+    m_Localized: Zacht tegen mij geworden?
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511339
-    m_Localized: "Tijd om een \u200B\u200Bpuinhoop te maken!"
+    m_Localized: Tijd om er een puinhoop van te maken!
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511340
-    m_Localized: Je kunt daar maar beter comfortabel worden
+    m_Localized: Je kunt je daar maar beter op je gemak voelen
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511341
@@ -861,7 +861,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511342
-    m_Localized: Misschien is de volgende meer vullend
+    m_Localized: Misschien zal de volgende meer vullen
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511343
@@ -869,7 +869,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511344
-    m_Localized: Geniet van zolang het duurt!
+    m_Localized: Geniet ervan zolang het duurt!
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511345
@@ -877,11 +877,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511346
-    m_Localized: Maak je geen zorgen, ik zal je er uiteindelijk uit laten.
+    m_Localized: Maak je geen zorgen, ik zal je uiteindelijk vrijlaten.
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511347
-    m_Localized: Laten we eens kijken hoe lang je meegaat ~
+    m_Localized: Laten we eens kijken hoe lang je het volhoudt ~
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511348
@@ -897,7 +897,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511351
-    m_Localized: Precies waar je thuishoort ~
+    m_Localized: Precies waar je hoort~
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511352
@@ -961,7 +961,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 51459478631534592
-    m_Localized: Credits
+    m_Localized: Kredieten
     m_Metadata:
       m_Items: []
   - m_Id: 49219015019122693
@@ -1025,7 +1025,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511355
-    m_Localized: Heb je een lading voor me?
+    m_Localized: Heb je een lading voor mij?
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511356
@@ -1037,7 +1037,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511358
-    m_Localized: "Wees voorzichtig ok\xE9?"
+    m_Localized: "Wees zacht, ok\xE9?"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511359
@@ -1045,7 +1045,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511360
-    m_Localized: Wees snel, ik moet ergens zijn.
+    m_Localized: Wees er snel bij, ik moet ergens zijn.
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511361
@@ -1134,11 +1134,12 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547843
-    m_Localized: Raak niet gepakt door de beveiliging van kantoor!
+    m_Localized: Laat je niet betrappen door de Office-beveiliging!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547844
-    m_Localized: Beveiligingspersoneel heeft radio's die u kunnen melden, wees voorzichtig.
+    m_Localized: Beveiligingspersoneel heeft radio's die u kunnen rapporteren, wees
+      voorzichtig.
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547845
@@ -1146,7 +1147,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547846
-    m_Localized: De hoofdtechnologie in de zijpower Room wil een pauze van het werk.
+    m_Localized: De hoofdtechnicus in de zijstroomkamer wil even pauzeren van zijn
+      werk.
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547847
@@ -1154,8 +1156,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547848
-    m_Localized: De opzichter in de verhoogde over het hoofd ziet de werknemers te
-      hard! Stuur ze op vakantie en geef iedereen een pauze.
+    m_Localized: De opzichter op het verhoogde uitkijkpunt dwingt de arbeiders te
+      hard! Stuur ze op vakantie en gun iedereen een pauze.
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547849
@@ -1168,7 +1170,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547851
-    m_Localized: Raak niet gepakt door magazijnbeveiliging.
+    m_Localized: Laat u niet betrappen door de magazijnbeveiliging.
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547852
@@ -1180,8 +1182,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547854
-    m_Localized: De kapitein heeft een vakantie nodig, vind ze in het donkerblauw
-      beveiligde gebied.
+    m_Localized: De kapitein heeft vakantie nodig, vind ze in het donkerblauwe beveiligde
+      gebied.
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547855
@@ -1189,8 +1191,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547856
-    m_Localized: Gelegen in de tempel die toespraken geeft, breng je hun afwijkende
-      kant in het licht!
+    m_Localized: Gelegen in de tempel die toespraken geeft, breng hun afwijkende
+      kant naar het licht!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547857
@@ -1199,7 +1201,7 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 59060303696547858
     m_Localized: Een wetenschapper in het groene gebied wil dat je ze voor de wetenschap
-      churnt!
+      aanzet!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547859
@@ -1207,12 +1209,12 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547860
-    m_Localized: "De hoofdkok wil dat je hen helpt een nieuw ingredi\xEBnt uit te
-      proberen door erin te veranderen!"
+    m_Localized: "De chef-kok wil dat je hem helpt een nieuw ingredi\xEBnt uit te
+      proberen door hem erin te verwerken!"
     m_Metadata:
       m_Items: []
   - m_Id: 59064884090425344
-    m_Localized: Verlaat het gebruik van een van de uitgangsdeuren.
+    m_Localized: Verlaat het gebouw via een van de uitgangsdeuren.
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547861
@@ -1287,7 +1289,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 60175060938878977
-    m_Localized: Houd de baas geknipt door hun condoom in een badkamer te laten!
+    m_Localized: Houd de baas in de war door zijn condoom in de badkamer te laten
+      liggen!
     m_Metadata:
       m_Items: []
   - m_Id: 60181309898190848
@@ -1295,16 +1298,17 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 60181309914968064
-    m_Localized: Stash een condoom met beveiligingshoofd in de kleedkamer van de
-      beveiliging.
+    m_Localized: Berg een condoom met daarin het hoofd van de beveiliging op in de
+      beveiligingskleedkamer.
     m_Metadata:
       m_Items: []
   - m_Id: 60181309914968065
-    m_Localized: "Verberg de conci\xEBrge (optioneel)"
+    m_Localized: "De conci\xEBrge verbergen (optioneel)"
     m_Metadata:
       m_Items: []
   - m_Id: 60181309914968066
-    m_Localized: "Stash een condoom met de conci\xEBrge in de badkamer van de hoofdgang."
+    m_Localized: "Berg een condoom op met daarin de conci\xEBrge in de badkamer in
+      de hoofdgang."
     m_Metadata:
       m_Items: []
   - m_Id: 60288126066192384
@@ -1324,7 +1328,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411266
-    m_Localized: Ze hebben de laatste tijd onder veel druk gezeten
+    m_Localized: "Ze staan \u200B\u200Bde laatste tijd onder grote druk"
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411267
@@ -1333,7 +1337,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411268
-    m_Localized: Het is tijd dat ze op vakantie gingen
+    m_Localized: Het wordt tijd dat ze op vakantie gaan
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411269
@@ -1351,6 +1355,22 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 49239933124661251
     m_Localized: Het is zo warm!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677888
+    m_Localized: Churn Vector-campagne
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677889
+    m_Localized: Agent 789 neemt diverse contracten aan binnen CV City...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677890
+    m_Localized: Gemodificeerd
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677891
+    m_Localized: Verschillende niveaus door de gemeenschap!
     m_Metadata:
       m_Items: []
   references:

@@ -4153,6 +4153,12 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ee6a0d8ef6b61924a8cd1b0e43e61cde
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/ModdingCategory.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ChurnVectorCategory
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 45ba01601caec634d960d95861748758, type: 2}
   m_SchemaSet:

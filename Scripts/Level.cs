@@ -13,13 +13,33 @@ using UnityEngine.SceneManagement;
 
 [CreateAssetMenu(fileName = "New Level", menuName = "Data/Level", order = 56)]
 public class Level : ScriptableObject {
-    // TODO: Make categories, come with modding category and a first campaign category.
     [SerializeField] private LocalizedString localizedLevelName;
     [SerializeField] private LocalizedString localizedLevelDescription;
     [SerializeField] private Sprite levelPreview;
     [SerializeField] private AssetReferenceScene scene;
+    [SerializeField] private AssetReferenceLevelCategory category;
+    [SerializeField] private int levelOrderPriority;
+    [SerializeField] private bool requiresPreviousLevelToBeBeatenToPlay = false;
+    
+    [Serializable]
+    private class AssetReferenceLevelCategory : AssetReferenceT<LevelCategory> {
+        public AssetReferenceLevelCategory(string guid) : base(guid) { }
+    }
     private Scene? sceneDirect;
 
+    public bool GetRequiresPreviousLevelToBeBeatenToPlay() {
+        return requiresPreviousLevelToBeBeatenToPlay;
+    }
+
+    public int CompareTo(Level b) {
+        return levelOrderPriority.CompareTo(b.levelOrderPriority);
+    }
+    public bool IsPartOfCategory(LevelCategory categoryToCheck) {
+        return category.AssetGUID == categoryToCheck.GetAssetGuid();
+    }
+    public bool IsPartOfCategory(Level levelToCompareTo) {
+        return category.AssetGUID == levelToCompareTo.category.AssetGUID;
+    }
     public void SetScene(Scene newScene) {
         sceneDirect = newScene;
     }

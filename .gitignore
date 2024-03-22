@@ -73,3 +73,5 @@ crashlytics-build.properties
 Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Localization/Settings/Google Sheets Service.asset
 Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Localization/Settings/Google Sheets Service.asset.meta
 /.idea/
+BuiltIn/Localization/Settings/Google Sheets Service.asset.meta
+BuiltIn/Localization/Settings/Google Sheets Service.asset

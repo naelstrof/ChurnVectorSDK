@@ -67,6 +67,34 @@ MonoBehaviour:
     m_Key: CIV_EXCLAIM_13
     m_Metadata:
       m_Items: []
+  - m_Id: 87612991986540544
+    m_Key: PRED_EXCLAIM_1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992011706368
+    m_Key: PRED_EXCLAIM_2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992011706369
+    m_Key: PRED_EXCLAIM_3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992011706370
+    m_Key: PRED_EXCLAIM_4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992011706371
+    m_Key: PRED_EXCLAIM_5
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992011706372
+    m_Key: PRED_EXCLAIM_6
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992011706373
+    m_Key: PRED_EXCLAIM_7
+    m_Metadata:
+      m_Items: []
   - m_Id: 11380743262208
     m_Key: MONDAY_CUTSCENE_1_RAT
     m_Metadata:
@@ -569,6 +597,26 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 52896566501494792
     m_Key: VORE_37_A
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992024289280
+    m_Key: PLAYER_VORED_1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992024289281
+    m_Key: PLAYER_VORED_2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992024289282
+    m_Key: PLAYER_VORED_3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992024289283
+    m_Key: PLAYER_VORED_4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992024289284
+    m_Key: PLAYER_VORED_5
     m_Metadata:
       m_Items: []
   - m_Id: 27794504080216064
@@ -1333,6 +1381,22 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 60147729965830146
     m_Key: STATION_DEBRIEF
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677888
+    m_Key: LEVEL_CATEGORY_CHURN_VECTOR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677889
+    m_Key: LEVEL_CATEGORY_CHURN_VECTOR_DESCRIPTION
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677890
+    m_Key: LEVEL_CATEGORY_MODDING
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677891
+    m_Key: LEVEL_CATEGORY_MODDING_DESCRIPTION
     m_Metadata:
       m_Items: []
   m_Metadata:

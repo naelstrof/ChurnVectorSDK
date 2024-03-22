@@ -253,7 +253,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 27565149668298755
-    m_Localized: Tarkista HUD -tavoitteesi.
+    m_Localized: "Tarkista HUD:st\xE4 tavoitteesi."
     m_Metadata:
       m_Items: []
   - m_Id: 27565149668298756
@@ -269,15 +269,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 28184462674677760
-    m_Localized: "Pika uudelleenk\xE4ynnistys"
+    m_Localized: "Pikak\xE4ynnistys"
     m_Metadata:
       m_Items: []
   - m_Id: 33999910783733760
-    m_Localized: Valitse sopimus
+    m_Localized: Valitse Sopimus
     m_Metadata:
       m_Items: []
   - m_Id: 34000825808900096
-    m_Localized: Ohittaa
+    m_Localized: Ohita Cutscene
     m_Metadata:
       m_Items: []
   - m_Id: 34000825808900097
@@ -455,7 +455,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363538
-    m_Localized: Jumala, olen nyt niin raskas ...
+    m_Localized: Jumalauta, olen niin raskas nyt...
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363539
@@ -463,15 +463,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363540
-    m_Localized: Se oli iso ...
+    m_Localized: Se oli iso...
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363541
-    m_Localized: Hei asettua jo!
+    m_Localized: Hei rauhoitu jo!
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363542
-    m_Localized: "Se tuntui hyv\xE4lt\xE4 ..."
+    m_Localized: "Se tuntui hyv\xE4lt\xE4..."
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363543
@@ -647,11 +647,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 44160113307078656
-    m_Localized: "Vai mit\xE4?"
+    m_Localized: "H\xE4h?"
     m_Metadata:
       m_Items: []
   - m_Id: 44160113307078657
-    m_Localized: Luulin kuulevani jotain ...
+    m_Localized: Luulin kuulleeni jotain...
     m_Metadata:
       m_Items: []
   - m_Id: 44160113307078658
@@ -663,7 +663,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 44160113307078660
-    m_Localized: "T\xE4ytyy selvitt\xE4\xE4 .."
+    m_Localized: "Pit\xE4\xE4 ottaa selv\xE4\xE4.."
     m_Metadata:
       m_Items: []
   - m_Id: 49219014989762560
@@ -691,27 +691,27 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511296
-    m_Localized: "Ah Dang, t\xE4\xE4ll\xE4 menemme uudestaan."
+    m_Localized: "Ah hei, taas menn\xE4\xE4n."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511297
-    m_Localized: Ei, nooooo!
+    m_Localized: ei, nooooo!
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511298
-    m_Localized: Se oli hauskaa, kun se kesti.
+    m_Localized: "Hauskaa oli niin kauan kuin sit\xE4 kesti."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511299
-    m_Localized: "Luulen, ett\xE4 n\xE4ytti melko hyv\xE4lt\xE4 valkoisena"
+    m_Localized: "Mielest\xE4ni n\xE4ytit aika hyv\xE4lt\xE4 valkoisena"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511300
-    m_Localized: "Vai niin! Lopeta, sin\xE4 kiusaat minua ..."
+    m_Localized: "Vai niin! Lopeta, sin\xE4 nolaat minua..."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511301
-    m_Localized: "Minun olisi pit\xE4nyt pyyt\xE4\xE4 heid\xE4n puhelinnumeronsa."
+    m_Localized: "Minun olisi pit\xE4nyt kysy\xE4 heid\xE4n puhelinnumeronsa."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511302
@@ -727,7 +727,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511305
-    m_Localized: "Odota, luulin, ett\xE4 recumbobulaattori laittaa vaatteeni takaisin?"
+    m_Localized: "Odota, luulin, ett\xE4 rekumbobulaattori laittaa vaatteeni takaisin?"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511306
@@ -735,15 +735,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511307
-    m_Localized: Darn Corporate ...
+    m_Localized: Vitun yritys...
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511310
-    m_Localized: "Kuka j\xE4tti sinut makaamaan ymp\xE4ri?"
+    m_Localized: "Kuka j\xE4tti sinut makaamaan?"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511311
-    m_Localized: Antaa sinut takaisin
+    m_Localized: Saa sinut takaisin
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511312
@@ -751,11 +751,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511313
-    m_Localized: "Se ei ollut minun syyt\xE4ni t\xE4ll\xE4 kertaa!"
+    m_Localized: "Se ei ollut minun vikani t\xE4ll\xE4 kertaa!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511314
-    m_Localized: Tauko -aika on ohi.
+    m_Localized: Taukoaika on ohi.
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511315
@@ -763,43 +763,43 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511316
-    m_Localized: Onko se ...?
+    m_Localized: Onko se...?
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511317
-    m_Localized: "Se n\xE4ytt\xE4\xE4 niin raskaalta ..."
+    m_Localized: "N\xE4ytt\xE4\xE4 niin raskaalta..."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511318
-    m_Localized: Valtava kondomi ..?
+    m_Localized: Iso kondomi..?
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511319
-    m_Localized: "N\xE4ytt\xE4\xE4 silt\xE4, \u200B\u200Bett\xE4 jollakin oli hauskaa."
+    m_Localized: "N\xE4ytti silt\xE4, \u200B\u200Bett\xE4 jollain oli hauskaa."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511320
-    m_Localized: "Toivon, ett\xE4 se olin min\xE4 ..."
+    m_Localized: "Kunpa se olisin min\xE4..."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511321
-    m_Localized: "No hyvin n\xE4ytt\xE4\xE4, kuka l\xF6ysyy!"
+    m_Localized: "No hyvin n\xE4ytt\xE4\xE4 kuka l\xF6ystyy!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511322
-    m_Localized: Anteeksi, anna minun vain rullata asemalleni.
+    m_Localized: "Anteeksi, anna minun kierty\xE4 sitten asemalleni."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511323
-    m_Localized: "Haha, en rullata sinulle h\xE4t\xE4\xE4."
+    m_Localized: "Haha, j\xE4t\xE4n sinut huoletta."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511324
-    m_Localized: "No hyvin n\xE4ytt\xE4\xE4, kuka l\xF6ysyy!"
+    m_Localized: "No hyvin n\xE4ytt\xE4\xE4 kuka l\xF6ystyy!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511325
-    m_Localized: Anteeksi, M'am.
+    m_Localized: Anteeksi rouva.
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511326
@@ -815,7 +815,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511329
-    m_Localized: "Emmek\xF6 vain tehneet t\xE4t\xE4?"
+    m_Localized: "Emmek\xF6 juuri tehneet t\xE4m\xE4n?"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511330
@@ -823,11 +823,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511331
-    m_Localized: Takaisin niin pian?
+    m_Localized: "Takaisin n\xE4in pian?"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511332
-    m_Localized: "Meid\xE4n on lopetettava tapaaminen n\xE4in!"
+    m_Localized: "Meid\xE4n on lopetettava t\xE4llaiset tapaamiset!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511334
@@ -835,27 +835,27 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511335
-    m_Localized: Sulanut jo cum?
+    m_Localized: Onko jo sulanut kumiksi?
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511336
-    m_Localized: "Mik\xE4\xE4n ei ole j\xE4ljell\xE4 kuin cum"
+    m_Localized: "Ei j\xE4\xE4 muuta kuin cum"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511337
-    m_Localized: "Teet hyv\xE4n kuorman."
+    m_Localized: "Saat hyv\xE4n kuorman."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511338
-    m_Localized: "Mennyt pehme\xE4 minulle?"
+    m_Localized: "Menik\xF6 minusta pehme\xE4ksi?"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511339
-    m_Localized: "Aika tehd\xE4 sotku!"
+    m_Localized: "Aika tehd\xE4 sotkua!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511340
-    m_Localized: Sinulla on parempi mukava
+    m_Localized: "Sinun on parasta viihty\xE4 siell\xE4"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511341
@@ -863,7 +863,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511342
-    m_Localized: "Ehk\xE4 seuraava on t\xE4ytt\xF6mp\xE4\xE4"
+    m_Localized: "Ehk\xE4 seuraava on t\xE4ytt\xE4v\xE4mpi"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511343
@@ -871,7 +871,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511344
-    m_Localized: "Nauti, kun se kest\xE4\xE4!"
+    m_Localized: "Nauti niin kauan kuin sit\xE4 kest\xE4\xE4!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511345
@@ -879,39 +879,39 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511346
-    m_Localized: "\xC4l\xE4 huoli, annan sinut lopulta."
+    m_Localized: "\xC4l\xE4 huoli, p\xE4\xE4st\xE4n sinut lopulta ulos."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511347
-    m_Localized: "Katsotaan kuinka kauan kest\xE4t ~"
+    m_Localized: "Katsotaan kuinka kauan kest\xE4t~"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511348
-    m_Localized: "Voi geez, olen niin iso ja py\xF6re\xE4!"
+    m_Localized: "Voi hitto, olen niin iso ja py\xF6re\xE4!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511349
-    m_Localized: "Mietin kuinka paljon enemm\xE4n voin tavaraa"
+    m_Localized: "Ihmettelen kuinka paljon voin tavaraa lis\xE4\xE4"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511350
-    m_Localized: "Voit vapaasti rypisty\xE4 ~"
+    m_Localized: Kiertele vapaasti ~
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511351
-    m_Localized: "Oikeassa miss\xE4 kuulut ~"
+    m_Localized: Juuri minne kuulut~
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511352
-    m_Localized: "Aion viett\xE4\xE4 aikaa kanssasi ~"
+    m_Localized: "Aion viett\xE4\xE4 aikaa kanssasi~"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511353
-    m_Localized: "Sinusta tuntuu niin hyv\xE4lt\xE4 siell\xE4 ~"
+    m_Localized: "Sinulla on niin hyv\xE4 olo siell\xE4 ~"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511354
-    m_Localized: "Sirva kaikki mit\xE4 haluat ~"
+    m_Localized: "Squirt mit\xE4 haluat ~"
     m_Metadata:
       m_Items: []
   - m_Id: 49239933124661248
@@ -965,7 +965,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 51459478631534592
-    m_Localized: Hyvitykset
+    m_Localized: Krediitit
     m_Metadata:
       m_Items: []
   - m_Id: 49219015019122693
@@ -1025,35 +1025,35 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 52896566501494793
-    m_Localized: "Kypsy\xE4"
+    m_Localized: Vaihda Crouch
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511355
-    m_Localized: Onko sinulla kuorma minulle?
+    m_Localized: Onko sinulla kuormaa minulle?
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511356
-    m_Localized: "Voi min\xE4 .."
+    m_Localized: "Ai min\xE4.."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511357
-    m_Localized: Olen niin pent ...
+    m_Localized: Olen niin jumissa...
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511358
-    m_Localized: "Ole lempe\xE4 kunnossa?"
+    m_Localized: "Ole lempe\xE4, jooko?"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511359
-    m_Localized: "Uhh .. yrit\xE4n."
+    m_Localized: "uhh.. yrit\xE4n."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511360
-    m_Localized: Ole nopea, minulla on jonnekin olla.
+    m_Localized: Ole nopea, minulla on jossain olla.
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511361
-    m_Localized: Olen odottanut niin kauan jotakuta!
+    m_Localized: Olen odottanut jotakuta niin kauan!
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511362
@@ -1061,7 +1061,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511363
-    m_Localized: Minulla on joku tapaamasi.
+    m_Localized: Minulla on joku, jonka voit tavata.
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511364
@@ -1073,11 +1073,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49223706696273923
-    m_Localized: Woah, niin paljon!
+    m_Localized: Vau, niin paljon!
     m_Metadata:
       m_Items: []
   - m_Id: 51459478665089025
-    m_Localized: "Vuotan koko p\xE4iv\xE4n ..."
+    m_Localized: "Vuotan koko p\xE4iv\xE4n..."
     m_Metadata:
       m_Items: []
   - m_Id: 58282248963149824
@@ -1113,41 +1113,41 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 58331949737496576
-    m_Localized: Voi ei, minua on kiinni!
+    m_Localized: "Voi ei, olen j\xE4\xE4nyt kiinni!"
     m_Metadata:
       m_Items: []
   - m_Id: 58331949771051008
-    m_Localized: "Paina hypp\xE4\xE4 k\xE4ynnist\xE4 uudelleen ..."
+    m_Localized: "K\xE4ynnist\xE4 uudelleen painamalla Jump..."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303662993408
-    m_Localized: CV Hai -pomo!
+    m_Localized: Hain pomo CV!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547840
-    m_Localized: "Hai on h\xE4mmentynyt heid\xE4n kiinnostuksen kohteistaan, kukko,
-      joka on hienovaraisesti."
+    m_Localized: "Shark on h\xE4mmentynyt heid\xE4n etujensa vuoksi, kukko huutaa
+      niit\xE4 huomaamattomasti."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547841
-    m_Localized: Paeta aluetta!
+    m_Localized: Pakene alueelta!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547842
-    m_Localized: "Ensisijaisten tavoitteiden suorittamisen j\xE4lkeen pakene hissill\xE4."
+    m_Localized: "Kun p\xE4\xE4tavoitteet on suoritettu, paeta hissill\xE4."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547843
-    m_Localized: "\xC4l\xE4 pid\xE4 kiinni toimistoturvallisuudesta!"
+    m_Localized: "\xC4l\xE4 j\xE4\xE4 kiinni Officen tietoturvaan!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547844
-    m_Localized: "Turvallisuushenkil\xF6st\xF6ll\xE4 on radioita, jotka voivat ilmoittaa
-      sinulle, ole varovainen."
+    m_Localized: "Turvahenkil\xF6ill\xE4 on radiot, jotka voivat ilmoittaa sinusta,
+      ole varovainen."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547845
-    m_Localized: CV Teknikko kenguru!
+    m_Localized: CV teknikko Kangaroo!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547846
@@ -1155,82 +1155,82 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547847
-    m_Localized: Cv valvoja kenguru!
+    m_Localized: CV valvoja Kenguru!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547848
-    m_Localized: "Korotetun n\xE4kym\xE4n valvoja ty\xF6nt\xE4\xE4 ty\xF6ntekij\xF6it\xE4
-      liian kovasti! L\xE4het\xE4 heid\xE4t lomalle ja anna kaikille tauko."
+    m_Localized: "Valvoja korotetussa n\xE4kym\xE4ss\xE4 ty\xF6nt\xE4\xE4 ty\xF6ntekij\xF6it\xE4
+      liian lujasti! L\xE4het\xE4 heid\xE4t lomalle ja anna kaikille tauko."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547849
-    m_Localized: "CV toimistop\xE4\xE4llikk\xF6 kenguru!"
+    m_Localized: "Toimistop\xE4\xE4llik\xF6n Kangaroon CV!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547850
-    m_Localized: "Varastonhoitaja on tulossa ty\xF6h\xF6n ja haluaa kokeilla jotain
-      uutta."
+    m_Localized: "Varastop\xE4\xE4llikk\xF6 alkaa olla t\xF6iss\xE4 ja haluaa kokeilla
+      jotain uutta."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547851
-    m_Localized: "\xC4l\xE4 tartu varaston turvallisuuteen."
+    m_Localized: "\xC4l\xE4 j\xE4\xE4 varaston turvatoimiin."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547852
-    m_Localized: "K\xE4yt\xE4 kuorma -autoa paeta!"
+    m_Localized: "K\xE4yt\xE4 kuorma-autoa paetaksesi!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547853
-    m_Localized: Cv kapteeni kenguru!
+    m_Localized: CV Kapteeni Kenguru!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547854
-    m_Localized: "Kapteeni tarvitsee loman, l\xF6yt\xE4\xE4 ne tummansiniselt\xE4
-      turvalliselta alueelta."
+    m_Localized: "Kapteeni tarvitsee lomaa, etsi heid\xE4t tummansiniselt\xE4 suojatulta
+      alueelta."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547855
-    m_Localized: CV papin rotta!
+    m_Localized: CV pappirotta!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547856
-    m_Localized: "Temppeliss\xE4 sijaitsevassa puheissa, tuo heid\xE4n poikkeava
-      puoli valoon!"
+    m_Localized: "Sijaitsee temppeliss\xE4 pit\xE4m\xE4ss\xE4 puheita, tuo heid\xE4n
+      poikkeava puolinsa valoon!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547857
-    m_Localized: CV Tiedemies kenguru!
+    m_Localized: CV Tiedemies Kenguru!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547858
-    m_Localized: "Vihre\xE4ll\xE4 alueella sijaitseva tutkija haluaa sinun vaihtavan
-      heid\xE4t tieteelle!"
+    m_Localized: "Vihre\xE4ll\xE4 alueella sijaitseva tiedemies haluaa, ett\xE4 k\xE4\xE4nn\xE4t
+      heid\xE4t tieteeseen!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547859
-    m_Localized: CV Possum Cook!
+    m_Localized: Possum Cookin CV!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547860
-    m_Localized: "P\xE4\xE4n kokki haluaa sinun auttavan heit\xE4 kokeilemaan uutta
-      ainesosaa k\xE4\xE4nt\xE4m\xE4ll\xE4 ne siihen!"
+    m_Localized: "P\xE4\xE4kokki haluaa, ett\xE4 autat heit\xE4 kokeilemaan uutta
+      ainesosaa muuttamalla niist\xE4 sit\xE4!"
     m_Metadata:
       m_Items: []
   - m_Id: 59064884090425344
-    m_Localized: "J\xE4t\xE4 k\xE4ytt\xE4m\xE4ll\xE4 yht\xE4 poistumisovia."
+    m_Localized: "Poistu jollakin ulosk\xE4yntiovesta."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547861
-    m_Localized: CV Dragon -pomo!
+    m_Localized: CV Dragon-pomo!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547862
-    m_Localized: "Lohik\xE4\xE4rmeell\xE4 on ilmoitettu olevan valtava munaa ja h\xE4n
-      on hoitanut omaa henkil\xF6st\xF6\xE4\xE4n, ole varovainen!"
+    m_Localized: "Lohik\xE4\xE4rmeell\xE4 kerrotaan olevan valtava kalu ja se on
+      jyrsinyt omaa henkil\xF6kuntaansa, ole varovainen!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547863
-    m_Localized: "\xC4l\xE4 tartu CV -poliisiin."
+    m_Localized: "\xC4l\xE4 j\xE4\xE4 CV-poliisin kiinni."
     m_Metadata:
       m_Items: []
   - m_Id: 59722192836763648
@@ -1238,19 +1238,19 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59736315477762048
-    m_Localized: Valitse Tallenna paikka
+    m_Localized: Valitse tallennuspaikka
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511333
-    m_Localized: "Lis\xE4\xE4? \u2764"
+    m_Localized: "Lis\xE4\xE4?\u2764"
     m_Metadata:
       m_Items: []
   - m_Id: 49239933124661250
-    m_Localized: "Se on niin mukavaa, kuinka ryppyj\xE4 siell\xE4 ~"
+    m_Localized: "On niin hienoa, kuinka kiemurtelet siell\xE4~"
     m_Metadata:
       m_Items: []
   - m_Id: 59758640264781824
-    m_Localized: Suoritetut tavoitteet
+    m_Localized: Saavutetut tavoitteet
     m_Metadata:
       m_Items: []
   - m_Id: 59758640302530560
@@ -1262,29 +1262,29 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 60100337514106880
-    m_Localized: Uusi levy!
+    m_Localized: "Uusi Enn\xE4tys!"
     m_Metadata:
       m_Items: []
   - m_Id: 60147729936470016
-    m_Localized: "Hyv\xE4n ty\xF6agentin, hain pomo on kuulemma paljon mukavampaa
-      sen j\xE4lkeen, kun heid\xE4n kinksin on haittaa. Teimme maailmasta Hornier,
-      yksi kohde kerrallaan!"
+    m_Localized: "Hyv\xE4 ty\xF6agentti, hain pomo on kuulemma paljon mukavampi sen
+      j\xE4lkeen, kun he ovat hemmoteltuja. Tekiv\xE4t maailmasta kiivaampaa, yksi
+      kohde kerrallaan!"
     m_Metadata:
       m_Items: []
   - m_Id: 60147729965830144
-    m_Localized: "Mission t\xE4ydellinen agentti, varaston ty\xF6ntekij\xE4t olivat
-      iloisia siit\xE4, ett\xE4 heill\xE4 oli jonkin aikaa vapaata, ja kohteet ovat
-      kaikki mielipidett\xE4 heid\xE4n \"lomansa\" j\xE4lkeen."
+    m_Localized: "Teht\xE4v\xE4 t\xE4ydellinen agentti, varastoty\xF6ntekij\xE4t
+      olivat iloisia saadessaan lomaa ja kohteet ovat kaikki hyv\xE4ll\xE4 tuulella
+      \"lomansa\" j\xE4lkeen."
     m_Metadata:
       m_Items: []
   - m_Id: 60147729965830145
-    m_Localized: "Toinen menestysasiamies. Dragon -pomolle annetaan maun omasta l\xE4\xE4kkeest\xE4\xE4n,
-      ty\xF6ntekij\xE4t ovat paljon onnellisempia."
+    m_Localized: "Toinen menestystarina. Kun lohik\xE4\xE4rmepomo saa maistaa omaa
+      l\xE4\xE4kett\xE4\xE4n, ty\xF6ntekij\xE4t ovat paljon onnellisempia."
     m_Metadata:
       m_Items: []
   - m_Id: 60147729965830146
-    m_Localized: "Upea ty\xF6agentti! Aseman henkil\xF6kunta on kaikki hieman hornier,
-      ja niin monet heid\xE4n kollegansa puhuvat kokemuksestaan \u200B\u200Bkanssasi."
+    m_Localized: "Hieno ty\xF6agentti! Aseman henkil\xF6kunta on hieman kiihke\xE4mpi,
+      sill\xE4 monet heid\xE4n kollegansa puhuvat kokemuksistaan \u200B\u200Bkanssasi."
     m_Metadata:
       m_Items: []
   - m_Id: 60175060938878976
@@ -1292,62 +1292,78 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 60175060938878977
-    m_Localized: "Pid\xE4 pomo churned j\xE4tt\xE4m\xE4ll\xE4 kondominsa kylpyhuoneeseen!"
+    m_Localized: "Pid\xE4 pomo kiukkuisena j\xE4tt\xE4m\xE4ll\xE4 kondominsa kylpyhuoneeseen!"
     m_Metadata:
       m_Items: []
   - m_Id: 60181309898190848
-    m_Localized: "Piilota turvallisuusp\xE4\xE4 (valinnainen)"
+    m_Localized: "Piilota suojauksen p\xE4\xE4 (valinnainen)"
     m_Metadata:
       m_Items: []
   - m_Id: 60181309914968064
-    m_Localized: "P\xE4\xE4t\xE4 kondomi, joka sis\xE4lt\xE4\xE4 turvallisuuspukussa."
+    m_Localized: "S\xE4ilyt\xE4 turvap\xE4\xE4llikk\xF6\xE4 sis\xE4lt\xE4v\xE4 kondomi
+      turvapukuhuoneeseen."
     m_Metadata:
       m_Items: []
   - m_Id: 60181309914968065
-    m_Localized: Piilota talonmies (valinnainen)
+    m_Localized: Piilota vahtimestari (valinnainen)
     m_Metadata:
       m_Items: []
   - m_Id: 60181309914968066
-    m_Localized: "P\xE4\xE4t\xE4 kondomi, joka sis\xE4lt\xE4\xE4 talonmiehen p\xE4\xE4k\xE4yt\xE4v\xE4n
-      kylpyhuoneessa."
+    m_Localized: "Varaa kondomi, jossa on vahtimestari, p\xE4\xE4k\xE4yt\xE4v\xE4n
+      kylpyhuoneeseen."
     m_Metadata:
       m_Items: []
   - m_Id: 60288126066192384
-    m_Localized: "Sinun on parasta mukava siell\xE4"
+    m_Localized: "Sinun on parasta viihty\xE4 siell\xE4"
     m_Metadata:
       m_Items: []
   - m_Id: 62087231205634048
-    m_Localized: "Toivon, ett\xE4 olet valmis johonkin raskaan nostoaineen."
+    m_Localized: Toivottavasti olet valmis raskaita nostoagentteja varten.
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411264
-    m_Localized: "T\xE4m\xE4 ei ole kuin aiemmat teht\xE4v\xE4si."
+    m_Localized: "T\xE4m\xE4 ei ole kuin edelliset teht\xE4v\xE4si."
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411265
-    m_Localized: "Nykyp\xE4iv\xE4n kohde on Boss Dragon"
+    m_Localized: "P\xE4iv\xE4n kohde on Boss Dragon"
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411266
-    m_Localized: He ovat viime aikoina olleet paljon paineita
+    m_Localized: He ovat olleet kovassa paineessa viime aikoina
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411267
-    m_Localized: "T\xE4m\xE4 on johtanut siihen, ett\xE4 he stressi sy\xF6v\xE4t
-      henkil\xF6st\xF6\xE4\xE4n"
+    m_Localized: "T\xE4m\xE4 on johtanut siihen, ett\xE4 he ovat stressaaneet henkil\xF6st\xF6ns\xE4
+      sy\xF6misest\xE4"
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411268
-    m_Localized: "Sen aika he l\xE4htiv\xE4t lomalle"
+    m_Localized: "Heid\xE4n oli aika l\xE4hte\xE4 lomalle"
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411269
-    m_Localized: Ole erityisen varovainen tai saatat lopulta olla yksi, joka muuttuu
-      valkoiseksi!
+    m_Localized: "Ole erityisen varovainen tai saatat p\xE4\xE4ty\xE4 valkoiseksi!"
     m_Metadata:
       m_Items: []
   - m_Id: 49239933124661251
     m_Localized: "Se on niin l\xE4mmin!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677888
+    m_Localized: Churn Vector -kampanja
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677889
+    m_Localized: "Agentti 789 tekee erilaisia \u200B\u200Bsopimuksia CV Cityss\xE4..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677890
+    m_Localized: Muokattu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677891
+    m_Localized: "Yhteis\xF6n eri tasoilla!"
     m_Metadata:
       m_Items: []
   references:

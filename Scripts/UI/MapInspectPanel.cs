@@ -21,6 +21,10 @@ public class MapInspectPanel : MonoBehaviour {
         }
     }
 
+    public void UnsetLevel() {
+        currentLevel = null;
+    }
+
     public void SetLevel(Level level) {
         currentLevel = level;
         hideObject.SetActive(false);

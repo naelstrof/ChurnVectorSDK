@@ -1328,15 +1328,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 62087231205634048
-    m_Localized: "J'esp\xE8re que vous \xEAtes pr\xEAt pour un agent de main-d'\u0153uvre."
+    m_Localized: "J'esp\xE8re que vous \xEAtes pr\xEAt pour un Agent de gros travaux."
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411264
-    m_Localized: "Celui-ci ne sera pas comme vos missions pr\xE9c\xE9dentes."
+    m_Localized: "Celle-ci ne ressemblera pas \xE0 vos missions pr\xE9c\xE9dentes."
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411265
-    m_Localized: Todays Target est Boss Dragon
+    m_Localized: La cible d'aujourd'hui est Boss Dragon
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411266
@@ -1344,16 +1344,16 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411267
-    m_Localized: "Cela les a amen\xE9s \xE0 stress en mangeant leur personnel"
+    m_Localized: "Cela a amen\xE9 le stress \xE0 ronger leur personnel."
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411268
-    m_Localized: Il est temps qu'ils sont partis en vacances
+    m_Localized: Il est temps qu'ils partent en vacances
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411269
     m_Localized: "Soyez tr\xE8s prudent ou vous pourriez finir par \xEAtre celui
-      devenu blanc!"
+      qui est devenu blanc\_!"
     m_Metadata:
       m_Items: []
   - m_Id: 49223706696273920
@@ -1366,6 +1366,22 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 49239933124661251
     m_Localized: Quelle chaleur !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677888
+    m_Localized: "Campagne de vecteur de d\xE9sabonnement"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677889
+    m_Localized: L'agent 789 prend divers contrats au sein de CV City...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677890
+    m_Localized: "Modifi\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677891
+    m_Localized: "Diff\xE9rents niveaux par la communaut\xE9 !"
     m_Metadata:
       m_Items: []
   references:

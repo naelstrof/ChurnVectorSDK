@@ -271,7 +271,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 33999910783733760
-    m_Localized: "Vertrag ausw\xE4hlen"
+    m_Localized: "W\xE4hlen Sie Vertrag"
     m_Metadata:
       m_Items: []
   - m_Id: 34000825808900096
@@ -452,19 +452,19 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363538
-    m_Localized: "Meine G\xFCte, ich bin jetzt so schwer ..."
+    m_Localized: "Meine G\xFCte, ich bin jetzt so schwer..."
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363539
-    m_Localized: Huff ...
+    m_Localized: Huff...
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363540
-    m_Localized: "Das war ein gro\xDFer ..."
+    m_Localized: "Das war eine gro\xDFe Sache..."
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363541
-    m_Localized: Hey, setze dich schon nieder!
+    m_Localized: Hey, beruhigen Sie sich schon!
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363542
@@ -472,7 +472,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363543
-    m_Localized: Alle meine ...
+    m_Localized: Alles meins...
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363544
@@ -644,11 +644,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 44160113307078656
-    m_Localized: Huh?
+    m_Localized: "H\xE4?"
     m_Metadata:
       m_Items: []
   - m_Id: 44160113307078657
-    m_Localized: "Ich dachte, ich h\xE4tte etwas geh\xF6rt ..."
+    m_Localized: "Ich dachte, ich h\xE4tte etwas geh\xF6rt..."
     m_Metadata:
       m_Items: []
   - m_Id: 44160113307078658
@@ -660,7 +660,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 44160113307078660
-    m_Localized: Ich muss herausfinden ..
+    m_Localized: Muss es herausfinden..
     m_Metadata:
       m_Items: []
   - m_Id: 49219014989762560
@@ -688,7 +688,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511296
-    m_Localized: Ah Dang, hier gehen wir wieder.
+    m_Localized: Ah verdammt, es geht wieder los.
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511297
@@ -696,15 +696,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511298
-    m_Localized: "Es hat Spa\xDF gemacht, w\xE4hrend es dauerte."
+    m_Localized: "Es hat Spa\xDF gemacht, solange es dauerte."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511299
-    m_Localized: "Ich denke du hast in Wei\xDF ziemlich gut ausgesehen"
+    m_Localized: "Ich finde, du hast in Wei\xDF ziemlich gut ausgesehen"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511300
-    m_Localized: "Oh! H\xF6r auf, du hast mich peinlich ..."
+    m_Localized: "Oh! H\xF6r auf, du bringst mich in Verlegenheit..."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511301
@@ -724,7 +724,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511305
-    m_Localized: "Warten Sie, ich dachte, der Reklummer legt meine Kleidung zur\xFCck?"
+    m_Localized: "Moment, ich dachte, der Recumbobulator bringt meine Kleidung zur\xFCck?"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511306
@@ -732,7 +732,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511307
-    m_Localized: Verdammt Unternehmen ...
+    m_Localized: Verdammtes Unternehmen...
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511310
@@ -740,11 +740,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511311
-    m_Localized: "Lassen Sie uns Sie zur\xFCckbekommen"
+    m_Localized: "Lass uns dich zur\xFCckholen"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511312
-    m_Localized: Heute drittes Mal, oder?
+    m_Localized: Heute zum dritten Mal, oder?
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511313
@@ -752,7 +752,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511314
-    m_Localized: Break -Zeit ist vorbei.
+    m_Localized: Die Pausenzeit ist vorbei.
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511315
@@ -764,39 +764,39 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511317
-    m_Localized: Das sieht so schwer aus ...
+    m_Localized: Das sieht so schwer aus...
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511318
-    m_Localized: Riesiges Kondom ..?
+    m_Localized: Riesiges Kondom...?
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511319
-    m_Localized: "Sieht so aus, als h\xE4tte jemand Spa\xDF."
+    m_Localized: "Sieht aus, als h\xE4tte jemand Spa\xDF gehabt."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511320
-    m_Localized: "Ich w\xFCnschte, das w\xE4re ich ..."
+    m_Localized: "Ich w\xFCnschte, das w\xE4re ich..."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511321
-    m_Localized: "Gut aussieht, wie es nachl\xE4sst!"
+    m_Localized: "Na gut, sieht aus, wer da nachl\xE4sst!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511322
-    m_Localized: Entschuldigung, lassen Sie mich dann einfach zu meiner Station rollen.
+    m_Localized: Tut mir leid, lass mich dann einfach zu meiner Station rollen.
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511323
-    m_Localized: Haha, ich werde dich nicht Sorgen machen.
+    m_Localized: Haha, ich werde dich umdrehen, keine Sorge.
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511324
-    m_Localized: "Gut aussieht, wie es nachl\xE4sst!"
+    m_Localized: "Na gut, sieht aus, wer da nachl\xE4sst!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511325
-    m_Localized: Entschuldigung, M'am.
+    m_Localized: Tut mir leid, meine Dame.
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511326
@@ -812,7 +812,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511329
-    m_Localized: Haben wir das nicht einfach gemacht?
+    m_Localized: Haben wir das nicht gerade getan?
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511330
@@ -824,7 +824,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511332
-    m_Localized: "Wir m\xFCssen aufh\xF6ren, sich so zu treffen!"
+    m_Localized: "Wir m\xFCssen aufh\xF6ren, uns so zu treffen!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511334
@@ -832,27 +832,27 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511335
-    m_Localized: Schon bis zum Sperma geschmolzen?
+    m_Localized: Schon zum Abspritzen geschmolzen?
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511336
-    m_Localized: "Nichts \xFCbrig als Sperma"
+    m_Localized: "Nichts anderes \xFCbrig als Sperma"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511337
-    m_Localized: Sie werden eine gute Ladung machen.
+    m_Localized: Du wirst eine gute Ladung abgeben.
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511338
-    m_Localized: Ich bin weich zu mir gegangen?
+    m_Localized: Weich zu mir geworden?
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511339
-    m_Localized: Zeit, ein Chaos zu machen!
+    m_Localized: Zeit, ein Chaos anzurichten!
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511340
-    m_Localized: Sie werden besser dort bequem
+    m_Localized: Machen Sie es sich dort besser bequem
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511341
@@ -860,7 +860,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511342
-    m_Localized: "Vielleicht wird der n\xE4chste mehr f\xFCllen"
+    m_Localized: "Vielleicht wird der n\xE4chste s\xE4ttigender sein"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511343
@@ -868,7 +868,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511344
-    m_Localized: "Viel Spa\xDF, w\xE4hrend es dauert!"
+    m_Localized: "Genie\xDFen Sie es, solange es reicht!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511345
@@ -880,43 +880,43 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511347
-    m_Localized: Mal sehen, wie lange Sie dauern ~
+    m_Localized: "Mal sehen, wie lange du durchh\xE4ltst~"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511348
-    m_Localized: "Oh meine G\xFCte, ich bin so gro\xDF und rund!"
+    m_Localized: "Oh mein Gott, ich bin so gro\xDF und rund!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511349
-    m_Localized: Ich frage mich, wie viel mehr ich stopfen kann
+    m_Localized: Ich frage mich, wie viel ich noch stopfen kann
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511350
-    m_Localized: "F\xFChlen Sie sich frei, ~ herumzuwinden ~"
+    m_Localized: "F\xFChlen Sie sich frei, herumzuzappeln~"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511351
-    m_Localized: "Genau dort, wo du geh\xF6rst ~"
+    m_Localized: "Genau dort, wo Sie hingeh\xF6ren~"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511352
-    m_Localized: Ich werde meine Zeit mit dir nehmen ~
+    m_Localized: "Ich werde mir Zeit f\xFCr dich nehmen~"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511353
-    m_Localized: "Du f\xFChlst dich dort unten so gut ~"
+    m_Localized: "Du f\xFChlst dich dort unten so gut~"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511354
-    m_Localized: Winden Sie sich alles, was Sie wollen ~
+    m_Localized: Winde dich, so viel du willst~
     m_Metadata:
       m_Items: []
   - m_Id: 49239933124661248
-    m_Localized: Okay Zeit, wieder zur Arbeit zu gehen
+    m_Localized: Okay, es ist Zeit, wieder an die Arbeit zu gehen
     m_Metadata:
       m_Items: []
   - m_Id: 49239933124661249
-    m_Localized: "Bricht vorbei, zur\xFCck zur Arbeit."
+    m_Localized: "Pause, zur\xFCck zur Arbeit."
     m_Metadata:
       m_Items: []
   - m_Id: 49407631384211456
@@ -1022,7 +1022,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 52896566501494793
-    m_Localized: Kaugle Crouch
+    m_Localized: "Schalten Sie \u201EHocken\u201C um"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511355
@@ -1030,23 +1030,23 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511356
-    m_Localized: Oh, tue ich ..
+    m_Localized: Oh, das tue ich..
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511357
-    m_Localized: Ich bin so aufgestaut ...
+    m_Localized: Ich bin so aufgestaut...
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511358
-    m_Localized: Sei sanft okay?
+    m_Localized: Sei sanft, okay?
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511359
-    m_Localized: Ich werde es versuchen.
+    m_Localized: "\xC4hh... ich werde es versuchen."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511360
-    m_Localized: Sei schnell, ich habe irgendwo zu sein.
+    m_Localized: Sei schnell, ich muss irgendwo sein.
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511361
@@ -1054,11 +1054,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511362
-    m_Localized: Denken Sie, jemand wird uns sehen?
+    m_Localized: Glauben Sie, dass uns jemand sehen wird?
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511363
-    m_Localized: "Ich habe jemanden, der Sie treffen k\xF6nnen."
+    m_Localized: Ich habe jemanden, den du kennenlernen kannst.
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511364
@@ -1066,15 +1066,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49223706696273922
-    m_Localized: Das ist viel Sperma!
+    m_Localized: Das ist eine Menge Sperma!
     m_Metadata:
       m_Items: []
   - m_Id: 49223706696273923
-    m_Localized: Woah, so viel!
+    m_Localized: Boah, so viel!
     m_Metadata:
       m_Items: []
   - m_Id: 51459478665089025
-    m_Localized: Ich werde den ganzen Tag austreten ...
+    m_Localized: Ich werde den ganzen Tag lecken...
     m_Metadata:
       m_Items: []
   - m_Id: 58282248963149824
@@ -1114,121 +1114,122 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 58331949771051008
-    m_Localized: "Dr\xFCcken Sie zum Neustart ..."
+    m_Localized: "Dr\xFCcken Sie \u201ESpringen\u201C, um neu zu starten..."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303662993408
-    m_Localized: Lebenslauf der Hai -Chef!
+    m_Localized: Lebenslauf des Shark-Boss!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547840
-    m_Localized: Shark ist in Bezug auf ihre Interessen verlegen, der Schwanz sie
-      diskret.
+    m_Localized: "Der Hai sch\xE4mt sich f\xFCr ihre Interessen, der Schwanz geht
+      ihnen diskret vor."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547841
-    m_Localized: Entkommen aus der Gegend!
+    m_Localized: Entfliehen Sie der Gegend!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547842
-    m_Localized: Nach Abschluss der Hauptziele entkommen mit dem Aufzug.
+    m_Localized: Nachdem Sie die Hauptziele erreicht haben, entkommen Sie mit dem
+      Aufzug.
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547843
-    m_Localized: "Lassen Sie sich nicht von der B\xFCrosicherheit erwischt!"
+    m_Localized: "Lassen Sie sich nicht von der B\xFCrosicherheit erwischen!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547844
-    m_Localized: "Sicherheitspersonal verf\xFCgt \xFCber Funkger\xE4te, die Sie melden
-      k\xF6nnen, vorsichtig sein."
+    m_Localized: "Das Sicherheitspersonal verf\xFCgt \xFCber Funkger\xE4te, die Sie
+      melden k\xF6nnen. Seien Sie vorsichtig."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547845
-    m_Localized: Lebenslauf Der Techniker Kangaroo!
+    m_Localized: "Lebenslauf des Technikers K\xE4nguru!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547846
-    m_Localized: "Die Kopftechnologie im Side Power Room m\xF6chte eine Pause von
-      der Arbeit."
+    m_Localized: "Der Cheftechniker im seitlichen Energieraum m\xF6chte eine Pause
+      von der Arbeit."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547847
-    m_Localized: "Lebenslauf der Aufseher K\xE4nguru!"
+    m_Localized: "Lebenslauf des Aufseher-K\xE4ngurus!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547848
-    m_Localized: "Der Aufseher im erh\xF6hten Aussehen schiebt die Arbeiter zu hart!
-      Senden Sie sie in den Urlaub und machen Sie allen eine Pause."
+    m_Localized: "Der Aufseher im erh\xF6hten Aussichtspunkt setzt die Arbeiter zu
+      sehr unter Druck! Schicken Sie sie in den Urlaub und g\xF6nnen Sie allen eine
+      Pause."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547849
-    m_Localized: "Lebenslauf Der B\xFCroverwalter Kangaroo!"
+    m_Localized: "Lebenslauf des B\xFCroleiter-K\xE4ngurus!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547850
-    m_Localized: "Der Speicherraummanager wird bei der Arbeit m\xFCrrisch und m\xF6chte
+    m_Localized: "Der Lagerraumverwalter wird bei der Arbeit munter und m\xF6chte
       etwas Neues ausprobieren."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547851
-    m_Localized: Lassen Sie sich nicht von Lagersicherheit erwischen.
+    m_Localized: Lassen Sie sich nicht von der Lagersicherheit erwischen.
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547852
-    m_Localized: Verwenden Sie den LKW, um zu entkommen!
+    m_Localized: Benutze den LKW, um zu entkommen!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547853
-    m_Localized: "CV der Kapit\xE4n Kangaroo!"
+    m_Localized: "Lebenslauf des Kapit\xE4ns K\xE4nguru!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547854
-    m_Localized: "Der Kapit\xE4n braucht Urlaub und findet sie in der dunkelblauen,
-      sicheren Gegend."
+    m_Localized: "Der Kapit\xE4n braucht Urlaub. Finden Sie ihn im dunkelblauen Sicherheitsbereich."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547855
-    m_Localized: Lebenslauf die Priesterratte!
+    m_Localized: Lebenslauf der Priesterratte!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547856
-    m_Localized: Bringen Sie im Tempel Reden und bringen Sie ihre abweichende Seite
-      ins Licht!
+    m_Localized: Halten Sie im Tempel Reden und bringen Sie ihre abweichende Seite
+      ans Licht!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547857
-    m_Localized: Lebenslauf der Wissenschaftler Kangaroo!
+    m_Localized: "Lebenslauf des Wissenschaftler-K\xE4ngurus!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547858
-    m_Localized: "Ein Wissenschaftler in der Green Area m\xF6chte, dass Sie sie f\xFCr
-      die Wissenschaft ver\xE4ndern!"
+    m_Localized: "Ein Wissenschaftler im gr\xFCnen Bereich m\xF6chte, dass Sie ihn
+      f\xFCr die Wissenschaft begeistern!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547859
-    m_Localized: Lebenslauf der Opossum Cook!
+    m_Localized: Lebenslauf des Possum-Kochs!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547860
-    m_Localized: "Der Kopfkoch m\xF6chte, dass Sie ihnen helfen, eine neue Zutat
-      auszuprobieren, indem Sie sie in sie drehen!"
+    m_Localized: "Der Chefkoch m\xF6chte, dass Sie ihm helfen, eine neue Zutat auszuprobieren,
+      indem Sie ihn darin verwandeln!"
     m_Metadata:
       m_Items: []
   - m_Id: 59064884090425344
-    m_Localized: "Verwenden Sie mit einer der Ausgangst\xFCren."
+    m_Localized: "Verlassen Sie das Geb\xE4ude durch eine der Ausgangst\xFCren."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547861
-    m_Localized: Lebenslauf der Drachenboss!
+    m_Localized: Lebenslauf des Drachenboss!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547862
-    m_Localized: Der Drache soll einen riesigen Schwanz haben und seine eigenen Mitarbeiter
-      aufgeworfen haben, seien Sie vorsichtig!
+    m_Localized: Der Drache soll einen riesigen Schwanz haben und seinen eigenen
+      Stab umgedreht haben, seien Sie vorsichtig!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547863
-    m_Localized: Lassen Sie sich nicht von der CV -Polizei erwischen.
+    m_Localized: Lassen Sie sich nicht von der CV-Polizei erwischen.
     m_Metadata:
       m_Items: []
   - m_Id: 59722192836763648
@@ -1236,15 +1237,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59736315477762048
-    m_Localized: "W\xE4hlen Sie Slot speichern"
+    m_Localized: "W\xE4hlen Sie den Speicherplatz aus"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511333
-    m_Localized: "Mehr? \u2764"
+    m_Localized: "Mehr?\u2764"
     m_Metadata:
       m_Items: []
   - m_Id: 49239933124661250
-    m_Localized: "Es ist so sch\xF6n, wie du da reinwackst ~"
+    m_Localized: "Es ist so sch\xF6n, wie du dich da reinwindest~"
     m_Metadata:
       m_Items: []
   - m_Id: 59758640264781824
@@ -1264,62 +1265,62 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 60147729936470016
-    m_Localized: "Der gute Arbeitskr\xE4fte, der Hai -Chef ist Berichten zufolge
-      viel sch\xF6ner, nachdem sich die Knicke verw\xF6hnt haben. Machten die Welt
-      geiler, ein Ziel gleichzeitig!"
+    m_Localized: "Der Hai-Boss ist ein guter Arbeitsagent und Berichten zufolge viel
+      netter, nachdem er ihre sexuellen Vorlieben verw\xF6hnt hat. Wir machen die
+      Welt geiler, ein Ziel nach dem anderen!"
     m_Metadata:
       m_Items: []
   - m_Id: 60147729965830144
-    m_Localized: "Mission Complete Agent, die Lagerarbeiter waren froh, etwas Freizeit
-      zu haben, und die Ziele sind nach ihrem \"Urlaub\" in Hochl\xFCcken."
+    m_Localized: "Mission Complete Agent, die Lagerarbeiter freuten sich \xFCber
+      eine Auszeit und die Zielpersonen sind nach ihrem \u201EUrlaub\u201C alle in
+      Hochstimmung."
     m_Metadata:
       m_Items: []
   - m_Id: 60147729965830145
-    m_Localized: "Ein weiterer Erfolgsagent. Mit dem Drachenchef, der einen Vorgeschmack
-      auf ihre eigene Medizin hat, sind die Arbeiter viel gl\xFCcklicher."
+    m_Localized: "Ein weiterer Erfolgsagent. Nachdem der Drachenboss eine Kostprobe
+      seiner eigenen Medizin bekommen hat, sind die Arbeiter viel gl\xFCcklicher."
     m_Metadata:
       m_Items: []
   - m_Id: 60147729965830146
-    m_Localized: "Toller Arbeitser Agent! Das Stationspersonal ist alle ein wenig
+    m_Localized: "Toller Arbeitsvermittler! Die Stationsmitarbeiter sind alle etwas
       geiler, da so viele ihrer Kollegen \xFCber ihre Erfahrungen mit Ihnen sprechen."
     m_Metadata:
       m_Items: []
   - m_Id: 60175060938878976
-    m_Localized: Verstecken Sie den Hai -Chef (optional)
+    m_Localized: Verstecke den Hai-Boss (optional)
     m_Metadata:
       m_Items: []
   - m_Id: 60175060938878977
-    m_Localized: "Halten Sie den Chef aufgew\xFChlt, indem Sie sein Kondom in einem
-      Badezimmer lassen!"
+    m_Localized: Halten Sie den Chef auf Trab, indem Sie sein Kondom im Badezimmer
+      liegen lassen!
     m_Metadata:
       m_Items: []
   - m_Id: 60181309898190848
-    m_Localized: Verstecken Sie den Sicherheitsleiter (optional)
+    m_Localized: Den Sicherheitschef ausblenden (optional)
     m_Metadata:
       m_Items: []
   - m_Id: 60181309914968064
-    m_Localized: Verstecke ein Kondom mit Sicherheitsleiter im Sicherheitsumkleideraum.
+    m_Localized: Verstauen Sie ein Kondom mit dem Sicherheitschef im Sicherheitsumkleideraum.
     m_Metadata:
       m_Items: []
   - m_Id: 60181309914968065
-    m_Localized: Verstecken Sie den Hausmeister (optional)
+    m_Localized: Verstecke den Hausmeister (optional)
     m_Metadata:
       m_Items: []
   - m_Id: 60181309914968066
-    m_Localized: "Verstecken Sie ein Kondom, das den Hausmeister im Hauptflurbad
-      enth\xE4lt."
+    m_Localized: Verstauen Sie ein Kondom mit dem Hausmeister im Badezimmer im Hauptflur.
     m_Metadata:
       m_Items: []
   - m_Id: 60288126066192384
-    m_Localized: "Sie f\xFChlen sich dort besser wohl"
+    m_Localized: Machen Sie es sich dort besser bequem
     m_Metadata:
       m_Items: []
   - m_Id: 62087231205634048
-    m_Localized: "Ich hoffe, Sie sind bereit f\xFCr einen schweren Hebeagenten."
+    m_Localized: "Ich hoffe, Sie sind bereit f\xFCr etwas schweres Heben, Agent."
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411264
-    m_Localized: Dieser wird nicht wie Ihre vorherigen Missionen sein.
+    m_Localized: Diese wird nicht wie Ihre vorherigen Missionen sein.
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411265
@@ -1327,25 +1328,42 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411266
-    m_Localized: "Sie waren in letzter Zeit unter gro\xDFem Druck"
+    m_Localized: "Sie standen in letzter Zeit unter gro\xDFem Druck"
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411267
-    m_Localized: "Dies hat dazu gef\xFChrt, dass sie betonen, ihre Mitarbeiter zu
-      essen"
+    m_Localized: "Dies hat dazu gef\xFChrt, dass sie ihre Mitarbeiter unter Stress
+      fressen"
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411268
-    m_Localized: Es ist Zeit, dass sie Urlaub machten
+    m_Localized: Es ist Zeit, dass sie in den Urlaub fahren
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411269
-    m_Localized: "Seien Sie besonders vorsichtig, sonst werden Sie derjenige, der
-      wei\xDF wird!"
+    m_Localized: "Seien Sie besonders vorsichtig, sonst k\xF6nnten Sie derjenige
+      sein, der wei\xDF wird!"
     m_Metadata:
       m_Items: []
   - m_Id: 49239933124661251
     m_Localized: Es ist so warm!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677888
+    m_Localized: Churn Vector-Kampagne
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677889
+    m_Localized: "Agent 789 \xFCbernimmt verschiedene Auftr\xE4ge innerhalb von CV
+      City..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677890
+    m_Localized: Modifiziert
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677891
+    m_Localized: Verschiedene Levels durch die Community!
     m_Metadata:
       m_Items: []
   references:

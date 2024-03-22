@@ -252,7 +252,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 27565149668298755
-    m_Localized: Verifique seu HUD para obter seus objetivos.
+    m_Localized: Verifique seu HUD para seus objetivos.
     m_Metadata:
       m_Items: []
   - m_Id: 27565149668298756
@@ -268,15 +268,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 28184462674677760
-    m_Localized: "Reiniciar r\xE1pido"
+    m_Localized: "Rein\xEDcio r\xE1pido"
     m_Metadata:
       m_Items: []
   - m_Id: 33999910783733760
-    m_Localized: Selecione contrato
+    m_Localized: Selecione Contrato
     m_Metadata:
       m_Items: []
   - m_Id: 34000825808900096
-    m_Localized: Pule a cena
+    m_Localized: Pular cena
     m_Metadata:
       m_Items: []
   - m_Id: 34000825808900097
@@ -453,23 +453,23 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363538
-    m_Localized: "Puxa, estou t\xE3o pesado agora ..."
+    m_Localized: "Nossa, estou t\xE3o pesado agora..."
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363539
-    m_Localized: Huff ...
+    m_Localized: Huff...
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363540
-    m_Localized: Isso foi grande ...
+    m_Localized: Esse foi um grande problema...
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363541
-    m_Localized: "Ei, j\xE1 se acalme!"
+    m_Localized: "Ei, acalme-se j\xE1!"
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363542
-    m_Localized: Isso foi bom ...
+    m_Localized: Isso foi bom...
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363543
@@ -633,11 +633,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 41668828704854016
-    m_Localized: Target Famerate
+    m_Localized: Taxa de quadros desejada
     m_Metadata:
       m_Items: []
   - m_Id: 41669473738477568
-    m_Localized: Vsync
+    m_Localized: VSync
     m_Metadata:
       m_Items: []
   - m_Id: 44160113281912832
@@ -649,7 +649,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 44160113307078657
-    m_Localized: Eu pensei ter ouvido algo ...
+    m_Localized: Pensei ter ouvido alguma coisa...
     m_Metadata:
       m_Items: []
   - m_Id: 44160113307078658
@@ -661,7 +661,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 44160113307078660
-    m_Localized: Tenho que descobrir ..
+    m_Localized: Tenho que descobrir..
     m_Metadata:
       m_Items: []
   - m_Id: 49219014989762560
@@ -689,11 +689,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511296
-    m_Localized: "Ah Dang, aqui vamos n\xF3s novamente."
+    m_Localized: "Ah, droga, l\xE1 vamos n\xF3s de novo."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511297
-    m_Localized: "N\xE3o, N\xE3\xE3\xE3o!"
+    m_Localized: "n\xE3o, n\xE3ooooo!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511298
@@ -701,11 +701,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511299
-    m_Localized: "Eu acho que voc\xEA parecia muito bom em branco"
+    m_Localized: "Eu acho que voc\xEA ficou muito bem de branco"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511300
-    m_Localized: "Oh! Pare, voc\xEA est\xE1 me envergonhando ..."
+    m_Localized: "Oh! Pare, voc\xEA est\xE1 me envergonhando..."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511301
@@ -725,7 +725,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511305
-    m_Localized: Espere, eu pensei que o reclinato coloca minhas roupas de volta?
+    m_Localized: Espere, pensei que o reccumobulador colocasse minhas roupas de volta?
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511306
@@ -733,15 +733,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511307
-    m_Localized: Darnagem corporativa ...
+    m_Localized: Maldita empresa...
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511310
-    m_Localized: Quem te deixou deitado?
+    m_Localized: "Quem deixou voc\xEA deitado?"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511311
-    m_Localized: Vamos te levar de volta
+    m_Localized: "Vamos trazer voc\xEA de volta"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511312
@@ -753,7 +753,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511314
-    m_Localized: "O tempo de interrup\xE7\xE3o acabou."
+    m_Localized: O tempo de intervalo acabou.
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511315
@@ -765,11 +765,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511317
-    m_Localized: "Isso parece t\xE3o pesado ..."
+    m_Localized: "Isso parece t\xE3o pesado..."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511318
-    m_Localized: Preservativo enorme ..?
+    m_Localized: Preservativo enorme..?
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511319
@@ -777,27 +777,27 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511320
-    m_Localized: Gostaria que fosse eu ...
+    m_Localized: Queria que fosse eu...
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511321
-    m_Localized: Bem, bem, parece que se afasta!
+    m_Localized: "Bem, bem, parece quem est\xE1 relaxando!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511322
-    m_Localized: "Desculpe, deixe -me rolar para a minha esta\xE7\xE3o ent\xE3o."
+    m_Localized: "Desculpe, deixe-me ir at\xE9 minha esta\xE7\xE3o ent\xE3o."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511323
-    m_Localized: "Haha, eu n\xE3o vou te preocupar."
+    m_Localized: "Haha, eu vou te enrolar, n\xE3o se preocupe."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511324
-    m_Localized: Bem, bem, parece que se afasta!
+    m_Localized: "Bem, bem, parece quem est\xE1 relaxando!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511325
-    m_Localized: "Desculpe, n\xE3o."
+    m_Localized: Desculpe, senhora.
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511326
@@ -813,15 +813,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511329
-    m_Localized: "N\xE3o fizemos isso?"
+    m_Localized: "N\xE3o acabamos de fazer isso?"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511330
-    m_Localized: "Admite. Voc\xEA adorou a primeira vez."
+    m_Localized: "Admite. Voc\xEA adorou da primeira vez."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511331
-    m_Localized: "De volta t\xE3o cedo?"
+    m_Localized: "Voltar t\xE3o cedo?"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511332
@@ -833,11 +833,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511335
-    m_Localized: "J\xE1 derreteu at\xE9 gozar?"
+    m_Localized: "J\xE1 derreteu para gozar?"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511336
-    m_Localized: "Nada restante al\xE9m de porra"
+    m_Localized: "Nada sobrou al\xE9m de porra"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511337
@@ -845,7 +845,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511338
-    m_Localized: Ficou suave em mim?
+    m_Localized: Ficou mole comigo?
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511339
@@ -853,7 +853,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511340
-    m_Localized: "\xC9 melhor voc\xEA ficar confort\xE1vel l\xE1"
+    m_Localized: "\xC9 melhor voc\xEA ficar confort\xE1vel a\xED"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511341
@@ -861,7 +861,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511342
-    m_Localized: "Talvez o pr\xF3ximo seja mais recheio"
+    m_Localized: "Talvez o pr\xF3ximo seja mais preenchido"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511343
@@ -877,7 +877,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511346
-    m_Localized: "N\xE3o se preocupe, eu vou deixar voc\xEA sair, eventualmente."
+    m_Localized: "N\xE3o se preocupe, vou deixar voc\xEA sair, eventualmente."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511347
@@ -885,7 +885,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511348
-    m_Localized: "Oh nossa, sou t\xE3o grande e redonda!"
+    m_Localized: "Nossa, sou t\xE3o grande e redondo!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511349
@@ -893,23 +893,23 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511350
-    m_Localized: "Sinta -se \xE0 vontade para se contorcer ~"
+    m_Localized: "Sinta-se \xE0 vontade para se mexer ~"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511351
-    m_Localized: "Exatamente onde voc\xEA pertence ~"
+    m_Localized: "Bem onde voc\xEA pertence ~"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511352
-    m_Localized: "Eu estarei levando meu tempo com voc\xEA ~"
+    m_Localized: "Estarei aproveitando meu tempo com voc\xEA ~"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511353
-    m_Localized: "Voc\xEA se sente t\xE3o bem l\xE1 em baixo ~"
+    m_Localized: "Voc\xEA se sente t\xE3o bem a\xED embaixo ~"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511354
-    m_Localized: Contorcendo tudo o que quiser ~
+    m_Localized: "Se contor\xE7a o quanto quiser ~"
     m_Metadata:
       m_Items: []
   - m_Id: 49239933124661248
@@ -917,7 +917,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49239933124661249
-    m_Localized: Quebra, de volta ao trabalho.
+    m_Localized: Termina, de volta ao trabalho.
     m_Metadata:
       m_Items: []
   - m_Id: 49407631384211456
@@ -1032,27 +1032,27 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511356
-    m_Localized: Oh eu ..
+    m_Localized: Ah, eu..
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511357
-    m_Localized: "Estou t\xE3o reprimido ..."
+    m_Localized: "Estou t\xE3o reprimido..."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511358
-    m_Localized: Seja gentil ok?
+    m_Localized: Seja gentil, ok?
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511359
-    m_Localized: uhh .. vou tentar.
+    m_Localized: ah.. vou tentar.
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511360
-    m_Localized: "Seja r\xE1pido que tenho algum lugar para estar."
+    m_Localized: "Seja r\xE1pido, tenho um lugar para ir."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511361
-    m_Localized: "Estou esperando tanto tempo por algu\xE9m!"
+    m_Localized: "Estou esperando h\xE1 tanto tempo por algu\xE9m!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511362
@@ -1060,7 +1060,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511363
-    m_Localized: "Eu tenho algu\xE9m para voc\xEA conhecer."
+    m_Localized: "Tenho algu\xE9m para voc\xEA conhecer."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511364
@@ -1068,15 +1068,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49223706696273922
-    m_Localized: "Isso \xE9 muito esperma!"
+    m_Localized: "Isso \xE9 muita porra!"
     m_Metadata:
       m_Items: []
   - m_Id: 49223706696273923
-    m_Localized: Woah, muito!
+    m_Localized: Uau, tanto!
     m_Metadata:
       m_Items: []
   - m_Id: 51459478665089025
-    m_Localized: Eu estarei vazando o dia todo ...
+    m_Localized: Vou ficar vazando o dia todo...
     m_Metadata:
       m_Items: []
   - m_Id: 58282248963149824
@@ -1117,16 +1117,16 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 58331949771051008
-    m_Localized: Pressione o salto para reiniciar ...
+    m_Localized: Pressione Pular para reiniciar...
     m_Metadata:
       m_Items: []
   - m_Id: 59060303662993408
-    m_Localized: "CV O chefe de tubar\xE3o!"
+    m_Localized: "CV, o chefe do tubar\xE3o!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547840
-    m_Localized: "O tubar\xE3o est\xE1 envergonhado sobre seus interesses, Cock os
-      vive discretamente."
+    m_Localized: "O tubar\xE3o fica envergonhado com seus interesses, o galo os ataca
+      discretamente."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547841
@@ -1134,43 +1134,43 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547842
-    m_Localized: "Depois de concluir os objetivos prim\xE1rios, escape usando o elevador."
+    m_Localized: "Ap\xF3s completar os objetivos prim\xE1rios, escape usando o elevador."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547843
-    m_Localized: "N\xE3o seja pego pela seguran\xE7a do escrit\xF3rio!"
+    m_Localized: "N\xE3o seja pego pela seguran\xE7a do Office!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547844
-    m_Localized: "O pessoal de seguran\xE7a tem r\xE1dios que podem denunci\xE1 -lo,
-      tenha cuidado."
+    m_Localized: "O pessoal de seguran\xE7a tem r\xE1dios que podem denunciar voc\xEA,
+      tome cuidado."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547845
-    m_Localized: "CV O T\xE9cnico Kangaroo!"
+    m_Localized: "CV o t\xE9cnico Canguru!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547846
-    m_Localized: "A tecnologia da cabe\xE7a localizada na sala de energia lateral
-      quer uma pausa do trabalho."
+    m_Localized: "O t\xE9cnico chefe localizado na sala de energia lateral quer uma
+      pausa no trabalho."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547847
-    m_Localized: CV o kangaroo do superintendente!
+    m_Localized: CV, o Supervisor Canguru!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547848
-    m_Localized: "O superintendente do Overlook elevado est\xE1 empurrando os trabalhadores
-      com muita for\xE7a! Envie -os de f\xE9rias e d\xEA um tempo a todos."
+    m_Localized: "O supervisor no mirante elevado est\xE1 pressionando demais os
+      trabalhadores! Mande-os de f\xE9rias e d\xEA um descanso a todos."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547849
-    m_Localized: "CV O gerente do escrit\xF3rio Kangaroo!"
+    m_Localized: "CV o Canguru Gerente de Escrit\xF3rio!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547850
-    m_Localized: "O gerente de armazenamento est\xE1 ficando brincalh\xE3o no trabalho
-      e quer tentar algo novo."
+    m_Localized: "O gerente do dep\xF3sito est\xE1 ficando agitado no trabalho e
+      quer tentar algo novo."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547851
@@ -1182,56 +1182,56 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547853
-    m_Localized: "CV O Capit\xE3o Kangaroo!"
+    m_Localized: "CV o Capit\xE3o Canguru!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547854
-    m_Localized: "O capit\xE3o precisa de f\xE9rias, encontre -os na \xE1rea de seguran\xE7a
-      azul escura."
+    m_Localized: "O capit\xE3o precisa de f\xE9rias, encontre-os na \xE1rea segura
+      azul escuro."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547855
-    m_Localized: CV O Rato Sacerdote!
+    m_Localized: CV, o Rato Sacerdote!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547856
-    m_Localized: "Localizado no templo que d\xE1 discursos, traga seu lado desviante
-      para a luz!"
+    m_Localized: "Localizados no templo fazendo discursos, tragam \xE0 luz seu lado
+      desviante!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547857
-    m_Localized: CV O Kangaroo do Cientista!
+    m_Localized: CV, o Canguru Cientista!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547858
-    m_Localized: "Um cientista localizado na \xE1rea verde quer que voc\xEA os agite
-      para a ci\xEAncia!"
+    m_Localized: "Um cientista localizado na \xE1rea verde quer que voc\xEA os transforme
+      em ci\xEAncia!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547859
-    m_Localized: CV O POSSUM Cook!
+    m_Localized: "CV, o cozinheiro do gamb\xE1!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547860
-    m_Localized: "O cozinheiro da cabe\xE7a quer que voc\xEA os ajude a experimentar
-      um novo ingrediente, transformando -os nele!"
+    m_Localized: "O cozinheiro-chefe quer que voc\xEA os ajude a experimentar um
+      novo ingrediente, transformando-o nele!"
     m_Metadata:
       m_Items: []
   - m_Id: 59064884090425344
-    m_Localized: "Saia usando uma das portas de sa\xEDda."
+    m_Localized: "Saia por uma das portas de sa\xEDda."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547861
-    m_Localized: "CV O chefe do drag\xE3o!"
+    m_Localized: "CV, o chefe do Drag\xE3o!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547862
-    m_Localized: "\xC9 relatado que o drag\xE3o tem um pau enorme e tem agitado sua
-      pr\xF3pria equipe, tenha cuidado!"
+    m_Localized: "Dizem que o drag\xE3o tem um pau enorme e est\xE1 mexendo em seu
+      pr\xF3prio cajado, tome cuidado!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547863
-    m_Localized: "N\xE3o seja pego pela pol\xEDcia do CV."
+    m_Localized: "N\xE3o seja pego pela Pol\xEDcia CV."
     m_Metadata:
       m_Items: []
   - m_Id: 59722192836763648
@@ -1239,15 +1239,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59736315477762048
-    m_Localized: Selecione Salvar slot
+    m_Localized: Selecione o slot para salvar
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511333
-    m_Localized: "Mais? \u2764"
+    m_Localized: "Mais?\u2764"
     m_Metadata:
       m_Items: []
   - m_Id: 49239933124661250
-    m_Localized: "\xC9 t\xE3o bom como voc\xEA se contorce l\xE1 ~"
+    m_Localized: "\xC9 t\xE3o bom como voc\xEA se contorce a\xED ~"
     m_Metadata:
       m_Items: []
   - m_Id: 59758640264781824
@@ -1259,7 +1259,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 60079280086372352
-    m_Localized: Voltar ao menu principal
+    m_Localized: Retornar ao menu principal
     m_Metadata:
       m_Items: []
   - m_Id: 60100337514106880
@@ -1267,89 +1267,104 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 60147729936470016
-    m_Localized: "Bom agente de trabalho, o chefe do tubar\xE3o \xE9 muito melhor
-      depois de se entregar. Estavam deixando o mundo mais com tens\xE3o, um alvo
-      de cada vez!"
+    m_Localized: "Bom agente de trabalho, o chefe tubar\xE3o fica muito mais legal
+      depois de ter suas pervers\xF5es satisfeitas. Estamos deixando o mundo mais
+      excitado, um alvo de cada vez!"
     m_Metadata:
       m_Items: []
   - m_Id: 60147729965830144
-    m_Localized: "Agente Completo da Miss\xE3o, os trabalhadores do armaz\xE9m ficaram
-      felizes em ter um tempo de folga e os alvos est\xE3o todos de bom humor ap\xF3s
-      suas \"f\xE9rias\"."
+    m_Localized: "Agente de miss\xE3o cumprida, os trabalhadores do armaz\xE9m ficaram
+      felizes com a folga e os alvos est\xE3o todos animados ap\xF3s as \u201Cf\xE9rias\u201D."
     m_Metadata:
       m_Items: []
   - m_Id: 60147729965830145
-    m_Localized: "Outro agente de sucesso. Com o chefe do drag\xE3o, deu um gostinho
-      de seu pr\xF3prio rem\xE9dio, os trabalhadores s\xE3o muito mais felizes."
+    m_Localized: "Mais um agente de sucesso. Com o chefe drag\xE3o experimentando
+      seu pr\xF3prio rem\xE9dio, os trabalhadores ficam muito mais felizes."
     m_Metadata:
       m_Items: []
   - m_Id: 60147729965830146
-    m_Localized: "\xD3timo agente de trabalho! A equipe da esta\xE7\xE3o est\xE1
-      um pouco mais excitada, com tantos colegas falando sobre sua experi\xEAncia
+    m_Localized: "\xD3timo trabalho agente! Os funcion\xE1rios da esta\xE7\xE3o ficam
+      um pouco mais excitados com tantos colegas falando sobre suas experi\xEAncias
       com voc\xEA."
     m_Metadata:
       m_Items: []
   - m_Id: 60175060938878976
-    m_Localized: "Ocultar o chefe do tubar\xE3o (opcional)"
+    m_Localized: "Esconda o chefe tubar\xE3o (opcional)"
     m_Metadata:
       m_Items: []
   - m_Id: 60175060938878977
-    m_Localized: Mantenha o chefe agitado deixando seu preservativo em um banheiro!
+    m_Localized: Mantenha o chefe agitado deixando a camisinha no banheiro!
     m_Metadata:
       m_Items: []
   - m_Id: 60181309898190848
-    m_Localized: "Esconder a cabe\xE7a da seguran\xE7a (opcional)"
+    m_Localized: "Ocultar o chefe de seguran\xE7a (opcional)"
     m_Metadata:
       m_Items: []
   - m_Id: 60181309914968064
-    m_Localized: "Esconder um preservativo contendo a cabe\xE7a de seguran\xE7a no
-      vesti\xE1rio de seguran\xE7a."
+    m_Localized: "Guarde um preservativo contendo o chefe da seguran\xE7a no vesti\xE1rio
+      de seguran\xE7a."
     m_Metadata:
       m_Items: []
   - m_Id: 60181309914968065
-    m_Localized: Esconder o zelador (opcional)
+    m_Localized: Ocultar o zelador (opcional)
     m_Metadata:
       m_Items: []
   - m_Id: 60181309914968066
-    m_Localized: "Esconder um preservativo que cont\xE9m o zelador no banheiro principal
-      do corredor."
+    m_Localized: Guarde um preservativo contendo o zelador no banheiro do corredor
+      principal.
     m_Metadata:
       m_Items: []
   - m_Id: 60288126066192384
-    m_Localized: "\xC9 melhor voc\xEA se sentir confort\xE1vel l\xE1"
+    m_Localized: "\xC9 melhor voc\xEA ficar confort\xE1vel a\xED"
     m_Metadata:
       m_Items: []
   - m_Id: 62087231205634048
-    m_Localized: "Espero que voc\xEA esteja pronto para algum agente de eleva\xE7\xE3o
-      pesada."
+    m_Localized: "Espero que voc\xEA esteja pronto para algum agente pesado."
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411264
-    m_Localized: "Este n\xE3o ser\xE1 como suas miss\xF5es anteriores."
+    m_Localized: "Esta n\xE3o ser\xE1 como suas miss\xF5es anteriores."
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411265
-    m_Localized: "Target de hoje \xE9 o chefe drag\xE3o"
+    m_Localized: "O alvo de hoje \xE9 Boss Dragon"
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411266
-    m_Localized: "Eles est\xE3o sob muita press\xE3o ultimamente"
+    m_Localized: "Eles t\xEAm estado sob muita press\xE3o ultimamente"
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411267
-    m_Localized: Isso resultou no estresse de comer sua equipe
+    m_Localized: Isso resultou no estresse deles comendo sua equipe
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411268
-    m_Localized: "\xC9 hora de eles passaram de f\xE9rias"
+    m_Localized: "\xC9 hora de eles sa\xEDrem de f\xE9rias"
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411269
-    m_Localized: "Tenha muito cuidado ou voc\xEA pode acabar sendo o que ficou branco!"
+    m_Localized: "Tenha muito cuidado ou voc\xEA pode acabar sendo aquele que ficou
+      branco!"
     m_Metadata:
       m_Items: []
   - m_Id: 49239933124661251
     m_Localized: "Est\xE1 t\xE3o quente!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677888
+    m_Localized: Campanha de vetor de rotatividade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677889
+    m_Localized: "O Agente 789 assume v\xE1rios contratos dentro da CV City..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677890
+    m_Localized: Modificado
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677891
+    m_Localized: "V\xE1rios n\xEDveis pela comunidade!"
     m_Metadata:
       m_Items: []
   references:

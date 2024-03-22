@@ -57,13 +57,18 @@ public class LevelManager : MonoBehaviour {
 
     public static bool CanPlayLevel(Level targetLevel) {
         instance.Load();
-        int index = instance.levels.IndexOf(targetLevel);
+        List<Level> categoryLevels = instance.levels.FindAll((level) => level.IsPartOfCategory(targetLevel));
+        
+        int index = categoryLevels.IndexOf(targetLevel);
         if (index == 0) {
             return true;
         }
 
-        //instance.levels[index - 1].GetCompletionStatus(out bool completed, out List<Level.LevelObjective> objectives, out double completionTime);
-        return instance.levels[index-1].GetCompleted();
+        if (targetLevel.GetRequiresPreviousLevelToBeBeatenToPlay()) {
+            return categoryLevels[index - 1].GetCompleted();
+        } else {
+            return true;
+        }
     }
 
     private void Load() {
@@ -98,6 +103,7 @@ public class LevelManager : MonoBehaviour {
         foreach (var level in loadHandle.Result) {
             OnFoundLevel(level);
         }
+        levels.Sort((a, b) => a.CompareTo(b));
         loading = false;
         if (GetCurrentLevel() != null) {
             StartLevel(GetCurrentLevel(), false);

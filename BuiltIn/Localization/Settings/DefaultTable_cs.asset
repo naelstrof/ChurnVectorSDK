@@ -252,7 +252,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 27565149668298755
-    m_Localized: "Zkontrolujte sv\xE9 c\xEDle."
+    m_Localized: "Zkontrolujte sv\u016Fj HUD pro va\u0161e c\xEDle."
     m_Metadata:
       m_Items: []
   - m_Id: 27565149668298756
@@ -268,15 +268,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 28184462674677760
-    m_Localized: "Rychl\xE9 restartov\xE1n\xED"
+    m_Localized: "Rychl\xFD restart"
     m_Metadata:
       m_Items: []
   - m_Id: 33999910783733760
-    m_Localized: Vyberte smlouvu
+    m_Localized: Vyberte Smlouva
     m_Metadata:
       m_Items: []
   - m_Id: 34000825808900096
-    m_Localized: "P\u0159esko\u010Dit cutscene"
+    m_Localized: "P\u0159esko\u010Dit Cutscene"
     m_Metadata:
       m_Items: []
   - m_Id: 34000825808900097
@@ -455,7 +455,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363538
-    m_Localized: "Bo\u017Ee, te\u010F jsem tak t\u011B\u017Ek\xFD ..."
+    m_Localized: "Bo\u017Ee, te\u010F jsem tak t\u011B\u017Ek\xFD..."
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363539
@@ -463,19 +463,19 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363540
-    m_Localized: "To byl velk\xFD ..."
+    m_Localized: "To byl velk\xFD..."
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363541
-    m_Localized: "Hej, u\u017E se usa\u010Fte!"
+    m_Localized: "Hej u\u017E se uklidni!"
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363542
-    m_Localized: "To se c\xEDtilo dob\u0159e ..."
+    m_Localized: "To byl dobr\xFD pocit..."
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363543
-    m_Localized: "V\u0161echno moje ..."
+    m_Localized: "V\u0161echny moje..."
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363544
@@ -647,15 +647,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 44160113307078656
-    m_Localized: Huh?
+    m_Localized: co?
     m_Metadata:
       m_Items: []
   - m_Id: 44160113307078657
-    m_Localized: "Myslel jsem, \u017Ee jsem n\u011Bco sly\u0161el ..."
+    m_Localized: "Myslel jsem, \u017Ee jsem n\u011Bco sly\u0161el..."
     m_Metadata:
       m_Items: []
   - m_Id: 44160113307078658
-    m_Localized: Je to ...?
+    m_Localized: Je to...?
     m_Metadata:
       m_Items: []
   - m_Id: 44160113307078659
@@ -663,7 +663,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 44160113307078660
-    m_Localized: "Mus\xEDm p\u0159ij\xEDt na to .."
+    m_Localized: Musim zjistit..
     m_Metadata:
       m_Items: []
   - m_Id: 49219014989762560
@@ -691,27 +691,27 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511296
-    m_Localized: Ah Dang, tady jdeme znovu.
+    m_Localized: Ah dang, je to tady znovu.
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511297
-    m_Localized: Ne, nooooo!
+    m_Localized: ne, neeeee!
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511298
-    m_Localized: "Byla to z\xE1bava, zat\xEDmco to trvalo."
+    m_Localized: "Byla to z\xE1bava, dokud to trvalo."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511299
-    m_Localized: "Mysl\xEDm, \u017Ee jsi vypadal docela dob\u0159e v b\xEDl\xE9m"
+    m_Localized: "Mysl\xEDm, \u017Ee jsi v b\xEDl\xE9 vypadala docela dob\u0159e"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511300
-    m_Localized: "Ach! Stop, rozhazuji m\u011B ..."
+    m_Localized: "Ach! P\u0159esta\u0148, p\u0159iv\xE1d\xED\u0161 m\u011B do rozpak\u016F..."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511301
-    m_Localized: "M\u011Bl jsem po\u017E\xE1dat o jejich telefonn\xED \u010D\xEDslo."
+    m_Localized: "M\u011Bl jsem se zeptat na jejich telefonn\xED \u010D\xEDslo."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511302
@@ -727,8 +727,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511305
-    m_Localized: "Po\u010Dkej, myslel jsem, \u017Ee retoningobul\xE1tor d\xE1v\xE1
-      m\xE9 oble\u010Den\xED zp\u011Bt?"
+    m_Localized: "Po\u010Dkat, myslel jsem, \u017Ee rekumbobul\xE1tor mi vrac\xED
+      oble\u010Den\xED?"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511306
@@ -736,7 +736,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511307
-    m_Localized: "Zatracen\u011B firem ..."
+    m_Localized: "Zatracen\u011B firemn\xED..."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511310
@@ -744,11 +744,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511311
-    m_Localized: "Poj\u010Fme t\u011B dostat zp\u011Bt"
+    m_Localized: "Poj\u010Fme v\xE1s vr\xE1tit"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511312
-    m_Localized: "Dne\u0161n\xED pot\u0159et\xED, co?"
+    m_Localized: "Dnes pot\u0159et\xED, jo?"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511313
@@ -756,23 +756,23 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511314
-    m_Localized: "Doba zlomu skon\u010Dila."
+    m_Localized: "P\u0159est\xE1vka skon\u010Dila."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511315
-    m_Localized: Co ...
+    m_Localized: co to...
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511316
-    m_Localized: Je to ...?
+    m_Localized: Je to...?
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511317
-    m_Localized: "To vypad\xE1 tak t\u011B\u017Ece ..."
+    m_Localized: "To vypad\xE1 tak t\u011B\u017Ece..."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511318
-    m_Localized: "Obrovsk\xFD kondom ..?"
+    m_Localized: "Obrovsk\xFD kondom..?"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511319
@@ -780,27 +780,27 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511320
-    m_Localized: "P\u0159\xE1l bych si, \u017Ee jsem byl j\xE1 ..."
+    m_Localized: "K\xE9\u017E bych to byl j\xE1..."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511321
-    m_Localized: "Dob\u0159e vypad\xE1, kdo se uvoln\xED!"
+    m_Localized: "No dob\u0159e vypad\xE1, kdo fl\xE1k\xE1!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511322
-    m_Localized: "Promi\u0148, nech m\u011B tedy jen p\u0159evr\xE1tit na svou stanici."
+    m_Localized: "Promi\u0148, dovol mi vr\xE1tit se na svou stanici."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511323
-    m_Localized: "Haha, v\xE1l\xEDm ti \u017E\xE1dn\xE9 starosti."
+    m_Localized: "Haha, bez obav t\u011B p\u0159ev\xE1lcuji."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511324
-    m_Localized: "Dob\u0159e vypad\xE1, kdo se uvoln\xED!"
+    m_Localized: "No dob\u0159e vypad\xE1, kdo fl\xE1k\xE1!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511325
-    m_Localized: "Promi\u0148, M'am."
+    m_Localized: "Promi\u0148te, madam."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511326
@@ -816,19 +816,19 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511329
-    m_Localized: "Neud\u011Blali jsme to jen?"
+    m_Localized: "Neud\u011Blali jsme to pr\xE1v\u011B my?"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511330
-    m_Localized: "P\u0159ipustit to. Miloval jsi to poprv\xE9."
+    m_Localized: "P\u0159ipustit to. Poprv\xE9 se ti to l\xEDbilo."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511331
-    m_Localized: "Zp\u011Bt tak brzy?"
+    m_Localized: "Tak brzy zp\xE1tky?"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511332
-    m_Localized: "Mus\xEDme se p\u0159estat setkat takhle!"
+    m_Localized: "Mus\xEDme se p\u0159estat takhle sch\xE1zet!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511334
@@ -836,27 +836,27 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511335
-    m_Localized: "Roztaven\xFD na cum u\u017E?"
+    m_Localized: "U\u017E se rozpustil na cum?"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511336
-    m_Localized: "Nic nezbylo ne\u017E cum"
+    m_Localized: "Nezbylo nic jin\xE9ho ne\u017E cum"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511337
-    m_Localized: "Ud\u011Bl\xE1te dobrou n\xE1klad."
+    m_Localized: "Po\u0159\xE1dn\u011B nalo\u017E\xED\u0161."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511338
-    m_Localized: "Zcela m\u011B m\u011Bkk\xE9?"
+    m_Localized: "Zm\u011Bknul na m\u011B?"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511339
-    m_Localized: "Je \u010Das ud\u011Blat nepo\u0159\xE1dek!"
+    m_Localized: "\u010Cas ud\u011Blat nepo\u0159\xE1dek!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511340
-    m_Localized: "Rad\u011Bji tam bude\u0161 pohodln\xFD"
+    m_Localized: "Rad\u0161i se tam ud\u011Blej"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511341
@@ -864,7 +864,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511342
-    m_Localized: "Mo\u017En\xE1 dal\u0161\xED bude v\xEDce pln\u011Bn\xED"
+    m_Localized: "Mo\u017En\xE1, \u017Ee p\u0159\xED\u0161t\xED bude v\xEDce nabit\xE9"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511343
@@ -872,7 +872,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511344
-    m_Localized: "U\u017Eijte si, zat\xEDmco to trv\xE1!"
+    m_Localized: "U\u017E\xEDvejte si, dokud to jde!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511345
@@ -880,47 +880,48 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511346
-    m_Localized: "Nebojte se, nakonec t\u011B nech\xE1m ven."
+    m_Localized: "Neboj, nakonec t\u011B pust\xEDm ven."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511347
-    m_Localized: "Uvid\xEDme, jak dlouho vydr\u017E\xEDte ~"
+    m_Localized: "Uvid\xEDme, jak dlouho vydr\u017E\xED\u0161~"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511348
-    m_Localized: "Ach, geezi, jsem tak velk\xFD a kulat\xFD!"
+    m_Localized: "Ach bo\u017Ee, jsem tak velk\xFD a kulat\xFD!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511349
-    m_Localized: "Zaj\xEDmalo by m\u011B, kolik toho dok\xE1\u017Eu"
+    m_Localized: "Zaj\xEDmalo by m\u011B, kolik toho je\u0161t\u011B m\u016F\u017Eu
+      nacpat"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511350
-    m_Localized: "Nev\xE1hejte se kroutit kolem ~"
+    m_Localized: "Klidn\u011B se kroutit ~"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511351
-    m_Localized: "P\u0159esn\u011B tam, kam pat\u0159\xEDte ~"
+    m_Localized: "P\u0159esn\u011B tam, kam pat\u0159\xED\u0161~"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511352
-    m_Localized: "Budu si s tebou vz\xEDt \u010Das ~"
+    m_Localized: "D\xE1m si s tebou na \u010Das~"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511353
-    m_Localized: "C\xEDt\xEDte se tam tak dob\u0159e ~"
+    m_Localized: "C\xEDt\xEDte se tam dole tak dob\u0159e~"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511354
-    m_Localized: "Squirm v\u0161e, co chcete ~"
+    m_Localized: "\u0160vihn\u011Bte v\u0161e, co chcete~"
     m_Metadata:
       m_Items: []
   - m_Id: 49239933124661248
-    m_Localized: "V po\u0159\xE1dku \u010Das se vr\xE1tit do pr\xE1ce"
+    m_Localized: "Dobr\xFD \u010Das vr\xE1tit se do pr\xE1ce"
     m_Metadata:
       m_Items: []
   - m_Id: 49239933124661249
-    m_Localized: "P\u0159eru\u0161uje se, zp\u011Bt do pr\xE1ce."
+    m_Localized: "P\u0159est\xE1vka, zp\xE1tky do pr\xE1ce."
     m_Metadata:
       m_Items: []
   - m_Id: 49407631384211456
@@ -1037,27 +1038,27 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511356
-    m_Localized: "Oh, j\xE1 .."
+    m_Localized: "Ach j\xE1.."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511357
-    m_Localized: "Jsem tak zatla\u010Den\xFD ..."
+    m_Localized: "Jsem tak zanepr\xE1zdn\u011Bn\xFD..."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511358
-    m_Localized: "B\xFDt jemn\xFD v po\u0159\xE1dku?"
+    m_Localized: "Bu\u010F n\u011B\u017En\xFD dob\u0159e?"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511359
-    m_Localized: "uhh .. zkus\xEDm to."
+    m_Localized: "uhh.. pokus\xEDm se."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511360
-    m_Localized: "Bu\u010F rychl\xFD, mus\xEDm b\xFDt n\u011Bkde."
+    m_Localized: "Posp\u011B\u0161te si, m\xE1m kde b\xFDt."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511361
-    m_Localized: "\u010Cekal jsem na n\u011Bkoho tak dlouho!"
+    m_Localized: "Tak dlouho jsem na n\u011Bkoho \u010Dekal!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511362
@@ -1065,7 +1066,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511363
-    m_Localized: "M\xE1m n\u011Bkoho, aby se setkal."
+    m_Localized: "M\xE1m n\u011Bkoho, s k\xFDm se m\u016F\u017Ee\u0161 sezn\xE1mit."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511364
@@ -1077,11 +1078,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49223706696273923
-    m_Localized: Woah, moc!
+    m_Localized: Wow, tolik!
     m_Metadata:
       m_Items: []
   - m_Id: 51459478665089025
-    m_Localized: "Budu unikat cel\xFD den ..."
+    m_Localized: "Cel\xFD den budu ut\xEDkat..."
     m_Metadata:
       m_Items: []
   - m_Id: 58282248963149824
@@ -1118,77 +1119,78 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 58331949737496576
-    m_Localized: Ach ne, byl jsem chycen!
+    m_Localized: "Ach ne, chytili m\u011B!"
     m_Metadata:
       m_Items: []
   - m_Id: 58331949771051008
-    m_Localized: "Stisknut\xEDm tla\u010D\xEDtka Jump k restartu ..."
+    m_Localized: "Stisknut\xEDm tla\u010D\xEDtka Jump restartujte..."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303662993408
-    m_Localized: CV The Shark Boss!
+    m_Localized: "\u017Divotopis \u0161\xE9fa Shark!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547840
-    m_Localized: "Shark je rozhazov\xE1n o sv\xFDch z\xE1jmech, na kohout je diskr\xE9tn\u011B."
+    m_Localized: "\u017Dralok se za jejich z\xE1jmy styd\xED, kohout je diskr\xE9tn\u011B
+      vol\xED."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547841
-    m_Localized: Uniknout z oblasti!
+    m_Localized: "Unikn\u011Bte z oblasti!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547842
-    m_Localized: "Po dokon\u010Den\xED prim\xE1rn\xEDch c\xEDl\u016F unikn\u011Bte
+    m_Localized: "Po spln\u011Bn\xED prim\xE1rn\xEDch c\xEDl\u016F unikn\u011Bte
       pomoc\xED v\xFDtahu."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547843
-    m_Localized: "Nenechte se chytit kancel\xE1\u0159sk\xFDm zabezpe\u010Den\xEDm!"
+    m_Localized: Nenechte se chytit ostrahou Office!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547844
-    m_Localized: "Bezpe\u010Dnostn\xED person\xE1l m\xE1 r\xE1dia, kter\xE1 v\xE1s
-      mohou nahl\xE1sit, bu\u010Fte opatrn\xED."
+    m_Localized: "Bezpe\u010Dnostn\xED pracovn\xEDci maj\xED vys\xEDla\u010Dky, kter\xE9
+      v\xE1s mohou nahl\xE1sit, bu\u010Fte opatrn\xED."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547845
-    m_Localized: CV Technik Kangaroo!
+    m_Localized: "\u017Divotopis technika Klokana!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547846
-    m_Localized: "Hlavn\xED technologie um\xEDst\u011Bn\xE1 v postrann\xED energetick\xE9
-      m\xEDstnosti chce p\u0159est\xE1vku od pr\xE1ce."
+    m_Localized: "Vedouc\xED technik um\xEDst\u011Bn\xFD ve vedlej\u0161\xED elektrick\xE9
+      m\xEDstnosti si chce odpo\u010Dinout od pr\xE1ce."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547847
-    m_Localized: CV Dozorce Kangaroo!
+    m_Localized: CV the Oververseer Klokan!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547848
-    m_Localized: "Dozorce ve zv\xFD\u0161en\xE9m v\xFDhledu tla\u010D\xED pracovn\xEDky
-      p\u0159\xEDli\u0161 tvrd\u011B! Po\u0161lete je na dovolenou a dejte v\u0161em
-      p\u0159est\xE1vku."
+    m_Localized: "Dozorce ve vyv\xFD\u0161en\xE9m v\xFDhledu p\u0159\xEDli\u0161
+      tla\u010D\xED na d\u011Bln\xEDky! Po\u0161lete je na dovolenou a dejte v\u0161em
+      pokoj."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547849
-    m_Localized: CV The Office Manager Kangaroo!
+    m_Localized: "\u017Divotopis Kangaroo mana\u017Eera kancel\xE1\u0159e!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547850
-    m_Localized: "Spr\xE1vce skladovac\xED m\xEDstnosti se dost\xE1v\xE1 do pr\xE1ce
-      a chce vyzkou\u0161et n\u011Bco nov\xE9ho."
+    m_Localized: "Vedouc\xED skladu je v pr\xE1ci hrav\xFD a chce zkusit n\u011Bco
+      nov\xE9ho."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547851
-    m_Localized: "Nenechte se chytit zabezpe\u010Den\xEDm skladu."
+    m_Localized: Nenechte se chytit ostrahou skladu.
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547852
-    m_Localized: "Pou\u017Eijte kamion k \xFAt\u011Bku!"
+    m_Localized: "Pou\u017Eijte n\xE1kla\u010F\xE1k k \xFAt\u011Bku!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547853
-    m_Localized: "CV Kapit\xE1n Kangaroo!"
+    m_Localized: "CV kapit\xE1na Kangaroo!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547854
@@ -1197,47 +1199,47 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547855
-    m_Localized: "CV Kn\u011Bz Rat!"
+    m_Localized: CV the Priest Rat!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547856
-    m_Localized: "Nach\xE1z\xED se v chr\xE1mu a projevy, p\u0159ive\u010Fte svou
-      deviantn\xED stranu do sv\u011Btla!"
+    m_Localized: "Nach\xE1z\xED se v chr\xE1mu a pron\xE1\u0161\xED projevy, p\u0159ive\u010Fte
+      jejich deviantn\xED str\xE1nku na sv\u011Btlo!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547857
-    m_Localized: "CV v\u011Bdec Kangaroo!"
+    m_Localized: CV the Scientist Klokan!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547858
-    m_Localized: "V\u011Bdec nach\xE1zej\xEDc\xED se v zelen\xE9 oblasti chce, abyste
-      je chrlili na v\u011Bdu!"
+    m_Localized: "V\u011Bdec, kter\xFD se nach\xE1z\xED v zelen\xE9 oblasti, po v\xE1s
+      chce, abyste je vrhli na v\u011Bdu!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547859
-    m_Localized: CV Possum Cook!
+    m_Localized: CV the Possum Cook!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547860
-    m_Localized: "Hlava Cook chce, abyste jim pomohli vyzkou\u0161et novou ingredienci
-      t\xEDm, \u017Ee je p\u0159em\u011Bnili na to!"
+    m_Localized: "\u0160\xE9fkucha\u0159 chce, abyste jim pomohli vyzkou\u0161et
+      novou surovinu t\xEDm, \u017Ee je p\u0159em\u011Bn\xEDte na!"
     m_Metadata:
       m_Items: []
   - m_Id: 59064884090425344
-    m_Localized: "Nechte pou\u017E\xEDt jeden z v\xFDstupn\xEDch dve\u0159\xED."
+    m_Localized: "Odejd\u011Bte pomoc\xED jedn\u011Bch z \xFAnikov\xFDch dve\u0159\xED."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547861
-    m_Localized: CV Dragon Boss!
+    m_Localized: "CV dra\u010D\xEDho \u0161\xE9fa!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547862
-    m_Localized: "Dragon je hl\xE1\u0161en, \u017Ee m\xE1 obrovsk\xE9ho pt\xE1ka
-      a chrloval vlastn\xED person\xE1l, bu\u010Fte opatrn\xED!"
+    m_Localized: "Drak m\xE1 \xFAdajn\u011B obrovsk\xE9 p\xE9ro a stlouk\xE1 vlastn\xED
+      h\u016Fl, bu\u010Fte opatrn\xED!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547863
-    m_Localized: Nenechte se chytit CV Police.
+    m_Localized: "Nenechte se chytit polici\xED CV."
     m_Metadata:
       m_Items: []
   - m_Id: 59722192836763648
@@ -1245,27 +1247,27 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59736315477762048
-    m_Localized: "Vyberte ulo\u017Eit slot"
+    m_Localized: "Vyberte slot pro ulo\u017Een\xED"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511333
-    m_Localized: "V\xEDce? \u2764"
+    m_Localized: "V\xEDce?\u2764"
     m_Metadata:
       m_Items: []
   - m_Id: 49239933124661250
-    m_Localized: "Je to tak hezk\xE9, jak se tam krou\u017E\xED ~"
+    m_Localized: "Je tak hezk\xE9, jak se tam vrt\xED\u0161~"
     m_Metadata:
       m_Items: []
   - m_Id: 59758640264781824
-    m_Localized: "Dokon\u010Den\xE9 c\xEDle"
+    m_Localized: "Spln\u011Bn\xE9 c\xEDle"
     m_Metadata:
       m_Items: []
   - m_Id: 59758640302530560
-    m_Localized: "Doba dokon\u010Den\xED"
+    m_Localized: "\u010Cas dokon\u010Den\xED"
     m_Metadata:
       m_Items: []
   - m_Id: 60079280086372352
-    m_Localized: "Vra\u0165te se do hlavn\xED nab\xEDdky"
+    m_Localized: "N\xE1vrat do hlavn\xED nab\xEDdky"
     m_Metadata:
       m_Items: []
   - m_Id: 60100337514106880
@@ -1273,90 +1275,108 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 60147729936470016
-    m_Localized: "Dobr\xFD pracovn\xED agent, \u0161\xE9f \u017Eraloka je \xFAdajn\u011B
-      mnohem hez\u010D\xED pot\xE9, co si sv\xE9 zlomy oddaly. D\u011Blali sv\u011Bt
-      Horlier, jeden c\xEDl najednou!"
+    m_Localized: "Dobr\xFD pracovn\xED agent, \u017Eralo\u010D\xED \u0161\xE9f je
+      \xFAdajn\u011B mnohem milej\u0161\xED pot\xE9, co si nechal dop\u0159\xE1t
+      jejich kink. D\u011Blali sv\u011Bt nadr\u017Een\u011Bj\u0161\xEDm, jeden c\xEDl
+      za druh\xFDm!"
     m_Metadata:
       m_Items: []
   - m_Id: 60147729965830144
-    m_Localized: "Mission Complete Agent, pracovn\xEDci skladu byli r\xE1di, \u017Ee
-      m\u011Bli n\u011Bjak\xFD volno a c\xEDle jsou po \u201Edovolen\xE9\u201C ve
-      vysok\xE9 duchu."
+    m_Localized: "Agent mise dokon\u010Den, skladn\xEDci byli r\xE1di, \u017Ee maj\xED
+      chv\xEDli volna a c\xEDle jsou po \u201Edovolen\xE9\u201C v dobr\xE9 n\xE1lad\u011B."
     m_Metadata:
       m_Items: []
   - m_Id: 60147729965830145
-    m_Localized: "Dal\u0161\xED agent \xFAsp\u011Bchu. S drakem, kter\xFD m\u011Bl
-      chu\u0165 sv\xE9ho vlastn\xEDho l\xE9ku, jsou pracovn\xEDci mnohem \u0161\u0165astn\u011Bj\u0161\xED."
+    m_Localized: "Dal\u0161\xED \xFAsp\u011B\u0161n\xFD agent. Kdy\u017E dra\u010D\xED
+      \u0161\xE9f ochutn\xE1 jejich vlastn\xED medic\xEDnu, d\u011Bln\xEDci jsou
+      mnohem \u0161\u0165astn\u011Bj\u0161\xED."
     m_Metadata:
       m_Items: []
   - m_Id: 60147729965830146
-    m_Localized: "Skv\u011Bl\xFD pracovn\xED agent! Zam\u011Bstnanci stanice jsou
-      v\u0161ichni trochu nahnut\u011Bj\u0161\xED a tolik jejich koleg\u016F mluv\xED
+    m_Localized: "Skv\u011Bl\xE1 pr\xE1ce agenta! Zam\u011Bstnanci stanice jsou trochu
+      nadr\u017Een\u011Bj\u0161\xED, kdy\u017E tolik jejich koleg\u016F mluv\xED
       o sv\xFDch zku\u0161enostech s v\xE1mi."
     m_Metadata:
       m_Items: []
   - m_Id: 60175060938878976
-    m_Localized: "Skr\xFDt \u0161\xE9fa \u017Eraloka (voliteln\xE9)"
+    m_Localized: "Skr\xFDt \u017Eralo\u010D\xEDho bosse (voliteln\xE9)"
     m_Metadata:
       m_Items: []
   - m_Id: 60175060938878977
-    m_Localized: "Udr\u017Eujte \u0161\xE9fa chr, t\xEDm, \u017Ee nech\xE1te sv\u016Fj
+    m_Localized: "Udr\u017Eujte \u0161\xE9fa v klidu t\xEDm, \u017Ee nech\xE1te jejich
       kondom v koupeln\u011B!"
     m_Metadata:
       m_Items: []
   - m_Id: 60181309898190848
-    m_Localized: "Skr\xFDt hlavu zabezpe\u010Den\xED (voliteln\xE9)"
+    m_Localized: "Skr\xFDt \u0161\xE9fa zabezpe\u010Den\xED (voliteln\xE9)"
     m_Metadata:
       m_Items: []
   - m_Id: 60181309914968064
-    m_Localized: "Ukryjte kondom obsahuj\xEDc\xED hlavu bezpe\u010Dnosti v bezpe\u010Dnostn\xED
-      \u0161atnu."
+    m_Localized: "Schovejte kondom s vedouc\xEDm ochranky do bezpe\u010Dnostn\xED
+      \u0161atny."
     m_Metadata:
       m_Items: []
   - m_Id: 60181309914968065
-    m_Localized: "Skr\xFDt \u0161koln\xEDka (voliteln\xE9)"
+    m_Localized: "Skr\xFDt domovn\xEDka (voliteln\xE9)"
     m_Metadata:
       m_Items: []
   - m_Id: 60181309914968066
-    m_Localized: "Ukryjte kondom obsahuj\xEDc\xED \u0161kol\xEDka v hlavn\xED chodb\u011B."
+    m_Localized: "Schovejte kondom obsahuj\xEDc\xED \u0161koln\xEDka do koupelny
+      v hlavn\xED chodb\u011B."
     m_Metadata:
       m_Items: []
   - m_Id: 60288126066192384
-    m_Localized: "Rad\u011Bji se tam pohodln\u011B"
+    m_Localized: "Rad\u011Bji se tam uvelebte"
     m_Metadata:
       m_Items: []
   - m_Id: 62087231205634048
-    m_Localized: "Douf\xE1m, \u017Ee jste p\u0159ipraveni na n\u011Bjak\xFD t\u011B\u017Ek\xFD
-      zvedac\xED agent."
+    m_Localized: "Douf\xE1m, \u017Ee jste p\u0159ipraveni na n\u011Bjak\xE9 t\u011B\u017Ek\xE9
+      zved\xE1n\xED Agenta."
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411264
-    m_Localized: "Tenhle nebude jako va\u0161e p\u0159edchoz\xED mise."
+    m_Localized: "Tato nebude jako va\u0161e p\u0159edchoz\xED mise."
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411265
-    m_Localized: "Dne\u0161n\xED c\xEDl je \u0161\xE9f drak"
+    m_Localized: "Dne\u0161n\xEDm c\xEDlem je Boss Dragon"
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411266
-    m_Localized: "V posledn\xED dob\u011B byli pod velk\xFDm tlakem"
+    m_Localized: "V posledn\xED dob\u011B jsou pod velk\xFDm tlakem"
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411267
-    m_Localized: "To vedlo k tomu, \u017Ee stres jedli jejich person\xE1l"
+    m_Localized: "To vedlo k tomu, \u017Ee jedli sv\xE9 zam\u011Bstnance ve stresu"
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411268
-    m_Localized: "Je \u010Das, aby \u0161li na dovolenou"
+    m_Localized: "Je \u010Das odjet na dovolenou"
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411269
-    m_Localized: "Bu\u010Fte zvl\xE1\u0161\u0165 opatrn\xED, nebo byste mohli skon\u010Dit
-      jako ten, kdo zb\u011Bhl!"
+    m_Localized: "Bu\u010Fte zvl\xE1\u0161\u0165 opatrn\xED, jinak byste mohli skon\u010Dit
+      pr\xE1v\u011B vy!"
     m_Metadata:
       m_Items: []
   - m_Id: 49239933124661251
-    m_Localized: "Je to tak tepl\xE9!"
+    m_Localized: "Je tak tepl\xFD!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677888
+    m_Localized: "Kampa\u0148 Churn Vector"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677889
+    m_Localized: "Agent 789 p\u0159ij\xEDm\xE1 r\u016Fzn\xE9 smlouvy v CV City..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677890
+    m_Localized: Modded
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87612992032677891
+    m_Localized: "R\u016Fzn\xE9 \xFArovn\u011B podle komunity!"
     m_Metadata:
       m_Items: []
   references:
