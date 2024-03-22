@@ -864,7 +864,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511342
-    m_Localized: "Mo\u017En\xE1, \u017Ee p\u0159\xED\u0161t\xED bude v\xEDce nabit\xE9"
+    m_Localized: "Mo\u017En\xE1, \u017Ee p\u0159\xED\u0161t\xED bude v\xEDce napln\u011Bn\xFD"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511343
@@ -1377,6 +1377,15 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 87612992032677891
     m_Localized: "R\u016Fzn\xE9 \xFArovn\u011B podle komunity!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87755815612653568
+    m_Localized: "Mody se st\xE1le stahuj\xED... \u010Cekejte pros\xEDm."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87755815642013696
+    m_Localized: "Z\xE1va\u017En\xE1 chyba p\u0159i pokusu o instalaci mod\u016F.
+      Zkontrolujte chyby v protokolu."
     m_Metadata:
       m_Items: []
   references:

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -12,6 +13,7 @@ public class CategorySpawner : MonoBehaviour {
     
     [SerializeField] private GameObject selfPanel;
     [SerializeField] private GameObject activatePanel;
+    [SerializeField] private TMP_Text errorText;
     private AsyncOperationHandle<IList<LevelCategory>>? handle;
     private List<MapCategoryPanel> spawnedPrefabs;
     private void OnEnable() {
@@ -37,6 +39,7 @@ public class CategorySpawner : MonoBehaviour {
         var loadHandle = handle.Value;
         yield return new WaitUntil(() => loadHandle.IsDone);
         foreach (var category in loadHandle.Result) {
+            errorText.gameObject.SetActive(false);
             OnFoundCategory(category);
         }
     }

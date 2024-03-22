@@ -1399,6 +1399,14 @@ MonoBehaviour:
     m_Key: LEVEL_CATEGORY_MODDING_DESCRIPTION
     m_Metadata:
       m_Items: []
+  - m_Id: 87755815612653568
+    m_Key: MODDING_NOT_READY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87755815642013696
+    m_Key: MODDING_INVALID
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

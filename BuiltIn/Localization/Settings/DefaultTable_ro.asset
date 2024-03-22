@@ -1128,7 +1128,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547840
-    m_Localized: "Rechinul este jenat de interesele lor, coco\u0219ul le vorea discret."
+    m_Localized: "Rechinul este jenat de interesele lor, coco\u0219ul \xEEi vore\u0219te
+      discret."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547841
@@ -1190,7 +1191,7 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 59060303696547854
     m_Localized: "C\u0103pitanul are nevoie de o vacan\u021B\u0103, g\u0103se\u0219te-i
-      \xEEn zona securizat\u0103 albastru \xEEnchis."
+      \xEEn zona securizat\u0103 de culoare albastru \xEEnchis."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547855
@@ -1283,13 +1284,13 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 60147729965830145
     m_Localized: "Un alt agent de succes. Cu \u0219eful dragonului dat un gust din
-      propriul medicament, lucr\u0103torii sunt mult mai ferici\u021Bi."
+      propriul lor medicament, lucr\u0103torii sunt mult mai ferici\u021Bi."
     m_Metadata:
       m_Items: []
   - m_Id: 60147729965830146
-    m_Localized: "Excelent agent de lucru! Personalul sta\u021Biei este pu\u021Bin
-      mai excitat, cu at\xE2t de mul\u021Bi dintre colegii lor care vorbesc despre
-      experien\u021Ba lor cu tine."
+    m_Localized: "Excelent agent de lucru! Personalul sta\u021Biei este un pic mai
+      excitat cu at\xE2t de mul\u021Bi dintre colegii lor care vorbesc despre experien\u021Ba
+      lor cu tine."
     m_Metadata:
       m_Items: []
   - m_Id: 60175060938878976
@@ -1337,7 +1338,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411266
-    m_Localized: "Au fost supu\u0219i mult\u0103 presiune \xEEn ultima vreme"
+    m_Localized: "Au fost sub o mare presiune \xEEn ultima vreme"
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411267
@@ -1362,7 +1363,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 87612992032677889
-    m_Localized: "Agentul 789 preia diverse contracte \xEEn cadrul CV City..."
+    m_Localized: "Agentul 789 preia diverse contracte \xEEn CV City..."
     m_Metadata:
       m_Items: []
   - m_Id: 87612992032677890
@@ -1371,6 +1372,16 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 87612992032677891
     m_Localized: "Diverse niveluri de c\u0103tre comunitate!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87755815612653568
+    m_Localized: "Modurile \xEEnc\u0103 se descarc\u0103... V\u0103 rug\u0103m s\u0103
+      a\u0219tepta\u021Bi."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87755815642013696
+    m_Localized: "Eroare fatal\u0103 la \xEEncercarea de a instala mod-uri. Verifica\u021Bi
+      erorile \xEEn jurnal."
     m_Metadata:
       m_Items: []
   references:

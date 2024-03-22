@@ -1384,6 +1384,16 @@ MonoBehaviour:
     m_Localized: "Diff\xE9rents niveaux par la communaut\xE9 !"
     m_Metadata:
       m_Items: []
+  - m_Id: 87755815612653568
+    m_Localized: "Les mods sont toujours en cours de t\xE9l\xE9chargement... Veuillez
+      patienter."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87755815642013696
+    m_Localized: "Erreur fatale en essayant d'installer les mods. V\xE9rifiez les
+      erreurs dans le journal."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -757,7 +757,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511315
-    m_Localized: Che cosa...
+    m_Localized: Cosa...
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511316
@@ -1365,6 +1365,15 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 87612992032677891
     m_Localized: Vari livelli da parte della community!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87755815612653568
+    m_Localized: "Il download delle mod \xE8 ancora in corso... Attendi prego."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87755815642013696
+    m_Localized: Errore fatale durante il tentativo di installare le mod. Verificare
+      la presenza di errori nel registro.
     m_Metadata:
       m_Items: []
   references:

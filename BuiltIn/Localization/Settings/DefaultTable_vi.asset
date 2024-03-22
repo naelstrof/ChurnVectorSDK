@@ -1077,7 +1077,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511357
-    m_Localized: "T\xF4i d\u1ED3n n\xE9n qu\xE1..."
+    m_Localized: "T\xF4i qu\xE1 d\u1ED3n n\xE9n..."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511358
@@ -1436,6 +1436,16 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 87612992032677891
     m_Localized: "C\u1EA5p \u0111\u1ED9 kh\xE1c nhau c\u1EE7a c\u1ED9ng \u0111\u1ED3ng!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87755815612653568
+    m_Localized: "C\xE1c mod v\u1EABn \u0111ang \u0111\u01B0\u1EE3c t\u1EA3i xu\u1ED1ng...
+      Vui l\xF2ng \u0111\u1EE3i."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87755815642013696
+    m_Localized: "L\u1ED7i nghi\xEAm tr\u1ECDng khi c\u1ED1 g\u1EAFng c\xE0i \u0111\u1EB7t
+      mod. Ki\u1EC3m tra l\u1ED7i trong nh\u1EADt k\xFD."
     m_Metadata:
       m_Items: []
   references:

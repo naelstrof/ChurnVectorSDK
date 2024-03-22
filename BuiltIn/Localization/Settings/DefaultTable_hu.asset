@@ -1337,7 +1337,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411267
-    m_Localized: "Ez azt eredm\xE9nyezte, hogy stresszes m\xF3don megeszik a szem\xE9lyzet\xFCket"
+    m_Localized: "Ez azt eredm\xE9nyezte, hogy stresszes \xE1llapotban eszik a szem\xE9lyzet\xFCket"
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411268
@@ -1367,6 +1367,16 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 87612992032677891
     m_Localized: "K\xFCl\xF6nb\xF6z\u0151 szintek a k\xF6z\xF6ss\xE9g \xE1ltal!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87755815612653568
+    m_Localized: "A modok let\xF6lt\xE9se m\xE9g folyamatban van... K\xE9rj\xFCk,
+      v\xE1rjon."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87755815642013696
+    m_Localized: "V\xE9gzetes hiba t\xF6rt\xE9nt a modok telep\xEDt\xE9se k\xF6zben.
+      Ellen\u0151rizze a hib\xE1kat a napl\xF3ban."
     m_Metadata:
       m_Items: []
   references:

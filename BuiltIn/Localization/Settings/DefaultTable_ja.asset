@@ -651,7 +651,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 44160113307078658
-    m_Localized: "\u3042\u308C\u306F\u2026\uFF1F"
+    m_Localized: "\u3042\u308C\u2026\uFF1F"
     m_Metadata:
       m_Items: []
   - m_Id: 44160113307078659
@@ -831,7 +831,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511335
-    m_Localized: "\u3082\u3046\u7D76\u9802\u307E\u3067\u6EB6\u3051\u3066\u3057\u307E\u3044\u307E\u3057\u305F\u304B\uFF1F"
+    m_Localized: "\u3082\u3046\u7D76\u9802\u306B\u6EB6\u3051\u3066\u3057\u307E\u3044\u307E\u3057\u305F\u304B\uFF1F"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511336
@@ -1055,7 +1055,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511363
-    m_Localized: "\u4F1A\u3063\u3066\u3082\u3089\u3044\u305F\u3044\u4EBA\u304C\u3044\u307E\u3059\u3002"
+    m_Localized: "\u4F1A\u3063\u3066\u307B\u3057\u3044\u4EBA\u304C\u3044\u308B\u306E\u3002"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511364
@@ -1343,6 +1343,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 87612992032677891
     m_Localized: "\u30B3\u30DF\u30E5\u30CB\u30C6\u30A3\u306B\u3088\u308B\u3055\u307E\u3056\u307E\u306A\u30EC\u30D9\u30EB\uFF01"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87755815612653568
+    m_Localized: "MOD \u3092\u30C0\u30A6\u30F3\u30ED\u30FC\u30C9\u4E2D\u3067\u3059...\u304A\u5F85\u3061\u304F\u3060\u3055\u3044\u3002"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87755815642013696
+    m_Localized: "MOD\u3092\u30A4\u30F3\u30B9\u30C8\u30FC\u30EB\u3057\u3088\u3046\u3068\u3057\u305F\u3068\u304D\u306B\u81F4\u547D\u7684\u306A\u30A8\u30E9\u30FC\u304C\u767A\u751F\u3057\u307E\u3057\u305F\u3002\u30ED\u30B0\u5185\u306E\u30A8\u30E9\u30FC\u3092\u78BA\u8A8D\u3057\u3066\u304F\u3060\u3055\u3044\u3002"
     m_Metadata:
       m_Items: []
   references:

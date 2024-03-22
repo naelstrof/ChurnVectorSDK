@@ -1366,6 +1366,15 @@ MonoBehaviour:
     m_Localized: Verschiedene Levels durch die Community!
     m_Metadata:
       m_Items: []
+  - m_Id: 87755815612653568
+    m_Localized: Mods werden immer noch heruntergeladen... Bitte warten.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87755815642013696
+    m_Localized: "Schwerwiegender Fehler beim Versuch, Mods zu installieren. \xDCberpr\xFCfen
+      Sie das Protokoll auf Fehler."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

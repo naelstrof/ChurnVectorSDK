@@ -11,6 +11,10 @@ public class SteamWorkshopDownloader : MonoBehaviour {
     private Callback<DownloadItemResult_t> downloadResult;
     private bool waitingOnDownloads;
 
+    public delegate void StatusChangedAction(SteamWorkshopDownloader downloader, Status status);
+
+    public static event StatusChangedAction statusChanged;
+
     public enum StatusType {
         Working,
         Done,
@@ -34,6 +38,7 @@ public class SteamWorkshopDownloader : MonoBehaviour {
             progress = progress,
             statusType = statusType
         };
+        statusChanged?.Invoke(this, status);
     }
 
     public static Status GetStatus() => instance.status;

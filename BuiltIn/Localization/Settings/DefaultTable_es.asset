@@ -1375,6 +1375,15 @@ MonoBehaviour:
     m_Localized: "\xA1Varios niveles por parte de la comunidad!"
     m_Metadata:
       m_Items: []
+  - m_Id: 87755815612653568
+    m_Localized: "Los mods a\xFAn se est\xE1n descargando... Espere."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87755815642013696
+    m_Localized: Error fatal al intentar instalar mods. Compruebe si hay errores
+      en el registro.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

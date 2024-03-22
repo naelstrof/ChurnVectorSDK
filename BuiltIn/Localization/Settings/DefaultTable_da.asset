@@ -744,7 +744,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511312
-    m_Localized: Tredje gang i dag, hva'?
+    m_Localized: Tredje gang i dag, ikke?
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511313
@@ -1359,6 +1359,15 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 87612992032677891
     m_Localized: "Forskellige niveauer af f\xE6llesskabet!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87755815612653568
+    m_Localized: Mods downloades stadig... Vent venligst.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87755815642013696
+    m_Localized: "Fatal fejl under fors\xF8g p\xE5 at installere mods. Tjek for fejl
+      i loggen."
     m_Metadata:
       m_Items: []
   references:

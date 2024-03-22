@@ -1207,8 +1207,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547860
-    m_Localized: "Kj\xF8kkensjefen vil at du skal hjelpe dem \xE5 pr\xF8ve ut en
-      ny ingrediens ved \xE5 gj\xF8re dem om til den!"
+    m_Localized: "Kj\xF8kkensjefen vil at du skal hjelpe dem med \xE5 pr\xF8ve ut
+      en ny ingrediens ved \xE5 gj\xF8re dem om til den!"
     m_Metadata:
       m_Items: []
   - m_Id: 59064884090425344
@@ -1309,7 +1309,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 62087231205634048
-    m_Localized: "Jeg h\xE5per du er klar for noen tungl\xF8ftende agent."
+    m_Localized: "Jeg h\xE5per du er klar for en tungl\xF8ftende agent."
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411264
@@ -1355,6 +1355,15 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 87612992032677891
     m_Localized: "Ulike niv\xE5er av samfunnet!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87755815612653568
+    m_Localized: Mods lastes fortsatt ned... Vennligst vent.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87755815642013696
+    m_Localized: "Fatal feil under fors\xF8k p\xE5 \xE5 installere mods. Se etter
+      feil i loggen."
     m_Metadata:
       m_Items: []
   references:

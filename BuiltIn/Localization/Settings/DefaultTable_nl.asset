@@ -1200,8 +1200,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547858
-    m_Localized: Een wetenschapper in het groene gebied wil dat je ze voor de wetenschap
-      aanzet!
+    m_Localized: Een wetenschapper in het groene gebied wil dat je ze aanzet tot
+      wetenschap!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547859
@@ -1371,6 +1371,15 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 87612992032677891
     m_Localized: Verschillende niveaus door de gemeenschap!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87755815612653568
+    m_Localized: Mods worden nog steeds gedownload... Een ogenblik geduld.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87755815642013696
+    m_Localized: Fatale fout bij het installeren van mods. Controleer op fouten in
+      het logboek.
     m_Metadata:
       m_Items: []
   references:

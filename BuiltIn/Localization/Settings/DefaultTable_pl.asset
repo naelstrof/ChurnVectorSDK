@@ -705,7 +705,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511299
-    m_Localized: "My\u015Bl\u0119, \u017Ce ca\u0142kiem nie\u017Ale wygl\u0105dasz
+    m_Localized: "My\u015Bl\u0119, \u017Ce ca\u0142kiem nie\u017Ale wygl\u0105da\u0142a\u015B
       w bieli"
     m_Metadata:
       m_Items: []
@@ -1274,9 +1274,9 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 60147729936470016
-    m_Localized: "Dobry agent pracy, szef-rekin jest podobno znacznie milszy, gdy
-      pozwala sobie na fobie. Sprawiali\u015Bmy, \u017Ce \u015Bwiat by\u0142 bardziej
-      napalony, jeden cel na raz!"
+    m_Localized: "Dobry agent pracy, szef rekin\xF3w jest podobno o wiele milszy,
+      gdy pozwala sobie na fobie. Sprawiali\u015Bmy, \u017Ce \u015Bwiat by\u0142
+      bardziej napalony, jeden cel na raz!"
     m_Metadata:
       m_Items: []
   - m_Id: 60147729965830144
@@ -1374,6 +1374,15 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 87612992032677891
     m_Localized: "R\xF3\u017Cne poziomy przez spo\u0142eczno\u015B\u0107!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87755815612653568
+    m_Localized: "Mody s\u0105 nadal pobierane... Prosz\u0119 czeka\u0107."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87755815642013696
+    m_Localized: "Fatalny b\u0142\u0105d przy pr\xF3bie zainstalowania mod\xF3w.
+      Sprawd\u017A b\u0142\u0119dy w logu."
     m_Metadata:
       m_Items: []
   references:

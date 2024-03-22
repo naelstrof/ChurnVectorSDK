@@ -845,7 +845,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511338
-    m_Localized: Ficou mole comigo?
+    m_Localized: Ficou suave comigo?
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511339
@@ -1365,6 +1365,15 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 87612992032677891
     m_Localized: "V\xE1rios n\xEDveis pela comunidade!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87755815612653568
+    m_Localized: "Os mods ainda est\xE3o sendo baixados... Aguarde."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87755815642013696
+    m_Localized: "Erro fatal ao tentar instalar mods. Verifique se h\xE1 erros no
+      log."
     m_Metadata:
       m_Items: []
   references:

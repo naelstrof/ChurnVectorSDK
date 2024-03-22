@@ -1412,6 +1412,14 @@ MonoBehaviour:
     m_Localized: Various levels by the community!
     m_Metadata:
       m_Items: []
+  - m_Id: 87755815612653568
+    m_Localized: Mods are still downloading... Please wait.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87755815642013696
+    m_Localized: Fatal error trying to install mods. Check for errors in the log.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
