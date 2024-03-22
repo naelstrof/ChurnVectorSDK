@@ -412,7 +412,8 @@ public class ModProfile : ScriptableObject {
             if (found != null) {
 	            throw new UnityException( "You cannot replace existing characters with other existing characters. Please duplicate them into an original asset (shift+d)! (This is to prevent a zero size bundle, which isn't supported.)");
             }
-			settings.CreateOrMoveEntry(replacementCharacterID, group, false, false);
+			var entry = settings.CreateOrMoveEntry(replacementCharacterID, group, false, false);
+			entry.SetLabel("ChurnVectorCharacter", true, true);
         }
         var defaultBuildPath = "[UnityEngine.AddressableAssets.Addressables.BuildPath]/[BuildTarget]";
         var defaultLoadPath = "{UnityEngine.AddressableAssets.Addressables.RuntimePath}/[BuildTarget]";
