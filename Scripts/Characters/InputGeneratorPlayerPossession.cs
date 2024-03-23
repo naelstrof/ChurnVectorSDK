@@ -63,6 +63,10 @@ public class InputGeneratorPlayerPossession : InputGenerator {
             OrbitCamera.AddConfiguration(shoulderConfig);
             hasCreatedConfig = true;
         }
+
+        if (currentConfiguration == fpsConfig) {
+            character.GetDisplayAnimator().GetBoneTransform(HumanBodyBones.Neck).localScale = neckLocalScale * 0.025f;
+        }
     }
 
     private void OnConfigurationChanged(OrbitCameraConfiguration previousconfiguration, OrbitCameraConfiguration newconfiguration) {
@@ -251,6 +255,7 @@ public class InputGeneratorPlayerPossession : InputGenerator {
         if (input == null) {
             return;
         }
+        character.GetDisplayAnimator().GetBoneTransform(HumanBodyBones.Neck).localScale = neckLocalScale;
         OrbitCamera.configurationChanged -= OnConfigurationChanged;
         input.actions["Interact"].started -= OnInteractInputStarted;
         input.actions["Interact"].canceled -= OnInteractInputCancelled;
