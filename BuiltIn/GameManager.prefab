@@ -6284,7 +6284,6 @@ GameObject:
   - component: {fileID: 7973626751700171453}
   - component: {fileID: 5534772524296376160}
   - component: {fileID: 7015472987191676679}
-  - component: {fileID: 1414914154873616886}
   - component: {fileID: 6498972469787939313}
   m_Layer: 5
   m_Name: Status
@@ -6340,7 +6339,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: BuildNumber
+  m_text: Steam Workshop
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aef09d2f361f66b4ea034096e44f9e05, type: 2}
   m_sharedMaterial: {fileID: 7453147263721129256, guid: aef09d2f361f66b4ea034096e44f9e05,
@@ -6410,18 +6409,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &1414914154873616886
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3950789153529111371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b77bc0733579114489133a1b5d081838, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6498972469787939313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17460,12 +17447,12 @@ PrefabInstance:
     - target: {fileID: 1633996013338634964, guid: 00ecd2edd8fc0c74eb29a0bc814af1d4,
         type: 3}
       propertyPath: m_fontSize
-      value: 33.3
+      value: 28.55
       objectReference: {fileID: 0}
     - target: {fileID: 4614752349011840884, guid: 00ecd2edd8fc0c74eb29a0bc814af1d4,
         type: 3}
       propertyPath: m_fontSize
-      value: 36.7
+      value: 31.5
       objectReference: {fileID: 0}
     - target: {fileID: 6702234079679004405, guid: 00ecd2edd8fc0c74eb29a0bc814af1d4,
         type: 3}
