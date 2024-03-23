@@ -17447,12 +17447,12 @@ PrefabInstance:
     - target: {fileID: 1633996013338634964, guid: 00ecd2edd8fc0c74eb29a0bc814af1d4,
         type: 3}
       propertyPath: m_fontSize
-      value: 28.55
+      value: 28.35
       objectReference: {fileID: 0}
     - target: {fileID: 4614752349011840884, guid: 00ecd2edd8fc0c74eb29a0bc814af1d4,
         type: 3}
       propertyPath: m_fontSize
-      value: 31.5
+      value: 31.25
       objectReference: {fileID: 0}
     - target: {fileID: 6702234079679004405, guid: 00ecd2edd8fc0c74eb29a0bc814af1d4,
         type: 3}

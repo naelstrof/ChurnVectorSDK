@@ -148,14 +148,18 @@ public class LevelManager : MonoBehaviour {
 
     private IEnumerator LevelEndRoutine(bool returnToMainMenu) {
         levelEndEvent.Raise();
-        yield return new WaitForSecondsRealtime(0.2f);
-        yield return new WaitUntil(() => !Cutscene.CutsceneIsPlaying());
-        Save();
-        if (returnToMainMenu) {
-            yield return SceneLoader.LoadScene(mainMenu);
-            GameManager.ShowMenuStatic(GameManager.MainMenuMode.CampaignSelect);
-        } else {
-            QuickRestart();
+        try {
+            yield return new WaitForSecondsRealtime(0.2f);
+            yield return new WaitUntil(() => !Cutscene.CutsceneIsPlaying());
+            Save();
+            if (returnToMainMenu) {
+                yield return SceneLoader.LoadScene(mainMenu);
+                GameManager.ShowMenuStatic(GameManager.MainMenuMode.CampaignSelect);
+            } else {
+                QuickRestart();
+            }
+        } finally {
+            levelEnding = null;
         }
     }
 

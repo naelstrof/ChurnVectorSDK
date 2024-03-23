@@ -15,6 +15,8 @@ public class ObjectiveManager : MonoBehaviour {
     [SerializeField]
     private Cutscene postGameSummaryScene;
 
+    [SerializeField] private CanvasGroup group;
+
     public delegate void ObjectivesUpdatedAction(List<Objective> objectives, Objective changedObjective);
 
     public static ObjectivesUpdatedAction objectiveChanged;
@@ -56,6 +58,7 @@ public class ObjectiveManager : MonoBehaviour {
 
     private void OnSceneUnloaded(Scene arg0) {
         OnDisable();
+        group.alpha = 0f;
     }
 
     public void SetObjectives(List<Objective> objectives) {
