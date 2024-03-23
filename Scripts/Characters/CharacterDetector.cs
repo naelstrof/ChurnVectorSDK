@@ -206,7 +206,7 @@ public abstract class CharacterDetector : CharacterBase {
         }
 
         float facingAmount = (visionConeDegrees * 2f - angleFromFacingDirectionToPlayer) / visionConeDegrees;
-        multiplier *= Mathf.Clamp01(facingAmount);
+        multiplier *= (Mathf.Clamp01(facingAmount) * Mathf.Clamp01(facingAmount));
         float maxSpottedInSeconds = 6.5f;
         knowledgeDatabase.AddAwareness(target, Time.deltaTime * Mathf.Max(1f / maxSpottedInSeconds, 1f / spottedInSeconds * multiplier), KnowledgeDatabase.KnowledgeLevel.Alert, target.transform.position);
     }
