@@ -19,4 +19,4 @@ If something isn't clearly licensed, it is All Rights Reserved.
 
 # Installation
 
-To make a mod you **don't** need to download this repository via git. Before you do anything head over to the [New Project Guide](https://github.com/naelstrof/ChurnVectorSDK/blob/main/ModdingGuides/NewProject.md) to get started!
+To make a mod you **don't** need to download this repository via git. Before you do anything head over to [the Wiki](https://github.com/naelstrof/ChurnVectorSDK/wiki) to get started!
