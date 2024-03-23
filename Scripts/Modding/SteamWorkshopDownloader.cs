@@ -62,8 +62,8 @@ public class SteamWorkshopDownloader : MonoBehaviour {
 
     private IEnumerator Start() {
         yield return new WaitUntil(() => SteamManager.Initialized || SteamManager.FailedToInitialize);
-        if (!SteamUser.BLoggedOn() || SteamManager.FailedToInitialize) {
-            SetStatus("User not logged into Steam, cannot use workshop!", 1f, StatusType.Done);
+        if (SteamManager.FailedToInitialize || !SteamUser.BLoggedOn()) {
+            SetStatus("Steam unavailable, cannot use workshop!", 1f, StatusType.Done);
             Debug.LogError(status.message);
             yield break;
         }
