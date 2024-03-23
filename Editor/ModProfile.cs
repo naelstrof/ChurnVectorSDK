@@ -387,97 +387,114 @@ public class ModProfile : ScriptableObject {
 
     public void Build() {
         var settings = AddressableAssetSettingsDefaultObject.Settings;
-        var group = settings.DefaultGroup;
-        // Clear the group
-        Undo.RecordObject(group, "Set default group to modded items.");
-        var entries = new List<AddressableAssetEntry>(group.entries);
-        foreach (var entry in entries) {
-            group.RemoveAssetEntry(entry);
-        }
-        // Add our stuff to the group
-        foreach (var level in levels) {
-            settings.CreateOrMoveEntry(level.AssetGUID, group, false, false);
+
+        var group = settings.FindGroup(name);
+        if (group == null) {
+	        group = settings.CreateGroup(name, false, false, true, settings.DefaultGroup.Schemas);
         }
 
-
-        PlayerSettings.companyName = "ArchivalEugeneNaelstrof";
-        PlayerSettings.productName = "ChurnVector";
-
-        var churnVectorCharacters = settings.FindGroup("ChurnVectorCharacters");
-        var characterEntries = churnVectorCharacters.entries;
-        foreach (var replacement in replacementCharacters) {
-            var replacementCharacterID = replacement.GetReplacementCharacter().AssetGUID;
-            var found = characterEntries.FirstOrDefault((entry) => entry.guid == replacementCharacterID);
-            // Double check that we aren't replacing assets with existing assets before adding it to our bundle.
-            if (found != null) {
-	            throw new UnityException( "You cannot replace existing characters with other existing characters. Please duplicate them into an original asset (shift+d)! (This is to prevent a zero size bundle, which isn't supported.)");
-            }
-			var entry = settings.CreateOrMoveEntry(replacementCharacterID, group, false, false);
-			entry.SetLabel("ChurnVectorCharacter", true, true);
-        }
-        var defaultBuildPath = "[UnityEngine.AddressableAssets.Addressables.BuildPath]/[BuildTarget]";
-        var defaultLoadPath = "{UnityEngine.AddressableAssets.Addressables.RuntimePath}/[BuildTarget]";
-        
-        settings.profileSettings.SetValue(settings.activeProfileId, "Local.BuildPath", defaultBuildPath);
-        settings.profileSettings.SetValue(settings.activeProfileId, "Local.LoadPath", defaultLoadPath);
-        
-        var modBuildPath = $"[UnityEngine.Application.persistentDataPath]/mods/{name}/[BuildTarget]";
-        var modLoadPath = $"{Modding.uniquePathReplacementID}/[BuildTarget]";
-
-        var buildPathInfo = settings.profileSettings.GetProfileDataByName("ChurnVectorMod.BuildPath");
-        if (buildPathInfo == null) {
-            settings.profileSettings.CreateValue("ChurnVectorMod.BuildPath", modBuildPath);
-            settings.profileSettings.CreateValue("ChurnVectorMod.LoadPath", modLoadPath);
-            settings.profileSettings.SetValue(settings.activeProfileId, "ChurnVectorMod.BuildPath", modBuildPath);
-            settings.profileSettings.SetValue(settings.activeProfileId, "ChurnVectorMod.LoadPath", modLoadPath);
-        } else {
-            settings.profileSettings.SetValue(settings.activeProfileId, "ChurnVectorMod.BuildPath", modBuildPath);
-            settings.profileSettings.SetValue(settings.activeProfileId, "ChurnVectorMod.LoadPath", modLoadPath);
-        }
-        
-        EditorUtility.SetDirty(group);
-
-        ExternalCatalogSetup externalCatalog = ScriptableObject.CreateInstance<ExternalCatalogSetup>();
-        externalCatalog.AssetGroups = new List<AddressableAssetGroup> { group };
-        buildPathInfo = settings.profileSettings.GetProfileDataByName("ChurnVectorMod.BuildPath");
-        externalCatalog.BuildPath.SetVariableById(settings, buildPathInfo.Id);
-        var runtimeLoadPathInfo = settings.profileSettings.GetProfileDataByName("ChurnVectorMod.LoadPath");
-        externalCatalog.RuntimeLoadPath.SetVariableById(settings, runtimeLoadPathInfo.Id);
-        externalCatalog.CatalogName = name;
-        AssetDatabase.CreateAsset(externalCatalog, Path.Combine(settings.DataBuilderFolder, "ExternalCatalog.asset"));
-
-        var schema = group.GetSchema<BundledAssetGroupSchema>();
-        schema.BuildPath.SetVariableById(settings, buildPathInfo.Id);
-        schema.LoadPath.SetVariableById(settings, runtimeLoadPathInfo.Id);
-        
-        BuildScriptPackedMultiCatalogMode multicatalog = (BuildScriptPackedMultiCatalogMode)settings.DataBuilders.FirstOrDefault((builder) => builder is BuildScriptPackedMultiCatalogMode);
-        if (multicatalog == null) {
-            multicatalog = CreateInstance<BuildScriptPackedMultiCatalogMode>();
-            multicatalog.ExternalCatalogs = new List<ExternalCatalogSetup> { externalCatalog };
-            AssetDatabase.CreateAsset(multicatalog, Path.Combine(settings.DataBuilderFolder, "BuildScriptPackedMultiCatalog.asset"));
-            Undo.RecordObject(settings, "Added builder to settings.");
-            settings.DataBuilders.Add(multicatalog);
-        }
-        Undo.RecordObject(multicatalog, "Set externalCatalogs");
-        multicatalog.ExternalCatalogs = new List<ExternalCatalogSetup> { externalCatalog };
-        Undo.RecordObject(settings, "Set active build index");
-        settings.ActivePlayerDataBuilderIndex = settings.DataBuilders.IndexOf(multicatalog);
-
-        if (Directory.Exists(GetBuiltPath())) {
-	        Directory.Delete(GetBuiltPath(), true);
-        }
-
-        var currentBuildTarget = EditorUserBuildSettings.activeBuildTarget;
         try {
-	        BuildForPlatform(BuildTarget.StandaloneWindows64);
-	        BuildForPlatform(BuildTarget.StandaloneLinux64);
-	        BuildForPlatform(BuildTarget.StandaloneOSX);
+	        // Clear the group
+	        Undo.RecordObject(group, "Set default group to modded items.");
+	        var entries = new List<AddressableAssetEntry>(group.entries);
+	        foreach (var entry in entries) {
+		        group.RemoveAssetEntry(entry);
+	        }
+
+	        // Add our stuff to the group
+	        foreach (var level in levels) {
+		        settings.CreateOrMoveEntry(level.AssetGUID, group, false, false);
+	        }
+
+	        PlayerSettings.companyName = "ArchivalEugeneNaelstrof";
+	        PlayerSettings.productName = "ChurnVector";
+
+	        var churnVectorCharacters = settings.FindGroup("ChurnVectorCharacters");
+	        var characterEntries = churnVectorCharacters.entries;
+	        foreach (var replacement in replacementCharacters) {
+		        var replacementCharacterID = replacement.GetReplacementCharacter().AssetGUID;
+		        var found = characterEntries.FirstOrDefault((entry) => entry.guid == replacementCharacterID);
+		        // Double check that we aren't replacing assets with existing assets before adding it to our bundle.
+		        if (found != null) {
+			        throw new UnityException(
+				        "You cannot replace existing characters with other existing characters. Please duplicate them into an original asset (shift+d)! (This is to prevent a zero size bundle, which isn't supported.)");
+		        }
+
+		        var entry = settings.CreateOrMoveEntry(replacementCharacterID, group, false, false);
+		        entry.SetLabel("ChurnVectorCharacter", true, true);
+	        }
+
+	        var defaultBuildPath = "[UnityEngine.AddressableAssets.Addressables.BuildPath]/[BuildTarget]";
+	        var defaultLoadPath = "{UnityEngine.AddressableAssets.Addressables.RuntimePath}/[BuildTarget]";
+
+	        settings.profileSettings.SetValue(settings.activeProfileId, "Local.BuildPath", defaultBuildPath);
+	        settings.profileSettings.SetValue(settings.activeProfileId, "Local.LoadPath", defaultLoadPath);
+
+	        var modBuildPath = $"[UnityEngine.Application.persistentDataPath]/mods/{name}/[BuildTarget]";
+	        var modLoadPath = $"{Modding.uniquePathReplacementID}/[BuildTarget]";
+
+	        var buildPathInfo = settings.profileSettings.GetProfileDataByName("ChurnVectorMod.BuildPath");
+	        if (buildPathInfo == null) {
+		        settings.profileSettings.CreateValue("ChurnVectorMod.BuildPath", modBuildPath);
+		        settings.profileSettings.CreateValue("ChurnVectorMod.LoadPath", modLoadPath);
+		        settings.profileSettings.SetValue(settings.activeProfileId, "ChurnVectorMod.BuildPath", modBuildPath);
+		        settings.profileSettings.SetValue(settings.activeProfileId, "ChurnVectorMod.LoadPath", modLoadPath);
+	        } else {
+		        settings.profileSettings.SetValue(settings.activeProfileId, "ChurnVectorMod.BuildPath", modBuildPath);
+		        settings.profileSettings.SetValue(settings.activeProfileId, "ChurnVectorMod.LoadPath", modLoadPath);
+	        }
+
+	        EditorUtility.SetDirty(group);
+
+	        ExternalCatalogSetup externalCatalog = ScriptableObject.CreateInstance<ExternalCatalogSetup>();
+	        externalCatalog.AssetGroups = new List<AddressableAssetGroup> { group };
+	        buildPathInfo = settings.profileSettings.GetProfileDataByName("ChurnVectorMod.BuildPath");
+	        externalCatalog.BuildPath.SetVariableById(settings, buildPathInfo.Id);
+	        var runtimeLoadPathInfo = settings.profileSettings.GetProfileDataByName("ChurnVectorMod.LoadPath");
+	        externalCatalog.RuntimeLoadPath.SetVariableById(settings, runtimeLoadPathInfo.Id);
+	        externalCatalog.CatalogName = name;
+	        AssetDatabase.CreateAsset(externalCatalog,
+		        Path.Combine(settings.DataBuilderFolder, "ExternalCatalog.asset"));
+
+	        var schema = group.GetSchema<BundledAssetGroupSchema>();
+	        schema.BuildPath.SetVariableById(settings, buildPathInfo.Id);
+	        schema.LoadPath.SetVariableById(settings, runtimeLoadPathInfo.Id);
+
+	        BuildScriptPackedMultiCatalogMode multicatalog =
+		        (BuildScriptPackedMultiCatalogMode)settings.DataBuilders.FirstOrDefault((builder) =>
+			        builder is BuildScriptPackedMultiCatalogMode);
+	        if (multicatalog == null) {
+		        multicatalog = CreateInstance<BuildScriptPackedMultiCatalogMode>();
+		        multicatalog.ExternalCatalogs = new List<ExternalCatalogSetup> { externalCatalog };
+		        AssetDatabase.CreateAsset(multicatalog,
+			        Path.Combine(settings.DataBuilderFolder, "BuildScriptPackedMultiCatalog.asset"));
+		        Undo.RecordObject(settings, "Added builder to settings.");
+		        settings.DataBuilders.Add(multicatalog);
+	        }
+
+	        Undo.RecordObject(multicatalog, "Set externalCatalogs");
+	        multicatalog.ExternalCatalogs = new List<ExternalCatalogSetup> { externalCatalog };
+	        Undo.RecordObject(settings, "Set active build index");
+	        settings.ActivePlayerDataBuilderIndex = settings.DataBuilders.IndexOf(multicatalog);
+
+	        if (Directory.Exists(GetBuiltPath())) {
+		        Directory.Delete(GetBuiltPath(), true);
+	        }
+
+	        var currentBuildTarget = EditorUserBuildSettings.activeBuildTarget;
+	        try {
+		        BuildForPlatform(BuildTarget.StandaloneWindows64);
+		        BuildForPlatform(BuildTarget.StandaloneLinux64);
+		        BuildForPlatform(BuildTarget.StandaloneOSX);
+	        } finally {
+		        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Standalone, currentBuildTarget);
+	        }
+
+	        Save();
+	        EditorUtility.RevealInFinder(GetBuiltPath());
         } finally {
-			EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Standalone, currentBuildTarget);
+			settings.RemoveGroup(group);
         }
-        
-        Save();
-        EditorUtility.RevealInFinder(GetBuiltPath());
     }
 
     private void Save() {
