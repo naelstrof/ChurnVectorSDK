@@ -26,7 +26,7 @@ public class ObjectivePlaceCondom : Objective {
     private List<CondomDetector> detectors;
 
     public override ObjectiveStatus GetStatus() => status;
-    public AsyncOperationHandle handle;
+    public AsyncOperationHandle<Civilian> handle;
 
     public override void OnRegister() {
         detectors = new();
@@ -41,7 +41,7 @@ public class ObjectivePlaceCondom : Objective {
     private void OnCondomEntered(Condom condom) {
         if (handle.Status != AsyncOperationStatus.Succeeded) return;
         
-        if (condom.GetChurnable() is not CharacterBase characterBase || characterBase != ((GameObject)handle.Result).GetComponent<CharacterBase>()) return;
+        if (condom.GetChurnable() is not Civilian civilian || civilian != handle.Result) return;
         status = ObjectiveStatus.Completed;
         Complete();
     }
