@@ -67,9 +67,6 @@ public class InitializationManager : MonoBehaviour {
         List<Task> taskPool = new List<Task>();
         if (trackedBehaviors.TryGetValue(stage, out var behaviors)) {
             foreach (var obj in behaviors) {
-                if (obj.name.Contains("Oral")) {
-                    Debug.Log("Iniitalizing" + obj, obj.gameObject);
-                }
                 try {
                     taskPool.Add(obj.OnInitialized());
                 } catch (Exception e) {
