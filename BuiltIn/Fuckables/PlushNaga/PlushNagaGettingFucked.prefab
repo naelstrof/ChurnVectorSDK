@@ -222,7 +222,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 4300000, guid: 85dc34e2937fb1a4d9589115dafa8996, type: 2}
+      objectReference: {fileID: 4300000, guid: bd0a671719f3c0f4eac544e830ba02c9, type: 2}
     - target: {fileID: 1630794972795428178, guid: 9fea3eb611c5a6a478bc355dc504faf6,
         type: 3}
       propertyPath: m_BlendShapeWeights.Array.data[0]
@@ -351,7 +351,8 @@ MonoBehaviour:
     startNormalizedDistance: 0.213
     allowAllTheWayThrough: 1
     endNormalizedDistance: 0.478
-  penetrableFriction: 0.5
+  penetrableFriction: 0.3
+  knotForceSampleLocations: []
 --- !u!114 &3482359859207518862
 MonoBehaviour:
   m_ObjectHideFlags: 0

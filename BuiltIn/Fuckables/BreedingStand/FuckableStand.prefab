@@ -1515,7 +1515,7 @@ MonoBehaviour:
     startNormalizedDistance: 0
     allowAllTheWayThrough: 0
     endNormalizedDistance: 0
-  penetrableFriction: 0.5
+  penetrableFriction: 0.3
   knotForceSampleLocations:
   - normalizedDistance: 0.13
   - normalizedDistance: 0.833
