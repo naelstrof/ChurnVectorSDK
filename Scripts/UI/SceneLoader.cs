@@ -48,9 +48,6 @@ public class SceneLoader : MonoBehaviour {
             var handle = Addressables.LoadSceneAsync(scene);
             yield return handle;
             loadingLevel = false;
-            yield return null;
-            InitializationManager.InitializeAll();
-            yield return new WaitUntil(() => InitializationManager.GetCurrentStage() == InitializationManager.InitializationStage.FinishedLoading);
         } finally {
             loadingLevel = false;
             for (int i=0;i<hideWhileLoading.Count;i++) {

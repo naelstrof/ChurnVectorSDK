@@ -56,9 +56,7 @@ public class Modding : MonoBehaviour {
 
         foreach (var mod in mods) {
             var existingModID = mod.GetDescription().GetPublishedFileID();
-            if (!existingModID.HasValue) {
-                continue;
-            }
+            if (existingModID != newModID) continue;
             Debug.LogError($"Tried to install a mod twice! Ignoring one mod named {newMod.GetDescription().GetTitle()}.");
             return;
         }
