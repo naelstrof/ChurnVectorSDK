@@ -2,10 +2,8 @@
 
 ![Churn Vector SDK Image](churn_vector_sdk.png)
 
-This is a work-in-progress SDK for Churn Vector. It's hopefully going to provide everything needed to create and test content.
-
-It's **not functional** right now as we're still working it out!
-
+This is the Churn Vector SDK which contains everything you need to create custom characters and maps for Churn Vector.
+We will be updating this independently from the steam release of CV so be sure to check for updates while developing your mods!
 # Licensing
 Churn Vector is built out of many pieces, each piece might be licensed to you differently if at all.
 *Please check carefully* if you have rights to use assets contained within.
