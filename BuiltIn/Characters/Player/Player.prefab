@@ -122,7 +122,7 @@ MonoBehaviour:
     - rid: 4566295080408711195
       type: {class: BallInflatableTransform, ns: Naelstrof.Inflatable, asm: com.gatordragongames.churn-vector.sdk}
       data:
-        ballsRoot: {fileID: 76467336091759914}
+        ballsRoot: {fileID: 8686973854170813357}
         targetJiggleRig: {fileID: 5013488253486909112}
 --- !u!114 &5542592020346671856
 MonoBehaviour:
@@ -529,12 +529,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 8597573254189065886}
   m_SourcePrefab: {fileID: 100100000, guid: 169fe2109c5a780459d0d9d302163283, type: 3}
---- !u!4 &76467336091759914 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6372842962540029964, guid: 169fe2109c5a780459d0d9d302163283,
-    type: 3}
-  m_PrefabInstance: {fileID: 6448952681785498918}
-  m_PrefabAsset: {fileID: 0}
 --- !u!137 &205916041200471174 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -2619749422985145952, guid: 169fe2109c5a780459d0d9d302163283,
@@ -623,6 +617,12 @@ RotationConstraint:
   m_Sources:
   - sourceTransform: {fileID: 1271194592489536004}
     weight: 1
+--- !u!4 &3177648907107708756 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8459464977037701746, guid: 169fe2109c5a780459d0d9d302163283,
+    type: 3}
+  m_PrefabInstance: {fileID: 6448952681785498918}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3522097765658097043 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7610600727620085941, guid: 169fe2109c5a780459d0d9d302163283,
@@ -771,7 +771,7 @@ MonoBehaviour:
     jiggleSettings: {fileID: 11400000, guid: a0af0f0e1e9f3514a87de4a3b489abdb, type: 2}
     ignoredTransforms: []
     colliders: []
-  - rootTransform: {fileID: 76467336091759914}
+  - rootTransform: {fileID: 8686973854170813357}
     jiggleSettings: {fileID: 11400000, guid: 7b346d233f6573048a7e1d846647e70e, type: 2}
     ignoredTransforms:
     - {fileID: 0}
@@ -805,7 +805,7 @@ MonoBehaviour:
     listeners:
     - rid: 3525424898348941314
   dick: {fileID: 205916041200471174}
-  balls: {fileID: 76467336091759914}
+  balls: {fileID: 3177648907107708756}
   ballStorageScale: 1
   dickBulgeStart: 2.6
   dickBulgeEnd: -0.6
@@ -946,6 +946,12 @@ Transform:
 --- !u!4 &7985387923866453782 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4012289771008268848, guid: 169fe2109c5a780459d0d9d302163283,
+    type: 3}
+  m_PrefabInstance: {fileID: 6448952681785498918}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8686973854170813357 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -6777604103782166901, guid: 169fe2109c5a780459d0d9d302163283,
     type: 3}
   m_PrefabInstance: {fileID: 6448952681785498918}
   m_PrefabAsset: {fileID: 0}

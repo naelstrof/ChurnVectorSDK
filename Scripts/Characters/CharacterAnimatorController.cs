@@ -17,6 +17,7 @@ public class CharacterAnimatorController : MonoBehaviour {
     private Vector3 velocity;
     private Vector3 localBallsPosition;
     private Quaternion localBallsRotation;
+    private Quaternion localBallsParentRotation;
     private Coroutine removeClothesRoutine;
     private Coroutine emotionRoutine;
     private bool grimaced = false;
@@ -122,6 +123,9 @@ public class CharacterAnimatorController : MonoBehaviour {
         if (balls != null) {
             localBallsPosition = balls.localPosition;
             localBallsRotation = balls.localRotation;
+            if (balls.parent != null) {
+                localBallsParentRotation = balls.parent.localRotation;
+            }
         }
         groundMask = LayerMask.GetMask("World");
         if (dick != null) {
@@ -597,6 +601,7 @@ public class CharacterAnimatorController : MonoBehaviour {
         if (!active) {
             balls.localPosition = localBallsPosition;
             balls.localRotation = localBallsRotation;
+            balls.parent.localRotation = localBallsParentRotation;
             foreach (var mat in dickMaterials) {
                 mat.DisableKeyword("_SPHERIZE_ON");
             }
@@ -610,12 +615,12 @@ public class CharacterAnimatorController : MonoBehaviour {
         }
         Vector3 hipToBalls = position - balls.parent.position;
         Vector3 hipToBallsDir = hipToBalls.normalized;
-        balls.position = position - hipToBallsDir * colliderSize;
-        Vector3 regularForward = balls.parent.TransformDirection(localBallsRotation * Vector3.forward);
-        Vector3 regularUp = balls.parent.TransformDirection(localBallsRotation * Vector3.up);
+        balls.position = position;
+        Vector3 regularForward = balls.parent.parent.TransformDirection(localBallsParentRotation * Vector3.forward);
+        Vector3 regularUp = balls.parent.parent.TransformDirection(localBallsParentRotation * Vector3.up);
         //regularForward = Vector3.Lerp(regularForward, regularUp, Mathf.Clamp01(Vector3.Dot(regularForward, hipToBallsDir)));
         Quaternion fromTo = Quaternion.FromToRotation(regularUp, hipToBallsDir);
-        balls.rotation = QuaternionExtensions.LookRotationUpPriority(fromTo*regularForward, hipToBallsDir);
+        balls.parent.rotation = QuaternionExtensions.LookRotationUpPriority(fromTo*regularForward, hipToBallsDir);
         //balls.localRotation = localBallsRotation;
         //balls.up = position - balls.parent.position;
     }
