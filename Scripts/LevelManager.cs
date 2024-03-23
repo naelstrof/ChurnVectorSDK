@@ -150,6 +150,7 @@ public class LevelManager : MonoBehaviour {
         levelEndEvent.Raise();
         yield return new WaitForSecondsRealtime(0.2f);
         yield return new WaitUntil(() => !Cutscene.CutsceneIsPlaying());
+        Save();
         if (returnToMainMenu) {
             yield return SceneLoader.LoadScene(mainMenu);
             GameManager.ShowMenuStatic(GameManager.MainMenuMode.CampaignSelect);

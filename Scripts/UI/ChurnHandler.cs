@@ -37,7 +37,6 @@ public class ChurnHandler : MonoBehaviour {
             player.voreContainer.GetStorage().startChurn += OnStartChurn;
             player.voreContainer.GetStorage().drained += OnDrained;
             foreach (var cumSource in player.voreContainer.GetStorage().GetSources()) {
-                Debug.Log(cumSource);
                 var churnPanelGameObject = Instantiate(churnPanelPrefab.gameObject, transform);
                 var churnPanel = churnPanelGameObject.GetComponent<ChurnPanel>();
                 churnPanel.Initialize(cumSource);

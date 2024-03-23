@@ -41,7 +41,16 @@ public class SteamWorkshopDownloader : MonoBehaviour {
         statusChanged?.Invoke(this, status);
     }
 
-    public static Status GetStatus() => instance.status;
+    public static Status GetStatus() {
+        if (instance == null) {
+            return new Status() {
+                message = "Booting up...",
+                progress = 0f,
+                statusType = StatusType.Working,
+            };
+        }
+        return instance.status;
+    }
 
     private void Awake() {
         if (instance != null) {
