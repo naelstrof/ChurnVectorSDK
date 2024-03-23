@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Naelstrof.Easing;
 using Naelstrof.Inflatable;
 using DPG;
+using JigglePhysics;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.VFX;
@@ -16,8 +17,7 @@ public class CharacterAnimatorController : MonoBehaviour {
     private Vector3 wishDirection;
     private Vector3 velocity;
     private Vector3 localBallsPosition;
-    private Quaternion localBallsRotation;
-    private Quaternion localBallsParentRotation;
+    private Quaternion localBallsRootRotation;
     private Coroutine removeClothesRoutine;
     private Coroutine emotionRoutine;
     private bool grimaced = false;
@@ -32,7 +32,8 @@ public class CharacterAnimatorController : MonoBehaviour {
     private Inflatable cockVoreSizeChange;
     
     [SerializeField] private SkinnedMeshRenderer dick;
-    [SerializeField] private Transform balls;
+    [FormerlySerializedAs("balls")] [SerializeField] private Transform ballsCenter;
+    [FormerlySerializedAs("ballRoot")] [SerializeField] private Transform ballsRoot;
     [SerializeField] private float ballStorageScale = 1f;
     [SerializeField] private float dickBulgeStart = 1.5f;
     [SerializeField] private float dickBulgeEnd = -0.5f;
@@ -66,6 +67,7 @@ public class CharacterAnimatorController : MonoBehaviour {
     private float cumInflateAmount;
     private bool grabbed;
     private Vector3 lastPosition;
+    private List<Tuple<JiggleRigBuilder, JiggleRigBuilder.JiggleRig>> ballJiggleRigs;
 
     private List<Material> dickMaterials;
     private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
@@ -111,6 +113,18 @@ public class CharacterAnimatorController : MonoBehaviour {
             StopAllCoroutines();
         }
     }
+    
+    private List<Tuple<JiggleRigBuilder, JiggleRigBuilder.JiggleRig>> FindJiggleRigsForBone(Transform target) {
+        List<Tuple<JiggleRigBuilder,JiggleRigBuilder.JiggleRig>> rigs = new ();
+        foreach (var jiggleRigBuilder in character.GetComponentsInChildren<JiggleRigBuilder>(true)) {
+            foreach (var rig in jiggleRigBuilder.jiggleRigs) {
+                if (target.IsChildOf(rig.GetRootTransform())) {
+                    rigs.Add(new Tuple<JiggleRigBuilder, JiggleRigBuilder.JiggleRig>(jiggleRigBuilder, rig));
+                }
+            }
+        }
+        return rigs;
+    }
 
     private void Awake() {
         dickMaterials = new List<Material>();
@@ -120,12 +134,14 @@ public class CharacterAnimatorController : MonoBehaviour {
             }
         }
 
-        if (balls != null) {
-            localBallsPosition = balls.localPosition;
-            localBallsRotation = balls.localRotation;
-            if (balls.parent != null) {
-                localBallsParentRotation = balls.parent.localRotation;
+        character = GetComponentInParent<CharacterBase>();
+        if (ballsCenter != null) {
+            if (ballsRoot == null) {
+                ballsRoot = ballsCenter.parent;
             }
+            localBallsRootRotation = ballsRoot.localRotation;
+            ballJiggleRigs = FindJiggleRigsForBone(ballsCenter);
+            localBallsPosition = ballsCenter.localPosition;
         }
         groundMask = LayerMask.GetMask("World");
         if (dick != null) {
@@ -448,15 +464,17 @@ public class CharacterAnimatorController : MonoBehaviour {
         }
 
         if (character.voreMachine != null) {
-
             character.voreMachine.cockVoreStart -= OnCockCockVoreStart;
             character.voreMachine.cockVoreUpdate -= OnCockCockVoreProgressChanged;
             character.voreMachine.cockVoreEnd -= OnCockCockVoreEnd;
         }
 
-        if (balls != null) {
-            balls.localPosition = localBallsPosition;
-            balls.localRotation = localBallsRotation;
+        if (ballsCenter != null) {
+            if (ballsRoot != null) {
+                ballsRoot.localRotation = localBallsRootRotation;
+            }
+
+            ballsCenter.localPosition = localBallsPosition;
         }
 
         if (clothRip != null) {
@@ -594,18 +612,29 @@ public class CharacterAnimatorController : MonoBehaviour {
 
     private void OnBallSizeChanged(bool active, float colliderSize, Vector3 position) {
         colliderSize *= ballStorageScale;
-        if (balls == null) {
+        if (ballsCenter == null) {
             return;
         }
 
         if (!active) {
-            balls.localPosition = localBallsPosition;
-            balls.localRotation = localBallsRotation;
-            balls.parent.localRotation = localBallsParentRotation;
+            foreach (var pair in ballJiggleRigs) {
+                if (pair.Item1.jiggleRigs.Contains(pair.Item2)) {
+                    continue;
+                }
+                pair.Item1.jiggleRigs.Add(pair.Item2);
+            }
+            ballsCenter.localPosition = localBallsPosition;
+            ballsRoot.localRotation = localBallsRootRotation;
             foreach (var mat in dickMaterials) {
                 mat.DisableKeyword("_SPHERIZE_ON");
             }
             return;
+        }
+        foreach (var pair in ballJiggleRigs) {
+            if (!pair.Item1.jiggleRigs.Contains(pair.Item2)) {
+                continue;
+            }
+            pair.Item1.jiggleRigs.Remove(pair.Item2);
         }
         foreach (var mat in dickMaterials) {
             mat.EnableKeyword("_SPHERIZE_ON");
@@ -613,16 +642,20 @@ public class CharacterAnimatorController : MonoBehaviour {
             mat.SetFloat(SphereRadius, colliderSize+.1f);
             mat.SetFloat(SpherizeAmount, Mathf.Clamp01(colliderSize*2f));
         }
-        Vector3 hipToBalls = position - balls.parent.position;
+
+        ballsRoot.localRotation = localBallsRootRotation;
+        ballsCenter.localPosition = localBallsPosition;
+        
+        Vector3 rootToLocalBalls = (ballsCenter.position - ballsRoot.position).normalized;
+        
+        Vector3 hipToBalls = position - ballsRoot.position;
         Vector3 hipToBallsDir = hipToBalls.normalized;
-        balls.position = position;
-        Vector3 regularForward = balls.parent.parent.TransformDirection(localBallsParentRotation * Vector3.forward);
-        Vector3 regularUp = balls.parent.parent.TransformDirection(localBallsParentRotation * Vector3.up);
-        //regularForward = Vector3.Lerp(regularForward, regularUp, Mathf.Clamp01(Vector3.Dot(regularForward, hipToBallsDir)));
-        Quaternion fromTo = Quaternion.FromToRotation(regularUp, hipToBallsDir);
-        balls.parent.rotation = QuaternionExtensions.LookRotationUpPriority(fromTo*regularForward, hipToBallsDir);
-        //balls.localRotation = localBallsRotation;
-        //balls.up = position - balls.parent.position;
+        
+        Quaternion fromTo = Quaternion.FromToRotation(rootToLocalBalls, hipToBallsDir);
+        
+        ballsRoot.rotation = fromTo * ballsRoot.rotation;
+        
+        ballsCenter.position = position;
     }
 
     private void OnTased(CharacterBase by, bool tased) {
