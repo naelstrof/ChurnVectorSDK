@@ -13,10 +13,11 @@ public class ChurnHandler : MonoBehaviour {
     private void OnEnable() {
         CharacterBase.playerEnabled += OnPlayerEnable;
         CharacterBase.playerDisabled += OnPlayerDisable;
+        OnPlayerEnable(CharacterBase.GetPlayer());
     }
 
     private void OnPlayerDisable(CharacterBase player) {
-        if (player.voreContainer != null) {
+        if (player != null && player.voreContainer != null) {
             player.voreContainer.GetStorage().startChurn -= OnStartChurn;
             player.voreContainer.GetStorage().drained -= OnDrained;
         }
@@ -33,7 +34,7 @@ public class ChurnHandler : MonoBehaviour {
         }
         spawnedPrefabs.Clear();
         
-        if (player.voreContainer != null) {
+        if (player != null && player.voreContainer != null) {
             player.voreContainer.GetStorage().startChurn += OnStartChurn;
             player.voreContainer.GetStorage().drained += OnDrained;
             foreach (var cumSource in player.voreContainer.GetStorage().GetSources()) {
@@ -46,6 +47,7 @@ public class ChurnHandler : MonoBehaviour {
     }
 
     private void OnDisable() {
+        OnPlayerDisable(CharacterBase.GetPlayer());
         CharacterBase.playerEnabled -= OnPlayerEnable;
         CharacterBase.playerDisabled -= OnPlayerDisable;
     }
@@ -61,6 +63,9 @@ public class ChurnHandler : MonoBehaviour {
     }
 
     private void OnDrained(CumStorage.CumSource churnable) {
+        if (!spawnedPrefabs.ContainsKey(churnable)) {
+            return;
+        }
         Destroy(spawnedPrefabs[churnable].gameObject);
         spawnedPrefabs.Remove(churnable);
     }

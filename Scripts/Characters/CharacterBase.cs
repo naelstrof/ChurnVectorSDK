@@ -160,13 +160,13 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
     }
 
     protected virtual void OnDisable() {
+        if (IsPlayer()) {
+            OnDisablePlayer();
+        }
         inputGenerator?.CleanUp();
         OnDisableInteractor();
         OnEnableGrabbable();
         InteractableLibrary.RemoveInteractable(this);
-        if (IsPlayer()) {
-            OnDisablePlayer();
-        }
     }
 
 
