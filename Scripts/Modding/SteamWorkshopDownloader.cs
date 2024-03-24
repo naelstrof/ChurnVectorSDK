@@ -90,8 +90,12 @@ public class SteamWorkshopDownloader : MonoBehaviour {
             }
 
             uint statusFlags = SteamUGC.GetItemState(details.m_nPublishedFileId);
-            if ((statusFlags & (uint)EItemState.k_EItemStateInstalled) == 0 || (statusFlags & (uint)EItemState.k_EItemStateNeedsUpdate) != 0) {
-                if (SteamUGC.DownloadItem(details.m_nPublishedFileId, true)) {
+            // Already downloading.
+            if ((statusFlags & (uint)EItemState.k_EItemStateDownloading) != 0) {
+                continue;
+            }
+            if (((statusFlags & (uint)EItemState.k_EItemStateInstalled) == 0 || (statusFlags & (uint)EItemState.k_EItemStateNeedsUpdate) != 0)) {
+                if (SteamUGC.DownloadItem(details.m_nPublishedFileId, false)) {
                     Debug.Log($"Downloading Steamworks item {details.m_rgchTitle} {details.m_nPublishedFileId}");
                 } else {
                     Debug.LogError($"Couldn't download Steam workshop item {details.m_rgchTitle} {details.m_nPublishedFileId} because the user is not logged in, or the file is invalid...");
@@ -121,7 +125,7 @@ public class SteamWorkshopDownloader : MonoBehaviour {
                 continue;
             }
             uint statusFlags = SteamUGC.GetItemState(details.m_nPublishedFileId);
-            while ((statusFlags & (int)EItemState.k_EItemStateNeedsUpdate) != 0) {
+            while ((statusFlags & (int)EItemState.k_EItemStateDownloading) != 0) {
                 if (!SteamUGC.GetItemDownloadInfo(details.m_nPublishedFileId, out ulong bytesDownloaded, out ulong bytesTotal)) {
                     break;
                 }
