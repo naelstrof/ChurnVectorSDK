@@ -9,12 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6443350650100968834}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: WaterCooler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 122
   m_IsActive: 1
 --- !u!4 &6443350650100968834
 Transform:
@@ -135,14 +135,79 @@ PrefabInstance:
       propertyPath: m_Name
       value: WaterCooler
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ef3dd5ab294cdb545b5d48262a37dcf8,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ef3dd5ab294cdb545b5d48262a37dcf8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 122
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ef3dd5ab294cdb545b5d48262a37dcf8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5029731612053060654}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ef3dd5ab294cdb545b5d48262a37dcf8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1921162129779787616}
   m_SourcePrefab: {fileID: 100100000, guid: ef3dd5ab294cdb545b5d48262a37dcf8, type: 3}
+--- !u!1 &2600271474158561167 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ef3dd5ab294cdb545b5d48262a37dcf8,
+    type: 3}
+  m_PrefabInstance: {fileID: 2942940663395670750}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &5029731612053060654
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2600271474158561167}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2, y: 2.0000005, z: 6.131267}
+  m_Center: {x: 0, y: 0, z: 3.0628998}
+--- !u!114 &1921162129779787616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2600271474158561167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abc36ec581651e042bcd6fbde9a10157, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderers:
+  - {fileID: 4546095001077204570}
 --- !u!4 &3413118896775707957 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ef3dd5ab294cdb545b5d48262a37dcf8,
+    type: 3}
+  m_PrefabInstance: {fileID: 2942940663395670750}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &4546095001077204570 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: ef3dd5ab294cdb545b5d48262a37dcf8,
     type: 3}
   m_PrefabInstance: {fileID: 2942940663395670750}
   m_PrefabAsset: {fileID: 0}
