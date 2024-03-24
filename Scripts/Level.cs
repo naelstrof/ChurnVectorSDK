@@ -153,13 +153,12 @@ public class Level : ScriptableObject {
             throw new UnityException("Can't load arbitrary unaddressable scenes. Please configure them properly!");
         }
         yield return null;
-        InitializationManager.InitializeAll();
-        yield return new WaitUntil(() => InitializationManager.GetCurrentStage() == InitializationManager.InitializationStage.FinishedLoading);
         SceneManager.sceneUnloaded += OnEnd;
         var cameraSetupRoutine = SetupOrbitCamera();
         var objectiveSetupRoutine = SetupObjectives();
         yield return cameraSetupRoutine;
         yield return objectiveSetupRoutine;
+        InitializationManager.InitializeAll();
         yield return new WaitUntil(()=>InitializationManager.GetCurrentStage() == InitializationManager.InitializationStage.FinishedLoading);
         
         if (FindObjectsOfType<CharacterLoader>(true).Length == 0) {
