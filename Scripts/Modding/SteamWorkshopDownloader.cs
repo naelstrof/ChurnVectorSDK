@@ -101,7 +101,12 @@ public class SteamWorkshopDownloader : MonoBehaviour {
                     Debug.LogError($"Couldn't download Steam workshop item {details.m_rgchTitle} {details.m_nPublishedFileId} because the user is not logged in, or the file is invalid...");
                 }
             } else {
-                LoadMod(details.m_nPublishedFileId);
+                bool hasData = SteamUGC.GetItemInstallInfo(details.m_nPublishedFileId, out ulong punSizeOnDisk, out string pchFolder, 1024, out uint punTimeStamp);
+                if (hasData && Directory.Exists(pchFolder)) {
+                    LoadMod(details.m_nPublishedFileId);
+                } else {
+                    SteamUGC.DownloadItem(details.m_nPublishedFileId, false);
+                }
             }
         }
         StartCoroutine(WaitOnDownloads(param));
@@ -125,7 +130,7 @@ public class SteamWorkshopDownloader : MonoBehaviour {
                 continue;
             }
             uint statusFlags = SteamUGC.GetItemState(details.m_nPublishedFileId);
-            while ((statusFlags & (int)EItemState.k_EItemStateDownloading) != 0) {
+            while ((statusFlags & (int)EItemState.k_EItemStateDownloading) != 0 || (statusFlags & (int)EItemState.k_EItemStateDownloadPending) != 0 ) {
                 if (!SteamUGC.GetItemDownloadInfo(details.m_nPublishedFileId, out ulong bytesDownloaded, out ulong bytesTotal)) {
                     break;
                 }
