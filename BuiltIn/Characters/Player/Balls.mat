@@ -51,7 +51,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BulgeHeight1:
-        m_Texture: {fileID: 2800000, guid: 61e94b3c2a7be27449bc7fe5a1996bb2, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BulgeNormal1:

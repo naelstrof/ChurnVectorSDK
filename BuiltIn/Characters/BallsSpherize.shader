@@ -12,11 +12,6 @@ Shader "BallsSpherize"
 		[Toggle(_COCKVORESQUISHENABLED_ON)] _CockVoreSquishEnabled("CockVoreSquishEnabled", Float) = 0
 		_Angle("Angle", Range( 0 , 89)) = 45
 		_TipRadius("TipRadius", Range( 0 , 1)) = 0.1
-		_BulgeHeight1("BulgeHeight1", 2D) = "black" {}
-		_BulgeOffset("BulgeOffset", Vector) = (0,0,0,0)
-		_BulgeAmount("BulgeAmount", Range( 0 , 1)) = 1
-		_BulgeOverallScale("BulgeOverallScale", Range( 0 , 5)) = 1
-		_BulgeNormal1("BulgeNormal1", 2D) = "bump" {}
 		_SphereRadius("SphereRadius", Float) = 0
 		[Toggle(_SPHERIZE_ON)] _Spherize("Spherize", Float) = 0
 		_SpherizeAmount("SpherizeAmount", Range( 0 , 1)) = 0.5
@@ -402,11 +397,8 @@ Shader "BallsSpherize"
 			float3 _WorldDickNormal;
 			float3 _WorldDickBinormal;
 			float3 _WorldDickPosition;
-			float2 _BulgeOffset;
 			float _SphereRadius;
 			float _SpherizeAmount;
-			float _BulgeOverallScale;
-			float _BulgeAmount;
 			float _TipRadius;
 			float _Angle;
 			float4 _EmissionColor;
@@ -471,7 +463,6 @@ Shader "BallsSpherize"
 			int _PassValue;
             #endif
 
-			sampler2D _BulgeHeight1;
 			sampler2D _BaseColorMap;
 			sampler2D _DecalColorMap;
 			sampler2D _NormalMap;
@@ -479,7 +470,6 @@ Shader "BallsSpherize"
 			float4x4 unity_CameraInvProjection;
 			float4x4 unity_WorldToCamera;
 			float4x4 unity_CameraToWorld;
-			sampler2D _BulgeNormal1;
 			sampler2D _MaskMap;
 
 
@@ -545,7 +535,7 @@ Shader "BallsSpherize"
 			};
 
 
-			float3 MyCustomExpression11_g254( float3 pos )
+			float3 MyCustomExpression11_g1( float3 pos )
 			{
 				return GetCameraRelativePositionWS(pos);
 			}
@@ -577,7 +567,7 @@ Shader "BallsSpherize"
 				return transpose( cofactors ) / determinant( input );
 			}
 			
-			float3 MyCustomExpression32_g255( float3 pos )
+			float3 MyCustomExpression32_g250( float3 pos )
 			{
 				return GetAbsolutePositionWS(pos);
 			}
@@ -629,7 +619,7 @@ Shader "BallsSpherize"
 				return 42.0 * dot( m, px);
 			}
 			
-			float3 PerturbNormal107_g13( float3 surf_pos, float3 surf_norm, float height, float scale )
+			float3 PerturbNormal107_g262( float3 surf_pos, float3 surf_norm, float height, float scale )
 			{
 				// "Bump Mapping Unparametrized Surfaces on the GPU" by Morten S. Mikkelsen
 				float3 vSigmaS = ddx( surf_pos );
@@ -642,36 +632,6 @@ Shader "BallsSpherize"
 				float dBt = ddy( height );
 				float3 vSurfGrad = scale * 0.05 * sign( fDet ) * ( dBs * vR1 + dBt * vR2 );
 				return normalize ( abs( fDet ) * vN - vSurfGrad );
-			}
-			
-			void DeriveTangentBasis( float3 WorldPosition, float3 WorldNormal, float2 UV, out float3x3 TangentToWorld, out float3x3 WorldToTangent )
-			{
-				#if (SHADER_TARGET >= 45)
-				float3 dPdx = ddx_fine( WorldPosition );
-				float3 dPdy = ddy_fine( WorldPosition );
-				#else
-				float3 dPdx = ddx( WorldPosition );
-				float3 dPdy = ddy( WorldPosition );
-				#endif
-				float3 sigmaX = dPdx - dot( dPdx, WorldNormal ) * WorldNormal;
-				float3 sigmaY = dPdy - dot( dPdy, WorldNormal ) * WorldNormal;
-				float flip_sign = dot( dPdy, cross( WorldNormal, dPdx ) ) < 0 ? -1 : 1;
-				#if (SHADER_TARGET >= 45)
-				float2 dSTdx = ddx_fine( UV );
-				float2 dSTdy = ddy_fine( UV );
-				#else
-				float2 dSTdx = ddx( UV );
-				float2 dSTdy = ddy( UV );
-				#endif
-				float det = dot( dSTdx, float2( dSTdy.y, -dSTdy.x ) );
-				float sign_det = ( det < 0 ) ? -1 : 1;
-				float2 invC0 = sign_det * float2( dSTdy.y, -dSTdx.y );
-				float3 T = sigmaX * invC0.x + sigmaY * invC0.y;
-				if ( abs( det ) > 0 ) T = normalize( T );
-				float3 B = ( sign_det * flip_sign ) * cross( WorldNormal, T );
-				WorldToTangent = float3x3( T, B, WorldNormal );
-				TangentToWorld = transpose( WorldToTangent );
-				return;
 			}
 			
 
@@ -899,81 +859,78 @@ Shader "BallsSpherize"
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( outputPackedVaryingsMeshToPS );
 
-				float3 pos11_g254 = _SpherePosition;
-				float3 localMyCustomExpression11_g254 = MyCustomExpression11_g254( pos11_g254 );
-				float4 appendResult1_g254 = (float4(localMyCustomExpression11_g254 , 1.0));
-				float3 temp_output_5_0_g254 = (mul( GetWorldToObjectMatrix(), appendResult1_g254 )).xyz;
-				float3 temp_output_3_0_g258 = temp_output_5_0_g254;
-				float3 normalizeResult6_g258 = normalize( ( inputMesh.positionOS - temp_output_3_0_g258 ) );
-				float4 appendResult4_g254 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float3 temp_output_6_0_g254 = ( ( normalizeResult6_g258 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g254 )).xyz ) ) ) + temp_output_3_0_g258 );
-				float temp_output_18_0_g254 = ( _SpherizeAmount * inputMesh.ase_color.r );
-				float3 lerpResult21_g254 = lerp( inputMesh.positionOS , temp_output_6_0_g254 , temp_output_18_0_g254);
+				float3 pos11_g1 = _SpherePosition;
+				float3 localMyCustomExpression11_g1 = MyCustomExpression11_g1( pos11_g1 );
+				float4 appendResult1_g1 = (float4(localMyCustomExpression11_g1 , 1.0));
+				float3 temp_output_5_0_g1 = (mul( GetWorldToObjectMatrix(), appendResult1_g1 )).xyz;
+				float3 temp_output_3_0_g253 = temp_output_5_0_g1;
+				float3 normalizeResult6_g253 = normalize( ( inputMesh.positionOS - temp_output_3_0_g253 ) );
+				float4 appendResult4_g1 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float3 temp_output_6_0_g1 = ( ( normalizeResult6_g253 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g1 )).xyz ) ) ) + temp_output_3_0_g253 );
+				float temp_output_18_0_g1 = ( _SpherizeAmount * inputMesh.ase_color.r );
+				float3 lerpResult21_g1 = lerp( inputMesh.positionOS , temp_output_6_0_g1 , temp_output_18_0_g1);
 				#ifdef _SPHERIZE_ON
-				float3 staticSwitch16_g254 = lerpResult21_g254;
+				float3 staticSwitch16_g1 = lerpResult21_g1;
 				#else
-				float3 staticSwitch16_g254 = inputMesh.positionOS;
+				float3 staticSwitch16_g1 = inputMesh.positionOS;
 				#endif
-				float3 normalizeResult13_g254 = normalize( ( temp_output_6_0_g254 - temp_output_5_0_g254 ) );
-				float3 lerpResult12_g254 = lerp( inputMesh.normalOS , normalizeResult13_g254 , temp_output_18_0_g254);
-				#ifdef _SPHERIZE_ON
-				float3 staticSwitch15_g254 = lerpResult12_g254;
-				#else
-				float3 staticSwitch15_g254 = inputMesh.normalOS;
-				#endif
-				float2 texCoord47_g254 = inputMesh.uv1.xy * float2( 2,2 ) + float2( -1,-1 );
-				float2 temp_output_34_0_g254 = (( ( ( _BulgeOverallScale * _SphereRadius ) * ( texCoord47_g254 + float2( -0.5,-0.5 ) ) ) + float2( 0.5,0.5 ) )*1.0 + _BulgeOffset);
-				float2 appendResult24_g254 = (float2(_TimeParameters.z , _TimeParameters.y));
-				float3 normalizeResult27_g257 = normalize( _WorldDickNormal );
-				float3 normalizeResult31_g257 = normalize( _WorldDickBinormal );
-				float3 normalizeResult29_g257 = normalize( cross( normalizeResult27_g257 , normalizeResult31_g257 ) );
-				float4 appendResult26_g256 = (float4(1.0 , 0.0 , 0.0 , 0.0));
-				float4 appendResult28_g256 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float4 appendResult31_g256 = (float4(0.0 , 0.0 , 1.0 , 0.0));
-				float3 break27_g256 = -_WorldDickPosition;
-				float4 appendResult29_g256 = (float4(break27_g256.x , break27_g256.y , break27_g256.z , 1.0));
-				float4x4 temp_output_30_0_g256 = mul( transpose( float4x4( float4( normalizeResult27_g257 , 0.0 ).x,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).x,float4( normalizeResult29_g257 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g257 , 0.0 ).y,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).y,float4( normalizeResult29_g257 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g257 , 0.0 ).z,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).z,float4( normalizeResult29_g257 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g257 , 0.0 ).w,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).w,float4( normalizeResult29_g257 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g256.x,appendResult28_g256.x,appendResult31_g256.x,appendResult29_g256.x,appendResult26_g256.y,appendResult28_g256.y,appendResult31_g256.y,appendResult29_g256.y,appendResult26_g256.z,appendResult28_g256.z,appendResult31_g256.z,appendResult29_g256.z,appendResult26_g256.w,appendResult28_g256.w,appendResult31_g256.w,appendResult29_g256.w ) );
-				float4x4 invertVal44_g256 = Inverse4x4( temp_output_30_0_g256 );
-				float4 appendResult27_g255 = (float4(inputMesh.positionOS , 1.0));
-				float3 pos32_g255 = mul( GetObjectToWorldMatrix(), appendResult27_g255 ).xyz;
-				float3 localMyCustomExpression32_g255 = MyCustomExpression32_g255( pos32_g255 );
-				float4 appendResult32_g256 = (float4(localMyCustomExpression32_g255 , 1.0));
-				float4 break35_g256 = mul( temp_output_30_0_g256, appendResult32_g256 );
-				float temp_output_124_0_g256 = _TipRadius;
-				float2 appendResult36_g256 = (float2(break35_g256.y , break35_g256.z));
-				float2 normalizeResult41_g256 = normalize( appendResult36_g256 );
-				float temp_output_120_0_g256 = sqrt( max( break35_g256.x , 0.0 ) );
-				float temp_output_48_0_g256 = tan( radians( _Angle ) );
-				float temp_output_125_0_g256 = ( temp_output_124_0_g256 + ( temp_output_120_0_g256 * temp_output_48_0_g256 ) );
-				float temp_output_37_0_g256 = length( appendResult36_g256 );
-				float temp_output_114_0_g256 = ( ( temp_output_125_0_g256 - temp_output_37_0_g256 ) + 1.0 );
-				float lerpResult102_g256 = lerp( temp_output_125_0_g256 , temp_output_37_0_g256 , saturate( temp_output_114_0_g256 ));
-				float lerpResult130_g256 = lerp( 0.0 , lerpResult102_g256 , saturate( ( -( -temp_output_124_0_g256 - break35_g256.x ) / temp_output_124_0_g256 ) ));
-				float2 break43_g256 = ( normalizeResult41_g256 * lerpResult130_g256 );
-				float4 appendResult40_g256 = (float4(max( break35_g256.x , -temp_output_124_0_g256 ) , break43_g256.x , break43_g256.y , 1.0));
-				float4 appendResult28_g255 = (float4(((mul( invertVal44_g256, appendResult40_g256 )).xyz).xyz , 1.0));
-				float4 localWorldVar29_g255 = appendResult28_g255;
-				(localWorldVar29_g255).xyz = GetCameraRelativePositionWS((localWorldVar29_g255).xyz);
-				float4 transform29_g255 = mul(GetWorldToObjectMatrix(),localWorldVar29_g255);
+				float3 normalizeResult27_g252 = normalize( _WorldDickNormal );
+				float3 normalizeResult31_g252 = normalize( _WorldDickBinormal );
+				float3 normalizeResult29_g252 = normalize( cross( normalizeResult27_g252 , normalizeResult31_g252 ) );
+				float4 appendResult26_g251 = (float4(1.0 , 0.0 , 0.0 , 0.0));
+				float4 appendResult28_g251 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float4 appendResult31_g251 = (float4(0.0 , 0.0 , 1.0 , 0.0));
+				float3 break27_g251 = -_WorldDickPosition;
+				float4 appendResult29_g251 = (float4(break27_g251.x , break27_g251.y , break27_g251.z , 1.0));
+				float4x4 temp_output_30_0_g251 = mul( transpose( float4x4( float4( normalizeResult27_g252 , 0.0 ).x,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).x,float4( normalizeResult29_g252 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g252 , 0.0 ).y,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).y,float4( normalizeResult29_g252 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g252 , 0.0 ).z,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).z,float4( normalizeResult29_g252 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g252 , 0.0 ).w,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).w,float4( normalizeResult29_g252 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g251.x,appendResult28_g251.x,appendResult31_g251.x,appendResult29_g251.x,appendResult26_g251.y,appendResult28_g251.y,appendResult31_g251.y,appendResult29_g251.y,appendResult26_g251.z,appendResult28_g251.z,appendResult31_g251.z,appendResult29_g251.z,appendResult26_g251.w,appendResult28_g251.w,appendResult31_g251.w,appendResult29_g251.w ) );
+				float4x4 invertVal44_g251 = Inverse4x4( temp_output_30_0_g251 );
+				float4 appendResult27_g250 = (float4(inputMesh.positionOS , 1.0));
+				float3 pos32_g250 = mul( GetObjectToWorldMatrix(), appendResult27_g250 ).xyz;
+				float3 localMyCustomExpression32_g250 = MyCustomExpression32_g250( pos32_g250 );
+				float4 appendResult32_g251 = (float4(localMyCustomExpression32_g250 , 1.0));
+				float4 break35_g251 = mul( temp_output_30_0_g251, appendResult32_g251 );
+				float temp_output_124_0_g251 = _TipRadius;
+				float2 appendResult36_g251 = (float2(break35_g251.y , break35_g251.z));
+				float2 normalizeResult41_g251 = normalize( appendResult36_g251 );
+				float temp_output_120_0_g251 = sqrt( max( break35_g251.x , 0.0 ) );
+				float temp_output_48_0_g251 = tan( radians( _Angle ) );
+				float temp_output_125_0_g251 = ( temp_output_124_0_g251 + ( temp_output_120_0_g251 * temp_output_48_0_g251 ) );
+				float temp_output_37_0_g251 = length( appendResult36_g251 );
+				float temp_output_114_0_g251 = ( ( temp_output_125_0_g251 - temp_output_37_0_g251 ) + 1.0 );
+				float lerpResult102_g251 = lerp( temp_output_125_0_g251 , temp_output_37_0_g251 , saturate( temp_output_114_0_g251 ));
+				float lerpResult130_g251 = lerp( 0.0 , lerpResult102_g251 , saturate( ( -( -temp_output_124_0_g251 - break35_g251.x ) / temp_output_124_0_g251 ) ));
+				float2 break43_g251 = ( normalizeResult41_g251 * lerpResult130_g251 );
+				float4 appendResult40_g251 = (float4(max( break35_g251.x , -temp_output_124_0_g251 ) , break43_g251.x , break43_g251.y , 1.0));
+				float4 appendResult28_g250 = (float4(((mul( invertVal44_g251, appendResult40_g251 )).xyz).xyz , 1.0));
+				float4 localWorldVar29_g250 = appendResult28_g250;
+				(localWorldVar29_g250).xyz = GetCameraRelativePositionWS((localWorldVar29_g250).xyz);
+				float4 transform29_g250 = mul(GetWorldToObjectMatrix(),localWorldVar29_g250);
 				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch13_g255 = (transform29_g255).xyz;
+				float3 staticSwitch13_g250 = (transform29_g250).xyz;
 				#else
-				float3 staticSwitch13_g255 = ( staticSwitch16_g254 + ( staticSwitch15_g254 * (-1.0 + (tex2Dlod( _BulgeHeight1, float4( temp_output_34_0_g254, 0, 0.0) ).r - 0.0) * (1.0 - -1.0) / (1.0 - 0.0)) * 0.25 * ( distance( temp_output_34_0_g254 , ( ( appendResult24_g254 * float2( 0.4,0.4 ) ) + float2( 0.5,0.5 ) ) ) * saturate( (1.0 + (distance( texCoord47_g254 , float2( 0.5,0.5 ) ) - 0.0) * (0.0 - 1.0) / (0.4 - 0.0)) ) ) * _BulgeAmount ) );
+				float3 staticSwitch13_g250 = staticSwitch16_g1;
 				#endif
 				
-				float3 temp_output_50_0_g255 = staticSwitch15_g254;
-				float2 break146_g256 = normalizeResult41_g256;
-				float4 appendResult139_g256 = (float4(temp_output_48_0_g256 , break146_g256.x , break146_g256.y , 0.0));
-				float3 normalizeResult144_g256 = normalize( (mul( invertVal44_g256, appendResult139_g256 )).xyz );
-				float3 lerpResult44_g255 = lerp( normalizeResult144_g256 , temp_output_50_0_g255 , saturate( sign( temp_output_114_0_g256 ) ));
-				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch17_g255 = lerpResult44_g255;
+				float3 normalizeResult13_g1 = normalize( ( temp_output_6_0_g1 - temp_output_5_0_g1 ) );
+				float3 lerpResult12_g1 = lerp( inputMesh.normalOS , normalizeResult13_g1 , temp_output_18_0_g1);
+				#ifdef _SPHERIZE_ON
+				float3 staticSwitch15_g1 = lerpResult12_g1;
 				#else
-				float3 staticSwitch17_g255 = temp_output_50_0_g255;
+				float3 staticSwitch15_g1 = inputMesh.normalOS;
+				#endif
+				float3 temp_output_50_0_g250 = staticSwitch15_g1;
+				float2 break146_g251 = normalizeResult41_g251;
+				float4 appendResult139_g251 = (float4(temp_output_48_0_g251 , break146_g251.x , break146_g251.y , 0.0));
+				float3 normalizeResult144_g251 = normalize( (mul( invertVal44_g251, appendResult139_g251 )).xyz );
+				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , temp_output_50_0_g250 , saturate( sign( temp_output_114_0_g251 ) ));
+				#ifdef _COCKVORESQUISHENABLED_ON
+				float3 staticSwitch17_g250 = lerpResult44_g250;
+				#else
+				float3 staticSwitch17_g250 = temp_output_50_0_g250;
 				#endif
 				
-				float3 vertexToFrag28_g2 = mul( UNITY_MATRIX_M, float4( inputMesh.positionOS , 0.0 ) ).xyz;
-				outputPackedVaryingsMeshToPS.ase_texcoord6.xyz = vertexToFrag28_g2;
+				float3 vertexToFrag28_g260 = mul( UNITY_MATRIX_M, float4( inputMesh.positionOS , 0.0 ) ).xyz;
+				outputPackedVaryingsMeshToPS.ase_texcoord6.xyz = vertexToFrag28_g260;
 				
 				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
 				float3 ase_worldTangent = TransformObjectToWorldDir(inputMesh.tangentOS.xyz);
@@ -993,7 +950,7 @@ Shader "BallsSpherize"
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = staticSwitch13_g255;
+				float3 vertexValue = staticSwitch13_g250;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -1001,7 +958,7 @@ Shader "BallsSpherize"
 				inputMesh.positionOS.xyz += vertexValue;
 				#endif
 
-				inputMesh.normalOS = staticSwitch17_g255;
+				inputMesh.normalOS = staticSwitch17_g250;
 				inputMesh.tangentOS =  inputMesh.tangentOS ;
 
 				float3 positionRWS = TransformObjectToWorld(inputMesh.positionOS);
@@ -1153,58 +1110,48 @@ Shader "BallsSpherize"
 
 				GlobalSurfaceDescription surfaceDescription = (GlobalSurfaceDescription)0;
 				float2 uv_BaseColorMap = packedInput.ase_texcoord5.xy * _BaseColorMap_ST.xy + _BaseColorMap_ST.zw;
-				float4 temp_output_1_0_g2 = tex2D( _BaseColorMap, uv_BaseColorMap );
-				float4 color20_g2 = IsGammaSpace() ? float4(1,1,1,1) : float4(1,1,1,1);
-				float3 vertexToFrag28_g2 = packedInput.ase_texcoord6.xyz;
+				float4 temp_output_1_0_g260 = tex2D( _BaseColorMap, uv_BaseColorMap );
+				float4 color20_g260 = IsGammaSpace() ? float4(1,1,1,1) : float4(1,1,1,1);
+				float3 vertexToFrag28_g260 = packedInput.ase_texcoord6.xyz;
 				#ifdef _SKINNED_ON
-				float3 staticSwitch26_g2 = float3( packedInput.uv1.xy ,  0.0 );
+				float3 staticSwitch26_g260 = float3( packedInput.uv1.xy ,  0.0 );
 				#else
-				float3 staticSwitch26_g2 = vertexToFrag28_g2;
+				float3 staticSwitch26_g260 = vertexToFrag28_g260;
 				#endif
-				float simplePerlin3D9_g2 = snoise( ( ( staticSwitch26_g2 * float3( 2,2,2 ) ) + float3( 0,0,0 ) ) );
-				simplePerlin3D9_g2 = simplePerlin3D9_g2*0.5 + 0.5;
-				float temp_output_16_0_g2 = ( ( simplePerlin3D9_g2 - 0.5 ) * 0.5 );
-				float temp_output_12_0_g2 = ( tex2D( _DecalColorMap, packedInput.uv1.xy ).r + temp_output_16_0_g2 );
-				float lerpResult22_g2 = lerp( ( temp_output_12_0_g2 + temp_output_16_0_g2 ) , 0.7 , 0.8);
-				float4 lerpResult19_g2 = lerp( temp_output_1_0_g2 , color20_g2 , ( 1.0 - lerpResult22_g2 ));
-				float temp_output_3_0_g12 = ( 0.5 - temp_output_12_0_g2 );
-				float temp_output_10_0_g2 = ( 1.0 - saturate( ( temp_output_3_0_g12 / fwidth( temp_output_3_0_g12 ) ) ) );
-				float4 lerpResult18_g2 = lerp( temp_output_1_0_g2 , lerpResult19_g2 , temp_output_10_0_g2);
+				float simplePerlin3D9_g260 = snoise( ( ( staticSwitch26_g260 * float3( 2,2,2 ) ) + float3( 0,0,0 ) ) );
+				simplePerlin3D9_g260 = simplePerlin3D9_g260*0.5 + 0.5;
+				float temp_output_16_0_g260 = ( ( simplePerlin3D9_g260 - 0.5 ) * 0.5 );
+				float temp_output_12_0_g260 = ( tex2D( _DecalColorMap, packedInput.uv1.xy ).r + temp_output_16_0_g260 );
+				float lerpResult22_g260 = lerp( ( temp_output_12_0_g260 + temp_output_16_0_g260 ) , 0.7 , 0.8);
+				float4 lerpResult19_g260 = lerp( temp_output_1_0_g260 , color20_g260 , ( 1.0 - lerpResult22_g260 ));
+				float temp_output_3_0_g261 = ( 0.5 - temp_output_12_0_g260 );
+				float temp_output_10_0_g260 = ( 1.0 - saturate( ( temp_output_3_0_g261 / fwidth( temp_output_3_0_g261 ) ) ) );
+				float4 lerpResult18_g260 = lerp( temp_output_1_0_g260 , lerpResult19_g260 , temp_output_10_0_g260);
 				
 				float2 uv_NormalMap = packedInput.ase_texcoord5.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
-				float3 temp_output_4_0_g2 = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
+				float3 temp_output_4_0_g260 = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
 				float3 ase_worldPos = GetAbsolutePositionWS( positionRWS );
-				float3 surf_pos107_g13 = ase_worldPos;
-				float3 surf_norm107_g13 = normalWS;
-				float height107_g13 = simplePerlin3D9_g2;
-				float scale107_g13 = 0.5;
-				float3 localPerturbNormal107_g13 = PerturbNormal107_g13( surf_pos107_g13 , surf_norm107_g13 , height107_g13 , scale107_g13 );
+				float3 surf_pos107_g262 = ase_worldPos;
+				float3 surf_norm107_g262 = normalWS;
+				float height107_g262 = simplePerlin3D9_g260;
+				float scale107_g262 = 0.5;
+				float3 localPerturbNormal107_g262 = PerturbNormal107_g262( surf_pos107_g262 , surf_norm107_g262 , height107_g262 , scale107_g262 );
 				float3 ase_worldBitangent = packedInput.ase_texcoord7.xyz;
 				float3x3 ase_worldToTangent = float3x3(tangentWS.xyz,ase_worldBitangent,normalWS);
-				float3 worldToTangentDir42_g13 = mul( ase_worldToTangent, localPerturbNormal107_g13);
-				float3 lerpResult6_g2 = lerp( temp_output_4_0_g2 , BlendNormal( worldToTangentDir42_g13 , temp_output_4_0_g2 ) , temp_output_10_0_g2);
-				float3 normalizeResult33_g2 = normalize( lerpResult6_g2 );
-				float3 localDeriveTangentBasis1_g259 = ( float3( 0,0,0 ) );
-				float3 WorldPosition1_g259 = ase_worldPos;
-				float3 WorldNormal1_g259 = normalWS;
-				float2 texCoord47_g254 = packedInput.uv1.xy * float2( 2,2 ) + float2( -1,-1 );
-				float2 temp_output_34_0_g254 = (( ( ( _BulgeOverallScale * _SphereRadius ) * ( texCoord47_g254 + float2( -0.5,-0.5 ) ) ) + float2( 0.5,0.5 ) )*1.0 + _BulgeOffset);
-				float2 UV1_g259 = temp_output_34_0_g254;
-				float3x3 TangentToWorld1_g259 = float3x3( 1,0,0,1,1,1,1,0,1 );
-				float3x3 WorldToTangent1_g259 = float3x3( 1,0,0,1,1,1,1,0,1 );
-				DeriveTangentBasis( WorldPosition1_g259 , WorldNormal1_g259 , UV1_g259 , TangentToWorld1_g259 , WorldToTangent1_g259 );
-				float3 unpack58_g254 = UnpackNormalScale( tex2D( _BulgeNormal1, temp_output_34_0_g254 ), _BulgeAmount );
-				unpack58_g254.z = lerp( 1, unpack58_g254.z, saturate(_BulgeAmount) );
+				float3 worldToTangentDir42_g262 = mul( ase_worldToTangent, localPerturbNormal107_g262);
+				float3 lerpResult6_g260 = lerp( temp_output_4_0_g260 , BlendNormal( worldToTangentDir42_g262 , temp_output_4_0_g260 ) , temp_output_10_0_g260);
+				float3 normalizeResult33_g260 = normalize( lerpResult6_g260 );
+				float3 temp_output_46_5 = normalizeResult33_g260;
 				
-				float lerpResult32_g2 = lerp( 0.0 , 1.0 , temp_output_10_0_g2);
+				float lerpResult32_g260 = lerp( 0.0 , 1.0 , temp_output_10_0_g260);
 				
 				float2 uv_MaskMap = packedInput.ase_texcoord5.xy * _MaskMap_ST.xy + _MaskMap_ST.zw;
 				float4 tex2DNode3 = tex2D( _MaskMap, uv_MaskMap );
 				
-				surfaceDescription.BaseColor = lerpResult18_g2.rgb;
-				surfaceDescription.Normal = BlendNormal( normalizeResult33_g2 , mul( ase_worldToTangent, mul( TangentToWorld1_g259, unpack58_g254 ) ) );
+				surfaceDescription.BaseColor = lerpResult18_g260.rgb;
+				surfaceDescription.Normal = temp_output_46_5;
 				surfaceDescription.BentNormal = float3( 0, 0, 1 );
-				surfaceDescription.CoatMask = lerpResult32_g2;
+				surfaceDescription.CoatMask = lerpResult32_g260;
 				surfaceDescription.Metallic = tex2DNode3.r;
 
 				#ifdef _MATERIAL_FEATURE_SPECULAR_COLOR
@@ -1380,11 +1327,8 @@ Shader "BallsSpherize"
 			float3 _WorldDickNormal;
 			float3 _WorldDickBinormal;
 			float3 _WorldDickPosition;
-			float2 _BulgeOffset;
 			float _SphereRadius;
 			float _SpherizeAmount;
-			float _BulgeOverallScale;
-			float _BulgeAmount;
 			float _TipRadius;
 			float _Angle;
 			float4 _EmissionColor;
@@ -1449,7 +1393,6 @@ Shader "BallsSpherize"
 			int _PassValue;
             #endif
 
-			sampler2D _BulgeHeight1;
 			sampler2D _BaseColorMap;
 			sampler2D _DecalColorMap;
 			sampler2D _NormalMap;
@@ -1457,7 +1400,6 @@ Shader "BallsSpherize"
 			float4x4 unity_CameraInvProjection;
 			float4x4 unity_WorldToCamera;
 			float4x4 unity_CameraToWorld;
-			sampler2D _BulgeNormal1;
 			sampler2D _MaskMap;
 
 
@@ -1521,7 +1463,7 @@ Shader "BallsSpherize"
 				#endif
 			};
 
-			float3 MyCustomExpression11_g254( float3 pos )
+			float3 MyCustomExpression11_g1( float3 pos )
 			{
 				return GetCameraRelativePositionWS(pos);
 			}
@@ -1553,7 +1495,7 @@ Shader "BallsSpherize"
 				return transpose( cofactors ) / determinant( input );
 			}
 			
-			float3 MyCustomExpression32_g255( float3 pos )
+			float3 MyCustomExpression32_g250( float3 pos )
 			{
 				return GetAbsolutePositionWS(pos);
 			}
@@ -1605,7 +1547,7 @@ Shader "BallsSpherize"
 				return 42.0 * dot( m, px);
 			}
 			
-			float3 PerturbNormal107_g13( float3 surf_pos, float3 surf_norm, float height, float scale )
+			float3 PerturbNormal107_g262( float3 surf_pos, float3 surf_norm, float height, float scale )
 			{
 				// "Bump Mapping Unparametrized Surfaces on the GPU" by Morten S. Mikkelsen
 				float3 vSigmaS = ddx( surf_pos );
@@ -1618,36 +1560,6 @@ Shader "BallsSpherize"
 				float dBt = ddy( height );
 				float3 vSurfGrad = scale * 0.05 * sign( fDet ) * ( dBs * vR1 + dBt * vR2 );
 				return normalize ( abs( fDet ) * vN - vSurfGrad );
-			}
-			
-			void DeriveTangentBasis( float3 WorldPosition, float3 WorldNormal, float2 UV, out float3x3 TangentToWorld, out float3x3 WorldToTangent )
-			{
-				#if (SHADER_TARGET >= 45)
-				float3 dPdx = ddx_fine( WorldPosition );
-				float3 dPdy = ddy_fine( WorldPosition );
-				#else
-				float3 dPdx = ddx( WorldPosition );
-				float3 dPdy = ddy( WorldPosition );
-				#endif
-				float3 sigmaX = dPdx - dot( dPdx, WorldNormal ) * WorldNormal;
-				float3 sigmaY = dPdy - dot( dPdy, WorldNormal ) * WorldNormal;
-				float flip_sign = dot( dPdy, cross( WorldNormal, dPdx ) ) < 0 ? -1 : 1;
-				#if (SHADER_TARGET >= 45)
-				float2 dSTdx = ddx_fine( UV );
-				float2 dSTdy = ddy_fine( UV );
-				#else
-				float2 dSTdx = ddx( UV );
-				float2 dSTdy = ddy( UV );
-				#endif
-				float det = dot( dSTdx, float2( dSTdy.y, -dSTdy.x ) );
-				float sign_det = ( det < 0 ) ? -1 : 1;
-				float2 invC0 = sign_det * float2( dSTdy.y, -dSTdx.y );
-				float3 T = sigmaX * invC0.x + sigmaY * invC0.y;
-				if ( abs( det ) > 0 ) T = normalize( T );
-				float3 B = ( sign_det * flip_sign ) * cross( WorldNormal, T );
-				WorldToTangent = float3x3( T, B, WorldNormal );
-				TangentToWorld = transpose( WorldToTangent );
-				return;
 			}
 			
 
@@ -1860,81 +1772,78 @@ Shader "BallsSpherize"
 				UNITY_SETUP_INSTANCE_ID(inputMesh);
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
 
-				float3 pos11_g254 = _SpherePosition;
-				float3 localMyCustomExpression11_g254 = MyCustomExpression11_g254( pos11_g254 );
-				float4 appendResult1_g254 = (float4(localMyCustomExpression11_g254 , 1.0));
-				float3 temp_output_5_0_g254 = (mul( GetWorldToObjectMatrix(), appendResult1_g254 )).xyz;
-				float3 temp_output_3_0_g258 = temp_output_5_0_g254;
-				float3 normalizeResult6_g258 = normalize( ( inputMesh.positionOS - temp_output_3_0_g258 ) );
-				float4 appendResult4_g254 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float3 temp_output_6_0_g254 = ( ( normalizeResult6_g258 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g254 )).xyz ) ) ) + temp_output_3_0_g258 );
-				float temp_output_18_0_g254 = ( _SpherizeAmount * inputMesh.ase_color.r );
-				float3 lerpResult21_g254 = lerp( inputMesh.positionOS , temp_output_6_0_g254 , temp_output_18_0_g254);
+				float3 pos11_g1 = _SpherePosition;
+				float3 localMyCustomExpression11_g1 = MyCustomExpression11_g1( pos11_g1 );
+				float4 appendResult1_g1 = (float4(localMyCustomExpression11_g1 , 1.0));
+				float3 temp_output_5_0_g1 = (mul( GetWorldToObjectMatrix(), appendResult1_g1 )).xyz;
+				float3 temp_output_3_0_g253 = temp_output_5_0_g1;
+				float3 normalizeResult6_g253 = normalize( ( inputMesh.positionOS - temp_output_3_0_g253 ) );
+				float4 appendResult4_g1 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float3 temp_output_6_0_g1 = ( ( normalizeResult6_g253 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g1 )).xyz ) ) ) + temp_output_3_0_g253 );
+				float temp_output_18_0_g1 = ( _SpherizeAmount * inputMesh.ase_color.r );
+				float3 lerpResult21_g1 = lerp( inputMesh.positionOS , temp_output_6_0_g1 , temp_output_18_0_g1);
 				#ifdef _SPHERIZE_ON
-				float3 staticSwitch16_g254 = lerpResult21_g254;
+				float3 staticSwitch16_g1 = lerpResult21_g1;
 				#else
-				float3 staticSwitch16_g254 = inputMesh.positionOS;
+				float3 staticSwitch16_g1 = inputMesh.positionOS;
 				#endif
-				float3 normalizeResult13_g254 = normalize( ( temp_output_6_0_g254 - temp_output_5_0_g254 ) );
-				float3 lerpResult12_g254 = lerp( inputMesh.normalOS , normalizeResult13_g254 , temp_output_18_0_g254);
-				#ifdef _SPHERIZE_ON
-				float3 staticSwitch15_g254 = lerpResult12_g254;
-				#else
-				float3 staticSwitch15_g254 = inputMesh.normalOS;
-				#endif
-				float2 texCoord47_g254 = inputMesh.uv1.xy * float2( 2,2 ) + float2( -1,-1 );
-				float2 temp_output_34_0_g254 = (( ( ( _BulgeOverallScale * _SphereRadius ) * ( texCoord47_g254 + float2( -0.5,-0.5 ) ) ) + float2( 0.5,0.5 ) )*1.0 + _BulgeOffset);
-				float2 appendResult24_g254 = (float2(_TimeParameters.z , _TimeParameters.y));
-				float3 normalizeResult27_g257 = normalize( _WorldDickNormal );
-				float3 normalizeResult31_g257 = normalize( _WorldDickBinormal );
-				float3 normalizeResult29_g257 = normalize( cross( normalizeResult27_g257 , normalizeResult31_g257 ) );
-				float4 appendResult26_g256 = (float4(1.0 , 0.0 , 0.0 , 0.0));
-				float4 appendResult28_g256 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float4 appendResult31_g256 = (float4(0.0 , 0.0 , 1.0 , 0.0));
-				float3 break27_g256 = -_WorldDickPosition;
-				float4 appendResult29_g256 = (float4(break27_g256.x , break27_g256.y , break27_g256.z , 1.0));
-				float4x4 temp_output_30_0_g256 = mul( transpose( float4x4( float4( normalizeResult27_g257 , 0.0 ).x,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).x,float4( normalizeResult29_g257 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g257 , 0.0 ).y,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).y,float4( normalizeResult29_g257 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g257 , 0.0 ).z,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).z,float4( normalizeResult29_g257 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g257 , 0.0 ).w,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).w,float4( normalizeResult29_g257 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g256.x,appendResult28_g256.x,appendResult31_g256.x,appendResult29_g256.x,appendResult26_g256.y,appendResult28_g256.y,appendResult31_g256.y,appendResult29_g256.y,appendResult26_g256.z,appendResult28_g256.z,appendResult31_g256.z,appendResult29_g256.z,appendResult26_g256.w,appendResult28_g256.w,appendResult31_g256.w,appendResult29_g256.w ) );
-				float4x4 invertVal44_g256 = Inverse4x4( temp_output_30_0_g256 );
-				float4 appendResult27_g255 = (float4(inputMesh.positionOS , 1.0));
-				float3 pos32_g255 = mul( GetObjectToWorldMatrix(), appendResult27_g255 ).xyz;
-				float3 localMyCustomExpression32_g255 = MyCustomExpression32_g255( pos32_g255 );
-				float4 appendResult32_g256 = (float4(localMyCustomExpression32_g255 , 1.0));
-				float4 break35_g256 = mul( temp_output_30_0_g256, appendResult32_g256 );
-				float temp_output_124_0_g256 = _TipRadius;
-				float2 appendResult36_g256 = (float2(break35_g256.y , break35_g256.z));
-				float2 normalizeResult41_g256 = normalize( appendResult36_g256 );
-				float temp_output_120_0_g256 = sqrt( max( break35_g256.x , 0.0 ) );
-				float temp_output_48_0_g256 = tan( radians( _Angle ) );
-				float temp_output_125_0_g256 = ( temp_output_124_0_g256 + ( temp_output_120_0_g256 * temp_output_48_0_g256 ) );
-				float temp_output_37_0_g256 = length( appendResult36_g256 );
-				float temp_output_114_0_g256 = ( ( temp_output_125_0_g256 - temp_output_37_0_g256 ) + 1.0 );
-				float lerpResult102_g256 = lerp( temp_output_125_0_g256 , temp_output_37_0_g256 , saturate( temp_output_114_0_g256 ));
-				float lerpResult130_g256 = lerp( 0.0 , lerpResult102_g256 , saturate( ( -( -temp_output_124_0_g256 - break35_g256.x ) / temp_output_124_0_g256 ) ));
-				float2 break43_g256 = ( normalizeResult41_g256 * lerpResult130_g256 );
-				float4 appendResult40_g256 = (float4(max( break35_g256.x , -temp_output_124_0_g256 ) , break43_g256.x , break43_g256.y , 1.0));
-				float4 appendResult28_g255 = (float4(((mul( invertVal44_g256, appendResult40_g256 )).xyz).xyz , 1.0));
-				float4 localWorldVar29_g255 = appendResult28_g255;
-				(localWorldVar29_g255).xyz = GetCameraRelativePositionWS((localWorldVar29_g255).xyz);
-				float4 transform29_g255 = mul(GetWorldToObjectMatrix(),localWorldVar29_g255);
+				float3 normalizeResult27_g252 = normalize( _WorldDickNormal );
+				float3 normalizeResult31_g252 = normalize( _WorldDickBinormal );
+				float3 normalizeResult29_g252 = normalize( cross( normalizeResult27_g252 , normalizeResult31_g252 ) );
+				float4 appendResult26_g251 = (float4(1.0 , 0.0 , 0.0 , 0.0));
+				float4 appendResult28_g251 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float4 appendResult31_g251 = (float4(0.0 , 0.0 , 1.0 , 0.0));
+				float3 break27_g251 = -_WorldDickPosition;
+				float4 appendResult29_g251 = (float4(break27_g251.x , break27_g251.y , break27_g251.z , 1.0));
+				float4x4 temp_output_30_0_g251 = mul( transpose( float4x4( float4( normalizeResult27_g252 , 0.0 ).x,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).x,float4( normalizeResult29_g252 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g252 , 0.0 ).y,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).y,float4( normalizeResult29_g252 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g252 , 0.0 ).z,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).z,float4( normalizeResult29_g252 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g252 , 0.0 ).w,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).w,float4( normalizeResult29_g252 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g251.x,appendResult28_g251.x,appendResult31_g251.x,appendResult29_g251.x,appendResult26_g251.y,appendResult28_g251.y,appendResult31_g251.y,appendResult29_g251.y,appendResult26_g251.z,appendResult28_g251.z,appendResult31_g251.z,appendResult29_g251.z,appendResult26_g251.w,appendResult28_g251.w,appendResult31_g251.w,appendResult29_g251.w ) );
+				float4x4 invertVal44_g251 = Inverse4x4( temp_output_30_0_g251 );
+				float4 appendResult27_g250 = (float4(inputMesh.positionOS , 1.0));
+				float3 pos32_g250 = mul( GetObjectToWorldMatrix(), appendResult27_g250 ).xyz;
+				float3 localMyCustomExpression32_g250 = MyCustomExpression32_g250( pos32_g250 );
+				float4 appendResult32_g251 = (float4(localMyCustomExpression32_g250 , 1.0));
+				float4 break35_g251 = mul( temp_output_30_0_g251, appendResult32_g251 );
+				float temp_output_124_0_g251 = _TipRadius;
+				float2 appendResult36_g251 = (float2(break35_g251.y , break35_g251.z));
+				float2 normalizeResult41_g251 = normalize( appendResult36_g251 );
+				float temp_output_120_0_g251 = sqrt( max( break35_g251.x , 0.0 ) );
+				float temp_output_48_0_g251 = tan( radians( _Angle ) );
+				float temp_output_125_0_g251 = ( temp_output_124_0_g251 + ( temp_output_120_0_g251 * temp_output_48_0_g251 ) );
+				float temp_output_37_0_g251 = length( appendResult36_g251 );
+				float temp_output_114_0_g251 = ( ( temp_output_125_0_g251 - temp_output_37_0_g251 ) + 1.0 );
+				float lerpResult102_g251 = lerp( temp_output_125_0_g251 , temp_output_37_0_g251 , saturate( temp_output_114_0_g251 ));
+				float lerpResult130_g251 = lerp( 0.0 , lerpResult102_g251 , saturate( ( -( -temp_output_124_0_g251 - break35_g251.x ) / temp_output_124_0_g251 ) ));
+				float2 break43_g251 = ( normalizeResult41_g251 * lerpResult130_g251 );
+				float4 appendResult40_g251 = (float4(max( break35_g251.x , -temp_output_124_0_g251 ) , break43_g251.x , break43_g251.y , 1.0));
+				float4 appendResult28_g250 = (float4(((mul( invertVal44_g251, appendResult40_g251 )).xyz).xyz , 1.0));
+				float4 localWorldVar29_g250 = appendResult28_g250;
+				(localWorldVar29_g250).xyz = GetCameraRelativePositionWS((localWorldVar29_g250).xyz);
+				float4 transform29_g250 = mul(GetWorldToObjectMatrix(),localWorldVar29_g250);
 				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch13_g255 = (transform29_g255).xyz;
+				float3 staticSwitch13_g250 = (transform29_g250).xyz;
 				#else
-				float3 staticSwitch13_g255 = ( staticSwitch16_g254 + ( staticSwitch15_g254 * (-1.0 + (tex2Dlod( _BulgeHeight1, float4( temp_output_34_0_g254, 0, 0.0) ).r - 0.0) * (1.0 - -1.0) / (1.0 - 0.0)) * 0.25 * ( distance( temp_output_34_0_g254 , ( ( appendResult24_g254 * float2( 0.4,0.4 ) ) + float2( 0.5,0.5 ) ) ) * saturate( (1.0 + (distance( texCoord47_g254 , float2( 0.5,0.5 ) ) - 0.0) * (0.0 - 1.0) / (0.4 - 0.0)) ) ) * _BulgeAmount ) );
+				float3 staticSwitch13_g250 = staticSwitch16_g1;
 				#endif
 				
-				float3 temp_output_50_0_g255 = staticSwitch15_g254;
-				float2 break146_g256 = normalizeResult41_g256;
-				float4 appendResult139_g256 = (float4(temp_output_48_0_g256 , break146_g256.x , break146_g256.y , 0.0));
-				float3 normalizeResult144_g256 = normalize( (mul( invertVal44_g256, appendResult139_g256 )).xyz );
-				float3 lerpResult44_g255 = lerp( normalizeResult144_g256 , temp_output_50_0_g255 , saturate( sign( temp_output_114_0_g256 ) ));
-				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch17_g255 = lerpResult44_g255;
+				float3 normalizeResult13_g1 = normalize( ( temp_output_6_0_g1 - temp_output_5_0_g1 ) );
+				float3 lerpResult12_g1 = lerp( inputMesh.normalOS , normalizeResult13_g1 , temp_output_18_0_g1);
+				#ifdef _SPHERIZE_ON
+				float3 staticSwitch15_g1 = lerpResult12_g1;
 				#else
-				float3 staticSwitch17_g255 = temp_output_50_0_g255;
+				float3 staticSwitch15_g1 = inputMesh.normalOS;
+				#endif
+				float3 temp_output_50_0_g250 = staticSwitch15_g1;
+				float2 break146_g251 = normalizeResult41_g251;
+				float4 appendResult139_g251 = (float4(temp_output_48_0_g251 , break146_g251.x , break146_g251.y , 0.0));
+				float3 normalizeResult144_g251 = normalize( (mul( invertVal44_g251, appendResult139_g251 )).xyz );
+				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , temp_output_50_0_g250 , saturate( sign( temp_output_114_0_g251 ) ));
+				#ifdef _COCKVORESQUISHENABLED_ON
+				float3 staticSwitch17_g250 = lerpResult44_g250;
+				#else
+				float3 staticSwitch17_g250 = temp_output_50_0_g250;
 				#endif
 				
-				float3 vertexToFrag28_g2 = mul( UNITY_MATRIX_M, float4( inputMesh.positionOS , 0.0 ) ).xyz;
-				outputPackedVaryingsMeshToPS.ase_texcoord3.xyz = vertexToFrag28_g2;
+				float3 vertexToFrag28_g260 = mul( UNITY_MATRIX_M, float4( inputMesh.positionOS , 0.0 ) ).xyz;
+				outputPackedVaryingsMeshToPS.ase_texcoord3.xyz = vertexToFrag28_g260;
 				
 				float3 ase_worldPos = GetAbsolutePositionWS( TransformObjectToWorld( (inputMesh.positionOS).xyz ) );
 				outputPackedVaryingsMeshToPS.ase_texcoord4.xyz = ase_worldPos;
@@ -1961,7 +1870,7 @@ Shader "BallsSpherize"
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = staticSwitch13_g255;
+				float3 vertexValue = staticSwitch13_g250;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -1969,7 +1878,7 @@ Shader "BallsSpherize"
 				inputMesh.positionOS.xyz += vertexValue;
 				#endif
 
-				inputMesh.normalOS = staticSwitch17_g255;
+				inputMesh.normalOS = staticSwitch17_g250;
 				inputMesh.tangentOS =  inputMesh.tangentOS ;
 
 				outputPackedVaryingsMeshToPS.positionCS = UnityMetaVertexPosition(inputMesh.positionOS, inputMesh.uv1.xy, inputMesh.uv2.xy, unity_LightmapST, unity_DynamicLightmapST);
@@ -2111,60 +2020,50 @@ Shader "BallsSpherize"
 				BuiltinData builtinData;
 				GlobalSurfaceDescription surfaceDescription = (GlobalSurfaceDescription)0;
 				float2 uv_BaseColorMap = packedInput.ase_texcoord2.xy * _BaseColorMap_ST.xy + _BaseColorMap_ST.zw;
-				float4 temp_output_1_0_g2 = tex2D( _BaseColorMap, uv_BaseColorMap );
-				float4 color20_g2 = IsGammaSpace() ? float4(1,1,1,1) : float4(1,1,1,1);
-				float3 vertexToFrag28_g2 = packedInput.ase_texcoord3.xyz;
+				float4 temp_output_1_0_g260 = tex2D( _BaseColorMap, uv_BaseColorMap );
+				float4 color20_g260 = IsGammaSpace() ? float4(1,1,1,1) : float4(1,1,1,1);
+				float3 vertexToFrag28_g260 = packedInput.ase_texcoord3.xyz;
 				#ifdef _SKINNED_ON
-				float3 staticSwitch26_g2 = float3( packedInput.ase_texcoord2.zw ,  0.0 );
+				float3 staticSwitch26_g260 = float3( packedInput.ase_texcoord2.zw ,  0.0 );
 				#else
-				float3 staticSwitch26_g2 = vertexToFrag28_g2;
+				float3 staticSwitch26_g260 = vertexToFrag28_g260;
 				#endif
-				float simplePerlin3D9_g2 = snoise( ( ( staticSwitch26_g2 * float3( 2,2,2 ) ) + float3( 0,0,0 ) ) );
-				simplePerlin3D9_g2 = simplePerlin3D9_g2*0.5 + 0.5;
-				float temp_output_16_0_g2 = ( ( simplePerlin3D9_g2 - 0.5 ) * 0.5 );
-				float temp_output_12_0_g2 = ( tex2D( _DecalColorMap, packedInput.ase_texcoord2.zw ).r + temp_output_16_0_g2 );
-				float lerpResult22_g2 = lerp( ( temp_output_12_0_g2 + temp_output_16_0_g2 ) , 0.7 , 0.8);
-				float4 lerpResult19_g2 = lerp( temp_output_1_0_g2 , color20_g2 , ( 1.0 - lerpResult22_g2 ));
-				float temp_output_3_0_g12 = ( 0.5 - temp_output_12_0_g2 );
-				float temp_output_10_0_g2 = ( 1.0 - saturate( ( temp_output_3_0_g12 / fwidth( temp_output_3_0_g12 ) ) ) );
-				float4 lerpResult18_g2 = lerp( temp_output_1_0_g2 , lerpResult19_g2 , temp_output_10_0_g2);
+				float simplePerlin3D9_g260 = snoise( ( ( staticSwitch26_g260 * float3( 2,2,2 ) ) + float3( 0,0,0 ) ) );
+				simplePerlin3D9_g260 = simplePerlin3D9_g260*0.5 + 0.5;
+				float temp_output_16_0_g260 = ( ( simplePerlin3D9_g260 - 0.5 ) * 0.5 );
+				float temp_output_12_0_g260 = ( tex2D( _DecalColorMap, packedInput.ase_texcoord2.zw ).r + temp_output_16_0_g260 );
+				float lerpResult22_g260 = lerp( ( temp_output_12_0_g260 + temp_output_16_0_g260 ) , 0.7 , 0.8);
+				float4 lerpResult19_g260 = lerp( temp_output_1_0_g260 , color20_g260 , ( 1.0 - lerpResult22_g260 ));
+				float temp_output_3_0_g261 = ( 0.5 - temp_output_12_0_g260 );
+				float temp_output_10_0_g260 = ( 1.0 - saturate( ( temp_output_3_0_g261 / fwidth( temp_output_3_0_g261 ) ) ) );
+				float4 lerpResult18_g260 = lerp( temp_output_1_0_g260 , lerpResult19_g260 , temp_output_10_0_g260);
 				
 				float2 uv_NormalMap = packedInput.ase_texcoord2.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
-				float3 temp_output_4_0_g2 = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
+				float3 temp_output_4_0_g260 = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
 				float3 ase_worldPos = packedInput.ase_texcoord4.xyz;
-				float3 surf_pos107_g13 = ase_worldPos;
+				float3 surf_pos107_g262 = ase_worldPos;
 				float3 ase_worldNormal = packedInput.ase_texcoord5.xyz;
-				float3 surf_norm107_g13 = ase_worldNormal;
-				float height107_g13 = simplePerlin3D9_g2;
-				float scale107_g13 = 0.5;
-				float3 localPerturbNormal107_g13 = PerturbNormal107_g13( surf_pos107_g13 , surf_norm107_g13 , height107_g13 , scale107_g13 );
+				float3 surf_norm107_g262 = ase_worldNormal;
+				float height107_g262 = simplePerlin3D9_g260;
+				float scale107_g262 = 0.5;
+				float3 localPerturbNormal107_g262 = PerturbNormal107_g262( surf_pos107_g262 , surf_norm107_g262 , height107_g262 , scale107_g262 );
 				float3 ase_worldTangent = packedInput.ase_texcoord6.xyz;
 				float3 ase_worldBitangent = packedInput.ase_texcoord7.xyz;
 				float3x3 ase_worldToTangent = float3x3(ase_worldTangent,ase_worldBitangent,ase_worldNormal);
-				float3 worldToTangentDir42_g13 = mul( ase_worldToTangent, localPerturbNormal107_g13);
-				float3 lerpResult6_g2 = lerp( temp_output_4_0_g2 , BlendNormal( worldToTangentDir42_g13 , temp_output_4_0_g2 ) , temp_output_10_0_g2);
-				float3 normalizeResult33_g2 = normalize( lerpResult6_g2 );
-				float3 localDeriveTangentBasis1_g259 = ( float3( 0,0,0 ) );
-				float3 WorldPosition1_g259 = ase_worldPos;
-				float3 WorldNormal1_g259 = ase_worldNormal;
-				float2 texCoord47_g254 = packedInput.ase_texcoord2.zw * float2( 2,2 ) + float2( -1,-1 );
-				float2 temp_output_34_0_g254 = (( ( ( _BulgeOverallScale * _SphereRadius ) * ( texCoord47_g254 + float2( -0.5,-0.5 ) ) ) + float2( 0.5,0.5 ) )*1.0 + _BulgeOffset);
-				float2 UV1_g259 = temp_output_34_0_g254;
-				float3x3 TangentToWorld1_g259 = float3x3( 1,0,0,1,1,1,1,0,1 );
-				float3x3 WorldToTangent1_g259 = float3x3( 1,0,0,1,1,1,1,0,1 );
-				DeriveTangentBasis( WorldPosition1_g259 , WorldNormal1_g259 , UV1_g259 , TangentToWorld1_g259 , WorldToTangent1_g259 );
-				float3 unpack58_g254 = UnpackNormalScale( tex2D( _BulgeNormal1, temp_output_34_0_g254 ), _BulgeAmount );
-				unpack58_g254.z = lerp( 1, unpack58_g254.z, saturate(_BulgeAmount) );
+				float3 worldToTangentDir42_g262 = mul( ase_worldToTangent, localPerturbNormal107_g262);
+				float3 lerpResult6_g260 = lerp( temp_output_4_0_g260 , BlendNormal( worldToTangentDir42_g262 , temp_output_4_0_g260 ) , temp_output_10_0_g260);
+				float3 normalizeResult33_g260 = normalize( lerpResult6_g260 );
+				float3 temp_output_46_5 = normalizeResult33_g260;
 				
-				float lerpResult32_g2 = lerp( 0.0 , 1.0 , temp_output_10_0_g2);
+				float lerpResult32_g260 = lerp( 0.0 , 1.0 , temp_output_10_0_g260);
 				
 				float2 uv_MaskMap = packedInput.ase_texcoord2.xy * _MaskMap_ST.xy + _MaskMap_ST.zw;
 				float4 tex2DNode3 = tex2D( _MaskMap, uv_MaskMap );
 				
-				surfaceDescription.BaseColor = lerpResult18_g2.rgb;
-				surfaceDescription.Normal = BlendNormal( normalizeResult33_g2 , mul( ase_worldToTangent, mul( TangentToWorld1_g259, unpack58_g254 ) ) );
+				surfaceDescription.BaseColor = lerpResult18_g260.rgb;
+				surfaceDescription.Normal = temp_output_46_5;
 				surfaceDescription.BentNormal = float3( 0, 0, 1 );
-				surfaceDescription.CoatMask = lerpResult32_g2;
+				surfaceDescription.CoatMask = lerpResult32_g260;
 				surfaceDescription.Metallic = tex2DNode3.r;
 
 				#ifdef _MATERIAL_FEATURE_SPECULAR_COLOR
@@ -2343,11 +2242,8 @@ Shader "BallsSpherize"
 			float3 _WorldDickNormal;
 			float3 _WorldDickBinormal;
 			float3 _WorldDickPosition;
-			float2 _BulgeOffset;
 			float _SphereRadius;
 			float _SpherizeAmount;
-			float _BulgeOverallScale;
-			float _BulgeAmount;
 			float _TipRadius;
 			float _Angle;
 			float4 _EmissionColor;
@@ -2412,8 +2308,7 @@ Shader "BallsSpherize"
 			int _PassValue;
             #endif
 
-			sampler2D _BulgeHeight1;
-
+			
 
             #ifdef DEBUG_DISPLAY
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
@@ -2446,7 +2341,6 @@ Shader "BallsSpherize"
 				float3 positionOS : POSITION;
 				float3 normalOS : NORMAL;
 				float4 ase_color : COLOR;
-				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -2462,7 +2356,7 @@ Shader "BallsSpherize"
 				#endif
 			};
 
-			float3 MyCustomExpression11_g254( float3 pos )
+			float3 MyCustomExpression11_g1( float3 pos )
 			{
 				return GetCameraRelativePositionWS(pos);
 			}
@@ -2494,7 +2388,7 @@ Shader "BallsSpherize"
 				return transpose( cofactors ) / determinant( input );
 			}
 			
-			float3 MyCustomExpression32_g255( float3 pos )
+			float3 MyCustomExpression32_g250( float3 pos )
 			{
 				return GetAbsolutePositionWS(pos);
 			}
@@ -2657,77 +2551,74 @@ Shader "BallsSpherize"
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( outputPackedVaryingsMeshToPS );
 
-				float3 pos11_g254 = _SpherePosition;
-				float3 localMyCustomExpression11_g254 = MyCustomExpression11_g254( pos11_g254 );
-				float4 appendResult1_g254 = (float4(localMyCustomExpression11_g254 , 1.0));
-				float3 temp_output_5_0_g254 = (mul( GetWorldToObjectMatrix(), appendResult1_g254 )).xyz;
-				float3 temp_output_3_0_g258 = temp_output_5_0_g254;
-				float3 normalizeResult6_g258 = normalize( ( inputMesh.positionOS - temp_output_3_0_g258 ) );
-				float4 appendResult4_g254 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float3 temp_output_6_0_g254 = ( ( normalizeResult6_g258 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g254 )).xyz ) ) ) + temp_output_3_0_g258 );
-				float temp_output_18_0_g254 = ( _SpherizeAmount * inputMesh.ase_color.r );
-				float3 lerpResult21_g254 = lerp( inputMesh.positionOS , temp_output_6_0_g254 , temp_output_18_0_g254);
+				float3 pos11_g1 = _SpherePosition;
+				float3 localMyCustomExpression11_g1 = MyCustomExpression11_g1( pos11_g1 );
+				float4 appendResult1_g1 = (float4(localMyCustomExpression11_g1 , 1.0));
+				float3 temp_output_5_0_g1 = (mul( GetWorldToObjectMatrix(), appendResult1_g1 )).xyz;
+				float3 temp_output_3_0_g253 = temp_output_5_0_g1;
+				float3 normalizeResult6_g253 = normalize( ( inputMesh.positionOS - temp_output_3_0_g253 ) );
+				float4 appendResult4_g1 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float3 temp_output_6_0_g1 = ( ( normalizeResult6_g253 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g1 )).xyz ) ) ) + temp_output_3_0_g253 );
+				float temp_output_18_0_g1 = ( _SpherizeAmount * inputMesh.ase_color.r );
+				float3 lerpResult21_g1 = lerp( inputMesh.positionOS , temp_output_6_0_g1 , temp_output_18_0_g1);
 				#ifdef _SPHERIZE_ON
-				float3 staticSwitch16_g254 = lerpResult21_g254;
+				float3 staticSwitch16_g1 = lerpResult21_g1;
 				#else
-				float3 staticSwitch16_g254 = inputMesh.positionOS;
+				float3 staticSwitch16_g1 = inputMesh.positionOS;
 				#endif
-				float3 normalizeResult13_g254 = normalize( ( temp_output_6_0_g254 - temp_output_5_0_g254 ) );
-				float3 lerpResult12_g254 = lerp( inputMesh.normalOS , normalizeResult13_g254 , temp_output_18_0_g254);
-				#ifdef _SPHERIZE_ON
-				float3 staticSwitch15_g254 = lerpResult12_g254;
-				#else
-				float3 staticSwitch15_g254 = inputMesh.normalOS;
-				#endif
-				float2 texCoord47_g254 = inputMesh.ase_texcoord1.xy * float2( 2,2 ) + float2( -1,-1 );
-				float2 temp_output_34_0_g254 = (( ( ( _BulgeOverallScale * _SphereRadius ) * ( texCoord47_g254 + float2( -0.5,-0.5 ) ) ) + float2( 0.5,0.5 ) )*1.0 + _BulgeOffset);
-				float2 appendResult24_g254 = (float2(_TimeParameters.z , _TimeParameters.y));
-				float3 normalizeResult27_g257 = normalize( _WorldDickNormal );
-				float3 normalizeResult31_g257 = normalize( _WorldDickBinormal );
-				float3 normalizeResult29_g257 = normalize( cross( normalizeResult27_g257 , normalizeResult31_g257 ) );
-				float4 appendResult26_g256 = (float4(1.0 , 0.0 , 0.0 , 0.0));
-				float4 appendResult28_g256 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float4 appendResult31_g256 = (float4(0.0 , 0.0 , 1.0 , 0.0));
-				float3 break27_g256 = -_WorldDickPosition;
-				float4 appendResult29_g256 = (float4(break27_g256.x , break27_g256.y , break27_g256.z , 1.0));
-				float4x4 temp_output_30_0_g256 = mul( transpose( float4x4( float4( normalizeResult27_g257 , 0.0 ).x,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).x,float4( normalizeResult29_g257 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g257 , 0.0 ).y,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).y,float4( normalizeResult29_g257 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g257 , 0.0 ).z,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).z,float4( normalizeResult29_g257 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g257 , 0.0 ).w,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).w,float4( normalizeResult29_g257 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g256.x,appendResult28_g256.x,appendResult31_g256.x,appendResult29_g256.x,appendResult26_g256.y,appendResult28_g256.y,appendResult31_g256.y,appendResult29_g256.y,appendResult26_g256.z,appendResult28_g256.z,appendResult31_g256.z,appendResult29_g256.z,appendResult26_g256.w,appendResult28_g256.w,appendResult31_g256.w,appendResult29_g256.w ) );
-				float4x4 invertVal44_g256 = Inverse4x4( temp_output_30_0_g256 );
-				float4 appendResult27_g255 = (float4(inputMesh.positionOS , 1.0));
-				float3 pos32_g255 = mul( GetObjectToWorldMatrix(), appendResult27_g255 ).xyz;
-				float3 localMyCustomExpression32_g255 = MyCustomExpression32_g255( pos32_g255 );
-				float4 appendResult32_g256 = (float4(localMyCustomExpression32_g255 , 1.0));
-				float4 break35_g256 = mul( temp_output_30_0_g256, appendResult32_g256 );
-				float temp_output_124_0_g256 = _TipRadius;
-				float2 appendResult36_g256 = (float2(break35_g256.y , break35_g256.z));
-				float2 normalizeResult41_g256 = normalize( appendResult36_g256 );
-				float temp_output_120_0_g256 = sqrt( max( break35_g256.x , 0.0 ) );
-				float temp_output_48_0_g256 = tan( radians( _Angle ) );
-				float temp_output_125_0_g256 = ( temp_output_124_0_g256 + ( temp_output_120_0_g256 * temp_output_48_0_g256 ) );
-				float temp_output_37_0_g256 = length( appendResult36_g256 );
-				float temp_output_114_0_g256 = ( ( temp_output_125_0_g256 - temp_output_37_0_g256 ) + 1.0 );
-				float lerpResult102_g256 = lerp( temp_output_125_0_g256 , temp_output_37_0_g256 , saturate( temp_output_114_0_g256 ));
-				float lerpResult130_g256 = lerp( 0.0 , lerpResult102_g256 , saturate( ( -( -temp_output_124_0_g256 - break35_g256.x ) / temp_output_124_0_g256 ) ));
-				float2 break43_g256 = ( normalizeResult41_g256 * lerpResult130_g256 );
-				float4 appendResult40_g256 = (float4(max( break35_g256.x , -temp_output_124_0_g256 ) , break43_g256.x , break43_g256.y , 1.0));
-				float4 appendResult28_g255 = (float4(((mul( invertVal44_g256, appendResult40_g256 )).xyz).xyz , 1.0));
-				float4 localWorldVar29_g255 = appendResult28_g255;
-				(localWorldVar29_g255).xyz = GetCameraRelativePositionWS((localWorldVar29_g255).xyz);
-				float4 transform29_g255 = mul(GetWorldToObjectMatrix(),localWorldVar29_g255);
+				float3 normalizeResult27_g252 = normalize( _WorldDickNormal );
+				float3 normalizeResult31_g252 = normalize( _WorldDickBinormal );
+				float3 normalizeResult29_g252 = normalize( cross( normalizeResult27_g252 , normalizeResult31_g252 ) );
+				float4 appendResult26_g251 = (float4(1.0 , 0.0 , 0.0 , 0.0));
+				float4 appendResult28_g251 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float4 appendResult31_g251 = (float4(0.0 , 0.0 , 1.0 , 0.0));
+				float3 break27_g251 = -_WorldDickPosition;
+				float4 appendResult29_g251 = (float4(break27_g251.x , break27_g251.y , break27_g251.z , 1.0));
+				float4x4 temp_output_30_0_g251 = mul( transpose( float4x4( float4( normalizeResult27_g252 , 0.0 ).x,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).x,float4( normalizeResult29_g252 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g252 , 0.0 ).y,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).y,float4( normalizeResult29_g252 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g252 , 0.0 ).z,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).z,float4( normalizeResult29_g252 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g252 , 0.0 ).w,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).w,float4( normalizeResult29_g252 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g251.x,appendResult28_g251.x,appendResult31_g251.x,appendResult29_g251.x,appendResult26_g251.y,appendResult28_g251.y,appendResult31_g251.y,appendResult29_g251.y,appendResult26_g251.z,appendResult28_g251.z,appendResult31_g251.z,appendResult29_g251.z,appendResult26_g251.w,appendResult28_g251.w,appendResult31_g251.w,appendResult29_g251.w ) );
+				float4x4 invertVal44_g251 = Inverse4x4( temp_output_30_0_g251 );
+				float4 appendResult27_g250 = (float4(inputMesh.positionOS , 1.0));
+				float3 pos32_g250 = mul( GetObjectToWorldMatrix(), appendResult27_g250 ).xyz;
+				float3 localMyCustomExpression32_g250 = MyCustomExpression32_g250( pos32_g250 );
+				float4 appendResult32_g251 = (float4(localMyCustomExpression32_g250 , 1.0));
+				float4 break35_g251 = mul( temp_output_30_0_g251, appendResult32_g251 );
+				float temp_output_124_0_g251 = _TipRadius;
+				float2 appendResult36_g251 = (float2(break35_g251.y , break35_g251.z));
+				float2 normalizeResult41_g251 = normalize( appendResult36_g251 );
+				float temp_output_120_0_g251 = sqrt( max( break35_g251.x , 0.0 ) );
+				float temp_output_48_0_g251 = tan( radians( _Angle ) );
+				float temp_output_125_0_g251 = ( temp_output_124_0_g251 + ( temp_output_120_0_g251 * temp_output_48_0_g251 ) );
+				float temp_output_37_0_g251 = length( appendResult36_g251 );
+				float temp_output_114_0_g251 = ( ( temp_output_125_0_g251 - temp_output_37_0_g251 ) + 1.0 );
+				float lerpResult102_g251 = lerp( temp_output_125_0_g251 , temp_output_37_0_g251 , saturate( temp_output_114_0_g251 ));
+				float lerpResult130_g251 = lerp( 0.0 , lerpResult102_g251 , saturate( ( -( -temp_output_124_0_g251 - break35_g251.x ) / temp_output_124_0_g251 ) ));
+				float2 break43_g251 = ( normalizeResult41_g251 * lerpResult130_g251 );
+				float4 appendResult40_g251 = (float4(max( break35_g251.x , -temp_output_124_0_g251 ) , break43_g251.x , break43_g251.y , 1.0));
+				float4 appendResult28_g250 = (float4(((mul( invertVal44_g251, appendResult40_g251 )).xyz).xyz , 1.0));
+				float4 localWorldVar29_g250 = appendResult28_g250;
+				(localWorldVar29_g250).xyz = GetCameraRelativePositionWS((localWorldVar29_g250).xyz);
+				float4 transform29_g250 = mul(GetWorldToObjectMatrix(),localWorldVar29_g250);
 				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch13_g255 = (transform29_g255).xyz;
+				float3 staticSwitch13_g250 = (transform29_g250).xyz;
 				#else
-				float3 staticSwitch13_g255 = ( staticSwitch16_g254 + ( staticSwitch15_g254 * (-1.0 + (tex2Dlod( _BulgeHeight1, float4( temp_output_34_0_g254, 0, 0.0) ).r - 0.0) * (1.0 - -1.0) / (1.0 - 0.0)) * 0.25 * ( distance( temp_output_34_0_g254 , ( ( appendResult24_g254 * float2( 0.4,0.4 ) ) + float2( 0.5,0.5 ) ) ) * saturate( (1.0 + (distance( texCoord47_g254 , float2( 0.5,0.5 ) ) - 0.0) * (0.0 - 1.0) / (0.4 - 0.0)) ) ) * _BulgeAmount ) );
+				float3 staticSwitch13_g250 = staticSwitch16_g1;
 				#endif
 				
-				float3 temp_output_50_0_g255 = staticSwitch15_g254;
-				float2 break146_g256 = normalizeResult41_g256;
-				float4 appendResult139_g256 = (float4(temp_output_48_0_g256 , break146_g256.x , break146_g256.y , 0.0));
-				float3 normalizeResult144_g256 = normalize( (mul( invertVal44_g256, appendResult139_g256 )).xyz );
-				float3 lerpResult44_g255 = lerp( normalizeResult144_g256 , temp_output_50_0_g255 , saturate( sign( temp_output_114_0_g256 ) ));
-				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch17_g255 = lerpResult44_g255;
+				float3 normalizeResult13_g1 = normalize( ( temp_output_6_0_g1 - temp_output_5_0_g1 ) );
+				float3 lerpResult12_g1 = lerp( inputMesh.normalOS , normalizeResult13_g1 , temp_output_18_0_g1);
+				#ifdef _SPHERIZE_ON
+				float3 staticSwitch15_g1 = lerpResult12_g1;
 				#else
-				float3 staticSwitch17_g255 = temp_output_50_0_g255;
+				float3 staticSwitch15_g1 = inputMesh.normalOS;
+				#endif
+				float3 temp_output_50_0_g250 = staticSwitch15_g1;
+				float2 break146_g251 = normalizeResult41_g251;
+				float4 appendResult139_g251 = (float4(temp_output_48_0_g251 , break146_g251.x , break146_g251.y , 0.0));
+				float3 normalizeResult144_g251 = normalize( (mul( invertVal44_g251, appendResult139_g251 )).xyz );
+				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , temp_output_50_0_g250 , saturate( sign( temp_output_114_0_g251 ) ));
+				#ifdef _COCKVORESQUISHENABLED_ON
+				float3 staticSwitch17_g250 = lerpResult44_g250;
+				#else
+				float3 staticSwitch17_g250 = temp_output_50_0_g250;
 				#endif
 				
 
@@ -2736,7 +2627,7 @@ Shader "BallsSpherize"
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = staticSwitch13_g255;
+				float3 vertexValue = staticSwitch13_g250;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -2744,7 +2635,7 @@ Shader "BallsSpherize"
 				inputMesh.positionOS.xyz += vertexValue;
 				#endif
 
-				inputMesh.normalOS = staticSwitch17_g255;
+				inputMesh.normalOS = staticSwitch17_g250;
 
 				float3 positionRWS = TransformObjectToWorld(inputMesh.positionOS);
 				outputPackedVaryingsMeshToPS.positionCS = TransformWorldToHClip(positionRWS);
@@ -2758,7 +2649,6 @@ Shader "BallsSpherize"
 				float3 positionOS : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
 				float4 ase_color : COLOR;
-				float4 ase_texcoord1 : TEXCOORD1;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -2777,7 +2667,6 @@ Shader "BallsSpherize"
 				o.positionOS = v.positionOS;
 				o.normalOS = v.normalOS;
 				o.ase_color = v.ase_color;
-				o.ase_texcoord1 = v.ase_texcoord1;
 				return o;
 			}
 
@@ -2822,7 +2711,6 @@ Shader "BallsSpherize"
 				o.positionOS = patch[0].positionOS * bary.x + patch[1].positionOS * bary.y + patch[2].positionOS * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
 				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
-				o.ase_texcoord1 = patch[0].ase_texcoord1 * bary.x + patch[1].ase_texcoord1 * bary.y + patch[2].ase_texcoord1 * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -3042,11 +2930,8 @@ Shader "BallsSpherize"
 			float3 _WorldDickNormal;
 			float3 _WorldDickBinormal;
 			float3 _WorldDickPosition;
-			float2 _BulgeOffset;
 			float _SphereRadius;
 			float _SpherizeAmount;
-			float _BulgeOverallScale;
-			float _BulgeAmount;
 			float _TipRadius;
 			float _Angle;
 			float4 _EmissionColor;
@@ -3111,8 +2996,7 @@ Shader "BallsSpherize"
 			int _PassValue;
             #endif
 
-			sampler2D _BulgeHeight1;
-
+			
 
             #ifdef DEBUG_DISPLAY
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
@@ -3146,7 +3030,6 @@ Shader "BallsSpherize"
 				float3 positionOS : POSITION;
 				float3 normalOS : NORMAL;
 				float4 ase_color : COLOR;
-				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -3162,7 +3045,7 @@ Shader "BallsSpherize"
 				#endif
 			};
 
-			float3 MyCustomExpression11_g254( float3 pos )
+			float3 MyCustomExpression11_g1( float3 pos )
 			{
 				return GetCameraRelativePositionWS(pos);
 			}
@@ -3194,7 +3077,7 @@ Shader "BallsSpherize"
 				return transpose( cofactors ) / determinant( input );
 			}
 			
-			float3 MyCustomExpression32_g255( float3 pos )
+			float3 MyCustomExpression32_g250( float3 pos )
 			{
 				return GetAbsolutePositionWS(pos);
 			}
@@ -3353,77 +3236,74 @@ Shader "BallsSpherize"
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( outputPackedVaryingsMeshToPS );
 
-				float3 pos11_g254 = _SpherePosition;
-				float3 localMyCustomExpression11_g254 = MyCustomExpression11_g254( pos11_g254 );
-				float4 appendResult1_g254 = (float4(localMyCustomExpression11_g254 , 1.0));
-				float3 temp_output_5_0_g254 = (mul( GetWorldToObjectMatrix(), appendResult1_g254 )).xyz;
-				float3 temp_output_3_0_g258 = temp_output_5_0_g254;
-				float3 normalizeResult6_g258 = normalize( ( inputMesh.positionOS - temp_output_3_0_g258 ) );
-				float4 appendResult4_g254 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float3 temp_output_6_0_g254 = ( ( normalizeResult6_g258 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g254 )).xyz ) ) ) + temp_output_3_0_g258 );
-				float temp_output_18_0_g254 = ( _SpherizeAmount * inputMesh.ase_color.r );
-				float3 lerpResult21_g254 = lerp( inputMesh.positionOS , temp_output_6_0_g254 , temp_output_18_0_g254);
+				float3 pos11_g1 = _SpherePosition;
+				float3 localMyCustomExpression11_g1 = MyCustomExpression11_g1( pos11_g1 );
+				float4 appendResult1_g1 = (float4(localMyCustomExpression11_g1 , 1.0));
+				float3 temp_output_5_0_g1 = (mul( GetWorldToObjectMatrix(), appendResult1_g1 )).xyz;
+				float3 temp_output_3_0_g253 = temp_output_5_0_g1;
+				float3 normalizeResult6_g253 = normalize( ( inputMesh.positionOS - temp_output_3_0_g253 ) );
+				float4 appendResult4_g1 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float3 temp_output_6_0_g1 = ( ( normalizeResult6_g253 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g1 )).xyz ) ) ) + temp_output_3_0_g253 );
+				float temp_output_18_0_g1 = ( _SpherizeAmount * inputMesh.ase_color.r );
+				float3 lerpResult21_g1 = lerp( inputMesh.positionOS , temp_output_6_0_g1 , temp_output_18_0_g1);
 				#ifdef _SPHERIZE_ON
-				float3 staticSwitch16_g254 = lerpResult21_g254;
+				float3 staticSwitch16_g1 = lerpResult21_g1;
 				#else
-				float3 staticSwitch16_g254 = inputMesh.positionOS;
+				float3 staticSwitch16_g1 = inputMesh.positionOS;
 				#endif
-				float3 normalizeResult13_g254 = normalize( ( temp_output_6_0_g254 - temp_output_5_0_g254 ) );
-				float3 lerpResult12_g254 = lerp( inputMesh.normalOS , normalizeResult13_g254 , temp_output_18_0_g254);
-				#ifdef _SPHERIZE_ON
-				float3 staticSwitch15_g254 = lerpResult12_g254;
-				#else
-				float3 staticSwitch15_g254 = inputMesh.normalOS;
-				#endif
-				float2 texCoord47_g254 = inputMesh.ase_texcoord1.xy * float2( 2,2 ) + float2( -1,-1 );
-				float2 temp_output_34_0_g254 = (( ( ( _BulgeOverallScale * _SphereRadius ) * ( texCoord47_g254 + float2( -0.5,-0.5 ) ) ) + float2( 0.5,0.5 ) )*1.0 + _BulgeOffset);
-				float2 appendResult24_g254 = (float2(_TimeParameters.z , _TimeParameters.y));
-				float3 normalizeResult27_g257 = normalize( _WorldDickNormal );
-				float3 normalizeResult31_g257 = normalize( _WorldDickBinormal );
-				float3 normalizeResult29_g257 = normalize( cross( normalizeResult27_g257 , normalizeResult31_g257 ) );
-				float4 appendResult26_g256 = (float4(1.0 , 0.0 , 0.0 , 0.0));
-				float4 appendResult28_g256 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float4 appendResult31_g256 = (float4(0.0 , 0.0 , 1.0 , 0.0));
-				float3 break27_g256 = -_WorldDickPosition;
-				float4 appendResult29_g256 = (float4(break27_g256.x , break27_g256.y , break27_g256.z , 1.0));
-				float4x4 temp_output_30_0_g256 = mul( transpose( float4x4( float4( normalizeResult27_g257 , 0.0 ).x,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).x,float4( normalizeResult29_g257 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g257 , 0.0 ).y,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).y,float4( normalizeResult29_g257 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g257 , 0.0 ).z,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).z,float4( normalizeResult29_g257 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g257 , 0.0 ).w,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).w,float4( normalizeResult29_g257 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g256.x,appendResult28_g256.x,appendResult31_g256.x,appendResult29_g256.x,appendResult26_g256.y,appendResult28_g256.y,appendResult31_g256.y,appendResult29_g256.y,appendResult26_g256.z,appendResult28_g256.z,appendResult31_g256.z,appendResult29_g256.z,appendResult26_g256.w,appendResult28_g256.w,appendResult31_g256.w,appendResult29_g256.w ) );
-				float4x4 invertVal44_g256 = Inverse4x4( temp_output_30_0_g256 );
-				float4 appendResult27_g255 = (float4(inputMesh.positionOS , 1.0));
-				float3 pos32_g255 = mul( GetObjectToWorldMatrix(), appendResult27_g255 ).xyz;
-				float3 localMyCustomExpression32_g255 = MyCustomExpression32_g255( pos32_g255 );
-				float4 appendResult32_g256 = (float4(localMyCustomExpression32_g255 , 1.0));
-				float4 break35_g256 = mul( temp_output_30_0_g256, appendResult32_g256 );
-				float temp_output_124_0_g256 = _TipRadius;
-				float2 appendResult36_g256 = (float2(break35_g256.y , break35_g256.z));
-				float2 normalizeResult41_g256 = normalize( appendResult36_g256 );
-				float temp_output_120_0_g256 = sqrt( max( break35_g256.x , 0.0 ) );
-				float temp_output_48_0_g256 = tan( radians( _Angle ) );
-				float temp_output_125_0_g256 = ( temp_output_124_0_g256 + ( temp_output_120_0_g256 * temp_output_48_0_g256 ) );
-				float temp_output_37_0_g256 = length( appendResult36_g256 );
-				float temp_output_114_0_g256 = ( ( temp_output_125_0_g256 - temp_output_37_0_g256 ) + 1.0 );
-				float lerpResult102_g256 = lerp( temp_output_125_0_g256 , temp_output_37_0_g256 , saturate( temp_output_114_0_g256 ));
-				float lerpResult130_g256 = lerp( 0.0 , lerpResult102_g256 , saturate( ( -( -temp_output_124_0_g256 - break35_g256.x ) / temp_output_124_0_g256 ) ));
-				float2 break43_g256 = ( normalizeResult41_g256 * lerpResult130_g256 );
-				float4 appendResult40_g256 = (float4(max( break35_g256.x , -temp_output_124_0_g256 ) , break43_g256.x , break43_g256.y , 1.0));
-				float4 appendResult28_g255 = (float4(((mul( invertVal44_g256, appendResult40_g256 )).xyz).xyz , 1.0));
-				float4 localWorldVar29_g255 = appendResult28_g255;
-				(localWorldVar29_g255).xyz = GetCameraRelativePositionWS((localWorldVar29_g255).xyz);
-				float4 transform29_g255 = mul(GetWorldToObjectMatrix(),localWorldVar29_g255);
+				float3 normalizeResult27_g252 = normalize( _WorldDickNormal );
+				float3 normalizeResult31_g252 = normalize( _WorldDickBinormal );
+				float3 normalizeResult29_g252 = normalize( cross( normalizeResult27_g252 , normalizeResult31_g252 ) );
+				float4 appendResult26_g251 = (float4(1.0 , 0.0 , 0.0 , 0.0));
+				float4 appendResult28_g251 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float4 appendResult31_g251 = (float4(0.0 , 0.0 , 1.0 , 0.0));
+				float3 break27_g251 = -_WorldDickPosition;
+				float4 appendResult29_g251 = (float4(break27_g251.x , break27_g251.y , break27_g251.z , 1.0));
+				float4x4 temp_output_30_0_g251 = mul( transpose( float4x4( float4( normalizeResult27_g252 , 0.0 ).x,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).x,float4( normalizeResult29_g252 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g252 , 0.0 ).y,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).y,float4( normalizeResult29_g252 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g252 , 0.0 ).z,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).z,float4( normalizeResult29_g252 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g252 , 0.0 ).w,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).w,float4( normalizeResult29_g252 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g251.x,appendResult28_g251.x,appendResult31_g251.x,appendResult29_g251.x,appendResult26_g251.y,appendResult28_g251.y,appendResult31_g251.y,appendResult29_g251.y,appendResult26_g251.z,appendResult28_g251.z,appendResult31_g251.z,appendResult29_g251.z,appendResult26_g251.w,appendResult28_g251.w,appendResult31_g251.w,appendResult29_g251.w ) );
+				float4x4 invertVal44_g251 = Inverse4x4( temp_output_30_0_g251 );
+				float4 appendResult27_g250 = (float4(inputMesh.positionOS , 1.0));
+				float3 pos32_g250 = mul( GetObjectToWorldMatrix(), appendResult27_g250 ).xyz;
+				float3 localMyCustomExpression32_g250 = MyCustomExpression32_g250( pos32_g250 );
+				float4 appendResult32_g251 = (float4(localMyCustomExpression32_g250 , 1.0));
+				float4 break35_g251 = mul( temp_output_30_0_g251, appendResult32_g251 );
+				float temp_output_124_0_g251 = _TipRadius;
+				float2 appendResult36_g251 = (float2(break35_g251.y , break35_g251.z));
+				float2 normalizeResult41_g251 = normalize( appendResult36_g251 );
+				float temp_output_120_0_g251 = sqrt( max( break35_g251.x , 0.0 ) );
+				float temp_output_48_0_g251 = tan( radians( _Angle ) );
+				float temp_output_125_0_g251 = ( temp_output_124_0_g251 + ( temp_output_120_0_g251 * temp_output_48_0_g251 ) );
+				float temp_output_37_0_g251 = length( appendResult36_g251 );
+				float temp_output_114_0_g251 = ( ( temp_output_125_0_g251 - temp_output_37_0_g251 ) + 1.0 );
+				float lerpResult102_g251 = lerp( temp_output_125_0_g251 , temp_output_37_0_g251 , saturate( temp_output_114_0_g251 ));
+				float lerpResult130_g251 = lerp( 0.0 , lerpResult102_g251 , saturate( ( -( -temp_output_124_0_g251 - break35_g251.x ) / temp_output_124_0_g251 ) ));
+				float2 break43_g251 = ( normalizeResult41_g251 * lerpResult130_g251 );
+				float4 appendResult40_g251 = (float4(max( break35_g251.x , -temp_output_124_0_g251 ) , break43_g251.x , break43_g251.y , 1.0));
+				float4 appendResult28_g250 = (float4(((mul( invertVal44_g251, appendResult40_g251 )).xyz).xyz , 1.0));
+				float4 localWorldVar29_g250 = appendResult28_g250;
+				(localWorldVar29_g250).xyz = GetCameraRelativePositionWS((localWorldVar29_g250).xyz);
+				float4 transform29_g250 = mul(GetWorldToObjectMatrix(),localWorldVar29_g250);
 				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch13_g255 = (transform29_g255).xyz;
+				float3 staticSwitch13_g250 = (transform29_g250).xyz;
 				#else
-				float3 staticSwitch13_g255 = ( staticSwitch16_g254 + ( staticSwitch15_g254 * (-1.0 + (tex2Dlod( _BulgeHeight1, float4( temp_output_34_0_g254, 0, 0.0) ).r - 0.0) * (1.0 - -1.0) / (1.0 - 0.0)) * 0.25 * ( distance( temp_output_34_0_g254 , ( ( appendResult24_g254 * float2( 0.4,0.4 ) ) + float2( 0.5,0.5 ) ) ) * saturate( (1.0 + (distance( texCoord47_g254 , float2( 0.5,0.5 ) ) - 0.0) * (0.0 - 1.0) / (0.4 - 0.0)) ) ) * _BulgeAmount ) );
+				float3 staticSwitch13_g250 = staticSwitch16_g1;
 				#endif
 				
-				float3 temp_output_50_0_g255 = staticSwitch15_g254;
-				float2 break146_g256 = normalizeResult41_g256;
-				float4 appendResult139_g256 = (float4(temp_output_48_0_g256 , break146_g256.x , break146_g256.y , 0.0));
-				float3 normalizeResult144_g256 = normalize( (mul( invertVal44_g256, appendResult139_g256 )).xyz );
-				float3 lerpResult44_g255 = lerp( normalizeResult144_g256 , temp_output_50_0_g255 , saturate( sign( temp_output_114_0_g256 ) ));
-				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch17_g255 = lerpResult44_g255;
+				float3 normalizeResult13_g1 = normalize( ( temp_output_6_0_g1 - temp_output_5_0_g1 ) );
+				float3 lerpResult12_g1 = lerp( inputMesh.normalOS , normalizeResult13_g1 , temp_output_18_0_g1);
+				#ifdef _SPHERIZE_ON
+				float3 staticSwitch15_g1 = lerpResult12_g1;
 				#else
-				float3 staticSwitch17_g255 = temp_output_50_0_g255;
+				float3 staticSwitch15_g1 = inputMesh.normalOS;
+				#endif
+				float3 temp_output_50_0_g250 = staticSwitch15_g1;
+				float2 break146_g251 = normalizeResult41_g251;
+				float4 appendResult139_g251 = (float4(temp_output_48_0_g251 , break146_g251.x , break146_g251.y , 0.0));
+				float3 normalizeResult144_g251 = normalize( (mul( invertVal44_g251, appendResult139_g251 )).xyz );
+				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , temp_output_50_0_g250 , saturate( sign( temp_output_114_0_g251 ) ));
+				#ifdef _COCKVORESQUISHENABLED_ON
+				float3 staticSwitch17_g250 = lerpResult44_g250;
+				#else
+				float3 staticSwitch17_g250 = temp_output_50_0_g250;
 				#endif
 				
 
@@ -3432,7 +3312,7 @@ Shader "BallsSpherize"
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = staticSwitch13_g255;
+				float3 vertexValue = staticSwitch13_g250;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -3440,7 +3320,7 @@ Shader "BallsSpherize"
 				inputMesh.positionOS.xyz += vertexValue;
 				#endif
 
-				inputMesh.normalOS = staticSwitch17_g255;
+				inputMesh.normalOS = staticSwitch17_g250;
 
 				float3 positionRWS = TransformObjectToWorld(inputMesh.positionOS);
 				outputPackedVaryingsMeshToPS.positionCS = TransformWorldToHClip(positionRWS);
@@ -3454,7 +3334,6 @@ Shader "BallsSpherize"
 				float3 positionOS : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
 				float4 ase_color : COLOR;
-				float4 ase_texcoord1 : TEXCOORD1;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -3473,7 +3352,6 @@ Shader "BallsSpherize"
 				o.positionOS = v.positionOS;
 				o.normalOS = v.normalOS;
 				o.ase_color = v.ase_color;
-				o.ase_texcoord1 = v.ase_texcoord1;
 				return o;
 			}
 
@@ -3518,7 +3396,6 @@ Shader "BallsSpherize"
 				o.positionOS = patch[0].positionOS * bary.x + patch[1].positionOS * bary.y + patch[2].positionOS * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
 				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
-				o.ase_texcoord1 = patch[0].ase_texcoord1 * bary.x + patch[1].ase_texcoord1 * bary.y + patch[2].ase_texcoord1 * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -3709,11 +3586,8 @@ Shader "BallsSpherize"
 			float3 _WorldDickNormal;
 			float3 _WorldDickBinormal;
 			float3 _WorldDickPosition;
-			float2 _BulgeOffset;
 			float _SphereRadius;
 			float _SpherizeAmount;
-			float _BulgeOverallScale;
-			float _BulgeAmount;
 			float _TipRadius;
 			float _Angle;
 			float4 _EmissionColor;
@@ -3778,14 +3652,12 @@ Shader "BallsSpherize"
 			int _PassValue;
             #endif
 
-			sampler2D _BulgeHeight1;
 			sampler2D _NormalMap;
 			float4x4 unity_CameraProjection;
 			float4x4 unity_CameraInvProjection;
 			float4x4 unity_WorldToCamera;
 			float4x4 unity_CameraToWorld;
 			sampler2D _DecalColorMap;
-			sampler2D _BulgeNormal1;
 			sampler2D _MaskMap;
 
 
@@ -3826,8 +3698,8 @@ Shader "BallsSpherize"
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
 				float4 ase_color : COLOR;
-				float4 ase_texcoord1 : TEXCOORD1;
 				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -3847,7 +3719,7 @@ Shader "BallsSpherize"
 				#endif
 			};
 
-			float3 MyCustomExpression11_g254( float3 pos )
+			float3 MyCustomExpression11_g1( float3 pos )
 			{
 				return GetCameraRelativePositionWS(pos);
 			}
@@ -3879,7 +3751,7 @@ Shader "BallsSpherize"
 				return transpose( cofactors ) / determinant( input );
 			}
 			
-			float3 MyCustomExpression32_g255( float3 pos )
+			float3 MyCustomExpression32_g250( float3 pos )
 			{
 				return GetAbsolutePositionWS(pos);
 			}
@@ -3931,7 +3803,7 @@ Shader "BallsSpherize"
 				return 42.0 * dot( m, px);
 			}
 			
-			float3 PerturbNormal107_g13( float3 surf_pos, float3 surf_norm, float height, float scale )
+			float3 PerturbNormal107_g262( float3 surf_pos, float3 surf_norm, float height, float scale )
 			{
 				// "Bump Mapping Unparametrized Surfaces on the GPU" by Morten S. Mikkelsen
 				float3 vSigmaS = ddx( surf_pos );
@@ -3944,36 +3816,6 @@ Shader "BallsSpherize"
 				float dBt = ddy( height );
 				float3 vSurfGrad = scale * 0.05 * sign( fDet ) * ( dBs * vR1 + dBt * vR2 );
 				return normalize ( abs( fDet ) * vN - vSurfGrad );
-			}
-			
-			void DeriveTangentBasis( float3 WorldPosition, float3 WorldNormal, float2 UV, out float3x3 TangentToWorld, out float3x3 WorldToTangent )
-			{
-				#if (SHADER_TARGET >= 45)
-				float3 dPdx = ddx_fine( WorldPosition );
-				float3 dPdy = ddy_fine( WorldPosition );
-				#else
-				float3 dPdx = ddx( WorldPosition );
-				float3 dPdy = ddy( WorldPosition );
-				#endif
-				float3 sigmaX = dPdx - dot( dPdx, WorldNormal ) * WorldNormal;
-				float3 sigmaY = dPdy - dot( dPdy, WorldNormal ) * WorldNormal;
-				float flip_sign = dot( dPdy, cross( WorldNormal, dPdx ) ) < 0 ? -1 : 1;
-				#if (SHADER_TARGET >= 45)
-				float2 dSTdx = ddx_fine( UV );
-				float2 dSTdy = ddy_fine( UV );
-				#else
-				float2 dSTdx = ddx( UV );
-				float2 dSTdy = ddy( UV );
-				#endif
-				float det = dot( dSTdx, float2( dSTdy.y, -dSTdy.x ) );
-				float sign_det = ( det < 0 ) ? -1 : 1;
-				float2 invC0 = sign_det * float2( dSTdy.y, -dSTdx.y );
-				float3 T = sigmaX * invC0.x + sigmaY * invC0.y;
-				if ( abs( det ) > 0 ) T = normalize( T );
-				float3 B = ( sign_det * flip_sign ) * cross( WorldNormal, T );
-				WorldToTangent = float3x3( T, B, WorldNormal );
-				TangentToWorld = transpose( WorldToTangent );
-				return;
 			}
 			
 
@@ -4136,81 +3978,78 @@ Shader "BallsSpherize"
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( outputPackedVaryingsMeshToPS );
 
-				float3 pos11_g254 = _SpherePosition;
-				float3 localMyCustomExpression11_g254 = MyCustomExpression11_g254( pos11_g254 );
-				float4 appendResult1_g254 = (float4(localMyCustomExpression11_g254 , 1.0));
-				float3 temp_output_5_0_g254 = (mul( GetWorldToObjectMatrix(), appendResult1_g254 )).xyz;
-				float3 temp_output_3_0_g258 = temp_output_5_0_g254;
-				float3 normalizeResult6_g258 = normalize( ( inputMesh.positionOS - temp_output_3_0_g258 ) );
-				float4 appendResult4_g254 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float3 temp_output_6_0_g254 = ( ( normalizeResult6_g258 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g254 )).xyz ) ) ) + temp_output_3_0_g258 );
-				float temp_output_18_0_g254 = ( _SpherizeAmount * inputMesh.ase_color.r );
-				float3 lerpResult21_g254 = lerp( inputMesh.positionOS , temp_output_6_0_g254 , temp_output_18_0_g254);
+				float3 pos11_g1 = _SpherePosition;
+				float3 localMyCustomExpression11_g1 = MyCustomExpression11_g1( pos11_g1 );
+				float4 appendResult1_g1 = (float4(localMyCustomExpression11_g1 , 1.0));
+				float3 temp_output_5_0_g1 = (mul( GetWorldToObjectMatrix(), appendResult1_g1 )).xyz;
+				float3 temp_output_3_0_g253 = temp_output_5_0_g1;
+				float3 normalizeResult6_g253 = normalize( ( inputMesh.positionOS - temp_output_3_0_g253 ) );
+				float4 appendResult4_g1 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float3 temp_output_6_0_g1 = ( ( normalizeResult6_g253 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g1 )).xyz ) ) ) + temp_output_3_0_g253 );
+				float temp_output_18_0_g1 = ( _SpherizeAmount * inputMesh.ase_color.r );
+				float3 lerpResult21_g1 = lerp( inputMesh.positionOS , temp_output_6_0_g1 , temp_output_18_0_g1);
 				#ifdef _SPHERIZE_ON
-				float3 staticSwitch16_g254 = lerpResult21_g254;
+				float3 staticSwitch16_g1 = lerpResult21_g1;
 				#else
-				float3 staticSwitch16_g254 = inputMesh.positionOS;
+				float3 staticSwitch16_g1 = inputMesh.positionOS;
 				#endif
-				float3 normalizeResult13_g254 = normalize( ( temp_output_6_0_g254 - temp_output_5_0_g254 ) );
-				float3 lerpResult12_g254 = lerp( inputMesh.normalOS , normalizeResult13_g254 , temp_output_18_0_g254);
-				#ifdef _SPHERIZE_ON
-				float3 staticSwitch15_g254 = lerpResult12_g254;
-				#else
-				float3 staticSwitch15_g254 = inputMesh.normalOS;
-				#endif
-				float2 texCoord47_g254 = inputMesh.ase_texcoord1.xy * float2( 2,2 ) + float2( -1,-1 );
-				float2 temp_output_34_0_g254 = (( ( ( _BulgeOverallScale * _SphereRadius ) * ( texCoord47_g254 + float2( -0.5,-0.5 ) ) ) + float2( 0.5,0.5 ) )*1.0 + _BulgeOffset);
-				float2 appendResult24_g254 = (float2(_TimeParameters.z , _TimeParameters.y));
-				float3 normalizeResult27_g257 = normalize( _WorldDickNormal );
-				float3 normalizeResult31_g257 = normalize( _WorldDickBinormal );
-				float3 normalizeResult29_g257 = normalize( cross( normalizeResult27_g257 , normalizeResult31_g257 ) );
-				float4 appendResult26_g256 = (float4(1.0 , 0.0 , 0.0 , 0.0));
-				float4 appendResult28_g256 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float4 appendResult31_g256 = (float4(0.0 , 0.0 , 1.0 , 0.0));
-				float3 break27_g256 = -_WorldDickPosition;
-				float4 appendResult29_g256 = (float4(break27_g256.x , break27_g256.y , break27_g256.z , 1.0));
-				float4x4 temp_output_30_0_g256 = mul( transpose( float4x4( float4( normalizeResult27_g257 , 0.0 ).x,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).x,float4( normalizeResult29_g257 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g257 , 0.0 ).y,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).y,float4( normalizeResult29_g257 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g257 , 0.0 ).z,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).z,float4( normalizeResult29_g257 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g257 , 0.0 ).w,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).w,float4( normalizeResult29_g257 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g256.x,appendResult28_g256.x,appendResult31_g256.x,appendResult29_g256.x,appendResult26_g256.y,appendResult28_g256.y,appendResult31_g256.y,appendResult29_g256.y,appendResult26_g256.z,appendResult28_g256.z,appendResult31_g256.z,appendResult29_g256.z,appendResult26_g256.w,appendResult28_g256.w,appendResult31_g256.w,appendResult29_g256.w ) );
-				float4x4 invertVal44_g256 = Inverse4x4( temp_output_30_0_g256 );
-				float4 appendResult27_g255 = (float4(inputMesh.positionOS , 1.0));
-				float3 pos32_g255 = mul( GetObjectToWorldMatrix(), appendResult27_g255 ).xyz;
-				float3 localMyCustomExpression32_g255 = MyCustomExpression32_g255( pos32_g255 );
-				float4 appendResult32_g256 = (float4(localMyCustomExpression32_g255 , 1.0));
-				float4 break35_g256 = mul( temp_output_30_0_g256, appendResult32_g256 );
-				float temp_output_124_0_g256 = _TipRadius;
-				float2 appendResult36_g256 = (float2(break35_g256.y , break35_g256.z));
-				float2 normalizeResult41_g256 = normalize( appendResult36_g256 );
-				float temp_output_120_0_g256 = sqrt( max( break35_g256.x , 0.0 ) );
-				float temp_output_48_0_g256 = tan( radians( _Angle ) );
-				float temp_output_125_0_g256 = ( temp_output_124_0_g256 + ( temp_output_120_0_g256 * temp_output_48_0_g256 ) );
-				float temp_output_37_0_g256 = length( appendResult36_g256 );
-				float temp_output_114_0_g256 = ( ( temp_output_125_0_g256 - temp_output_37_0_g256 ) + 1.0 );
-				float lerpResult102_g256 = lerp( temp_output_125_0_g256 , temp_output_37_0_g256 , saturate( temp_output_114_0_g256 ));
-				float lerpResult130_g256 = lerp( 0.0 , lerpResult102_g256 , saturate( ( -( -temp_output_124_0_g256 - break35_g256.x ) / temp_output_124_0_g256 ) ));
-				float2 break43_g256 = ( normalizeResult41_g256 * lerpResult130_g256 );
-				float4 appendResult40_g256 = (float4(max( break35_g256.x , -temp_output_124_0_g256 ) , break43_g256.x , break43_g256.y , 1.0));
-				float4 appendResult28_g255 = (float4(((mul( invertVal44_g256, appendResult40_g256 )).xyz).xyz , 1.0));
-				float4 localWorldVar29_g255 = appendResult28_g255;
-				(localWorldVar29_g255).xyz = GetCameraRelativePositionWS((localWorldVar29_g255).xyz);
-				float4 transform29_g255 = mul(GetWorldToObjectMatrix(),localWorldVar29_g255);
+				float3 normalizeResult27_g252 = normalize( _WorldDickNormal );
+				float3 normalizeResult31_g252 = normalize( _WorldDickBinormal );
+				float3 normalizeResult29_g252 = normalize( cross( normalizeResult27_g252 , normalizeResult31_g252 ) );
+				float4 appendResult26_g251 = (float4(1.0 , 0.0 , 0.0 , 0.0));
+				float4 appendResult28_g251 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float4 appendResult31_g251 = (float4(0.0 , 0.0 , 1.0 , 0.0));
+				float3 break27_g251 = -_WorldDickPosition;
+				float4 appendResult29_g251 = (float4(break27_g251.x , break27_g251.y , break27_g251.z , 1.0));
+				float4x4 temp_output_30_0_g251 = mul( transpose( float4x4( float4( normalizeResult27_g252 , 0.0 ).x,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).x,float4( normalizeResult29_g252 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g252 , 0.0 ).y,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).y,float4( normalizeResult29_g252 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g252 , 0.0 ).z,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).z,float4( normalizeResult29_g252 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g252 , 0.0 ).w,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).w,float4( normalizeResult29_g252 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g251.x,appendResult28_g251.x,appendResult31_g251.x,appendResult29_g251.x,appendResult26_g251.y,appendResult28_g251.y,appendResult31_g251.y,appendResult29_g251.y,appendResult26_g251.z,appendResult28_g251.z,appendResult31_g251.z,appendResult29_g251.z,appendResult26_g251.w,appendResult28_g251.w,appendResult31_g251.w,appendResult29_g251.w ) );
+				float4x4 invertVal44_g251 = Inverse4x4( temp_output_30_0_g251 );
+				float4 appendResult27_g250 = (float4(inputMesh.positionOS , 1.0));
+				float3 pos32_g250 = mul( GetObjectToWorldMatrix(), appendResult27_g250 ).xyz;
+				float3 localMyCustomExpression32_g250 = MyCustomExpression32_g250( pos32_g250 );
+				float4 appendResult32_g251 = (float4(localMyCustomExpression32_g250 , 1.0));
+				float4 break35_g251 = mul( temp_output_30_0_g251, appendResult32_g251 );
+				float temp_output_124_0_g251 = _TipRadius;
+				float2 appendResult36_g251 = (float2(break35_g251.y , break35_g251.z));
+				float2 normalizeResult41_g251 = normalize( appendResult36_g251 );
+				float temp_output_120_0_g251 = sqrt( max( break35_g251.x , 0.0 ) );
+				float temp_output_48_0_g251 = tan( radians( _Angle ) );
+				float temp_output_125_0_g251 = ( temp_output_124_0_g251 + ( temp_output_120_0_g251 * temp_output_48_0_g251 ) );
+				float temp_output_37_0_g251 = length( appendResult36_g251 );
+				float temp_output_114_0_g251 = ( ( temp_output_125_0_g251 - temp_output_37_0_g251 ) + 1.0 );
+				float lerpResult102_g251 = lerp( temp_output_125_0_g251 , temp_output_37_0_g251 , saturate( temp_output_114_0_g251 ));
+				float lerpResult130_g251 = lerp( 0.0 , lerpResult102_g251 , saturate( ( -( -temp_output_124_0_g251 - break35_g251.x ) / temp_output_124_0_g251 ) ));
+				float2 break43_g251 = ( normalizeResult41_g251 * lerpResult130_g251 );
+				float4 appendResult40_g251 = (float4(max( break35_g251.x , -temp_output_124_0_g251 ) , break43_g251.x , break43_g251.y , 1.0));
+				float4 appendResult28_g250 = (float4(((mul( invertVal44_g251, appendResult40_g251 )).xyz).xyz , 1.0));
+				float4 localWorldVar29_g250 = appendResult28_g250;
+				(localWorldVar29_g250).xyz = GetCameraRelativePositionWS((localWorldVar29_g250).xyz);
+				float4 transform29_g250 = mul(GetWorldToObjectMatrix(),localWorldVar29_g250);
 				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch13_g255 = (transform29_g255).xyz;
+				float3 staticSwitch13_g250 = (transform29_g250).xyz;
 				#else
-				float3 staticSwitch13_g255 = ( staticSwitch16_g254 + ( staticSwitch15_g254 * (-1.0 + (tex2Dlod( _BulgeHeight1, float4( temp_output_34_0_g254, 0, 0.0) ).r - 0.0) * (1.0 - -1.0) / (1.0 - 0.0)) * 0.25 * ( distance( temp_output_34_0_g254 , ( ( appendResult24_g254 * float2( 0.4,0.4 ) ) + float2( 0.5,0.5 ) ) ) * saturate( (1.0 + (distance( texCoord47_g254 , float2( 0.5,0.5 ) ) - 0.0) * (0.0 - 1.0) / (0.4 - 0.0)) ) ) * _BulgeAmount ) );
+				float3 staticSwitch13_g250 = staticSwitch16_g1;
 				#endif
 				
-				float3 temp_output_50_0_g255 = staticSwitch15_g254;
-				float2 break146_g256 = normalizeResult41_g256;
-				float4 appendResult139_g256 = (float4(temp_output_48_0_g256 , break146_g256.x , break146_g256.y , 0.0));
-				float3 normalizeResult144_g256 = normalize( (mul( invertVal44_g256, appendResult139_g256 )).xyz );
-				float3 lerpResult44_g255 = lerp( normalizeResult144_g256 , temp_output_50_0_g255 , saturate( sign( temp_output_114_0_g256 ) ));
-				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch17_g255 = lerpResult44_g255;
+				float3 normalizeResult13_g1 = normalize( ( temp_output_6_0_g1 - temp_output_5_0_g1 ) );
+				float3 lerpResult12_g1 = lerp( inputMesh.normalOS , normalizeResult13_g1 , temp_output_18_0_g1);
+				#ifdef _SPHERIZE_ON
+				float3 staticSwitch15_g1 = lerpResult12_g1;
 				#else
-				float3 staticSwitch17_g255 = temp_output_50_0_g255;
+				float3 staticSwitch15_g1 = inputMesh.normalOS;
+				#endif
+				float3 temp_output_50_0_g250 = staticSwitch15_g1;
+				float2 break146_g251 = normalizeResult41_g251;
+				float4 appendResult139_g251 = (float4(temp_output_48_0_g251 , break146_g251.x , break146_g251.y , 0.0));
+				float3 normalizeResult144_g251 = normalize( (mul( invertVal44_g251, appendResult139_g251 )).xyz );
+				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , temp_output_50_0_g250 , saturate( sign( temp_output_114_0_g251 ) ));
+				#ifdef _COCKVORESQUISHENABLED_ON
+				float3 staticSwitch17_g250 = lerpResult44_g250;
+				#else
+				float3 staticSwitch17_g250 = temp_output_50_0_g250;
 				#endif
 				
-				float3 vertexToFrag28_g2 = mul( UNITY_MATRIX_M, float4( inputMesh.positionOS , 0.0 ) ).xyz;
-				outputPackedVaryingsMeshToPS.ase_texcoord4.xyz = vertexToFrag28_g2;
+				float3 vertexToFrag28_g260 = mul( UNITY_MATRIX_M, float4( inputMesh.positionOS , 0.0 ) ).xyz;
+				outputPackedVaryingsMeshToPS.ase_texcoord4.xyz = vertexToFrag28_g260;
 				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
 				float3 ase_worldTangent = TransformObjectToWorldDir(inputMesh.tangentOS.xyz);
 				float ase_vertexTangentSign = inputMesh.tangentOS.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
@@ -4229,7 +4068,7 @@ Shader "BallsSpherize"
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = staticSwitch13_g255;
+				float3 vertexValue = staticSwitch13_g250;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -4237,7 +4076,7 @@ Shader "BallsSpherize"
 				inputMesh.positionOS.xyz += vertexValue;
 				#endif
 
-				inputMesh.normalOS = staticSwitch17_g255;
+				inputMesh.normalOS = staticSwitch17_g250;
 				inputMesh.tangentOS =  inputMesh.tangentOS ;
 
 				float3 positionRWS = TransformObjectToWorld(inputMesh.positionOS);
@@ -4258,8 +4097,8 @@ Shader "BallsSpherize"
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
 				float4 ase_color : COLOR;
-				float4 ase_texcoord1 : TEXCOORD1;
 				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -4279,8 +4118,8 @@ Shader "BallsSpherize"
 				o.normalOS = v.normalOS;
 				o.tangentOS = v.tangentOS;
 				o.ase_color = v.ase_color;
-				o.ase_texcoord1 = v.ase_texcoord1;
 				o.ase_texcoord = v.ase_texcoord;
+				o.ase_texcoord1 = v.ase_texcoord1;
 				return o;
 			}
 
@@ -4326,8 +4165,8 @@ Shader "BallsSpherize"
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
 				o.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
 				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
-				o.ase_texcoord1 = patch[0].ase_texcoord1 * bary.x + patch[1].ase_texcoord1 * bary.y + patch[2].ase_texcoord1 * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				o.ase_texcoord1 = patch[0].ase_texcoord1 * bary.x + patch[1].ase_texcoord1 * bary.y + patch[2].ase_texcoord1 * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -4410,46 +4249,36 @@ Shader "BallsSpherize"
 
 				SmoothSurfaceDescription surfaceDescription = (SmoothSurfaceDescription)0;
 				float2 uv_NormalMap = packedInput.ase_texcoord3.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
-				float3 temp_output_4_0_g2 = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
+				float3 temp_output_4_0_g260 = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
 				float3 ase_worldPos = GetAbsolutePositionWS( positionRWS );
-				float3 surf_pos107_g13 = ase_worldPos;
-				float3 surf_norm107_g13 = normalWS;
-				float3 vertexToFrag28_g2 = packedInput.ase_texcoord4.xyz;
+				float3 surf_pos107_g262 = ase_worldPos;
+				float3 surf_norm107_g262 = normalWS;
+				float3 vertexToFrag28_g260 = packedInput.ase_texcoord4.xyz;
 				#ifdef _SKINNED_ON
-				float3 staticSwitch26_g2 = float3( packedInput.ase_texcoord3.zw ,  0.0 );
+				float3 staticSwitch26_g260 = float3( packedInput.ase_texcoord3.zw ,  0.0 );
 				#else
-				float3 staticSwitch26_g2 = vertexToFrag28_g2;
+				float3 staticSwitch26_g260 = vertexToFrag28_g260;
 				#endif
-				float simplePerlin3D9_g2 = snoise( ( ( staticSwitch26_g2 * float3( 2,2,2 ) ) + float3( 0,0,0 ) ) );
-				simplePerlin3D9_g2 = simplePerlin3D9_g2*0.5 + 0.5;
-				float height107_g13 = simplePerlin3D9_g2;
-				float scale107_g13 = 0.5;
-				float3 localPerturbNormal107_g13 = PerturbNormal107_g13( surf_pos107_g13 , surf_norm107_g13 , height107_g13 , scale107_g13 );
+				float simplePerlin3D9_g260 = snoise( ( ( staticSwitch26_g260 * float3( 2,2,2 ) ) + float3( 0,0,0 ) ) );
+				simplePerlin3D9_g260 = simplePerlin3D9_g260*0.5 + 0.5;
+				float height107_g262 = simplePerlin3D9_g260;
+				float scale107_g262 = 0.5;
+				float3 localPerturbNormal107_g262 = PerturbNormal107_g262( surf_pos107_g262 , surf_norm107_g262 , height107_g262 , scale107_g262 );
 				float3 ase_worldBitangent = packedInput.ase_texcoord5.xyz;
 				float3x3 ase_worldToTangent = float3x3(tangentWS.xyz,ase_worldBitangent,normalWS);
-				float3 worldToTangentDir42_g13 = mul( ase_worldToTangent, localPerturbNormal107_g13);
-				float temp_output_16_0_g2 = ( ( simplePerlin3D9_g2 - 0.5 ) * 0.5 );
-				float temp_output_12_0_g2 = ( tex2D( _DecalColorMap, packedInput.ase_texcoord3.zw ).r + temp_output_16_0_g2 );
-				float temp_output_3_0_g12 = ( 0.5 - temp_output_12_0_g2 );
-				float temp_output_10_0_g2 = ( 1.0 - saturate( ( temp_output_3_0_g12 / fwidth( temp_output_3_0_g12 ) ) ) );
-				float3 lerpResult6_g2 = lerp( temp_output_4_0_g2 , BlendNormal( worldToTangentDir42_g13 , temp_output_4_0_g2 ) , temp_output_10_0_g2);
-				float3 normalizeResult33_g2 = normalize( lerpResult6_g2 );
-				float3 localDeriveTangentBasis1_g259 = ( float3( 0,0,0 ) );
-				float3 WorldPosition1_g259 = ase_worldPos;
-				float3 WorldNormal1_g259 = normalWS;
-				float2 texCoord47_g254 = packedInput.ase_texcoord3.zw * float2( 2,2 ) + float2( -1,-1 );
-				float2 temp_output_34_0_g254 = (( ( ( _BulgeOverallScale * _SphereRadius ) * ( texCoord47_g254 + float2( -0.5,-0.5 ) ) ) + float2( 0.5,0.5 ) )*1.0 + _BulgeOffset);
-				float2 UV1_g259 = temp_output_34_0_g254;
-				float3x3 TangentToWorld1_g259 = float3x3( 1,0,0,1,1,1,1,0,1 );
-				float3x3 WorldToTangent1_g259 = float3x3( 1,0,0,1,1,1,1,0,1 );
-				DeriveTangentBasis( WorldPosition1_g259 , WorldNormal1_g259 , UV1_g259 , TangentToWorld1_g259 , WorldToTangent1_g259 );
-				float3 unpack58_g254 = UnpackNormalScale( tex2D( _BulgeNormal1, temp_output_34_0_g254 ), _BulgeAmount );
-				unpack58_g254.z = lerp( 1, unpack58_g254.z, saturate(_BulgeAmount) );
+				float3 worldToTangentDir42_g262 = mul( ase_worldToTangent, localPerturbNormal107_g262);
+				float temp_output_16_0_g260 = ( ( simplePerlin3D9_g260 - 0.5 ) * 0.5 );
+				float temp_output_12_0_g260 = ( tex2D( _DecalColorMap, packedInput.ase_texcoord3.zw ).r + temp_output_16_0_g260 );
+				float temp_output_3_0_g261 = ( 0.5 - temp_output_12_0_g260 );
+				float temp_output_10_0_g260 = ( 1.0 - saturate( ( temp_output_3_0_g261 / fwidth( temp_output_3_0_g261 ) ) ) );
+				float3 lerpResult6_g260 = lerp( temp_output_4_0_g260 , BlendNormal( worldToTangentDir42_g262 , temp_output_4_0_g260 ) , temp_output_10_0_g260);
+				float3 normalizeResult33_g260 = normalize( lerpResult6_g260 );
+				float3 temp_output_46_5 = normalizeResult33_g260;
 				
 				float2 uv_MaskMap = packedInput.ase_texcoord3.xy * _MaskMap_ST.xy + _MaskMap_ST.zw;
 				float4 tex2DNode3 = tex2D( _MaskMap, uv_MaskMap );
 				
-				surfaceDescription.Normal = BlendNormal( normalizeResult33_g2 , mul( ase_worldToTangent, mul( TangentToWorld1_g259, unpack58_g254 ) ) );
+				surfaceDescription.Normal = temp_output_46_5;
 				surfaceDescription.Smoothness = tex2DNode3.a;
 				surfaceDescription.Alpha = 1;
 
@@ -4597,11 +4426,8 @@ Shader "BallsSpherize"
 			float3 _WorldDickNormal;
 			float3 _WorldDickBinormal;
 			float3 _WorldDickPosition;
-			float2 _BulgeOffset;
 			float _SphereRadius;
 			float _SpherizeAmount;
-			float _BulgeOverallScale;
-			float _BulgeAmount;
 			float _TipRadius;
 			float _Angle;
 			float4 _EmissionColor;
@@ -4666,14 +4492,12 @@ Shader "BallsSpherize"
 			int _PassValue;
             #endif
 
-			sampler2D _BulgeHeight1;
 			sampler2D _NormalMap;
 			float4x4 unity_CameraProjection;
 			float4x4 unity_CameraInvProjection;
 			float4x4 unity_WorldToCamera;
 			float4x4 unity_CameraToWorld;
 			sampler2D _DecalColorMap;
-			sampler2D _BulgeNormal1;
 			sampler2D _MaskMap;
 
 
@@ -4711,8 +4535,8 @@ Shader "BallsSpherize"
 				float3 previousPositionOS : TEXCOORD4;
 				float3 precomputedVelocity : TEXCOORD5;
 				float4 ase_color : COLOR;
-				float4 ase_texcoord1 : TEXCOORD1;
 				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 				float4 ase_tangent : TANGENT;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -4736,7 +4560,7 @@ Shader "BallsSpherize"
 				#endif
 			};
 
-			float3 MyCustomExpression11_g254( float3 pos )
+			float3 MyCustomExpression11_g1( float3 pos )
 			{
 				return GetCameraRelativePositionWS(pos);
 			}
@@ -4768,7 +4592,7 @@ Shader "BallsSpherize"
 				return transpose( cofactors ) / determinant( input );
 			}
 			
-			float3 MyCustomExpression32_g255( float3 pos )
+			float3 MyCustomExpression32_g250( float3 pos )
 			{
 				return GetAbsolutePositionWS(pos);
 			}
@@ -4820,7 +4644,7 @@ Shader "BallsSpherize"
 				return 42.0 * dot( m, px);
 			}
 			
-			float3 PerturbNormal107_g13( float3 surf_pos, float3 surf_norm, float height, float scale )
+			float3 PerturbNormal107_g262( float3 surf_pos, float3 surf_norm, float height, float scale )
 			{
 				// "Bump Mapping Unparametrized Surfaces on the GPU" by Morten S. Mikkelsen
 				float3 vSigmaS = ddx( surf_pos );
@@ -4833,36 +4657,6 @@ Shader "BallsSpherize"
 				float dBt = ddy( height );
 				float3 vSurfGrad = scale * 0.05 * sign( fDet ) * ( dBs * vR1 + dBt * vR2 );
 				return normalize ( abs( fDet ) * vN - vSurfGrad );
-			}
-			
-			void DeriveTangentBasis( float3 WorldPosition, float3 WorldNormal, float2 UV, out float3x3 TangentToWorld, out float3x3 WorldToTangent )
-			{
-				#if (SHADER_TARGET >= 45)
-				float3 dPdx = ddx_fine( WorldPosition );
-				float3 dPdy = ddy_fine( WorldPosition );
-				#else
-				float3 dPdx = ddx( WorldPosition );
-				float3 dPdy = ddy( WorldPosition );
-				#endif
-				float3 sigmaX = dPdx - dot( dPdx, WorldNormal ) * WorldNormal;
-				float3 sigmaY = dPdy - dot( dPdy, WorldNormal ) * WorldNormal;
-				float flip_sign = dot( dPdy, cross( WorldNormal, dPdx ) ) < 0 ? -1 : 1;
-				#if (SHADER_TARGET >= 45)
-				float2 dSTdx = ddx_fine( UV );
-				float2 dSTdy = ddy_fine( UV );
-				#else
-				float2 dSTdx = ddx( UV );
-				float2 dSTdy = ddy( UV );
-				#endif
-				float det = dot( dSTdx, float2( dSTdy.y, -dSTdy.x ) );
-				float sign_det = ( det < 0 ) ? -1 : 1;
-				float2 invC0 = sign_det * float2( dSTdy.y, -dSTdx.y );
-				float3 T = sigmaX * invC0.x + sigmaY * invC0.y;
-				if ( abs( det ) > 0 ) T = normalize( T );
-				float3 B = ( sign_det * flip_sign ) * cross( WorldNormal, T );
-				WorldToTangent = float3x3( T, B, WorldNormal );
-				TangentToWorld = transpose( WorldToTangent );
-				return;
 			}
 			
 
@@ -5016,85 +4810,82 @@ Shader "BallsSpherize"
 			AttributesMesh ApplyMeshModification(AttributesMesh inputMesh, float3 timeParameters, inout PackedVaryingsMeshToPS outputPackedVaryingsMeshToPS )
 			{
 				_TimeParameters.xyz = timeParameters;
-				float3 pos11_g254 = _SpherePosition;
-				float3 localMyCustomExpression11_g254 = MyCustomExpression11_g254( pos11_g254 );
-				float4 appendResult1_g254 = (float4(localMyCustomExpression11_g254 , 1.0));
-				float3 temp_output_5_0_g254 = (mul( GetWorldToObjectMatrix(), appendResult1_g254 )).xyz;
-				float3 temp_output_3_0_g258 = temp_output_5_0_g254;
-				float3 normalizeResult6_g258 = normalize( ( inputMesh.positionOS - temp_output_3_0_g258 ) );
-				float4 appendResult4_g254 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float3 temp_output_6_0_g254 = ( ( normalizeResult6_g258 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g254 )).xyz ) ) ) + temp_output_3_0_g258 );
-				float temp_output_18_0_g254 = ( _SpherizeAmount * inputMesh.ase_color.r );
-				float3 lerpResult21_g254 = lerp( inputMesh.positionOS , temp_output_6_0_g254 , temp_output_18_0_g254);
+				float3 pos11_g1 = _SpherePosition;
+				float3 localMyCustomExpression11_g1 = MyCustomExpression11_g1( pos11_g1 );
+				float4 appendResult1_g1 = (float4(localMyCustomExpression11_g1 , 1.0));
+				float3 temp_output_5_0_g1 = (mul( GetWorldToObjectMatrix(), appendResult1_g1 )).xyz;
+				float3 temp_output_3_0_g253 = temp_output_5_0_g1;
+				float3 normalizeResult6_g253 = normalize( ( inputMesh.positionOS - temp_output_3_0_g253 ) );
+				float4 appendResult4_g1 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float3 temp_output_6_0_g1 = ( ( normalizeResult6_g253 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g1 )).xyz ) ) ) + temp_output_3_0_g253 );
+				float temp_output_18_0_g1 = ( _SpherizeAmount * inputMesh.ase_color.r );
+				float3 lerpResult21_g1 = lerp( inputMesh.positionOS , temp_output_6_0_g1 , temp_output_18_0_g1);
 				#ifdef _SPHERIZE_ON
-				float3 staticSwitch16_g254 = lerpResult21_g254;
+				float3 staticSwitch16_g1 = lerpResult21_g1;
 				#else
-				float3 staticSwitch16_g254 = inputMesh.positionOS;
+				float3 staticSwitch16_g1 = inputMesh.positionOS;
 				#endif
-				float3 normalizeResult13_g254 = normalize( ( temp_output_6_0_g254 - temp_output_5_0_g254 ) );
-				float3 lerpResult12_g254 = lerp( inputMesh.normalOS , normalizeResult13_g254 , temp_output_18_0_g254);
-				#ifdef _SPHERIZE_ON
-				float3 staticSwitch15_g254 = lerpResult12_g254;
-				#else
-				float3 staticSwitch15_g254 = inputMesh.normalOS;
-				#endif
-				float2 texCoord47_g254 = inputMesh.ase_texcoord1.xy * float2( 2,2 ) + float2( -1,-1 );
-				float2 temp_output_34_0_g254 = (( ( ( _BulgeOverallScale * _SphereRadius ) * ( texCoord47_g254 + float2( -0.5,-0.5 ) ) ) + float2( 0.5,0.5 ) )*1.0 + _BulgeOffset);
-				float2 appendResult24_g254 = (float2(_TimeParameters.z , _TimeParameters.y));
-				float3 normalizeResult27_g257 = normalize( _WorldDickNormal );
-				float3 normalizeResult31_g257 = normalize( _WorldDickBinormal );
-				float3 normalizeResult29_g257 = normalize( cross( normalizeResult27_g257 , normalizeResult31_g257 ) );
-				float4 appendResult26_g256 = (float4(1.0 , 0.0 , 0.0 , 0.0));
-				float4 appendResult28_g256 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float4 appendResult31_g256 = (float4(0.0 , 0.0 , 1.0 , 0.0));
-				float3 break27_g256 = -_WorldDickPosition;
-				float4 appendResult29_g256 = (float4(break27_g256.x , break27_g256.y , break27_g256.z , 1.0));
-				float4x4 temp_output_30_0_g256 = mul( transpose( float4x4( float4( normalizeResult27_g257 , 0.0 ).x,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).x,float4( normalizeResult29_g257 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g257 , 0.0 ).y,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).y,float4( normalizeResult29_g257 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g257 , 0.0 ).z,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).z,float4( normalizeResult29_g257 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g257 , 0.0 ).w,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).w,float4( normalizeResult29_g257 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g256.x,appendResult28_g256.x,appendResult31_g256.x,appendResult29_g256.x,appendResult26_g256.y,appendResult28_g256.y,appendResult31_g256.y,appendResult29_g256.y,appendResult26_g256.z,appendResult28_g256.z,appendResult31_g256.z,appendResult29_g256.z,appendResult26_g256.w,appendResult28_g256.w,appendResult31_g256.w,appendResult29_g256.w ) );
-				float4x4 invertVal44_g256 = Inverse4x4( temp_output_30_0_g256 );
-				float4 appendResult27_g255 = (float4(inputMesh.positionOS , 1.0));
-				float3 pos32_g255 = mul( GetObjectToWorldMatrix(), appendResult27_g255 ).xyz;
-				float3 localMyCustomExpression32_g255 = MyCustomExpression32_g255( pos32_g255 );
-				float4 appendResult32_g256 = (float4(localMyCustomExpression32_g255 , 1.0));
-				float4 break35_g256 = mul( temp_output_30_0_g256, appendResult32_g256 );
-				float temp_output_124_0_g256 = _TipRadius;
-				float2 appendResult36_g256 = (float2(break35_g256.y , break35_g256.z));
-				float2 normalizeResult41_g256 = normalize( appendResult36_g256 );
-				float temp_output_120_0_g256 = sqrt( max( break35_g256.x , 0.0 ) );
-				float temp_output_48_0_g256 = tan( radians( _Angle ) );
-				float temp_output_125_0_g256 = ( temp_output_124_0_g256 + ( temp_output_120_0_g256 * temp_output_48_0_g256 ) );
-				float temp_output_37_0_g256 = length( appendResult36_g256 );
-				float temp_output_114_0_g256 = ( ( temp_output_125_0_g256 - temp_output_37_0_g256 ) + 1.0 );
-				float lerpResult102_g256 = lerp( temp_output_125_0_g256 , temp_output_37_0_g256 , saturate( temp_output_114_0_g256 ));
-				float lerpResult130_g256 = lerp( 0.0 , lerpResult102_g256 , saturate( ( -( -temp_output_124_0_g256 - break35_g256.x ) / temp_output_124_0_g256 ) ));
-				float2 break43_g256 = ( normalizeResult41_g256 * lerpResult130_g256 );
-				float4 appendResult40_g256 = (float4(max( break35_g256.x , -temp_output_124_0_g256 ) , break43_g256.x , break43_g256.y , 1.0));
-				float4 appendResult28_g255 = (float4(((mul( invertVal44_g256, appendResult40_g256 )).xyz).xyz , 1.0));
-				float4 localWorldVar29_g255 = appendResult28_g255;
-				(localWorldVar29_g255).xyz = GetCameraRelativePositionWS((localWorldVar29_g255).xyz);
-				float4 transform29_g255 = mul(GetWorldToObjectMatrix(),localWorldVar29_g255);
+				float3 normalizeResult27_g252 = normalize( _WorldDickNormal );
+				float3 normalizeResult31_g252 = normalize( _WorldDickBinormal );
+				float3 normalizeResult29_g252 = normalize( cross( normalizeResult27_g252 , normalizeResult31_g252 ) );
+				float4 appendResult26_g251 = (float4(1.0 , 0.0 , 0.0 , 0.0));
+				float4 appendResult28_g251 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float4 appendResult31_g251 = (float4(0.0 , 0.0 , 1.0 , 0.0));
+				float3 break27_g251 = -_WorldDickPosition;
+				float4 appendResult29_g251 = (float4(break27_g251.x , break27_g251.y , break27_g251.z , 1.0));
+				float4x4 temp_output_30_0_g251 = mul( transpose( float4x4( float4( normalizeResult27_g252 , 0.0 ).x,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).x,float4( normalizeResult29_g252 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g252 , 0.0 ).y,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).y,float4( normalizeResult29_g252 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g252 , 0.0 ).z,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).z,float4( normalizeResult29_g252 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g252 , 0.0 ).w,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).w,float4( normalizeResult29_g252 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g251.x,appendResult28_g251.x,appendResult31_g251.x,appendResult29_g251.x,appendResult26_g251.y,appendResult28_g251.y,appendResult31_g251.y,appendResult29_g251.y,appendResult26_g251.z,appendResult28_g251.z,appendResult31_g251.z,appendResult29_g251.z,appendResult26_g251.w,appendResult28_g251.w,appendResult31_g251.w,appendResult29_g251.w ) );
+				float4x4 invertVal44_g251 = Inverse4x4( temp_output_30_0_g251 );
+				float4 appendResult27_g250 = (float4(inputMesh.positionOS , 1.0));
+				float3 pos32_g250 = mul( GetObjectToWorldMatrix(), appendResult27_g250 ).xyz;
+				float3 localMyCustomExpression32_g250 = MyCustomExpression32_g250( pos32_g250 );
+				float4 appendResult32_g251 = (float4(localMyCustomExpression32_g250 , 1.0));
+				float4 break35_g251 = mul( temp_output_30_0_g251, appendResult32_g251 );
+				float temp_output_124_0_g251 = _TipRadius;
+				float2 appendResult36_g251 = (float2(break35_g251.y , break35_g251.z));
+				float2 normalizeResult41_g251 = normalize( appendResult36_g251 );
+				float temp_output_120_0_g251 = sqrt( max( break35_g251.x , 0.0 ) );
+				float temp_output_48_0_g251 = tan( radians( _Angle ) );
+				float temp_output_125_0_g251 = ( temp_output_124_0_g251 + ( temp_output_120_0_g251 * temp_output_48_0_g251 ) );
+				float temp_output_37_0_g251 = length( appendResult36_g251 );
+				float temp_output_114_0_g251 = ( ( temp_output_125_0_g251 - temp_output_37_0_g251 ) + 1.0 );
+				float lerpResult102_g251 = lerp( temp_output_125_0_g251 , temp_output_37_0_g251 , saturate( temp_output_114_0_g251 ));
+				float lerpResult130_g251 = lerp( 0.0 , lerpResult102_g251 , saturate( ( -( -temp_output_124_0_g251 - break35_g251.x ) / temp_output_124_0_g251 ) ));
+				float2 break43_g251 = ( normalizeResult41_g251 * lerpResult130_g251 );
+				float4 appendResult40_g251 = (float4(max( break35_g251.x , -temp_output_124_0_g251 ) , break43_g251.x , break43_g251.y , 1.0));
+				float4 appendResult28_g250 = (float4(((mul( invertVal44_g251, appendResult40_g251 )).xyz).xyz , 1.0));
+				float4 localWorldVar29_g250 = appendResult28_g250;
+				(localWorldVar29_g250).xyz = GetCameraRelativePositionWS((localWorldVar29_g250).xyz);
+				float4 transform29_g250 = mul(GetWorldToObjectMatrix(),localWorldVar29_g250);
 				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch13_g255 = (transform29_g255).xyz;
+				float3 staticSwitch13_g250 = (transform29_g250).xyz;
 				#else
-				float3 staticSwitch13_g255 = ( staticSwitch16_g254 + ( staticSwitch15_g254 * (-1.0 + (tex2Dlod( _BulgeHeight1, float4( temp_output_34_0_g254, 0, 0.0) ).r - 0.0) * (1.0 - -1.0) / (1.0 - 0.0)) * 0.25 * ( distance( temp_output_34_0_g254 , ( ( appendResult24_g254 * float2( 0.4,0.4 ) ) + float2( 0.5,0.5 ) ) ) * saturate( (1.0 + (distance( texCoord47_g254 , float2( 0.5,0.5 ) ) - 0.0) * (0.0 - 1.0) / (0.4 - 0.0)) ) ) * _BulgeAmount ) );
+				float3 staticSwitch13_g250 = staticSwitch16_g1;
 				#endif
 				
-				float3 temp_output_50_0_g255 = staticSwitch15_g254;
-				float2 break146_g256 = normalizeResult41_g256;
-				float4 appendResult139_g256 = (float4(temp_output_48_0_g256 , break146_g256.x , break146_g256.y , 0.0));
-				float3 normalizeResult144_g256 = normalize( (mul( invertVal44_g256, appendResult139_g256 )).xyz );
-				float3 lerpResult44_g255 = lerp( normalizeResult144_g256 , temp_output_50_0_g255 , saturate( sign( temp_output_114_0_g256 ) ));
-				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch17_g255 = lerpResult44_g255;
+				float3 normalizeResult13_g1 = normalize( ( temp_output_6_0_g1 - temp_output_5_0_g1 ) );
+				float3 lerpResult12_g1 = lerp( inputMesh.normalOS , normalizeResult13_g1 , temp_output_18_0_g1);
+				#ifdef _SPHERIZE_ON
+				float3 staticSwitch15_g1 = lerpResult12_g1;
 				#else
-				float3 staticSwitch17_g255 = temp_output_50_0_g255;
+				float3 staticSwitch15_g1 = inputMesh.normalOS;
+				#endif
+				float3 temp_output_50_0_g250 = staticSwitch15_g1;
+				float2 break146_g251 = normalizeResult41_g251;
+				float4 appendResult139_g251 = (float4(temp_output_48_0_g251 , break146_g251.x , break146_g251.y , 0.0));
+				float3 normalizeResult144_g251 = normalize( (mul( invertVal44_g251, appendResult139_g251 )).xyz );
+				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , temp_output_50_0_g250 , saturate( sign( temp_output_114_0_g251 ) ));
+				#ifdef _COCKVORESQUISHENABLED_ON
+				float3 staticSwitch17_g250 = lerpResult44_g250;
+				#else
+				float3 staticSwitch17_g250 = temp_output_50_0_g250;
 				#endif
 				
 				float3 ase_worldPos = GetAbsolutePositionWS( TransformObjectToWorld( (inputMesh.positionOS).xyz ) );
 				outputPackedVaryingsMeshToPS.ase_texcoord4.xyz = ase_worldPos;
 				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
 				outputPackedVaryingsMeshToPS.ase_texcoord5.xyz = ase_worldNormal;
-				float3 vertexToFrag28_g2 = mul( UNITY_MATRIX_M, float4( inputMesh.positionOS , 0.0 ) ).xyz;
-				outputPackedVaryingsMeshToPS.ase_texcoord6.xyz = vertexToFrag28_g2;
+				float3 vertexToFrag28_g260 = mul( UNITY_MATRIX_M, float4( inputMesh.positionOS , 0.0 ) ).xyz;
+				outputPackedVaryingsMeshToPS.ase_texcoord6.xyz = vertexToFrag28_g260;
 				float3 ase_worldTangent = TransformObjectToWorldDir(inputMesh.ase_tangent.xyz);
 				outputPackedVaryingsMeshToPS.ase_texcoord7.xyz = ase_worldTangent;
 				float ase_vertexTangentSign = inputMesh.ase_tangent.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
@@ -5116,14 +4907,14 @@ Shader "BallsSpherize"
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = staticSwitch13_g255;
+				float3 vertexValue = staticSwitch13_g250;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
 				#else
 				inputMesh.positionOS.xyz += vertexValue;
 				#endif
-				inputMesh.normalOS = staticSwitch17_g255;
+				inputMesh.normalOS = staticSwitch17_g250;
 				return inputMesh;
 			}
 
@@ -5212,8 +5003,8 @@ Shader "BallsSpherize"
 				float3 previousPositionOS : TEXCOORD4;
 				float3 precomputedVelocity : TEXCOORD5;
 				float4 ase_color : COLOR;
-				float4 ase_texcoord1 : TEXCOORD1;
 				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 				float4 ase_tangent : TANGENT;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -5237,8 +5028,8 @@ Shader "BallsSpherize"
 				o.precomputedVelocity = v.precomputedVelocity;
 				#endif
 				o.ase_color = v.ase_color;
-				o.ase_texcoord1 = v.ase_texcoord1;
 				o.ase_texcoord = v.ase_texcoord;
+				o.ase_texcoord1 = v.ase_texcoord1;
 				o.ase_tangent = v.ase_tangent;
 				return o;
 			}
@@ -5288,8 +5079,8 @@ Shader "BallsSpherize"
 					o.precomputedVelocity = patch[0].precomputedVelocity * bary.x + patch[1].precomputedVelocity * bary.y + patch[2].precomputedVelocity * bary.z;
 				#endif
 				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
-				o.ase_texcoord1 = patch[0].ase_texcoord1 * bary.x + patch[1].ase_texcoord1 * bary.y + patch[2].ase_texcoord1 * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				o.ase_texcoord1 = patch[0].ase_texcoord1 * bary.x + patch[1].ase_texcoord1 * bary.y + patch[2].ase_texcoord1 * bary.z;
 				o.ase_tangent = patch[0].ase_tangent * bary.x + patch[1].ase_tangent * bary.y + patch[2].ase_tangent * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
@@ -5357,48 +5148,38 @@ Shader "BallsSpherize"
 
 				SmoothSurfaceDescription surfaceDescription = (SmoothSurfaceDescription)0;
 				float2 uv_NormalMap = packedInput.ase_texcoord3.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
-				float3 temp_output_4_0_g2 = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
+				float3 temp_output_4_0_g260 = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
 				float3 ase_worldPos = packedInput.ase_texcoord4.xyz;
-				float3 surf_pos107_g13 = ase_worldPos;
+				float3 surf_pos107_g262 = ase_worldPos;
 				float3 ase_worldNormal = packedInput.ase_texcoord5.xyz;
-				float3 surf_norm107_g13 = ase_worldNormal;
-				float3 vertexToFrag28_g2 = packedInput.ase_texcoord6.xyz;
+				float3 surf_norm107_g262 = ase_worldNormal;
+				float3 vertexToFrag28_g260 = packedInput.ase_texcoord6.xyz;
 				#ifdef _SKINNED_ON
-				float3 staticSwitch26_g2 = float3( packedInput.ase_texcoord3.zw ,  0.0 );
+				float3 staticSwitch26_g260 = float3( packedInput.ase_texcoord3.zw ,  0.0 );
 				#else
-				float3 staticSwitch26_g2 = vertexToFrag28_g2;
+				float3 staticSwitch26_g260 = vertexToFrag28_g260;
 				#endif
-				float simplePerlin3D9_g2 = snoise( ( ( staticSwitch26_g2 * float3( 2,2,2 ) ) + float3( 0,0,0 ) ) );
-				simplePerlin3D9_g2 = simplePerlin3D9_g2*0.5 + 0.5;
-				float height107_g13 = simplePerlin3D9_g2;
-				float scale107_g13 = 0.5;
-				float3 localPerturbNormal107_g13 = PerturbNormal107_g13( surf_pos107_g13 , surf_norm107_g13 , height107_g13 , scale107_g13 );
+				float simplePerlin3D9_g260 = snoise( ( ( staticSwitch26_g260 * float3( 2,2,2 ) ) + float3( 0,0,0 ) ) );
+				simplePerlin3D9_g260 = simplePerlin3D9_g260*0.5 + 0.5;
+				float height107_g262 = simplePerlin3D9_g260;
+				float scale107_g262 = 0.5;
+				float3 localPerturbNormal107_g262 = PerturbNormal107_g262( surf_pos107_g262 , surf_norm107_g262 , height107_g262 , scale107_g262 );
 				float3 ase_worldTangent = packedInput.ase_texcoord7.xyz;
 				float3 ase_worldBitangent = packedInput.ase_texcoord8.xyz;
 				float3x3 ase_worldToTangent = float3x3(ase_worldTangent,ase_worldBitangent,ase_worldNormal);
-				float3 worldToTangentDir42_g13 = mul( ase_worldToTangent, localPerturbNormal107_g13);
-				float temp_output_16_0_g2 = ( ( simplePerlin3D9_g2 - 0.5 ) * 0.5 );
-				float temp_output_12_0_g2 = ( tex2D( _DecalColorMap, packedInput.ase_texcoord3.zw ).r + temp_output_16_0_g2 );
-				float temp_output_3_0_g12 = ( 0.5 - temp_output_12_0_g2 );
-				float temp_output_10_0_g2 = ( 1.0 - saturate( ( temp_output_3_0_g12 / fwidth( temp_output_3_0_g12 ) ) ) );
-				float3 lerpResult6_g2 = lerp( temp_output_4_0_g2 , BlendNormal( worldToTangentDir42_g13 , temp_output_4_0_g2 ) , temp_output_10_0_g2);
-				float3 normalizeResult33_g2 = normalize( lerpResult6_g2 );
-				float3 localDeriveTangentBasis1_g259 = ( float3( 0,0,0 ) );
-				float3 WorldPosition1_g259 = ase_worldPos;
-				float3 WorldNormal1_g259 = ase_worldNormal;
-				float2 texCoord47_g254 = packedInput.ase_texcoord3.zw * float2( 2,2 ) + float2( -1,-1 );
-				float2 temp_output_34_0_g254 = (( ( ( _BulgeOverallScale * _SphereRadius ) * ( texCoord47_g254 + float2( -0.5,-0.5 ) ) ) + float2( 0.5,0.5 ) )*1.0 + _BulgeOffset);
-				float2 UV1_g259 = temp_output_34_0_g254;
-				float3x3 TangentToWorld1_g259 = float3x3( 1,0,0,1,1,1,1,0,1 );
-				float3x3 WorldToTangent1_g259 = float3x3( 1,0,0,1,1,1,1,0,1 );
-				DeriveTangentBasis( WorldPosition1_g259 , WorldNormal1_g259 , UV1_g259 , TangentToWorld1_g259 , WorldToTangent1_g259 );
-				float3 unpack58_g254 = UnpackNormalScale( tex2D( _BulgeNormal1, temp_output_34_0_g254 ), _BulgeAmount );
-				unpack58_g254.z = lerp( 1, unpack58_g254.z, saturate(_BulgeAmount) );
+				float3 worldToTangentDir42_g262 = mul( ase_worldToTangent, localPerturbNormal107_g262);
+				float temp_output_16_0_g260 = ( ( simplePerlin3D9_g260 - 0.5 ) * 0.5 );
+				float temp_output_12_0_g260 = ( tex2D( _DecalColorMap, packedInput.ase_texcoord3.zw ).r + temp_output_16_0_g260 );
+				float temp_output_3_0_g261 = ( 0.5 - temp_output_12_0_g260 );
+				float temp_output_10_0_g260 = ( 1.0 - saturate( ( temp_output_3_0_g261 / fwidth( temp_output_3_0_g261 ) ) ) );
+				float3 lerpResult6_g260 = lerp( temp_output_4_0_g260 , BlendNormal( worldToTangentDir42_g262 , temp_output_4_0_g260 ) , temp_output_10_0_g260);
+				float3 normalizeResult33_g260 = normalize( lerpResult6_g260 );
+				float3 temp_output_46_5 = normalizeResult33_g260;
 				
 				float2 uv_MaskMap = packedInput.ase_texcoord3.xy * _MaskMap_ST.xy + _MaskMap_ST.zw;
 				float4 tex2DNode3 = tex2D( _MaskMap, uv_MaskMap );
 				
-				surfaceDescription.Normal = BlendNormal( normalizeResult33_g2 , mul( ase_worldToTangent, mul( TangentToWorld1_g259, unpack58_g254 ) ) );
+				surfaceDescription.Normal = temp_output_46_5;
 				surfaceDescription.Smoothness = tex2DNode3.a;
 				surfaceDescription.Alpha = 1;
 
@@ -5593,11 +5374,8 @@ Shader "BallsSpherize"
 			float3 _WorldDickNormal;
 			float3 _WorldDickBinormal;
 			float3 _WorldDickPosition;
-			float2 _BulgeOffset;
 			float _SphereRadius;
 			float _SpherizeAmount;
-			float _BulgeOverallScale;
-			float _BulgeAmount;
 			float _TipRadius;
 			float _Angle;
 			float4 _EmissionColor;
@@ -5662,7 +5440,6 @@ Shader "BallsSpherize"
 			int _PassValue;
             #endif
 
-			sampler2D _BulgeHeight1;
 			sampler2D _BaseColorMap;
 			sampler2D _DecalColorMap;
 			sampler2D _NormalMap;
@@ -5670,7 +5447,6 @@ Shader "BallsSpherize"
 			float4x4 unity_CameraInvProjection;
 			float4x4 unity_WorldToCamera;
 			float4x4 unity_CameraToWorld;
-			sampler2D _BulgeNormal1;
 			sampler2D _MaskMap;
 
 
@@ -5744,7 +5520,7 @@ Shader "BallsSpherize"
 				#endif
 			};
 
-			float3 MyCustomExpression11_g254( float3 pos )
+			float3 MyCustomExpression11_g1( float3 pos )
 			{
 				return GetCameraRelativePositionWS(pos);
 			}
@@ -5776,7 +5552,7 @@ Shader "BallsSpherize"
 				return transpose( cofactors ) / determinant( input );
 			}
 			
-			float3 MyCustomExpression32_g255( float3 pos )
+			float3 MyCustomExpression32_g250( float3 pos )
 			{
 				return GetAbsolutePositionWS(pos);
 			}
@@ -5828,7 +5604,7 @@ Shader "BallsSpherize"
 				return 42.0 * dot( m, px);
 			}
 			
-			float3 PerturbNormal107_g13( float3 surf_pos, float3 surf_norm, float height, float scale )
+			float3 PerturbNormal107_g262( float3 surf_pos, float3 surf_norm, float height, float scale )
 			{
 				// "Bump Mapping Unparametrized Surfaces on the GPU" by Morten S. Mikkelsen
 				float3 vSigmaS = ddx( surf_pos );
@@ -5841,36 +5617,6 @@ Shader "BallsSpherize"
 				float dBt = ddy( height );
 				float3 vSurfGrad = scale * 0.05 * sign( fDet ) * ( dBs * vR1 + dBt * vR2 );
 				return normalize ( abs( fDet ) * vN - vSurfGrad );
-			}
-			
-			void DeriveTangentBasis( float3 WorldPosition, float3 WorldNormal, float2 UV, out float3x3 TangentToWorld, out float3x3 WorldToTangent )
-			{
-				#if (SHADER_TARGET >= 45)
-				float3 dPdx = ddx_fine( WorldPosition );
-				float3 dPdy = ddy_fine( WorldPosition );
-				#else
-				float3 dPdx = ddx( WorldPosition );
-				float3 dPdy = ddy( WorldPosition );
-				#endif
-				float3 sigmaX = dPdx - dot( dPdx, WorldNormal ) * WorldNormal;
-				float3 sigmaY = dPdy - dot( dPdy, WorldNormal ) * WorldNormal;
-				float flip_sign = dot( dPdy, cross( WorldNormal, dPdx ) ) < 0 ? -1 : 1;
-				#if (SHADER_TARGET >= 45)
-				float2 dSTdx = ddx_fine( UV );
-				float2 dSTdy = ddy_fine( UV );
-				#else
-				float2 dSTdx = ddx( UV );
-				float2 dSTdy = ddy( UV );
-				#endif
-				float det = dot( dSTdx, float2( dSTdy.y, -dSTdy.x ) );
-				float sign_det = ( det < 0 ) ? -1 : 1;
-				float2 invC0 = sign_det * float2( dSTdy.y, -dSTdx.y );
-				float3 T = sigmaX * invC0.x + sigmaY * invC0.y;
-				if ( abs( det ) > 0 ) T = normalize( T );
-				float3 B = ( sign_det * flip_sign ) * cross( WorldNormal, T );
-				WorldToTangent = float3x3( T, B, WorldNormal );
-				TangentToWorld = transpose( WorldToTangent );
-				return;
 			}
 			
 
@@ -6093,81 +5839,78 @@ Shader "BallsSpherize"
 			AttributesMesh ApplyMeshModification(AttributesMesh inputMesh, float3 timeParameters, inout PackedVaryingsMeshToPS outputPackedVaryingsMeshToPS )
 			{
 				_TimeParameters.xyz = timeParameters;
-				float3 pos11_g254 = _SpherePosition;
-				float3 localMyCustomExpression11_g254 = MyCustomExpression11_g254( pos11_g254 );
-				float4 appendResult1_g254 = (float4(localMyCustomExpression11_g254 , 1.0));
-				float3 temp_output_5_0_g254 = (mul( GetWorldToObjectMatrix(), appendResult1_g254 )).xyz;
-				float3 temp_output_3_0_g258 = temp_output_5_0_g254;
-				float3 normalizeResult6_g258 = normalize( ( inputMesh.positionOS - temp_output_3_0_g258 ) );
-				float4 appendResult4_g254 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float3 temp_output_6_0_g254 = ( ( normalizeResult6_g258 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g254 )).xyz ) ) ) + temp_output_3_0_g258 );
-				float temp_output_18_0_g254 = ( _SpherizeAmount * inputMesh.ase_color.r );
-				float3 lerpResult21_g254 = lerp( inputMesh.positionOS , temp_output_6_0_g254 , temp_output_18_0_g254);
+				float3 pos11_g1 = _SpherePosition;
+				float3 localMyCustomExpression11_g1 = MyCustomExpression11_g1( pos11_g1 );
+				float4 appendResult1_g1 = (float4(localMyCustomExpression11_g1 , 1.0));
+				float3 temp_output_5_0_g1 = (mul( GetWorldToObjectMatrix(), appendResult1_g1 )).xyz;
+				float3 temp_output_3_0_g253 = temp_output_5_0_g1;
+				float3 normalizeResult6_g253 = normalize( ( inputMesh.positionOS - temp_output_3_0_g253 ) );
+				float4 appendResult4_g1 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float3 temp_output_6_0_g1 = ( ( normalizeResult6_g253 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g1 )).xyz ) ) ) + temp_output_3_0_g253 );
+				float temp_output_18_0_g1 = ( _SpherizeAmount * inputMesh.ase_color.r );
+				float3 lerpResult21_g1 = lerp( inputMesh.positionOS , temp_output_6_0_g1 , temp_output_18_0_g1);
 				#ifdef _SPHERIZE_ON
-				float3 staticSwitch16_g254 = lerpResult21_g254;
+				float3 staticSwitch16_g1 = lerpResult21_g1;
 				#else
-				float3 staticSwitch16_g254 = inputMesh.positionOS;
+				float3 staticSwitch16_g1 = inputMesh.positionOS;
 				#endif
-				float3 normalizeResult13_g254 = normalize( ( temp_output_6_0_g254 - temp_output_5_0_g254 ) );
-				float3 lerpResult12_g254 = lerp( inputMesh.normalOS , normalizeResult13_g254 , temp_output_18_0_g254);
-				#ifdef _SPHERIZE_ON
-				float3 staticSwitch15_g254 = lerpResult12_g254;
-				#else
-				float3 staticSwitch15_g254 = inputMesh.normalOS;
-				#endif
-				float2 texCoord47_g254 = inputMesh.uv1.xy * float2( 2,2 ) + float2( -1,-1 );
-				float2 temp_output_34_0_g254 = (( ( ( _BulgeOverallScale * _SphereRadius ) * ( texCoord47_g254 + float2( -0.5,-0.5 ) ) ) + float2( 0.5,0.5 ) )*1.0 + _BulgeOffset);
-				float2 appendResult24_g254 = (float2(_TimeParameters.z , _TimeParameters.y));
-				float3 normalizeResult27_g257 = normalize( _WorldDickNormal );
-				float3 normalizeResult31_g257 = normalize( _WorldDickBinormal );
-				float3 normalizeResult29_g257 = normalize( cross( normalizeResult27_g257 , normalizeResult31_g257 ) );
-				float4 appendResult26_g256 = (float4(1.0 , 0.0 , 0.0 , 0.0));
-				float4 appendResult28_g256 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float4 appendResult31_g256 = (float4(0.0 , 0.0 , 1.0 , 0.0));
-				float3 break27_g256 = -_WorldDickPosition;
-				float4 appendResult29_g256 = (float4(break27_g256.x , break27_g256.y , break27_g256.z , 1.0));
-				float4x4 temp_output_30_0_g256 = mul( transpose( float4x4( float4( normalizeResult27_g257 , 0.0 ).x,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).x,float4( normalizeResult29_g257 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g257 , 0.0 ).y,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).y,float4( normalizeResult29_g257 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g257 , 0.0 ).z,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).z,float4( normalizeResult29_g257 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g257 , 0.0 ).w,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).w,float4( normalizeResult29_g257 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g256.x,appendResult28_g256.x,appendResult31_g256.x,appendResult29_g256.x,appendResult26_g256.y,appendResult28_g256.y,appendResult31_g256.y,appendResult29_g256.y,appendResult26_g256.z,appendResult28_g256.z,appendResult31_g256.z,appendResult29_g256.z,appendResult26_g256.w,appendResult28_g256.w,appendResult31_g256.w,appendResult29_g256.w ) );
-				float4x4 invertVal44_g256 = Inverse4x4( temp_output_30_0_g256 );
-				float4 appendResult27_g255 = (float4(inputMesh.positionOS , 1.0));
-				float3 pos32_g255 = mul( GetObjectToWorldMatrix(), appendResult27_g255 ).xyz;
-				float3 localMyCustomExpression32_g255 = MyCustomExpression32_g255( pos32_g255 );
-				float4 appendResult32_g256 = (float4(localMyCustomExpression32_g255 , 1.0));
-				float4 break35_g256 = mul( temp_output_30_0_g256, appendResult32_g256 );
-				float temp_output_124_0_g256 = _TipRadius;
-				float2 appendResult36_g256 = (float2(break35_g256.y , break35_g256.z));
-				float2 normalizeResult41_g256 = normalize( appendResult36_g256 );
-				float temp_output_120_0_g256 = sqrt( max( break35_g256.x , 0.0 ) );
-				float temp_output_48_0_g256 = tan( radians( _Angle ) );
-				float temp_output_125_0_g256 = ( temp_output_124_0_g256 + ( temp_output_120_0_g256 * temp_output_48_0_g256 ) );
-				float temp_output_37_0_g256 = length( appendResult36_g256 );
-				float temp_output_114_0_g256 = ( ( temp_output_125_0_g256 - temp_output_37_0_g256 ) + 1.0 );
-				float lerpResult102_g256 = lerp( temp_output_125_0_g256 , temp_output_37_0_g256 , saturate( temp_output_114_0_g256 ));
-				float lerpResult130_g256 = lerp( 0.0 , lerpResult102_g256 , saturate( ( -( -temp_output_124_0_g256 - break35_g256.x ) / temp_output_124_0_g256 ) ));
-				float2 break43_g256 = ( normalizeResult41_g256 * lerpResult130_g256 );
-				float4 appendResult40_g256 = (float4(max( break35_g256.x , -temp_output_124_0_g256 ) , break43_g256.x , break43_g256.y , 1.0));
-				float4 appendResult28_g255 = (float4(((mul( invertVal44_g256, appendResult40_g256 )).xyz).xyz , 1.0));
-				float4 localWorldVar29_g255 = appendResult28_g255;
-				(localWorldVar29_g255).xyz = GetCameraRelativePositionWS((localWorldVar29_g255).xyz);
-				float4 transform29_g255 = mul(GetWorldToObjectMatrix(),localWorldVar29_g255);
+				float3 normalizeResult27_g252 = normalize( _WorldDickNormal );
+				float3 normalizeResult31_g252 = normalize( _WorldDickBinormal );
+				float3 normalizeResult29_g252 = normalize( cross( normalizeResult27_g252 , normalizeResult31_g252 ) );
+				float4 appendResult26_g251 = (float4(1.0 , 0.0 , 0.0 , 0.0));
+				float4 appendResult28_g251 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float4 appendResult31_g251 = (float4(0.0 , 0.0 , 1.0 , 0.0));
+				float3 break27_g251 = -_WorldDickPosition;
+				float4 appendResult29_g251 = (float4(break27_g251.x , break27_g251.y , break27_g251.z , 1.0));
+				float4x4 temp_output_30_0_g251 = mul( transpose( float4x4( float4( normalizeResult27_g252 , 0.0 ).x,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).x,float4( normalizeResult29_g252 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g252 , 0.0 ).y,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).y,float4( normalizeResult29_g252 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g252 , 0.0 ).z,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).z,float4( normalizeResult29_g252 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g252 , 0.0 ).w,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).w,float4( normalizeResult29_g252 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g251.x,appendResult28_g251.x,appendResult31_g251.x,appendResult29_g251.x,appendResult26_g251.y,appendResult28_g251.y,appendResult31_g251.y,appendResult29_g251.y,appendResult26_g251.z,appendResult28_g251.z,appendResult31_g251.z,appendResult29_g251.z,appendResult26_g251.w,appendResult28_g251.w,appendResult31_g251.w,appendResult29_g251.w ) );
+				float4x4 invertVal44_g251 = Inverse4x4( temp_output_30_0_g251 );
+				float4 appendResult27_g250 = (float4(inputMesh.positionOS , 1.0));
+				float3 pos32_g250 = mul( GetObjectToWorldMatrix(), appendResult27_g250 ).xyz;
+				float3 localMyCustomExpression32_g250 = MyCustomExpression32_g250( pos32_g250 );
+				float4 appendResult32_g251 = (float4(localMyCustomExpression32_g250 , 1.0));
+				float4 break35_g251 = mul( temp_output_30_0_g251, appendResult32_g251 );
+				float temp_output_124_0_g251 = _TipRadius;
+				float2 appendResult36_g251 = (float2(break35_g251.y , break35_g251.z));
+				float2 normalizeResult41_g251 = normalize( appendResult36_g251 );
+				float temp_output_120_0_g251 = sqrt( max( break35_g251.x , 0.0 ) );
+				float temp_output_48_0_g251 = tan( radians( _Angle ) );
+				float temp_output_125_0_g251 = ( temp_output_124_0_g251 + ( temp_output_120_0_g251 * temp_output_48_0_g251 ) );
+				float temp_output_37_0_g251 = length( appendResult36_g251 );
+				float temp_output_114_0_g251 = ( ( temp_output_125_0_g251 - temp_output_37_0_g251 ) + 1.0 );
+				float lerpResult102_g251 = lerp( temp_output_125_0_g251 , temp_output_37_0_g251 , saturate( temp_output_114_0_g251 ));
+				float lerpResult130_g251 = lerp( 0.0 , lerpResult102_g251 , saturate( ( -( -temp_output_124_0_g251 - break35_g251.x ) / temp_output_124_0_g251 ) ));
+				float2 break43_g251 = ( normalizeResult41_g251 * lerpResult130_g251 );
+				float4 appendResult40_g251 = (float4(max( break35_g251.x , -temp_output_124_0_g251 ) , break43_g251.x , break43_g251.y , 1.0));
+				float4 appendResult28_g250 = (float4(((mul( invertVal44_g251, appendResult40_g251 )).xyz).xyz , 1.0));
+				float4 localWorldVar29_g250 = appendResult28_g250;
+				(localWorldVar29_g250).xyz = GetCameraRelativePositionWS((localWorldVar29_g250).xyz);
+				float4 transform29_g250 = mul(GetWorldToObjectMatrix(),localWorldVar29_g250);
 				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch13_g255 = (transform29_g255).xyz;
+				float3 staticSwitch13_g250 = (transform29_g250).xyz;
 				#else
-				float3 staticSwitch13_g255 = ( staticSwitch16_g254 + ( staticSwitch15_g254 * (-1.0 + (tex2Dlod( _BulgeHeight1, float4( temp_output_34_0_g254, 0, 0.0) ).r - 0.0) * (1.0 - -1.0) / (1.0 - 0.0)) * 0.25 * ( distance( temp_output_34_0_g254 , ( ( appendResult24_g254 * float2( 0.4,0.4 ) ) + float2( 0.5,0.5 ) ) ) * saturate( (1.0 + (distance( texCoord47_g254 , float2( 0.5,0.5 ) ) - 0.0) * (0.0 - 1.0) / (0.4 - 0.0)) ) ) * _BulgeAmount ) );
+				float3 staticSwitch13_g250 = staticSwitch16_g1;
 				#endif
 				
-				float3 temp_output_50_0_g255 = staticSwitch15_g254;
-				float2 break146_g256 = normalizeResult41_g256;
-				float4 appendResult139_g256 = (float4(temp_output_48_0_g256 , break146_g256.x , break146_g256.y , 0.0));
-				float3 normalizeResult144_g256 = normalize( (mul( invertVal44_g256, appendResult139_g256 )).xyz );
-				float3 lerpResult44_g255 = lerp( normalizeResult144_g256 , temp_output_50_0_g255 , saturate( sign( temp_output_114_0_g256 ) ));
-				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch17_g255 = lerpResult44_g255;
+				float3 normalizeResult13_g1 = normalize( ( temp_output_6_0_g1 - temp_output_5_0_g1 ) );
+				float3 lerpResult12_g1 = lerp( inputMesh.normalOS , normalizeResult13_g1 , temp_output_18_0_g1);
+				#ifdef _SPHERIZE_ON
+				float3 staticSwitch15_g1 = lerpResult12_g1;
 				#else
-				float3 staticSwitch17_g255 = temp_output_50_0_g255;
+				float3 staticSwitch15_g1 = inputMesh.normalOS;
+				#endif
+				float3 temp_output_50_0_g250 = staticSwitch15_g1;
+				float2 break146_g251 = normalizeResult41_g251;
+				float4 appendResult139_g251 = (float4(temp_output_48_0_g251 , break146_g251.x , break146_g251.y , 0.0));
+				float3 normalizeResult144_g251 = normalize( (mul( invertVal44_g251, appendResult139_g251 )).xyz );
+				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , temp_output_50_0_g250 , saturate( sign( temp_output_114_0_g251 ) ));
+				#ifdef _COCKVORESQUISHENABLED_ON
+				float3 staticSwitch17_g250 = lerpResult44_g250;
+				#else
+				float3 staticSwitch17_g250 = temp_output_50_0_g250;
 				#endif
 				
-				float3 vertexToFrag28_g2 = mul( UNITY_MATRIX_M, float4( inputMesh.positionOS , 0.0 ) ).xyz;
-				outputPackedVaryingsMeshToPS.ase_texcoord8.xyz = vertexToFrag28_g2;
+				float3 vertexToFrag28_g260 = mul( UNITY_MATRIX_M, float4( inputMesh.positionOS , 0.0 ) ).xyz;
+				outputPackedVaryingsMeshToPS.ase_texcoord8.xyz = vertexToFrag28_g260;
 				
 				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
 				float3 ase_worldTangent = TransformObjectToWorldDir(inputMesh.tangentOS.xyz);
@@ -6187,14 +5930,14 @@ Shader "BallsSpherize"
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = staticSwitch13_g255;
+				float3 vertexValue = staticSwitch13_g250;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
 				#else
 				inputMesh.positionOS.xyz += vertexValue;
 				#endif
-				inputMesh.normalOS = staticSwitch17_g255;
+				inputMesh.normalOS = staticSwitch17_g250;
 				inputMesh.tangentOS = inputMesh.tangentOS;
 				return inputMesh;
 			}
@@ -6441,58 +6184,48 @@ Shader "BallsSpherize"
 
 				GlobalSurfaceDescription surfaceDescription = (GlobalSurfaceDescription)0;
 				float2 uv_BaseColorMap = packedInput.ase_texcoord7.xy * _BaseColorMap_ST.xy + _BaseColorMap_ST.zw;
-				float4 temp_output_1_0_g2 = tex2D( _BaseColorMap, uv_BaseColorMap );
-				float4 color20_g2 = IsGammaSpace() ? float4(1,1,1,1) : float4(1,1,1,1);
-				float3 vertexToFrag28_g2 = packedInput.ase_texcoord8.xyz;
+				float4 temp_output_1_0_g260 = tex2D( _BaseColorMap, uv_BaseColorMap );
+				float4 color20_g260 = IsGammaSpace() ? float4(1,1,1,1) : float4(1,1,1,1);
+				float3 vertexToFrag28_g260 = packedInput.ase_texcoord8.xyz;
 				#ifdef _SKINNED_ON
-				float3 staticSwitch26_g2 = float3( packedInput.uv1.xy ,  0.0 );
+				float3 staticSwitch26_g260 = float3( packedInput.uv1.xy ,  0.0 );
 				#else
-				float3 staticSwitch26_g2 = vertexToFrag28_g2;
+				float3 staticSwitch26_g260 = vertexToFrag28_g260;
 				#endif
-				float simplePerlin3D9_g2 = snoise( ( ( staticSwitch26_g2 * float3( 2,2,2 ) ) + float3( 0,0,0 ) ) );
-				simplePerlin3D9_g2 = simplePerlin3D9_g2*0.5 + 0.5;
-				float temp_output_16_0_g2 = ( ( simplePerlin3D9_g2 - 0.5 ) * 0.5 );
-				float temp_output_12_0_g2 = ( tex2D( _DecalColorMap, packedInput.uv1.xy ).r + temp_output_16_0_g2 );
-				float lerpResult22_g2 = lerp( ( temp_output_12_0_g2 + temp_output_16_0_g2 ) , 0.7 , 0.8);
-				float4 lerpResult19_g2 = lerp( temp_output_1_0_g2 , color20_g2 , ( 1.0 - lerpResult22_g2 ));
-				float temp_output_3_0_g12 = ( 0.5 - temp_output_12_0_g2 );
-				float temp_output_10_0_g2 = ( 1.0 - saturate( ( temp_output_3_0_g12 / fwidth( temp_output_3_0_g12 ) ) ) );
-				float4 lerpResult18_g2 = lerp( temp_output_1_0_g2 , lerpResult19_g2 , temp_output_10_0_g2);
+				float simplePerlin3D9_g260 = snoise( ( ( staticSwitch26_g260 * float3( 2,2,2 ) ) + float3( 0,0,0 ) ) );
+				simplePerlin3D9_g260 = simplePerlin3D9_g260*0.5 + 0.5;
+				float temp_output_16_0_g260 = ( ( simplePerlin3D9_g260 - 0.5 ) * 0.5 );
+				float temp_output_12_0_g260 = ( tex2D( _DecalColorMap, packedInput.uv1.xy ).r + temp_output_16_0_g260 );
+				float lerpResult22_g260 = lerp( ( temp_output_12_0_g260 + temp_output_16_0_g260 ) , 0.7 , 0.8);
+				float4 lerpResult19_g260 = lerp( temp_output_1_0_g260 , color20_g260 , ( 1.0 - lerpResult22_g260 ));
+				float temp_output_3_0_g261 = ( 0.5 - temp_output_12_0_g260 );
+				float temp_output_10_0_g260 = ( 1.0 - saturate( ( temp_output_3_0_g261 / fwidth( temp_output_3_0_g261 ) ) ) );
+				float4 lerpResult18_g260 = lerp( temp_output_1_0_g260 , lerpResult19_g260 , temp_output_10_0_g260);
 				
 				float2 uv_NormalMap = packedInput.ase_texcoord7.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
-				float3 temp_output_4_0_g2 = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
+				float3 temp_output_4_0_g260 = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
 				float3 ase_worldPos = GetAbsolutePositionWS( positionRWS );
-				float3 surf_pos107_g13 = ase_worldPos;
-				float3 surf_norm107_g13 = normalWS;
-				float height107_g13 = simplePerlin3D9_g2;
-				float scale107_g13 = 0.5;
-				float3 localPerturbNormal107_g13 = PerturbNormal107_g13( surf_pos107_g13 , surf_norm107_g13 , height107_g13 , scale107_g13 );
+				float3 surf_pos107_g262 = ase_worldPos;
+				float3 surf_norm107_g262 = normalWS;
+				float height107_g262 = simplePerlin3D9_g260;
+				float scale107_g262 = 0.5;
+				float3 localPerturbNormal107_g262 = PerturbNormal107_g262( surf_pos107_g262 , surf_norm107_g262 , height107_g262 , scale107_g262 );
 				float3 ase_worldBitangent = packedInput.ase_texcoord9.xyz;
 				float3x3 ase_worldToTangent = float3x3(tangentWS.xyz,ase_worldBitangent,normalWS);
-				float3 worldToTangentDir42_g13 = mul( ase_worldToTangent, localPerturbNormal107_g13);
-				float3 lerpResult6_g2 = lerp( temp_output_4_0_g2 , BlendNormal( worldToTangentDir42_g13 , temp_output_4_0_g2 ) , temp_output_10_0_g2);
-				float3 normalizeResult33_g2 = normalize( lerpResult6_g2 );
-				float3 localDeriveTangentBasis1_g259 = ( float3( 0,0,0 ) );
-				float3 WorldPosition1_g259 = ase_worldPos;
-				float3 WorldNormal1_g259 = normalWS;
-				float2 texCoord47_g254 = packedInput.uv1.xy * float2( 2,2 ) + float2( -1,-1 );
-				float2 temp_output_34_0_g254 = (( ( ( _BulgeOverallScale * _SphereRadius ) * ( texCoord47_g254 + float2( -0.5,-0.5 ) ) ) + float2( 0.5,0.5 ) )*1.0 + _BulgeOffset);
-				float2 UV1_g259 = temp_output_34_0_g254;
-				float3x3 TangentToWorld1_g259 = float3x3( 1,0,0,1,1,1,1,0,1 );
-				float3x3 WorldToTangent1_g259 = float3x3( 1,0,0,1,1,1,1,0,1 );
-				DeriveTangentBasis( WorldPosition1_g259 , WorldNormal1_g259 , UV1_g259 , TangentToWorld1_g259 , WorldToTangent1_g259 );
-				float3 unpack58_g254 = UnpackNormalScale( tex2D( _BulgeNormal1, temp_output_34_0_g254 ), _BulgeAmount );
-				unpack58_g254.z = lerp( 1, unpack58_g254.z, saturate(_BulgeAmount) );
+				float3 worldToTangentDir42_g262 = mul( ase_worldToTangent, localPerturbNormal107_g262);
+				float3 lerpResult6_g260 = lerp( temp_output_4_0_g260 , BlendNormal( worldToTangentDir42_g262 , temp_output_4_0_g260 ) , temp_output_10_0_g260);
+				float3 normalizeResult33_g260 = normalize( lerpResult6_g260 );
+				float3 temp_output_46_5 = normalizeResult33_g260;
 				
-				float lerpResult32_g2 = lerp( 0.0 , 1.0 , temp_output_10_0_g2);
+				float lerpResult32_g260 = lerp( 0.0 , 1.0 , temp_output_10_0_g260);
 				
 				float2 uv_MaskMap = packedInput.ase_texcoord7.xy * _MaskMap_ST.xy + _MaskMap_ST.zw;
 				float4 tex2DNode3 = tex2D( _MaskMap, uv_MaskMap );
 				
-				surfaceDescription.BaseColor = lerpResult18_g2.rgb;
-				surfaceDescription.Normal = BlendNormal( normalizeResult33_g2 , mul( ase_worldToTangent, mul( TangentToWorld1_g259, unpack58_g254 ) ) );
+				surfaceDescription.BaseColor = lerpResult18_g260.rgb;
+				surfaceDescription.Normal = temp_output_46_5;
 				surfaceDescription.BentNormal = float3( 0, 0, 1 );
-				surfaceDescription.CoatMask = lerpResult32_g2;
+				surfaceDescription.CoatMask = lerpResult32_g260;
 				surfaceDescription.Metallic = tex2DNode3.r;
 
 				#ifdef _MATERIAL_FEATURE_SPECULAR_COLOR
@@ -6774,11 +6507,8 @@ Shader "BallsSpherize"
 			float3 _WorldDickNormal;
 			float3 _WorldDickBinormal;
 			float3 _WorldDickPosition;
-			float2 _BulgeOffset;
 			float _SphereRadius;
 			float _SpherizeAmount;
-			float _BulgeOverallScale;
-			float _BulgeAmount;
 			float _TipRadius;
 			float _Angle;
 			float4 _EmissionColor;
@@ -6832,8 +6562,7 @@ Shader "BallsSpherize"
 			#endif
 			CBUFFER_END
 
-			sampler2D _BulgeHeight1;
-
+			
 
             #ifdef DEBUG_DISPLAY
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
@@ -6858,7 +6587,6 @@ Shader "BallsSpherize"
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
 				float4 ase_color : COLOR;
-				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -6872,7 +6600,7 @@ Shader "BallsSpherize"
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
-			float3 MyCustomExpression11_g254( float3 pos )
+			float3 MyCustomExpression11_g1( float3 pos )
 			{
 				return GetCameraRelativePositionWS(pos);
 			}
@@ -6904,7 +6632,7 @@ Shader "BallsSpherize"
 				return transpose( cofactors ) / determinant( input );
 			}
 			
-			float3 MyCustomExpression32_g255( float3 pos )
+			float3 MyCustomExpression32_g250( float3 pos )
 			{
 				return GetAbsolutePositionWS(pos);
 			}
@@ -7023,77 +6751,74 @@ Shader "BallsSpherize"
 				UNITY_SETUP_INSTANCE_ID(inputMesh);
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, o );
 
-				float3 pos11_g254 = _SpherePosition;
-				float3 localMyCustomExpression11_g254 = MyCustomExpression11_g254( pos11_g254 );
-				float4 appendResult1_g254 = (float4(localMyCustomExpression11_g254 , 1.0));
-				float3 temp_output_5_0_g254 = (mul( GetWorldToObjectMatrix(), appendResult1_g254 )).xyz;
-				float3 temp_output_3_0_g258 = temp_output_5_0_g254;
-				float3 normalizeResult6_g258 = normalize( ( inputMesh.positionOS - temp_output_3_0_g258 ) );
-				float4 appendResult4_g254 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float3 temp_output_6_0_g254 = ( ( normalizeResult6_g258 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g254 )).xyz ) ) ) + temp_output_3_0_g258 );
-				float temp_output_18_0_g254 = ( _SpherizeAmount * inputMesh.ase_color.r );
-				float3 lerpResult21_g254 = lerp( inputMesh.positionOS , temp_output_6_0_g254 , temp_output_18_0_g254);
+				float3 pos11_g1 = _SpherePosition;
+				float3 localMyCustomExpression11_g1 = MyCustomExpression11_g1( pos11_g1 );
+				float4 appendResult1_g1 = (float4(localMyCustomExpression11_g1 , 1.0));
+				float3 temp_output_5_0_g1 = (mul( GetWorldToObjectMatrix(), appendResult1_g1 )).xyz;
+				float3 temp_output_3_0_g253 = temp_output_5_0_g1;
+				float3 normalizeResult6_g253 = normalize( ( inputMesh.positionOS - temp_output_3_0_g253 ) );
+				float4 appendResult4_g1 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float3 temp_output_6_0_g1 = ( ( normalizeResult6_g253 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g1 )).xyz ) ) ) + temp_output_3_0_g253 );
+				float temp_output_18_0_g1 = ( _SpherizeAmount * inputMesh.ase_color.r );
+				float3 lerpResult21_g1 = lerp( inputMesh.positionOS , temp_output_6_0_g1 , temp_output_18_0_g1);
 				#ifdef _SPHERIZE_ON
-				float3 staticSwitch16_g254 = lerpResult21_g254;
+				float3 staticSwitch16_g1 = lerpResult21_g1;
 				#else
-				float3 staticSwitch16_g254 = inputMesh.positionOS;
+				float3 staticSwitch16_g1 = inputMesh.positionOS;
 				#endif
-				float3 normalizeResult13_g254 = normalize( ( temp_output_6_0_g254 - temp_output_5_0_g254 ) );
-				float3 lerpResult12_g254 = lerp( inputMesh.normalOS , normalizeResult13_g254 , temp_output_18_0_g254);
-				#ifdef _SPHERIZE_ON
-				float3 staticSwitch15_g254 = lerpResult12_g254;
-				#else
-				float3 staticSwitch15_g254 = inputMesh.normalOS;
-				#endif
-				float2 texCoord47_g254 = inputMesh.ase_texcoord1.xy * float2( 2,2 ) + float2( -1,-1 );
-				float2 temp_output_34_0_g254 = (( ( ( _BulgeOverallScale * _SphereRadius ) * ( texCoord47_g254 + float2( -0.5,-0.5 ) ) ) + float2( 0.5,0.5 ) )*1.0 + _BulgeOffset);
-				float2 appendResult24_g254 = (float2(_TimeParameters.z , _TimeParameters.y));
-				float3 normalizeResult27_g257 = normalize( _WorldDickNormal );
-				float3 normalizeResult31_g257 = normalize( _WorldDickBinormal );
-				float3 normalizeResult29_g257 = normalize( cross( normalizeResult27_g257 , normalizeResult31_g257 ) );
-				float4 appendResult26_g256 = (float4(1.0 , 0.0 , 0.0 , 0.0));
-				float4 appendResult28_g256 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float4 appendResult31_g256 = (float4(0.0 , 0.0 , 1.0 , 0.0));
-				float3 break27_g256 = -_WorldDickPosition;
-				float4 appendResult29_g256 = (float4(break27_g256.x , break27_g256.y , break27_g256.z , 1.0));
-				float4x4 temp_output_30_0_g256 = mul( transpose( float4x4( float4( normalizeResult27_g257 , 0.0 ).x,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).x,float4( normalizeResult29_g257 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g257 , 0.0 ).y,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).y,float4( normalizeResult29_g257 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g257 , 0.0 ).z,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).z,float4( normalizeResult29_g257 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g257 , 0.0 ).w,float4( cross( normalizeResult29_g257 , normalizeResult27_g257 ) , 0.0 ).w,float4( normalizeResult29_g257 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g256.x,appendResult28_g256.x,appendResult31_g256.x,appendResult29_g256.x,appendResult26_g256.y,appendResult28_g256.y,appendResult31_g256.y,appendResult29_g256.y,appendResult26_g256.z,appendResult28_g256.z,appendResult31_g256.z,appendResult29_g256.z,appendResult26_g256.w,appendResult28_g256.w,appendResult31_g256.w,appendResult29_g256.w ) );
-				float4x4 invertVal44_g256 = Inverse4x4( temp_output_30_0_g256 );
-				float4 appendResult27_g255 = (float4(inputMesh.positionOS , 1.0));
-				float3 pos32_g255 = mul( GetObjectToWorldMatrix(), appendResult27_g255 ).xyz;
-				float3 localMyCustomExpression32_g255 = MyCustomExpression32_g255( pos32_g255 );
-				float4 appendResult32_g256 = (float4(localMyCustomExpression32_g255 , 1.0));
-				float4 break35_g256 = mul( temp_output_30_0_g256, appendResult32_g256 );
-				float temp_output_124_0_g256 = _TipRadius;
-				float2 appendResult36_g256 = (float2(break35_g256.y , break35_g256.z));
-				float2 normalizeResult41_g256 = normalize( appendResult36_g256 );
-				float temp_output_120_0_g256 = sqrt( max( break35_g256.x , 0.0 ) );
-				float temp_output_48_0_g256 = tan( radians( _Angle ) );
-				float temp_output_125_0_g256 = ( temp_output_124_0_g256 + ( temp_output_120_0_g256 * temp_output_48_0_g256 ) );
-				float temp_output_37_0_g256 = length( appendResult36_g256 );
-				float temp_output_114_0_g256 = ( ( temp_output_125_0_g256 - temp_output_37_0_g256 ) + 1.0 );
-				float lerpResult102_g256 = lerp( temp_output_125_0_g256 , temp_output_37_0_g256 , saturate( temp_output_114_0_g256 ));
-				float lerpResult130_g256 = lerp( 0.0 , lerpResult102_g256 , saturate( ( -( -temp_output_124_0_g256 - break35_g256.x ) / temp_output_124_0_g256 ) ));
-				float2 break43_g256 = ( normalizeResult41_g256 * lerpResult130_g256 );
-				float4 appendResult40_g256 = (float4(max( break35_g256.x , -temp_output_124_0_g256 ) , break43_g256.x , break43_g256.y , 1.0));
-				float4 appendResult28_g255 = (float4(((mul( invertVal44_g256, appendResult40_g256 )).xyz).xyz , 1.0));
-				float4 localWorldVar29_g255 = appendResult28_g255;
-				(localWorldVar29_g255).xyz = GetCameraRelativePositionWS((localWorldVar29_g255).xyz);
-				float4 transform29_g255 = mul(GetWorldToObjectMatrix(),localWorldVar29_g255);
+				float3 normalizeResult27_g252 = normalize( _WorldDickNormal );
+				float3 normalizeResult31_g252 = normalize( _WorldDickBinormal );
+				float3 normalizeResult29_g252 = normalize( cross( normalizeResult27_g252 , normalizeResult31_g252 ) );
+				float4 appendResult26_g251 = (float4(1.0 , 0.0 , 0.0 , 0.0));
+				float4 appendResult28_g251 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float4 appendResult31_g251 = (float4(0.0 , 0.0 , 1.0 , 0.0));
+				float3 break27_g251 = -_WorldDickPosition;
+				float4 appendResult29_g251 = (float4(break27_g251.x , break27_g251.y , break27_g251.z , 1.0));
+				float4x4 temp_output_30_0_g251 = mul( transpose( float4x4( float4( normalizeResult27_g252 , 0.0 ).x,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).x,float4( normalizeResult29_g252 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g252 , 0.0 ).y,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).y,float4( normalizeResult29_g252 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g252 , 0.0 ).z,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).z,float4( normalizeResult29_g252 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g252 , 0.0 ).w,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).w,float4( normalizeResult29_g252 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g251.x,appendResult28_g251.x,appendResult31_g251.x,appendResult29_g251.x,appendResult26_g251.y,appendResult28_g251.y,appendResult31_g251.y,appendResult29_g251.y,appendResult26_g251.z,appendResult28_g251.z,appendResult31_g251.z,appendResult29_g251.z,appendResult26_g251.w,appendResult28_g251.w,appendResult31_g251.w,appendResult29_g251.w ) );
+				float4x4 invertVal44_g251 = Inverse4x4( temp_output_30_0_g251 );
+				float4 appendResult27_g250 = (float4(inputMesh.positionOS , 1.0));
+				float3 pos32_g250 = mul( GetObjectToWorldMatrix(), appendResult27_g250 ).xyz;
+				float3 localMyCustomExpression32_g250 = MyCustomExpression32_g250( pos32_g250 );
+				float4 appendResult32_g251 = (float4(localMyCustomExpression32_g250 , 1.0));
+				float4 break35_g251 = mul( temp_output_30_0_g251, appendResult32_g251 );
+				float temp_output_124_0_g251 = _TipRadius;
+				float2 appendResult36_g251 = (float2(break35_g251.y , break35_g251.z));
+				float2 normalizeResult41_g251 = normalize( appendResult36_g251 );
+				float temp_output_120_0_g251 = sqrt( max( break35_g251.x , 0.0 ) );
+				float temp_output_48_0_g251 = tan( radians( _Angle ) );
+				float temp_output_125_0_g251 = ( temp_output_124_0_g251 + ( temp_output_120_0_g251 * temp_output_48_0_g251 ) );
+				float temp_output_37_0_g251 = length( appendResult36_g251 );
+				float temp_output_114_0_g251 = ( ( temp_output_125_0_g251 - temp_output_37_0_g251 ) + 1.0 );
+				float lerpResult102_g251 = lerp( temp_output_125_0_g251 , temp_output_37_0_g251 , saturate( temp_output_114_0_g251 ));
+				float lerpResult130_g251 = lerp( 0.0 , lerpResult102_g251 , saturate( ( -( -temp_output_124_0_g251 - break35_g251.x ) / temp_output_124_0_g251 ) ));
+				float2 break43_g251 = ( normalizeResult41_g251 * lerpResult130_g251 );
+				float4 appendResult40_g251 = (float4(max( break35_g251.x , -temp_output_124_0_g251 ) , break43_g251.x , break43_g251.y , 1.0));
+				float4 appendResult28_g250 = (float4(((mul( invertVal44_g251, appendResult40_g251 )).xyz).xyz , 1.0));
+				float4 localWorldVar29_g250 = appendResult28_g250;
+				(localWorldVar29_g250).xyz = GetCameraRelativePositionWS((localWorldVar29_g250).xyz);
+				float4 transform29_g250 = mul(GetWorldToObjectMatrix(),localWorldVar29_g250);
 				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch13_g255 = (transform29_g255).xyz;
+				float3 staticSwitch13_g250 = (transform29_g250).xyz;
 				#else
-				float3 staticSwitch13_g255 = ( staticSwitch16_g254 + ( staticSwitch15_g254 * (-1.0 + (tex2Dlod( _BulgeHeight1, float4( temp_output_34_0_g254, 0, 0.0) ).r - 0.0) * (1.0 - -1.0) / (1.0 - 0.0)) * 0.25 * ( distance( temp_output_34_0_g254 , ( ( appendResult24_g254 * float2( 0.4,0.4 ) ) + float2( 0.5,0.5 ) ) ) * saturate( (1.0 + (distance( texCoord47_g254 , float2( 0.5,0.5 ) ) - 0.0) * (0.0 - 1.0) / (0.4 - 0.0)) ) ) * _BulgeAmount ) );
+				float3 staticSwitch13_g250 = staticSwitch16_g1;
 				#endif
 				
-				float3 temp_output_50_0_g255 = staticSwitch15_g254;
-				float2 break146_g256 = normalizeResult41_g256;
-				float4 appendResult139_g256 = (float4(temp_output_48_0_g256 , break146_g256.x , break146_g256.y , 0.0));
-				float3 normalizeResult144_g256 = normalize( (mul( invertVal44_g256, appendResult139_g256 )).xyz );
-				float3 lerpResult44_g255 = lerp( normalizeResult144_g256 , temp_output_50_0_g255 , saturate( sign( temp_output_114_0_g256 ) ));
-				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch17_g255 = lerpResult44_g255;
+				float3 normalizeResult13_g1 = normalize( ( temp_output_6_0_g1 - temp_output_5_0_g1 ) );
+				float3 lerpResult12_g1 = lerp( inputMesh.normalOS , normalizeResult13_g1 , temp_output_18_0_g1);
+				#ifdef _SPHERIZE_ON
+				float3 staticSwitch15_g1 = lerpResult12_g1;
 				#else
-				float3 staticSwitch17_g255 = temp_output_50_0_g255;
+				float3 staticSwitch15_g1 = inputMesh.normalOS;
+				#endif
+				float3 temp_output_50_0_g250 = staticSwitch15_g1;
+				float2 break146_g251 = normalizeResult41_g251;
+				float4 appendResult139_g251 = (float4(temp_output_48_0_g251 , break146_g251.x , break146_g251.y , 0.0));
+				float3 normalizeResult144_g251 = normalize( (mul( invertVal44_g251, appendResult139_g251 )).xyz );
+				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , temp_output_50_0_g250 , saturate( sign( temp_output_114_0_g251 ) ));
+				#ifdef _COCKVORESQUISHENABLED_ON
+				float3 staticSwitch17_g250 = lerpResult44_g250;
+				#else
+				float3 staticSwitch17_g250 = temp_output_50_0_g250;
 				#endif
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -7101,14 +6826,14 @@ Shader "BallsSpherize"
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue =  staticSwitch13_g255;
+				float3 vertexValue =  staticSwitch13_g250;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
 				#else
 				inputMesh.positionOS.xyz += vertexValue;
 				#endif
 
-				inputMesh.normalOS = staticSwitch17_g255;
+				inputMesh.normalOS = staticSwitch17_g250;
 
 				float3 positionRWS = TransformObjectToWorld(inputMesh.positionOS);
 				float3 normalWS = TransformObjectToWorldNormal(inputMesh.normalOS);
@@ -7128,7 +6853,6 @@ Shader "BallsSpherize"
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
 				float4 ase_color : COLOR;
-				float4 ase_texcoord1 : TEXCOORD1;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -7148,7 +6872,6 @@ Shader "BallsSpherize"
 				o.normalOS = v.normalOS;
 				o.tangentOS = v.tangentOS;
 				o.ase_color = v.ase_color;
-				o.ase_texcoord1 = v.ase_texcoord1;
 				return o;
 			}
 
@@ -7194,7 +6917,6 @@ Shader "BallsSpherize"
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
 				o.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
 				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
-				o.ase_texcoord1 = patch[0].ase_texcoord1 * bary.x + patch[1].ase_texcoord1 * bary.y + patch[2].ase_texcoord1 * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -7532,23 +7254,23 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;34;0,0;Float;False;False;-1
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;35;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;TransparentDepthPostpass;0;8;TransparentDepthPostpass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=TransparentDepthPostpass;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;36;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;Forward;0;9;Forward;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;True;0;True;_CullModeForward;False;False;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelOne;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelTwo;False;False;False;True;True;0;True;_StencilRef;255;False;;255;True;_StencilWriteMask;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;0;True;_ZWrite;True;0;True;_ZTestDepthEqualForOpaque;False;True;1;LightMode=Forward;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;37;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;ScenePickingPass;0;10;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;3;False;;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.FunctionNode;122;169.9841,145.2732;Inherit;False;BallsDeformation;0;;254;3a07f22ac6bed084ab9ea7cca5de80a8;0;0;3;FLOAT3;0;FLOAT3;53;FLOAT3;59
 Node;AmplifyShaderEditor.SamplerNode;3;60.40735,-74.50576;Inherit;True;Property;_MaskMap;MaskMap;21;0;Create;True;0;0;0;False;0;False;-1;None;f920b22d535aa2546a12d783e1be0338;True;0;False;gray;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SamplerNode;2;-181.483,-582.3544;Inherit;True;Property;_BaseColorMap;BaseColorMap;20;0;Create;True;0;0;0;False;0;False;-1;None;f9c4c3b88bc300c4ca69f83d9e36bf9b;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SamplerNode;4;-169.483,-352.3542;Inherit;True;Property;_NormalMap;NormalMap;22;0;Create;True;0;0;0;False;0;False;-1;None;0248ebb3931f38c4ea6664623270933a;True;0;True;bump;Auto;True;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.FunctionNode;46;152.6666,-482.9865;Inherit;False;ApplyDecals;17;;2;f7da7b34ea6e39744bbdb4ce1b63d517;0;2;1;FLOAT4;1,1,1,1;False;4;FLOAT3;0,0,1;False;3;COLOR;0;FLOAT;3;FLOAT3;5
+Node;AmplifyShaderEditor.FunctionNode;46;152.6666,-482.9865;Inherit;False;ApplyDecals;17;;260;f7da7b34ea6e39744bbdb4ce1b63d517;0;2;1;FLOAT4;1,1,1,1;False;4;FLOAT3;0,0,1;False;3;COLOR;0;FLOAT;3;FLOAT3;5
 Node;AmplifyShaderEditor.BlendNormalsNode;121;511.5624,-123.4057;Inherit;False;0;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.FunctionNode;123;198.5842,172.5733;Inherit;False;BallsDeformation;0;;1;3a07f22ac6bed084ab9ea7cca5de80a8;0;0;3;FLOAT3;0;FLOAT3;53;FLOAT3;59
 WireConnection;27;0;46;0
-WireConnection;27;1;121;0
+WireConnection;27;1;46;5
 WireConnection;27;3;46;3
 WireConnection;27;4;3;1
 WireConnection;27;7;3;4
 WireConnection;27;8;3;2
-WireConnection;27;11;122;53
-WireConnection;27;12;122;0
+WireConnection;27;11;123;53
+WireConnection;27;12;123;0
 WireConnection;46;1;2;0
 WireConnection;46;4;4;0
 WireConnection;121;0;46;5
-WireConnection;121;1;122;59
+WireConnection;121;1;123;59
 ASEEND*/
-//CHKSM=29672952D13A43371A39A73EC0F4528995BAFD01
+//CHKSM=7286FA8A71785F7AB8F23D224101C2499CFE2847
