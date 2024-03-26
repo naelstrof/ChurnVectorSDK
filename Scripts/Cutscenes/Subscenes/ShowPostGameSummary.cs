@@ -20,7 +20,6 @@ namespace Cutscenes.Subscenes {
         [SerializeField] private Image mapIcon;
         [SerializeField] private TMP_Text mapLabel;
         [SerializeField] private CanvasGroup canvasGroup;
-        [SerializeField] private LocalizedString debrief;
         [SerializeField] private DialogueTheme debriefTheme;
 
         private StringBuilder builder;
@@ -120,7 +119,7 @@ namespace Cutscenes.Subscenes {
                 newRecordDisplay.SetActive(true);
             }
             yield return new WaitForSeconds(1f);
-            debriefText.text = debrief.GetLocalizedString();
+            debriefText.text = ObjectivesDescription.GetDebrief();
             debriefText.maxVisibleCharacters = 0;
             debriefObj.SetActive(true);
             
@@ -160,7 +159,7 @@ namespace Cutscenes.Subscenes {
                 newRecordDisplay.SetActive(true);
             }
             debriefObj.SetActive(true);
-            debriefText.text = debrief.GetLocalizedString();
+            debriefText.text = ObjectivesDescription.GetDebrief();
             debriefText.maxVisibleCharacters = debriefText.text.Length + 1000;
         }
     }

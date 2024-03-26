@@ -1,12 +1,13 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Localization;
 
 public class ObjectivesDescription : InitializationManagerInitialized {
     [SerializeField, SerializeReference, SubclassSelector]
     private List<Objective> objectives;
+
+    [SerializeField] private LocalizedString debriefString;
 
     private static ObjectivesDescription instance;
 
@@ -20,6 +21,22 @@ public class ObjectivesDescription : InitializationManagerInitialized {
 
     public override InitializationManager.InitializationStage GetInitializationStage() {
         return InitializationManager.InitializationStage.AfterLevelLoad;
+    }
+
+    public static string GetDebrief() {
+        if (instance == null) {
+            instance = FindObjectOfType<ObjectivesDescription>();
+        }
+
+        if (instance == null) {
+            return "";
+        }
+        
+        if (instance.debriefString == null) {
+            return "";
+        }
+        
+        return instance.debriefString.GetLocalizedString();
     }
 
     public override Task OnInitialized() {

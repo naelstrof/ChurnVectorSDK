@@ -14,6 +14,7 @@ public class Balls : VoreContainer {
     public BallsChangedAction ballsChanged;
     private GameObject gameObject;
     private AudioSource audioSource;
+    private Animator targetAnimator;
     private Rigidbody body;
     private SphereCollider collider;
     private SpringJoint joint;
@@ -36,6 +37,7 @@ public class Balls : VoreContainer {
         storage.startChurn += OnStartChurn;
         
         this.target = target;
+        targetAnimator = target.GetDisplayAnimator();
         gameObject = new GameObject("Balls", typeof(Rigidbody), typeof(SphereCollider), typeof(SpringJoint), typeof(DecalableCollider)) {
             transform = { position = target.transform.position }
         };
@@ -148,12 +150,26 @@ public class Balls : VoreContainer {
     private void SetActive(bool active) {
         if (active && !gameObject.activeSelf) {
             gameObject.SetActive(true);
-            var hipPosition = hip.transform.position;
+            target.StartCoroutine(DisableCollisionForAWhile());
+            var hipPosition = hip.transform.position - targetAnimator.transform.forward*Mathf.Max(collider.radius, 0.1f);
             gameObject.transform.position = hipPosition;
             body.position = hipPosition;
+            body.velocity = targetAnimator.transform.forward * -3f;
         } else if (!active && gameObject.activeSelf) {
             gameObject.SetActive(false);
         }
+    }
+
+    private IEnumerator DisableCollisionForAWhile() {
+        CapsuleCollider targetCollider = target.GetComponent<CapsuleCollider>();
+        Physics.IgnoreCollision(targetCollider, collider, true);
+        WaitForFixedUpdate wait = new WaitForFixedUpdate();
+        do {
+            yield return wait;
+        } while (Physics.ComputePenetration(targetCollider, targetCollider.transform.position,
+                 targetCollider.transform.rotation, collider, collider.transform.position, collider.transform.rotation,
+                 out Vector3 direction, out float distance));
+        Physics.IgnoreCollision(targetCollider, collider, false);
     }
 
     private void OnSizeChanged(float newSize) {
