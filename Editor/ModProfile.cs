@@ -393,9 +393,12 @@ public class ModProfile : ScriptableObject {
 	        group = settings.CreateGroup(name, false, false, true, settings.DefaultGroup.Schemas);
         }
 
+		var schema = group.GetSchema<BundledAssetGroupSchema>();
+		Undo.RecordObject(schema, "Schema change.");
+		schema.IncludeInBuild = true;
         try {
 	        // Clear the group
-	        Undo.RecordObject(group, "Set default group to modded items.");
+	        Undo.RecordObject(group, "Filled custom group.");
 	        var entries = new List<AddressableAssetEntry>(group.entries);
 	        foreach (var entry in entries) {
 		        group.RemoveAssetEntry(entry);
@@ -456,7 +459,6 @@ public class ModProfile : ScriptableObject {
 	        AssetDatabase.CreateAsset(externalCatalog,
 		        Path.Combine(settings.DataBuilderFolder, "ExternalCatalog.asset"));
 
-	        var schema = group.GetSchema<BundledAssetGroupSchema>();
 	        schema.BuildPath.SetVariableById(settings, buildPathInfo.Id);
 	        schema.LoadPath.SetVariableById(settings, runtimeLoadPathInfo.Id);
 
@@ -493,7 +495,7 @@ public class ModProfile : ScriptableObject {
 	        Save();
 	        EditorUtility.RevealInFinder(GetBuiltPath());
         } finally {
-			settings.RemoveGroup(group);
+	        schema.IncludeInBuild = false;
         }
     }
 
