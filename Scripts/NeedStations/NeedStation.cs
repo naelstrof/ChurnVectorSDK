@@ -98,12 +98,14 @@ public class NeedStation : InitializationManagerInitialized, IInteractable {
     private RuntimeAnimatorController interactableController;
     [SerializeField]
     protected Transform animationTransform;
-    
-    
+
+
+    protected ParentConstraint parentConstraint;
     private RuntimeAnimatorController controllerStorage;
     private TicketLock.Ticket lockTicket;
     protected CharacterBase beingUsedBy;
-    
+
+    protected Vector3 targetOffset;
     public virtual bool CanInteract(CharacterBase from) {
         // Ugh, NPCs will walk around a corner with a condom and think they can't use it anymore...
         /*Vector3 target = GetInteractBounds().center;
@@ -173,7 +175,7 @@ public class NeedStation : InitializationManagerInitialized, IInteractable {
             characterAnimator.SetBool(displayGroup.name, true);
         }
 
-        var parentConstraint = from.transform.gameObject.AddComponent<ParentConstraint>();
+        parentConstraint = from.transform.gameObject.AddComponent<ParentConstraint>();
         parentConstraint.SetSources(new List<ConstraintSource>() { new(){sourceTransform = animationTransform, weight = 1f}});
         parentConstraint.constraintActive = true;
         parentConstraint.translationOffsets = new[] { animationTransform.InverseTransformPoint(from.transform.position) };
@@ -243,12 +245,12 @@ public class NeedStation : InitializationManagerInitialized, IInteractable {
         var parentConstraint = from.GetComponent<ParentConstraint>();
         while (Time.time - startTime < duration) {
             float t = (Time.time - startTime) / duration;
-            parentConstraint.SetTranslationOffset(0, Vector3.Lerp(parentConstraint.GetTranslationOffset(0), Vector3.zero, t));
+            parentConstraint.SetTranslationOffset(0, Vector3.Lerp(parentConstraint.GetTranslationOffset(0), targetOffset, t));
             parentConstraint.SetRotationOffset(0, Vector3.Lerp(parentConstraint.GetRotationOffset(0), Vector3.zero, t));
             yield return null;
         }
 
-        parentConstraint.SetTranslationOffset(0, Vector3.zero);
+        parentConstraint.SetTranslationOffset(0, targetOffset);
         parentConstraint.SetRotationOffset(0, Vector3.zero);
     }
 

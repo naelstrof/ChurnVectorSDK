@@ -1459,6 +1459,7 @@ MonoBehaviour:
   breakVFX: {fileID: 8926484042661614526, guid: 5caed00ae9bb35b44a08bf5e3e0c2973,
     type: 3}
   breakAudioPack: {fileID: 11400000, guid: 089e48d9ecba0f64bb579a9a4358f033, type: 2}
+  thrustInAnimation: {fileID: 7400000, guid: 85045572f7cb10d4d98425e694babcf5, type: 2}
   references:
     version: 2
     RefIds:

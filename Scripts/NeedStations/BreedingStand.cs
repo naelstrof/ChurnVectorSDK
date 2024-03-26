@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using DPG;
 using UnityEngine;
@@ -13,6 +14,7 @@ public class BreedingStand : NeedStation, ICumContainer {
     
     [SerializeField] protected VisualEffectAsset breakVFX;
     [SerializeField] protected AudioPack breakAudioPack;
+    [SerializeField] protected AnimationClip thrustInAnimation;
 
     protected bool broken = false;
     protected Penetrator currentDick;
@@ -66,6 +68,22 @@ public class BreedingStand : NeedStation, ICumContainer {
         } else {
             throw new UnityException("Don't currently support anything except jiggle deform dicks...");
         }
+
+        var animator = from.GetDisplayAnimator();
+        Vector3 lastPosition = from.transform.position;
+        Quaternion lastRotation = animator.transform.rotation;
+        from.transform.position = animationTransform.transform.position;
+        animator.transform.rotation = animationTransform.transform.rotation;
+        thrustInAnimation.SampleAnimation(animator.gameObject, 0f);
+        
+        Vector3 dickPosition = currentDick.GetRootTransform().TransformPoint(currentDick.GetRootPositionOffset());
+        Vector3 holePosition = penetrable.GetPoints()[0];
+        penetrable.GetHole(out Vector3 _unused, out Vector3 holeNormal);
+        Vector3 worldOffset = holePosition - dickPosition;
+        targetOffset = animationTransform.InverseTransformVector(worldOffset-holeNormal*0.08f);
+        
+        from.transform.position = lastPosition;
+        animator.transform.rotation = lastRotation;
 
         simulation = new FuckSimulation(OrbitCamera.GetCamera(), currentDick.GetRootTransform(), penetrable, currentDick, from.GetDisplayAnimator());
         OrbitCamera.AddConfiguration(fuckConfiguration);

@@ -44,7 +44,7 @@ public partial class CharacterBase {
     private void OnPenetration(Penetrator penetrator, Penetrable penetrable, Penetrator.PenetrationArgs penetrationArgs, Penetrable.PenetrationResult result) {
         float movement = penetrationArgs.penetrationDepth - (lastPenetrationDepth ?? penetrationArgs.penetrationDepth);
         lastPenetrationDepth = penetrationArgs.penetrationDepth;
-        if (Mathf.Abs(movement) < 0.001f || penetrationArgs.penetrationDepth < result.holeStartDepth) {
+        if (Mathf.Abs(movement) < 0.001f || penetrationArgs.penetrationDepth < 0f) { // || penetrationArgs.penetrationDepth < result.holeStartDepth) {
             return;
         }
         dickCum.AddStimulation(movement);
