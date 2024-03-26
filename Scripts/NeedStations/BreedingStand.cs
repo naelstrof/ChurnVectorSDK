@@ -80,7 +80,7 @@ public class BreedingStand : NeedStation, ICumContainer {
         Vector3 holePosition = penetrable.GetPoints()[0];
         penetrable.GetHole(out Vector3 _unused, out Vector3 holeNormal);
         Vector3 worldOffset = holePosition - dickPosition;
-        targetOffset = animationTransform.InverseTransformVector(worldOffset-holeNormal*0.08f);
+        targetOffset = animationTransform.InverseTransformVector(worldOffset-holeNormal*0.01f);
         
         from.transform.position = lastPosition;
         animator.transform.rotation = lastRotation;

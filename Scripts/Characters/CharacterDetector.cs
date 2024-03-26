@@ -184,7 +184,7 @@ public abstract class CharacterDetector : CharacterBase {
 
         if (!CanSee(target)) return;
         float distanceMultiplier = distanceToPlayer / maxSightDistance;
-        float multiplier = (1f - distanceMultiplier);
+        float multiplier = Mathf.Lerp((1f-distanceMultiplier) * (1f-distanceMultiplier), 1f-distanceMultiplier, 0.25f);
 
         if (target.TryGetComponent(out CharacterBase character)) {
             multiplier *= Mathf.Sqrt(1f + character.GetBallVolume() * 0.1f);

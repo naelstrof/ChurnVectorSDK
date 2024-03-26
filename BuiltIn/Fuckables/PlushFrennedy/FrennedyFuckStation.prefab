@@ -78,7 +78,7 @@ MonoBehaviour:
   breakVFX: {fileID: 8926484042661614526, guid: b32f72eaeaac6064c86ca204efddd3f3,
     type: 3}
   breakAudioPack: {fileID: 11400000, guid: 7e870ee698555364da4f3c090c44669c, type: 2}
-  thrustInAnimation: {fileID: 7400000, guid: e5a7898f46812ab4e88bbab448104bca, type: 2}
+  thrustInAnimation: {fileID: 7400000, guid: 85045572f7cb10d4d98425e694babcf5, type: 2}
   plushInUse: {fileID: 1804439164564299013}
   clothColor: {r: 0.9979381, g: 1, b: 0.5801887, a: 1}
   clothTexture: {fileID: 2800000, guid: e54e8df785b61884ebba1ea3ab2fd69f, type: 3}

@@ -134,7 +134,10 @@ public class FuckSimulation {
             Vector3 hipToHole = (holePosition+holeNormal*0.25f) - dick.hipPosition;
             float hipToHoleDistance = hipToHole.magnitude;
             float distanceCorrection = Mathf.Max(hipToHoleDistance - 0.75f, 0f);
-            dick.hipVelocity += hipToHole.normalized * (distanceCorrection * 10f);
+            if (distanceCorrection > 0f) {
+                dick.hipVelocity = Vector3.ProjectOnPlane(dick.hipVelocity, hipToHole.normalized);
+            }
+            dick.hipPosition += hipToHole.normalized * (distanceCorrection);
         } else {
             //Vector3 adjustedHolePosition = holePosition + holeNormal * 0.020f;
             // Cone constraint when inside
@@ -143,8 +146,12 @@ public class FuckSimulation {
             float radius = holeToDick.magnitude*0.5f*Mathf.Max(dot, 0f);
             Vector3 projectedPoint = Vector3.Project(Mathf.Sign(dot)*holeToDick, holeNormal)+holePosition;
             Vector3 dickToProjectedPoint = projectedPoint - dick.dickPosition;
-            correctiveForce += dickToProjectedPoint.normalized * Mathf.Max(dickToProjectedPoint.magnitude - radius, 0f);
-            dick.hipVelocity += dickToProjectedPoint.normalized * Mathf.Max(dickToProjectedPoint.magnitude - radius, 0f);
+            float distanceCorrection = Mathf.Max(dickToProjectedPoint.magnitude - radius, 0f);
+            if (distanceCorrection > 0f) {
+                dick.hipVelocity = Vector3.ProjectOnPlane(dick.hipVelocity, dickToProjectedPoint.normalized);
+            }
+            correctiveForce += dickToProjectedPoint.normalized * distanceCorrection;
+            dick.hipPosition += dickToProjectedPoint.normalized * distanceCorrection;
         }
 
         dick.hipPosition += dick.hipVelocity * dt;
