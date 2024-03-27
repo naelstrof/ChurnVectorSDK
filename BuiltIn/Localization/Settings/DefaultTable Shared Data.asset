@@ -383,6 +383,50 @@ MonoBehaviour:
     m_Key: CITY_BREIFING_7
     m_Metadata:
       m_Items: []
+  - m_Id: 89611307746140160
+    m_Key: TOWER_BREIFING_1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111680
+    m_Key: TOWER_BREIFING_2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111681
+    m_Key: TOWER_BREIFING_3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111682
+    m_Key: TOWER_BREIFING_4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111683
+    m_Key: TOWER_BREIFING_5
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111684
+    m_Key: TOWER_SECONDARY_1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111685
+    m_Key: TOWER_SECONDARY_2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111686
+    m_Key: TOWER_SECONDARY_3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111687
+    m_Key: TOWER_SECONDARY_4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111688
+    m_Key: TOWER_SECONDARY_5
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111689
+    m_Key: TOWER_SECONDARY_6
+    m_Metadata:
+      m_Items: []
   - m_Id: 41664608362614784
     m_Key: VORE_NOSPEECH
     m_Metadata:
@@ -1365,6 +1409,22 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 59060303696547863
     m_Key: OBJECTIVE_LABEL_CITY_NOT_SEEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888896
+    m_Key: OBJECTIVE_LABEL_TOWER_BOSS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888897
+    m_Key: OBJECTIVE_DESCRIPTION_TOWER_BOSS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888898
+    m_Key: OBJECTIVE_LABEL_TOWER_NOT_SEEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888899
+    m_Key: OBJECTIVE_DESCRIPTION_TOWER_ESCAPE
     m_Metadata:
       m_Items: []
   - m_Id: 60147729936470016

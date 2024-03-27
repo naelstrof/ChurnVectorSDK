@@ -1375,6 +1375,67 @@ MonoBehaviour:
       Sie das Protokoll auf Fehler."
     m_Metadata:
       m_Items: []
+  - m_Id: 89611307746140160
+    m_Localized: "Ich hoffe, Ihnen gef\xE4llt der Produktvertreter von GlorpCo ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111680
+    m_Localized: Sie haben ein Treffen mit ihrem CEO.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111681
+    m_Localized: Sie befinden sich ganz oben im Firmenturm
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111682
+    m_Localized: Da es Wochenende ist, sollte kaum jemand hier sein
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111683
+    m_Localized: "Aber halten Sie f\xFCr alle F\xE4lle die Augen offen"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111684
+    m_Localized: Das war zu einfach, irgendetwas stimmt nicht...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111685
+    m_Localized: Ach nein....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111686
+    m_Localized: "Ich wei\xDF, dass du hier bist, Kaninchen!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111687
+    m_Localized: "Das letzte Mal hatte ich so viel Spa\xDF, dass ich mich einfach
+      revanchieren muss!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111688
+    m_Localized: Ich habe sogar ein paar Freunde mitgebracht...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111689
+    m_Localized: Es ist eine Falle! Agent, verschwinden Sie da!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888896
+    m_Localized: "Lebenslauf des K\xE4nguru-Boss!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888897
+    m_Localized: Schicken Sie den Chef in den wohlverdienten Urlaub.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888898
+    m_Localized: Lassen Sie sich nicht von der Unternehmenssicherheit erwischen.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888899
+    m_Localized: Flucht durch den Haupteingang,
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -1191,7 +1191,7 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 59060303696547854
     m_Localized: "C\u0103pitanul are nevoie de o vacan\u021B\u0103, g\u0103se\u0219te-i
-      \xEEn zona securizat\u0103 de culoare albastru \xEEnchis."
+      \xEEn zona securizat\u0103 albastru \xEEnchis."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547855
@@ -1272,7 +1272,7 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 60147729936470016
     m_Localized: "Agent bun de lucru, \u0219eful rechinului este mult mai dr\u0103gu\u021B
-      dup\u0103 ce \u0219i-a f\u0103cut pl\u0103cere. F\u0103ceam lumea mai excitat\u0103,
+      dup\u0103 ce le-a fost r\u0103sf\u0103\u021Bat. F\u0103ceam lumea mai excitat\u0103,
       c\xE2te o \u021Bint\u0103 la un moment dat!"
     m_Metadata:
       m_Items: []
@@ -1284,13 +1284,13 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 60147729965830145
     m_Localized: "Un alt agent de succes. Cu \u0219eful dragonului dat un gust din
-      propriul lor medicament, lucr\u0103torii sunt mult mai ferici\u021Bi."
+      propriul medicament, lucr\u0103torii sunt mult mai ferici\u021Bi."
     m_Metadata:
       m_Items: []
   - m_Id: 60147729965830146
-    m_Localized: "Excelent agent de lucru! Personalul sta\u021Biei este un pic mai
-      excitat cu at\xE2t de mul\u021Bi dintre colegii lor care vorbesc despre experien\u021Ba
-      lor cu tine."
+    m_Localized: "Excelent agent de lucru! Personalul sta\u021Biei este pu\u021Bin
+      mai excitat, cu at\xE2t de mul\u021Bi dintre colegii lor care vorbesc despre
+      experien\u021Ba lor cu tine."
     m_Metadata:
       m_Items: []
   - m_Id: 60175060938878976
@@ -1382,6 +1382,68 @@ MonoBehaviour:
   - m_Id: 87755815642013696
     m_Localized: "Eroare fatal\u0103 la \xEEncercarea de a instala mod-uri. Verifica\u021Bi
       erorile \xEEn jurnal."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307746140160
+    m_Localized: "Sper c\u0103 v\u0103 plac agentul de produse GlorpCo..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111680
+    m_Localized: "Ai o \xEEnt\xE2lnire cu CEO-ul lor."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111681
+    m_Localized: "Sunt situate chiar \xEEn v\xE2rful turnului companiei"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111682
+    m_Localized: "Este weekendul, a\u0219a c\u0103 abia ar trebui s\u0103 fie cineva
+      aici"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111683
+    m_Localized: "Dar \u021Bine ochii deschi\u0219i pentru orice eventualitate"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111684
+    m_Localized: "A fost prea u\u0219or, ceva nu este \xEEn regul\u0103..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111685
+    m_Localized: Oh nu....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111686
+    m_Localized: "\u0218tiu c\u0103 e\u0219ti aici iepure!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111687
+    m_Localized: "M-am distrat at\xE2t de mult data trecut\u0103 \xEEnc\xE2t trebuie
+      doar s\u0103-i \xEEntorc favoarea!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111688
+    m_Localized: "Am adus chiar \u0219i c\xE2\u021Biva prieteni..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111689
+    m_Localized: "E o capcana! Agentul pleac\u0103 de acolo!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888896
+    m_Localized: "CV \u0218eful Cangurului!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888897
+    m_Localized: "Trimite-l pe \u0219ef \xEEntr-o vacan\u021B\u0103 bine meritat\u0103."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888898
+    m_Localized: "Nu te l\u0103sa prins de securitatea companiei."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888899
+    m_Localized: "Evada\u021Bi prin intrarea principal\u0103,"
     m_Metadata:
       m_Items: []
   references:

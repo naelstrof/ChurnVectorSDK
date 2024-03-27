@@ -845,7 +845,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511338
-    m_Localized: Ficou suave comigo?
+    m_Localized: Ficou mole comigo?
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511339
@@ -881,7 +881,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511347
-    m_Localized: "Vamos ver quanto tempo voc\xEA dura ~"
+    m_Localized: "Vamos ver quanto tempo voc\xEA dura~"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511348
@@ -1374,6 +1374,68 @@ MonoBehaviour:
   - m_Id: 87755815642013696
     m_Localized: "Erro fatal ao tentar instalar mods. Verifique se h\xE1 erros no
       log."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307746140160
+    m_Localized: Espero que gostem agente de produtos GlorpCo...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111680
+    m_Localized: "Voc\xEA tem uma reuni\xE3o com o CEO deles."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111681
+    m_Localized: "Eles est\xE3o localizados no topo da torre da empresa"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111682
+    m_Localized: "\xC9 fim de semana, ent\xE3o n\xE3o deve haver quase ningu\xE9m
+      aqui"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111683
+    m_Localized: "Mas mantenha os olhos abertos, apenas por precau\xE7\xE3o"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111684
+    m_Localized: "Isso foi muito f\xE1cil, algo n\xE3o est\xE1 certo..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111685
+    m_Localized: "Oh n\xE3o...."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111686
+    m_Localized: "Eu sei que voc\xEA est\xE1 aqui coelho!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111687
+    m_Localized: "Eu me diverti tanto da \xFAltima vez que s\xF3 tenho que retribuir
+      o favor!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111688
+    m_Localized: "At\xE9 trouxe alguns amigos..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111689
+    m_Localized: "\xC9 uma armadilha! Agente, saia da\xED!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888896
+    m_Localized: CV, o Chefe Canguru!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888897
+    m_Localized: "Mande o chefe tirar f\xE9rias bem merecidas."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888898
+    m_Localized: "N\xE3o seja pego pela seguran\xE7a da empresa."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888899
+    m_Localized: Fuja pela entrada principal,
     m_Metadata:
       m_Items: []
   references:

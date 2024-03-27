@@ -1420,6 +1420,66 @@ MonoBehaviour:
     m_Localized: Fatal error trying to install mods. Check for errors in the log.
     m_Metadata:
       m_Items: []
+  - m_Id: 89611307746140160
+    m_Localized: I hope you like GlorpCo products agent...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111680
+    m_Localized: You've got a meeting with their CEO.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111681
+    m_Localized: They are located at the very top of the company tower
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111682
+    m_Localized: Its the weekend so there should be barely anyone here
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111683
+    m_Localized: But keep your eyes open just incase
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111684
+    m_Localized: That was too easy, something isn't right...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111685
+    m_Localized: Oh no....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111686
+    m_Localized: I know you're here rabbit!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111687
+    m_Localized: I had so much fun last time I just have to return the favor!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111688
+    m_Localized: I even brought some friends along...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111689
+    m_Localized: Its a trap! Agent get out of there!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888896
+    m_Localized: CV the Kangaroo Boss!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888897
+    m_Localized: Send the boss on a well deserved holiday.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888898
+    m_Localized: Don't get caught by company security.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888899
+    m_Localized: Escape through the main entrance,
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

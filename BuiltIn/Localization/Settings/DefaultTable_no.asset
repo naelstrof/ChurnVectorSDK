@@ -1366,6 +1366,66 @@ MonoBehaviour:
       feil i loggen."
     m_Metadata:
       m_Items: []
+  - m_Id: 89611307746140160
+    m_Localized: "Jeg h\xE5per du liker GlorpCo-produktagenten..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111680
+    m_Localized: "Du har et m\xF8te med deres administrerende direkt\xF8r."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111681
+    m_Localized: "De er plassert helt \xF8verst i bedriftst\xE5rnet"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111682
+    m_Localized: "Det er helg s\xE5 det burde v\xE6re knapt noen her"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111683
+    m_Localized: "Men hold \xF8ynene \xE5pne i tilfelle"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111684
+    m_Localized: Det var for enkelt, noe er galt...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111685
+    m_Localized: "\xC5 nei...."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111686
+    m_Localized: Jeg vet at du er her kanin!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111687
+    m_Localized: "Jeg hadde det s\xE5 g\xF8y sist at jeg bare m\xE5 gi tilbake tjenesten!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111688
+    m_Localized: Jeg tok til og med med noen venner...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111689
+    m_Localized: Det er en felle! Agent kom deg ut derfra!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888896
+    m_Localized: CV Kenguru-sjefen!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888897
+    m_Localized: "Send sjefen p\xE5 en velfortjent ferie."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888898
+    m_Localized: Ikke bli fanget av selskapets sikkerhet.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888899
+    m_Localized: "R\xF8m gjennom hovedinngangen,"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

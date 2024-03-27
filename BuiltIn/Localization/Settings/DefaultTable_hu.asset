@@ -1379,6 +1379,67 @@ MonoBehaviour:
       Ellen\u0151rizze a hib\xE1kat a napl\xF3ban."
     m_Metadata:
       m_Items: []
+  - m_Id: 89611307746140160
+    m_Localized: "Rem\xE9lem tetszik a GlorpCo term\xE9k\xFCgyn\xF6ke..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111680
+    m_Localized: "Tal\xE1lkoz\xF3d van a vez\xE9rigazgat\xF3jukkal."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111681
+    m_Localized: "A c\xE9gtorony legtetej\xE9n tal\xE1lhat\xF3k"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111682
+    m_Localized: "H\xE9tv\xE9ge van, \xEDgy alig lehet itt valaki"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111683
+    m_Localized: "De tartsd nyitva a szemed, h\xE1tha"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111684
+    m_Localized: "Ez t\xFAl k\xF6nny\u0171 volt, valami nem stimmel..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111685
+    m_Localized: "\xD3h ne...."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111686
+    m_Localized: "Tudom, hogy itt vagy ny\xFAl!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111687
+    m_Localized: "Annyira j\xF3l \xE9reztem magam a m\xFAltkor, csak viszonozni kell
+      a sz\xEDvess\xE9get!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111688
+    m_Localized: "M\xE9g bar\xE1tokat is hoztam magammal..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111689
+    m_Localized: "Ez egy csapda! \xDCgyn\xF6k, menjen onnan!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888896
+    m_Localized: "CV a Kenguruf\u0151n\xF6k!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888897
+    m_Localized: "K\xFCldje el a f\u0151n\xF6k\xF6t egy j\xF3l meg\xE9rdemelt nyaral\xE1sra."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888898
+    m_Localized: "Ne ragadjon meg a c\xE9gbiztons\xE1g."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888899
+    m_Localized: "Menek\xFCl\xE9s a f\u0151bej\xE1raton,"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

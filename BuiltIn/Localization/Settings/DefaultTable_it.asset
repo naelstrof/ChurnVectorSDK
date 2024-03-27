@@ -1376,6 +1376,68 @@ MonoBehaviour:
       la presenza di errori nel registro.
     m_Metadata:
       m_Items: []
+  - m_Id: 89611307746140160
+    m_Localized: Spero che vi piaccia l'agente dei prodotti GlorpCo...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111680
+    m_Localized: Hai un incontro con il loro amministratore delegato.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111681
+    m_Localized: Si trovano in cima alla torre aziendale
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111682
+    m_Localized: "\xC8 il fine settimana, quindi non dovrebbe esserci quasi nessuno
+      qui"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111683
+    m_Localized: Ma tieni gli occhi aperti per ogni evenienza
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111684
+    m_Localized: "E' stato troppo facile, c'\xE8 qualcosa che non va..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111685
+    m_Localized: Oh no....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111686
+    m_Localized: Lo so, sei qui, coniglio!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111687
+    m_Localized: "Mi sono divertita cos\xEC tanto l'ultima volta che non mi resta
+      che ricambiare il favore!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111688
+    m_Localized: Ho portato anche degli amici con me...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111689
+    m_Localized: "\xC8 una trappola! Agente, esci di l\xEC!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888896
+    m_Localized: CV il Boss Canguro!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888897
+    m_Localized: Manda il capo in una meritata vacanza.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888898
+    m_Localized: Non farti prendere dalla sicurezza aziendale.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888899
+    m_Localized: Fuggi dall'ingresso principale,
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

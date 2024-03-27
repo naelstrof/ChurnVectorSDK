@@ -1370,6 +1370,67 @@ MonoBehaviour:
       i loggen."
     m_Metadata:
       m_Items: []
+  - m_Id: 89611307746140160
+    m_Localized: "Jeg h\xE5ber, du kan lide GlorpCo-produktagent..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111680
+    m_Localized: "Du har et m\xF8de med deres administrerende direkt\xF8r."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111681
+    m_Localized: "De er placeret helt i toppen af \u200B\u200Bfirmat\xE5rnet"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111682
+    m_Localized: "Det er weekend, s\xE5 der burde n\xE6sten ikke v\xE6re nogen her"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111683
+    m_Localized: "Men hold \xF8jnene \xE5bne for en sikkerheds skyld"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111684
+    m_Localized: Det var for nemt, noget er galt...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111685
+    m_Localized: "\xC5h nej...."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111686
+    m_Localized: Jeg ved, du er her, kanin!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111687
+    m_Localized: "Jeg havde det s\xE5 sjovt sidste gang, at jeg bare m\xE5 give en
+      tjeneste!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111688
+    m_Localized: Jeg tog endda nogle venner med...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111689
+    m_Localized: "Det er en f\xE6lde! Agent kom ud derfra!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888896
+    m_Localized: "CV K\xE6nguru Boss!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888897
+    m_Localized: "Send chefen p\xE5 en velfortjent ferie."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888898
+    m_Localized: Bliv ikke fanget af virksomhedens sikkerhed.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888899
+    m_Localized: Flygte gennem hovedindgangen,
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

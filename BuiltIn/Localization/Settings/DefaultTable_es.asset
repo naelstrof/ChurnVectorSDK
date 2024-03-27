@@ -1384,6 +1384,67 @@ MonoBehaviour:
       en el registro.
     m_Metadata:
       m_Items: []
+  - m_Id: 89611307746140160
+    m_Localized: Espero que te guste el agente de productos GlorpCo...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111680
+    m_Localized: "Tienes una reuni\xF3n con su director ejecutivo."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111681
+    m_Localized: "Est\xE1n ubicados en lo m\xE1s alto de la torre de la empresa."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111682
+    m_Localized: "Es fin de semana, as\xED que casi no deber\xEDa haber nadie aqu\xED."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111683
+    m_Localized: "Pero mant\xE9n los ojos abiertos por si acaso."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111684
+    m_Localized: "Eso fue demasiado f\xE1cil, algo no est\xE1 bien..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111685
+    m_Localized: Oh, no....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111686
+    m_Localized: "\xA1S\xE9 que est\xE1s aqu\xED conejo!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111687
+    m_Localized: "\xA1Me divert\xED tanto la \xFAltima vez que solo tengo que devolverte
+      el favor!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111688
+    m_Localized: Incluso traje a algunos amigos...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111689
+    m_Localized: "\xA1Es una trampa! \xA1Agente, salga de ah\xED!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888896
+    m_Localized: "\xA1CV el Jefe Canguro!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888897
+    m_Localized: "Env\xEDa al jefe a unas merecidas vacaciones."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888898
+    m_Localized: No se deje atrapar por la seguridad de la empresa.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888899
+    m_Localized: Escapa por la entrada principal,
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -1274,9 +1274,9 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 60147729936470016
-    m_Localized: "Dobry agent pracy, szef rekin\xF3w jest podobno o wiele milszy,
-      gdy pozwala sobie na fobie. Sprawiali\u015Bmy, \u017Ce \u015Bwiat by\u0142
-      bardziej napalony, jeden cel na raz!"
+    m_Localized: "Dobry agent pracy, szef-rekin jest podobno znacznie milszy, gdy
+      pozwala sobie na fobie. Sprawiali\u015Bmy, \u017Ce \u015Bwiat by\u0142 bardziej
+      napalony, jeden cel na raz!"
     m_Metadata:
       m_Items: []
   - m_Id: 60147729965830144
@@ -1383,6 +1383,68 @@ MonoBehaviour:
   - m_Id: 87755815642013696
     m_Localized: "Fatalny b\u0142\u0105d przy pr\xF3bie zainstalowania mod\xF3w.
       Sprawd\u017A b\u0142\u0119dy w logu."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307746140160
+    m_Localized: "Mam nadziej\u0119, \u017Ce podoba Ci si\u0119 agent produkt\xF3w
+      GlorpCo..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111680
+    m_Localized: Masz spotkanie z ich dyrektorem generalnym.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111681
+    m_Localized: "Znajduj\u0105 si\u0119 one na samym szczycie wie\u017Cy firmowej"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111682
+    m_Localized: "Jest weekend, wi\u0119c nie powinno tu by\u0107 prawie nikogo"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111683
+    m_Localized: Ale miej oczy otwarte, na wszelki wypadek
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111684
+    m_Localized: "To by\u0142o zbyt proste, co\u015B jest nie tak..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111685
+    m_Localized: O nie....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111686
+    m_Localized: "Wiem, \u017Ce tu jeste\u015B, kr\xF3liku!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111687
+    m_Localized: "Ostatnim razem bawi\u0142em si\u0119 tak dobrze, \u017Ce musz\u0119
+      si\u0119 odwdzi\u0119czy\u0107!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111688
+    m_Localized: "Nawet zabra\u0142em ze sob\u0105 kilku przyjaci\xF3\u0142..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111689
+    m_Localized: "To pu\u0142apka! Agencie, wyno\u015B si\u0119 stamt\u0105d!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888896
+    m_Localized: "CV Szefa Kangur\xF3w!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888897
+    m_Localized: "Wy\u015Blij szefa na zas\u0142u\u017Cony urlop."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888898
+    m_Localized: "Nie daj si\u0119 z\u0142apa\u0107 ochronie firmy."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888899
+    m_Localized: "Ucieknij g\u0142\xF3wnym wej\u015Bciem,"
     m_Metadata:
       m_Items: []
   references:

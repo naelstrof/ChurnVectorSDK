@@ -1374,6 +1374,68 @@ MonoBehaviour:
     m_Localized: "Vakava virhe modeja asennettaessa. Tarkista, onko lokista virheit\xE4."
     m_Metadata:
       m_Items: []
+  - m_Id: 89611307746140160
+    m_Localized: "Toivottavasti pid\xE4t GlorpCo-tuotteiden edustajasta..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111680
+    m_Localized: "Sinulla on tapaaminen heid\xE4n toimitusjohtajansa kanssa."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111681
+    m_Localized: Ne sijaitsevat aivan yrityksen tornin huipulla
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111682
+    m_Localized: "On viikonloppu, joten t\xE4\xE4ll\xE4 ei pit\xE4isi olla juuri
+      ket\xE4\xE4n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111683
+    m_Localized: "Mutta pid\xE4 silm\xE4si auki varmuuden vuoksi"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111684
+    m_Localized: Se oli liian helppoa, jokin oli vialla...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111685
+    m_Localized: Voi ei....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111686
+    m_Localized: "Tied\xE4n, ett\xE4 olet t\xE4\xE4ll\xE4 kani!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111687
+    m_Localized: "Minulla oli niin hauskaa viime kerralla, ett\xE4 minun on vain
+      palautettava palvelus!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111688
+    m_Localized: "Otin jopa yst\xE4vi\xE4 mukaan..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111689
+    m_Localized: "Se on ansa! Agentti pois sielt\xE4!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888896
+    m_Localized: Kangaroo Bossin CV!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888897
+    m_Localized: "L\xE4het\xE4 pomo hyvin ansaitulle lomalle."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888898
+    m_Localized: "\xC4l\xE4 j\xE4\xE4 kiinni yrityksen turvallisuuteen."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888899
+    m_Localized: "Pakene p\xE4\xE4sis\xE4\xE4nk\xE4ynnin kautta,"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

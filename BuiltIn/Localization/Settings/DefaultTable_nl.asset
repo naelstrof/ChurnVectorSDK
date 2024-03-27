@@ -1382,6 +1382,67 @@ MonoBehaviour:
       het logboek.
     m_Metadata:
       m_Items: []
+  - m_Id: 89611307746140160
+    m_Localized: Ik hoop dat je de GlorpCo-productenagent leuk vindt...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111680
+    m_Localized: Je hebt een ontmoeting met hun CEO.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111681
+    m_Localized: Ze bevinden zich helemaal bovenaan de bedrijfstoren
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111682
+    m_Localized: Het is weekend, dus er zou bijna niemand hier moeten zijn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111683
+    m_Localized: Maar houd je ogen open, voor het geval dat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111684
+    m_Localized: Dat was te gemakkelijk, er klopt iets niet...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111685
+    m_Localized: Oh nee....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111686
+    m_Localized: Ik weet dat je hier bent, konijn!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111687
+    m_Localized: Ik heb de vorige keer zoveel plezier gehad dat ik gewoon iets terug
+      moet doen!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111688
+    m_Localized: Ik heb zelfs wat vrienden meegenomen...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111689
+    m_Localized: Het is een val! Agent, ga daar weg!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888896
+    m_Localized: CV de Kangoeroe-baas!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888897
+    m_Localized: Stuur de baas op een welverdiende vakantie.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888898
+    m_Localized: Laat u niet betrappen door de bedrijfsbeveiliging.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888899
+    m_Localized: Ontsnap via de hoofdingang,
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

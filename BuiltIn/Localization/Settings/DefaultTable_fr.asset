@@ -1394,6 +1394,67 @@ MonoBehaviour:
       erreurs dans le journal."
     m_Metadata:
       m_Items: []
+  - m_Id: 89611307746140160
+    m_Localized: "J'esp\xE8re que vous aimez l'agent des produits GlorpCo..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111680
+    m_Localized: Vous avez rendez-vous avec leur PDG.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111681
+    m_Localized: "Ils sont situ\xE9s tout en haut de la tour de l'entreprise"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111682
+    m_Localized: C'est le week-end donc il ne devrait y avoir presque personne ici
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111683
+    m_Localized: "Mais garde les yeux ouverts au cas o\xF9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111684
+    m_Localized: "C'\xE9tait trop facile, quelque chose ne va pas..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111685
+    m_Localized: Oh non....
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111686
+    m_Localized: "Je sais que tu es l\xE0 lapin !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111687
+    m_Localized: "Je me suis tellement amus\xE9 la derni\xE8re fois que je dois juste
+      lui rendre la pareille\_!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111688
+    m_Localized: "J'ai m\xEAme amen\xE9 des amis avec moi..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307767111689
+    m_Localized: "C'est un pi\xE8ge! Agent, sortez de l\xE0\_!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888896
+    m_Localized: CV le Boss Kangourou !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888897
+    m_Localized: "Envoyez le patron en vacances bien m\xE9rit\xE9es."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888898
+    m_Localized: "Ne vous laissez pas prendre par la s\xE9curit\xE9 de l'entreprise."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89611307783888899
+    m_Localized: "\xC9vadez-vous par l'entr\xE9e principale,"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
