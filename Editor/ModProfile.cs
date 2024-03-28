@@ -406,7 +406,8 @@ public class ModProfile : ScriptableObject {
 
 	        // Add our stuff to the group
 	        foreach (var level in levels) {
-		        settings.CreateOrMoveEntry(level.AssetGUID, group, false, false);
+		        var entry = settings.CreateOrMoveEntry(level.AssetGUID, group, false, false);
+		        entry.SetLabel("ChurnVectorLevel", true, true);
 	        }
 
 	        PlayerSettings.companyName = "ArchivalEugeneNaelstrof";
