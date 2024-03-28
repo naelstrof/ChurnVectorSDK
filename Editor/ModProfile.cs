@@ -13,6 +13,7 @@ using UnityEditor.AddressableAssets.Build;
 using UnityEditor.AddressableAssets.Build.DataBuilders;
 using UnityEditor.AddressableAssets.Settings;
 using UnityEditor.AddressableAssets.Settings.GroupSchemas;
+using UnityEditor.Localization;
 using UnityEngine.Rendering;
 
 [CustomEditor(typeof(ModProfile))]
@@ -136,6 +137,8 @@ public class ModProfile : ScriptableObject {
 		thai, turkish, ukrainian, vietnamese,
 	}
 	[SerializeField] private SteamWorkshopLanguage language;
+	
+	[SerializeField] private List<StringTableCollection> customLocalization;
     
     [System.Serializable]
     private class LevelReference : AssetReferenceT<Level> {
@@ -403,7 +406,19 @@ public class ModProfile : ScriptableObject {
 	        foreach (var level in levels) {
 		        var entry = settings.CreateOrMoveEntry(level.AssetGUID, group, false, false);
 		        entry.SetLabel("ChurnVectorLevel", true, true);
-		        settings.CreateOrMoveEntry(level.editorAsset.GetSceneReference().AssetGUID, group, false, false);
+				settings.CreateOrMoveEntry(level.editorAsset.GetSceneReference().AssetGUID, group, false, false);
+	        }
+
+	        foreach (var stringTableCollection in customLocalization) {
+		        if (AssetDatabase.TryGetGUIDAndLocalFileIdentifier(stringTableCollection.SharedData, out string shareDataGuid, out long shareDataLocalId)) {
+			        settings.CreateOrMoveEntry(shareDataGuid, group, false, false);
+		        }
+
+		        foreach (var stringTable in stringTableCollection.StringTables) {
+			        if (AssetDatabase.TryGetGUIDAndLocalFileIdentifier(stringTable, out string guid, out long localId)) {
+						settings.CreateOrMoveEntry(guid, group, false, false);
+			        }
+		        }
 	        }
 
 	        // Don't allow things in default group
