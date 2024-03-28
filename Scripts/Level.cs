@@ -34,6 +34,10 @@ public class Level : ScriptableObject {
     public int CompareTo(Level b) {
         return levelOrderPriority.CompareTo(b.levelOrderPriority);
     }
+
+    public AssetReferenceScene GetSceneReference() {
+        return scene;
+    }
     public bool IsPartOfCategory(LevelCategory categoryToCheck) {
         return category.AssetGUID == categoryToCheck.GetAssetGuid();
     }

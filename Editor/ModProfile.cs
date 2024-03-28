@@ -141,7 +141,7 @@ public class ModProfile : ScriptableObject {
     private class LevelReference : AssetReferenceT<Level> {
         public LevelReference(string guid) : base(guid) { }
     }
-
+    
     [System.Serializable]
     private class CharacterReplacement {
         [SerializeField] private CivilianReference existingCharacter;
@@ -397,17 +397,18 @@ public class ModProfile : ScriptableObject {
 		Undo.RecordObject(schema, "Schema change.");
 		schema.IncludeInBuild = true;
         try {
-	        // Clear the group
+	        
 	        Undo.RecordObject(group, "Filled custom group.");
-	        var entries = new List<AddressableAssetEntry>(group.entries);
-	        foreach (var entry in entries) {
-		        group.RemoveAssetEntry(entry);
-	        }
 
-	        // Add our stuff to the group
 	        foreach (var level in levels) {
 		        var entry = settings.CreateOrMoveEntry(level.AssetGUID, group, false, false);
 		        entry.SetLabel("ChurnVectorLevel", true, true);
+		        settings.CreateOrMoveEntry(level.editorAsset.GetSceneReference().AssetGUID, group, false, false);
+	        }
+
+	        // Don't allow things in default group
+	        foreach (var entry in settings.DefaultGroup.entries) {
+		        settings.CreateOrMoveEntry(entry.guid, group, false, false);
 	        }
 
 	        PlayerSettings.companyName = "ArchivalEugeneNaelstrof";
