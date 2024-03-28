@@ -89,6 +89,7 @@ public class Modding : MonoBehaviour {
             return;
         }
         foreach (var mod in mods) {
+            Debug.Log("Loaded mod " + mod.GetDescription().GetTitle());
             remainingLoads++;
             mod.finishedLoading += OnModFinishedLoading;
             mod.Load();
