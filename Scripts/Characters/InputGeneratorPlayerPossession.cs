@@ -49,8 +49,8 @@ public class InputGeneratorPlayerPossession : InputGenerator {
         character = gameObject.GetComponent<CharacterBase>();
         neckLocalScale = character.GetDisplayAnimator().GetBoneTransform(HumanBodyBones.Neck).localScale;
         if (character.voreMachine != null) {
-            character.voreMachine.cockVoreStart += OnCockCockVoreStart;
-            character.voreMachine.cockVoreEnd += OnCockCockVoreEnd;
+            character.voreMachine.voreStart += OnCockCockVoreStart;
+            character.voreMachine.voreEnd += OnCockCockVoreEnd;
         }
 
         OrbitCamera.configurationChanged += OnConfigurationChanged;
@@ -264,8 +264,8 @@ public class InputGeneratorPlayerPossession : InputGenerator {
         input.actions["FireWeapon"].canceled -= OnFireWeapon;
         input.actions["Reload"].performed -= OnReloadWeapon;
         if (character.voreMachine != null) {
-            character.voreMachine.cockVoreStart -= OnCockCockVoreStart;
-            character.voreMachine.cockVoreEnd -= OnCockCockVoreEnd;
+            character.voreMachine.voreStart -= OnCockCockVoreStart;
+            character.voreMachine.voreEnd -= OnCockCockVoreEnd;
         }
     }
 

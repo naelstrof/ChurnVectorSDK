@@ -11,12 +11,12 @@ Shader "XRay"
 		_BaseColor("BaseColor", Color) = (0,0.9407032,1,0.5019608)
 		[Toggle(_PENETRATION_DEFORMATION_DETAIL_ON)] _PENETRATION_DEFORMATION_DETAIL("_PENETRATION_DEFORMATION_DETAIL", Float) = 0
 		[Toggle(_PENETRATION_DEFORMATION_ON)] _PENETRATION_DEFORMATION("_PENETRATION_DEFORMATION", Float) = 0
-		_WorldDickPosition("WorldDickPosition", Vector) = (0,0,0,0)
-		_WorldDickNormal("WorldDickNormal", Vector) = (0,1,0,0)
-		_WorldDickBinormal("WorldDickBinormal", Vector) = (0,0,1,0)
+		[HideInInspector]_WorldDickPosition("WorldDickPosition", Vector) = (0,0,0,0)
+		[HideInInspector]_WorldDickNormal("WorldDickNormal", Vector) = (0,1,0,0)
+		[HideInInspector]_WorldDickBinormal("WorldDickBinormal", Vector) = (0,0,1,0)
 		[Toggle(_COCKVORESQUISHENABLED_ON)] _CockVoreSquishEnabled("CockVoreSquishEnabled", Float) = 0
-		_Angle("Angle", Range( 0 , 89)) = 45
-		_TipRadius("TipRadius", Range( 0 , 1)) = 0.1
+		[HideInInspector]_Angle("Angle", Range( 0 , 89)) = 45
+		[HideInInspector]_TipRadius("TipRadius", Range( 0 , 1)) = 0.1
 		_CompressibleDistance("CompressibleDistance", Range( 0 , 1)) = 0.15
 		_Smoothness("Smoothness", Range( 0 , 10)) = 1
 
@@ -4326,4 +4326,4 @@ WireConnection;272;10;229;0
 WireConnection;272;12;270;0
 WireConnection;272;13;271;0
 ASEEND*/
-//CHKSM=FC3B389082EDCBD1E0D911EEBFCAA358E021454D
+//CHKSM=08F165C7CE9DEFA2B5578ECC5D606BD8BCE0EEAF

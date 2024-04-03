@@ -23,8 +23,10 @@ public abstract class VoreMachine {
     public abstract bool IsVoring();
     public abstract void StartVore(IVorable churnable);
     public abstract void StopVore();
-    public delegate void CockVoreEventAction(VoreStatus status);
-    public CockVoreEventAction cockVoreStart;
-    public CockVoreEventAction cockVoreUpdate;
-    public CockVoreEventAction cockVoreEnd;
+
+    public virtual void OnDrawGizmos() { }
+    public delegate void VoreEventAction(VoreStatus status);
+    public VoreEventAction voreStart;
+    public VoreEventAction voreUpdate;
+    public VoreEventAction voreEnd;
 }

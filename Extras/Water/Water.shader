@@ -1,32 +1,17 @@
 // Made with Amplify Shader Editor v1.9.2.1
 // Available at the Unity Asset Store - http://u3d.as/y3X 
-Shader "CockVoreSlurp"
+Shader "Water"
 {
 	Properties
 	{
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
-		_BaseColorMap("BaseColorMap", 2D) = "white" {}
-		[Toggle(_PENETRATION_DEFORMATION_DETAIL_ON)] _PENETRATION_DEFORMATION_DETAIL("_PENETRATION_DEFORMATION_DETAIL", Float) = 0
-		[Toggle(_PENETRATION_DEFORMATION_ON)] _PENETRATION_DEFORMATION("_PENETRATION_DEFORMATION", Float) = 0
-		_DecalColorMap("_DecalColorMap", 2D) = "black" {}
-		[Toggle(_SKINNED_ON)] _Skinned("Skinned", Float) = 0
-		[HideInInspector]_WorldDickPosition("WorldDickPosition", Vector) = (0,0,0,0)
-		[HideInInspector]_WorldDickNormal("WorldDickNormal", Vector) = (0,1,0,0)
-		[HideInInspector]_WorldDickBinormal("WorldDickBinormal", Vector) = (0,0,1,0)
-		[Toggle(_COCKVORESQUISHENABLED_ON)] _CockVoreSquishEnabled("CockVoreSquishEnabled", Float) = 0
-		[HideInInspector]_Angle("Angle", Range( 0 , 89)) = 45
-		[HideInInspector]_TipRadius("TipRadius", Range( 0 , 1)) = 0.1
-		_EmmisionStr("EmmisionStr", Range( 0 , 10)) = 0
-		_CompressibleDistance("CompressibleDistance", Range( 0 , 1)) = 0.25
-		_Smoothness("Smoothness", Range( 0 , 10)) = 2
-		_MaskMap("MaskMap", 2D) = "black" {}
-		_EmmisionMap("EmmisionMap", 2D) = "black" {}
-		_NormalMap("NormalMap", 2D) = "bump" {}
-		_BaseColorTint("BaseColorTint", Color) = (1,1,1,1)
-		[HideInInspector] _texcoord( "", 2D ) = "white" {}
+		_Amplitude("Amplitude", Range( 0 , 1)) = 0.2
+		_BaseColor("BaseColor", Color) = (0.1098039,0.3647059,0.4705883,0.2196078)
+		_TransmissionColor("TransmissionColor", Color) = (0.3820755,1,0.9364549,1)
+		_RefractionIndex("RefractionIndex", Range( 0.9 , 1.1)) = 1
 
-		[HideInInspector] _RenderQueueType("Render Queue Type", Float) = 1
-		[HideInInspector][ToggleUI] _AddPrecomputedVelocity("Add Precomputed Velocity", Float) = 1
+		[HideInInspector] _RenderQueueType("Render Queue Type", Float) = 5
+		//[HideInInspector][ToggleUI] _AddPrecomputedVelocity("Add Precomputed Velocity", Float) = 1
 		[HideInInspector][ToggleUI] _SupportDecals("Support Decals", Float) = 1.0
 		[HideInInspector] _StencilRef("Stencil Ref", Int) = 0 // StencilUsage.Clear
 		[HideInInspector] _StencilWriteMask("Stencil Write Mask", Int) = 3 // StencilUsage.RequiresDeferredLighting | StencilUsage.SubsurfaceScattering
@@ -42,13 +27,13 @@ Shader "CockVoreSlurp"
 		[HideInInspector][ToggleUI] _RequireSplitLighting("Require Split Lighting", Float) = 0
 		[HideInInspector][ToggleUI] _ReceivesSSR("Receives SSR", Float) = 1
 		[HideInInspector][ToggleUI] _ReceivesSSRTransparent("Receives SSR Transparent", Float) = 0
-		[HideInInspector] _SurfaceType("Surface Type", Float) = 0
+		[HideInInspector] _SurfaceType("Surface Type", Float) = 1
 		[HideInInspector] _BlendMode("Blend Mode", Float) = 0
 		[HideInInspector] _SrcBlend("Src Blend", Float) = 1
 		[HideInInspector] _DstBlend("Dst Blend", Float) = 0
 		[HideInInspector] _AlphaSrcBlend("Alpha Src Blend", Float) = 1
 		[HideInInspector] _AlphaDstBlend("Alpha Dst Blend", Float) = 0
-		[HideInInspector][ToggleUI] _ZWrite("ZWrite", Float) = 1
+		[HideInInspector][ToggleUI] _ZWrite("ZWrite", Float) = 0
 		[HideInInspector][ToggleUI] _TransparentZWrite("Transparent ZWrite", Float) = 0
 		[HideInInspector] _CullMode("Cull Mode", Float) = 2
 		[HideInInspector] _TransparentSortPriority("Transparent Sort Priority", Float) = 0
@@ -56,7 +41,7 @@ Shader "CockVoreSlurp"
 		[HideInInspector] _CullModeForward("Cull Mode Forward", Float) = 2 // This mode is dedicated to Forward to correctly handle backface then front face rendering thin transparent
 		[HideInInspector][Enum(UnityEditor.Rendering.HighDefinition.TransparentCullMode)] _TransparentCullMode("Transparent Cull Mode", Int) = 2 // Back culling by default
 		[HideInInspector] _ZTestDepthEqualForOpaque("ZTest Depth Equal For Opaque", Int) = 4 // Less equal
-		[HideInInspector][Enum(UnityEngine.Rendering.CompareFunction)] _ZTestTransparent("ZTest Transparent", Int) = 4 // Less equal
+		[HideInInspector][Enum(UnityEngine.Rendering.CompareFunction)] _ZTestTransparent("ZTest Transparent", Int) = 4// Less equal
 		[HideInInspector][ToggleUI] _TransparentBackfaceEnable("Transparent Backface Enable", Float) = 0
 		[HideInInspector][ToggleUI] _AlphaCutoffEnable("Alpha Cutoff Enable", Float) = 0
 		[HideInInspector][ToggleUI] _UseShadowThreshold("Use Shadow Threshold", Float) = 0
@@ -65,9 +50,9 @@ Shader "CockVoreSlurp"
 		[HideInInspector] _DoubleSidedConstants("DoubleSidedConstants", Vector) = (1,1,-1,0)
 
 		//_TessPhongStrength( "Tess Phong Strength", Range( 0, 1 ) ) = 0.5
-		//_TessValue( "Tess Max Tessellation", Range( 1, 32 ) ) = 16
-		//_TessMin( "Tess Min Distance", Float ) = 10
-		//_TessMax( "Tess Max Distance", Float ) = 25
+		_TessValue( "Max Tessellation", Range( 1, 32 ) ) = 16
+		_TessMin( "Tess Min Distance", Float ) = 10
+		_TessMax( "Tess Max Distance", Float ) = 25
 		//_TessEdgeLength ( "Tess Edge length", Range( 2, 50 ) ) = 16
 		//_TessMaxDisp( "Tess Max Displacement", Float ) = 25
 
@@ -92,7 +77,7 @@ Shader "CockVoreSlurp"
 
 		
 
-		Tags { "RenderPipeline"="HDRenderPipeline" "RenderType"="Opaque" "Queue"="Geometry" }
+		Tags { "RenderPipeline"="HDRenderPipeline" "RenderType"="Transparent" "Queue"="Transparent" }
 
 		HLSLINCLUDE
 		#pragma target 4.5
@@ -310,11 +295,17 @@ Shader "CockVoreSlurp"
 
 			HLSLPROGRAM
 
+            #define shader_feature_local _DISABLE_SSR_TRANSPARENT
             #define _SPECULAR_OCCLUSION_FROM_AO 1
             #pragma multi_compile_instancing
             #pragma instancing_options renderinglayer
-            #define ASE_ABSOLUTE_VERTEX_POS 1
-            #define _MATERIAL_FEATURE_CLEAR_COAT 1
+            #define ASE_TESSELLATION 1
+            #pragma require tessellation tessHW
+            #pragma hull HullFunction
+            #pragma domain DomainFunction
+            #define _HAS_REFRACTION 1
+            #define _REFRACTION_SPHERE 1
+            #define ASE_DISTANCE_TESSELLATION
             #define HAVE_MESH_MODIFICATION
             #define ASE_SRP_VERSION 140008
 
@@ -392,19 +383,10 @@ Shader "CockVoreSlurp"
 			#endif
 
 			CBUFFER_START( UnityPerMaterial )
-			float4 _BaseColorTint;
-			float4 _BaseColorMap_ST;
-			float4 _NormalMap_ST;
-			float4 _MaskMap_ST;
-			float4 _EmmisionMap_ST;
-			float3 _WorldDickNormal;
-			float3 _WorldDickBinormal;
-			float3 _WorldDickPosition;
-			float _TipRadius;
-			float _Angle;
-			float _CompressibleDistance;
-			float _Smoothness;
-			float _EmmisionStr;
+			float4 _BaseColor;
+			float4 _TransmissionColor;
+			float _Amplitude;
+			float _RefractionIndex;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -467,16 +449,7 @@ Shader "CockVoreSlurp"
 			int _PassValue;
             #endif
 
-			sampler2D _BaseColorMap;
-			sampler2D _DecalColorMap;
-			sampler2D _NormalMap;
-			float4x4 unity_CameraProjection;
-			float4x4 unity_CameraInvProjection;
-			float4x4 unity_WorldToCamera;
-			float4x4 unity_CameraToWorld;
-			sampler2D _MaskMap;
-			sampler2D _EmmisionMap;
-
+			
 
             #ifdef DEBUG_DISPLAY
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
@@ -494,17 +467,12 @@ Shader "CockVoreSlurp"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
-			#define ASE_NEEDS_VERT_POSITION
+			#include "SumOfSines.cginc"
 			#define ASE_NEEDS_VERT_NORMAL
-			#define ASE_NEEDS_FRAG_RELATIVE_WORLD_POS
-			#define ASE_NEEDS_FRAG_WORLD_NORMAL
+			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
 			#define ASE_NEEDS_FRAG_WORLD_TANGENT
+			#define ASE_NEEDS_FRAG_WORLD_NORMAL
 			#define ASE_NEEDS_VERT_TANGENT
-			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
-			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
-			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#pragma shader_feature_local _SKINNED_ON
-			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -518,7 +486,6 @@ Shader "CockVoreSlurp"
 				float4 tangentOS : TANGENT;
 				float4 uv1 : TEXCOORD1;
 				float4 uv2 : TEXCOORD2;
-				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -533,7 +500,6 @@ Shader "CockVoreSlurp"
 				float4 uv2 : TEXCOORD4;
 				float4 ase_texcoord5 : TEXCOORD5;
 				float4 ase_texcoord6 : TEXCOORD6;
-				float4 ase_texcoord7 : TEXCOORD7;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
@@ -542,98 +508,12 @@ Shader "CockVoreSlurp"
 			};
 
 
-			float4x4 Inverse4x4(float4x4 input)
+			float3x3 Inverse3x3(float3x3 input)
 			{
-				#define minor(a,b,c) determinant(float3x3(input.a, input.b, input.c))
-				float4x4 cofactors = float4x4(
-				minor( _22_23_24, _32_33_34, _42_43_44 ),
-				-minor( _21_23_24, _31_33_34, _41_43_44 ),
-				minor( _21_22_24, _31_32_34, _41_42_44 ),
-				-minor( _21_22_23, _31_32_33, _41_42_43 ),
-			
-				-minor( _12_13_14, _32_33_34, _42_43_44 ),
-				minor( _11_13_14, _31_33_34, _41_43_44 ),
-				-minor( _11_12_14, _31_32_34, _41_42_44 ),
-				minor( _11_12_13, _31_32_33, _41_42_43 ),
-			
-				minor( _12_13_14, _22_23_24, _42_43_44 ),
-				-minor( _11_13_14, _21_23_24, _41_43_44 ),
-				minor( _11_12_14, _21_22_24, _41_42_44 ),
-				-minor( _11_12_13, _21_22_23, _41_42_43 ),
-			
-				-minor( _12_13_14, _22_23_24, _32_33_34 ),
-				minor( _11_13_14, _21_23_24, _31_33_34 ),
-				-minor( _11_12_14, _21_22_24, _31_32_34 ),
-				minor( _11_12_13, _21_22_23, _31_32_33 ));
-				#undef minor
-				return transpose( cofactors ) / determinant( input );
-			}
-			
-			float3 MyCustomExpression32_g269( float3 pos )
-			{
-				return GetAbsolutePositionWS(pos);
-			}
-			
-			float3 mod3D289( float3 x ) { return x - floor( x / 289.0 ) * 289.0; }
-			float4 mod3D289( float4 x ) { return x - floor( x / 289.0 ) * 289.0; }
-			float4 permute( float4 x ) { return mod3D289( ( x * 34.0 + 1.0 ) * x ); }
-			float4 taylorInvSqrt( float4 r ) { return 1.79284291400159 - r * 0.85373472095314; }
-			float snoise( float3 v )
-			{
-				const float2 C = float2( 1.0 / 6.0, 1.0 / 3.0 );
-				float3 i = floor( v + dot( v, C.yyy ) );
-				float3 x0 = v - i + dot( i, C.xxx );
-				float3 g = step( x0.yzx, x0.xyz );
-				float3 l = 1.0 - g;
-				float3 i1 = min( g.xyz, l.zxy );
-				float3 i2 = max( g.xyz, l.zxy );
-				float3 x1 = x0 - i1 + C.xxx;
-				float3 x2 = x0 - i2 + C.yyy;
-				float3 x3 = x0 - 0.5;
-				i = mod3D289( i);
-				float4 p = permute( permute( permute( i.z + float4( 0.0, i1.z, i2.z, 1.0 ) ) + i.y + float4( 0.0, i1.y, i2.y, 1.0 ) ) + i.x + float4( 0.0, i1.x, i2.x, 1.0 ) );
-				float4 j = p - 49.0 * floor( p / 49.0 );  // mod(p,7*7)
-				float4 x_ = floor( j / 7.0 );
-				float4 y_ = floor( j - 7.0 * x_ );  // mod(j,N)
-				float4 x = ( x_ * 2.0 + 0.5 ) / 7.0 - 1.0;
-				float4 y = ( y_ * 2.0 + 0.5 ) / 7.0 - 1.0;
-				float4 h = 1.0 - abs( x ) - abs( y );
-				float4 b0 = float4( x.xy, y.xy );
-				float4 b1 = float4( x.zw, y.zw );
-				float4 s0 = floor( b0 ) * 2.0 + 1.0;
-				float4 s1 = floor( b1 ) * 2.0 + 1.0;
-				float4 sh = -step( h, 0.0 );
-				float4 a0 = b0.xzyw + s0.xzyw * sh.xxyy;
-				float4 a1 = b1.xzyw + s1.xzyw * sh.zzww;
-				float3 g0 = float3( a0.xy, h.x );
-				float3 g1 = float3( a0.zw, h.y );
-				float3 g2 = float3( a1.xy, h.z );
-				float3 g3 = float3( a1.zw, h.w );
-				float4 norm = taylorInvSqrt( float4( dot( g0, g0 ), dot( g1, g1 ), dot( g2, g2 ), dot( g3, g3 ) ) );
-				g0 *= norm.x;
-				g1 *= norm.y;
-				g2 *= norm.z;
-				g3 *= norm.w;
-				float4 m = max( 0.6 - float4( dot( x0, x0 ), dot( x1, x1 ), dot( x2, x2 ), dot( x3, x3 ) ), 0.0 );
-				m = m* m;
-				m = m* m;
-				float4 px = float4( dot( x0, g0 ), dot( x1, g1 ), dot( x2, g2 ), dot( x3, g3 ) );
-				return 42.0 * dot( m, px);
-			}
-			
-			float3 PerturbNormal107_g274( float3 surf_pos, float3 surf_norm, float height, float scale )
-			{
-				// "Bump Mapping Unparametrized Surfaces on the GPU" by Morten S. Mikkelsen
-				float3 vSigmaS = ddx( surf_pos );
-				float3 vSigmaT = ddy( surf_pos );
-				float3 vN = surf_norm;
-				float3 vR1 = cross( vSigmaT , vN );
-				float3 vR2 = cross( vN , vSigmaS );
-				float fDet = dot( vSigmaS , vR1 );
-				float dBs = ddx( height );
-				float dBt = ddy( height );
-				float3 vSurfGrad = scale * 0.05 * sign( fDet ) * ( dBs * vR1 + dBt * vR2 );
-				return normalize ( abs( fDet ) * vN - vSurfGrad );
+				float3 a = input._11_21_31;
+				float3 b = input._12_22_32;
+				float3 c = input._13_23_33;
+				return float3x3(cross(b,c), cross(c,a), cross(a,b)) * (1.0 / dot(a,cross(b,c)));
 			}
 			
 
@@ -861,102 +741,35 @@ Shader "CockVoreSlurp"
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( outputPackedVaryingsMeshToPS );
 
-				float3 normalizeResult27_g271 = normalize( _WorldDickNormal );
-				float3 normalizeResult31_g271 = normalize( _WorldDickBinormal );
-				float3 normalizeResult29_g271 = normalize( cross( normalizeResult27_g271 , normalizeResult31_g271 ) );
-				float4 appendResult26_g270 = (float4(1.0 , 0.0 , 0.0 , 0.0));
-				float4 appendResult28_g270 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float4 appendResult31_g270 = (float4(0.0 , 0.0 , 1.0 , 0.0));
-				float3 break27_g270 = -_WorldDickPosition;
-				float4 appendResult29_g270 = (float4(break27_g270.x , break27_g270.y , break27_g270.z , 1.0));
-				float4x4 temp_output_30_0_g270 = mul( transpose( float4x4( float4( normalizeResult27_g271 , 0.0 ).x,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).x,float4( normalizeResult29_g271 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g271 , 0.0 ).y,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).y,float4( normalizeResult29_g271 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g271 , 0.0 ).z,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).z,float4( normalizeResult29_g271 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g271 , 0.0 ).w,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).w,float4( normalizeResult29_g271 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g270.x,appendResult28_g270.x,appendResult31_g270.x,appendResult29_g270.x,appendResult26_g270.y,appendResult28_g270.y,appendResult31_g270.y,appendResult29_g270.y,appendResult26_g270.z,appendResult28_g270.z,appendResult31_g270.z,appendResult29_g270.z,appendResult26_g270.w,appendResult28_g270.w,appendResult31_g270.w,appendResult29_g270.w ) );
-				float4x4 invertVal44_g270 = Inverse4x4( temp_output_30_0_g270 );
-				float4 appendResult27_g269 = (float4(inputMesh.positionOS , 1.0));
-				float3 pos32_g269 = mul( GetObjectToWorldMatrix(), appendResult27_g269 ).xyz;
-				float3 localMyCustomExpression32_g269 = MyCustomExpression32_g269( pos32_g269 );
-				float4 appendResult32_g270 = (float4(localMyCustomExpression32_g269 , 1.0));
-				float4 break35_g270 = mul( temp_output_30_0_g270, appendResult32_g270 );
-				float temp_output_124_0_g270 = _TipRadius;
-				float2 appendResult36_g270 = (float2(break35_g270.y , break35_g270.z));
-				float2 normalizeResult41_g270 = normalize( appendResult36_g270 );
-				float temp_output_120_0_g270 = sqrt( max( break35_g270.x , 0.0 ) );
-				float temp_output_48_0_g270 = tan( radians( _Angle ) );
-				float temp_output_125_0_g270 = ( temp_output_124_0_g270 + ( temp_output_120_0_g270 * temp_output_48_0_g270 ) );
-				float temp_output_37_0_g270 = length( appendResult36_g270 );
-				float temp_output_114_0_g270 = ( ( temp_output_125_0_g270 - temp_output_37_0_g270 ) + 1.0 );
-				float lerpResult102_g270 = lerp( temp_output_125_0_g270 , temp_output_37_0_g270 , saturate( temp_output_114_0_g270 ));
-				float lerpResult130_g270 = lerp( 0.0 , lerpResult102_g270 , saturate( ( -( -temp_output_124_0_g270 - break35_g270.x ) / temp_output_124_0_g270 ) ));
-				float2 break43_g270 = ( normalizeResult41_g270 * lerpResult130_g270 );
-				float4 appendResult40_g270 = (float4(max( break35_g270.x , -temp_output_124_0_g270 ) , break43_g270.x , break43_g270.y , 1.0));
-				float4 appendResult28_g269 = (float4(((mul( invertVal44_g270, appendResult40_g270 )).xyz).xyz , 1.0));
-				float4 localWorldVar29_g269 = appendResult28_g269;
-				(localWorldVar29_g269).xyz = GetCameraRelativePositionWS((localWorldVar29_g269).xyz);
-				float4 transform29_g269 = mul(GetWorldToObjectMatrix(),localWorldVar29_g269);
-				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch13_g269 = (transform29_g269).xyz;
-				#else
-				float3 staticSwitch13_g269 = inputMesh.positionOS;
-				#endif
-				float3 temp_output_229_0 = staticSwitch13_g269;
-				float3 temp_output_10_0_g275 = temp_output_229_0;
-				float localGetDeformationFromPenetrators_float8_g275 = ( 0.0 );
-				float4 appendResult17_g275 = (float4(temp_output_10_0_g275 , 1.0));
-				float4 transform16_g275 = mul(GetObjectToWorldMatrix(),appendResult17_g275);
-				transform16_g275.xyz = GetAbsolutePositionWS((transform16_g275).xyz);
-				float3 worldPosition8_g275 = (transform16_g275).xyz;
-				float4 texCoord3_g275 = inputMesh.uv2;
-				texCoord3_g275.xy = inputMesh.uv2.xy * float2( 1,1 ) + float2( 0,0 );
-				float4 uv28_g275 = texCoord3_g275;
-				float compressibleDistance8_g275 = _CompressibleDistance;
-				float smoothness8_g275 = _Smoothness;
-				float3 deformedPosition8_g275 = float3( 0,0,0 );
-				{
-				GetDeformationFromPenetrators_float(worldPosition8_g275,uv28_g275,compressibleDistance8_g275,smoothness8_g275,deformedPosition8_g275);
-				}
-				float4 appendResult21_g275 = (float4(deformedPosition8_g275 , 1.0));
-				float4 localWorldVar19_g275 = appendResult21_g275;
-				(localWorldVar19_g275).xyz = GetCameraRelativePositionWS((localWorldVar19_g275).xyz);
-				float4 transform19_g275 = mul(GetWorldToObjectMatrix(),localWorldVar19_g275);
-				#ifdef _PENETRATION_DEFORMATION_ON
-				float3 staticSwitch24_g275 = (transform19_g275).xyz;
-				#else
-				float3 staticSwitch24_g275 = temp_output_10_0_g275;
-				#endif
-				float3 lerpResult235 = lerp( temp_output_229_0 , staticSwitch24_g275 , inputMesh.ase_color.r);
-				
-				float3 temp_output_50_0_g269 = inputMesh.normalOS;
-				float2 break146_g270 = normalizeResult41_g270;
-				float4 appendResult139_g270 = (float4(temp_output_48_0_g270 , break146_g270.x , break146_g270.y , 0.0));
-				float3 normalizeResult144_g270 = normalize( (mul( invertVal44_g270, appendResult139_g270 )).xyz );
-				float3 lerpResult44_g269 = lerp( normalizeResult144_g270 , temp_output_50_0_g269 , saturate( sign( temp_output_114_0_g270 ) ));
-				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch17_g269 = lerpResult44_g269;
-				#else
-				float3 staticSwitch17_g269 = temp_output_50_0_g269;
-				#endif
-				
-				float3 vertexToFrag28_g272 = mul( UNITY_MATRIX_M, float4( inputMesh.positionOS , 0.0 ) ).xyz;
-				outputPackedVaryingsMeshToPS.ase_texcoord6.xyz = vertexToFrag28_g272;
+				float2 texCoord12 = inputMesh.ase_texcoord.xy * float2( 32,32 ) + float2( 0,0 );
+				float2 uv2_g16 = texCoord12;
+				float amplitude2_g16 = _Amplitude;
+				int detail2_g16 = 32;
+				float2 derivative2_g16 = float2( 0,0 );
+				float mulTime13 = _TimeParameters.x * 1.1;
+				float t2_g16 = mulTime13;
+				float localSumOfSines2_g16 = SumOfSines( uv2_g16 , amplitude2_g16 , detail2_g16 , derivative2_g16 , t2_g16 );
+				float temp_output_61_0 = localSumOfSines2_g16;
+				float3 temp_output_15_0 = ( inputMesh.normalOS * temp_output_61_0 );
 				
 				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
 				float3 ase_worldTangent = TransformObjectToWorldDir(inputMesh.tangentOS.xyz);
 				float ase_vertexTangentSign = inputMesh.tangentOS.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
 				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
-				outputPackedVaryingsMeshToPS.ase_texcoord7.xyz = ase_worldBitangent;
+				outputPackedVaryingsMeshToPS.ase_texcoord6.xyz = ase_worldBitangent;
 				
 				outputPackedVaryingsMeshToPS.ase_texcoord5.xy = inputMesh.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
 				outputPackedVaryingsMeshToPS.ase_texcoord5.zw = 0;
 				outputPackedVaryingsMeshToPS.ase_texcoord6.w = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord7.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = lerpResult235;
+				float3 vertexValue = temp_output_15_0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -964,7 +777,7 @@ Shader "CockVoreSlurp"
 				inputMesh.positionOS.xyz += vertexValue;
 				#endif
 
-				inputMesh.normalOS = staticSwitch17_g269;
+				inputMesh.normalOS =  inputMesh.normalOS ;
 				inputMesh.tangentOS =  inputMesh.tangentOS ;
 
 				float3 positionRWS = TransformObjectToWorld(inputMesh.positionOS);
@@ -988,7 +801,6 @@ Shader "CockVoreSlurp"
 				float4 tangentOS : TANGENT;
 				float4 uv1 : TEXCOORD1;
 				float4 uv2 : TEXCOORD2;
-				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -1010,7 +822,6 @@ Shader "CockVoreSlurp"
 				o.tangentOS = v.tangentOS;
 				o.uv1 = v.uv1;
 				o.uv2 = v.uv2;
-				o.ase_color = v.ase_color;
 				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
@@ -1058,7 +869,6 @@ Shader "CockVoreSlurp"
 				o.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
 				o.uv1 = patch[0].uv1 * bary.x + patch[1].uv1 * bary.y + patch[2].uv1 * bary.z;
 				o.uv2 = patch[0].uv2 * bary.x + patch[1].uv2 * bary.y + patch[2].uv2 * bary.z;
-				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
@@ -1115,61 +925,41 @@ Shader "CockVoreSlurp"
 				BuiltinData builtinData;
 
 				GlobalSurfaceDescription surfaceDescription = (GlobalSurfaceDescription)0;
-				float2 uv_BaseColorMap = packedInput.ase_texcoord5.xy * _BaseColorMap_ST.xy + _BaseColorMap_ST.zw;
-				float4 tex2DNode11 = tex2D( _BaseColorMap, uv_BaseColorMap );
-				float4 temp_output_1_0_g272 = ( _BaseColorTint * tex2DNode11 );
-				float4 color20_g272 = IsGammaSpace() ? float4(1,1,1,1) : float4(1,1,1,1);
-				float3 vertexToFrag28_g272 = packedInput.ase_texcoord6.xyz;
-				#ifdef _SKINNED_ON
-				float3 staticSwitch26_g272 = float3( packedInput.uv1.xy ,  0.0 );
-				#else
-				float3 staticSwitch26_g272 = vertexToFrag28_g272;
-				#endif
-				float simplePerlin3D9_g272 = snoise( ( ( staticSwitch26_g272 * float3( 2,2,2 ) ) + float3( 0,0,0 ) ) );
-				simplePerlin3D9_g272 = simplePerlin3D9_g272*0.5 + 0.5;
-				float temp_output_16_0_g272 = ( ( simplePerlin3D9_g272 - 0.5 ) * 0.5 );
-				float temp_output_12_0_g272 = ( tex2D( _DecalColorMap, packedInput.uv1.xy ).r + temp_output_16_0_g272 );
-				float lerpResult22_g272 = lerp( ( temp_output_12_0_g272 + temp_output_16_0_g272 ) , 0.7 , 0.8);
-				float4 lerpResult19_g272 = lerp( temp_output_1_0_g272 , color20_g272 , ( 1.0 - lerpResult22_g272 ));
-				float temp_output_3_0_g273 = ( 0.5 - temp_output_12_0_g272 );
-				float temp_output_10_0_g272 = ( 1.0 - saturate( ( temp_output_3_0_g273 / fwidth( temp_output_3_0_g273 ) ) ) );
-				float4 lerpResult18_g272 = lerp( temp_output_1_0_g272 , lerpResult19_g272 , temp_output_10_0_g272);
+				float2 texCoord12 = packedInput.ase_texcoord5.xy * float2( 32,32 ) + float2( 0,0 );
+				float2 uv2_g16 = texCoord12;
+				float amplitude2_g16 = _Amplitude;
+				int detail2_g16 = 32;
+				float2 derivative2_g16 = float2( 0,0 );
+				float mulTime13 = _TimeParameters.x * 1.1;
+				float t2_g16 = mulTime13;
+				float localSumOfSines2_g16 = SumOfSines( uv2_g16 , amplitude2_g16 , detail2_g16 , derivative2_g16 , t2_g16 );
+				float2 break55 = derivative2_g16;
+				float3 appendResult37 = (float3(1.0 , 0.0 , break55.x));
+				float3 appendResult38 = (float3(0.0 , 1.0 , break55.y));
+				float3 temp_output_24_0 = cross( appendResult37 , appendResult38 );
 				
-				float2 uv_NormalMap = packedInput.ase_texcoord5.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
-				float3 temp_output_4_0_g272 = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
-				float3 ase_worldPos = GetAbsolutePositionWS( positionRWS );
-				float3 surf_pos107_g274 = ase_worldPos;
-				float3 surf_norm107_g274 = normalWS;
-				float height107_g274 = simplePerlin3D9_g272;
-				float scale107_g274 = 0.5;
-				float3 localPerturbNormal107_g274 = PerturbNormal107_g274( surf_pos107_g274 , surf_norm107_g274 , height107_g274 , scale107_g274 );
-				float3 ase_worldBitangent = packedInput.ase_texcoord7.xyz;
+				float3 ase_worldBitangent = packedInput.ase_texcoord6.xyz;
 				float3x3 ase_worldToTangent = float3x3(tangentWS.xyz,ase_worldBitangent,normalWS);
-				float3 worldToTangentDir42_g274 = mul( ase_worldToTangent, localPerturbNormal107_g274);
-				float3 lerpResult6_g272 = lerp( temp_output_4_0_g272 , BlendNormal( worldToTangentDir42_g274 , temp_output_4_0_g272 ) , temp_output_10_0_g272);
-				float3 normalizeResult33_g272 = normalize( lerpResult6_g272 );
+				float3x3 invertVal79 = Inverse3x3( ase_worldToTangent );
+				float fresnelNdotV76 = dot( mul( invertVal79, temp_output_24_0 ), V );
+				float fresnelNode76 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV76, 5.0 ) );
+				float temp_output_61_0 = localSumOfSines2_g16;
+				float4 lerpResult82 = lerp( float4( 0,0,0,0 ) , _TransmissionColor , ( fresnelNode76 * (0.0 + (temp_output_61_0 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) ));
 				
-				float lerpResult32_g272 = lerp( 0.0 , 1.0 , temp_output_10_0_g272);
-				
-				float2 uv_MaskMap = packedInput.ase_texcoord5.xy * _MaskMap_ST.xy + _MaskMap_ST.zw;
-				float4 tex2DNode12 = tex2D( _MaskMap, uv_MaskMap );
-				
-				float2 uv_EmmisionMap = packedInput.ase_texcoord5.xy * _EmmisionMap_ST.xy + _EmmisionMap_ST.zw;
-				
-				surfaceDescription.BaseColor = lerpResult18_g272.rgb;
-				surfaceDescription.Normal = normalizeResult33_g272;
+				surfaceDescription.BaseColor = _BaseColor.rgb;
+				surfaceDescription.Normal = temp_output_24_0;
 				surfaceDescription.BentNormal = float3( 0, 0, 1 );
-				surfaceDescription.CoatMask = lerpResult32_g272;
-				surfaceDescription.Metallic = tex2DNode12.r;
+				surfaceDescription.CoatMask = 0;
+				surfaceDescription.Metallic = 0;
 
 				#ifdef _MATERIAL_FEATURE_SPECULAR_COLOR
 				surfaceDescription.Specular = 0;
 				#endif
 
-				surfaceDescription.Emission = ( ( tex2DNode11 * tex2D( _EmmisionMap, uv_EmmisionMap ) ) * _EmmisionStr ).rgb;
-				surfaceDescription.Smoothness = tex2DNode12.a;
+				surfaceDescription.Emission = lerpResult82.rgb;
+				surfaceDescription.Smoothness = 0.98;
 				surfaceDescription.Occlusion = 1;
-				surfaceDescription.Alpha = 1;
+				surfaceDescription.Alpha = _BaseColor.a;
 
 				#ifdef _ALPHATEST_ON
 				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
@@ -1196,7 +986,7 @@ Shader "CockVoreSlurp"
 				#endif
 
 				#ifdef _HAS_REFRACTION
-				surfaceDescription.RefractionIndex = 1;
+				surfaceDescription.RefractionIndex = _RefractionIndex;
 				surfaceDescription.RefractionColor = float3( 1, 1, 1 );
 				surfaceDescription.RefractionDistance = 0;
 				#endif
@@ -1259,11 +1049,17 @@ Shader "CockVoreSlurp"
 
 			HLSLPROGRAM
 
+			#define shader_feature_local _DISABLE_SSR_TRANSPARENT
 			#define _SPECULAR_OCCLUSION_FROM_AO 1
 			#pragma multi_compile_instancing
 			#pragma instancing_options renderinglayer
-			#define ASE_ABSOLUTE_VERTEX_POS 1
-			#define _MATERIAL_FEATURE_CLEAR_COAT 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define _HAS_REFRACTION 1
+			#define _REFRACTION_SPHERE 1
+			#define ASE_DISTANCE_TESSELLATION
 			#define HAVE_MESH_MODIFICATION
 			#define ASE_SRP_VERSION 140008
 
@@ -1327,19 +1123,10 @@ Shader "CockVoreSlurp"
 			#endif
 
 			CBUFFER_START( UnityPerMaterial )
-			float4 _BaseColorTint;
-			float4 _BaseColorMap_ST;
-			float4 _NormalMap_ST;
-			float4 _MaskMap_ST;
-			float4 _EmmisionMap_ST;
-			float3 _WorldDickNormal;
-			float3 _WorldDickBinormal;
-			float3 _WorldDickPosition;
-			float _TipRadius;
-			float _Angle;
-			float _CompressibleDistance;
-			float _Smoothness;
-			float _EmmisionStr;
+			float4 _BaseColor;
+			float4 _TransmissionColor;
+			float _Amplitude;
+			float _RefractionIndex;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -1402,16 +1189,7 @@ Shader "CockVoreSlurp"
 			int _PassValue;
             #endif
 
-			sampler2D _BaseColorMap;
-			sampler2D _DecalColorMap;
-			sampler2D _NormalMap;
-			float4x4 unity_CameraProjection;
-			float4x4 unity_CameraInvProjection;
-			float4x4 unity_WorldToCamera;
-			float4x4 unity_CameraToWorld;
-			sampler2D _MaskMap;
-			sampler2D _EmmisionMap;
-
+			
 
             #ifdef DEBUG_DISPLAY
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
@@ -1429,14 +1207,9 @@ Shader "CockVoreSlurp"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
-			#define ASE_NEEDS_VERT_POSITION
+			#include "SumOfSines.cginc"
 			#define ASE_NEEDS_VERT_NORMAL
 			#define ASE_NEEDS_VERT_TANGENT
-			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
-			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
-			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#pragma shader_feature_local _SKINNED_ON
-			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -1452,7 +1225,7 @@ Shader "CockVoreSlurp"
 				float4 uv1 : TEXCOORD1;
 				float4 uv2 : TEXCOORD2;
 				float4 uv3 : TEXCOORD3;
-				float4 ase_color : COLOR;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1468,105 +1241,18 @@ Shader "CockVoreSlurp"
 				float4 ase_texcoord4 : TEXCOORD4;
 				float4 ase_texcoord5 : TEXCOORD5;
 				float4 ase_texcoord6 : TEXCOORD6;
-				float4 ase_texcoord7 : TEXCOORD7;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
 				FRONT_FACE_TYPE cullFace : FRONT_FACE_SEMANTIC;
 				#endif
 			};
 
-			float4x4 Inverse4x4(float4x4 input)
+			float3x3 Inverse3x3(float3x3 input)
 			{
-				#define minor(a,b,c) determinant(float3x3(input.a, input.b, input.c))
-				float4x4 cofactors = float4x4(
-				minor( _22_23_24, _32_33_34, _42_43_44 ),
-				-minor( _21_23_24, _31_33_34, _41_43_44 ),
-				minor( _21_22_24, _31_32_34, _41_42_44 ),
-				-minor( _21_22_23, _31_32_33, _41_42_43 ),
-			
-				-minor( _12_13_14, _32_33_34, _42_43_44 ),
-				minor( _11_13_14, _31_33_34, _41_43_44 ),
-				-minor( _11_12_14, _31_32_34, _41_42_44 ),
-				minor( _11_12_13, _31_32_33, _41_42_43 ),
-			
-				minor( _12_13_14, _22_23_24, _42_43_44 ),
-				-minor( _11_13_14, _21_23_24, _41_43_44 ),
-				minor( _11_12_14, _21_22_24, _41_42_44 ),
-				-minor( _11_12_13, _21_22_23, _41_42_43 ),
-			
-				-minor( _12_13_14, _22_23_24, _32_33_34 ),
-				minor( _11_13_14, _21_23_24, _31_33_34 ),
-				-minor( _11_12_14, _21_22_24, _31_32_34 ),
-				minor( _11_12_13, _21_22_23, _31_32_33 ));
-				#undef minor
-				return transpose( cofactors ) / determinant( input );
-			}
-			
-			float3 MyCustomExpression32_g269( float3 pos )
-			{
-				return GetAbsolutePositionWS(pos);
-			}
-			
-			float3 mod3D289( float3 x ) { return x - floor( x / 289.0 ) * 289.0; }
-			float4 mod3D289( float4 x ) { return x - floor( x / 289.0 ) * 289.0; }
-			float4 permute( float4 x ) { return mod3D289( ( x * 34.0 + 1.0 ) * x ); }
-			float4 taylorInvSqrt( float4 r ) { return 1.79284291400159 - r * 0.85373472095314; }
-			float snoise( float3 v )
-			{
-				const float2 C = float2( 1.0 / 6.0, 1.0 / 3.0 );
-				float3 i = floor( v + dot( v, C.yyy ) );
-				float3 x0 = v - i + dot( i, C.xxx );
-				float3 g = step( x0.yzx, x0.xyz );
-				float3 l = 1.0 - g;
-				float3 i1 = min( g.xyz, l.zxy );
-				float3 i2 = max( g.xyz, l.zxy );
-				float3 x1 = x0 - i1 + C.xxx;
-				float3 x2 = x0 - i2 + C.yyy;
-				float3 x3 = x0 - 0.5;
-				i = mod3D289( i);
-				float4 p = permute( permute( permute( i.z + float4( 0.0, i1.z, i2.z, 1.0 ) ) + i.y + float4( 0.0, i1.y, i2.y, 1.0 ) ) + i.x + float4( 0.0, i1.x, i2.x, 1.0 ) );
-				float4 j = p - 49.0 * floor( p / 49.0 );  // mod(p,7*7)
-				float4 x_ = floor( j / 7.0 );
-				float4 y_ = floor( j - 7.0 * x_ );  // mod(j,N)
-				float4 x = ( x_ * 2.0 + 0.5 ) / 7.0 - 1.0;
-				float4 y = ( y_ * 2.0 + 0.5 ) / 7.0 - 1.0;
-				float4 h = 1.0 - abs( x ) - abs( y );
-				float4 b0 = float4( x.xy, y.xy );
-				float4 b1 = float4( x.zw, y.zw );
-				float4 s0 = floor( b0 ) * 2.0 + 1.0;
-				float4 s1 = floor( b1 ) * 2.0 + 1.0;
-				float4 sh = -step( h, 0.0 );
-				float4 a0 = b0.xzyw + s0.xzyw * sh.xxyy;
-				float4 a1 = b1.xzyw + s1.xzyw * sh.zzww;
-				float3 g0 = float3( a0.xy, h.x );
-				float3 g1 = float3( a0.zw, h.y );
-				float3 g2 = float3( a1.xy, h.z );
-				float3 g3 = float3( a1.zw, h.w );
-				float4 norm = taylorInvSqrt( float4( dot( g0, g0 ), dot( g1, g1 ), dot( g2, g2 ), dot( g3, g3 ) ) );
-				g0 *= norm.x;
-				g1 *= norm.y;
-				g2 *= norm.z;
-				g3 *= norm.w;
-				float4 m = max( 0.6 - float4( dot( x0, x0 ), dot( x1, x1 ), dot( x2, x2 ), dot( x3, x3 ) ), 0.0 );
-				m = m* m;
-				m = m* m;
-				float4 px = float4( dot( x0, g0 ), dot( x1, g1 ), dot( x2, g2 ), dot( x3, g3 ) );
-				return 42.0 * dot( m, px);
-			}
-			
-			float3 PerturbNormal107_g274( float3 surf_pos, float3 surf_norm, float height, float scale )
-			{
-				// "Bump Mapping Unparametrized Surfaces on the GPU" by Morten S. Mikkelsen
-				float3 vSigmaS = ddx( surf_pos );
-				float3 vSigmaT = ddy( surf_pos );
-				float3 vN = surf_norm;
-				float3 vR1 = cross( vSigmaT , vN );
-				float3 vR2 = cross( vN , vSigmaS );
-				float fDet = dot( vSigmaS , vR1 );
-				float dBs = ddx( height );
-				float dBt = ddy( height );
-				float3 vSurfGrad = scale * 0.05 * sign( fDet ) * ( dBs * vR1 + dBt * vR2 );
-				return normalize ( abs( fDet ) * vN - vSurfGrad );
+				float3 a = input._11_21_31;
+				float3 b = input._12_22_32;
+				float3 c = input._13_23_33;
+				return float3x3(cross(b,c), cross(c,a), cross(a,b)) * (1.0 / dot(a,cross(b,c)));
 			}
 			
 
@@ -1779,109 +1465,42 @@ Shader "CockVoreSlurp"
 				UNITY_SETUP_INSTANCE_ID(inputMesh);
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
 
-				float3 normalizeResult27_g271 = normalize( _WorldDickNormal );
-				float3 normalizeResult31_g271 = normalize( _WorldDickBinormal );
-				float3 normalizeResult29_g271 = normalize( cross( normalizeResult27_g271 , normalizeResult31_g271 ) );
-				float4 appendResult26_g270 = (float4(1.0 , 0.0 , 0.0 , 0.0));
-				float4 appendResult28_g270 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float4 appendResult31_g270 = (float4(0.0 , 0.0 , 1.0 , 0.0));
-				float3 break27_g270 = -_WorldDickPosition;
-				float4 appendResult29_g270 = (float4(break27_g270.x , break27_g270.y , break27_g270.z , 1.0));
-				float4x4 temp_output_30_0_g270 = mul( transpose( float4x4( float4( normalizeResult27_g271 , 0.0 ).x,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).x,float4( normalizeResult29_g271 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g271 , 0.0 ).y,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).y,float4( normalizeResult29_g271 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g271 , 0.0 ).z,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).z,float4( normalizeResult29_g271 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g271 , 0.0 ).w,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).w,float4( normalizeResult29_g271 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g270.x,appendResult28_g270.x,appendResult31_g270.x,appendResult29_g270.x,appendResult26_g270.y,appendResult28_g270.y,appendResult31_g270.y,appendResult29_g270.y,appendResult26_g270.z,appendResult28_g270.z,appendResult31_g270.z,appendResult29_g270.z,appendResult26_g270.w,appendResult28_g270.w,appendResult31_g270.w,appendResult29_g270.w ) );
-				float4x4 invertVal44_g270 = Inverse4x4( temp_output_30_0_g270 );
-				float4 appendResult27_g269 = (float4(inputMesh.positionOS , 1.0));
-				float3 pos32_g269 = mul( GetObjectToWorldMatrix(), appendResult27_g269 ).xyz;
-				float3 localMyCustomExpression32_g269 = MyCustomExpression32_g269( pos32_g269 );
-				float4 appendResult32_g270 = (float4(localMyCustomExpression32_g269 , 1.0));
-				float4 break35_g270 = mul( temp_output_30_0_g270, appendResult32_g270 );
-				float temp_output_124_0_g270 = _TipRadius;
-				float2 appendResult36_g270 = (float2(break35_g270.y , break35_g270.z));
-				float2 normalizeResult41_g270 = normalize( appendResult36_g270 );
-				float temp_output_120_0_g270 = sqrt( max( break35_g270.x , 0.0 ) );
-				float temp_output_48_0_g270 = tan( radians( _Angle ) );
-				float temp_output_125_0_g270 = ( temp_output_124_0_g270 + ( temp_output_120_0_g270 * temp_output_48_0_g270 ) );
-				float temp_output_37_0_g270 = length( appendResult36_g270 );
-				float temp_output_114_0_g270 = ( ( temp_output_125_0_g270 - temp_output_37_0_g270 ) + 1.0 );
-				float lerpResult102_g270 = lerp( temp_output_125_0_g270 , temp_output_37_0_g270 , saturate( temp_output_114_0_g270 ));
-				float lerpResult130_g270 = lerp( 0.0 , lerpResult102_g270 , saturate( ( -( -temp_output_124_0_g270 - break35_g270.x ) / temp_output_124_0_g270 ) ));
-				float2 break43_g270 = ( normalizeResult41_g270 * lerpResult130_g270 );
-				float4 appendResult40_g270 = (float4(max( break35_g270.x , -temp_output_124_0_g270 ) , break43_g270.x , break43_g270.y , 1.0));
-				float4 appendResult28_g269 = (float4(((mul( invertVal44_g270, appendResult40_g270 )).xyz).xyz , 1.0));
-				float4 localWorldVar29_g269 = appendResult28_g269;
-				(localWorldVar29_g269).xyz = GetCameraRelativePositionWS((localWorldVar29_g269).xyz);
-				float4 transform29_g269 = mul(GetWorldToObjectMatrix(),localWorldVar29_g269);
-				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch13_g269 = (transform29_g269).xyz;
-				#else
-				float3 staticSwitch13_g269 = inputMesh.positionOS;
-				#endif
-				float3 temp_output_229_0 = staticSwitch13_g269;
-				float3 temp_output_10_0_g275 = temp_output_229_0;
-				float localGetDeformationFromPenetrators_float8_g275 = ( 0.0 );
-				float4 appendResult17_g275 = (float4(temp_output_10_0_g275 , 1.0));
-				float4 transform16_g275 = mul(GetObjectToWorldMatrix(),appendResult17_g275);
-				transform16_g275.xyz = GetAbsolutePositionWS((transform16_g275).xyz);
-				float3 worldPosition8_g275 = (transform16_g275).xyz;
-				float4 texCoord3_g275 = inputMesh.uv2;
-				texCoord3_g275.xy = inputMesh.uv2.xy * float2( 1,1 ) + float2( 0,0 );
-				float4 uv28_g275 = texCoord3_g275;
-				float compressibleDistance8_g275 = _CompressibleDistance;
-				float smoothness8_g275 = _Smoothness;
-				float3 deformedPosition8_g275 = float3( 0,0,0 );
-				{
-				GetDeformationFromPenetrators_float(worldPosition8_g275,uv28_g275,compressibleDistance8_g275,smoothness8_g275,deformedPosition8_g275);
-				}
-				float4 appendResult21_g275 = (float4(deformedPosition8_g275 , 1.0));
-				float4 localWorldVar19_g275 = appendResult21_g275;
-				(localWorldVar19_g275).xyz = GetCameraRelativePositionWS((localWorldVar19_g275).xyz);
-				float4 transform19_g275 = mul(GetWorldToObjectMatrix(),localWorldVar19_g275);
-				#ifdef _PENETRATION_DEFORMATION_ON
-				float3 staticSwitch24_g275 = (transform19_g275).xyz;
-				#else
-				float3 staticSwitch24_g275 = temp_output_10_0_g275;
-				#endif
-				float3 lerpResult235 = lerp( temp_output_229_0 , staticSwitch24_g275 , inputMesh.ase_color.r);
-				
-				float3 temp_output_50_0_g269 = inputMesh.normalOS;
-				float2 break146_g270 = normalizeResult41_g270;
-				float4 appendResult139_g270 = (float4(temp_output_48_0_g270 , break146_g270.x , break146_g270.y , 0.0));
-				float3 normalizeResult144_g270 = normalize( (mul( invertVal44_g270, appendResult139_g270 )).xyz );
-				float3 lerpResult44_g269 = lerp( normalizeResult144_g270 , temp_output_50_0_g269 , saturate( sign( temp_output_114_0_g270 ) ));
-				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch17_g269 = lerpResult44_g269;
-				#else
-				float3 staticSwitch17_g269 = temp_output_50_0_g269;
-				#endif
-				
-				float3 vertexToFrag28_g272 = mul( UNITY_MATRIX_M, float4( inputMesh.positionOS , 0.0 ) ).xyz;
-				outputPackedVaryingsMeshToPS.ase_texcoord3.xyz = vertexToFrag28_g272;
+				float2 texCoord12 = inputMesh.uv0.xy * float2( 32,32 ) + float2( 0,0 );
+				float2 uv2_g16 = texCoord12;
+				float amplitude2_g16 = _Amplitude;
+				int detail2_g16 = 32;
+				float2 derivative2_g16 = float2( 0,0 );
+				float mulTime13 = _TimeParameters.x * 1.1;
+				float t2_g16 = mulTime13;
+				float localSumOfSines2_g16 = SumOfSines( uv2_g16 , amplitude2_g16 , detail2_g16 , derivative2_g16 , t2_g16 );
+				float temp_output_61_0 = localSumOfSines2_g16;
+				float3 temp_output_15_0 = ( inputMesh.normalOS * temp_output_61_0 );
 				
 				float3 ase_worldPos = GetAbsolutePositionWS( TransformObjectToWorld( (inputMesh.positionOS).xyz ) );
-				outputPackedVaryingsMeshToPS.ase_texcoord4.xyz = ase_worldPos;
+				outputPackedVaryingsMeshToPS.ase_texcoord3.xyz = ase_worldPos;
+				float3 ase_worldTangent = TransformObjectToWorldDir(inputMesh.tangentOS.xyz);
+				outputPackedVaryingsMeshToPS.ase_texcoord4.xyz = ase_worldTangent;
 				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
 				outputPackedVaryingsMeshToPS.ase_texcoord5.xyz = ase_worldNormal;
-				float3 ase_worldTangent = TransformObjectToWorldDir(inputMesh.tangentOS.xyz);
-				outputPackedVaryingsMeshToPS.ase_texcoord6.xyz = ase_worldTangent;
 				float ase_vertexTangentSign = inputMesh.tangentOS.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
 				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
-				outputPackedVaryingsMeshToPS.ase_texcoord7.xyz = ase_worldBitangent;
+				outputPackedVaryingsMeshToPS.ase_texcoord6.xyz = ase_worldBitangent;
 				
 				outputPackedVaryingsMeshToPS.ase_texcoord2.xy = inputMesh.uv0.xy;
-				outputPackedVaryingsMeshToPS.ase_texcoord2.zw = inputMesh.uv1.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
+				outputPackedVaryingsMeshToPS.ase_texcoord2.zw = 0;
 				outputPackedVaryingsMeshToPS.ase_texcoord3.w = 0;
 				outputPackedVaryingsMeshToPS.ase_texcoord4.w = 0;
 				outputPackedVaryingsMeshToPS.ase_texcoord5.w = 0;
 				outputPackedVaryingsMeshToPS.ase_texcoord6.w = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord7.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = lerpResult235;
+				float3 vertexValue = temp_output_15_0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -1889,7 +1508,7 @@ Shader "CockVoreSlurp"
 				inputMesh.positionOS.xyz += vertexValue;
 				#endif
 
-				inputMesh.normalOS = staticSwitch17_g269;
+				inputMesh.normalOS =  inputMesh.normalOS ;
 				inputMesh.tangentOS =  inputMesh.tangentOS ;
 
 				outputPackedVaryingsMeshToPS.positionCS = UnityMetaVertexPosition(inputMesh.positionOS, inputMesh.uv1.xy, inputMesh.uv2.xy, unity_LightmapST, unity_DynamicLightmapST);
@@ -1917,8 +1536,7 @@ Shader "CockVoreSlurp"
 				float4 uv1 : TEXCOORD1;
 				float4 uv2 : TEXCOORD2;
 				float4 uv3 : TEXCOORD3;
-				float4 ase_color : COLOR;
-
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1940,7 +1558,7 @@ Shader "CockVoreSlurp"
 				o.uv1 = v.uv1;
 				o.uv2 = v.uv2;
 				o.uv3 = v.uv3;
-				o.ase_color = v.ase_color;
+				
 				return o;
 			}
 
@@ -1989,7 +1607,7 @@ Shader "CockVoreSlurp"
 				o.uv1 = patch[0].uv1 * bary.x + patch[1].uv1 * bary.y + patch[2].uv1 * bary.z;
 				o.uv2 = patch[0].uv2 * bary.x + patch[1].uv2 * bary.y + patch[2].uv2 * bary.z;
 				o.uv3 = patch[0].uv3 * bary.x + patch[1].uv3 * bary.y + patch[2].uv3 * bary.z;
-				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
+				
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -2030,63 +1648,46 @@ Shader "CockVoreSlurp"
 				SurfaceData surfaceData;
 				BuiltinData builtinData;
 				GlobalSurfaceDescription surfaceDescription = (GlobalSurfaceDescription)0;
-				float2 uv_BaseColorMap = packedInput.ase_texcoord2.xy * _BaseColorMap_ST.xy + _BaseColorMap_ST.zw;
-				float4 tex2DNode11 = tex2D( _BaseColorMap, uv_BaseColorMap );
-				float4 temp_output_1_0_g272 = ( _BaseColorTint * tex2DNode11 );
-				float4 color20_g272 = IsGammaSpace() ? float4(1,1,1,1) : float4(1,1,1,1);
-				float3 vertexToFrag28_g272 = packedInput.ase_texcoord3.xyz;
-				#ifdef _SKINNED_ON
-				float3 staticSwitch26_g272 = float3( packedInput.ase_texcoord2.zw ,  0.0 );
-				#else
-				float3 staticSwitch26_g272 = vertexToFrag28_g272;
-				#endif
-				float simplePerlin3D9_g272 = snoise( ( ( staticSwitch26_g272 * float3( 2,2,2 ) ) + float3( 0,0,0 ) ) );
-				simplePerlin3D9_g272 = simplePerlin3D9_g272*0.5 + 0.5;
-				float temp_output_16_0_g272 = ( ( simplePerlin3D9_g272 - 0.5 ) * 0.5 );
-				float temp_output_12_0_g272 = ( tex2D( _DecalColorMap, packedInput.ase_texcoord2.zw ).r + temp_output_16_0_g272 );
-				float lerpResult22_g272 = lerp( ( temp_output_12_0_g272 + temp_output_16_0_g272 ) , 0.7 , 0.8);
-				float4 lerpResult19_g272 = lerp( temp_output_1_0_g272 , color20_g272 , ( 1.0 - lerpResult22_g272 ));
-				float temp_output_3_0_g273 = ( 0.5 - temp_output_12_0_g272 );
-				float temp_output_10_0_g272 = ( 1.0 - saturate( ( temp_output_3_0_g273 / fwidth( temp_output_3_0_g273 ) ) ) );
-				float4 lerpResult18_g272 = lerp( temp_output_1_0_g272 , lerpResult19_g272 , temp_output_10_0_g272);
+				float2 texCoord12 = packedInput.ase_texcoord2.xy * float2( 32,32 ) + float2( 0,0 );
+				float2 uv2_g16 = texCoord12;
+				float amplitude2_g16 = _Amplitude;
+				int detail2_g16 = 32;
+				float2 derivative2_g16 = float2( 0,0 );
+				float mulTime13 = _TimeParameters.x * 1.1;
+				float t2_g16 = mulTime13;
+				float localSumOfSines2_g16 = SumOfSines( uv2_g16 , amplitude2_g16 , detail2_g16 , derivative2_g16 , t2_g16 );
+				float2 break55 = derivative2_g16;
+				float3 appendResult37 = (float3(1.0 , 0.0 , break55.x));
+				float3 appendResult38 = (float3(0.0 , 1.0 , break55.y));
+				float3 temp_output_24_0 = cross( appendResult37 , appendResult38 );
 				
-				float2 uv_NormalMap = packedInput.ase_texcoord2.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
-				float3 temp_output_4_0_g272 = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
-				float3 ase_worldPos = packedInput.ase_texcoord4.xyz;
-				float3 surf_pos107_g274 = ase_worldPos;
+				float3 ase_worldPos = packedInput.ase_texcoord3.xyz;
+				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - ase_worldPos );
+				ase_worldViewDir = normalize(ase_worldViewDir);
+				float3 ase_worldTangent = packedInput.ase_texcoord4.xyz;
 				float3 ase_worldNormal = packedInput.ase_texcoord5.xyz;
-				float3 surf_norm107_g274 = ase_worldNormal;
-				float height107_g274 = simplePerlin3D9_g272;
-				float scale107_g274 = 0.5;
-				float3 localPerturbNormal107_g274 = PerturbNormal107_g274( surf_pos107_g274 , surf_norm107_g274 , height107_g274 , scale107_g274 );
-				float3 ase_worldTangent = packedInput.ase_texcoord6.xyz;
-				float3 ase_worldBitangent = packedInput.ase_texcoord7.xyz;
+				float3 ase_worldBitangent = packedInput.ase_texcoord6.xyz;
 				float3x3 ase_worldToTangent = float3x3(ase_worldTangent,ase_worldBitangent,ase_worldNormal);
-				float3 worldToTangentDir42_g274 = mul( ase_worldToTangent, localPerturbNormal107_g274);
-				float3 lerpResult6_g272 = lerp( temp_output_4_0_g272 , BlendNormal( worldToTangentDir42_g274 , temp_output_4_0_g272 ) , temp_output_10_0_g272);
-				float3 normalizeResult33_g272 = normalize( lerpResult6_g272 );
+				float3x3 invertVal79 = Inverse3x3( ase_worldToTangent );
+				float fresnelNdotV76 = dot( mul( invertVal79, temp_output_24_0 ), ase_worldViewDir );
+				float fresnelNode76 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV76, 5.0 ) );
+				float temp_output_61_0 = localSumOfSines2_g16;
+				float4 lerpResult82 = lerp( float4( 0,0,0,0 ) , _TransmissionColor , ( fresnelNode76 * (0.0 + (temp_output_61_0 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) ));
 				
-				float lerpResult32_g272 = lerp( 0.0 , 1.0 , temp_output_10_0_g272);
-				
-				float2 uv_MaskMap = packedInput.ase_texcoord2.xy * _MaskMap_ST.xy + _MaskMap_ST.zw;
-				float4 tex2DNode12 = tex2D( _MaskMap, uv_MaskMap );
-				
-				float2 uv_EmmisionMap = packedInput.ase_texcoord2.xy * _EmmisionMap_ST.xy + _EmmisionMap_ST.zw;
-				
-				surfaceDescription.BaseColor = lerpResult18_g272.rgb;
-				surfaceDescription.Normal = normalizeResult33_g272;
+				surfaceDescription.BaseColor = _BaseColor.rgb;
+				surfaceDescription.Normal = temp_output_24_0;
 				surfaceDescription.BentNormal = float3( 0, 0, 1 );
-				surfaceDescription.CoatMask = lerpResult32_g272;
-				surfaceDescription.Metallic = tex2DNode12.r;
+				surfaceDescription.CoatMask = 0;
+				surfaceDescription.Metallic = 0;
 
 				#ifdef _MATERIAL_FEATURE_SPECULAR_COLOR
 				surfaceDescription.Specular = 0;
 				#endif
 
-				surfaceDescription.Emission = ( ( tex2DNode11 * tex2D( _EmmisionMap, uv_EmmisionMap ) ) * _EmmisionStr ).rgb;
-				surfaceDescription.Smoothness = tex2DNode12.a;
+				surfaceDescription.Emission = lerpResult82.rgb;
+				surfaceDescription.Smoothness = 0.98;
 				surfaceDescription.Occlusion = 1;
-				surfaceDescription.Alpha = 1;
+				surfaceDescription.Alpha = _BaseColor.a;
 
 				#ifdef _ALPHATEST_ON
 				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
@@ -2106,7 +1707,7 @@ Shader "CockVoreSlurp"
 				#endif
 
 				#ifdef _HAS_REFRACTION
-				surfaceDescription.RefractionIndex = 1;
+				surfaceDescription.RefractionIndex = _RefractionIndex;
 				surfaceDescription.RefractionColor = float3( 1, 1, 1 );
 				surfaceDescription.RefractionDistance = 0;
 				#endif
@@ -2170,11 +1771,17 @@ Shader "CockVoreSlurp"
 
 			HLSLPROGRAM
 
+			#define shader_feature_local _DISABLE_SSR_TRANSPARENT
 			#define _SPECULAR_OCCLUSION_FROM_AO 1
 			#pragma multi_compile_instancing
 			#pragma instancing_options renderinglayer
-			#define ASE_ABSOLUTE_VERTEX_POS 1
-			#define _MATERIAL_FEATURE_CLEAR_COAT 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define _HAS_REFRACTION 1
+			#define _REFRACTION_SPHERE 1
+			#define ASE_DISTANCE_TESSELLATION
 			#define HAVE_MESH_MODIFICATION
 			#define ASE_SRP_VERSION 140008
 
@@ -2247,19 +1854,10 @@ Shader "CockVoreSlurp"
 			#endif
 
 			CBUFFER_START( UnityPerMaterial )
-			float4 _BaseColorTint;
-			float4 _BaseColorMap_ST;
-			float4 _NormalMap_ST;
-			float4 _MaskMap_ST;
-			float4 _EmmisionMap_ST;
-			float3 _WorldDickNormal;
-			float3 _WorldDickBinormal;
-			float3 _WorldDickPosition;
-			float _TipRadius;
-			float _Angle;
-			float _CompressibleDistance;
-			float _Smoothness;
-			float _EmmisionStr;
+			float4 _BaseColor;
+			float4 _TransmissionColor;
+			float _Amplitude;
+			float _RefractionIndex;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -2340,12 +1938,8 @@ Shader "CockVoreSlurp"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
-			#define ASE_NEEDS_VERT_POSITION
+			#include "SumOfSines.cginc"
 			#define ASE_NEEDS_VERT_NORMAL
-			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
-			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
-			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -2356,8 +1950,7 @@ Shader "CockVoreSlurp"
 			{
 				float3 positionOS : POSITION;
 				float3 normalOS : NORMAL;
-				float4 ase_texcoord2 : TEXCOORD2;
-				float4 ase_color : COLOR;
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -2373,39 +1966,7 @@ Shader "CockVoreSlurp"
 				#endif
 			};
 
-			float4x4 Inverse4x4(float4x4 input)
-			{
-				#define minor(a,b,c) determinant(float3x3(input.a, input.b, input.c))
-				float4x4 cofactors = float4x4(
-				minor( _22_23_24, _32_33_34, _42_43_44 ),
-				-minor( _21_23_24, _31_33_34, _41_43_44 ),
-				minor( _21_22_24, _31_32_34, _41_42_44 ),
-				-minor( _21_22_23, _31_32_33, _41_42_43 ),
 			
-				-minor( _12_13_14, _32_33_34, _42_43_44 ),
-				minor( _11_13_14, _31_33_34, _41_43_44 ),
-				-minor( _11_12_14, _31_32_34, _41_42_44 ),
-				minor( _11_12_13, _31_32_33, _41_42_43 ),
-			
-				minor( _12_13_14, _22_23_24, _42_43_44 ),
-				-minor( _11_13_14, _21_23_24, _41_43_44 ),
-				minor( _11_12_14, _21_22_24, _41_42_44 ),
-				-minor( _11_12_13, _21_22_23, _41_42_43 ),
-			
-				-minor( _12_13_14, _22_23_24, _32_33_34 ),
-				minor( _11_13_14, _21_23_24, _31_33_34 ),
-				-minor( _11_12_14, _21_22_24, _31_32_34 ),
-				minor( _11_12_13, _21_22_23, _31_32_33 ));
-				#undef minor
-				return transpose( cofactors ) / determinant( input );
-			}
-			
-			float3 MyCustomExpression32_g269( float3 pos )
-			{
-				return GetAbsolutePositionWS(pos);
-			}
-			
-
 			void BuildSurfaceData(FragInputs fragInputs, inout AlphaSurfaceDescription surfaceDescription, float3 V, PositionInputs posInput, out SurfaceData surfaceData, out float3 bentNormalWS)
 			{
 				ZERO_INITIALIZE(SurfaceData, surfaceData);
@@ -2563,79 +2124,16 @@ Shader "CockVoreSlurp"
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( outputPackedVaryingsMeshToPS );
 
-				float3 normalizeResult27_g271 = normalize( _WorldDickNormal );
-				float3 normalizeResult31_g271 = normalize( _WorldDickBinormal );
-				float3 normalizeResult29_g271 = normalize( cross( normalizeResult27_g271 , normalizeResult31_g271 ) );
-				float4 appendResult26_g270 = (float4(1.0 , 0.0 , 0.0 , 0.0));
-				float4 appendResult28_g270 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float4 appendResult31_g270 = (float4(0.0 , 0.0 , 1.0 , 0.0));
-				float3 break27_g270 = -_WorldDickPosition;
-				float4 appendResult29_g270 = (float4(break27_g270.x , break27_g270.y , break27_g270.z , 1.0));
-				float4x4 temp_output_30_0_g270 = mul( transpose( float4x4( float4( normalizeResult27_g271 , 0.0 ).x,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).x,float4( normalizeResult29_g271 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g271 , 0.0 ).y,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).y,float4( normalizeResult29_g271 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g271 , 0.0 ).z,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).z,float4( normalizeResult29_g271 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g271 , 0.0 ).w,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).w,float4( normalizeResult29_g271 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g270.x,appendResult28_g270.x,appendResult31_g270.x,appendResult29_g270.x,appendResult26_g270.y,appendResult28_g270.y,appendResult31_g270.y,appendResult29_g270.y,appendResult26_g270.z,appendResult28_g270.z,appendResult31_g270.z,appendResult29_g270.z,appendResult26_g270.w,appendResult28_g270.w,appendResult31_g270.w,appendResult29_g270.w ) );
-				float4x4 invertVal44_g270 = Inverse4x4( temp_output_30_0_g270 );
-				float4 appendResult27_g269 = (float4(inputMesh.positionOS , 1.0));
-				float3 pos32_g269 = mul( GetObjectToWorldMatrix(), appendResult27_g269 ).xyz;
-				float3 localMyCustomExpression32_g269 = MyCustomExpression32_g269( pos32_g269 );
-				float4 appendResult32_g270 = (float4(localMyCustomExpression32_g269 , 1.0));
-				float4 break35_g270 = mul( temp_output_30_0_g270, appendResult32_g270 );
-				float temp_output_124_0_g270 = _TipRadius;
-				float2 appendResult36_g270 = (float2(break35_g270.y , break35_g270.z));
-				float2 normalizeResult41_g270 = normalize( appendResult36_g270 );
-				float temp_output_120_0_g270 = sqrt( max( break35_g270.x , 0.0 ) );
-				float temp_output_48_0_g270 = tan( radians( _Angle ) );
-				float temp_output_125_0_g270 = ( temp_output_124_0_g270 + ( temp_output_120_0_g270 * temp_output_48_0_g270 ) );
-				float temp_output_37_0_g270 = length( appendResult36_g270 );
-				float temp_output_114_0_g270 = ( ( temp_output_125_0_g270 - temp_output_37_0_g270 ) + 1.0 );
-				float lerpResult102_g270 = lerp( temp_output_125_0_g270 , temp_output_37_0_g270 , saturate( temp_output_114_0_g270 ));
-				float lerpResult130_g270 = lerp( 0.0 , lerpResult102_g270 , saturate( ( -( -temp_output_124_0_g270 - break35_g270.x ) / temp_output_124_0_g270 ) ));
-				float2 break43_g270 = ( normalizeResult41_g270 * lerpResult130_g270 );
-				float4 appendResult40_g270 = (float4(max( break35_g270.x , -temp_output_124_0_g270 ) , break43_g270.x , break43_g270.y , 1.0));
-				float4 appendResult28_g269 = (float4(((mul( invertVal44_g270, appendResult40_g270 )).xyz).xyz , 1.0));
-				float4 localWorldVar29_g269 = appendResult28_g269;
-				(localWorldVar29_g269).xyz = GetCameraRelativePositionWS((localWorldVar29_g269).xyz);
-				float4 transform29_g269 = mul(GetWorldToObjectMatrix(),localWorldVar29_g269);
-				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch13_g269 = (transform29_g269).xyz;
-				#else
-				float3 staticSwitch13_g269 = inputMesh.positionOS;
-				#endif
-				float3 temp_output_229_0 = staticSwitch13_g269;
-				float3 temp_output_10_0_g275 = temp_output_229_0;
-				float localGetDeformationFromPenetrators_float8_g275 = ( 0.0 );
-				float4 appendResult17_g275 = (float4(temp_output_10_0_g275 , 1.0));
-				float4 transform16_g275 = mul(GetObjectToWorldMatrix(),appendResult17_g275);
-				transform16_g275.xyz = GetAbsolutePositionWS((transform16_g275).xyz);
-				float3 worldPosition8_g275 = (transform16_g275).xyz;
-				float4 texCoord3_g275 = inputMesh.ase_texcoord2;
-				texCoord3_g275.xy = inputMesh.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
-				float4 uv28_g275 = texCoord3_g275;
-				float compressibleDistance8_g275 = _CompressibleDistance;
-				float smoothness8_g275 = _Smoothness;
-				float3 deformedPosition8_g275 = float3( 0,0,0 );
-				{
-				GetDeformationFromPenetrators_float(worldPosition8_g275,uv28_g275,compressibleDistance8_g275,smoothness8_g275,deformedPosition8_g275);
-				}
-				float4 appendResult21_g275 = (float4(deformedPosition8_g275 , 1.0));
-				float4 localWorldVar19_g275 = appendResult21_g275;
-				(localWorldVar19_g275).xyz = GetCameraRelativePositionWS((localWorldVar19_g275).xyz);
-				float4 transform19_g275 = mul(GetWorldToObjectMatrix(),localWorldVar19_g275);
-				#ifdef _PENETRATION_DEFORMATION_ON
-				float3 staticSwitch24_g275 = (transform19_g275).xyz;
-				#else
-				float3 staticSwitch24_g275 = temp_output_10_0_g275;
-				#endif
-				float3 lerpResult235 = lerp( temp_output_229_0 , staticSwitch24_g275 , inputMesh.ase_color.r);
-				
-				float3 temp_output_50_0_g269 = inputMesh.normalOS;
-				float2 break146_g270 = normalizeResult41_g270;
-				float4 appendResult139_g270 = (float4(temp_output_48_0_g270 , break146_g270.x , break146_g270.y , 0.0));
-				float3 normalizeResult144_g270 = normalize( (mul( invertVal44_g270, appendResult139_g270 )).xyz );
-				float3 lerpResult44_g269 = lerp( normalizeResult144_g270 , temp_output_50_0_g269 , saturate( sign( temp_output_114_0_g270 ) ));
-				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch17_g269 = lerpResult44_g269;
-				#else
-				float3 staticSwitch17_g269 = temp_output_50_0_g269;
-				#endif
+				float2 texCoord12 = inputMesh.ase_texcoord.xy * float2( 32,32 ) + float2( 0,0 );
+				float2 uv2_g16 = texCoord12;
+				float amplitude2_g16 = _Amplitude;
+				int detail2_g16 = 32;
+				float2 derivative2_g16 = float2( 0,0 );
+				float mulTime13 = _TimeParameters.x * 1.1;
+				float t2_g16 = mulTime13;
+				float localSumOfSines2_g16 = SumOfSines( uv2_g16 , amplitude2_g16 , detail2_g16 , derivative2_g16 , t2_g16 );
+				float temp_output_61_0 = localSumOfSines2_g16;
+				float3 temp_output_15_0 = ( inputMesh.normalOS * temp_output_61_0 );
 				
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -2643,7 +2141,7 @@ Shader "CockVoreSlurp"
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = lerpResult235;
+				float3 vertexValue = temp_output_15_0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -2651,7 +2149,7 @@ Shader "CockVoreSlurp"
 				inputMesh.positionOS.xyz += vertexValue;
 				#endif
 
-				inputMesh.normalOS = staticSwitch17_g269;
+				inputMesh.normalOS =  inputMesh.normalOS ;
 
 				float3 positionRWS = TransformObjectToWorld(inputMesh.positionOS);
 				outputPackedVaryingsMeshToPS.positionCS = TransformWorldToHClip(positionRWS);
@@ -2664,8 +2162,7 @@ Shader "CockVoreSlurp"
 			{
 				float3 positionOS : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
-				float4 ase_texcoord2 : TEXCOORD2;
-				float4 ase_color : COLOR;
+				float4 ase_texcoord : TEXCOORD0;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -2683,8 +2180,7 @@ Shader "CockVoreSlurp"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.positionOS = v.positionOS;
 				o.normalOS = v.normalOS;
-				o.ase_texcoord2 = v.ase_texcoord2;
-				o.ase_color = v.ase_color;
+				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -2728,8 +2224,7 @@ Shader "CockVoreSlurp"
 				AttributesMesh o = (AttributesMesh) 0;
 				o.positionOS = patch[0].positionOS * bary.x + patch[1].positionOS * bary.y + patch[2].positionOS * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
-				o.ase_texcoord2 = patch[0].ase_texcoord2 * bary.x + patch[1].ase_texcoord2 * bary.y + patch[2].ase_texcoord2 * bary.z;
-				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -2809,7 +2304,7 @@ Shader "CockVoreSlurp"
 
 				AlphaSurfaceDescription surfaceDescription = (AlphaSurfaceDescription)0;
 				
-				surfaceDescription.Alpha = 1;
+				surfaceDescription.Alpha = _BaseColor.a;
 
 				#ifdef _ALPHATEST_ON
 				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
@@ -2866,11 +2361,17 @@ Shader "CockVoreSlurp"
 
 			HLSLPROGRAM
 
+            #define shader_feature_local _DISABLE_SSR_TRANSPARENT
             #define _SPECULAR_OCCLUSION_FROM_AO 1
             #pragma multi_compile_instancing
             #pragma instancing_options renderinglayer
-            #define ASE_ABSOLUTE_VERTEX_POS 1
-            #define _MATERIAL_FEATURE_CLEAR_COAT 1
+            #define ASE_TESSELLATION 1
+            #pragma require tessellation tessHW
+            #pragma hull HullFunction
+            #pragma domain DomainFunction
+            #define _HAS_REFRACTION 1
+            #define _REFRACTION_SPHERE 1
+            #define ASE_DISTANCE_TESSELLATION
             #define HAVE_MESH_MODIFICATION
             #define ASE_SRP_VERSION 140008
 
@@ -2941,19 +2442,10 @@ Shader "CockVoreSlurp"
 			#endif
 
 			CBUFFER_START( UnityPerMaterial )
-			float4 _BaseColorTint;
-			float4 _BaseColorMap_ST;
-			float4 _NormalMap_ST;
-			float4 _MaskMap_ST;
-			float4 _EmmisionMap_ST;
-			float3 _WorldDickNormal;
-			float3 _WorldDickBinormal;
-			float3 _WorldDickPosition;
-			float _TipRadius;
-			float _Angle;
-			float _CompressibleDistance;
-			float _Smoothness;
-			float _EmmisionStr;
+			float4 _BaseColor;
+			float4 _TransmissionColor;
+			float _Amplitude;
+			float _RefractionIndex;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -3035,12 +2527,8 @@ Shader "CockVoreSlurp"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
-			#define ASE_NEEDS_VERT_POSITION
+			#include "SumOfSines.cginc"
 			#define ASE_NEEDS_VERT_NORMAL
-			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
-			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
-			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -3051,8 +2539,7 @@ Shader "CockVoreSlurp"
 			{
 				float3 positionOS : POSITION;
 				float3 normalOS : NORMAL;
-				float4 ase_texcoord2 : TEXCOORD2;
-				float4 ase_color : COLOR;
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -3068,39 +2555,7 @@ Shader "CockVoreSlurp"
 				#endif
 			};
 
-			float4x4 Inverse4x4(float4x4 input)
-			{
-				#define minor(a,b,c) determinant(float3x3(input.a, input.b, input.c))
-				float4x4 cofactors = float4x4(
-				minor( _22_23_24, _32_33_34, _42_43_44 ),
-				-minor( _21_23_24, _31_33_34, _41_43_44 ),
-				minor( _21_22_24, _31_32_34, _41_42_44 ),
-				-minor( _21_22_23, _31_32_33, _41_42_43 ),
 			
-				-minor( _12_13_14, _32_33_34, _42_43_44 ),
-				minor( _11_13_14, _31_33_34, _41_43_44 ),
-				-minor( _11_12_14, _31_32_34, _41_42_44 ),
-				minor( _11_12_13, _31_32_33, _41_42_43 ),
-			
-				minor( _12_13_14, _22_23_24, _42_43_44 ),
-				-minor( _11_13_14, _21_23_24, _41_43_44 ),
-				minor( _11_12_14, _21_22_24, _41_42_44 ),
-				-minor( _11_12_13, _21_22_23, _41_42_43 ),
-			
-				-minor( _12_13_14, _22_23_24, _32_33_34 ),
-				minor( _11_13_14, _21_23_24, _31_33_34 ),
-				-minor( _11_12_14, _21_22_24, _31_32_34 ),
-				minor( _11_12_13, _21_22_23, _31_32_33 ));
-				#undef minor
-				return transpose( cofactors ) / determinant( input );
-			}
-			
-			float3 MyCustomExpression32_g269( float3 pos )
-			{
-				return GetAbsolutePositionWS(pos);
-			}
-			
-
 			void BuildSurfaceData(FragInputs fragInputs, inout SceneSurfaceDescription surfaceDescription, float3 V, PositionInputs posInput, out SurfaceData surfaceData, out float3 bentNormalWS)
 			{
 				ZERO_INITIALIZE(SurfaceData, surfaceData);
@@ -3254,79 +2709,16 @@ Shader "CockVoreSlurp"
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( outputPackedVaryingsMeshToPS );
 
-				float3 normalizeResult27_g271 = normalize( _WorldDickNormal );
-				float3 normalizeResult31_g271 = normalize( _WorldDickBinormal );
-				float3 normalizeResult29_g271 = normalize( cross( normalizeResult27_g271 , normalizeResult31_g271 ) );
-				float4 appendResult26_g270 = (float4(1.0 , 0.0 , 0.0 , 0.0));
-				float4 appendResult28_g270 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float4 appendResult31_g270 = (float4(0.0 , 0.0 , 1.0 , 0.0));
-				float3 break27_g270 = -_WorldDickPosition;
-				float4 appendResult29_g270 = (float4(break27_g270.x , break27_g270.y , break27_g270.z , 1.0));
-				float4x4 temp_output_30_0_g270 = mul( transpose( float4x4( float4( normalizeResult27_g271 , 0.0 ).x,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).x,float4( normalizeResult29_g271 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g271 , 0.0 ).y,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).y,float4( normalizeResult29_g271 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g271 , 0.0 ).z,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).z,float4( normalizeResult29_g271 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g271 , 0.0 ).w,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).w,float4( normalizeResult29_g271 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g270.x,appendResult28_g270.x,appendResult31_g270.x,appendResult29_g270.x,appendResult26_g270.y,appendResult28_g270.y,appendResult31_g270.y,appendResult29_g270.y,appendResult26_g270.z,appendResult28_g270.z,appendResult31_g270.z,appendResult29_g270.z,appendResult26_g270.w,appendResult28_g270.w,appendResult31_g270.w,appendResult29_g270.w ) );
-				float4x4 invertVal44_g270 = Inverse4x4( temp_output_30_0_g270 );
-				float4 appendResult27_g269 = (float4(inputMesh.positionOS , 1.0));
-				float3 pos32_g269 = mul( GetObjectToWorldMatrix(), appendResult27_g269 ).xyz;
-				float3 localMyCustomExpression32_g269 = MyCustomExpression32_g269( pos32_g269 );
-				float4 appendResult32_g270 = (float4(localMyCustomExpression32_g269 , 1.0));
-				float4 break35_g270 = mul( temp_output_30_0_g270, appendResult32_g270 );
-				float temp_output_124_0_g270 = _TipRadius;
-				float2 appendResult36_g270 = (float2(break35_g270.y , break35_g270.z));
-				float2 normalizeResult41_g270 = normalize( appendResult36_g270 );
-				float temp_output_120_0_g270 = sqrt( max( break35_g270.x , 0.0 ) );
-				float temp_output_48_0_g270 = tan( radians( _Angle ) );
-				float temp_output_125_0_g270 = ( temp_output_124_0_g270 + ( temp_output_120_0_g270 * temp_output_48_0_g270 ) );
-				float temp_output_37_0_g270 = length( appendResult36_g270 );
-				float temp_output_114_0_g270 = ( ( temp_output_125_0_g270 - temp_output_37_0_g270 ) + 1.0 );
-				float lerpResult102_g270 = lerp( temp_output_125_0_g270 , temp_output_37_0_g270 , saturate( temp_output_114_0_g270 ));
-				float lerpResult130_g270 = lerp( 0.0 , lerpResult102_g270 , saturate( ( -( -temp_output_124_0_g270 - break35_g270.x ) / temp_output_124_0_g270 ) ));
-				float2 break43_g270 = ( normalizeResult41_g270 * lerpResult130_g270 );
-				float4 appendResult40_g270 = (float4(max( break35_g270.x , -temp_output_124_0_g270 ) , break43_g270.x , break43_g270.y , 1.0));
-				float4 appendResult28_g269 = (float4(((mul( invertVal44_g270, appendResult40_g270 )).xyz).xyz , 1.0));
-				float4 localWorldVar29_g269 = appendResult28_g269;
-				(localWorldVar29_g269).xyz = GetCameraRelativePositionWS((localWorldVar29_g269).xyz);
-				float4 transform29_g269 = mul(GetWorldToObjectMatrix(),localWorldVar29_g269);
-				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch13_g269 = (transform29_g269).xyz;
-				#else
-				float3 staticSwitch13_g269 = inputMesh.positionOS;
-				#endif
-				float3 temp_output_229_0 = staticSwitch13_g269;
-				float3 temp_output_10_0_g275 = temp_output_229_0;
-				float localGetDeformationFromPenetrators_float8_g275 = ( 0.0 );
-				float4 appendResult17_g275 = (float4(temp_output_10_0_g275 , 1.0));
-				float4 transform16_g275 = mul(GetObjectToWorldMatrix(),appendResult17_g275);
-				transform16_g275.xyz = GetAbsolutePositionWS((transform16_g275).xyz);
-				float3 worldPosition8_g275 = (transform16_g275).xyz;
-				float4 texCoord3_g275 = inputMesh.ase_texcoord2;
-				texCoord3_g275.xy = inputMesh.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
-				float4 uv28_g275 = texCoord3_g275;
-				float compressibleDistance8_g275 = _CompressibleDistance;
-				float smoothness8_g275 = _Smoothness;
-				float3 deformedPosition8_g275 = float3( 0,0,0 );
-				{
-				GetDeformationFromPenetrators_float(worldPosition8_g275,uv28_g275,compressibleDistance8_g275,smoothness8_g275,deformedPosition8_g275);
-				}
-				float4 appendResult21_g275 = (float4(deformedPosition8_g275 , 1.0));
-				float4 localWorldVar19_g275 = appendResult21_g275;
-				(localWorldVar19_g275).xyz = GetCameraRelativePositionWS((localWorldVar19_g275).xyz);
-				float4 transform19_g275 = mul(GetWorldToObjectMatrix(),localWorldVar19_g275);
-				#ifdef _PENETRATION_DEFORMATION_ON
-				float3 staticSwitch24_g275 = (transform19_g275).xyz;
-				#else
-				float3 staticSwitch24_g275 = temp_output_10_0_g275;
-				#endif
-				float3 lerpResult235 = lerp( temp_output_229_0 , staticSwitch24_g275 , inputMesh.ase_color.r);
-				
-				float3 temp_output_50_0_g269 = inputMesh.normalOS;
-				float2 break146_g270 = normalizeResult41_g270;
-				float4 appendResult139_g270 = (float4(temp_output_48_0_g270 , break146_g270.x , break146_g270.y , 0.0));
-				float3 normalizeResult144_g270 = normalize( (mul( invertVal44_g270, appendResult139_g270 )).xyz );
-				float3 lerpResult44_g269 = lerp( normalizeResult144_g270 , temp_output_50_0_g269 , saturate( sign( temp_output_114_0_g270 ) ));
-				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch17_g269 = lerpResult44_g269;
-				#else
-				float3 staticSwitch17_g269 = temp_output_50_0_g269;
-				#endif
+				float2 texCoord12 = inputMesh.ase_texcoord.xy * float2( 32,32 ) + float2( 0,0 );
+				float2 uv2_g16 = texCoord12;
+				float amplitude2_g16 = _Amplitude;
+				int detail2_g16 = 32;
+				float2 derivative2_g16 = float2( 0,0 );
+				float mulTime13 = _TimeParameters.x * 1.1;
+				float t2_g16 = mulTime13;
+				float localSumOfSines2_g16 = SumOfSines( uv2_g16 , amplitude2_g16 , detail2_g16 , derivative2_g16 , t2_g16 );
+				float temp_output_61_0 = localSumOfSines2_g16;
+				float3 temp_output_15_0 = ( inputMesh.normalOS * temp_output_61_0 );
 				
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -3334,7 +2726,7 @@ Shader "CockVoreSlurp"
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = lerpResult235;
+				float3 vertexValue = temp_output_15_0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -3342,7 +2734,7 @@ Shader "CockVoreSlurp"
 				inputMesh.positionOS.xyz += vertexValue;
 				#endif
 
-				inputMesh.normalOS = staticSwitch17_g269;
+				inputMesh.normalOS =  inputMesh.normalOS ;
 
 				float3 positionRWS = TransformObjectToWorld(inputMesh.positionOS);
 				outputPackedVaryingsMeshToPS.positionCS = TransformWorldToHClip(positionRWS);
@@ -3355,8 +2747,7 @@ Shader "CockVoreSlurp"
 			{
 				float3 positionOS : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
-				float4 ase_texcoord2 : TEXCOORD2;
-				float4 ase_color : COLOR;
+				float4 ase_texcoord : TEXCOORD0;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -3374,8 +2765,7 @@ Shader "CockVoreSlurp"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.positionOS = v.positionOS;
 				o.normalOS = v.normalOS;
-				o.ase_texcoord2 = v.ase_texcoord2;
-				o.ase_color = v.ase_color;
+				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -3419,8 +2809,7 @@ Shader "CockVoreSlurp"
 				AttributesMesh o = (AttributesMesh) 0;
 				o.positionOS = patch[0].positionOS * bary.x + patch[1].positionOS * bary.y + patch[2].positionOS * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
-				o.ase_texcoord2 = patch[0].ase_texcoord2 * bary.x + patch[1].ase_texcoord2 * bary.y + patch[2].ase_texcoord2 * bary.z;
-				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -3482,7 +2871,7 @@ Shader "CockVoreSlurp"
 
 				SceneSurfaceDescription surfaceDescription = (SceneSurfaceDescription)0;
 				
-				surfaceDescription.Alpha = 1;
+				surfaceDescription.Alpha = _BaseColor.a;
 
 				#ifdef _ALPHATEST_ON
 				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
@@ -3527,11 +2916,17 @@ Shader "CockVoreSlurp"
 
 			HLSLPROGRAM
 
+            #define shader_feature_local _DISABLE_SSR_TRANSPARENT
             #define _SPECULAR_OCCLUSION_FROM_AO 1
             #pragma multi_compile_instancing
             #pragma instancing_options renderinglayer
-            #define ASE_ABSOLUTE_VERTEX_POS 1
-            #define _MATERIAL_FEATURE_CLEAR_COAT 1
+            #define ASE_TESSELLATION 1
+            #pragma require tessellation tessHW
+            #pragma hull HullFunction
+            #pragma domain DomainFunction
+            #define _HAS_REFRACTION 1
+            #define _REFRACTION_SPHERE 1
+            #define ASE_DISTANCE_TESSELLATION
             #define HAVE_MESH_MODIFICATION
             #define ASE_SRP_VERSION 140008
 
@@ -3603,19 +2998,10 @@ Shader "CockVoreSlurp"
 			#endif
 
 			CBUFFER_START( UnityPerMaterial )
-			float4 _BaseColorTint;
-			float4 _BaseColorMap_ST;
-			float4 _NormalMap_ST;
-			float4 _MaskMap_ST;
-			float4 _EmmisionMap_ST;
-			float3 _WorldDickNormal;
-			float3 _WorldDickBinormal;
-			float3 _WorldDickPosition;
-			float _TipRadius;
-			float _Angle;
-			float _CompressibleDistance;
-			float _Smoothness;
-			float _EmmisionStr;
+			float4 _BaseColor;
+			float4 _TransmissionColor;
+			float _Amplitude;
+			float _RefractionIndex;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -3678,14 +3064,7 @@ Shader "CockVoreSlurp"
 			int _PassValue;
             #endif
 
-			sampler2D _NormalMap;
-			float4x4 unity_CameraProjection;
-			float4x4 unity_CameraInvProjection;
-			float4x4 unity_WorldToCamera;
-			float4x4 unity_CameraToWorld;
-			sampler2D _DecalColorMap;
-			sampler2D _MaskMap;
-
+			
 
             #ifdef DEBUG_DISPLAY
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
@@ -3703,17 +3082,8 @@ Shader "CockVoreSlurp"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
-			#define ASE_NEEDS_VERT_POSITION
+			#include "SumOfSines.cginc"
 			#define ASE_NEEDS_VERT_NORMAL
-			#define ASE_NEEDS_FRAG_RELATIVE_WORLD_POS
-			#define ASE_NEEDS_FRAG_WORLD_NORMAL
-			#define ASE_NEEDS_FRAG_WORLD_TANGENT
-			#define ASE_NEEDS_VERT_TANGENT
-			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
-			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
-			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#pragma shader_feature_local _SKINNED_ON
-			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -3725,10 +3095,7 @@ Shader "CockVoreSlurp"
 				float3 positionOS : POSITION;
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
-				float4 ase_texcoord2 : TEXCOORD2;
-				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -3739,8 +3106,6 @@ Shader "CockVoreSlurp"
 				float3 normalWS : TEXCOORD1;
 				float4 tangentWS : TEXCOORD2;
 				float4 ase_texcoord3 : TEXCOORD3;
-				float4 ase_texcoord4 : TEXCOORD4;
-				float4 ase_texcoord5 : TEXCOORD5;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
@@ -3748,101 +3113,7 @@ Shader "CockVoreSlurp"
 				#endif
 			};
 
-			float4x4 Inverse4x4(float4x4 input)
-			{
-				#define minor(a,b,c) determinant(float3x3(input.a, input.b, input.c))
-				float4x4 cofactors = float4x4(
-				minor( _22_23_24, _32_33_34, _42_43_44 ),
-				-minor( _21_23_24, _31_33_34, _41_43_44 ),
-				minor( _21_22_24, _31_32_34, _41_42_44 ),
-				-minor( _21_22_23, _31_32_33, _41_42_43 ),
 			
-				-minor( _12_13_14, _32_33_34, _42_43_44 ),
-				minor( _11_13_14, _31_33_34, _41_43_44 ),
-				-minor( _11_12_14, _31_32_34, _41_42_44 ),
-				minor( _11_12_13, _31_32_33, _41_42_43 ),
-			
-				minor( _12_13_14, _22_23_24, _42_43_44 ),
-				-minor( _11_13_14, _21_23_24, _41_43_44 ),
-				minor( _11_12_14, _21_22_24, _41_42_44 ),
-				-minor( _11_12_13, _21_22_23, _41_42_43 ),
-			
-				-minor( _12_13_14, _22_23_24, _32_33_34 ),
-				minor( _11_13_14, _21_23_24, _31_33_34 ),
-				-minor( _11_12_14, _21_22_24, _31_32_34 ),
-				minor( _11_12_13, _21_22_23, _31_32_33 ));
-				#undef minor
-				return transpose( cofactors ) / determinant( input );
-			}
-			
-			float3 MyCustomExpression32_g269( float3 pos )
-			{
-				return GetAbsolutePositionWS(pos);
-			}
-			
-			float3 mod3D289( float3 x ) { return x - floor( x / 289.0 ) * 289.0; }
-			float4 mod3D289( float4 x ) { return x - floor( x / 289.0 ) * 289.0; }
-			float4 permute( float4 x ) { return mod3D289( ( x * 34.0 + 1.0 ) * x ); }
-			float4 taylorInvSqrt( float4 r ) { return 1.79284291400159 - r * 0.85373472095314; }
-			float snoise( float3 v )
-			{
-				const float2 C = float2( 1.0 / 6.0, 1.0 / 3.0 );
-				float3 i = floor( v + dot( v, C.yyy ) );
-				float3 x0 = v - i + dot( i, C.xxx );
-				float3 g = step( x0.yzx, x0.xyz );
-				float3 l = 1.0 - g;
-				float3 i1 = min( g.xyz, l.zxy );
-				float3 i2 = max( g.xyz, l.zxy );
-				float3 x1 = x0 - i1 + C.xxx;
-				float3 x2 = x0 - i2 + C.yyy;
-				float3 x3 = x0 - 0.5;
-				i = mod3D289( i);
-				float4 p = permute( permute( permute( i.z + float4( 0.0, i1.z, i2.z, 1.0 ) ) + i.y + float4( 0.0, i1.y, i2.y, 1.0 ) ) + i.x + float4( 0.0, i1.x, i2.x, 1.0 ) );
-				float4 j = p - 49.0 * floor( p / 49.0 );  // mod(p,7*7)
-				float4 x_ = floor( j / 7.0 );
-				float4 y_ = floor( j - 7.0 * x_ );  // mod(j,N)
-				float4 x = ( x_ * 2.0 + 0.5 ) / 7.0 - 1.0;
-				float4 y = ( y_ * 2.0 + 0.5 ) / 7.0 - 1.0;
-				float4 h = 1.0 - abs( x ) - abs( y );
-				float4 b0 = float4( x.xy, y.xy );
-				float4 b1 = float4( x.zw, y.zw );
-				float4 s0 = floor( b0 ) * 2.0 + 1.0;
-				float4 s1 = floor( b1 ) * 2.0 + 1.0;
-				float4 sh = -step( h, 0.0 );
-				float4 a0 = b0.xzyw + s0.xzyw * sh.xxyy;
-				float4 a1 = b1.xzyw + s1.xzyw * sh.zzww;
-				float3 g0 = float3( a0.xy, h.x );
-				float3 g1 = float3( a0.zw, h.y );
-				float3 g2 = float3( a1.xy, h.z );
-				float3 g3 = float3( a1.zw, h.w );
-				float4 norm = taylorInvSqrt( float4( dot( g0, g0 ), dot( g1, g1 ), dot( g2, g2 ), dot( g3, g3 ) ) );
-				g0 *= norm.x;
-				g1 *= norm.y;
-				g2 *= norm.z;
-				g3 *= norm.w;
-				float4 m = max( 0.6 - float4( dot( x0, x0 ), dot( x1, x1 ), dot( x2, x2 ), dot( x3, x3 ) ), 0.0 );
-				m = m* m;
-				m = m* m;
-				float4 px = float4( dot( x0, g0 ), dot( x1, g1 ), dot( x2, g2 ), dot( x3, g3 ) );
-				return 42.0 * dot( m, px);
-			}
-			
-			float3 PerturbNormal107_g274( float3 surf_pos, float3 surf_norm, float height, float scale )
-			{
-				// "Bump Mapping Unparametrized Surfaces on the GPU" by Morten S. Mikkelsen
-				float3 vSigmaS = ddx( surf_pos );
-				float3 vSigmaT = ddy( surf_pos );
-				float3 vN = surf_norm;
-				float3 vR1 = cross( vSigmaT , vN );
-				float3 vR2 = cross( vN , vSigmaS );
-				float fDet = dot( vSigmaS , vR1 );
-				float dBs = ddx( height );
-				float dBt = ddy( height );
-				float3 vSurfGrad = scale * 0.05 * sign( fDet ) * ( dBs * vR1 + dBt * vR2 );
-				return normalize ( abs( fDet ) * vN - vSurfGrad );
-			}
-			
-
 			void BuildSurfaceData(FragInputs fragInputs, inout SmoothSurfaceDescription surfaceDescription, float3 V, PositionInputs posInput, out SurfaceData surfaceData, out float3 bentNormalWS)
 			{
 				ZERO_INITIALIZE(SurfaceData, surfaceData);
@@ -4002,101 +3273,28 @@ Shader "CockVoreSlurp"
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( outputPackedVaryingsMeshToPS );
 
-				float3 normalizeResult27_g271 = normalize( _WorldDickNormal );
-				float3 normalizeResult31_g271 = normalize( _WorldDickBinormal );
-				float3 normalizeResult29_g271 = normalize( cross( normalizeResult27_g271 , normalizeResult31_g271 ) );
-				float4 appendResult26_g270 = (float4(1.0 , 0.0 , 0.0 , 0.0));
-				float4 appendResult28_g270 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float4 appendResult31_g270 = (float4(0.0 , 0.0 , 1.0 , 0.0));
-				float3 break27_g270 = -_WorldDickPosition;
-				float4 appendResult29_g270 = (float4(break27_g270.x , break27_g270.y , break27_g270.z , 1.0));
-				float4x4 temp_output_30_0_g270 = mul( transpose( float4x4( float4( normalizeResult27_g271 , 0.0 ).x,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).x,float4( normalizeResult29_g271 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g271 , 0.0 ).y,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).y,float4( normalizeResult29_g271 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g271 , 0.0 ).z,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).z,float4( normalizeResult29_g271 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g271 , 0.0 ).w,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).w,float4( normalizeResult29_g271 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g270.x,appendResult28_g270.x,appendResult31_g270.x,appendResult29_g270.x,appendResult26_g270.y,appendResult28_g270.y,appendResult31_g270.y,appendResult29_g270.y,appendResult26_g270.z,appendResult28_g270.z,appendResult31_g270.z,appendResult29_g270.z,appendResult26_g270.w,appendResult28_g270.w,appendResult31_g270.w,appendResult29_g270.w ) );
-				float4x4 invertVal44_g270 = Inverse4x4( temp_output_30_0_g270 );
-				float4 appendResult27_g269 = (float4(inputMesh.positionOS , 1.0));
-				float3 pos32_g269 = mul( GetObjectToWorldMatrix(), appendResult27_g269 ).xyz;
-				float3 localMyCustomExpression32_g269 = MyCustomExpression32_g269( pos32_g269 );
-				float4 appendResult32_g270 = (float4(localMyCustomExpression32_g269 , 1.0));
-				float4 break35_g270 = mul( temp_output_30_0_g270, appendResult32_g270 );
-				float temp_output_124_0_g270 = _TipRadius;
-				float2 appendResult36_g270 = (float2(break35_g270.y , break35_g270.z));
-				float2 normalizeResult41_g270 = normalize( appendResult36_g270 );
-				float temp_output_120_0_g270 = sqrt( max( break35_g270.x , 0.0 ) );
-				float temp_output_48_0_g270 = tan( radians( _Angle ) );
-				float temp_output_125_0_g270 = ( temp_output_124_0_g270 + ( temp_output_120_0_g270 * temp_output_48_0_g270 ) );
-				float temp_output_37_0_g270 = length( appendResult36_g270 );
-				float temp_output_114_0_g270 = ( ( temp_output_125_0_g270 - temp_output_37_0_g270 ) + 1.0 );
-				float lerpResult102_g270 = lerp( temp_output_125_0_g270 , temp_output_37_0_g270 , saturate( temp_output_114_0_g270 ));
-				float lerpResult130_g270 = lerp( 0.0 , lerpResult102_g270 , saturate( ( -( -temp_output_124_0_g270 - break35_g270.x ) / temp_output_124_0_g270 ) ));
-				float2 break43_g270 = ( normalizeResult41_g270 * lerpResult130_g270 );
-				float4 appendResult40_g270 = (float4(max( break35_g270.x , -temp_output_124_0_g270 ) , break43_g270.x , break43_g270.y , 1.0));
-				float4 appendResult28_g269 = (float4(((mul( invertVal44_g270, appendResult40_g270 )).xyz).xyz , 1.0));
-				float4 localWorldVar29_g269 = appendResult28_g269;
-				(localWorldVar29_g269).xyz = GetCameraRelativePositionWS((localWorldVar29_g269).xyz);
-				float4 transform29_g269 = mul(GetWorldToObjectMatrix(),localWorldVar29_g269);
-				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch13_g269 = (transform29_g269).xyz;
-				#else
-				float3 staticSwitch13_g269 = inputMesh.positionOS;
-				#endif
-				float3 temp_output_229_0 = staticSwitch13_g269;
-				float3 temp_output_10_0_g275 = temp_output_229_0;
-				float localGetDeformationFromPenetrators_float8_g275 = ( 0.0 );
-				float4 appendResult17_g275 = (float4(temp_output_10_0_g275 , 1.0));
-				float4 transform16_g275 = mul(GetObjectToWorldMatrix(),appendResult17_g275);
-				transform16_g275.xyz = GetAbsolutePositionWS((transform16_g275).xyz);
-				float3 worldPosition8_g275 = (transform16_g275).xyz;
-				float4 texCoord3_g275 = inputMesh.ase_texcoord2;
-				texCoord3_g275.xy = inputMesh.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
-				float4 uv28_g275 = texCoord3_g275;
-				float compressibleDistance8_g275 = _CompressibleDistance;
-				float smoothness8_g275 = _Smoothness;
-				float3 deformedPosition8_g275 = float3( 0,0,0 );
-				{
-				GetDeformationFromPenetrators_float(worldPosition8_g275,uv28_g275,compressibleDistance8_g275,smoothness8_g275,deformedPosition8_g275);
-				}
-				float4 appendResult21_g275 = (float4(deformedPosition8_g275 , 1.0));
-				float4 localWorldVar19_g275 = appendResult21_g275;
-				(localWorldVar19_g275).xyz = GetCameraRelativePositionWS((localWorldVar19_g275).xyz);
-				float4 transform19_g275 = mul(GetWorldToObjectMatrix(),localWorldVar19_g275);
-				#ifdef _PENETRATION_DEFORMATION_ON
-				float3 staticSwitch24_g275 = (transform19_g275).xyz;
-				#else
-				float3 staticSwitch24_g275 = temp_output_10_0_g275;
-				#endif
-				float3 lerpResult235 = lerp( temp_output_229_0 , staticSwitch24_g275 , inputMesh.ase_color.r);
-				
-				float3 temp_output_50_0_g269 = inputMesh.normalOS;
-				float2 break146_g270 = normalizeResult41_g270;
-				float4 appendResult139_g270 = (float4(temp_output_48_0_g270 , break146_g270.x , break146_g270.y , 0.0));
-				float3 normalizeResult144_g270 = normalize( (mul( invertVal44_g270, appendResult139_g270 )).xyz );
-				float3 lerpResult44_g269 = lerp( normalizeResult144_g270 , temp_output_50_0_g269 , saturate( sign( temp_output_114_0_g270 ) ));
-				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch17_g269 = lerpResult44_g269;
-				#else
-				float3 staticSwitch17_g269 = temp_output_50_0_g269;
-				#endif
-				
-				float3 vertexToFrag28_g272 = mul( UNITY_MATRIX_M, float4( inputMesh.positionOS , 0.0 ) ).xyz;
-				outputPackedVaryingsMeshToPS.ase_texcoord4.xyz = vertexToFrag28_g272;
-				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
-				float3 ase_worldTangent = TransformObjectToWorldDir(inputMesh.tangentOS.xyz);
-				float ase_vertexTangentSign = inputMesh.tangentOS.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
-				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
-				outputPackedVaryingsMeshToPS.ase_texcoord5.xyz = ase_worldBitangent;
+				float2 texCoord12 = inputMesh.ase_texcoord.xy * float2( 32,32 ) + float2( 0,0 );
+				float2 uv2_g16 = texCoord12;
+				float amplitude2_g16 = _Amplitude;
+				int detail2_g16 = 32;
+				float2 derivative2_g16 = float2( 0,0 );
+				float mulTime13 = _TimeParameters.x * 1.1;
+				float t2_g16 = mulTime13;
+				float localSumOfSines2_g16 = SumOfSines( uv2_g16 , amplitude2_g16 , detail2_g16 , derivative2_g16 , t2_g16 );
+				float temp_output_61_0 = localSumOfSines2_g16;
+				float3 temp_output_15_0 = ( inputMesh.normalOS * temp_output_61_0 );
 				
 				outputPackedVaryingsMeshToPS.ase_texcoord3.xy = inputMesh.ase_texcoord.xy;
-				outputPackedVaryingsMeshToPS.ase_texcoord3.zw = inputMesh.ase_texcoord1.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
-				outputPackedVaryingsMeshToPS.ase_texcoord4.w = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord5.w = 0;
+				outputPackedVaryingsMeshToPS.ase_texcoord3.zw = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = lerpResult235;
+				float3 vertexValue = temp_output_15_0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -4104,7 +3302,7 @@ Shader "CockVoreSlurp"
 				inputMesh.positionOS.xyz += vertexValue;
 				#endif
 
-				inputMesh.normalOS = staticSwitch17_g269;
+				inputMesh.normalOS =  inputMesh.normalOS ;
 				inputMesh.tangentOS =  inputMesh.tangentOS ;
 
 				float3 positionRWS = TransformObjectToWorld(inputMesh.positionOS);
@@ -4124,10 +3322,7 @@ Shader "CockVoreSlurp"
 				float3 positionOS : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
-				float4 ase_texcoord2 : TEXCOORD2;
-				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_texcoord1 : TEXCOORD1;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -4146,10 +3341,7 @@ Shader "CockVoreSlurp"
 				o.positionOS = v.positionOS;
 				o.normalOS = v.normalOS;
 				o.tangentOS = v.tangentOS;
-				o.ase_texcoord2 = v.ase_texcoord2;
-				o.ase_color = v.ase_color;
 				o.ase_texcoord = v.ase_texcoord;
-				o.ase_texcoord1 = v.ase_texcoord1;
 				return o;
 			}
 
@@ -4194,10 +3386,7 @@ Shader "CockVoreSlurp"
 				o.positionOS = patch[0].positionOS * bary.x + patch[1].positionOS * bary.y + patch[2].positionOS * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
 				o.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
-				o.ase_texcoord2 = patch[0].ase_texcoord2 * bary.x + patch[1].ase_texcoord2 * bary.y + patch[2].ase_texcoord2 * bary.z;
-				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
-				o.ase_texcoord1 = patch[0].ase_texcoord1 * bary.x + patch[1].ase_texcoord1 * bary.y + patch[2].ase_texcoord1 * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -4279,38 +3468,22 @@ Shader "CockVoreSlurp"
 				float3 V = GetWorldSpaceNormalizeViewDir(input.positionRWS);
 
 				SmoothSurfaceDescription surfaceDescription = (SmoothSurfaceDescription)0;
-				float2 uv_NormalMap = packedInput.ase_texcoord3.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
-				float3 temp_output_4_0_g272 = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
-				float3 ase_worldPos = GetAbsolutePositionWS( positionRWS );
-				float3 surf_pos107_g274 = ase_worldPos;
-				float3 surf_norm107_g274 = normalWS;
-				float3 vertexToFrag28_g272 = packedInput.ase_texcoord4.xyz;
-				#ifdef _SKINNED_ON
-				float3 staticSwitch26_g272 = float3( packedInput.ase_texcoord3.zw ,  0.0 );
-				#else
-				float3 staticSwitch26_g272 = vertexToFrag28_g272;
-				#endif
-				float simplePerlin3D9_g272 = snoise( ( ( staticSwitch26_g272 * float3( 2,2,2 ) ) + float3( 0,0,0 ) ) );
-				simplePerlin3D9_g272 = simplePerlin3D9_g272*0.5 + 0.5;
-				float height107_g274 = simplePerlin3D9_g272;
-				float scale107_g274 = 0.5;
-				float3 localPerturbNormal107_g274 = PerturbNormal107_g274( surf_pos107_g274 , surf_norm107_g274 , height107_g274 , scale107_g274 );
-				float3 ase_worldBitangent = packedInput.ase_texcoord5.xyz;
-				float3x3 ase_worldToTangent = float3x3(tangentWS.xyz,ase_worldBitangent,normalWS);
-				float3 worldToTangentDir42_g274 = mul( ase_worldToTangent, localPerturbNormal107_g274);
-				float temp_output_16_0_g272 = ( ( simplePerlin3D9_g272 - 0.5 ) * 0.5 );
-				float temp_output_12_0_g272 = ( tex2D( _DecalColorMap, packedInput.ase_texcoord3.zw ).r + temp_output_16_0_g272 );
-				float temp_output_3_0_g273 = ( 0.5 - temp_output_12_0_g272 );
-				float temp_output_10_0_g272 = ( 1.0 - saturate( ( temp_output_3_0_g273 / fwidth( temp_output_3_0_g273 ) ) ) );
-				float3 lerpResult6_g272 = lerp( temp_output_4_0_g272 , BlendNormal( worldToTangentDir42_g274 , temp_output_4_0_g272 ) , temp_output_10_0_g272);
-				float3 normalizeResult33_g272 = normalize( lerpResult6_g272 );
+				float2 texCoord12 = packedInput.ase_texcoord3.xy * float2( 32,32 ) + float2( 0,0 );
+				float2 uv2_g16 = texCoord12;
+				float amplitude2_g16 = _Amplitude;
+				int detail2_g16 = 32;
+				float2 derivative2_g16 = float2( 0,0 );
+				float mulTime13 = _TimeParameters.x * 1.1;
+				float t2_g16 = mulTime13;
+				float localSumOfSines2_g16 = SumOfSines( uv2_g16 , amplitude2_g16 , detail2_g16 , derivative2_g16 , t2_g16 );
+				float2 break55 = derivative2_g16;
+				float3 appendResult37 = (float3(1.0 , 0.0 , break55.x));
+				float3 appendResult38 = (float3(0.0 , 1.0 , break55.y));
+				float3 temp_output_24_0 = cross( appendResult37 , appendResult38 );
 				
-				float2 uv_MaskMap = packedInput.ase_texcoord3.xy * _MaskMap_ST.xy + _MaskMap_ST.zw;
-				float4 tex2DNode12 = tex2D( _MaskMap, uv_MaskMap );
-				
-				surfaceDescription.Normal = normalizeResult33_g272;
-				surfaceDescription.Smoothness = tex2DNode12.a;
-				surfaceDescription.Alpha = 1;
+				surfaceDescription.Normal = temp_output_24_0;
+				surfaceDescription.Smoothness = 0.98;
+				surfaceDescription.Alpha = _BaseColor.a;
 
 				#ifdef _ALPHATEST_ON
 				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
@@ -4354,935 +3527,6 @@ Shader "CockVoreSlurp"
 		Pass
 		{
 			
-			Name "MotionVectors"
-			Tags { "LightMode"="MotionVectors" }
-
-			Cull [_CullMode]
-
-			ZWrite On
-
-			Stencil
-			{
-				Ref [_StencilRefMV]
-				WriteMask [_StencilWriteMaskMV]
-				Comp Always
-				Pass Replace
-			}
-
-
-			HLSLPROGRAM
-
-            #define _SPECULAR_OCCLUSION_FROM_AO 1
-            #pragma multi_compile_instancing
-            #pragma instancing_options renderinglayer
-            #define ASE_ABSOLUTE_VERTEX_POS 1
-            #define _MATERIAL_FEATURE_CLEAR_COAT 1
-            #define HAVE_MESH_MODIFICATION
-            #define ASE_SRP_VERSION 140008
-
-
-            #pragma shader_feature _SURFACE_TYPE_TRANSPARENT
-			#pragma shader_feature_local _TRANSPARENT_WRITES_MOTION_VEC
-			#pragma shader_feature_local_fragment _ENABLE_FOG_ON_TRANSPARENT
-			#pragma shader_feature_local _DOUBLESIDED_ON
-			#pragma shader_feature_local _ALPHATEST_ON
-
-			#pragma multi_compile _ WRITE_NORMAL_BUFFER
-			#pragma multi_compile_fragment _ WRITE_MSAA_DEPTH
-			#pragma multi_compile _ WRITE_DECAL_BUFFER
-
-			#pragma vertex Vert
-			#pragma fragment Frag
-
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GeometricTools.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Tessellation.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPass.cs.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
-            #include "Packages/com.unity.shadergraph/ShaderGraphLibrary/Functions.hlsl"
-
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
-
-			#define SHADERPASS SHADERPASS_MOTION_VECTORS
-
-			#ifndef SHADER_UNLIT
-			#if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
-			#define VARYINGS_NEED_CULLFACE
-			#endif
-			#endif
-
-		    #if defined(_MATERIAL_FEATURE_SUBSURFACE_SCATTERING) && !defined(_SURFACE_TYPE_TRANSPARENT)
-			#define OUTPUT_SPLIT_LIGHTING
-		    #endif
-
-		    #if (SHADERPASS == SHADERPASS_PATH_TRACING) && !defined(_DOUBLESIDED_ON) && (defined(_REFRACTION_PLANE) || defined(_REFRACTION_SPHERE))
-			#undef  _REFRACTION_PLANE
-			#undef  _REFRACTION_SPHERE
-			#define _REFRACTION_THIN
-		    #endif
-
-			#if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
-			#if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
-				#define WRITE_NORMAL_BUFFER
-			#endif
-			#endif
-
-			#ifndef DEBUG_DISPLAY
-				#if !defined(_SURFACE_TYPE_TRANSPARENT)
-					#if SHADERPASS == SHADERPASS_FORWARD
-					#define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
-					#elif SHADERPASS == SHADERPASS_GBUFFER
-					#define SHADERPASS_GBUFFER_BYPASS_ALPHA_TEST
-					#endif
-				#endif
-			#endif
-
-			#if defined(SHADER_LIT) && !defined(_SURFACE_TYPE_TRANSPARENT)
-			#define _DEFERRED_CAPABLE_MATERIAL
-			#endif
-
-			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
-			#define _WRITE_TRANSPARENT_MOTION_VECTOR
-			#endif
-
-			CBUFFER_START( UnityPerMaterial )
-			float4 _BaseColorTint;
-			float4 _BaseColorMap_ST;
-			float4 _NormalMap_ST;
-			float4 _MaskMap_ST;
-			float4 _EmmisionMap_ST;
-			float3 _WorldDickNormal;
-			float3 _WorldDickBinormal;
-			float3 _WorldDickPosition;
-			float _TipRadius;
-			float _Angle;
-			float _CompressibleDistance;
-			float _Smoothness;
-			float _EmmisionStr;
-			float4 _EmissionColor;
-			float _AlphaCutoff;
-			float _RenderQueueType;
-			#ifdef _ADD_PRECOMPUTED_VELOCITY
-			float _AddPrecomputedVelocity;
-			#endif
-			float _StencilRef;
-			float _StencilWriteMask;
-			float _StencilRefDepth;
-			float _StencilWriteMaskDepth;
-			float _StencilRefMV;
-			float _StencilWriteMaskMV;
-			float _StencilWriteMaskGBuffer;
-			float _StencilRefGBuffer;
-			float _ZTestGBuffer;
-			float _RequireSplitLighting;
-			float _ReceivesSSR;
-			float _SurfaceType;
-			float _BlendMode;
-            #ifdef SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
-			float _EnableBlendModePreserveSpecularLighting;
-            #endif
-			float _SrcBlend;
-			float _DstBlend;
-			float _AlphaSrcBlend;
-			float _AlphaDstBlend;
-			float _ZWrite;
-			float _TransparentZWrite;
-			float _CullMode;
-			float _TransparentSortPriority;
-			float _EnableFogOnTransparent;
-			float _CullModeForward;
-			float _TransparentCullMode;
-			float _ZTestDepthEqualForOpaque;
-			float _ZTestTransparent;
-			float _TransparentBackfaceEnable;
-			float _AlphaCutoffEnable;
-			float _UseShadowThreshold;
-			float _DoubleSidedEnable;
-			float _DoubleSidedNormalMode;
-			float4 _DoubleSidedConstants;
-			#ifdef ASE_TESSELLATION
-			float _TessPhongStrength;
-			float _TessValue;
-			float _TessMin;
-			float _TessMax;
-			float _TessEdgeLength;
-			float _TessMaxDisp;
-			#endif
-			CBUFFER_END
-
-			// Property used by ScenePickingPass
-            #ifdef SCENEPICKINGPASS
-			float4 _SelectionID;
-            #endif
-
-			// Properties used by SceneSelectionPass
-            #ifdef SCENESELECTIONPASS
-			int _ObjectId;
-			int _PassValue;
-            #endif
-
-			sampler2D _NormalMap;
-			float4x4 unity_CameraProjection;
-			float4x4 unity_CameraInvProjection;
-			float4x4 unity_WorldToCamera;
-			float4x4 unity_CameraToWorld;
-			sampler2D _DecalColorMap;
-			sampler2D _MaskMap;
-
-
-            #ifdef DEBUG_DISPLAY
-            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
-            #endif
-
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/Lit.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/BuiltinUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
-
-			// Setup DECALS_OFF so the shader stripper can remove variants
-            #define HAVE_DECALS ( (defined(DECALS_3RT) || defined(DECALS_4RT)) && !defined(_DISABLE_DECALS) )
-            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
-            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
-
-			#define ASE_NEEDS_VERT_POSITION
-			#define ASE_NEEDS_VERT_NORMAL
-			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
-			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
-			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#pragma shader_feature_local _SKINNED_ON
-			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
-
-
-			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
-			#define ASE_NEED_CULLFACE 1
-			#endif
-
-			struct AttributesMesh
-			{
-				float3 positionOS : POSITION;
-				float3 normalOS : NORMAL;
-				float3 previousPositionOS : TEXCOORD4;
-				float3 precomputedVelocity : TEXCOORD5;
-				float4 ase_texcoord2 : TEXCOORD2;
-				float4 ase_color : COLOR;
-				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_texcoord1 : TEXCOORD1;
-				float4 ase_tangent : TANGENT;
-				UNITY_VERTEX_INPUT_INSTANCE_ID
-			};
-
-			struct PackedVaryingsMeshToPS
-			{
-				SV_POSITION_QUALIFIERS float4 vmeshPositionCS : SV_Position;
-				float3 vmeshInterp00 : TEXCOORD0;
-				float3 vpassInterpolators0 : TEXCOORD1; //interpolators0
-				float3 vpassInterpolators1 : TEXCOORD2; //interpolators1
-				float4 ase_texcoord3 : TEXCOORD3;
-				float4 ase_texcoord4 : TEXCOORD4;
-				float4 ase_texcoord5 : TEXCOORD5;
-				float4 ase_texcoord6 : TEXCOORD6;
-				float4 ase_texcoord7 : TEXCOORD7;
-				float4 ase_texcoord8 : TEXCOORD8;
-				UNITY_VERTEX_INPUT_INSTANCE_ID
-				UNITY_VERTEX_OUTPUT_STEREO
-				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
-				FRONT_FACE_TYPE cullFace : FRONT_FACE_SEMANTIC;
-				#endif
-			};
-
-			float4x4 Inverse4x4(float4x4 input)
-			{
-				#define minor(a,b,c) determinant(float3x3(input.a, input.b, input.c))
-				float4x4 cofactors = float4x4(
-				minor( _22_23_24, _32_33_34, _42_43_44 ),
-				-minor( _21_23_24, _31_33_34, _41_43_44 ),
-				minor( _21_22_24, _31_32_34, _41_42_44 ),
-				-minor( _21_22_23, _31_32_33, _41_42_43 ),
-			
-				-minor( _12_13_14, _32_33_34, _42_43_44 ),
-				minor( _11_13_14, _31_33_34, _41_43_44 ),
-				-minor( _11_12_14, _31_32_34, _41_42_44 ),
-				minor( _11_12_13, _31_32_33, _41_42_43 ),
-			
-				minor( _12_13_14, _22_23_24, _42_43_44 ),
-				-minor( _11_13_14, _21_23_24, _41_43_44 ),
-				minor( _11_12_14, _21_22_24, _41_42_44 ),
-				-minor( _11_12_13, _21_22_23, _41_42_43 ),
-			
-				-minor( _12_13_14, _22_23_24, _32_33_34 ),
-				minor( _11_13_14, _21_23_24, _31_33_34 ),
-				-minor( _11_12_14, _21_22_24, _31_32_34 ),
-				minor( _11_12_13, _21_22_23, _31_32_33 ));
-				#undef minor
-				return transpose( cofactors ) / determinant( input );
-			}
-			
-			float3 MyCustomExpression32_g269( float3 pos )
-			{
-				return GetAbsolutePositionWS(pos);
-			}
-			
-			float3 mod3D289( float3 x ) { return x - floor( x / 289.0 ) * 289.0; }
-			float4 mod3D289( float4 x ) { return x - floor( x / 289.0 ) * 289.0; }
-			float4 permute( float4 x ) { return mod3D289( ( x * 34.0 + 1.0 ) * x ); }
-			float4 taylorInvSqrt( float4 r ) { return 1.79284291400159 - r * 0.85373472095314; }
-			float snoise( float3 v )
-			{
-				const float2 C = float2( 1.0 / 6.0, 1.0 / 3.0 );
-				float3 i = floor( v + dot( v, C.yyy ) );
-				float3 x0 = v - i + dot( i, C.xxx );
-				float3 g = step( x0.yzx, x0.xyz );
-				float3 l = 1.0 - g;
-				float3 i1 = min( g.xyz, l.zxy );
-				float3 i2 = max( g.xyz, l.zxy );
-				float3 x1 = x0 - i1 + C.xxx;
-				float3 x2 = x0 - i2 + C.yyy;
-				float3 x3 = x0 - 0.5;
-				i = mod3D289( i);
-				float4 p = permute( permute( permute( i.z + float4( 0.0, i1.z, i2.z, 1.0 ) ) + i.y + float4( 0.0, i1.y, i2.y, 1.0 ) ) + i.x + float4( 0.0, i1.x, i2.x, 1.0 ) );
-				float4 j = p - 49.0 * floor( p / 49.0 );  // mod(p,7*7)
-				float4 x_ = floor( j / 7.0 );
-				float4 y_ = floor( j - 7.0 * x_ );  // mod(j,N)
-				float4 x = ( x_ * 2.0 + 0.5 ) / 7.0 - 1.0;
-				float4 y = ( y_ * 2.0 + 0.5 ) / 7.0 - 1.0;
-				float4 h = 1.0 - abs( x ) - abs( y );
-				float4 b0 = float4( x.xy, y.xy );
-				float4 b1 = float4( x.zw, y.zw );
-				float4 s0 = floor( b0 ) * 2.0 + 1.0;
-				float4 s1 = floor( b1 ) * 2.0 + 1.0;
-				float4 sh = -step( h, 0.0 );
-				float4 a0 = b0.xzyw + s0.xzyw * sh.xxyy;
-				float4 a1 = b1.xzyw + s1.xzyw * sh.zzww;
-				float3 g0 = float3( a0.xy, h.x );
-				float3 g1 = float3( a0.zw, h.y );
-				float3 g2 = float3( a1.xy, h.z );
-				float3 g3 = float3( a1.zw, h.w );
-				float4 norm = taylorInvSqrt( float4( dot( g0, g0 ), dot( g1, g1 ), dot( g2, g2 ), dot( g3, g3 ) ) );
-				g0 *= norm.x;
-				g1 *= norm.y;
-				g2 *= norm.z;
-				g3 *= norm.w;
-				float4 m = max( 0.6 - float4( dot( x0, x0 ), dot( x1, x1 ), dot( x2, x2 ), dot( x3, x3 ) ), 0.0 );
-				m = m* m;
-				m = m* m;
-				float4 px = float4( dot( x0, g0 ), dot( x1, g1 ), dot( x2, g2 ), dot( x3, g3 ) );
-				return 42.0 * dot( m, px);
-			}
-			
-			float3 PerturbNormal107_g274( float3 surf_pos, float3 surf_norm, float height, float scale )
-			{
-				// "Bump Mapping Unparametrized Surfaces on the GPU" by Morten S. Mikkelsen
-				float3 vSigmaS = ddx( surf_pos );
-				float3 vSigmaT = ddy( surf_pos );
-				float3 vN = surf_norm;
-				float3 vR1 = cross( vSigmaT , vN );
-				float3 vR2 = cross( vN , vSigmaS );
-				float fDet = dot( vSigmaS , vR1 );
-				float dBs = ddx( height );
-				float dBt = ddy( height );
-				float3 vSurfGrad = scale * 0.05 * sign( fDet ) * ( dBs * vR1 + dBt * vR2 );
-				return normalize ( abs( fDet ) * vN - vSurfGrad );
-			}
-			
-
-			void BuildSurfaceData(FragInputs fragInputs, inout SmoothSurfaceDescription surfaceDescription, float3 V, PositionInputs posInput, out SurfaceData surfaceData, out float3 bentNormalWS)
-			{
-				ZERO_INITIALIZE(SurfaceData, surfaceData);
-
-				surfaceData.specularOcclusion = 1.0;
-
-				// surface data
-				surfaceData.perceptualSmoothness =		surfaceDescription.Smoothness;
-
-				// refraction
-				#ifdef _HAS_REFRACTION
-				if( _EnableSSRefraction )
-				{
-					surfaceData.transmittanceMask = ( 1.0 - surfaceDescription.Alpha );
-					surfaceDescription.Alpha = 1.0;
-				}
-				else
-				{
-					surfaceData.ior = 1.0;
-					surfaceData.transmittanceColor = float3( 1.0, 1.0, 1.0 );
-					surfaceData.atDistance = 1.0;
-					surfaceData.transmittanceMask = 0.0;
-					surfaceDescription.Alpha = 1.0;
-				}
-				#else
-				surfaceData.ior = 1.0;
-				surfaceData.transmittanceColor = float3( 1.0, 1.0, 1.0 );
-				surfaceData.atDistance = 1.0;
-				surfaceData.transmittanceMask = 0.0;
-				#endif
-
-				// material features
-				surfaceData.materialFeatures = MATERIALFEATUREFLAGS_LIT_STANDARD;
-				#ifdef _MATERIAL_FEATURE_SUBSURFACE_SCATTERING
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SUBSURFACE_SCATTERING;
-				#endif
-				#ifdef _MATERIAL_FEATURE_TRANSMISSION
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_TRANSMISSION;
-				#endif
-                #ifdef _MATERIAL_FEATURE_ANISOTROPY
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_ANISOTROPY;
-				surfaceData.normalWS = float3(0, 1, 0);
-                #endif
-				#ifdef _MATERIAL_FEATURE_CLEAR_COAT
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_CLEAR_COAT;
-				#endif
-				#ifdef _MATERIAL_FEATURE_IRIDESCENCE
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_IRIDESCENCE;
-				#endif
-				#ifdef _MATERIAL_FEATURE_SPECULAR_COLOR
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SPECULAR_COLOR;
-				#endif
-
-				// others
-				#if defined (_MATERIAL_FEATURE_SPECULAR_COLOR) && defined (_ENERGY_CONSERVING_SPECULAR)
-				surfaceData.baseColor *= ( 1.0 - Max3( surfaceData.specularColor.r, surfaceData.specularColor.g, surfaceData.specularColor.b ) );
-				#endif
-				#ifdef _DOUBLESIDED_ON
-				float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
-				#else
-				float3 doubleSidedConstants = float3( 1.0, 1.0, 1.0 );
-				#endif
-
-				// normals
-				float3 normalTS = float3(0.0f, 0.0f, 1.0f);
-				normalTS = surfaceDescription.Normal;
-
-				surfaceData.geomNormalWS = fragInputs.tangentToWorld[2];
-				surfaceData.tangentWS = normalize( fragInputs.tangentToWorld[ 0 ].xyz );
-
-				// decals
-			#ifdef DECAL_NORMAL_BLENDING
-				if (_EnableDecals)
-				{
-					#ifndef SURFACE_GRADIENT
-					normalTS = SurfaceGradientFromTangentSpaceNormalAndFromTBN(normalTS, fragInputs.tangentToWorld[0], fragInputs.tangentToWorld[1]);
-					#endif
-
-					DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
-					ApplyDecalToSurfaceData(decalSurfaceData, fragInputs.tangentToWorld[2], surfaceData, normalTS);
-				}
-
-				GetNormalWS_SG(fragInputs, normalTS, surfaceData.normalWS, doubleSidedConstants);
-			#else
-				GetNormalWS(fragInputs, normalTS, surfaceData.normalWS, doubleSidedConstants);
-
-				#if HAVE_DECALS
-				if (_EnableDecals)
-				{
-					// Both uses and modifies 'surfaceData.normalWS'.
-					DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
-					ApplyDecalToSurfaceData(decalSurfaceData, fragInputs.tangentToWorld[2], surfaceData);
-				}
-				#endif
-			#endif
-
-				bentNormalWS = surfaceData.normalWS;
-				surfaceData.tangentWS = Orthonormalize( surfaceData.tangentWS, surfaceData.normalWS );
-
-                #if defined(_SPECULAR_OCCLUSION_CUSTOM)
-                #elif defined(_SPECULAR_OCCLUSION_FROM_AO_BENT_NORMAL)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromBentAO(V, bentNormalWS, surfaceData.normalWS, surfaceData.ambientOcclusion, PerceptualSmoothnessToPerceptualRoughness(surfaceData.perceptualSmoothness));
-                #elif defined(_AMBIENT_OCCLUSION) && defined(_SPECULAR_OCCLUSION_FROM_AO)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion(ClampNdotV(dot(surfaceData.normalWS, V)), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness(surfaceData.perceptualSmoothness));
-                #endif
-
-				// debug
-				#if defined(DEBUG_DISPLAY)
-				if (_DebugMipMapMode != DEBUGMIPMAPMODE_NONE)
-				{
-					surfaceData.metallic = 0;
-				}
-				ApplyDebugToSurfaceData(fragInputs.tangentToWorld, surfaceData);
-				#endif
-			}
-
-			void GetSurfaceAndBuiltinData(SmoothSurfaceDescription surfaceDescription, FragInputs fragInputs, float3 V, inout PositionInputs posInput, out SurfaceData surfaceData, out BuiltinData builtinData)
-			{
-				#ifdef LOD_FADE_CROSSFADE
-				LODDitheringTransition(ComputeFadeMaskSeed(V, posInput.positionSS), unity_LODFade.x);
-				#endif
-
-				#ifdef _DOUBLESIDED_ON
-				float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
-				#else
-				float3 doubleSidedConstants = float3( 1.0, 1.0, 1.0 );
-				#endif
-
-				ApplyDoubleSidedFlipOrMirror( fragInputs, doubleSidedConstants );
-
-				#ifdef _ALPHATEST_ON
-				DoAlphaTest( surfaceDescription.Alpha, surfaceDescription.AlphaClipThreshold );
-				#endif
-
-				#ifdef _DEPTHOFFSET_ON
-				builtinData.depthOffset = surfaceDescription.DepthOffset;
-				ApplyDepthOffsetPositionInput( V, surfaceDescription.DepthOffset, GetViewForwardDir(), GetWorldToHClipMatrix(), posInput );
-				#endif
-
-				float3 bentNormalWS;
-				BuildSurfaceData( fragInputs, surfaceDescription, V, posInput, surfaceData, bentNormalWS );
-
-				InitBuiltinData( posInput, surfaceDescription.Alpha, bentNormalWS, -fragInputs.tangentToWorld[ 2 ], fragInputs.texCoord1, fragInputs.texCoord2, builtinData );
-
-				PostInitBuiltinData(V, posInput, surfaceData, builtinData);
-			}
-
-			AttributesMesh ApplyMeshModification(AttributesMesh inputMesh, float3 timeParameters, inout PackedVaryingsMeshToPS outputPackedVaryingsMeshToPS )
-			{
-				_TimeParameters.xyz = timeParameters;
-				float3 normalizeResult27_g271 = normalize( _WorldDickNormal );
-				float3 normalizeResult31_g271 = normalize( _WorldDickBinormal );
-				float3 normalizeResult29_g271 = normalize( cross( normalizeResult27_g271 , normalizeResult31_g271 ) );
-				float4 appendResult26_g270 = (float4(1.0 , 0.0 , 0.0 , 0.0));
-				float4 appendResult28_g270 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float4 appendResult31_g270 = (float4(0.0 , 0.0 , 1.0 , 0.0));
-				float3 break27_g270 = -_WorldDickPosition;
-				float4 appendResult29_g270 = (float4(break27_g270.x , break27_g270.y , break27_g270.z , 1.0));
-				float4x4 temp_output_30_0_g270 = mul( transpose( float4x4( float4( normalizeResult27_g271 , 0.0 ).x,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).x,float4( normalizeResult29_g271 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g271 , 0.0 ).y,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).y,float4( normalizeResult29_g271 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g271 , 0.0 ).z,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).z,float4( normalizeResult29_g271 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g271 , 0.0 ).w,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).w,float4( normalizeResult29_g271 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g270.x,appendResult28_g270.x,appendResult31_g270.x,appendResult29_g270.x,appendResult26_g270.y,appendResult28_g270.y,appendResult31_g270.y,appendResult29_g270.y,appendResult26_g270.z,appendResult28_g270.z,appendResult31_g270.z,appendResult29_g270.z,appendResult26_g270.w,appendResult28_g270.w,appendResult31_g270.w,appendResult29_g270.w ) );
-				float4x4 invertVal44_g270 = Inverse4x4( temp_output_30_0_g270 );
-				float4 appendResult27_g269 = (float4(inputMesh.positionOS , 1.0));
-				float3 pos32_g269 = mul( GetObjectToWorldMatrix(), appendResult27_g269 ).xyz;
-				float3 localMyCustomExpression32_g269 = MyCustomExpression32_g269( pos32_g269 );
-				float4 appendResult32_g270 = (float4(localMyCustomExpression32_g269 , 1.0));
-				float4 break35_g270 = mul( temp_output_30_0_g270, appendResult32_g270 );
-				float temp_output_124_0_g270 = _TipRadius;
-				float2 appendResult36_g270 = (float2(break35_g270.y , break35_g270.z));
-				float2 normalizeResult41_g270 = normalize( appendResult36_g270 );
-				float temp_output_120_0_g270 = sqrt( max( break35_g270.x , 0.0 ) );
-				float temp_output_48_0_g270 = tan( radians( _Angle ) );
-				float temp_output_125_0_g270 = ( temp_output_124_0_g270 + ( temp_output_120_0_g270 * temp_output_48_0_g270 ) );
-				float temp_output_37_0_g270 = length( appendResult36_g270 );
-				float temp_output_114_0_g270 = ( ( temp_output_125_0_g270 - temp_output_37_0_g270 ) + 1.0 );
-				float lerpResult102_g270 = lerp( temp_output_125_0_g270 , temp_output_37_0_g270 , saturate( temp_output_114_0_g270 ));
-				float lerpResult130_g270 = lerp( 0.0 , lerpResult102_g270 , saturate( ( -( -temp_output_124_0_g270 - break35_g270.x ) / temp_output_124_0_g270 ) ));
-				float2 break43_g270 = ( normalizeResult41_g270 * lerpResult130_g270 );
-				float4 appendResult40_g270 = (float4(max( break35_g270.x , -temp_output_124_0_g270 ) , break43_g270.x , break43_g270.y , 1.0));
-				float4 appendResult28_g269 = (float4(((mul( invertVal44_g270, appendResult40_g270 )).xyz).xyz , 1.0));
-				float4 localWorldVar29_g269 = appendResult28_g269;
-				(localWorldVar29_g269).xyz = GetCameraRelativePositionWS((localWorldVar29_g269).xyz);
-				float4 transform29_g269 = mul(GetWorldToObjectMatrix(),localWorldVar29_g269);
-				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch13_g269 = (transform29_g269).xyz;
-				#else
-				float3 staticSwitch13_g269 = inputMesh.positionOS;
-				#endif
-				float3 temp_output_229_0 = staticSwitch13_g269;
-				float3 temp_output_10_0_g275 = temp_output_229_0;
-				float localGetDeformationFromPenetrators_float8_g275 = ( 0.0 );
-				float4 appendResult17_g275 = (float4(temp_output_10_0_g275 , 1.0));
-				float4 transform16_g275 = mul(GetObjectToWorldMatrix(),appendResult17_g275);
-				transform16_g275.xyz = GetAbsolutePositionWS((transform16_g275).xyz);
-				float3 worldPosition8_g275 = (transform16_g275).xyz;
-				float4 texCoord3_g275 = inputMesh.ase_texcoord2;
-				texCoord3_g275.xy = inputMesh.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
-				float4 uv28_g275 = texCoord3_g275;
-				float compressibleDistance8_g275 = _CompressibleDistance;
-				float smoothness8_g275 = _Smoothness;
-				float3 deformedPosition8_g275 = float3( 0,0,0 );
-				{
-				GetDeformationFromPenetrators_float(worldPosition8_g275,uv28_g275,compressibleDistance8_g275,smoothness8_g275,deformedPosition8_g275);
-				}
-				float4 appendResult21_g275 = (float4(deformedPosition8_g275 , 1.0));
-				float4 localWorldVar19_g275 = appendResult21_g275;
-				(localWorldVar19_g275).xyz = GetCameraRelativePositionWS((localWorldVar19_g275).xyz);
-				float4 transform19_g275 = mul(GetWorldToObjectMatrix(),localWorldVar19_g275);
-				#ifdef _PENETRATION_DEFORMATION_ON
-				float3 staticSwitch24_g275 = (transform19_g275).xyz;
-				#else
-				float3 staticSwitch24_g275 = temp_output_10_0_g275;
-				#endif
-				float3 lerpResult235 = lerp( temp_output_229_0 , staticSwitch24_g275 , inputMesh.ase_color.r);
-				
-				float3 temp_output_50_0_g269 = inputMesh.normalOS;
-				float2 break146_g270 = normalizeResult41_g270;
-				float4 appendResult139_g270 = (float4(temp_output_48_0_g270 , break146_g270.x , break146_g270.y , 0.0));
-				float3 normalizeResult144_g270 = normalize( (mul( invertVal44_g270, appendResult139_g270 )).xyz );
-				float3 lerpResult44_g269 = lerp( normalizeResult144_g270 , temp_output_50_0_g269 , saturate( sign( temp_output_114_0_g270 ) ));
-				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch17_g269 = lerpResult44_g269;
-				#else
-				float3 staticSwitch17_g269 = temp_output_50_0_g269;
-				#endif
-				
-				float3 ase_worldPos = GetAbsolutePositionWS( TransformObjectToWorld( (inputMesh.positionOS).xyz ) );
-				outputPackedVaryingsMeshToPS.ase_texcoord4.xyz = ase_worldPos;
-				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
-				outputPackedVaryingsMeshToPS.ase_texcoord5.xyz = ase_worldNormal;
-				float3 vertexToFrag28_g272 = mul( UNITY_MATRIX_M, float4( inputMesh.positionOS , 0.0 ) ).xyz;
-				outputPackedVaryingsMeshToPS.ase_texcoord6.xyz = vertexToFrag28_g272;
-				float3 ase_worldTangent = TransformObjectToWorldDir(inputMesh.ase_tangent.xyz);
-				outputPackedVaryingsMeshToPS.ase_texcoord7.xyz = ase_worldTangent;
-				float ase_vertexTangentSign = inputMesh.ase_tangent.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
-				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
-				outputPackedVaryingsMeshToPS.ase_texcoord8.xyz = ase_worldBitangent;
-				
-				outputPackedVaryingsMeshToPS.ase_texcoord3.xy = inputMesh.ase_texcoord.xy;
-				outputPackedVaryingsMeshToPS.ase_texcoord3.zw = inputMesh.ase_texcoord1.xy;
-				
-				//setting value to unused interpolator channels and avoid initialization warnings
-				outputPackedVaryingsMeshToPS.ase_texcoord4.w = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord5.w = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord6.w = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord7.w = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord8.w = 0;
-
-				#ifdef ASE_ABSOLUTE_VERTEX_POS
-				float3 defaultVertexValue = inputMesh.positionOS.xyz;
-				#else
-				float3 defaultVertexValue = float3( 0, 0, 0 );
-				#endif
-				float3 vertexValue = lerpResult235;
-
-				#ifdef ASE_ABSOLUTE_VERTEX_POS
-				inputMesh.positionOS.xyz = vertexValue;
-				#else
-				inputMesh.positionOS.xyz += vertexValue;
-				#endif
-				inputMesh.normalOS = staticSwitch17_g269;
-				return inputMesh;
-			}
-
-			PackedVaryingsMeshToPS VertexFunction(AttributesMesh inputMesh)
-			{
-				PackedVaryingsMeshToPS outputPackedVaryingsMeshToPS = (PackedVaryingsMeshToPS)0;
-				AttributesMesh defaultMesh = inputMesh;
-
-				UNITY_SETUP_INSTANCE_ID(inputMesh);
-				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
-				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( outputPackedVaryingsMeshToPS );
-
-				inputMesh = ApplyMeshModification( inputMesh, _TimeParameters.xyz, outputPackedVaryingsMeshToPS);
-
-				float3 positionRWS = TransformObjectToWorld(inputMesh.positionOS);
-				float3 normalWS = TransformObjectToWorldNormal(inputMesh.normalOS);
-
-				float3 VMESHpositionRWS = positionRWS;
-				float4 VMESHpositionCS = TransformWorldToHClip(positionRWS);
-
-				float4 VPASSpreviousPositionCS;
-				float4 VPASSpositionCS = mul(UNITY_MATRIX_UNJITTERED_VP, float4(VMESHpositionRWS, 1.0));
-
-				bool forceNoMotion = unity_MotionVectorsParams.y == 0.0;
-				if (forceNoMotion)
-				{
-					VPASSpreviousPositionCS = float4(0.0, 0.0, 0.0, 1.0);
-				}
-				else
-				{
-					bool hasDeformation = unity_MotionVectorsParams.x > 0.0;
-					float3 effectivePositionOS = (hasDeformation ? inputMesh.previousPositionOS : defaultMesh.positionOS);
-					#if defined(_ADD_PRECOMPUTED_VELOCITY)
-					effectivePositionOS -= inputMesh.precomputedVelocity;
-					#endif
-
-					#if defined(HAVE_MESH_MODIFICATION)
-						AttributesMesh previousMesh = defaultMesh;
-						previousMesh.positionOS = effectivePositionOS ;
-						PackedVaryingsMeshToPS test = (PackedVaryingsMeshToPS)0;
-						float3 curTime = _TimeParameters.xyz;
-						previousMesh = ApplyMeshModification(previousMesh, _LastTimeParameters.xyz, test);
-						_TimeParameters.xyz = curTime;
-						float3 previousPositionRWS = TransformPreviousObjectToWorld(previousMesh.positionOS);
-					#else
-						float3 previousPositionRWS = TransformPreviousObjectToWorld(effectivePositionOS);
-					#endif
-
-					#ifdef ATTRIBUTES_NEED_NORMAL
-						float3 normalWS = TransformPreviousObjectToWorldNormal(defaultMesh.normalOS);
-					#else
-						float3 normalWS = float3(0.0, 0.0, 0.0);
-					#endif
-
-					#if defined(HAVE_VERTEX_MODIFICATION)
-						ApplyVertexModification(inputMesh, normalWS, previousPositionRWS, _LastTimeParameters.xyz);
-					#endif
-
-					#ifdef _WRITE_TRANSPARENT_MOTION_VECTOR
-						if (_TransparentCameraOnlyMotionVectors > 0)
-						{
-							previousPositionRWS = VMESHpositionRWS.xyz;
-						}
-					#endif
-
-					VPASSpreviousPositionCS = mul(UNITY_MATRIX_PREV_VP, float4(previousPositionRWS, 1.0));
-				}
-
-				outputPackedVaryingsMeshToPS.vmeshPositionCS = VMESHpositionCS;
-				outputPackedVaryingsMeshToPS.vmeshInterp00.xyz = VMESHpositionRWS;
-
-				outputPackedVaryingsMeshToPS.vpassInterpolators0 = float3(VPASSpositionCS.xyw);
-				outputPackedVaryingsMeshToPS.vpassInterpolators1 = float3(VPASSpreviousPositionCS.xyw);
-				return outputPackedVaryingsMeshToPS;
-			}
-
-			#if defined(WRITE_DECAL_BUFFER) && !defined(_DISABLE_DECALS)
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalPrepassBuffer.hlsl"
-			#endif
-
-			#if ( 0 ) // TEMPORARY: defined(ASE_TESSELLATION)
-			struct VertexControl
-			{
-				float3 positionOS : INTERNALTESSPOS;
-				float3 normalOS : NORMAL;
-				float3 previousPositionOS : TEXCOORD4;
-				float3 precomputedVelocity : TEXCOORD5;
-				float4 ase_texcoord2 : TEXCOORD2;
-				float4 ase_color : COLOR;
-				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_texcoord1 : TEXCOORD1;
-				float4 ase_tangent : TANGENT;
-
-				UNITY_VERTEX_INPUT_INSTANCE_ID
-			};
-
-			struct TessellationFactors
-			{
-				float edge[3] : SV_TessFactor;
-				float inside : SV_InsideTessFactor;
-			};
-
-			VertexControl Vert ( AttributesMesh v )
-			{
-				VertexControl o;
-				UNITY_SETUP_INSTANCE_ID(v);
-				UNITY_TRANSFER_INSTANCE_ID(v, o);
-				o.positionOS = v.positionOS;
-				o.normalOS = v.normalOS;
-				o.previousPositionOS = v.previousPositionOS;
-				#if defined (_ADD_PRECOMPUTED_VELOCITY)
-				o.precomputedVelocity = v.precomputedVelocity;
-				#endif
-				o.ase_texcoord2 = v.ase_texcoord2;
-				o.ase_color = v.ase_color;
-				o.ase_texcoord = v.ase_texcoord;
-				o.ase_texcoord1 = v.ase_texcoord1;
-				o.ase_tangent = v.ase_tangent;
-				return o;
-			}
-
-			TessellationFactors TessellationFunction (InputPatch<VertexControl,3> v)
-			{
-				TessellationFactors o;
-				float4 tf = 1;
-				float tessValue = _TessValue; float tessMin = _TessMin; float tessMax = _TessMax;
-				float edgeLength = _TessEdgeLength; float tessMaxDisp = _TessMaxDisp;
-				#if (SHADEROPTIONS_CAMERA_RELATIVE_RENDERING != 0)
-				float3 cameraPos = 0;
-				#else
-				float3 cameraPos = _WorldSpaceCameraPos;
-				#endif
-				#if defined(ASE_FIXED_TESSELLATION)
-				tf = FixedTess( tessValue );
-				#elif defined(ASE_DISTANCE_TESSELLATION)
-				tf = DistanceBasedTess(float4(v[0].positionOS,1), float4(v[1].positionOS,1), float4(v[2].positionOS,1), tessValue, tessMin, tessMax, GetObjectToWorldMatrix(), cameraPos );
-				#elif defined(ASE_LENGTH_TESSELLATION)
-				tf = EdgeLengthBasedTess(float4(v[0].positionOS,1), float4(v[1].positionOS,1), float4(v[2].positionOS,1), edgeLength, GetObjectToWorldMatrix(), cameraPos, _ScreenParams );
-				#elif defined(ASE_LENGTH_CULL_TESSELLATION)
-				tf = EdgeLengthBasedTessCull(float4(v[0].positionOS,1), float4(v[1].positionOS,1), float4(v[2].positionOS,1), edgeLength, tessMaxDisp, GetObjectToWorldMatrix(), cameraPos, _ScreenParams, _FrustumPlanes );
-				#endif
-				o.edge[0] = tf.x; o.edge[1] = tf.y; o.edge[2] = tf.z; o.inside = tf.w;
-				return o;
-			}
-
-			[domain("tri")]
-			[partitioning("fractional_odd")]
-			[outputtopology("triangle_cw")]
-			[patchconstantfunc("TessellationFunction")]
-			[outputcontrolpoints(3)]
-			VertexControl HullFunction(InputPatch<VertexControl, 3> patch, uint id : SV_OutputControlPointID)
-			{
-			   return patch[id];
-			}
-
-			[domain("tri")]
-			PackedVaryingsMeshToPS DomainFunction(TessellationFactors factors, OutputPatch<VertexControl, 3> patch, float3 bary : SV_DomainLocation)
-			{
-				AttributesMesh o = (AttributesMesh) 0;
-				o.positionOS = patch[0].positionOS * bary.x + patch[1].positionOS * bary.y + patch[2].positionOS * bary.z;
-				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
-				o.previousPositionOS = patch[0].previousPositionOS * bary.x + patch[1].previousPositionOS * bary.y + patch[2].previousPositionOS * bary.z;
-				#if defined (_ADD_PRECOMPUTED_VELOCITY)
-					o.precomputedVelocity = patch[0].precomputedVelocity * bary.x + patch[1].precomputedVelocity * bary.y + patch[2].precomputedVelocity * bary.z;
-				#endif
-				o.ase_texcoord2 = patch[0].ase_texcoord2 * bary.x + patch[1].ase_texcoord2 * bary.y + patch[2].ase_texcoord2 * bary.z;
-				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
-				o.ase_texcoord1 = patch[0].ase_texcoord1 * bary.x + patch[1].ase_texcoord1 * bary.y + patch[2].ase_texcoord1 * bary.z;
-				o.ase_tangent = patch[0].ase_tangent * bary.x + patch[1].ase_tangent * bary.y + patch[2].ase_tangent * bary.z;
-				#if defined(ASE_PHONG_TESSELLATION)
-				float3 pp[3];
-				for (int i = 0; i < 3; ++i)
-					pp[i] = o.positionOS.xyz - patch[i].normalOS * (dot(o.positionOS.xyz, patch[i].normalOS) - dot(patch[i].positionOS.xyz, patch[i].normalOS));
-				float phongStrength = _TessPhongStrength;
-				o.positionOS.xyz = phongStrength * (pp[0]*bary.x + pp[1]*bary.y + pp[2]*bary.z) + (1.0f-phongStrength) * o.positionOS.xyz;
-				#endif
-				UNITY_TRANSFER_INSTANCE_ID(patch[0], o);
-				return VertexFunction(o);
-			}
-			#else
-			PackedVaryingsMeshToPS Vert ( AttributesMesh v )
-			{
-				return VertexFunction( v );
-			}
-			#endif
-
-			#if defined(WRITE_DECAL_BUFFER) && defined(WRITE_MSAA_DEPTH)
-			#define SV_TARGET_NORMAL SV_Target3
-			#elif defined(WRITE_DECAL_BUFFER) || defined(WRITE_MSAA_DEPTH)
-			#define SV_TARGET_NORMAL SV_Target2
-			#else
-			#define SV_TARGET_NORMAL SV_Target1
-			#endif
-
-			void Frag( PackedVaryingsMeshToPS packedInput
-				#ifdef WRITE_MSAA_DEPTH
-					, out float4 depthColor : SV_Target0
-					, out float4 outMotionVector : SV_Target1
-						#ifdef WRITE_DECAL_BUFFER
-						, out float4 outDecalBuffer : SV_Target2
-						#endif
-					#else
-					, out float4 outMotionVector : SV_Target0
-						#ifdef WRITE_DECAL_BUFFER
-						, out float4 outDecalBuffer : SV_Target1
-						#endif
-					#endif
-
-					#ifdef WRITE_NORMAL_BUFFER
-					, out float4 outNormalBuffer : SV_TARGET_NORMAL
-					#endif
-
-					#ifdef _DEPTHOFFSET_ON
-					, out float outputDepth : DEPTH_OFFSET_SEMANTIC
-					#endif
-				
-				)
-			{
-				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX( packedInput );
-				UNITY_SETUP_INSTANCE_ID( packedInput );
-				FragInputs input;
-				ZERO_INITIALIZE(FragInputs, input);
-				input.tangentToWorld = k_identity3x3;
-				input.positionSS = packedInput.vmeshPositionCS;
-				input.positionRWS = packedInput.vmeshInterp00.xyz;
-
-				PositionInputs posInput = GetPositionInput(input.positionSS.xy, _ScreenSize.zw, input.positionSS.z, input.positionSS.w, input.positionRWS);
-
-				float3 V = GetWorldSpaceNormalizeViewDir(input.positionRWS);
-
-				SurfaceData surfaceData;
-				BuiltinData builtinData;
-
-				SmoothSurfaceDescription surfaceDescription = (SmoothSurfaceDescription)0;
-				float2 uv_NormalMap = packedInput.ase_texcoord3.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
-				float3 temp_output_4_0_g272 = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
-				float3 ase_worldPos = packedInput.ase_texcoord4.xyz;
-				float3 surf_pos107_g274 = ase_worldPos;
-				float3 ase_worldNormal = packedInput.ase_texcoord5.xyz;
-				float3 surf_norm107_g274 = ase_worldNormal;
-				float3 vertexToFrag28_g272 = packedInput.ase_texcoord6.xyz;
-				#ifdef _SKINNED_ON
-				float3 staticSwitch26_g272 = float3( packedInput.ase_texcoord3.zw ,  0.0 );
-				#else
-				float3 staticSwitch26_g272 = vertexToFrag28_g272;
-				#endif
-				float simplePerlin3D9_g272 = snoise( ( ( staticSwitch26_g272 * float3( 2,2,2 ) ) + float3( 0,0,0 ) ) );
-				simplePerlin3D9_g272 = simplePerlin3D9_g272*0.5 + 0.5;
-				float height107_g274 = simplePerlin3D9_g272;
-				float scale107_g274 = 0.5;
-				float3 localPerturbNormal107_g274 = PerturbNormal107_g274( surf_pos107_g274 , surf_norm107_g274 , height107_g274 , scale107_g274 );
-				float3 ase_worldTangent = packedInput.ase_texcoord7.xyz;
-				float3 ase_worldBitangent = packedInput.ase_texcoord8.xyz;
-				float3x3 ase_worldToTangent = float3x3(ase_worldTangent,ase_worldBitangent,ase_worldNormal);
-				float3 worldToTangentDir42_g274 = mul( ase_worldToTangent, localPerturbNormal107_g274);
-				float temp_output_16_0_g272 = ( ( simplePerlin3D9_g272 - 0.5 ) * 0.5 );
-				float temp_output_12_0_g272 = ( tex2D( _DecalColorMap, packedInput.ase_texcoord3.zw ).r + temp_output_16_0_g272 );
-				float temp_output_3_0_g273 = ( 0.5 - temp_output_12_0_g272 );
-				float temp_output_10_0_g272 = ( 1.0 - saturate( ( temp_output_3_0_g273 / fwidth( temp_output_3_0_g273 ) ) ) );
-				float3 lerpResult6_g272 = lerp( temp_output_4_0_g272 , BlendNormal( worldToTangentDir42_g274 , temp_output_4_0_g272 ) , temp_output_10_0_g272);
-				float3 normalizeResult33_g272 = normalize( lerpResult6_g272 );
-				
-				float2 uv_MaskMap = packedInput.ase_texcoord3.xy * _MaskMap_ST.xy + _MaskMap_ST.zw;
-				float4 tex2DNode12 = tex2D( _MaskMap, uv_MaskMap );
-				
-				surfaceDescription.Normal = normalizeResult33_g272;
-				surfaceDescription.Smoothness = tex2DNode12.a;
-				surfaceDescription.Alpha = 1;
-
-				#ifdef _ALPHATEST_ON
-				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
-				#endif
-
-				#ifdef _DEPTHOFFSET_ON
-				surfaceDescription.DepthOffset = 0;
-				#endif
-
-				GetSurfaceAndBuiltinData( surfaceDescription, input, V, posInput, surfaceData, builtinData );
-
-				float4 VPASSpositionCS = float4(packedInput.vpassInterpolators0.xy, 0.0, packedInput.vpassInterpolators0.z);
-				float4 VPASSpreviousPositionCS = float4(packedInput.vpassInterpolators1.xy, 0.0, packedInput.vpassInterpolators1.z);
-
-				#ifdef _DEPTHOFFSET_ON
-				VPASSpositionCS.w += builtinData.depthOffset;
-				VPASSpreviousPositionCS.w += builtinData.depthOffset;
-				#endif
-
-				float2 motionVector = CalculateMotionVector( VPASSpositionCS, VPASSpreviousPositionCS );
-				EncodeMotionVector( motionVector * 0.5, outMotionVector );
-
-				bool forceNoMotion = unity_MotionVectorsParams.y == 0.0;
-				if( forceNoMotion )
-					outMotionVector = float4( 2.0, 0.0, 0.0, 0.0 );
-
-				// Depth and Alpha to coverage
-				#ifdef WRITE_MSAA_DEPTH
-					// In case we are rendering in MSAA, reading the an MSAA depth buffer is way too expensive. To avoid that, we export the depth to a color buffer
-					depthColor = packedInput.vmeshPositionCS.z;
-
-					// Alpha channel is used for alpha to coverage
-					depthColor.a = SharpenAlpha(builtinData.opacity, builtinData.alphaClipTreshold);
-				#endif
-
-				// Normal Buffer Processing
-				#ifdef WRITE_NORMAL_BUFFER
-					EncodeIntoNormalBuffer(ConvertSurfaceDataToNormalData(surfaceData), outNormalBuffer);
-				#endif
-
-				#if defined(WRITE_DECAL_BUFFER)
-					DecalPrepassData decalPrepassData;
-					#ifdef _DISABLE_DECALS
-					ZERO_INITIALIZE(DecalPrepassData, decalPrepassData);
-					#else
-					decalPrepassData.geomNormalWS = surfaceData.geomNormalWS;
-					decalPrepassData.decalLayerMask = GetMeshRenderingDecalLayer();
-					#endif
-					EncodeIntoDecalPrepassBuffer(decalPrepassData, outDecalBuffer);
-
-					// make sure we don't overwrite light layers
-					outDecalBuffer.w = (GetMeshRenderingLightLayer() & 0x000000FF) / 255.0;
-				#endif
-
-				#ifdef _DEPTHOFFSET_ON
-				outputDepth = posInput.deviceDepth;
-				#endif
-			}
-
-			ENDHLSL
-		}
-
-		
-		Pass
-		{
-			
 			Name "Forward"
 			Tags { "LightMode"="Forward" }
 
@@ -5307,11 +3551,17 @@ Shader "CockVoreSlurp"
 
 			HLSLPROGRAM
 
+            #define shader_feature_local _DISABLE_SSR_TRANSPARENT
             #define _SPECULAR_OCCLUSION_FROM_AO 1
             #pragma multi_compile_instancing
             #pragma instancing_options renderinglayer
-            #define ASE_ABSOLUTE_VERTEX_POS 1
-            #define _MATERIAL_FEATURE_CLEAR_COAT 1
+            #define ASE_TESSELLATION 1
+            #pragma require tessellation tessHW
+            #pragma hull HullFunction
+            #pragma domain DomainFunction
+            #define _HAS_REFRACTION 1
+            #define _REFRACTION_SPHERE 1
+            #define ASE_DISTANCE_TESSELLATION
             #define HAVE_MESH_MODIFICATION
             #define ASE_SRP_VERSION 140008
 
@@ -5401,19 +3651,10 @@ Shader "CockVoreSlurp"
 			#endif
 
 			CBUFFER_START( UnityPerMaterial )
-			float4 _BaseColorTint;
-			float4 _BaseColorMap_ST;
-			float4 _NormalMap_ST;
-			float4 _MaskMap_ST;
-			float4 _EmmisionMap_ST;
-			float3 _WorldDickNormal;
-			float3 _WorldDickBinormal;
-			float3 _WorldDickPosition;
-			float _TipRadius;
-			float _Angle;
-			float _CompressibleDistance;
-			float _Smoothness;
-			float _EmmisionStr;
+			float4 _BaseColor;
+			float4 _TransmissionColor;
+			float _Amplitude;
+			float _RefractionIndex;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -5476,16 +3717,7 @@ Shader "CockVoreSlurp"
 			int _PassValue;
             #endif
 
-			sampler2D _BaseColorMap;
-			sampler2D _DecalColorMap;
-			sampler2D _NormalMap;
-			float4x4 unity_CameraProjection;
-			float4x4 unity_CameraInvProjection;
-			float4x4 unity_WorldToCamera;
-			float4x4 unity_CameraToWorld;
-			sampler2D _MaskMap;
-			sampler2D _EmmisionMap;
-
+			
 
             #ifdef DEBUG_DISPLAY
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
@@ -5506,17 +3738,12 @@ Shader "CockVoreSlurp"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
-			#define ASE_NEEDS_VERT_POSITION
+			#include "SumOfSines.cginc"
 			#define ASE_NEEDS_VERT_NORMAL
-			#define ASE_NEEDS_FRAG_RELATIVE_WORLD_POS
-			#define ASE_NEEDS_FRAG_WORLD_NORMAL
+			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
 			#define ASE_NEEDS_FRAG_WORLD_TANGENT
+			#define ASE_NEEDS_FRAG_WORLD_NORMAL
 			#define ASE_NEEDS_VERT_TANGENT
-			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
-			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
-			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#pragma shader_feature_local _SKINNED_ON
-			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -5532,7 +3759,6 @@ Shader "CockVoreSlurp"
 				float4 uv2 : TEXCOORD2;
 				float3 previousPositionOS : TEXCOORD4;
 				float3 precomputedVelocity : TEXCOORD5;
-				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -5551,7 +3777,6 @@ Shader "CockVoreSlurp"
 				#endif
 				float4 ase_texcoord7 : TEXCOORD7;
 				float4 ase_texcoord8 : TEXCOORD8;
-				float4 ase_texcoord9 : TEXCOORD9;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
@@ -5559,98 +3784,12 @@ Shader "CockVoreSlurp"
 				#endif
 			};
 
-			float4x4 Inverse4x4(float4x4 input)
+			float3x3 Inverse3x3(float3x3 input)
 			{
-				#define minor(a,b,c) determinant(float3x3(input.a, input.b, input.c))
-				float4x4 cofactors = float4x4(
-				minor( _22_23_24, _32_33_34, _42_43_44 ),
-				-minor( _21_23_24, _31_33_34, _41_43_44 ),
-				minor( _21_22_24, _31_32_34, _41_42_44 ),
-				-minor( _21_22_23, _31_32_33, _41_42_43 ),
-			
-				-minor( _12_13_14, _32_33_34, _42_43_44 ),
-				minor( _11_13_14, _31_33_34, _41_43_44 ),
-				-minor( _11_12_14, _31_32_34, _41_42_44 ),
-				minor( _11_12_13, _31_32_33, _41_42_43 ),
-			
-				minor( _12_13_14, _22_23_24, _42_43_44 ),
-				-minor( _11_13_14, _21_23_24, _41_43_44 ),
-				minor( _11_12_14, _21_22_24, _41_42_44 ),
-				-minor( _11_12_13, _21_22_23, _41_42_43 ),
-			
-				-minor( _12_13_14, _22_23_24, _32_33_34 ),
-				minor( _11_13_14, _21_23_24, _31_33_34 ),
-				-minor( _11_12_14, _21_22_24, _31_32_34 ),
-				minor( _11_12_13, _21_22_23, _31_32_33 ));
-				#undef minor
-				return transpose( cofactors ) / determinant( input );
-			}
-			
-			float3 MyCustomExpression32_g269( float3 pos )
-			{
-				return GetAbsolutePositionWS(pos);
-			}
-			
-			float3 mod3D289( float3 x ) { return x - floor( x / 289.0 ) * 289.0; }
-			float4 mod3D289( float4 x ) { return x - floor( x / 289.0 ) * 289.0; }
-			float4 permute( float4 x ) { return mod3D289( ( x * 34.0 + 1.0 ) * x ); }
-			float4 taylorInvSqrt( float4 r ) { return 1.79284291400159 - r * 0.85373472095314; }
-			float snoise( float3 v )
-			{
-				const float2 C = float2( 1.0 / 6.0, 1.0 / 3.0 );
-				float3 i = floor( v + dot( v, C.yyy ) );
-				float3 x0 = v - i + dot( i, C.xxx );
-				float3 g = step( x0.yzx, x0.xyz );
-				float3 l = 1.0 - g;
-				float3 i1 = min( g.xyz, l.zxy );
-				float3 i2 = max( g.xyz, l.zxy );
-				float3 x1 = x0 - i1 + C.xxx;
-				float3 x2 = x0 - i2 + C.yyy;
-				float3 x3 = x0 - 0.5;
-				i = mod3D289( i);
-				float4 p = permute( permute( permute( i.z + float4( 0.0, i1.z, i2.z, 1.0 ) ) + i.y + float4( 0.0, i1.y, i2.y, 1.0 ) ) + i.x + float4( 0.0, i1.x, i2.x, 1.0 ) );
-				float4 j = p - 49.0 * floor( p / 49.0 );  // mod(p,7*7)
-				float4 x_ = floor( j / 7.0 );
-				float4 y_ = floor( j - 7.0 * x_ );  // mod(j,N)
-				float4 x = ( x_ * 2.0 + 0.5 ) / 7.0 - 1.0;
-				float4 y = ( y_ * 2.0 + 0.5 ) / 7.0 - 1.0;
-				float4 h = 1.0 - abs( x ) - abs( y );
-				float4 b0 = float4( x.xy, y.xy );
-				float4 b1 = float4( x.zw, y.zw );
-				float4 s0 = floor( b0 ) * 2.0 + 1.0;
-				float4 s1 = floor( b1 ) * 2.0 + 1.0;
-				float4 sh = -step( h, 0.0 );
-				float4 a0 = b0.xzyw + s0.xzyw * sh.xxyy;
-				float4 a1 = b1.xzyw + s1.xzyw * sh.zzww;
-				float3 g0 = float3( a0.xy, h.x );
-				float3 g1 = float3( a0.zw, h.y );
-				float3 g2 = float3( a1.xy, h.z );
-				float3 g3 = float3( a1.zw, h.w );
-				float4 norm = taylorInvSqrt( float4( dot( g0, g0 ), dot( g1, g1 ), dot( g2, g2 ), dot( g3, g3 ) ) );
-				g0 *= norm.x;
-				g1 *= norm.y;
-				g2 *= norm.z;
-				g3 *= norm.w;
-				float4 m = max( 0.6 - float4( dot( x0, x0 ), dot( x1, x1 ), dot( x2, x2 ), dot( x3, x3 ) ), 0.0 );
-				m = m* m;
-				m = m* m;
-				float4 px = float4( dot( x0, g0 ), dot( x1, g1 ), dot( x2, g2 ), dot( x3, g3 ) );
-				return 42.0 * dot( m, px);
-			}
-			
-			float3 PerturbNormal107_g274( float3 surf_pos, float3 surf_norm, float height, float scale )
-			{
-				// "Bump Mapping Unparametrized Surfaces on the GPU" by Morten S. Mikkelsen
-				float3 vSigmaS = ddx( surf_pos );
-				float3 vSigmaT = ddy( surf_pos );
-				float3 vN = surf_norm;
-				float3 vR1 = cross( vSigmaT , vN );
-				float3 vR2 = cross( vN , vSigmaS );
-				float fDet = dot( vSigmaS , vR1 );
-				float dBs = ddx( height );
-				float dBt = ddy( height );
-				float3 vSurfGrad = scale * 0.05 * sign( fDet ) * ( dBs * vR1 + dBt * vR2 );
-				return normalize ( abs( fDet ) * vN - vSurfGrad );
+				float3 a = input._11_21_31;
+				float3 b = input._12_22_32;
+				float3 c = input._13_23_33;
+				return float3x3(cross(b,c), cross(c,a), cross(a,b)) * (1.0 / dot(a,cross(b,c)));
 			}
 			
 
@@ -5873,109 +4012,42 @@ Shader "CockVoreSlurp"
 			AttributesMesh ApplyMeshModification(AttributesMesh inputMesh, float3 timeParameters, inout PackedVaryingsMeshToPS outputPackedVaryingsMeshToPS )
 			{
 				_TimeParameters.xyz = timeParameters;
-				float3 normalizeResult27_g271 = normalize( _WorldDickNormal );
-				float3 normalizeResult31_g271 = normalize( _WorldDickBinormal );
-				float3 normalizeResult29_g271 = normalize( cross( normalizeResult27_g271 , normalizeResult31_g271 ) );
-				float4 appendResult26_g270 = (float4(1.0 , 0.0 , 0.0 , 0.0));
-				float4 appendResult28_g270 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float4 appendResult31_g270 = (float4(0.0 , 0.0 , 1.0 , 0.0));
-				float3 break27_g270 = -_WorldDickPosition;
-				float4 appendResult29_g270 = (float4(break27_g270.x , break27_g270.y , break27_g270.z , 1.0));
-				float4x4 temp_output_30_0_g270 = mul( transpose( float4x4( float4( normalizeResult27_g271 , 0.0 ).x,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).x,float4( normalizeResult29_g271 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g271 , 0.0 ).y,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).y,float4( normalizeResult29_g271 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g271 , 0.0 ).z,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).z,float4( normalizeResult29_g271 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g271 , 0.0 ).w,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).w,float4( normalizeResult29_g271 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g270.x,appendResult28_g270.x,appendResult31_g270.x,appendResult29_g270.x,appendResult26_g270.y,appendResult28_g270.y,appendResult31_g270.y,appendResult29_g270.y,appendResult26_g270.z,appendResult28_g270.z,appendResult31_g270.z,appendResult29_g270.z,appendResult26_g270.w,appendResult28_g270.w,appendResult31_g270.w,appendResult29_g270.w ) );
-				float4x4 invertVal44_g270 = Inverse4x4( temp_output_30_0_g270 );
-				float4 appendResult27_g269 = (float4(inputMesh.positionOS , 1.0));
-				float3 pos32_g269 = mul( GetObjectToWorldMatrix(), appendResult27_g269 ).xyz;
-				float3 localMyCustomExpression32_g269 = MyCustomExpression32_g269( pos32_g269 );
-				float4 appendResult32_g270 = (float4(localMyCustomExpression32_g269 , 1.0));
-				float4 break35_g270 = mul( temp_output_30_0_g270, appendResult32_g270 );
-				float temp_output_124_0_g270 = _TipRadius;
-				float2 appendResult36_g270 = (float2(break35_g270.y , break35_g270.z));
-				float2 normalizeResult41_g270 = normalize( appendResult36_g270 );
-				float temp_output_120_0_g270 = sqrt( max( break35_g270.x , 0.0 ) );
-				float temp_output_48_0_g270 = tan( radians( _Angle ) );
-				float temp_output_125_0_g270 = ( temp_output_124_0_g270 + ( temp_output_120_0_g270 * temp_output_48_0_g270 ) );
-				float temp_output_37_0_g270 = length( appendResult36_g270 );
-				float temp_output_114_0_g270 = ( ( temp_output_125_0_g270 - temp_output_37_0_g270 ) + 1.0 );
-				float lerpResult102_g270 = lerp( temp_output_125_0_g270 , temp_output_37_0_g270 , saturate( temp_output_114_0_g270 ));
-				float lerpResult130_g270 = lerp( 0.0 , lerpResult102_g270 , saturate( ( -( -temp_output_124_0_g270 - break35_g270.x ) / temp_output_124_0_g270 ) ));
-				float2 break43_g270 = ( normalizeResult41_g270 * lerpResult130_g270 );
-				float4 appendResult40_g270 = (float4(max( break35_g270.x , -temp_output_124_0_g270 ) , break43_g270.x , break43_g270.y , 1.0));
-				float4 appendResult28_g269 = (float4(((mul( invertVal44_g270, appendResult40_g270 )).xyz).xyz , 1.0));
-				float4 localWorldVar29_g269 = appendResult28_g269;
-				(localWorldVar29_g269).xyz = GetCameraRelativePositionWS((localWorldVar29_g269).xyz);
-				float4 transform29_g269 = mul(GetWorldToObjectMatrix(),localWorldVar29_g269);
-				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch13_g269 = (transform29_g269).xyz;
-				#else
-				float3 staticSwitch13_g269 = inputMesh.positionOS;
-				#endif
-				float3 temp_output_229_0 = staticSwitch13_g269;
-				float3 temp_output_10_0_g275 = temp_output_229_0;
-				float localGetDeformationFromPenetrators_float8_g275 = ( 0.0 );
-				float4 appendResult17_g275 = (float4(temp_output_10_0_g275 , 1.0));
-				float4 transform16_g275 = mul(GetObjectToWorldMatrix(),appendResult17_g275);
-				transform16_g275.xyz = GetAbsolutePositionWS((transform16_g275).xyz);
-				float3 worldPosition8_g275 = (transform16_g275).xyz;
-				float4 texCoord3_g275 = inputMesh.uv2;
-				texCoord3_g275.xy = inputMesh.uv2.xy * float2( 1,1 ) + float2( 0,0 );
-				float4 uv28_g275 = texCoord3_g275;
-				float compressibleDistance8_g275 = _CompressibleDistance;
-				float smoothness8_g275 = _Smoothness;
-				float3 deformedPosition8_g275 = float3( 0,0,0 );
-				{
-				GetDeformationFromPenetrators_float(worldPosition8_g275,uv28_g275,compressibleDistance8_g275,smoothness8_g275,deformedPosition8_g275);
-				}
-				float4 appendResult21_g275 = (float4(deformedPosition8_g275 , 1.0));
-				float4 localWorldVar19_g275 = appendResult21_g275;
-				(localWorldVar19_g275).xyz = GetCameraRelativePositionWS((localWorldVar19_g275).xyz);
-				float4 transform19_g275 = mul(GetWorldToObjectMatrix(),localWorldVar19_g275);
-				#ifdef _PENETRATION_DEFORMATION_ON
-				float3 staticSwitch24_g275 = (transform19_g275).xyz;
-				#else
-				float3 staticSwitch24_g275 = temp_output_10_0_g275;
-				#endif
-				float3 lerpResult235 = lerp( temp_output_229_0 , staticSwitch24_g275 , inputMesh.ase_color.r);
-				
-				float3 temp_output_50_0_g269 = inputMesh.normalOS;
-				float2 break146_g270 = normalizeResult41_g270;
-				float4 appendResult139_g270 = (float4(temp_output_48_0_g270 , break146_g270.x , break146_g270.y , 0.0));
-				float3 normalizeResult144_g270 = normalize( (mul( invertVal44_g270, appendResult139_g270 )).xyz );
-				float3 lerpResult44_g269 = lerp( normalizeResult144_g270 , temp_output_50_0_g269 , saturate( sign( temp_output_114_0_g270 ) ));
-				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch17_g269 = lerpResult44_g269;
-				#else
-				float3 staticSwitch17_g269 = temp_output_50_0_g269;
-				#endif
-				
-				float3 vertexToFrag28_g272 = mul( UNITY_MATRIX_M, float4( inputMesh.positionOS , 0.0 ) ).xyz;
-				outputPackedVaryingsMeshToPS.ase_texcoord8.xyz = vertexToFrag28_g272;
+				float2 texCoord12 = inputMesh.ase_texcoord.xy * float2( 32,32 ) + float2( 0,0 );
+				float2 uv2_g16 = texCoord12;
+				float amplitude2_g16 = _Amplitude;
+				int detail2_g16 = 32;
+				float2 derivative2_g16 = float2( 0,0 );
+				float mulTime13 = _TimeParameters.x * 1.1;
+				float t2_g16 = mulTime13;
+				float localSumOfSines2_g16 = SumOfSines( uv2_g16 , amplitude2_g16 , detail2_g16 , derivative2_g16 , t2_g16 );
+				float temp_output_61_0 = localSumOfSines2_g16;
+				float3 temp_output_15_0 = ( inputMesh.normalOS * temp_output_61_0 );
 				
 				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
 				float3 ase_worldTangent = TransformObjectToWorldDir(inputMesh.tangentOS.xyz);
 				float ase_vertexTangentSign = inputMesh.tangentOS.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
 				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
-				outputPackedVaryingsMeshToPS.ase_texcoord9.xyz = ase_worldBitangent;
+				outputPackedVaryingsMeshToPS.ase_texcoord8.xyz = ase_worldBitangent;
 				
 				outputPackedVaryingsMeshToPS.ase_texcoord7.xy = inputMesh.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
 				outputPackedVaryingsMeshToPS.ase_texcoord7.zw = 0;
 				outputPackedVaryingsMeshToPS.ase_texcoord8.w = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord9.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = lerpResult235;
+				float3 vertexValue = temp_output_15_0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
 				#else
 				inputMesh.positionOS.xyz += vertexValue;
 				#endif
-				inputMesh.normalOS = staticSwitch17_g269;
+				inputMesh.normalOS = inputMesh.normalOS;
 				inputMesh.tangentOS = inputMesh.tangentOS;
 				return inputMesh;
 			}
@@ -6060,7 +4132,6 @@ Shader "CockVoreSlurp"
 				float4 tangentOS : TANGENT;
 				float4 uv1 : TEXCOORD1;
 				float4 uv2 : TEXCOORD2;
-				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -6082,7 +4153,6 @@ Shader "CockVoreSlurp"
 				o.tangentOS = v.tangentOS;
 				o.uv1 = v.uv1;
 				o.uv2 = v.uv2;
-				o.ase_color = v.ase_color;
 				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
@@ -6130,7 +4200,6 @@ Shader "CockVoreSlurp"
 				o.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
 				o.uv1 = patch[0].uv1 * bary.x + patch[1].uv1 * bary.y + patch[2].uv1 * bary.z;
 				o.uv2 = patch[0].uv2 * bary.x + patch[1].uv2 * bary.y + patch[2].uv2 * bary.z;
-				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
@@ -6221,61 +4290,41 @@ Shader "CockVoreSlurp"
 				float3 V = GetWorldSpaceNormalizeViewDir(input.positionRWS);
 
 				GlobalSurfaceDescription surfaceDescription = (GlobalSurfaceDescription)0;
-				float2 uv_BaseColorMap = packedInput.ase_texcoord7.xy * _BaseColorMap_ST.xy + _BaseColorMap_ST.zw;
-				float4 tex2DNode11 = tex2D( _BaseColorMap, uv_BaseColorMap );
-				float4 temp_output_1_0_g272 = ( _BaseColorTint * tex2DNode11 );
-				float4 color20_g272 = IsGammaSpace() ? float4(1,1,1,1) : float4(1,1,1,1);
-				float3 vertexToFrag28_g272 = packedInput.ase_texcoord8.xyz;
-				#ifdef _SKINNED_ON
-				float3 staticSwitch26_g272 = float3( packedInput.uv1.xy ,  0.0 );
-				#else
-				float3 staticSwitch26_g272 = vertexToFrag28_g272;
-				#endif
-				float simplePerlin3D9_g272 = snoise( ( ( staticSwitch26_g272 * float3( 2,2,2 ) ) + float3( 0,0,0 ) ) );
-				simplePerlin3D9_g272 = simplePerlin3D9_g272*0.5 + 0.5;
-				float temp_output_16_0_g272 = ( ( simplePerlin3D9_g272 - 0.5 ) * 0.5 );
-				float temp_output_12_0_g272 = ( tex2D( _DecalColorMap, packedInput.uv1.xy ).r + temp_output_16_0_g272 );
-				float lerpResult22_g272 = lerp( ( temp_output_12_0_g272 + temp_output_16_0_g272 ) , 0.7 , 0.8);
-				float4 lerpResult19_g272 = lerp( temp_output_1_0_g272 , color20_g272 , ( 1.0 - lerpResult22_g272 ));
-				float temp_output_3_0_g273 = ( 0.5 - temp_output_12_0_g272 );
-				float temp_output_10_0_g272 = ( 1.0 - saturate( ( temp_output_3_0_g273 / fwidth( temp_output_3_0_g273 ) ) ) );
-				float4 lerpResult18_g272 = lerp( temp_output_1_0_g272 , lerpResult19_g272 , temp_output_10_0_g272);
+				float2 texCoord12 = packedInput.ase_texcoord7.xy * float2( 32,32 ) + float2( 0,0 );
+				float2 uv2_g16 = texCoord12;
+				float amplitude2_g16 = _Amplitude;
+				int detail2_g16 = 32;
+				float2 derivative2_g16 = float2( 0,0 );
+				float mulTime13 = _TimeParameters.x * 1.1;
+				float t2_g16 = mulTime13;
+				float localSumOfSines2_g16 = SumOfSines( uv2_g16 , amplitude2_g16 , detail2_g16 , derivative2_g16 , t2_g16 );
+				float2 break55 = derivative2_g16;
+				float3 appendResult37 = (float3(1.0 , 0.0 , break55.x));
+				float3 appendResult38 = (float3(0.0 , 1.0 , break55.y));
+				float3 temp_output_24_0 = cross( appendResult37 , appendResult38 );
 				
-				float2 uv_NormalMap = packedInput.ase_texcoord7.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
-				float3 temp_output_4_0_g272 = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
-				float3 ase_worldPos = GetAbsolutePositionWS( positionRWS );
-				float3 surf_pos107_g274 = ase_worldPos;
-				float3 surf_norm107_g274 = normalWS;
-				float height107_g274 = simplePerlin3D9_g272;
-				float scale107_g274 = 0.5;
-				float3 localPerturbNormal107_g274 = PerturbNormal107_g274( surf_pos107_g274 , surf_norm107_g274 , height107_g274 , scale107_g274 );
-				float3 ase_worldBitangent = packedInput.ase_texcoord9.xyz;
+				float3 ase_worldBitangent = packedInput.ase_texcoord8.xyz;
 				float3x3 ase_worldToTangent = float3x3(tangentWS.xyz,ase_worldBitangent,normalWS);
-				float3 worldToTangentDir42_g274 = mul( ase_worldToTangent, localPerturbNormal107_g274);
-				float3 lerpResult6_g272 = lerp( temp_output_4_0_g272 , BlendNormal( worldToTangentDir42_g274 , temp_output_4_0_g272 ) , temp_output_10_0_g272);
-				float3 normalizeResult33_g272 = normalize( lerpResult6_g272 );
+				float3x3 invertVal79 = Inverse3x3( ase_worldToTangent );
+				float fresnelNdotV76 = dot( mul( invertVal79, temp_output_24_0 ), V );
+				float fresnelNode76 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV76, 5.0 ) );
+				float temp_output_61_0 = localSumOfSines2_g16;
+				float4 lerpResult82 = lerp( float4( 0,0,0,0 ) , _TransmissionColor , ( fresnelNode76 * (0.0 + (temp_output_61_0 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) ));
 				
-				float lerpResult32_g272 = lerp( 0.0 , 1.0 , temp_output_10_0_g272);
-				
-				float2 uv_MaskMap = packedInput.ase_texcoord7.xy * _MaskMap_ST.xy + _MaskMap_ST.zw;
-				float4 tex2DNode12 = tex2D( _MaskMap, uv_MaskMap );
-				
-				float2 uv_EmmisionMap = packedInput.ase_texcoord7.xy * _EmmisionMap_ST.xy + _EmmisionMap_ST.zw;
-				
-				surfaceDescription.BaseColor = lerpResult18_g272.rgb;
-				surfaceDescription.Normal = normalizeResult33_g272;
+				surfaceDescription.BaseColor = _BaseColor.rgb;
+				surfaceDescription.Normal = temp_output_24_0;
 				surfaceDescription.BentNormal = float3( 0, 0, 1 );
-				surfaceDescription.CoatMask = lerpResult32_g272;
-				surfaceDescription.Metallic = tex2DNode12.r;
+				surfaceDescription.CoatMask = 0;
+				surfaceDescription.Metallic = 0;
 
 				#ifdef _MATERIAL_FEATURE_SPECULAR_COLOR
 				surfaceDescription.Specular = 0;
 				#endif
 
-				surfaceDescription.Emission = ( ( tex2DNode11 * tex2D( _EmmisionMap, uv_EmmisionMap ) ) * _EmmisionStr ).rgb;
-				surfaceDescription.Smoothness = tex2DNode12.a;
+				surfaceDescription.Emission = lerpResult82.rgb;
+				surfaceDescription.Smoothness = 0.98;
 				surfaceDescription.Occlusion = 1;
-				surfaceDescription.Alpha = 1;
+				surfaceDescription.Alpha = _BaseColor.a;
 
 				#ifdef _ALPHATEST_ON
 				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
@@ -6295,7 +4344,7 @@ Shader "CockVoreSlurp"
 				#endif
 
 				#ifdef _HAS_REFRACTION
-				surfaceDescription.RefractionIndex = 1;
+				surfaceDescription.RefractionIndex = _RefractionIndex;
 				surfaceDescription.RefractionColor = float3( 1, 1, 1 );
 				surfaceDescription.RefractionDistance = 0;
 				#endif
@@ -6481,11 +4530,17 @@ Shader "CockVoreSlurp"
 
             HLSLPROGRAM
 
+			#define shader_feature_local _DISABLE_SSR_TRANSPARENT
 			#define _SPECULAR_OCCLUSION_FROM_AO 1
 			#pragma multi_compile_instancing
 			#pragma instancing_options renderinglayer
-			#define ASE_ABSOLUTE_VERTEX_POS 1
-			#define _MATERIAL_FEATURE_CLEAR_COAT 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define _HAS_REFRACTION 1
+			#define _REFRACTION_SPHERE 1
+			#define ASE_DISTANCE_TESSELLATION
 			#define HAVE_MESH_MODIFICATION
 			#define ASE_SRP_VERSION 140008
 
@@ -6539,19 +4594,10 @@ Shader "CockVoreSlurp"
 
 			float4 _SelectionID;
             CBUFFER_START( UnityPerMaterial )
-			float4 _BaseColorTint;
-			float4 _BaseColorMap_ST;
-			float4 _NormalMap_ST;
-			float4 _MaskMap_ST;
-			float4 _EmmisionMap_ST;
-			float3 _WorldDickNormal;
-			float3 _WorldDickBinormal;
-			float3 _WorldDickPosition;
-			float _TipRadius;
-			float _Angle;
-			float _CompressibleDistance;
-			float _Smoothness;
-			float _EmmisionStr;
+			float4 _BaseColor;
+			float4 _TransmissionColor;
+			float _Amplitude;
+			float _RefractionIndex;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -6616,12 +4662,8 @@ Shader "CockVoreSlurp"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
 
-			#define ASE_NEEDS_VERT_POSITION
+			#include "SumOfSines.cginc"
 			#define ASE_NEEDS_VERT_NORMAL
-			#pragma shader_feature_local _PENETRATION_DEFORMATION_DETAIL_ON
-			#pragma multi_compile_local __ _PENETRATION_DEFORMATION_ON
-			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#include "Packages/com.naelstrof-raliv.dynamic-penetration-for-games/Penetration.cginc"
 
 
 			struct VertexInput
@@ -6629,8 +4671,7 @@ Shader "CockVoreSlurp"
 				float3 positionOS : POSITION;
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
-				float4 ase_texcoord2 : TEXCOORD2;
-				float4 ase_color : COLOR;
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -6644,39 +4685,7 @@ Shader "CockVoreSlurp"
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
-			float4x4 Inverse4x4(float4x4 input)
-			{
-				#define minor(a,b,c) determinant(float3x3(input.a, input.b, input.c))
-				float4x4 cofactors = float4x4(
-				minor( _22_23_24, _32_33_34, _42_43_44 ),
-				-minor( _21_23_24, _31_33_34, _41_43_44 ),
-				minor( _21_22_24, _31_32_34, _41_42_44 ),
-				-minor( _21_22_23, _31_32_33, _41_42_43 ),
 			
-				-minor( _12_13_14, _32_33_34, _42_43_44 ),
-				minor( _11_13_14, _31_33_34, _41_43_44 ),
-				-minor( _11_12_14, _31_32_34, _41_42_44 ),
-				minor( _11_12_13, _31_32_33, _41_42_43 ),
-			
-				minor( _12_13_14, _22_23_24, _42_43_44 ),
-				-minor( _11_13_14, _21_23_24, _41_43_44 ),
-				minor( _11_12_14, _21_22_24, _41_42_44 ),
-				-minor( _11_12_13, _21_22_23, _41_42_43 ),
-			
-				-minor( _12_13_14, _22_23_24, _32_33_34 ),
-				minor( _11_13_14, _21_23_24, _31_33_34 ),
-				-minor( _11_12_14, _21_22_24, _31_32_34 ),
-				minor( _11_12_13, _21_22_23, _31_32_33 ));
-				#undef minor
-				return transpose( cofactors ) / determinant( input );
-			}
-			
-			float3 MyCustomExpression32_g269( float3 pos )
-			{
-				return GetAbsolutePositionWS(pos);
-			}
-			
-
             struct SurfaceDescription
 			{
 				float Alpha;
@@ -6790,93 +4799,30 @@ Shader "CockVoreSlurp"
 				UNITY_SETUP_INSTANCE_ID(inputMesh);
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, o );
 
-				float3 normalizeResult27_g271 = normalize( _WorldDickNormal );
-				float3 normalizeResult31_g271 = normalize( _WorldDickBinormal );
-				float3 normalizeResult29_g271 = normalize( cross( normalizeResult27_g271 , normalizeResult31_g271 ) );
-				float4 appendResult26_g270 = (float4(1.0 , 0.0 , 0.0 , 0.0));
-				float4 appendResult28_g270 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float4 appendResult31_g270 = (float4(0.0 , 0.0 , 1.0 , 0.0));
-				float3 break27_g270 = -_WorldDickPosition;
-				float4 appendResult29_g270 = (float4(break27_g270.x , break27_g270.y , break27_g270.z , 1.0));
-				float4x4 temp_output_30_0_g270 = mul( transpose( float4x4( float4( normalizeResult27_g271 , 0.0 ).x,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).x,float4( normalizeResult29_g271 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g271 , 0.0 ).y,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).y,float4( normalizeResult29_g271 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g271 , 0.0 ).z,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).z,float4( normalizeResult29_g271 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g271 , 0.0 ).w,float4( cross( normalizeResult29_g271 , normalizeResult27_g271 ) , 0.0 ).w,float4( normalizeResult29_g271 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g270.x,appendResult28_g270.x,appendResult31_g270.x,appendResult29_g270.x,appendResult26_g270.y,appendResult28_g270.y,appendResult31_g270.y,appendResult29_g270.y,appendResult26_g270.z,appendResult28_g270.z,appendResult31_g270.z,appendResult29_g270.z,appendResult26_g270.w,appendResult28_g270.w,appendResult31_g270.w,appendResult29_g270.w ) );
-				float4x4 invertVal44_g270 = Inverse4x4( temp_output_30_0_g270 );
-				float4 appendResult27_g269 = (float4(inputMesh.positionOS , 1.0));
-				float3 pos32_g269 = mul( GetObjectToWorldMatrix(), appendResult27_g269 ).xyz;
-				float3 localMyCustomExpression32_g269 = MyCustomExpression32_g269( pos32_g269 );
-				float4 appendResult32_g270 = (float4(localMyCustomExpression32_g269 , 1.0));
-				float4 break35_g270 = mul( temp_output_30_0_g270, appendResult32_g270 );
-				float temp_output_124_0_g270 = _TipRadius;
-				float2 appendResult36_g270 = (float2(break35_g270.y , break35_g270.z));
-				float2 normalizeResult41_g270 = normalize( appendResult36_g270 );
-				float temp_output_120_0_g270 = sqrt( max( break35_g270.x , 0.0 ) );
-				float temp_output_48_0_g270 = tan( radians( _Angle ) );
-				float temp_output_125_0_g270 = ( temp_output_124_0_g270 + ( temp_output_120_0_g270 * temp_output_48_0_g270 ) );
-				float temp_output_37_0_g270 = length( appendResult36_g270 );
-				float temp_output_114_0_g270 = ( ( temp_output_125_0_g270 - temp_output_37_0_g270 ) + 1.0 );
-				float lerpResult102_g270 = lerp( temp_output_125_0_g270 , temp_output_37_0_g270 , saturate( temp_output_114_0_g270 ));
-				float lerpResult130_g270 = lerp( 0.0 , lerpResult102_g270 , saturate( ( -( -temp_output_124_0_g270 - break35_g270.x ) / temp_output_124_0_g270 ) ));
-				float2 break43_g270 = ( normalizeResult41_g270 * lerpResult130_g270 );
-				float4 appendResult40_g270 = (float4(max( break35_g270.x , -temp_output_124_0_g270 ) , break43_g270.x , break43_g270.y , 1.0));
-				float4 appendResult28_g269 = (float4(((mul( invertVal44_g270, appendResult40_g270 )).xyz).xyz , 1.0));
-				float4 localWorldVar29_g269 = appendResult28_g269;
-				(localWorldVar29_g269).xyz = GetCameraRelativePositionWS((localWorldVar29_g269).xyz);
-				float4 transform29_g269 = mul(GetWorldToObjectMatrix(),localWorldVar29_g269);
-				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch13_g269 = (transform29_g269).xyz;
-				#else
-				float3 staticSwitch13_g269 = inputMesh.positionOS;
-				#endif
-				float3 temp_output_229_0 = staticSwitch13_g269;
-				float3 temp_output_10_0_g275 = temp_output_229_0;
-				float localGetDeformationFromPenetrators_float8_g275 = ( 0.0 );
-				float4 appendResult17_g275 = (float4(temp_output_10_0_g275 , 1.0));
-				float4 transform16_g275 = mul(GetObjectToWorldMatrix(),appendResult17_g275);
-				transform16_g275.xyz = GetAbsolutePositionWS((transform16_g275).xyz);
-				float3 worldPosition8_g275 = (transform16_g275).xyz;
-				float4 texCoord3_g275 = inputMesh.ase_texcoord2;
-				texCoord3_g275.xy = inputMesh.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
-				float4 uv28_g275 = texCoord3_g275;
-				float compressibleDistance8_g275 = _CompressibleDistance;
-				float smoothness8_g275 = _Smoothness;
-				float3 deformedPosition8_g275 = float3( 0,0,0 );
-				{
-				GetDeformationFromPenetrators_float(worldPosition8_g275,uv28_g275,compressibleDistance8_g275,smoothness8_g275,deformedPosition8_g275);
-				}
-				float4 appendResult21_g275 = (float4(deformedPosition8_g275 , 1.0));
-				float4 localWorldVar19_g275 = appendResult21_g275;
-				(localWorldVar19_g275).xyz = GetCameraRelativePositionWS((localWorldVar19_g275).xyz);
-				float4 transform19_g275 = mul(GetWorldToObjectMatrix(),localWorldVar19_g275);
-				#ifdef _PENETRATION_DEFORMATION_ON
-				float3 staticSwitch24_g275 = (transform19_g275).xyz;
-				#else
-				float3 staticSwitch24_g275 = temp_output_10_0_g275;
-				#endif
-				float3 lerpResult235 = lerp( temp_output_229_0 , staticSwitch24_g275 , inputMesh.ase_color.r);
-				
-				float3 temp_output_50_0_g269 = inputMesh.normalOS;
-				float2 break146_g270 = normalizeResult41_g270;
-				float4 appendResult139_g270 = (float4(temp_output_48_0_g270 , break146_g270.x , break146_g270.y , 0.0));
-				float3 normalizeResult144_g270 = normalize( (mul( invertVal44_g270, appendResult139_g270 )).xyz );
-				float3 lerpResult44_g269 = lerp( normalizeResult144_g270 , temp_output_50_0_g269 , saturate( sign( temp_output_114_0_g270 ) ));
-				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch17_g269 = lerpResult44_g269;
-				#else
-				float3 staticSwitch17_g269 = temp_output_50_0_g269;
-				#endif
+				float2 texCoord12 = inputMesh.ase_texcoord.xy * float2( 32,32 ) + float2( 0,0 );
+				float2 uv2_g16 = texCoord12;
+				float amplitude2_g16 = _Amplitude;
+				int detail2_g16 = 32;
+				float2 derivative2_g16 = float2( 0,0 );
+				float mulTime13 = _TimeParameters.x * 1.1;
+				float t2_g16 = mulTime13;
+				float localSumOfSines2_g16 = SumOfSines( uv2_g16 , amplitude2_g16 , detail2_g16 , derivative2_g16 , t2_g16 );
+				float temp_output_61_0 = localSumOfSines2_g16;
+				float3 temp_output_15_0 = ( inputMesh.normalOS * temp_output_61_0 );
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue =  lerpResult235;
+				float3 vertexValue =  temp_output_15_0;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
 				#else
 				inputMesh.positionOS.xyz += vertexValue;
 				#endif
 
-				inputMesh.normalOS = staticSwitch17_g269;
+				inputMesh.normalOS =  inputMesh.normalOS ;
 
 				float3 positionRWS = TransformObjectToWorld(inputMesh.positionOS);
 				float3 normalWS = TransformObjectToWorldNormal(inputMesh.normalOS);
@@ -6895,8 +4841,7 @@ Shader "CockVoreSlurp"
 				float3 positionOS : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
-				float4 ase_texcoord2 : TEXCOORD2;
-				float4 ase_color : COLOR;
+				float4 ase_texcoord : TEXCOORD0;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -6915,8 +4860,7 @@ Shader "CockVoreSlurp"
 				o.positionOS = v.positionOS;
 				o.normalOS = v.normalOS;
 				o.tangentOS = v.tangentOS;
-				o.ase_texcoord2 = v.ase_texcoord2;
-				o.ase_color = v.ase_color;
+				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -6961,8 +4905,7 @@ Shader "CockVoreSlurp"
 				o.positionOS = patch[0].positionOS * bary.x + patch[1].positionOS * bary.y + patch[2].positionOS * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
 				o.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
-				o.ase_texcoord2 = patch[0].ase_texcoord2 * bary.x + patch[1].ase_texcoord2 * bary.y + patch[2].ase_texcoord2 * bary.z;
-				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -6999,7 +4942,7 @@ Shader "CockVoreSlurp"
 
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 				
-				surfaceDescription.Alpha = 1;
+				surfaceDescription.Alpha = _BaseColor.a;
 				surfaceDescription.AlphaClipThreshold =  _AlphaCutoff;
 
 
@@ -7289,54 +5232,90 @@ Shader "CockVoreSlurp"
 }
 /*ASEBEGIN
 Version=19201
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;1614.556,-72.17564;Float;False;True;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;CockVoreSlurp;53b46d85872c5b24c8f4f0a1c3fe4c87;True;GBuffer;0;0;GBuffer;34;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;True;True;True;True;0;True;_LightLayersMaskBuffer4;False;False;False;False;False;False;False;True;True;0;True;_StencilRefGBuffer;255;False;;255;True;_StencilWriteMaskGBuffer;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;False;True;0;True;_ZTestGBuffer;False;True;1;LightMode=GBuffer;False;False;0;;0;0;Standard;39;Surface Type;0;0;  Rendering Pass;1;0;  Refraction Model;0;0;    Blending Mode;0;0;    Blend Preserves Specular;1;0;  Back Then Front Rendering;0;0;  Transparent Depth Prepass;0;0;  Transparent Depth Postpass;0;0;  ZWrite;0;0;  Z Test;4;0;Double-Sided;0;0;Alpha Clipping;0;0;  Use Shadow Threshold;0;0;Material Type,InvertActionOnDeselection;0;0;  Energy Conserving Specular;1;0;  Transmission,InvertActionOnDeselection;0;0;Forward Only;0;0;Receive Decals;1;0;Receives SSR;1;0;Receive SSR Transparent;0;0;Motion Vectors;1;0;  Add Precomputed Velocity;0;0;Specular AA;0;0;Specular Occlusion Mode;1;0;Override Baked GI;0;0;Depth Offset;0;0;DOTS Instancing;0;0;GPU Instancing;1;0;LOD CrossFade;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position;0;638236058889937453;0;11;True;True;True;True;True;True;False;False;False;True;True;False;;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;META;0;1;META;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;3;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;SceneSelectionPass;0;3;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;4;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;DepthOnly;0;4;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;True;True;0;True;_StencilRefDepth;255;False;;255;True;_StencilWriteMaskDepth;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;1;False;;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;5;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;MotionVectors;0;5;MotionVectors;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;True;True;0;True;_StencilRefMV;255;False;;255;True;_StencilWriteMaskMV;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;1;False;;False;False;True;1;LightMode=MotionVectors;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;6;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;TransparentBackface;0;6;TransparentBackface;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelOne;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelTwo;False;False;False;False;False;True;0;True;_ZWrite;True;0;True;_ZTestTransparent;False;True;1;LightMode=TransparentBackface;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;7;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;TransparentDepthPrepass;0;7;TransparentDepthPrepass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;True;True;0;True;_StencilRefDepth;255;False;;255;True;_StencilWriteMaskDepth;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;1;False;;False;False;True;1;LightMode=TransparentDepthPrepass;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;8;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;TransparentDepthPostpass;0;8;TransparentDepthPostpass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=TransparentDepthPostpass;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;9;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;Forward;0;9;Forward;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;True;0;True;_CullModeForward;False;False;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelOne;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelTwo;False;False;False;True;True;0;True;_StencilRef;255;False;;255;True;_StencilWriteMask;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;0;True;_ZWrite;True;0;True;_ZTestDepthEqualForOpaque;False;True;1;LightMode=Forward;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;10;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;ScenePickingPass;0;10;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;3;False;;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.FunctionNode;229;342.037,251.4107;Inherit;False;CockVoreSlurpFunction;7;;269;48b4b4d4c94c1d341abf875fe96b8fe0;0;2;49;FLOAT3;0,0,0;False;50;FLOAT3;0,0,0;False;2;FLOAT3;42;FLOAT3;0
-Node;AmplifyShaderEditor.SamplerNode;13;768.8788,-676.2826;Inherit;True;Property;_NormalMap;NormalMap;19;0;Create;True;0;0;0;False;0;False;-1;None;d167ec2e8dee4a04b8d9d54ee6794a76;True;0;False;bump;Auto;True;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;223;1289.827,-881.6776;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ColorNode;222;906.8642,-1133.585;Inherit;False;Property;_BaseColorTint;BaseColorTint;20;0;Create;True;0;0;0;False;0;False;1,1,1,1;1,1,1,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.FunctionNode;230;1147.008,-553.7867;Inherit;False;ApplyDecals;4;;272;f7da7b34ea6e39744bbdb4ce1b63d517;0;2;1;FLOAT4;1,1,1,1;False;4;FLOAT3;0,0,1;False;3;COLOR;0;FLOAT;3;FLOAT3;5
-Node;AmplifyShaderEditor.SamplerNode;12;771.1788,-480.283;Inherit;True;Property;_MaskMap;MaskMap;17;0;Create;True;0;0;0;False;0;False;-1;None;5cc26efe88e5df94db7ca2a15a4fc406;True;0;False;black;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SamplerNode;11;766.8788,-889.2826;Inherit;True;Property;_BaseColorMap;BaseColorMap;0;0;Create;True;0;0;0;False;0;False;-1;None;3437f2044d1dbd84bb5bbbc575ec88bb;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;239;1172.768,-14.29865;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SamplerNode;237;417.9929,-109.6504;Inherit;True;Property;_EmmisionMap;EmmisionMap;18;0;Create;True;0;0;0;False;0;False;-1;None;e5cffa6f79373654ea90fba3f2c38950;True;0;False;black;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;241;896.7369,-117.0041;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;238;757.0583,134.6161;Inherit;False;Property;_EmmisionStr;EmmisionStr;14;0;Create;True;0;0;0;False;0;False;0;0;0;10;0;1;FLOAT;0
-Node;AmplifyShaderEditor.VertexColorNode;236;849.7986,847.73;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;233;269.1044,588.3298;Inherit;False;Property;_Smoothness;Smoothness;16;0;Create;True;0;0;0;False;0;False;2;0.5;0;10;0;1;FLOAT;0
-Node;AmplifyShaderEditor.LerpOp;235;1181.234,294.5477;Inherit;False;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.FunctionNode;231;659.1908,396.5367;Inherit;False;PenetrableDeformation;1;;275;7ff1b70ed2c7b9e43aecbec8a912cc8c;0;4;10;FLOAT3;0,0,0;False;11;FLOAT4;0,0,0,0;False;12;FLOAT;0;False;13;FLOAT;0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.RangedFloatNode;232;284.1044,492.3298;Inherit;False;Property;_CompressibleDistance;CompressibleDistance;15;0;Create;True;0;0;0;False;0;False;0.25;0.15;0;1;0;1;FLOAT;0
-WireConnection;0;0;230;0
-WireConnection;0;1;230;5
-WireConnection;0;3;230;3
-WireConnection;0;4;12;1
-WireConnection;0;6;239;0
-WireConnection;0;7;12;4
-WireConnection;0;11;235;0
-WireConnection;0;12;229;42
-WireConnection;223;0;222;0
-WireConnection;223;1;11;0
-WireConnection;230;1;223;0
-WireConnection;230;4;13;0
-WireConnection;239;0;241;0
-WireConnection;239;1;238;0
-WireConnection;241;0;11;0
-WireConnection;241;1;237;0
-WireConnection;235;0;229;0
-WireConnection;235;1;231;0
-WireConnection;235;2;236;1
-WireConnection;231;10;229;0
-WireConnection;231;12;232;0
-WireConnection;231;13;233;0
+Node;AmplifyShaderEditor.NormalVertexDataNode;14;-626.4326,259.5852;Inherit;False;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;15;-231.3327,339.8617;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;12;-1449.916,519.9171;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;32,32;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.FunctionNode;61;-1158.603,603.9714;Inherit;False;SumOfSines;-1;;16;69c33baa9cd39e043b97573e1f046986;0;4;1;FLOAT2;0,0;False;5;INT;4;False;6;FLOAT;0.2;False;3;FLOAT;0;False;2;FLOAT;0;FLOAT2;4
+Node;AmplifyShaderEditor.SimpleTimeNode;13;-1412.659,869.7783;Inherit;False;1;0;FLOAT;1.1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;63;-1552.243,762.5923;Inherit;False;Property;_Amplitude;Amplitude;0;0;Create;True;0;0;0;False;0;False;0.2;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.IntNode;60;-1425.243,669.5923;Inherit;False;Constant;_Detail;Detail;0;0;Create;True;0;0;0;False;0;False;32;4;True;0;1;INT;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;META;0;1;META;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;3;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;SceneSelectionPass;0;3;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;4;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;DepthOnly;0;4;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;True;True;0;True;_StencilRefDepth;255;False;;255;True;_StencilWriteMaskDepth;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;1;False;;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;5;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;MotionVectors;0;5;MotionVectors;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;True;True;0;True;_StencilRefMV;255;False;;255;True;_StencilWriteMaskMV;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;1;False;;False;False;True;1;LightMode=MotionVectors;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;6;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;TransparentBackface;0;6;TransparentBackface;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelOne;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelTwo;False;False;False;False;False;True;0;True;_ZWrite;True;0;True;_ZTestTransparent;False;True;1;LightMode=TransparentBackface;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;7;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;TransparentDepthPrepass;0;7;TransparentDepthPrepass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;True;True;0;True;_StencilRefDepth;255;False;;255;True;_StencilWriteMaskDepth;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;1;False;;False;False;True;1;LightMode=TransparentDepthPrepass;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;8;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;TransparentDepthPostpass;0;8;TransparentDepthPostpass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=TransparentDepthPostpass;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;9;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;Forward;0;9;Forward;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;True;0;True;_CullModeForward;False;False;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelOne;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelTwo;False;False;False;True;True;0;True;_StencilRef;255;False;;255;True;_StencilWriteMask;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;0;True;_ZWrite;True;0;True;_ZTestDepthEqualForOpaque;False;True;1;LightMode=Forward;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;10;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;ScenePickingPass;0;10;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;3;False;;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;643.2814,-80.88885;Float;False;True;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;Water;53b46d85872c5b24c8f4f0a1c3fe4c87;True;GBuffer;0;0;GBuffer;34;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;True;True;True;True;0;True;_LightLayersMaskBuffer4;False;False;False;False;False;False;False;True;True;0;True;_StencilRefGBuffer;255;False;;255;True;_StencilWriteMaskGBuffer;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;False;True;0;True;_ZTestGBuffer;False;True;1;LightMode=GBuffer;False;False;0;;0;0;Standard;39;Surface Type;1;638446927057792748;  Rendering Pass;1;0;  Refraction Model;2;638446939227315069;    Blending Mode;0;0;    Blend Preserves Specular;1;0;  Back Then Front Rendering;0;0;  Transparent Depth Prepass;0;0;  Transparent Depth Postpass;0;0;  ZWrite;0;0;  Z Test;4;0;Double-Sided;0;0;Alpha Clipping;0;0;  Use Shadow Threshold;0;0;Material Type,InvertActionOnDeselection;0;638446944603301998;  Energy Conserving Specular;1;0;  Transmission,InvertActionOnDeselection;0;0;Forward Only;0;0;Receive Decals;1;0;Receives SSR;1;0;Receive SSR Transparent;0;0;Motion Vectors;0;0;  Add Precomputed Velocity;0;0;Specular AA;0;0;Specular Occlusion Mode;1;0;Override Baked GI;0;0;Depth Offset;0;0;DOTS Instancing;0;0;GPU Instancing;1;0;LOD CrossFade;0;0;Tessellation;1;638446804460253144;  Phong;0;0;  Strength;0.5,False,;0;  Type;1;638446945431079720;  Tess;8,False,;638446948081786666;  Min;8,False,;638446946568652291;  Max;25,False,;638446946581378865;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position;1;0;0;11;True;True;True;True;True;False;False;False;False;True;True;False;;False;0
+Node;AmplifyShaderEditor.BreakToComponentsNode;55;-833.2014,658.8891;Inherit;False;FLOAT2;1;0;FLOAT2;0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
+Node;AmplifyShaderEditor.DynamicAppendNode;37;-599.8126,572.705;Inherit;False;FLOAT3;4;0;FLOAT;1;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.DynamicAppendNode;38;-599.4911,742.8622;Inherit;False;FLOAT3;4;0;FLOAT;0;False;1;FLOAT;1;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.CrossProductOpNode;24;-381.0529,641.6888;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RangedFloatNode;64;-15.62163,210.1283;Inherit;False;Property;_RefractionIndex;RefractionIndex;3;0;Create;True;0;0;0;False;0;False;1;0;0.9;1.1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;44;94.58881,-46.15892;Inherit;False;Constant;_Float1;Float 1;0;0;Create;True;0;0;0;False;0;False;0.98;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.NegateNode;75;-1228.128,281.4482;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TFHCRemapNode;74;-783.941,-114.4855;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;-1;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.WorldToTangentMatrix;78;-381.0424,920.9001;Inherit;False;0;1;FLOAT3x3;0
+Node;AmplifyShaderEditor.InverseOpNode;79;-164.375,817.1299;Inherit;False;1;0;FLOAT3x3;0,0,0,1,0,0,1,0,1;False;1;FLOAT3x3;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;80;20.625,668.1299;Inherit;False;2;2;0;FLOAT3x3;0,0,0,1,0,0,1,0,1;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.ViewDirInputsCoordNode;77;-882.1677,-360.6021;Inherit;False;World;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.FresnelNode;76;-598.2611,-347.924;Inherit;False;Standard;WorldNormal;ViewDir;False;False;5;0;FLOAT3;0,0,1;False;4;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;5;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;81;-318.5028,-337.7462;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.LerpOp;82;-0.5269775,-487.9054;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ColorNode;83;-306.0276,-581.5054;Inherit;False;Property;_TransmissionColor;TransmissionColor;2;0;Create;True;0;0;0;False;0;False;0.3820755,1,0.9364549,1;0.7169812,0.7169812,0.7169812,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;16;222.5938,-541.447;Inherit;False;Property;_BaseColor;BaseColor;1;0;Create;True;0;0;0;False;0;False;0.1098039,0.3647059,0.4705883,0.2196078;0.7169812,0.7169812,0.7169812,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SaturateNode;89;283.3577,-89.27557;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleSubtractOpNode;68;-21.10107,60.8598;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ScreenDepthNode;67;-456.1011,0.8598022;Inherit;False;0;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SurfaceDepthNode;66;-593.3014,152.9151;Inherit;False;1;1;0;FLOAT3;0,0,0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.LinearDepthNode;69;-262.8853,150.4571;Inherit;False;0;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.PosVertexDataNode;92;-347.5065,519.301;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleAddOpNode;93;-87.26819,483.3253;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;94;513.1641,359.1554;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SaturateNode;95;717.2747,458.451;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.DepthFade;91;255.8983,463.2136;Inherit;False;True;False;True;2;1;FLOAT3;0,0,0;False;0;FLOAT;1;False;1;FLOAT;0
+WireConnection;15;0;14;0
+WireConnection;15;1;61;0
+WireConnection;61;1;12;0
+WireConnection;61;5;60;0
+WireConnection;61;6;63;0
+WireConnection;61;3;13;0
+WireConnection;0;0;16;0
+WireConnection;0;1;24;0
+WireConnection;0;6;82;0
+WireConnection;0;7;44;0
+WireConnection;0;9;16;4
+WireConnection;0;17;64;0
+WireConnection;0;11;15;0
+WireConnection;55;0;61;4
+WireConnection;37;2;55;0
+WireConnection;38;2;55;1
+WireConnection;24;0;37;0
+WireConnection;24;1;38;0
+WireConnection;75;0;63;0
+WireConnection;74;0;61;0
+WireConnection;74;1;75;0
+WireConnection;74;2;63;0
+WireConnection;79;0;78;0
+WireConnection;80;0;79;0
+WireConnection;80;1;24;0
+WireConnection;76;0;80;0
+WireConnection;76;4;77;0
+WireConnection;81;0;76;0
+WireConnection;81;1;74;0
+WireConnection;82;1;83;0
+WireConnection;82;2;81;0
+WireConnection;68;0;67;0
+WireConnection;68;1;69;0
+WireConnection;69;0;66;0
+WireConnection;93;0;15;0
+WireConnection;93;1;92;0
+WireConnection;94;0;16;4
+WireConnection;94;1;91;0
+WireConnection;95;0;94;0
+WireConnection;91;1;93;0
 ASEEND*/
-//CHKSM=40CAA80370FA6F9D32EF7BC0CAA29EA1B92A4CC6
+//CHKSM=E4FBDBD530A8E0229A1A7F079C5CECE3CE0BE354

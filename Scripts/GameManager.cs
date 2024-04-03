@@ -84,6 +84,8 @@ public class GameManager : MonoBehaviour {
         public ParticleSystem cumPrefab;
         public PhysicMaterial spaceLube;
         public GameObject detectorDisplayDisks;
+        public InflatableCurve bulgeCurve;
+        public InflatableCurve tipOpenCurve;
     }
     public SharedLibrary library;
 

@@ -5,12 +5,12 @@ Shader "Vilar/EyeNaelEdit"
 	Properties
 	{
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
-		_WorldDickPosition("WorldDickPosition", Vector) = (0,0,0,0)
-		_WorldDickNormal("WorldDickNormal", Vector) = (0,1,0,0)
-		_WorldDickBinormal("WorldDickBinormal", Vector) = (0,0,1,0)
+		[HideInInspector]_WorldDickPosition("WorldDickPosition", Vector) = (0,0,0,0)
+		[HideInInspector]_WorldDickNormal("WorldDickNormal", Vector) = (0,1,0,0)
+		[HideInInspector]_WorldDickBinormal("WorldDickBinormal", Vector) = (0,0,1,0)
 		[Toggle(_COCKVORESQUISHENABLED_ON)] _CockVoreSquishEnabled("CockVoreSquishEnabled", Float) = 0
-		_Angle("Angle", Range( 0 , 89)) = 45
-		_TipRadius("TipRadius", Range( 0 , 1)) = 0.1
+		[HideInInspector]_Angle("Angle", Range( 0 , 89)) = 45
+		[HideInInspector]_TipRadius("TipRadius", Range( 0 , 1)) = 0.1
 		_MainTex("MainTex", 2D) = "white" {}
 		_BumpMap("BumpMap", 2D) = "bump" {}
 		_EmissionPower("EmissionPower", Range( 0 , 10000)) = 0
@@ -945,14 +945,15 @@ Shader "Vilar/EyeNaelEdit"
 				float3 staticSwitch13_g250 = inputMesh.positionOS;
 				#endif
 				
+				float3 temp_output_50_0_g250 = inputMesh.normalOS;
 				float2 break146_g251 = normalizeResult41_g251;
 				float4 appendResult139_g251 = (float4(temp_output_48_0_g251 , break146_g251.x , break146_g251.y , 0.0));
 				float3 normalizeResult144_g251 = normalize( (mul( invertVal44_g251, appendResult139_g251 )).xyz );
-				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , inputMesh.normalOS , saturate( sign( temp_output_114_0_g251 ) ));
+				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , temp_output_50_0_g250 , saturate( sign( temp_output_114_0_g251 ) ));
 				#ifdef _COCKVORESQUISHENABLED_ON
 				float3 staticSwitch17_g250 = lerpResult44_g250;
 				#else
-				float3 staticSwitch17_g250 = inputMesh.normalOS;
+				float3 staticSwitch17_g250 = temp_output_50_0_g250;
 				#endif
 				
 				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
@@ -1901,14 +1902,15 @@ Shader "Vilar/EyeNaelEdit"
 				float3 staticSwitch13_g250 = inputMesh.positionOS;
 				#endif
 				
+				float3 temp_output_50_0_g250 = inputMesh.normalOS;
 				float2 break146_g251 = normalizeResult41_g251;
 				float4 appendResult139_g251 = (float4(temp_output_48_0_g251 , break146_g251.x , break146_g251.y , 0.0));
 				float3 normalizeResult144_g251 = normalize( (mul( invertVal44_g251, appendResult139_g251 )).xyz );
-				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , inputMesh.normalOS , saturate( sign( temp_output_114_0_g251 ) ));
+				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , temp_output_50_0_g250 , saturate( sign( temp_output_114_0_g251 ) ));
 				#ifdef _COCKVORESQUISHENABLED_ON
 				float3 staticSwitch17_g250 = lerpResult44_g250;
 				#else
-				float3 staticSwitch17_g250 = inputMesh.normalOS;
+				float3 staticSwitch17_g250 = temp_output_50_0_g250;
 				#endif
 				
 				float3 ase_worldPos = GetAbsolutePositionWS( TransformObjectToWorld( (inputMesh.positionOS).xyz ) );
@@ -2682,14 +2684,15 @@ Shader "Vilar/EyeNaelEdit"
 				float3 staticSwitch13_g250 = inputMesh.positionOS;
 				#endif
 				
+				float3 temp_output_50_0_g250 = inputMesh.normalOS;
 				float2 break146_g251 = normalizeResult41_g251;
 				float4 appendResult139_g251 = (float4(temp_output_48_0_g251 , break146_g251.x , break146_g251.y , 0.0));
 				float3 normalizeResult144_g251 = normalize( (mul( invertVal44_g251, appendResult139_g251 )).xyz );
-				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , inputMesh.normalOS , saturate( sign( temp_output_114_0_g251 ) ));
+				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , temp_output_50_0_g250 , saturate( sign( temp_output_114_0_g251 ) ));
 				#ifdef _COCKVORESQUISHENABLED_ON
 				float3 staticSwitch17_g250 = lerpResult44_g250;
 				#else
-				float3 staticSwitch17_g250 = inputMesh.normalOS;
+				float3 staticSwitch17_g250 = temp_output_50_0_g250;
 				#endif
 				
 
@@ -3341,14 +3344,15 @@ Shader "Vilar/EyeNaelEdit"
 				float3 staticSwitch13_g250 = inputMesh.positionOS;
 				#endif
 				
+				float3 temp_output_50_0_g250 = inputMesh.normalOS;
 				float2 break146_g251 = normalizeResult41_g251;
 				float4 appendResult139_g251 = (float4(temp_output_48_0_g251 , break146_g251.x , break146_g251.y , 0.0));
 				float3 normalizeResult144_g251 = normalize( (mul( invertVal44_g251, appendResult139_g251 )).xyz );
-				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , inputMesh.normalOS , saturate( sign( temp_output_114_0_g251 ) ));
+				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , temp_output_50_0_g250 , saturate( sign( temp_output_114_0_g251 ) ));
 				#ifdef _COCKVORESQUISHENABLED_ON
 				float3 staticSwitch17_g250 = lerpResult44_g250;
 				#else
-				float3 staticSwitch17_g250 = inputMesh.normalOS;
+				float3 staticSwitch17_g250 = temp_output_50_0_g250;
 				#endif
 				
 
@@ -3979,14 +3983,15 @@ Shader "Vilar/EyeNaelEdit"
 				float3 staticSwitch13_g250 = inputMesh.positionOS;
 				#endif
 				
+				float3 temp_output_50_0_g250 = inputMesh.normalOS;
 				float2 break146_g251 = normalizeResult41_g251;
 				float4 appendResult139_g251 = (float4(temp_output_48_0_g251 , break146_g251.x , break146_g251.y , 0.0));
 				float3 normalizeResult144_g251 = normalize( (mul( invertVal44_g251, appendResult139_g251 )).xyz );
-				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , inputMesh.normalOS , saturate( sign( temp_output_114_0_g251 ) ));
+				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , temp_output_50_0_g250 , saturate( sign( temp_output_114_0_g251 ) ));
 				#ifdef _COCKVORESQUISHENABLED_ON
 				float3 staticSwitch17_g250 = lerpResult44_g250;
 				#else
-				float3 staticSwitch17_g250 = inputMesh.normalOS;
+				float3 staticSwitch17_g250 = temp_output_50_0_g250;
 				#endif
 				
 
@@ -4658,14 +4663,15 @@ Shader "Vilar/EyeNaelEdit"
 				float3 staticSwitch13_g250 = inputMesh.positionOS;
 				#endif
 				
+				float3 temp_output_50_0_g250 = inputMesh.normalOS;
 				float2 break146_g251 = normalizeResult41_g251;
 				float4 appendResult139_g251 = (float4(temp_output_48_0_g251 , break146_g251.x , break146_g251.y , 0.0));
 				float3 normalizeResult144_g251 = normalize( (mul( invertVal44_g251, appendResult139_g251 )).xyz );
-				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , inputMesh.normalOS , saturate( sign( temp_output_114_0_g251 ) ));
+				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , temp_output_50_0_g250 , saturate( sign( temp_output_114_0_g251 ) ));
 				#ifdef _COCKVORESQUISHENABLED_ON
 				float3 staticSwitch17_g250 = lerpResult44_g250;
 				#else
-				float3 staticSwitch17_g250 = inputMesh.normalOS;
+				float3 staticSwitch17_g250 = temp_output_50_0_g250;
 				#endif
 				
 
@@ -5645,14 +5651,15 @@ Shader "Vilar/EyeNaelEdit"
 				float3 staticSwitch13_g250 = inputMesh.positionOS;
 				#endif
 				
+				float3 temp_output_50_0_g250 = inputMesh.normalOS;
 				float2 break146_g251 = normalizeResult41_g251;
 				float4 appendResult139_g251 = (float4(temp_output_48_0_g251 , break146_g251.x , break146_g251.y , 0.0));
 				float3 normalizeResult144_g251 = normalize( (mul( invertVal44_g251, appendResult139_g251 )).xyz );
-				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , inputMesh.normalOS , saturate( sign( temp_output_114_0_g251 ) ));
+				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , temp_output_50_0_g250 , saturate( sign( temp_output_114_0_g251 ) ));
 				#ifdef _COCKVORESQUISHENABLED_ON
 				float3 staticSwitch17_g250 = lerpResult44_g250;
 				#else
-				float3 staticSwitch17_g250 = inputMesh.normalOS;
+				float3 staticSwitch17_g250 = temp_output_50_0_g250;
 				#endif
 				
 				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
@@ -6555,14 +6562,15 @@ Shader "Vilar/EyeNaelEdit"
 				float3 staticSwitch13_g250 = inputMesh.positionOS;
 				#endif
 				
+				float3 temp_output_50_0_g250 = inputMesh.normalOS;
 				float2 break146_g251 = normalizeResult41_g251;
 				float4 appendResult139_g251 = (float4(temp_output_48_0_g251 , break146_g251.x , break146_g251.y , 0.0));
 				float3 normalizeResult144_g251 = normalize( (mul( invertVal44_g251, appendResult139_g251 )).xyz );
-				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , inputMesh.normalOS , saturate( sign( temp_output_114_0_g251 ) ));
+				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , temp_output_50_0_g250 , saturate( sign( temp_output_114_0_g251 ) ));
 				#ifdef _COCKVORESQUISHENABLED_ON
 				float3 staticSwitch17_g250 = lerpResult44_g250;
 				#else
-				float3 staticSwitch17_g250 = inputMesh.normalOS;
+				float3 staticSwitch17_g250 = temp_output_50_0_g250;
 				#endif
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -7104,7 +7112,7 @@ Node;AmplifyShaderEditor.TexturePropertyNode;700;251.8237,-2469.106;Inherit;True
 Node;AmplifyShaderEditor.LerpOp;640;1667.333,-1279.192;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.LerpOp;702;1623.944,-1643.57;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;703;2590.219,-1077.336;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;MotionVectors;0;5;MotionVectors;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;True;True;0;True;_StencilRefMV;255;False;;255;True;_StencilWriteMaskMV;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;1;False;;False;False;True;1;LightMode=MotionVectors;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.FunctionNode;707;2291.848,-1078.596;Inherit;False;CockVoreSlurpFunction;0;;250;48b4b4d4c94c1d341abf875fe96b8fe0;0;0;2;FLOAT3;42;FLOAT3;0
+Node;AmplifyShaderEditor.FunctionNode;707;2291.848,-1078.596;Inherit;False;CockVoreSlurpFunction;0;;250;48b4b4d4c94c1d341abf875fe96b8fe0;0;2;49;FLOAT3;0,0,0;False;50;FLOAT3;0,0,0;False;2;FLOAT3;42;FLOAT3;0
 WireConnection;398;0;444;0
 WireConnection;427;0;398;0
 WireConnection;427;1;428;0
@@ -7240,4 +7248,4 @@ WireConnection;702;0;2;0
 WireConnection;702;1;641;0
 WireConnection;702;2;650;30
 ASEEND*/
-//CHKSM=A910A638192AC48E56ED609C94D2DC5201CB76D9
+//CHKSM=C1602741BFB12F14057E39F5C1017C845057D4C7

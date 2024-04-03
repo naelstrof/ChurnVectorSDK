@@ -31,15 +31,11 @@ public class CharacterAnimatorController : MonoBehaviour {
     [SerializeField]
     private Inflatable cockVoreSizeChange;
     
-    [SerializeField] private SkinnedMeshRenderer dick;
     [FormerlySerializedAs("balls")] [SerializeField] private Transform ballsCenter;
     [FormerlySerializedAs("ballRoot")] [SerializeField] private Transform ballsRoot;
     [SerializeField] private float ballStorageScale = 1f;
-    [SerializeField] private float dickBulgeStart = 1.5f;
-    [SerializeField] private float dickBulgeEnd = -0.5f;
     
     [FormerlySerializedAs("xrayOriginalRenderers")] [SerializeField] private List<Renderer> xrayBodyRenderers;
-    [SerializeField] private List<Renderer> xrayDickRenderers;
     private List<Renderer> xrayRenderers;
 
     [Header("Clothes settings")]
@@ -52,15 +48,13 @@ public class CharacterAnimatorController : MonoBehaviour {
     [FormerlySerializedAs("clothesRenderers")] [SerializeField] private List<SkinnedMeshRenderer> clothedBodyRenderers;
     [SerializeField] private List<Transform> boobOomphEffect;
     [SerializeField] private InflatableCurve bounceCurve;
-    [Header("Cock vore pred settings")]
-    [SerializeField] private InflatableCurve bulgeCurve;
-    [SerializeField] private InflatableCurve tipOpenCurve;
     [Header("Penetrable settings")]
     [SerializeField] private Inflatable cumInflation;
     [SerializeField] private List<string> dickTipOpenBlendshapes;
     private float totalGrabMovement;
     
-    private List<int> dickTipIndicies = new List<int>();
+    private List<int> dickTipIndicies = new();
+    private List<Material> dickMaterials = new();
     private static RaycastHit[] hits = new RaycastHit[32];
     private static LayerMask groundMask;
     private VisualEffect clothRip;
@@ -69,7 +63,6 @@ public class CharacterAnimatorController : MonoBehaviour {
     private Vector3 lastPosition;
     private List<Tuple<JiggleRigBuilder, JiggleRigBuilder.JiggleRig>> ballJiggleRigs;
 
-    private List<Material> dickMaterials;
     private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
     private static readonly int Churning = Animator.StringToHash("Churning");
     private static readonly int BulgeOffset = Shader.PropertyToID("_BulgeOffset");
@@ -127,13 +120,6 @@ public class CharacterAnimatorController : MonoBehaviour {
     }
 
     private void Awake() {
-        dickMaterials = new List<Material>();
-        if (dick != null) {
-            foreach (var mat in dick.materials) {
-                dickMaterials.Add(mat);
-            }
-        }
-
         character = GetComponentInParent<CharacterBase>();
         if (ballsCenter != null) {
             if (ballsRoot == null) {
@@ -143,19 +129,19 @@ public class CharacterAnimatorController : MonoBehaviour {
             ballJiggleRigs = FindJiggleRigsForBone(ballsCenter);
             localBallsPosition = ballsCenter.localPosition;
         }
-        groundMask = LayerMask.GetMask("World");
-        if (dick != null) {
-            foreach (var blendshapeName in dickTipOpenBlendshapes) {
-                var index = dick.sharedMesh.GetBlendShapeIndex(blendshapeName);
-                if (index == -1) {
-                    Debug.LogWarning($"Couldn't find blendshape {blendshapeName} on mesh {dick}", dick.gameObject);
-                    continue;
+
+        dickMaterials = new List<Material>();
+        if (character.voreMachine is CockVoreMachine cockVoreMachine) {
+            List<Renderer> dickRenderers = new List<Renderer>();
+            cockVoreMachine.GetPenetrator().GetOutputRenderers(dickRenderers);
+            foreach (var dickRenderer in dickRenderers) {
+                foreach (var dickMat in dickRenderer.materials) {
+                    dickMaterials.Add(dickMat);
                 }
-                dickTipIndicies.Add(index);
             }
-            dickTipIndicies.RemoveAll((a) => a == -1);
         }
 
+        groundMask = LayerMask.GetMask("World");
         boner.OnEnable();
         boner.SetSizeInstant(0f);
         cockVoreSizeChange.OnEnable();
@@ -193,9 +179,9 @@ public class CharacterAnimatorController : MonoBehaviour {
         }
 
         if (character.voreMachine != null) {
-            character.voreMachine.cockVoreStart += OnCockCockVoreStart;
-            character.voreMachine.cockVoreUpdate += OnCockCockVoreProgressChanged;
-            character.voreMachine.cockVoreEnd += OnCockCockVoreEnd;
+            character.voreMachine.voreStart += OnCockCockVoreStart;
+            character.voreMachine.voreUpdate += OnCockCockVoreProgressChanged;
+            character.voreMachine.voreEnd += OnCockCockVoreEnd;
         }
 
         if (character is Civilian civilian) {
@@ -371,7 +357,6 @@ public class CharacterAnimatorController : MonoBehaviour {
         if (xrayRenderers != null) {
             return;
         }
-        
         xrayRenderers = new List<Renderer>();
 
         List<Renderer> decalableAndXRayableRenderers = new List<Renderer>();
@@ -391,33 +376,38 @@ public class CharacterAnimatorController : MonoBehaviour {
 
             xrayRenderers.Add(copyr);
         }
-        
-        foreach (var r in xrayDickRenderers) {
-            var copyr = Instantiate(r, r.transform.parent, true);
-            List<Material> copyrMaterials = new List<Material>(copyr.sharedMaterials);
-            for (int i = 0; i < copyrMaterials.Count; i++) {
-                copyrMaterials[i] = XRayHandler.GetXRayMaterial(copyrMaterials[i].shader);
-            }
-            copyr.materials = copyrMaterials.ToArray();
-            dickMaterials.AddRange(copyr.materials);
-            copyr.enabled = XRayHandler.GetXRayAmount() != 0f;
-            copyr.gameObject.SetActive(true);
-            foreach (var p in transform.parent.GetComponentsInChildren<Penetrator>(true)) {
-                p.AddOutputRenderer(copyr);
-            }
-            foreach (var listener in boner.listeners) {
-                if (listener is InflatableBlendShape blendshape) {
-                    if (blendshape.ContainsTargetRenderer(r as SkinnedMeshRenderer)) {
-                        blendshape.AddTargetRenderer(copyr as SkinnedMeshRenderer);
+
+        if (character.voreMachine is CockVoreMachine cockVoreMachine) {
+            List<Renderer> xrayDickRenderers = new List<Renderer>();
+            cockVoreMachine.GetPenetrator().GetOutputRenderers(xrayDickRenderers);
+            foreach (var r in xrayDickRenderers) {
+                var copyr = Instantiate(r, r.transform.parent, true);
+                List<Material> copyrMaterials = new List<Material>(copyr.sharedMaterials);
+                for (int i = 0; i < copyrMaterials.Count; i++) {
+                    copyrMaterials[i] = XRayHandler.GetXRayMaterial(copyrMaterials[i].shader);
+                }
+
+                copyr.materials = copyrMaterials.ToArray();
+                dickMaterials.AddRange(copyr.materials);
+                copyr.enabled = XRayHandler.GetXRayAmount() != 0f;
+                copyr.gameObject.SetActive(true);
+                cockVoreMachine.GetPenetrator().AddOutputRenderer(copyr);
+
+                foreach (var listener in boner.listeners) {
+                    if (listener is InflatableBlendShape blendshape) {
+                        if (blendshape.ContainsTargetRenderer(r as SkinnedMeshRenderer)) {
+                            blendshape.AddTargetRenderer(copyr as SkinnedMeshRenderer);
+                        }
                     }
                 }
+
+                xrayRenderers.Add(copyr);
             }
-            xrayRenderers.Add(copyr);
+            decalableAndXRayableRenderers.AddRange(xrayDickRenderers);
         }
 
         decalableAndXRayableRenderers.AddRange(xrayRenderers);
         decalableAndXRayableRenderers.AddRange(xrayBodyRenderers);
-        decalableAndXRayableRenderers.AddRange(xrayDickRenderers);
         
         foreach (var col in GetComponentsInChildren<Collider>()) {
             if (!col.TryGetComponent(out DecalableCollider decalableCollider)) {
@@ -464,9 +454,9 @@ public class CharacterAnimatorController : MonoBehaviour {
         }
 
         if (character.voreMachine != null) {
-            character.voreMachine.cockVoreStart -= OnCockCockVoreStart;
-            character.voreMachine.cockVoreUpdate -= OnCockCockVoreProgressChanged;
-            character.voreMachine.cockVoreEnd -= OnCockCockVoreEnd;
+            character.voreMachine.voreStart -= OnCockCockVoreStart;
+            character.voreMachine.voreUpdate -= OnCockCockVoreProgressChanged;
+            character.voreMachine.voreEnd -= OnCockCockVoreEnd;
         }
 
         if (ballsCenter != null) {
@@ -562,6 +552,8 @@ public class CharacterAnimatorController : MonoBehaviour {
     }
 
     private float aimLerp;
+    private static readonly int BulgeRadius = Shader.PropertyToID("_BulgeRadius");
+
     private void OnAnimatorIK(int layerIndex) {
         var civ = (Civilian)character;
         bool shouldAim = civ.GetAimingWeapon() && civ.IsCop() && !civ.IsInteracting() && !civ.IsGrabbed();
@@ -588,22 +580,64 @@ public class CharacterAnimatorController : MonoBehaviour {
         animator.SetBool("Voring", true);
         SetClothes(false);
         cockVoreSizeChange.SetSize(1f, this);
+        
+        if (status.dick != null) {
+            List<Renderer> outputRenderers = new List<Renderer>();
+            status.dick.GetOutputRenderers(outputRenderers);
+            dickTipIndicies.Clear();
+            if (outputRenderers.Count != 0 && outputRenderers[0] is SkinnedMeshRenderer dickRenderer) {
+                foreach (var blendshapeName in dickTipOpenBlendshapes) {
+                    var index = dickRenderer.sharedMesh.GetBlendShapeIndex(blendshapeName);
+                    if (index == -1) {
+                        Debug.LogWarning($"Couldn't find blendshape {blendshapeName} on mesh {dickRenderer}", dickRenderer.gameObject);
+                        continue;
+                    }
+                    dickTipIndicies.Add(index);
+                }
+                dickTipIndicies.RemoveAll((a) => a == -1);
+            }
+        }
     }
     private void OnCockCockVoreEnd(CockVoreMachine.VoreStatus status) {
         status.dickTipRadius = 0f;
-        SetDickTipOpenAmount(0f);
+        SetDickTipOpenAmount(status.dick, 0f);
         cockVoreSizeChange.SetSize(0f, this);
         animator.SetBool("Voring", false);
     }
 
     private void OnCockCockVoreProgressChanged(CockVoreMachine.VoreStatus status) {
         animator.SetFloat(VoringProgress, status.progress);
-        float bulgeAdjust = bulgeCurve.EvaluateCurve(status.progress);
-        foreach (var mat in dickMaterials) {
-            mat.SetFloat(BulgeProgress, Mathf.Lerp(dickBulgeEnd, dickBulgeStart, bulgeAdjust));
+        float bulgeAdjust = GameManager.GetLibrary().bulgeCurve.EvaluateCurve(status.progress);
+        status.dickTipRadius = GameManager.GetLibrary().tipOpenCurve.EvaluateCurve(status.progress);
+        
+        if (status.dick != null) {
+            int iterations = 8;
+            float length = status.dick.GetSquashStretchedWorldLength();
+            float averageGirth = 0f;
+            for (int i = 0; i < iterations; i++) {
+                float t = (float)i / (iterations-1);
+                averageGirth += status.dick.GetWorldGirthRadius(length * t);
+            }
+            averageGirth /= iterations;
+            dickRenderers ??= new List<Renderer>();
+            status.dick.GetOutputRenderers(dickRenderers);
+            foreach (var dickRenderer in dickRenderers) {
+                foreach (var mat in dickRenderer.materials) {
+                    float arbitraryScaleUp = 8f;
+                    mat.SetVector(DickOffset, status.dick.GetRootTransform().TransformPoint(status.dick.GetRootPositionOffset()));
+                    mat.SetVector(DickForward, status.dick.GetRootTransform().TransformDirection(status.dick.GetRootForward()).normalized);
+                    float dickBulgeRadius = averageGirth*arbitraryScaleUp;
+                    mat.SetFloat(BulgeRadius, dickBulgeRadius);
+                    float dickBulgeStart = status.dick.GetSquashStretchedWorldLength() + dickBulgeRadius;
+                    float dickBulgeEnd = -dickBulgeRadius;
+                    float dist = Mathf.Abs(bulgeAdjust - 0.5f)*2f;
+                    mat.SetFloat(BulgeBlend, (1f-(dist*dist))*0.5f);
+                    mat.SetFloat(BulgeProgress, Mathf.Lerp(dickBulgeEnd, dickBulgeStart, bulgeAdjust));
+                }
+            }
+            SetDickTipOpenAmount(status.dick, status.dickTipRadius);
         }
-        status.dickTipRadius = tipOpenCurve.EvaluateCurve(status.progress);
-        SetDickTipOpenAmount(status.dickTipRadius);
+
     }
 
     private void OnVelocityChanged(Vector3 velocity) {
@@ -794,13 +828,24 @@ public class CharacterAnimatorController : MonoBehaviour {
     public void PlayAudioPackByName(string name) {
         PlayAudioPack(AudioPackLibrary.GetAudioPackByName(name));
     }
-    private void SetDickTipOpenAmount(float amountInMeters) {
-        float tipExpandAmountPerBlend = 0.2f;
-        amountInMeters /= tipExpandAmountPerBlend;
-        for (int i = 0; i < dickTipIndicies.Count; i++) {
-            float triggerAmount = Mathf.Max(Mathf.Min(amountInMeters, 1f),0f);
-            amountInMeters -= triggerAmount;
-            dick.SetBlendShapeWeight(dickTipIndicies[i], triggerAmount * 100f);
+
+    private List<Renderer> dickRenderers;
+    private static readonly int DickOffset = Shader.PropertyToID("_DickOffset");
+    private static readonly int DickForward = Shader.PropertyToID("_DickForward");
+    private static readonly int BulgeBlend = Shader.PropertyToID("_BulgeBlend");
+
+    private void SetDickTipOpenAmount(Penetrator penetrator, float amountInMeters) {
+        dickRenderers ??= new List<Renderer>();
+        penetrator.GetOutputRenderers(dickRenderers);
+        foreach(var dickRenderer in dickRenderers) {
+            if (dickRenderer is not SkinnedMeshRenderer dickSkinnedMeshRenderer) continue;
+            float tipExpandAmountPerBlend = 0.2f;
+            amountInMeters /= tipExpandAmountPerBlend;
+            foreach (var dickTipIndex in dickTipIndicies) {
+                float triggerAmount = Mathf.Max(Mathf.Min(amountInMeters, 1f), 0f);
+                amountInMeters -= triggerAmount;
+                dickSkinnedMeshRenderer.SetBlendShapeWeight(dickTipIndex, triggerAmount * 100f);
+            }
         }
     }
 

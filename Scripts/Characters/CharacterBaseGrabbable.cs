@@ -92,7 +92,7 @@ public partial class CharacterBase : IInteractable, IVorable {
     public delegate void CockVoreAction(CharacterBase other);
 
     public event CockVoreAction startCockVoreAsPrey;
-    public event CockVoreMachine.CockVoreEventAction updateCockVoreAsPrey;
+    public event CockVoreMachine.VoreEventAction updateCockVoreAsPrey;
     public event CockVoreAction endCockVoreAsPrey;
     public event CockVoreAction cancelCockVoreAsPrey;
 
@@ -309,6 +309,7 @@ public partial class CharacterBase : IInteractable, IVorable {
     }
 
     private void OnDrawGizmos() {
+        voreMachine?.OnDrawGizmos();
         if (cockVoreTransformPath == null || cockVoreTransformPath.Count <= 1) {
             return;
         }

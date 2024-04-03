@@ -55,9 +55,9 @@ public partial class CharacterBase {
         InitializeCockvoreDick();
         if (voreMachine != null) {
             voreMachine.Initialize(this);
-            voreMachine.cockVoreStart += OnCockCockVoreStart;
-            voreMachine.cockVoreUpdate += OnCockCockVoreUpdate;
-            voreMachine.cockVoreEnd += OnCockCockVoreEnd;
+            voreMachine.voreStart += OnCockCockVoreStart;
+            voreMachine.voreUpdate += OnCockCockVoreUpdate;
+            voreMachine.voreEnd += OnCockCockVoreEnd;
         }
 
         if (voreContainer != null) {
@@ -112,7 +112,7 @@ public partial class CharacterBase {
                 yield return new WaitForSeconds(0.12f);
             }
 
-            if (cockVoreDick != null && !voreMachine.IsVoring() && activeInteractable != null && activeInteractable.transform.GetComponent<IVorable>() == vorable) {
+            if (!voreMachine.IsVoring() && activeInteractable != null && activeInteractable.transform.GetComponent<IVorable>() == vorable) {
                 voreMachine.StartVore(vorable);
             }
         } finally {

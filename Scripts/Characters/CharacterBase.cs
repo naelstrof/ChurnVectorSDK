@@ -638,7 +638,7 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
         volumeChurned += churned;
         volumeSolid += solid;
     }
-
+    
     public Sprite GetHeadSprite() => headSprite;
 
     protected virtual int GetRaytraceQuality() {

@@ -2,12 +2,15 @@ using System.Collections.Generic;
 using DPG;
 using SkinnedMeshDecals;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.VFX;
 
 [System.Serializable]
-public class CockVoreMachine : VoreMachine {
-    [SerializeField]
-    private Penetrator dick;
+public class GenericVoreMachine : VoreMachine {
+    [SerializeField] private List<Transform> voreSplinePath;
+    [SerializeField, Range(0f,1f)] private float voreHoleNormalizedDistance;
+
+    private List<Vector3> pathPoints;
     
     private static WaitForEndOfFrame waitForEndOfFrame = new();
     private float bigSplashDelayNormalized = 0.75f;
@@ -25,9 +28,9 @@ public class CockVoreMachine : VoreMachine {
     
     public override bool IsVoring() => currentVores.Count != 0;
 
-    public Penetrator GetPenetrator() => dick;
     public override void Initialize(CharacterBase pred) {
         this.pred = pred;
+        pathPoints = new List<Vector3>();
         currentVores = new List<VoreStatus>();
         removeVores = new List<VoreStatus>();
         var splashObj = new GameObject("BigSplashEffect", typeof(VisualEffect));
@@ -60,7 +63,6 @@ public class CockVoreMachine : VoreMachine {
             other = target,
             progress = 0f,
             progressAdjusted = 0f,
-            dick = dick,
             direction = 1f,
         };
         currentVores.Add(status);
@@ -72,7 +74,12 @@ public class CockVoreMachine : VoreMachine {
 
     public override void LateUpdate() {
         cachedSpline ??= new CatmullSpline(new[] { Vector3.zero, Vector3.one });
-        dick.GetFinalizedSpline(ref cachedSpline, out var distanceAlongSpline, out var insertionLerp, out var penetrationArgs);
+        pathPoints.Clear();
+        foreach (var t in voreSplinePath) {
+            pathPoints.Add(t.position);
+        }
+        cachedSpline.SetWeightsFromPoints(pathPoints);
+        
         removeVores.Clear();
         foreach(var status in currentVores) {
             const float duration = 8f;
@@ -93,12 +100,14 @@ public class CockVoreMachine : VoreMachine {
 
                 var cockVoreCurve = GameManager.GetLibrary().cockVorePath;
                 float tAdjust = cockVoreCurve.EvaluateCurve(t);
-                float cockLength = dick.GetSquashStretchedWorldLength()+distanceAlongSpline;
-                float distanceAlongDick = cockLength * tAdjust;
-                Vector3 normal = cachedSpline.GetVelocityFromDistance(cockLength).normalized;
-                Vector3 binormal = cachedSpline.GetBinormalFromT(cachedSpline.GetTimeFromDistance(cockLength)).normalized;
+
+                float holeT = cachedSpline.GetTimeFromDistance(voreHoleNormalizedDistance * cachedSpline.arcLength);
+                
+                Vector3 normal = -cachedSpline.GetVelocityFromDistance(holeT).normalized;
+                Vector3 binormal = cachedSpline.GetBinormalFromT(cachedSpline.GetTimeFromDistance(holeT)).normalized;
                 Quaternion endRotation = Quaternion.LookRotation(normal, binormal);
-                Vector3 position = cachedSpline.GetPositionFromDistance(cockLength);
+                Vector3 position = cachedSpline.GetPositionFromDistance(holeT);
+                
                 bigSplash.transform.position = position;
                 bigSplash.transform.rotation = endRotation;
                 status.dickTipRotation = endRotation;
@@ -150,4 +159,21 @@ public class CockVoreMachine : VoreMachine {
         }
     }
 
+    public override void OnDrawGizmos() {
+        base.OnDrawGizmos();
+        if (voreSplinePath == null || voreSplinePath.Count <= 1) {
+            return;
+        }
+        cachedSpline ??= new CatmullSpline(new[] { Vector3.zero, Vector3.one });
+        pathPoints ??= new List<Vector3>();
+        pathPoints.Clear();
+        foreach (var t in voreSplinePath) {
+            pathPoints.Add(t.position);
+        }
+        cachedSpline.SetWeightsFromPoints(pathPoints);
+        CatmullSpline.GizmosDrawSpline(cachedSpline, new Color(0.55f,0f,0.75f), Color.green);
+        float sampleDistance = voreHoleNormalizedDistance * cachedSpline.arcLength;
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(cachedSpline.GetPositionFromDistance(sampleDistance), 0.025f);
+    }
 }

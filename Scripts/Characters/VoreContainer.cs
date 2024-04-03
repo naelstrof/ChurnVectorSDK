@@ -9,5 +9,7 @@ public abstract class VoreContainer {
     public abstract CumStorage GetStorage();
     public abstract void AddChurnable(IChurnable churnable);
     public abstract void Initialize(CharacterBase character);
-    public abstract void OnJump(float velocity);
+
+    public virtual void OnJump(float velocity) {
+    }
 }

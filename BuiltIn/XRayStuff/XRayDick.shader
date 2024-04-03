@@ -18,12 +18,12 @@ Shader "XRayDick"
 		[HideInInspector]_DistanceToHole("DistanceToHole", Float) = 0
 		[HideInInspector]_PenetratorWorldLength("PenetratorWorldLength", Float) = 1
 		[HideInInspector]_PenetratorOffsetLength("PenetratorOffsetLength", Float) = 0
-		_WorldDickPosition("WorldDickPosition", Vector) = (0,0,0,0)
-		_WorldDickNormal("WorldDickNormal", Vector) = (0,1,0,0)
-		_WorldDickBinormal("WorldDickBinormal", Vector) = (0,0,1,0)
+		[HideInInspector]_WorldDickPosition("WorldDickPosition", Vector) = (0,0,0,0)
+		[HideInInspector]_WorldDickNormal("WorldDickNormal", Vector) = (0,1,0,0)
+		[HideInInspector]_WorldDickBinormal("WorldDickBinormal", Vector) = (0,0,1,0)
 		[Toggle(_COCKVORESQUISHENABLED_ON)] _CockVoreSquishEnabled("CockVoreSquishEnabled", Float) = 0
-		_Angle("Angle", Range( 0 , 89)) = 45
-		_TipRadius("TipRadius", Range( 0 , 1)) = 0.1
+		[HideInInspector]_Angle("Angle", Range( 0 , 89)) = 45
+		[HideInInspector]_TipRadius("TipRadius", Range( 0 , 1)) = 0.1
 
 		[HideInInspector] _RenderQueueType("Render Queue Type", Float) = 5
 		[HideInInspector][ToggleUI] _AddPrecomputedVelocity("Add Precomputed Velocity", Float) = 1
@@ -4607,4 +4607,4 @@ WireConnection;262;7;229;42
 WireConnection;229;49;279;61
 WireConnection;229;50;279;62
 ASEEND*/
-//CHKSM=30D2C9CC7211239B29407D8ADB4669FE523410B6
+//CHKSM=A04DEDADE78AFA34186B924BD045070088F530A0

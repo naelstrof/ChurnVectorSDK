@@ -388,6 +388,20 @@ public class ModProfile : ScriptableObject {
 		}
 	}
 
+	private void EnsureReadOnly(AddressableAssetSettings settings, ref AddressableAssetGroup group) {
+		if (group.ReadOnly) return;
+		var temp = settings.CreateGroup("ChurnVectorCharactersTemp", false, false, true, settings.DefaultGroup.Schemas);
+		foreach (var entry in group.entries) {
+			settings.CreateOrMoveEntry(entry.guid, temp, false);
+		}
+		settings.RemoveGroup(group);
+		group = settings.CreateGroup("ChurnVectorCharacters", false, true, true, settings.DefaultGroup.Schemas);
+		foreach (var entry in temp.entries) {
+			settings.CreateOrMoveEntry(entry.guid, group, true);
+		}
+		settings.RemoveGroup(temp);
+	}
+
     public void Build() {
         var settings = AddressableAssetSettingsDefaultObject.Settings;
 
@@ -430,6 +444,11 @@ public class ModProfile : ScriptableObject {
 	        PlayerSettings.productName = "ChurnVector";
 
 	        var churnVectorCharacters = settings.FindGroup("ChurnVectorCharacters");
+	        EnsureReadOnly(settings, ref churnVectorCharacters);
+	        
+	        var churnVectorCore = settings.FindGroup("ChurnVectorCore");
+	        EnsureReadOnly(settings, ref churnVectorCore);
+
 	        var characterEntries = churnVectorCharacters.entries;
 	        foreach (var replacement in replacementCharacters) {
 		        var replacementCharacterID = replacement.GetReplacementCharacter().AssetGUID;
@@ -437,7 +456,7 @@ public class ModProfile : ScriptableObject {
 		        // Double check that we aren't replacing assets with existing assets before adding it to our bundle.
 		        if (found != null) {
 			        throw new UnityException(
-				        "You cannot replace existing characters with other existing characters. Please duplicate them into an original asset (shift+d)! (This is to prevent a zero size bundle, which isn't supported.)");
+				        "You cannot replace existing characters with other existing characters (The ChurnVectorCharacters group is reserved!). Please duplicate them into an original asset (ctrl+d), and make sure to not put them in the ChurnVectorCharacters group! (This is to prevent a zero size bundle, which isn't supported.)");
 		        }
 
 		        var entry = settings.CreateOrMoveEntry(replacementCharacterID, group, false, false);

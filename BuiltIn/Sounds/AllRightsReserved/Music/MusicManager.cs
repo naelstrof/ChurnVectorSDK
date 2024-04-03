@@ -32,8 +32,8 @@ public class MusicManager : MonoBehaviour {
         ObjectiveManager.objectiveChanged += OnObjectivesChanged;
         var player = CharacterBase.GetPlayer();
         if (player != null) {
-            player.voreMachine.cockVoreStart += OnCockCockVoreStart;
-            player.voreMachine.cockVoreEnd += OnCockCockVoreEnd;
+            player.voreMachine.voreStart += OnCockCockVoreStart;
+            player.voreMachine.voreEnd += OnCockCockVoreEnd;
         }
         startBriefing.triggered += OnStartBriefing;
         endBriefing.triggered += OnEndBriefing;
@@ -96,8 +96,8 @@ public class MusicManager : MonoBehaviour {
         KnowledgeDatabase.ForcePoll();
         var player = CharacterBase.GetPlayer();
         if (player != null) {
-            player.voreMachine.cockVoreStart += OnCockCockVoreStart;
-            player.voreMachine.cockVoreEnd += OnCockCockVoreEnd;
+            player.voreMachine.voreStart += OnCockCockVoreStart;
+            player.voreMachine.voreEnd += OnCockCockVoreEnd;
         }
         hasChurned = false;
         if (scene.name == "MainMenu") {

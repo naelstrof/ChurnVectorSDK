@@ -8893,6 +8893,8 @@ MonoBehaviour:
     spaceLube: {fileID: 13400000, guid: efd1f3995e4a5bf4d8d9c8ce1d941afb, type: 2}
     detectorDisplayDisks: {fileID: 2939460895479514034, guid: 4e45190d77d5bb44299d0029a51b8fa9,
       type: 3}
+    bulgeCurve: {fileID: 11400000, guid: eeef56254ffeb3245b4a7e5332fabbfb, type: 2}
+    tipOpenCurve: {fileID: 11400000, guid: 4f8107d8c8de6d64c8fc9a016cb5f6d2, type: 2}
   playerGotCockvoredEvent: {fileID: 11400000, guid: d9284e6cc3b6cb14bae070f7e926f8b1,
     type: 2}
   actions: {fileID: -944628639613478452, guid: a5d612c8b1511c343b84e77c283c6297, type: 3}
@@ -17447,12 +17449,12 @@ PrefabInstance:
     - target: {fileID: 1633996013338634964, guid: 00ecd2edd8fc0c74eb29a0bc814af1d4,
         type: 3}
       propertyPath: m_fontSize
-      value: 34.75
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 4614752349011840884, guid: 00ecd2edd8fc0c74eb29a0bc814af1d4,
         type: 3}
       propertyPath: m_fontSize
-      value: 38.3
+      value: 30.9
       objectReference: {fileID: 0}
     - target: {fileID: 6702234079679004405, guid: 00ecd2edd8fc0c74eb29a0bc814af1d4,
         type: 3}
