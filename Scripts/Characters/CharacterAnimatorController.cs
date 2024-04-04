@@ -600,7 +600,9 @@ public class CharacterAnimatorController : MonoBehaviour {
     }
     private void OnCockCockVoreEnd(CockVoreMachine.VoreStatus status) {
         status.dickTipRadius = 0f;
-        SetDickTipOpenAmount(status.dick, 0f);
+        if (status.dick != null) {
+            SetDickTipOpenAmount(status.dick, 0f);
+        }
         cockVoreSizeChange.SetSize(0f, this);
         animator.SetBool("Voring", false);
     }

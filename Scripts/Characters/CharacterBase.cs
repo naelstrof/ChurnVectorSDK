@@ -208,6 +208,10 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
         body.interpolation = RigidbodyInterpolation.Interpolate;
         body.collisionDetectionMode = CollisionDetectionMode.Continuous;
         body.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        body.automaticCenterOfMass = false;
+        body.automaticInertiaTensor = false;
+        body.centerOfMass = Vector3.zero;
+        body.inertiaTensorRotation = Quaternion.identity;
 
         gameObject.AddComponent<PhysicsAudio>();
 
@@ -465,6 +469,9 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
 
 
         if (!ticketLock.GetLocked()) { // Only mess with crouching when we're not locked in someway (being grabbed manipulates the collider).
+            if (Vector3.Angle(body.transform.up, Vector3.up) > 0.1f) {
+                body.MoveRotation(QuaternionExtensions.LookRotationUpPriority(body.transform.forward, Vector3.up));
+            }
             if (inputGenerator.GetCrouchInput() > 0.5f && !inputGenerator.GetSprint()) {
                 crouchAmount = Mathf.MoveTowards(crouchAmount, inputGenerator.GetCrouchInput(), Time.deltaTime*3f);
                 collider.height = Mathf.Lerp(originalColliderHeight, minimumCrouchHeight, crouchAmount);
