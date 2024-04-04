@@ -898,11 +898,11 @@ Shader "DickShader"
 				float3 temp_output_36_0 = ( ( _BulgeProgress * normalizeResult37 ) + (transform67).xyz );
 				float3 temp_output_3_0_g2 = temp_output_36_0;
 				float3 normalizeResult6_g2 = normalize( ( temp_output_57_0 - temp_output_3_0_g2 ) );
-				float3 ase_objectScale = float3( length( GetObjectToWorldMatrix()[ 0 ].xyz ), length( GetObjectToWorldMatrix()[ 1 ].xyz ), length( GetObjectToWorldMatrix()[ 2 ].xyz ) );
-				float temp_output_69_0 = ( ase_objectScale.z * _BulgeRadius );
+				float4 appendResult75 = (float4(( _DickForward * _BulgeRadius ) , 0.0));
+				float temp_output_78_0 = length( (mul( GetWorldToObjectMatrix(), appendResult75 )).xyz );
 				float3 temp_output_28_0 = ( temp_output_57_0 - temp_output_36_0 );
-				float temp_output_41_0 = ( saturate( ( ( temp_output_69_0 - length( temp_output_28_0 ) ) * 10.0 ) ) * inputMesh.ase_color.g * _BulgeBlend );
-				float3 lerpResult33 = lerp( temp_output_57_0 , ( ( normalizeResult6_g2 * temp_output_69_0 ) + temp_output_3_0_g2 ) , temp_output_41_0);
+				float temp_output_41_0 = ( saturate( ( ( temp_output_78_0 - length( temp_output_28_0 ) ) * 10.0 ) ) * inputMesh.ase_color.g * _BulgeBlend );
+				float3 lerpResult33 = lerp( temp_output_57_0 , ( ( normalizeResult6_g2 * temp_output_78_0 ) + temp_output_3_0_g2 ) , temp_output_41_0);
 				float4 appendResult67_g1 = (float4(lerpResult33 , 1.0));
 				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
 				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
@@ -1810,11 +1810,11 @@ Shader "DickShader"
 				float3 temp_output_36_0 = ( ( _BulgeProgress * normalizeResult37 ) + (transform67).xyz );
 				float3 temp_output_3_0_g2 = temp_output_36_0;
 				float3 normalizeResult6_g2 = normalize( ( temp_output_57_0 - temp_output_3_0_g2 ) );
-				float3 ase_objectScale = float3( length( GetObjectToWorldMatrix()[ 0 ].xyz ), length( GetObjectToWorldMatrix()[ 1 ].xyz ), length( GetObjectToWorldMatrix()[ 2 ].xyz ) );
-				float temp_output_69_0 = ( ase_objectScale.z * _BulgeRadius );
+				float4 appendResult75 = (float4(( _DickForward * _BulgeRadius ) , 0.0));
+				float temp_output_78_0 = length( (mul( GetWorldToObjectMatrix(), appendResult75 )).xyz );
 				float3 temp_output_28_0 = ( temp_output_57_0 - temp_output_36_0 );
-				float temp_output_41_0 = ( saturate( ( ( temp_output_69_0 - length( temp_output_28_0 ) ) * 10.0 ) ) * inputMesh.ase_color.g * _BulgeBlend );
-				float3 lerpResult33 = lerp( temp_output_57_0 , ( ( normalizeResult6_g2 * temp_output_69_0 ) + temp_output_3_0_g2 ) , temp_output_41_0);
+				float temp_output_41_0 = ( saturate( ( ( temp_output_78_0 - length( temp_output_28_0 ) ) * 10.0 ) ) * inputMesh.ase_color.g * _BulgeBlend );
+				float3 lerpResult33 = lerp( temp_output_57_0 , ( ( normalizeResult6_g2 * temp_output_78_0 ) + temp_output_3_0_g2 ) , temp_output_41_0);
 				float4 appendResult67_g1 = (float4(lerpResult33 , 1.0));
 				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
 				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
@@ -2652,11 +2652,11 @@ Shader "DickShader"
 				float3 temp_output_36_0 = ( ( _BulgeProgress * normalizeResult37 ) + (transform67).xyz );
 				float3 temp_output_3_0_g2 = temp_output_36_0;
 				float3 normalizeResult6_g2 = normalize( ( temp_output_57_0 - temp_output_3_0_g2 ) );
-				float3 ase_objectScale = float3( length( GetObjectToWorldMatrix()[ 0 ].xyz ), length( GetObjectToWorldMatrix()[ 1 ].xyz ), length( GetObjectToWorldMatrix()[ 2 ].xyz ) );
-				float temp_output_69_0 = ( ase_objectScale.z * _BulgeRadius );
+				float4 appendResult75 = (float4(( _DickForward * _BulgeRadius ) , 0.0));
+				float temp_output_78_0 = length( (mul( GetWorldToObjectMatrix(), appendResult75 )).xyz );
 				float3 temp_output_28_0 = ( temp_output_57_0 - temp_output_36_0 );
-				float temp_output_41_0 = ( saturate( ( ( temp_output_69_0 - length( temp_output_28_0 ) ) * 10.0 ) ) * inputMesh.ase_color.g * _BulgeBlend );
-				float3 lerpResult33 = lerp( temp_output_57_0 , ( ( normalizeResult6_g2 * temp_output_69_0 ) + temp_output_3_0_g2 ) , temp_output_41_0);
+				float temp_output_41_0 = ( saturate( ( ( temp_output_78_0 - length( temp_output_28_0 ) ) * 10.0 ) ) * inputMesh.ase_color.g * _BulgeBlend );
+				float3 lerpResult33 = lerp( temp_output_57_0 , ( ( normalizeResult6_g2 * temp_output_78_0 ) + temp_output_3_0_g2 ) , temp_output_41_0);
 				float4 appendResult67_g1 = (float4(lerpResult33 , 1.0));
 				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
 				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
@@ -3450,11 +3450,11 @@ Shader "DickShader"
 				float3 temp_output_36_0 = ( ( _BulgeProgress * normalizeResult37 ) + (transform67).xyz );
 				float3 temp_output_3_0_g2 = temp_output_36_0;
 				float3 normalizeResult6_g2 = normalize( ( temp_output_57_0 - temp_output_3_0_g2 ) );
-				float3 ase_objectScale = float3( length( GetObjectToWorldMatrix()[ 0 ].xyz ), length( GetObjectToWorldMatrix()[ 1 ].xyz ), length( GetObjectToWorldMatrix()[ 2 ].xyz ) );
-				float temp_output_69_0 = ( ase_objectScale.z * _BulgeRadius );
+				float4 appendResult75 = (float4(( _DickForward * _BulgeRadius ) , 0.0));
+				float temp_output_78_0 = length( (mul( GetWorldToObjectMatrix(), appendResult75 )).xyz );
 				float3 temp_output_28_0 = ( temp_output_57_0 - temp_output_36_0 );
-				float temp_output_41_0 = ( saturate( ( ( temp_output_69_0 - length( temp_output_28_0 ) ) * 10.0 ) ) * inputMesh.ase_color.g * _BulgeBlend );
-				float3 lerpResult33 = lerp( temp_output_57_0 , ( ( normalizeResult6_g2 * temp_output_69_0 ) + temp_output_3_0_g2 ) , temp_output_41_0);
+				float temp_output_41_0 = ( saturate( ( ( temp_output_78_0 - length( temp_output_28_0 ) ) * 10.0 ) ) * inputMesh.ase_color.g * _BulgeBlend );
+				float3 lerpResult33 = lerp( temp_output_57_0 , ( ( normalizeResult6_g2 * temp_output_78_0 ) + temp_output_3_0_g2 ) , temp_output_41_0);
 				float4 appendResult67_g1 = (float4(lerpResult33 , 1.0));
 				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
 				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
@@ -4231,11 +4231,11 @@ Shader "DickShader"
 				float3 temp_output_36_0 = ( ( _BulgeProgress * normalizeResult37 ) + (transform67).xyz );
 				float3 temp_output_3_0_g2 = temp_output_36_0;
 				float3 normalizeResult6_g2 = normalize( ( temp_output_57_0 - temp_output_3_0_g2 ) );
-				float3 ase_objectScale = float3( length( GetObjectToWorldMatrix()[ 0 ].xyz ), length( GetObjectToWorldMatrix()[ 1 ].xyz ), length( GetObjectToWorldMatrix()[ 2 ].xyz ) );
-				float temp_output_69_0 = ( ase_objectScale.z * _BulgeRadius );
+				float4 appendResult75 = (float4(( _DickForward * _BulgeRadius ) , 0.0));
+				float temp_output_78_0 = length( (mul( GetWorldToObjectMatrix(), appendResult75 )).xyz );
 				float3 temp_output_28_0 = ( temp_output_57_0 - temp_output_36_0 );
-				float temp_output_41_0 = ( saturate( ( ( temp_output_69_0 - length( temp_output_28_0 ) ) * 10.0 ) ) * inputMesh.ase_color.g * _BulgeBlend );
-				float3 lerpResult33 = lerp( temp_output_57_0 , ( ( normalizeResult6_g2 * temp_output_69_0 ) + temp_output_3_0_g2 ) , temp_output_41_0);
+				float temp_output_41_0 = ( saturate( ( ( temp_output_78_0 - length( temp_output_28_0 ) ) * 10.0 ) ) * inputMesh.ase_color.g * _BulgeBlend );
+				float3 lerpResult33 = lerp( temp_output_57_0 , ( ( normalizeResult6_g2 * temp_output_78_0 ) + temp_output_3_0_g2 ) , temp_output_41_0);
 				float4 appendResult67_g1 = (float4(lerpResult33 , 1.0));
 				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
 				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
@@ -5066,11 +5066,11 @@ Shader "DickShader"
 				float3 temp_output_36_0 = ( ( _BulgeProgress * normalizeResult37 ) + (transform67).xyz );
 				float3 temp_output_3_0_g2 = temp_output_36_0;
 				float3 normalizeResult6_g2 = normalize( ( temp_output_57_0 - temp_output_3_0_g2 ) );
-				float3 ase_objectScale = float3( length( GetObjectToWorldMatrix()[ 0 ].xyz ), length( GetObjectToWorldMatrix()[ 1 ].xyz ), length( GetObjectToWorldMatrix()[ 2 ].xyz ) );
-				float temp_output_69_0 = ( ase_objectScale.z * _BulgeRadius );
+				float4 appendResult75 = (float4(( _DickForward * _BulgeRadius ) , 0.0));
+				float temp_output_78_0 = length( (mul( GetWorldToObjectMatrix(), appendResult75 )).xyz );
 				float3 temp_output_28_0 = ( temp_output_57_0 - temp_output_36_0 );
-				float temp_output_41_0 = ( saturate( ( ( temp_output_69_0 - length( temp_output_28_0 ) ) * 10.0 ) ) * inputMesh.ase_color.g * _BulgeBlend );
-				float3 lerpResult33 = lerp( temp_output_57_0 , ( ( normalizeResult6_g2 * temp_output_69_0 ) + temp_output_3_0_g2 ) , temp_output_41_0);
+				float temp_output_41_0 = ( saturate( ( ( temp_output_78_0 - length( temp_output_28_0 ) ) * 10.0 ) ) * inputMesh.ase_color.g * _BulgeBlend );
+				float3 lerpResult33 = lerp( temp_output_57_0 , ( ( normalizeResult6_g2 * temp_output_78_0 ) + temp_output_3_0_g2 ) , temp_output_41_0);
 				float4 appendResult67_g1 = (float4(lerpResult33 , 1.0));
 				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
 				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
@@ -6084,11 +6084,11 @@ Shader "DickShader"
 				float3 temp_output_36_0 = ( ( _BulgeProgress * normalizeResult37 ) + (transform67).xyz );
 				float3 temp_output_3_0_g2 = temp_output_36_0;
 				float3 normalizeResult6_g2 = normalize( ( temp_output_57_0 - temp_output_3_0_g2 ) );
-				float3 ase_objectScale = float3( length( GetObjectToWorldMatrix()[ 0 ].xyz ), length( GetObjectToWorldMatrix()[ 1 ].xyz ), length( GetObjectToWorldMatrix()[ 2 ].xyz ) );
-				float temp_output_69_0 = ( ase_objectScale.z * _BulgeRadius );
+				float4 appendResult75 = (float4(( _DickForward * _BulgeRadius ) , 0.0));
+				float temp_output_78_0 = length( (mul( GetWorldToObjectMatrix(), appendResult75 )).xyz );
 				float3 temp_output_28_0 = ( temp_output_57_0 - temp_output_36_0 );
-				float temp_output_41_0 = ( saturate( ( ( temp_output_69_0 - length( temp_output_28_0 ) ) * 10.0 ) ) * inputMesh.ase_color.g * _BulgeBlend );
-				float3 lerpResult33 = lerp( temp_output_57_0 , ( ( normalizeResult6_g2 * temp_output_69_0 ) + temp_output_3_0_g2 ) , temp_output_41_0);
+				float temp_output_41_0 = ( saturate( ( ( temp_output_78_0 - length( temp_output_28_0 ) ) * 10.0 ) ) * inputMesh.ase_color.g * _BulgeBlend );
+				float3 lerpResult33 = lerp( temp_output_57_0 , ( ( normalizeResult6_g2 * temp_output_78_0 ) + temp_output_3_0_g2 ) , temp_output_41_0);
 				float4 appendResult67_g1 = (float4(lerpResult33 , 1.0));
 				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
 				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
@@ -7068,11 +7068,11 @@ Shader "DickShader"
 				float3 temp_output_36_0 = ( ( _BulgeProgress * normalizeResult37 ) + (transform67).xyz );
 				float3 temp_output_3_0_g2 = temp_output_36_0;
 				float3 normalizeResult6_g2 = normalize( ( temp_output_57_0 - temp_output_3_0_g2 ) );
-				float3 ase_objectScale = float3( length( GetObjectToWorldMatrix()[ 0 ].xyz ), length( GetObjectToWorldMatrix()[ 1 ].xyz ), length( GetObjectToWorldMatrix()[ 2 ].xyz ) );
-				float temp_output_69_0 = ( ase_objectScale.z * _BulgeRadius );
+				float4 appendResult75 = (float4(( _DickForward * _BulgeRadius ) , 0.0));
+				float temp_output_78_0 = length( (mul( GetWorldToObjectMatrix(), appendResult75 )).xyz );
 				float3 temp_output_28_0 = ( temp_output_57_0 - temp_output_36_0 );
-				float temp_output_41_0 = ( saturate( ( ( temp_output_69_0 - length( temp_output_28_0 ) ) * 10.0 ) ) * inputMesh.ase_color.g * _BulgeBlend );
-				float3 lerpResult33 = lerp( temp_output_57_0 , ( ( normalizeResult6_g2 * temp_output_69_0 ) + temp_output_3_0_g2 ) , temp_output_41_0);
+				float temp_output_41_0 = ( saturate( ( ( temp_output_78_0 - length( temp_output_28_0 ) ) * 10.0 ) ) * inputMesh.ase_color.g * _BulgeBlend );
+				float3 lerpResult33 = lerp( temp_output_57_0 , ( ( normalizeResult6_g2 * temp_output_78_0 ) + temp_output_3_0_g2 ) , temp_output_41_0);
 				float4 appendResult67_g1 = (float4(lerpResult33 , 1.0));
 				float4 transform66_g1 = mul(GetObjectToWorldMatrix(),appendResult67_g1);
 				transform66_g1.xyz = GetAbsolutePositionWS((transform66_g1).xyz);
@@ -7616,16 +7616,20 @@ Node;AmplifyShaderEditor.SwizzleNode;61;-3475.006,892.4219;Inherit;False;FLOAT3;
 Node;AmplifyShaderEditor.SwizzleNode;65;-2848.227,1223.871;Inherit;False;FLOAT3;0;1;2;3;1;0;FLOAT4;0,0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.WorldToObjectTransfNode;67;-3072.152,1255.264;Inherit;False;1;0;FLOAT4;0,0,0,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.DynamicAppendNode;64;-3319.186,1267.986;Inherit;False;FLOAT4;4;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;1;False;1;FLOAT4;0
-Node;AmplifyShaderEditor.ObjectScaleNode;68;-4011.44,975.0369;Inherit;False;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;69;-3608.707,1088.707;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.DynamicAppendNode;60;-3907.142,797.1768;Inherit;False;FLOAT4;4;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.WorldToObjectMatrix;70;-4026.45,635.7159;Inherit;False;0;1;FLOAT4x4;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;71;-3721.45,675.7159;Inherit;False;2;2;0;FLOAT4x4;0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1;False;1;FLOAT4;0,0,0,0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.RangedFloatNode;43;-2381.412,171.5769;Inherit;False;Property;_BulgeBlend;BulgeBlend;17;1;[HideInInspector];Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.Vector3Node;35;-3599.439,1287.838;Inherit;False;Property;_DickOffset;DickOffset;27;1;[HideInInspector];Create;True;0;0;0;False;0;False;0,0,0;0,1,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.RangedFloatNode;27;-4020.959,1161.723;Inherit;False;Property;_BulgeRadius;BulgeRadius;18;1;[HideInInspector];Create;True;0;0;0;False;0;False;0;0.58;0;100;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;23;-3436.509,725.9806;Inherit;False;Property;_BulgeProgress;BulgeProgress;28;1;[HideInInspector];Create;True;0;0;0;False;0;False;1;0;-1;3;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;72;-3714.824,893.5995;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.Vector3Node;25;-4110.29,796.7484;Inherit;False;Property;_DickForward;DickForward;26;1;[HideInInspector];Create;True;0;0;0;False;0;False;0,0,1;0,1,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.DynamicAppendNode;60;-3907.142,797.1768;Inherit;False;FLOAT4;4;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;71;-3721.45,675.7159;Inherit;False;2;2;0;FLOAT4x4;0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1;False;1;FLOAT4;0,0,0,0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;74;-4370.954,1186.062;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.DynamicAppendNode;75;-4219.954,1349.062;Inherit;False;FLOAT4;4;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;76;-4098.954,1243.062;Inherit;False;2;2;0;FLOAT4x4;0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1;False;1;FLOAT4;0,0,0,0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.SwizzleNode;77;-3915.954,1253.062;Inherit;False;FLOAT3;0;1;2;3;1;0;FLOAT4;0,0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.LengthOpNode;78;-3774.121,1230.204;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;27;-4771.959,1287.723;Inherit;False;Property;_BulgeRadius;BulgeRadius;18;1;[HideInInspector];Create;True;0;0;0;False;0;False;0;0.58;0;100;0;1;FLOAT;0
 WireConnection;0;0;45;0
 WireConnection;0;1;47;0
 WireConnection;0;4;46;1
@@ -7649,7 +7653,7 @@ WireConnection;11;64;33;0
 WireConnection;11;69;44;0
 WireConnection;26;0;23;0
 WireConnection;26;1;37;0
-WireConnection;31;0;69;0
+WireConnection;31;0;78;0
 WireConnection;31;1;30;0
 WireConnection;36;0;26;0
 WireConnection;36;1;65;0
@@ -7662,7 +7666,7 @@ WireConnection;33;2;41;0
 WireConnection;32;0;34;0
 WireConnection;22;2;57;0
 WireConnection;22;3;36;0
-WireConnection;22;4;69;0
+WireConnection;22;4;78;0
 WireConnection;41;0;32;0
 WireConnection;41;1;42;2
 WireConnection;41;2;43;0
@@ -7684,10 +7688,15 @@ WireConnection;61;0;71;0
 WireConnection;65;0;67;0
 WireConnection;67;0;64;0
 WireConnection;64;0;35;0
-WireConnection;69;0;68;3
-WireConnection;69;1;27;0
 WireConnection;60;0;25;0
 WireConnection;71;0;70;0
 WireConnection;71;1;60;0
+WireConnection;74;0;25;0
+WireConnection;74;1;27;0
+WireConnection;75;0;74;0
+WireConnection;76;0;70;0
+WireConnection;76;1;75;0
+WireConnection;77;0;76;0
+WireConnection;78;0;77;0
 ASEEND*/
-//CHKSM=4BD68870C94CF3F3AE45F6552CE3C0774F594EA4
+//CHKSM=29650E136E8995D388B71687EED162A9070D1961

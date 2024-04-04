@@ -613,12 +613,11 @@ public class CharacterAnimatorController : MonoBehaviour {
         if (status.dick != null) {
             int iterations = 8;
             float length = status.dick.GetSquashStretchedWorldLength();
-            float averageGirth = 0f;
+            float maxGirth = 0f;
             for (int i = 0; i < iterations; i++) {
                 float t = (float)i / (iterations-1);
-                averageGirth += status.dick.GetWorldGirthRadius(length * t);
+                maxGirth = Mathf.Max(status.dick.GetWorldGirthRadius(length * t), maxGirth);
             }
-            averageGirth /= iterations;
             dickRenderers ??= new List<Renderer>();
             status.dick.GetOutputRenderers(dickRenderers);
             foreach (var dickRenderer in dickRenderers) {
@@ -626,7 +625,7 @@ public class CharacterAnimatorController : MonoBehaviour {
                     float arbitraryScaleUp = 8f;
                     mat.SetVector(DickOffset, status.dick.GetRootTransform().TransformPoint(status.dick.GetRootPositionOffset()));
                     mat.SetVector(DickForward, status.dick.GetRootTransform().TransformDirection(status.dick.GetRootForward()).normalized);
-                    float dickBulgeRadius = averageGirth*arbitraryScaleUp;
+                    float dickBulgeRadius = maxGirth*arbitraryScaleUp;
                     mat.SetFloat(BulgeRadius, dickBulgeRadius);
                     float dickBulgeStart = status.dick.GetSquashStretchedWorldLength() + dickBulgeRadius;
                     float dickBulgeEnd = -dickBulgeRadius;
