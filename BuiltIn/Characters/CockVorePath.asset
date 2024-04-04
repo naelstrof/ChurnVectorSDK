@@ -117,14 +117,14 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0.67007554
       value: 0.19860464
-      inSlope: -3.0738347
-      outSlope: -3.0738347
+      inSlope: -3.9271224
+      outSlope: -3.9271224
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.723589
+      time: 0.7110557
       value: -0.1
       inSlope: 0
       outSlope: 0

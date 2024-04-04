@@ -7602,7 +7602,6 @@ Node;AmplifyShaderEditor.NormalizeNode;44;-1596.412,749.5769;Inherit;False;False
 Node;AmplifyShaderEditor.SamplerNode;45;-536.9493,-372.816;Inherit;True;Property;_BaseColorMap;BaseColorMap;14;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SamplerNode;46;-524.9493,65.18396;Inherit;True;Property;_MaskMap;MaskMap;15;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;gray;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SamplerNode;47;-524.9493,-142.816;Inherit;True;Property;_NormalMap;NormalMap;16;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;bump;Auto;True;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleSubtractOpNode;28;-3011.288,535.5629;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.NormalizeNode;38;-2263.696,867.1786;Inherit;False;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.LerpOp;39;-1793.988,784.4831;Inherit;False;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.AbsOpNode;51;-2464.911,1008.415;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
@@ -7616,7 +7615,6 @@ Node;AmplifyShaderEditor.SwizzleNode;61;-3475.006,892.4219;Inherit;False;FLOAT3;
 Node;AmplifyShaderEditor.SwizzleNode;65;-2848.227,1223.871;Inherit;False;FLOAT3;0;1;2;3;1;0;FLOAT4;0,0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.WorldToObjectTransfNode;67;-3072.152,1255.264;Inherit;False;1;0;FLOAT4;0,0,0,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.DynamicAppendNode;64;-3319.186,1267.986;Inherit;False;FLOAT4;4;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;1;False;1;FLOAT4;0
-Node;AmplifyShaderEditor.WorldToObjectMatrix;70;-4026.45,635.7159;Inherit;False;0;1;FLOAT4x4;0
 Node;AmplifyShaderEditor.RangedFloatNode;43;-2381.412,171.5769;Inherit;False;Property;_BulgeBlend;BulgeBlend;17;1;[HideInInspector];Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.Vector3Node;35;-3599.439,1287.838;Inherit;False;Property;_DickOffset;DickOffset;27;1;[HideInInspector];Create;True;0;0;0;False;0;False;0,0,0;0,1,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.RangedFloatNode;23;-3436.509,725.9806;Inherit;False;Property;_BulgeProgress;BulgeProgress;28;1;[HideInInspector];Create;True;0;0;0;False;0;False;1;0;-1;3;0;1;FLOAT;0
@@ -7630,6 +7628,8 @@ Node;AmplifyShaderEditor.SimpleMultiplyOpNode;76;-4098.954,1243.062;Inherit;Fals
 Node;AmplifyShaderEditor.SwizzleNode;77;-3915.954,1253.062;Inherit;False;FLOAT3;0;1;2;3;1;0;FLOAT4;0,0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.LengthOpNode;78;-3774.121,1230.204;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;27;-4771.959,1287.723;Inherit;False;Property;_BulgeRadius;BulgeRadius;18;1;[HideInInspector];Create;True;0;0;0;False;0;False;0;0.58;0;100;0;1;FLOAT;0
+Node;AmplifyShaderEditor.WorldToObjectMatrix;70;-4427.585,659.1807;Inherit;False;0;1;FLOAT4x4;0
+Node;AmplifyShaderEditor.SimpleSubtractOpNode;28;-2953.849,453.51;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
 WireConnection;0;0;45;0
 WireConnection;0;1;47;0
 WireConnection;0;4;46;1
@@ -7671,8 +7671,6 @@ WireConnection;41;0;32;0
 WireConnection;41;1;42;2
 WireConnection;41;2;43;0
 WireConnection;44;0;39;0
-WireConnection;28;0;57;0
-WireConnection;28;1;36;0
 WireConnection;38;0;28;0
 WireConnection;39;0;57;42
 WireConnection;39;1;38;0
@@ -7698,5 +7696,7 @@ WireConnection;76;0;70;0
 WireConnection;76;1;75;0
 WireConnection;77;0;76;0
 WireConnection;78;0;77;0
+WireConnection;28;0;57;0
+WireConnection;28;1;36;0
 ASEEND*/
-//CHKSM=29650E136E8995D388B71687EED162A9070D1961
+//CHKSM=0FC3ACADCF0F2416005D0E4B4C50CEA8A5B8542F
