@@ -390,16 +390,7 @@ public class ModProfile : ScriptableObject {
 
 	private void EnsureReadOnly(AddressableAssetSettings settings, ref AddressableAssetGroup group) {
 		if (group.ReadOnly) return;
-		var temp = settings.CreateGroup("ChurnVectorCharactersTemp", false, false, true, settings.DefaultGroup.Schemas);
-		foreach (var entry in group.entries) {
-			settings.CreateOrMoveEntry(entry.guid, temp, false);
-		}
-		settings.RemoveGroup(group);
-		group = settings.CreateGroup("ChurnVectorCharacters", false, true, true, settings.DefaultGroup.Schemas);
-		foreach (var entry in temp.entries) {
-			settings.CreateOrMoveEntry(entry.guid, group, true);
-		}
-		settings.RemoveGroup(temp);
+		throw new UnityException($"Group {group.Name} is not set to ReadOnly! This is required to build!");
 	}
 
     public void Build() {

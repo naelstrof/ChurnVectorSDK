@@ -19,89 +19,89 @@ MonoBehaviour:
   m_SerializeEntries:
   - m_GUID: c55954fc241d52e4599c2dc0a682a515
     m_Address: CivilianRat
-    m_ReadOnly: 0
+    m_ReadOnly: 1
     m_SerializedLabels:
     - ChurnVectorCharacter
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4b3a32d8ac4446e42bae66aefa69d0e7
     m_Address: Giraffe
-    m_ReadOnly: 0
+    m_ReadOnly: 1
     m_SerializedLabels:
     - ChurnVectorCharacter
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: adb7f678e2b02634ab4a7ef26252a915
     m_Address: Cop
-    m_ReadOnly: 0
+    m_ReadOnly: 1
     m_SerializedLabels:
     - ChurnVectorCharacter
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 628b06002b0747e4f9f6041f64bf560c
     m_Address: CivilianRatHoodie
-    m_ReadOnly: 0
+    m_ReadOnly: 1
     m_SerializedLabels:
     - ChurnVectorCharacter
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 14158cf855dc69e42ae5b4d072a0632f
     m_Address: CivilianKanga
-    m_ReadOnly: 0
+    m_ReadOnly: 1
     m_SerializedLabels:
     - ChurnVectorCharacter
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cc5a7ed455ae8454bb6635df006cddd2
     m_Address: Shark
-    m_ReadOnly: 0
+    m_ReadOnly: 1
     m_SerializedLabels:
     - ChurnVectorCharacter
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cb8dd3adce5c40544b99b2d5fd0d49f9
     m_Address: Player
-    m_ReadOnly: 0
+    m_ReadOnly: 1
     m_SerializedLabels:
     - ChurnVectorCharacter
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bc6ca1d0229d0784da7889b80c8d32c1
     m_Address: Dragon
-    m_ReadOnly: 0
+    m_ReadOnly: 1
     m_SerializedLabels:
     - ChurnVectorCharacter
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3d057837bcf18314d939fe3427ce893b
     m_Address: Gruff
-    m_ReadOnly: 0
+    m_ReadOnly: 1
     m_SerializedLabels:
     - ChurnVectorCharacter
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3852211c18ffa104e902635346e2e17d
     m_Address: ScientistKanga Variant
-    m_ReadOnly: 0
+    m_ReadOnly: 1
     m_SerializedLabels:
     - ChurnVectorCharacter
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e1631f07633c8e24690a9ee215598e9f
     m_Address: ScientistAlsoKanga Variant
-    m_ReadOnly: 0
+    m_ReadOnly: 1
     m_SerializedLabels:
     - ChurnVectorCharacter
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 72aa62e3e04cbe74a80e4068e474f211
     m_Address: Possum
-    m_ReadOnly: 0
+    m_ReadOnly: 1
     m_SerializedLabels:
     - ChurnVectorCharacter
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 51cfacce8c1cdd3448c99e0c12e8967f
     m_Address: BossCook Variant
-    m_ReadOnly: 0
+    m_ReadOnly: 1
     m_SerializedLabels:
     - ChurnVectorCharacter
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: afa52f81c22bdaf4fa9dcaf45d43714f
     m_Address: PriestRat
-    m_ReadOnly: 0
+    m_ReadOnly: 1
     m_SerializedLabels:
     - ChurnVectorCharacter
     FlaggedDuringContentUpdateRestriction: 0
-  m_ReadOnly: 0
+  m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 45ba01601caec634d960d95861748758, type: 2}
   m_SchemaSet:
     m_Schemas:
