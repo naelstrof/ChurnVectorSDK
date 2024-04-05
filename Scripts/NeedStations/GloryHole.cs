@@ -12,6 +12,7 @@ public class GloryHole : BreedingStand {
     [SerializeField] private RuntimeAnimatorController submissiveAnimatorController;
     [SerializeField] private Transform submissiveTargetPosition;
     [SerializeField] private IKTarget[] submissiveIKTargets;
+    [SerializeField] private CharacterBase.PenetrableType submissivePenetrableTargetType;
     private RuntimeAnimatorController civilianController;
 
     private bool gotCum;
@@ -178,7 +179,7 @@ public class GloryHole : BreedingStand {
         var needStationInfo = submissive.GetDisplayAnimator().gameObject.AddComponent<NeedStationInfo>();
         needStationInfo.SetOwner(this);
         needStationInfo.SetTargets(submissiveIKTargets);
-        penetrable = submissive.GetComponentInChildren<Penetrable>();
+        penetrable = submissive.GetPenetrable(submissivePenetrableTargetType);
         var parentConstraint = submissive.transform.gameObject.AddComponent<ParentConstraint>();
         parentConstraint.SetSources(new List<ConstraintSource>() { new(){sourceTransform = submissiveTargetPosition, weight = 1f}});
         parentConstraint.constraintActive = true;

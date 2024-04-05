@@ -24,7 +24,7 @@ public class GenericVoreContainer : VoreContainer {
         storage = new CumStorage();
         this.target = target;
         targetAnimator = target.GetDisplayAnimator();
-        inflater.OnEnable();
+        inflater?.OnEnable();
         audioSource = target.gameObject.AddComponent<AudioSource>();
         audioSource.spatialBlend = 1f;
         audioSource.minDistance = 1f;
@@ -74,7 +74,7 @@ public class GenericVoreContainer : VoreContainer {
 
     private void UpdateInflater() {
         //inflater.SetSize(Mathf.Log(cumAmount*2f + 1f, 2f)+1f+leftToChurn*4f, target);
-        inflater.SetSize(Mathf.Sqrt(storage.GetVolume()*4f)+1f, target);
+        inflater?.SetSize(Mathf.Sqrt(storage.GetVolume()*4f)+1f, target);
     }
 
     public void BeginEmission(CumStorage.ChurnedAction startEvent = null, CumStorage.EmitCumAction emitEvent = null, CumStorage.ChurnedAction endEvent = null) {

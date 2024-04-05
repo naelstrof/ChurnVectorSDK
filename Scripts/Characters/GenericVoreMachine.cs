@@ -8,7 +8,7 @@ using UnityEngine.VFX;
 [System.Serializable]
 public class GenericVoreMachine : VoreMachine {
     [SerializeField] private List<Transform> voreSplinePath;
-    [SerializeField, Range(0f,1f)] private float voreHoleNormalizedDistance;
+    [SerializeField, Range(0f,1f)] private float voreHoleNormalizedDistance = 0.1f;
 
     private List<Vector3> pathPoints;
     
@@ -27,6 +27,16 @@ public class GenericVoreMachine : VoreMachine {
     private static CatmullSpline cachedSpline;
     
     public override bool IsVoring() => currentVores.Count != 0;
+
+    public void SetTransformPath(IList<Transform> transforms) {
+        if (voreSplinePath == null) {
+            voreSplinePath = new List<Transform>(transforms);
+            return;
+        }
+
+        voreSplinePath.Clear();
+        voreSplinePath.AddRange(transforms);
+    }
 
     public override void Initialize(CharacterBase pred) {
         this.pred = pred;

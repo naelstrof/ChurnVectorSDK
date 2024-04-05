@@ -139,6 +139,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e01a97cba5dcd2f41ae578e88f01c79f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  penetrables:
+  - penetrable: {fileID: 63572783203174213}
+    penetrableType: 0
   volumeSolid: 5
   volumeChurned: 1.75
   dialogueTheme: {fileID: 11400000, guid: ba88acc5dbed8664bacc86cfe986845b, type: 2}
@@ -148,7 +151,7 @@ MonoBehaviour:
   speed: 1.8
   animationGroup: []
   voreMachine:
-    rid: -2
+    rid: 6975721895796670470
   noseOffset: {x: -0.0000003833842, y: 0.10868464, z: 0.2702353}
   taserOutput: {fileID: 0}
   references:
@@ -156,6 +159,10 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+    - rid: 6975721895796670470
+      type: {class: CockVoreMachine, ns: , asm: com.gatordragongames.churn-vector.sdk}
+      data:
+        dick: {fileID: 2984948984365475944}
 --- !u!114 &1117326750253890139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -809,15 +816,11 @@ MonoBehaviour:
   cockVoreSizeChange:
     bounce: {fileID: 0}
     listeners: []
-  dick: {fileID: 0}
-  balls: {fileID: 0}
+  ballsCenter: {fileID: 0}
+  ballsRoot: {fileID: 0}
   ballStorageScale: 1
-  dickBulgeStart: 1.25
-  dickBulgeEnd: -0.25
   xrayBodyRenderers:
   - {fileID: 8050564835548215802}
-  xrayDickRenderers:
-  - {fileID: 7713825311758361849}
   clothRipPack: {fileID: 11400000, guid: 7e870ee698555364da4f3c090c44669c, type: 2}
   clothRipAsset: {fileID: 8926484042661614526, guid: b32f72eaeaac6064c86ca204efddd3f3,
     type: 3}
@@ -831,8 +834,6 @@ MonoBehaviour:
   boobOomphEffect:
   - {fileID: 4512057456334381992}
   bounceCurve: {fileID: 11400000, guid: b2df0e3fa0b4eb74782ac1368940a6b9, type: 2}
-  bulgeCurve: {fileID: 0}
-  tipOpenCurve: {fileID: 0}
   cumInflation:
     bounce: {fileID: 11400000, guid: 0946975ef88accb48aea4c4c25cc0294, type: 2}
     listeners:
@@ -974,6 +975,8 @@ MonoBehaviour:
   jiggleSettings: {fileID: 11400000, guid: 24137bf2fa333b346a22e1d5efa30f0a, type: 2}
   leftRightCurvature: 0
   upDownCurvature: -15.8
+  baseUpDownCurvatureOffset: 0
+  baseLeftRightCurvatureOffset: 0
   penetratorLengthFriction: 0.502
   penetratorLengthElasticity: 0.7
   knotForce: 1

@@ -136,6 +136,7 @@ public class CharacterAnimatorController : MonoBehaviour {
             cockVoreMachine.GetPenetrator().GetOutputRenderers(dickRenderers);
             foreach (var dickRenderer in dickRenderers) {
                 foreach (var dickMat in dickRenderer.materials) {
+                    dickMat.SetFloat(BulgeAmount, 0f);
                     dickMaterials.Add(dickMat);
                 }
             }
@@ -148,6 +149,7 @@ public class CharacterAnimatorController : MonoBehaviour {
         cockVoreSizeChange.SetSizeInstant(0f);
         cumInflation.OnEnable();
         Pauser.pauseChanged += OnPauseChanged;
+        OnBallSizeChanged(false, 0.025f, Vector3.zero);
     }
 
     private void OnPauseChanged(bool paused) {
@@ -649,6 +651,10 @@ public class CharacterAnimatorController : MonoBehaviour {
     private void OnBallSizeChanged(bool active, float colliderSize, Vector3 position) {
         colliderSize *= ballStorageScale;
         if (ballsCenter == null) {
+            foreach (var mat in dickMaterials) {
+                mat.DisableKeyword("_SPHERIZE_ON");
+                mat.SetFloat(SpherizeAmount, 0f);
+            }
             return;
         }
 

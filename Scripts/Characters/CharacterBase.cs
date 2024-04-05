@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using DPG;
 using JigglePhysics;
 using Naelstrof.Inflatable;
 using UnityEngine;
@@ -26,6 +28,18 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
     protected static LayerMask obscurityLevelMask;
     protected static LayerMask limbMask;
 
+    [Serializable]
+    public enum PenetrableType {
+        Hip,
+        Face,
+    }
+    [Serializable]
+    public struct PenetrableData {
+        public Penetrable penetrable;
+        public PenetrableType penetrableType;
+    }
+
+    [SerializeField] private PenetrableData[] penetrables;
     [SerializeField] private float volumeSolid = 8f;
     [SerializeField] private float volumeChurned = 1f;
     //private AudioPack landingPack;
@@ -55,6 +69,59 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
     private float lastLeftGround;
     public bool IsSprinting() => inputGenerator.GetSprint() && GetCrouchAmount() < 0.5f;
     protected bool grounded;
+
+    private Dictionary<PenetrableType, Penetrable> backupPenetrables;
+
+    public Penetrable GetPenetrable(PenetrableType type) {
+        List<PenetrableData> validData = penetrables.Where(penetrableData => penetrableData.penetrableType == type).ToList();
+        if (validData.Count != 0) {
+            int randomSelection = UnityEngine.Random.Range(0, validData.Count);
+            return validData[randomSelection].penetrable;
+        }
+
+        backupPenetrables ??= new Dictionary<PenetrableType, Penetrable>();
+        if (backupPenetrables.TryGetValue(type, out var penetrable)) {
+            return penetrable;
+        }
+        
+        var backupPenetrable = gameObject.AddComponent<PenetrableBasic>();
+        var animator = GetDisplayAnimator();
+        var head = animator.GetBoneTransform(HumanBodyBones.Head);
+        GameObject outsideMouth = new GameObject("Nose");
+        outsideMouth.transform.SetParent(head);
+        outsideMouth.transform.localPosition = noseOffset + head.InverseTransformVector(-animator.transform.up*0.1f);
+        backupPenetrable.SetShouldTruncate(false);
+        backupPenetrable.SetClippingRange(new PenetrableBasic.ClippingRange {
+            allowAllTheWayThrough = true,
+            startNormalizedDistance = 0.1f,
+            endNormalizedDistance = 0.9f,
+        });
+        backupPenetrable.SetKnotForceSampleLocations(new[] { new PenetrableBasic.KnotForceSampleLocation { normalizedDistance = 0.05f } });
+        switch (type) {
+            case PenetrableType.Hip:
+                backupPenetrable.SetTransforms(new [] {
+                    animator.GetBoneTransform(HumanBodyBones.Hips),
+                    animator.GetBoneTransform(HumanBodyBones.Chest),
+                    animator.GetBoneTransform(HumanBodyBones.Neck),
+                    animator.GetBoneTransform(HumanBodyBones.Head),
+                    outsideMouth.transform,
+                });
+                backupPenetrables.Add(type, backupPenetrable);
+                return backupPenetrable;
+            case PenetrableType.Face:
+                backupPenetrable.SetTransforms(new [] {
+                    outsideMouth.transform,
+                    animator.GetBoneTransform(HumanBodyBones.Head),
+                    animator.GetBoneTransform(HumanBodyBones.Neck),
+                    animator.GetBoneTransform(HumanBodyBones.Chest),
+                    animator.GetBoneTransform(HumanBodyBones.Hips),
+                });
+                backupPenetrables.Add(type, backupPenetrable);
+                return backupPenetrable;
+            default:
+                throw new UnityException($"Failed to create a penetrable for unknown type {type}");
+        }
+    }
 
     public void SetInputGenerator(InputGenerator newInputGenerator) {
         if (enabled) {
@@ -248,8 +315,26 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
         ticketLock.locksChanged += OnLocksChanged;
         body = GetComponent<Rigidbody>();
         groundMask = LayerMask.GetMask("World", "WorldButIgnoredByCamera");
-        voreContainer?.Initialize(this);
         colliderSorter = new ColliderSorter(transform, this);
+        
+        voreContainer ??= new GenericVoreContainer();
+        voreContainer?.Initialize(this);
+
+        if (voreMachine == null) {
+            var genericVoreMachine = new GenericVoreMachine();
+            List<Transform> genericSplinePath = new List<Transform>();
+            var animator = GetDisplayAnimator();
+            var head = animator.GetBoneTransform(HumanBodyBones.Head);
+            GameObject outsideMouth = new GameObject("Nose");
+            outsideMouth.transform.SetParent(head);
+            outsideMouth.transform.localPosition = noseOffset + head.InverseTransformVector(-animator.transform.up*0.1f);
+            genericSplinePath.Add(outsideMouth.transform);
+            genericSplinePath.Add(animator.GetBoneTransform(HumanBodyBones.Head));
+            genericSplinePath.Add(animator.GetBoneTransform(HumanBodyBones.Neck));
+            genericSplinePath.Add(animator.GetBoneTransform(HumanBodyBones.Hips));
+            genericVoreMachine.SetTransformPath(genericSplinePath);
+            voreMachine = genericVoreMachine;
+        }
         AwakeCockVore();
     }
 

@@ -177,6 +177,7 @@ MonoBehaviour:
     type: 2}
   submissiveTargetPosition: {fileID: 5828810776750856870}
   submissiveIKTargets: []
+  submissivePenetrableTargetType: 1
   references:
     version: 2
     RefIds:

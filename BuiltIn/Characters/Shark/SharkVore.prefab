@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 7008983179959048959}
   - component: {fileID: 2567389988330573584}
   m_Layer: 7
-  m_Name: Shark
+  m_Name: SharkVore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -108,34 +108,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e01a97cba5dcd2f41ae578e88f01c79f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  penetrables:
-  - penetrable: {fileID: 1597148676394123725}
-    penetrableType: 0
   volumeSolid: 10
   volumeChurned: 2
   dialogueTheme: {fileID: 11400000, guid: 2703ad7d38462c642818928e210f4696, type: 2}
   voreContainer:
-    rid: 6975721895796670479
+    rid: 6975721845435662338
   headSprite: {fileID: 21300000, guid: 998b973277714e742973a889dd9cec72, type: 3}
-  speed: 1.8
+  speed: 3
   animationGroup: []
   voreMachine:
-    rid: -2
+    rid: 6975721845435662341
   noseOffset: {x: -0.00000014447676, y: 0.2572491, z: 0.48478365}
   taserOutput: {fileID: 0}
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 6975721895796670479
+    - rid: 6975721845435662338
       type: {class: GenericVoreContainer, ns: , asm: com.gatordragongames.churn-vector.sdk}
       data:
         inflater:
           bounce: {fileID: 11400000, guid: b2df0e3fa0b4eb74782ac1368940a6b9, type: 2}
           listeners:
-          - rid: 6975721895796670481
-    - rid: 6975721895796670481
+          - rid: 6975721845435662342
+          - rid: 6975721887192842243
+    - rid: 6975721845435662341
+      type: {class: GenericVoreMachine, ns: , asm: com.gatordragongames.churn-vector.sdk}
+      data:
+        voreSplinePath:
+        - {fileID: 1576519536256481746}
+        - {fileID: 2932898247570480082}
+        - {fileID: 9206590852667694697}
+        voreHoleNormalizedDistance: 0.254
+    - rid: 6975721845435662342
       type: {class: InflatableBlendShape, ns: Naelstrof.Inflatable, asm: com.naelstrof.inflatable}
       data:
         blendShapeName: Cumflation
@@ -145,22 +149,50 @@ MonoBehaviour:
           serializedVersion: 2
           m_Curve:
           - serializedVersion: 3
-            time: 0
+            time: 1
             value: 0
-            inSlope: 0
-            outSlope: 1
+            inSlope: 0.112703614
+            outSlope: 0.112703614
             tangentMode: 0
             weightedMode: 0
             inWeight: 0
+            outWeight: 0.27154663
+          - serializedVersion: 3
+            time: 16
+            value: 1
+            inSlope: 0.0018559522
+            outSlope: 0.0018559522
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 1
             outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    - rid: 6975721887192842243
+      type: {class: InflatableTransform, ns: Naelstrof.Inflatable, asm: com.naelstrof.inflatable}
+      data:
+        targetTransform: {fileID: 1209754912020834761}
+        curve:
+          serializedVersion: 2
+          m_Curve:
           - serializedVersion: 3
             time: 1
-            value: 1
-            inSlope: 1
-            outSlope: 0
+            value: 0.8520473
+            inSlope: 0.42646244
+            outSlope: 0.42646244
             tangentMode: 0
             weightedMode: 0
             inWeight: 0
+            outWeight: 0.042899426
+          - serializedVersion: 3
+            time: 16
+            value: 3.4823718
+            inSlope: 0.0018559522
+            outSlope: 0.0018559522
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 1
             outWeight: 0
           m_PreInfinity: 2
           m_PostInfinity: 2
@@ -179,6 +211,59 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderers:
   - {fileID: 7619402634825531318}
+--- !u!1 &7105312722556988454
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1209754912020834761}
+  - component: {fileID: 8019677363558382657}
+  m_Layer: 7
+  m_Name: Sphere
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1209754912020834761
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7105312722556988454}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.253, z: 0.281}
+  m_LocalScale: {x: 0.46083, y: 0.46083, z: 0.46083}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9206590852667694697}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &8019677363558382657
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7105312722556988454}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8879919943298181093
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,7 +274,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1576519536256481746}
   m_Layer: 0
-  m_Name: CockVoreTip
+  m_Name: MouthTip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -204,7 +289,7 @@ Transform:
   m_GameObject: {fileID: 8879919943298181093}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.015, y: 0.1718, z: 0.5211}
+  m_LocalPosition: {x: -0.015, y: 0.1448, z: 0.4828}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -500,6 +585,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6611971793005827368}
+    - targetCorrespondingSourceObject: {fileID: -9162484748627739507, guid: 4e15ba7ddf4e0654eacfeb1f119d52b7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1209754912020834761}
     - targetCorrespondingSourceObject: {fileID: -2904946715968112330, guid: 4e15ba7ddf4e0654eacfeb1f119d52b7,
         type: 3}
       insertIndex: -1
@@ -777,10 +866,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boner:
-    bounce: {fileID: 0}
+    bounce: {fileID: 11400000, guid: b2df0e3fa0b4eb74782ac1368940a6b9, type: 2}
     listeners: []
   cockVoreSizeChange:
-    bounce: {fileID: 0}
+    bounce: {fileID: 11400000, guid: b2df0e3fa0b4eb74782ac1368940a6b9, type: 2}
     listeners: []
   ballsCenter: {fileID: 0}
   ballsRoot: {fileID: 0}

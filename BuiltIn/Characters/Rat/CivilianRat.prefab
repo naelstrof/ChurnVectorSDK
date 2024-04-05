@@ -171,11 +171,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e01a97cba5dcd2f41ae578e88f01c79f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  penetrables:
+  - penetrable: {fileID: 2857192798612336081}
+    penetrableType: 0
   volumeSolid: 4
   volumeChurned: 1
   dialogueTheme: {fileID: 11400000, guid: 6944d3f6ac6d6c74789c3bc2eceda477, type: 2}
   voreContainer:
-    rid: -2
+    rid: 6975721895796670477
   headSprite: {fileID: 21300000, guid: a03fe93111dee7b4e994c5013a69d862, type: 3}
   speed: 1.6
   animationGroup: []
@@ -188,6 +191,43 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+    - rid: 6975721895796670477
+      type: {class: GenericVoreContainer, ns: , asm: com.gatordragongames.churn-vector.sdk}
+      data:
+        inflater:
+          bounce: {fileID: 11400000, guid: b2df0e3fa0b4eb74782ac1368940a6b9, type: 2}
+          listeners:
+          - rid: 6975721895796670478
+    - rid: 6975721895796670478
+      type: {class: InflatableBlendShape, ns: Naelstrof.Inflatable, asm: com.naelstrof.inflatable}
+      data:
+        blendShapeName: Cast
+        skinnedMeshRenderers:
+        - {fileID: 8655014405779903}
+        curve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: 0.112703614
+            outSlope: 0.112703614
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.27154663
+          - serializedVersion: 3
+            time: 16
+            value: 1
+            inSlope: 0.0018559522
+            outSlope: 0.0018559522
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 1
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
 --- !u!114 &5651573853789787295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1005,14 +1045,11 @@ MonoBehaviour:
   cockVoreSizeChange:
     bounce: {fileID: 0}
     listeners: []
-  dick: {fileID: 0}
-  balls: {fileID: 0}
+  ballsCenter: {fileID: 0}
+  ballsRoot: {fileID: 0}
   ballStorageScale: 1
-  dickBulgeStart: 1.25
-  dickBulgeEnd: -0.25
   xrayBodyRenderers:
   - {fileID: 8655014405779903}
-  xrayDickRenderers: []
   clothRipPack: {fileID: 11400000, guid: 7e870ee698555364da4f3c090c44669c, type: 2}
   clothRipAsset: {fileID: 8926484042661614526, guid: b32f72eaeaac6064c86ca204efddd3f3,
     type: 3}
@@ -1026,8 +1063,6 @@ MonoBehaviour:
   - {fileID: 5794777896929783378}
   - {fileID: 6587059768518174418}
   bounceCurve: {fileID: 11400000, guid: b2df0e3fa0b4eb74782ac1368940a6b9, type: 2}
-  bulgeCurve: {fileID: 0}
-  tipOpenCurve: {fileID: 0}
   cumInflation:
     bounce: {fileID: 11400000, guid: 0946975ef88accb48aea4c4c25cc0294, type: 2}
     listeners:
