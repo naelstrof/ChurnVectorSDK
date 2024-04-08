@@ -45,16 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c593a39c7be01974aa6552519e516bbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  civilianPrefab:
-    m_AssetGUID: c55954fc241d52e4599c2dc0a682a515
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  inputSource:
-    rid: 7979792681648783372
-  overrideGroups:
-  - {fileID: 11400000, guid: 05090d5597b890947b11952c472465e7, type: 2}
-  overrideUseByGroups: []
   characterSpawnInfo:
     civilianPrefab:
       m_AssetGUID: c55954fc241d52e4599c2dc0a682a515
@@ -62,21 +52,21 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
     inputSource:
-      rid: 7979792681648783372
+      rid: 6975721911597401694
     overrideGroups:
     - {fileID: 11400000, guid: 05090d5597b890947b11952c472465e7, type: 2}
     overrideUseByGroups: []
   references:
     version: 2
     RefIds:
-    - rid: 7979792681648783372
-      type: {class: CharacterActor, ns: AI, asm: Assembly-CSharp}
+    - rid: 6975721911597401694
+      type: {class: CharacterActor, ns: AI, asm: com.gatordragongames.churn-vector.sdk}
       data:
         debug: 0
         startingAction:
-          rid: 7979792681648783373
-    - rid: 7979792681648783373
-      type: {class: ActionBeACivilian, ns: ActorActions, asm: Assembly-CSharp}
+          rid: 6975721911597401695
+    - rid: 6975721911597401695
+      type: {class: ActionBeACivilian, ns: ActorActions, asm: com.gatordragongames.churn-vector.sdk}
       data: 
 --- !u!1001 &3635152383219702681
 PrefabInstance:

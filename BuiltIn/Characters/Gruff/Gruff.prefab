@@ -146,7 +146,7 @@ MonoBehaviour:
   volumeChurned: 1.75
   dialogueTheme: {fileID: 11400000, guid: ba88acc5dbed8664bacc86cfe986845b, type: 2}
   voreContainer:
-    rid: -2
+    rid: 6975721967409692674
   headSprite: {fileID: 21300000, guid: a8cffcec0e1a78744ac9b8002ec2dafd, type: 3}
   speed: 1.8
   animationGroup: []
@@ -157,12 +157,47 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
     - rid: 6975721895796670470
       type: {class: CockVoreMachine, ns: , asm: com.gatordragongames.churn-vector.sdk}
       data:
         dick: {fileID: 2984948984365475944}
+    - rid: 6975721967409692674
+      type: {class: GenericVoreContainer, ns: , asm: com.gatordragongames.churn-vector.sdk}
+      data:
+        inflater:
+          bounce: {fileID: 11400000, guid: b2df0e3fa0b4eb74782ac1368940a6b9, type: 2}
+          listeners:
+          - rid: 6975721967409692675
+    - rid: 6975721967409692675
+      type: {class: InflatableBlendShape, ns: Naelstrof.Inflatable, asm: com.naelstrof.inflatable}
+      data:
+        blendShapeName: CumInflate
+        skinnedMeshRenderers:
+        - {fileID: 8050564835548215802}
+        curve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: 0.112703614
+            outSlope: 0.112703614
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.27154663
+          - serializedVersion: 3
+            time: 16
+            value: 1
+            inSlope: 0.0018559522
+            outSlope: 0.0018559522
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 1
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
 --- !u!114 &1117326750253890139
 MonoBehaviour:
   m_ObjectHideFlags: 0
