@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 
 public class RigidbodyExplorer : ScriptableWizard {
-    [MenuItem("Tools/Naelstrof/Rigidbody Explorer")]
+    [MenuItem("Tools/ChurnVector/Rigidbody Explorer")]
     static void CreateWizard() {
         DisplayWizard<RigidbodyExplorer>("Rigidbody Explorer", "Close");
     }
