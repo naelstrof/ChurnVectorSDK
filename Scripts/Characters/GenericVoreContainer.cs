@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using JigglePhysics;
@@ -73,8 +74,14 @@ public class GenericVoreContainer : VoreContainer {
     }
 
     private void UpdateInflater() {
+        if (inflater == null) {
+            return;
+        }
         //inflater.SetSize(Mathf.Log(cumAmount*2f + 1f, 2f)+1f+leftToChurn*4f, target);
-        inflater?.SetSize(Mathf.Sqrt(storage.GetVolume()*4f)+1f, target);
+        float newVolume = Mathf.Sqrt(storage.GetVolume() * 4f) + 1f;
+        if (Math.Abs(inflater.GetSize() - newVolume) > Mathf.Epsilon) {
+            inflater.SetSize(newVolume, target);
+        }
     }
 
     public void BeginEmission(CumStorage.ChurnedAction startEvent = null, CumStorage.EmitCumAction emitEvent = null, CumStorage.ChurnedAction endEvent = null) {
