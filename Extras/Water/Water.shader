@@ -5,10 +5,12 @@ Shader "Water"
 	Properties
 	{
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
-		_Amplitude("Amplitude", Range( 0 , 1)) = 0.2
+		_Amplitude("Amplitude", Range( 0 , 1)) = 1
 		_BaseColor("BaseColor", Color) = (0.1098039,0.3647059,0.4705883,0.2196078)
 		_TransmissionColor("TransmissionColor", Color) = (0.3820755,1,0.9364549,1)
 		_RefractionIndex("RefractionIndex", Range( 0.9 , 1.1)) = 1
+		_Tiling("Tiling", Range( 0 , 8)) = 8
+		_WaveSharpness("WaveSharpness", Range( 0 , 1)) = 0.5
 
 		[HideInInspector] _RenderQueueType("Render Queue Type", Float) = 5
 		//[HideInInspector][ToggleUI] _AddPrecomputedVelocity("Add Precomputed Velocity", Float) = 1
@@ -385,7 +387,9 @@ Shader "Water"
 			CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColor;
 			float4 _TransmissionColor;
+			float _Tiling;
 			float _Amplitude;
+			float _WaveSharpness;
 			float _RefractionIndex;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
@@ -467,12 +471,13 @@ Shader "Water"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
-			#include "SumOfSines.cginc"
-			#define ASE_NEEDS_VERT_NORMAL
-			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
+			#include "Packages/com.gatordragongames.churn-vector.sdk/Extras/Water/SumOfSines.cginc"
+			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_TANGENT
 			#define ASE_NEEDS_FRAG_WORLD_NORMAL
+			#define ASE_NEEDS_VERT_NORMAL
 			#define ASE_NEEDS_VERT_TANGENT
+			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -486,7 +491,7 @@ Shader "Water"
 				float4 tangentOS : TANGENT;
 				float4 uv1 : TEXCOORD1;
 				float4 uv2 : TEXCOORD2;
-				float4 ase_texcoord : TEXCOORD0;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -508,15 +513,7 @@ Shader "Water"
 			};
 
 
-			float3x3 Inverse3x3(float3x3 input)
-			{
-				float3 a = input._11_21_31;
-				float3 b = input._12_22_32;
-				float3 c = input._13_23_33;
-				return float3x3(cross(b,c), cross(c,a), cross(a,b)) * (1.0 / dot(a,cross(b,c)));
-			}
 			
-
 			void BuildSurfaceData(FragInputs fragInputs, inout GlobalSurfaceDescription surfaceDescription, float3 V, PositionInputs posInput, out SurfaceData surfaceData, out float3 bentNormalWS)
 			{
 				ZERO_INITIALIZE(SurfaceData, surfaceData);
@@ -741,35 +738,35 @@ Shader "Water"
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( outputPackedVaryingsMeshToPS );
 
-				float2 texCoord12 = inputMesh.ase_texcoord.xy * float2( 32,32 ) + float2( 0,0 );
-				float2 uv2_g16 = texCoord12;
-				float amplitude2_g16 = _Amplitude;
-				int detail2_g16 = 32;
-				float2 derivative2_g16 = float2( 0,0 );
-				float mulTime13 = _TimeParameters.x * 1.1;
-				float t2_g16 = mulTime13;
-				float localSumOfSines2_g16 = SumOfSines( uv2_g16 , amplitude2_g16 , detail2_g16 , derivative2_g16 , t2_g16 );
-				float temp_output_61_0 = localSumOfSines2_g16;
-				float3 temp_output_15_0 = ( inputMesh.normalOS * temp_output_61_0 );
+				float tiling2_g22 = _Tiling;
+				float amplitude2_g22 = _Amplitude;
+				int detail2_g22 = 16;
+				float3 position2_g22 = inputMesh.positionOS;
+				float3 normal2_g22 = float3( 0,0,0 );
+				float3 tangent2_g22 = float3( 0,0,0 );
+				float3 binormal2_g22 = float3( 0,0,0 );
+				float mulTime13 = _TimeParameters.x * 2.0;
+				float t2_g22 = mulTime13;
+				float sharpness2_g22 = _WaveSharpness;
+				float localSumOfGerstner2_g22 = SumOfGerstner( tiling2_g22 , amplitude2_g22 , detail2_g22 , position2_g22 , normal2_g22 , tangent2_g22 , binormal2_g22 , t2_g22 , sharpness2_g22 );
 				
 				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
 				float3 ase_worldTangent = TransformObjectToWorldDir(inputMesh.tangentOS.xyz);
 				float ase_vertexTangentSign = inputMesh.tangentOS.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
 				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
-				outputPackedVaryingsMeshToPS.ase_texcoord6.xyz = ase_worldBitangent;
+				outputPackedVaryingsMeshToPS.ase_texcoord5.xyz = ase_worldBitangent;
 				
-				outputPackedVaryingsMeshToPS.ase_texcoord5.xy = inputMesh.ase_texcoord.xy;
+				outputPackedVaryingsMeshToPS.ase_texcoord6 = float4(inputMesh.positionOS,1);
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
-				outputPackedVaryingsMeshToPS.ase_texcoord5.zw = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord6.w = 0;
+				outputPackedVaryingsMeshToPS.ase_texcoord5.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = temp_output_15_0;
+				float3 vertexValue = position2_g22;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -801,8 +798,7 @@ Shader "Water"
 				float4 tangentOS : TANGENT;
 				float4 uv1 : TEXCOORD1;
 				float4 uv2 : TEXCOORD2;
-				float4 ase_texcoord : TEXCOORD0;
-
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -822,7 +818,7 @@ Shader "Water"
 				o.tangentOS = v.tangentOS;
 				o.uv1 = v.uv1;
 				o.uv2 = v.uv2;
-				o.ase_texcoord = v.ase_texcoord;
+				
 				return o;
 			}
 
@@ -869,7 +865,7 @@ Shader "Water"
 				o.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
 				o.uv1 = patch[0].uv1 * bary.x + patch[1].uv1 * bary.y + patch[2].uv1 * bary.z;
 				o.uv2 = patch[0].uv2 * bary.x + patch[1].uv2 * bary.y + patch[2].uv2 * bary.z;
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -925,29 +921,27 @@ Shader "Water"
 				BuiltinData builtinData;
 
 				GlobalSurfaceDescription surfaceDescription = (GlobalSurfaceDescription)0;
-				float2 texCoord12 = packedInput.ase_texcoord5.xy * float2( 32,32 ) + float2( 0,0 );
-				float2 uv2_g16 = texCoord12;
-				float amplitude2_g16 = _Amplitude;
-				int detail2_g16 = 32;
-				float2 derivative2_g16 = float2( 0,0 );
-				float mulTime13 = _TimeParameters.x * 1.1;
-				float t2_g16 = mulTime13;
-				float localSumOfSines2_g16 = SumOfSines( uv2_g16 , amplitude2_g16 , detail2_g16 , derivative2_g16 , t2_g16 );
-				float2 break55 = derivative2_g16;
-				float3 appendResult37 = (float3(1.0 , 0.0 , break55.x));
-				float3 appendResult38 = (float3(0.0 , 1.0 , break55.y));
-				float3 temp_output_24_0 = cross( appendResult37 , appendResult38 );
-				
-				float3 ase_worldBitangent = packedInput.ase_texcoord6.xyz;
+				float3 ase_worldBitangent = packedInput.ase_texcoord5.xyz;
 				float3x3 ase_worldToTangent = float3x3(tangentWS.xyz,ase_worldBitangent,normalWS);
-				float3x3 invertVal79 = Inverse3x3( ase_worldToTangent );
-				float fresnelNdotV76 = dot( mul( invertVal79, temp_output_24_0 ), V );
+				float tiling2_g22 = _Tiling;
+				float amplitude2_g22 = _Amplitude;
+				int detail2_g22 = 16;
+				float3 position2_g22 = packedInput.ase_texcoord6.xyz;
+				float3 normal2_g22 = float3( 0,0,0 );
+				float3 tangent2_g22 = float3( 0,0,0 );
+				float3 binormal2_g22 = float3( 0,0,0 );
+				float mulTime13 = _TimeParameters.x * 2.0;
+				float t2_g22 = mulTime13;
+				float sharpness2_g22 = _WaveSharpness;
+				float localSumOfGerstner2_g22 = SumOfGerstner( tiling2_g22 , amplitude2_g22 , detail2_g22 , position2_g22 , normal2_g22 , tangent2_g22 , binormal2_g22 , t2_g22 , sharpness2_g22 );
+				float3 temp_output_117_4 = normal2_g22;
+				
+				float fresnelNdotV76 = dot( temp_output_117_4, V );
 				float fresnelNode76 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV76, 5.0 ) );
-				float temp_output_61_0 = localSumOfSines2_g16;
-				float4 lerpResult82 = lerp( float4( 0,0,0,0 ) , _TransmissionColor , ( fresnelNode76 * (0.0 + (temp_output_61_0 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) ));
+				float4 lerpResult82 = lerp( float4( 0,0,0,0 ) , _TransmissionColor , ( fresnelNode76 * (0.0 + (localSumOfGerstner2_g22 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) ));
 				
 				surfaceDescription.BaseColor = _BaseColor.rgb;
-				surfaceDescription.Normal = temp_output_24_0;
+				surfaceDescription.Normal = mul( ase_worldToTangent, temp_output_117_4 );
 				surfaceDescription.BentNormal = float3( 0, 0, 1 );
 				surfaceDescription.CoatMask = 0;
 				surfaceDescription.Metallic = 0;
@@ -1125,7 +1119,9 @@ Shader "Water"
 			CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColor;
 			float4 _TransmissionColor;
+			float _Tiling;
 			float _Amplitude;
+			float _WaveSharpness;
 			float _RefractionIndex;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
@@ -1207,9 +1203,10 @@ Shader "Water"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
-			#include "SumOfSines.cginc"
-			#define ASE_NEEDS_VERT_NORMAL
+			#include "Packages/com.gatordragongames.churn-vector.sdk/Extras/Water/SumOfSines.cginc"
+			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_VERT_TANGENT
+			#define ASE_NEEDS_VERT_NORMAL
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -1247,15 +1244,7 @@ Shader "Water"
 				#endif
 			};
 
-			float3x3 Inverse3x3(float3x3 input)
-			{
-				float3 a = input._11_21_31;
-				float3 b = input._12_22_32;
-				float3 c = input._13_23_33;
-				return float3x3(cross(b,c), cross(c,a), cross(a,b)) * (1.0 / dot(a,cross(b,c)));
-			}
 			
-
 			void BuildSurfaceData(FragInputs fragInputs, inout GlobalSurfaceDescription surfaceDescription, float3 V, PositionInputs posInput, out SurfaceData surfaceData, out float3 bentNormalWS)
 			{
 				ZERO_INITIALIZE(SurfaceData, surfaceData);
@@ -1465,34 +1454,35 @@ Shader "Water"
 				UNITY_SETUP_INSTANCE_ID(inputMesh);
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
 
-				float2 texCoord12 = inputMesh.uv0.xy * float2( 32,32 ) + float2( 0,0 );
-				float2 uv2_g16 = texCoord12;
-				float amplitude2_g16 = _Amplitude;
-				int detail2_g16 = 32;
-				float2 derivative2_g16 = float2( 0,0 );
-				float mulTime13 = _TimeParameters.x * 1.1;
-				float t2_g16 = mulTime13;
-				float localSumOfSines2_g16 = SumOfSines( uv2_g16 , amplitude2_g16 , detail2_g16 , derivative2_g16 , t2_g16 );
-				float temp_output_61_0 = localSumOfSines2_g16;
-				float3 temp_output_15_0 = ( inputMesh.normalOS * temp_output_61_0 );
+				float tiling2_g22 = _Tiling;
+				float amplitude2_g22 = _Amplitude;
+				int detail2_g22 = 16;
+				float3 position2_g22 = inputMesh.positionOS;
+				float3 normal2_g22 = float3( 0,0,0 );
+				float3 tangent2_g22 = float3( 0,0,0 );
+				float3 binormal2_g22 = float3( 0,0,0 );
+				float mulTime13 = _TimeParameters.x * 2.0;
+				float t2_g22 = mulTime13;
+				float sharpness2_g22 = _WaveSharpness;
+				float localSumOfGerstner2_g22 = SumOfGerstner( tiling2_g22 , amplitude2_g22 , detail2_g22 , position2_g22 , normal2_g22 , tangent2_g22 , binormal2_g22 , t2_g22 , sharpness2_g22 );
 				
-				float3 ase_worldPos = GetAbsolutePositionWS( TransformObjectToWorld( (inputMesh.positionOS).xyz ) );
-				outputPackedVaryingsMeshToPS.ase_texcoord3.xyz = ase_worldPos;
 				float3 ase_worldTangent = TransformObjectToWorldDir(inputMesh.tangentOS.xyz);
-				outputPackedVaryingsMeshToPS.ase_texcoord4.xyz = ase_worldTangent;
+				outputPackedVaryingsMeshToPS.ase_texcoord2.xyz = ase_worldTangent;
 				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
-				outputPackedVaryingsMeshToPS.ase_texcoord5.xyz = ase_worldNormal;
+				outputPackedVaryingsMeshToPS.ase_texcoord3.xyz = ase_worldNormal;
 				float ase_vertexTangentSign = inputMesh.tangentOS.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
 				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
-				outputPackedVaryingsMeshToPS.ase_texcoord6.xyz = ase_worldBitangent;
+				outputPackedVaryingsMeshToPS.ase_texcoord4.xyz = ase_worldBitangent;
 				
-				outputPackedVaryingsMeshToPS.ase_texcoord2.xy = inputMesh.uv0.xy;
+				float3 ase_worldPos = GetAbsolutePositionWS( TransformObjectToWorld( (inputMesh.positionOS).xyz ) );
+				outputPackedVaryingsMeshToPS.ase_texcoord6.xyz = ase_worldPos;
+				
+				outputPackedVaryingsMeshToPS.ase_texcoord5 = float4(inputMesh.positionOS,1);
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
-				outputPackedVaryingsMeshToPS.ase_texcoord2.zw = 0;
+				outputPackedVaryingsMeshToPS.ase_texcoord2.w = 0;
 				outputPackedVaryingsMeshToPS.ase_texcoord3.w = 0;
 				outputPackedVaryingsMeshToPS.ase_texcoord4.w = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord5.w = 0;
 				outputPackedVaryingsMeshToPS.ase_texcoord6.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -1500,7 +1490,7 @@ Shader "Water"
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = temp_output_15_0;
+				float3 vertexValue = position2_g22;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -1648,34 +1638,32 @@ Shader "Water"
 				SurfaceData surfaceData;
 				BuiltinData builtinData;
 				GlobalSurfaceDescription surfaceDescription = (GlobalSurfaceDescription)0;
-				float2 texCoord12 = packedInput.ase_texcoord2.xy * float2( 32,32 ) + float2( 0,0 );
-				float2 uv2_g16 = texCoord12;
-				float amplitude2_g16 = _Amplitude;
-				int detail2_g16 = 32;
-				float2 derivative2_g16 = float2( 0,0 );
-				float mulTime13 = _TimeParameters.x * 1.1;
-				float t2_g16 = mulTime13;
-				float localSumOfSines2_g16 = SumOfSines( uv2_g16 , amplitude2_g16 , detail2_g16 , derivative2_g16 , t2_g16 );
-				float2 break55 = derivative2_g16;
-				float3 appendResult37 = (float3(1.0 , 0.0 , break55.x));
-				float3 appendResult38 = (float3(0.0 , 1.0 , break55.y));
-				float3 temp_output_24_0 = cross( appendResult37 , appendResult38 );
+				float3 ase_worldTangent = packedInput.ase_texcoord2.xyz;
+				float3 ase_worldNormal = packedInput.ase_texcoord3.xyz;
+				float3 ase_worldBitangent = packedInput.ase_texcoord4.xyz;
+				float3x3 ase_worldToTangent = float3x3(ase_worldTangent,ase_worldBitangent,ase_worldNormal);
+				float tiling2_g22 = _Tiling;
+				float amplitude2_g22 = _Amplitude;
+				int detail2_g22 = 16;
+				float3 position2_g22 = packedInput.ase_texcoord5.xyz;
+				float3 normal2_g22 = float3( 0,0,0 );
+				float3 tangent2_g22 = float3( 0,0,0 );
+				float3 binormal2_g22 = float3( 0,0,0 );
+				float mulTime13 = _TimeParameters.x * 2.0;
+				float t2_g22 = mulTime13;
+				float sharpness2_g22 = _WaveSharpness;
+				float localSumOfGerstner2_g22 = SumOfGerstner( tiling2_g22 , amplitude2_g22 , detail2_g22 , position2_g22 , normal2_g22 , tangent2_g22 , binormal2_g22 , t2_g22 , sharpness2_g22 );
+				float3 temp_output_117_4 = normal2_g22;
 				
-				float3 ase_worldPos = packedInput.ase_texcoord3.xyz;
+				float3 ase_worldPos = packedInput.ase_texcoord6.xyz;
 				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - ase_worldPos );
 				ase_worldViewDir = normalize(ase_worldViewDir);
-				float3 ase_worldTangent = packedInput.ase_texcoord4.xyz;
-				float3 ase_worldNormal = packedInput.ase_texcoord5.xyz;
-				float3 ase_worldBitangent = packedInput.ase_texcoord6.xyz;
-				float3x3 ase_worldToTangent = float3x3(ase_worldTangent,ase_worldBitangent,ase_worldNormal);
-				float3x3 invertVal79 = Inverse3x3( ase_worldToTangent );
-				float fresnelNdotV76 = dot( mul( invertVal79, temp_output_24_0 ), ase_worldViewDir );
+				float fresnelNdotV76 = dot( temp_output_117_4, ase_worldViewDir );
 				float fresnelNode76 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV76, 5.0 ) );
-				float temp_output_61_0 = localSumOfSines2_g16;
-				float4 lerpResult82 = lerp( float4( 0,0,0,0 ) , _TransmissionColor , ( fresnelNode76 * (0.0 + (temp_output_61_0 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) ));
+				float4 lerpResult82 = lerp( float4( 0,0,0,0 ) , _TransmissionColor , ( fresnelNode76 * (0.0 + (localSumOfGerstner2_g22 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) ));
 				
 				surfaceDescription.BaseColor = _BaseColor.rgb;
-				surfaceDescription.Normal = temp_output_24_0;
+				surfaceDescription.Normal = mul( ase_worldToTangent, temp_output_117_4 );
 				surfaceDescription.BentNormal = float3( 0, 0, 1 );
 				surfaceDescription.CoatMask = 0;
 				surfaceDescription.Metallic = 0;
@@ -1856,7 +1844,9 @@ Shader "Water"
 			CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColor;
 			float4 _TransmissionColor;
+			float _Tiling;
 			float _Amplitude;
+			float _WaveSharpness;
 			float _RefractionIndex;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
@@ -1938,8 +1928,8 @@ Shader "Water"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
-			#include "SumOfSines.cginc"
-			#define ASE_NEEDS_VERT_NORMAL
+			#include "Packages/com.gatordragongames.churn-vector.sdk/Extras/Water/SumOfSines.cginc"
+			#define ASE_NEEDS_VERT_POSITION
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -1950,7 +1940,7 @@ Shader "Water"
 			{
 				float3 positionOS : POSITION;
 				float3 normalOS : NORMAL;
-				float4 ase_texcoord : TEXCOORD0;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -2124,16 +2114,17 @@ Shader "Water"
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( outputPackedVaryingsMeshToPS );
 
-				float2 texCoord12 = inputMesh.ase_texcoord.xy * float2( 32,32 ) + float2( 0,0 );
-				float2 uv2_g16 = texCoord12;
-				float amplitude2_g16 = _Amplitude;
-				int detail2_g16 = 32;
-				float2 derivative2_g16 = float2( 0,0 );
-				float mulTime13 = _TimeParameters.x * 1.1;
-				float t2_g16 = mulTime13;
-				float localSumOfSines2_g16 = SumOfSines( uv2_g16 , amplitude2_g16 , detail2_g16 , derivative2_g16 , t2_g16 );
-				float temp_output_61_0 = localSumOfSines2_g16;
-				float3 temp_output_15_0 = ( inputMesh.normalOS * temp_output_61_0 );
+				float tiling2_g22 = _Tiling;
+				float amplitude2_g22 = _Amplitude;
+				int detail2_g22 = 16;
+				float3 position2_g22 = inputMesh.positionOS;
+				float3 normal2_g22 = float3( 0,0,0 );
+				float3 tangent2_g22 = float3( 0,0,0 );
+				float3 binormal2_g22 = float3( 0,0,0 );
+				float mulTime13 = _TimeParameters.x * 2.0;
+				float t2_g22 = mulTime13;
+				float sharpness2_g22 = _WaveSharpness;
+				float localSumOfGerstner2_g22 = SumOfGerstner( tiling2_g22 , amplitude2_g22 , detail2_g22 , position2_g22 , normal2_g22 , tangent2_g22 , binormal2_g22 , t2_g22 , sharpness2_g22 );
 				
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -2141,7 +2132,7 @@ Shader "Water"
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = temp_output_15_0;
+				float3 vertexValue = position2_g22;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -2162,8 +2153,7 @@ Shader "Water"
 			{
 				float3 positionOS : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
-				float4 ase_texcoord : TEXCOORD0;
-
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -2180,7 +2170,7 @@ Shader "Water"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.positionOS = v.positionOS;
 				o.normalOS = v.normalOS;
-				o.ase_texcoord = v.ase_texcoord;
+				
 				return o;
 			}
 
@@ -2224,7 +2214,7 @@ Shader "Water"
 				AttributesMesh o = (AttributesMesh) 0;
 				o.positionOS = patch[0].positionOS * bary.x + patch[1].positionOS * bary.y + patch[2].positionOS * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -2444,7 +2434,9 @@ Shader "Water"
 			CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColor;
 			float4 _TransmissionColor;
+			float _Tiling;
 			float _Amplitude;
+			float _WaveSharpness;
 			float _RefractionIndex;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
@@ -2527,8 +2519,8 @@ Shader "Water"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
-			#include "SumOfSines.cginc"
-			#define ASE_NEEDS_VERT_NORMAL
+			#include "Packages/com.gatordragongames.churn-vector.sdk/Extras/Water/SumOfSines.cginc"
+			#define ASE_NEEDS_VERT_POSITION
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -2539,7 +2531,7 @@ Shader "Water"
 			{
 				float3 positionOS : POSITION;
 				float3 normalOS : NORMAL;
-				float4 ase_texcoord : TEXCOORD0;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -2709,16 +2701,17 @@ Shader "Water"
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( outputPackedVaryingsMeshToPS );
 
-				float2 texCoord12 = inputMesh.ase_texcoord.xy * float2( 32,32 ) + float2( 0,0 );
-				float2 uv2_g16 = texCoord12;
-				float amplitude2_g16 = _Amplitude;
-				int detail2_g16 = 32;
-				float2 derivative2_g16 = float2( 0,0 );
-				float mulTime13 = _TimeParameters.x * 1.1;
-				float t2_g16 = mulTime13;
-				float localSumOfSines2_g16 = SumOfSines( uv2_g16 , amplitude2_g16 , detail2_g16 , derivative2_g16 , t2_g16 );
-				float temp_output_61_0 = localSumOfSines2_g16;
-				float3 temp_output_15_0 = ( inputMesh.normalOS * temp_output_61_0 );
+				float tiling2_g22 = _Tiling;
+				float amplitude2_g22 = _Amplitude;
+				int detail2_g22 = 16;
+				float3 position2_g22 = inputMesh.positionOS;
+				float3 normal2_g22 = float3( 0,0,0 );
+				float3 tangent2_g22 = float3( 0,0,0 );
+				float3 binormal2_g22 = float3( 0,0,0 );
+				float mulTime13 = _TimeParameters.x * 2.0;
+				float t2_g22 = mulTime13;
+				float sharpness2_g22 = _WaveSharpness;
+				float localSumOfGerstner2_g22 = SumOfGerstner( tiling2_g22 , amplitude2_g22 , detail2_g22 , position2_g22 , normal2_g22 , tangent2_g22 , binormal2_g22 , t2_g22 , sharpness2_g22 );
 				
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -2726,7 +2719,7 @@ Shader "Water"
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = temp_output_15_0;
+				float3 vertexValue = position2_g22;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -2747,8 +2740,7 @@ Shader "Water"
 			{
 				float3 positionOS : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
-				float4 ase_texcoord : TEXCOORD0;
-
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -2765,7 +2757,7 @@ Shader "Water"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.positionOS = v.positionOS;
 				o.normalOS = v.normalOS;
-				o.ase_texcoord = v.ase_texcoord;
+				
 				return o;
 			}
 
@@ -2809,7 +2801,7 @@ Shader "Water"
 				AttributesMesh o = (AttributesMesh) 0;
 				o.positionOS = patch[0].positionOS * bary.x + patch[1].positionOS * bary.y + patch[2].positionOS * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -3000,7 +2992,9 @@ Shader "Water"
 			CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColor;
 			float4 _TransmissionColor;
+			float _Tiling;
 			float _Amplitude;
+			float _WaveSharpness;
 			float _RefractionIndex;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
@@ -3082,8 +3076,12 @@ Shader "Water"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
-			#include "SumOfSines.cginc"
+			#include "Packages/com.gatordragongames.churn-vector.sdk/Extras/Water/SumOfSines.cginc"
+			#define ASE_NEEDS_VERT_POSITION
+			#define ASE_NEEDS_FRAG_WORLD_TANGENT
+			#define ASE_NEEDS_FRAG_WORLD_NORMAL
 			#define ASE_NEEDS_VERT_NORMAL
+			#define ASE_NEEDS_VERT_TANGENT
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -3095,7 +3093,7 @@ Shader "Water"
 				float3 positionOS : POSITION;
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
-				float4 ase_texcoord : TEXCOORD0;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -3106,6 +3104,7 @@ Shader "Water"
 				float3 normalWS : TEXCOORD1;
 				float4 tangentWS : TEXCOORD2;
 				float4 ase_texcoord3 : TEXCOORD3;
+				float4 ase_texcoord4 : TEXCOORD4;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
@@ -3273,28 +3272,35 @@ Shader "Water"
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( outputPackedVaryingsMeshToPS );
 
-				float2 texCoord12 = inputMesh.ase_texcoord.xy * float2( 32,32 ) + float2( 0,0 );
-				float2 uv2_g16 = texCoord12;
-				float amplitude2_g16 = _Amplitude;
-				int detail2_g16 = 32;
-				float2 derivative2_g16 = float2( 0,0 );
-				float mulTime13 = _TimeParameters.x * 1.1;
-				float t2_g16 = mulTime13;
-				float localSumOfSines2_g16 = SumOfSines( uv2_g16 , amplitude2_g16 , detail2_g16 , derivative2_g16 , t2_g16 );
-				float temp_output_61_0 = localSumOfSines2_g16;
-				float3 temp_output_15_0 = ( inputMesh.normalOS * temp_output_61_0 );
+				float tiling2_g22 = _Tiling;
+				float amplitude2_g22 = _Amplitude;
+				int detail2_g22 = 16;
+				float3 position2_g22 = inputMesh.positionOS;
+				float3 normal2_g22 = float3( 0,0,0 );
+				float3 tangent2_g22 = float3( 0,0,0 );
+				float3 binormal2_g22 = float3( 0,0,0 );
+				float mulTime13 = _TimeParameters.x * 2.0;
+				float t2_g22 = mulTime13;
+				float sharpness2_g22 = _WaveSharpness;
+				float localSumOfGerstner2_g22 = SumOfGerstner( tiling2_g22 , amplitude2_g22 , detail2_g22 , position2_g22 , normal2_g22 , tangent2_g22 , binormal2_g22 , t2_g22 , sharpness2_g22 );
 				
-				outputPackedVaryingsMeshToPS.ase_texcoord3.xy = inputMesh.ase_texcoord.xy;
+				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
+				float3 ase_worldTangent = TransformObjectToWorldDir(inputMesh.tangentOS.xyz);
+				float ase_vertexTangentSign = inputMesh.tangentOS.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
+				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
+				outputPackedVaryingsMeshToPS.ase_texcoord3.xyz = ase_worldBitangent;
+				
+				outputPackedVaryingsMeshToPS.ase_texcoord4 = float4(inputMesh.positionOS,1);
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
-				outputPackedVaryingsMeshToPS.ase_texcoord3.zw = 0;
+				outputPackedVaryingsMeshToPS.ase_texcoord3.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = temp_output_15_0;
+				float3 vertexValue = position2_g22;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -3322,8 +3328,7 @@ Shader "Water"
 				float3 positionOS : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
-				float4 ase_texcoord : TEXCOORD0;
-
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -3341,7 +3346,7 @@ Shader "Water"
 				o.positionOS = v.positionOS;
 				o.normalOS = v.normalOS;
 				o.tangentOS = v.tangentOS;
-				o.ase_texcoord = v.ase_texcoord;
+				
 				return o;
 			}
 
@@ -3386,7 +3391,7 @@ Shader "Water"
 				o.positionOS = patch[0].positionOS * bary.x + patch[1].positionOS * bary.y + patch[2].positionOS * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
 				o.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -3468,20 +3473,22 @@ Shader "Water"
 				float3 V = GetWorldSpaceNormalizeViewDir(input.positionRWS);
 
 				SmoothSurfaceDescription surfaceDescription = (SmoothSurfaceDescription)0;
-				float2 texCoord12 = packedInput.ase_texcoord3.xy * float2( 32,32 ) + float2( 0,0 );
-				float2 uv2_g16 = texCoord12;
-				float amplitude2_g16 = _Amplitude;
-				int detail2_g16 = 32;
-				float2 derivative2_g16 = float2( 0,0 );
-				float mulTime13 = _TimeParameters.x * 1.1;
-				float t2_g16 = mulTime13;
-				float localSumOfSines2_g16 = SumOfSines( uv2_g16 , amplitude2_g16 , detail2_g16 , derivative2_g16 , t2_g16 );
-				float2 break55 = derivative2_g16;
-				float3 appendResult37 = (float3(1.0 , 0.0 , break55.x));
-				float3 appendResult38 = (float3(0.0 , 1.0 , break55.y));
-				float3 temp_output_24_0 = cross( appendResult37 , appendResult38 );
+				float3 ase_worldBitangent = packedInput.ase_texcoord3.xyz;
+				float3x3 ase_worldToTangent = float3x3(tangentWS.xyz,ase_worldBitangent,normalWS);
+				float tiling2_g22 = _Tiling;
+				float amplitude2_g22 = _Amplitude;
+				int detail2_g22 = 16;
+				float3 position2_g22 = packedInput.ase_texcoord4.xyz;
+				float3 normal2_g22 = float3( 0,0,0 );
+				float3 tangent2_g22 = float3( 0,0,0 );
+				float3 binormal2_g22 = float3( 0,0,0 );
+				float mulTime13 = _TimeParameters.x * 2.0;
+				float t2_g22 = mulTime13;
+				float sharpness2_g22 = _WaveSharpness;
+				float localSumOfGerstner2_g22 = SumOfGerstner( tiling2_g22 , amplitude2_g22 , detail2_g22 , position2_g22 , normal2_g22 , tangent2_g22 , binormal2_g22 , t2_g22 , sharpness2_g22 );
+				float3 temp_output_117_4 = normal2_g22;
 				
-				surfaceDescription.Normal = temp_output_24_0;
+				surfaceDescription.Normal = mul( ase_worldToTangent, temp_output_117_4 );
 				surfaceDescription.Smoothness = 0.98;
 				surfaceDescription.Alpha = _BaseColor.a;
 
@@ -3653,7 +3660,9 @@ Shader "Water"
 			CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColor;
 			float4 _TransmissionColor;
+			float _Tiling;
 			float _Amplitude;
+			float _WaveSharpness;
 			float _RefractionIndex;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
@@ -3738,12 +3747,13 @@ Shader "Water"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
-			#include "SumOfSines.cginc"
-			#define ASE_NEEDS_VERT_NORMAL
-			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
+			#include "Packages/com.gatordragongames.churn-vector.sdk/Extras/Water/SumOfSines.cginc"
+			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_TANGENT
 			#define ASE_NEEDS_FRAG_WORLD_NORMAL
+			#define ASE_NEEDS_VERT_NORMAL
 			#define ASE_NEEDS_VERT_TANGENT
+			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -3759,7 +3769,7 @@ Shader "Water"
 				float4 uv2 : TEXCOORD2;
 				float3 previousPositionOS : TEXCOORD4;
 				float3 precomputedVelocity : TEXCOORD5;
-				float4 ase_texcoord : TEXCOORD0;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -3784,15 +3794,7 @@ Shader "Water"
 				#endif
 			};
 
-			float3x3 Inverse3x3(float3x3 input)
-			{
-				float3 a = input._11_21_31;
-				float3 b = input._12_22_32;
-				float3 c = input._13_23_33;
-				return float3x3(cross(b,c), cross(c,a), cross(a,b)) * (1.0 / dot(a,cross(b,c)));
-			}
 			
-
 			void BuildSurfaceData(FragInputs fragInputs, inout GlobalSurfaceDescription surfaceDescription, float3 V, PositionInputs posInput, out SurfaceData surfaceData, out float3 bentNormalWS)
 			{
 				ZERO_INITIALIZE(SurfaceData, surfaceData);
@@ -4012,35 +4014,35 @@ Shader "Water"
 			AttributesMesh ApplyMeshModification(AttributesMesh inputMesh, float3 timeParameters, inout PackedVaryingsMeshToPS outputPackedVaryingsMeshToPS )
 			{
 				_TimeParameters.xyz = timeParameters;
-				float2 texCoord12 = inputMesh.ase_texcoord.xy * float2( 32,32 ) + float2( 0,0 );
-				float2 uv2_g16 = texCoord12;
-				float amplitude2_g16 = _Amplitude;
-				int detail2_g16 = 32;
-				float2 derivative2_g16 = float2( 0,0 );
-				float mulTime13 = _TimeParameters.x * 1.1;
-				float t2_g16 = mulTime13;
-				float localSumOfSines2_g16 = SumOfSines( uv2_g16 , amplitude2_g16 , detail2_g16 , derivative2_g16 , t2_g16 );
-				float temp_output_61_0 = localSumOfSines2_g16;
-				float3 temp_output_15_0 = ( inputMesh.normalOS * temp_output_61_0 );
+				float tiling2_g22 = _Tiling;
+				float amplitude2_g22 = _Amplitude;
+				int detail2_g22 = 16;
+				float3 position2_g22 = inputMesh.positionOS;
+				float3 normal2_g22 = float3( 0,0,0 );
+				float3 tangent2_g22 = float3( 0,0,0 );
+				float3 binormal2_g22 = float3( 0,0,0 );
+				float mulTime13 = _TimeParameters.x * 2.0;
+				float t2_g22 = mulTime13;
+				float sharpness2_g22 = _WaveSharpness;
+				float localSumOfGerstner2_g22 = SumOfGerstner( tiling2_g22 , amplitude2_g22 , detail2_g22 , position2_g22 , normal2_g22 , tangent2_g22 , binormal2_g22 , t2_g22 , sharpness2_g22 );
 				
 				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
 				float3 ase_worldTangent = TransformObjectToWorldDir(inputMesh.tangentOS.xyz);
 				float ase_vertexTangentSign = inputMesh.tangentOS.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
 				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
-				outputPackedVaryingsMeshToPS.ase_texcoord8.xyz = ase_worldBitangent;
+				outputPackedVaryingsMeshToPS.ase_texcoord7.xyz = ase_worldBitangent;
 				
-				outputPackedVaryingsMeshToPS.ase_texcoord7.xy = inputMesh.ase_texcoord.xy;
+				outputPackedVaryingsMeshToPS.ase_texcoord8 = float4(inputMesh.positionOS,1);
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
-				outputPackedVaryingsMeshToPS.ase_texcoord7.zw = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord8.w = 0;
+				outputPackedVaryingsMeshToPS.ase_texcoord7.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = temp_output_15_0;
+				float3 vertexValue = position2_g22;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -4132,8 +4134,7 @@ Shader "Water"
 				float4 tangentOS : TANGENT;
 				float4 uv1 : TEXCOORD1;
 				float4 uv2 : TEXCOORD2;
-				float4 ase_texcoord : TEXCOORD0;
-
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -4153,7 +4154,7 @@ Shader "Water"
 				o.tangentOS = v.tangentOS;
 				o.uv1 = v.uv1;
 				o.uv2 = v.uv2;
-				o.ase_texcoord = v.ase_texcoord;
+				
 				return o;
 			}
 
@@ -4200,7 +4201,7 @@ Shader "Water"
 				o.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
 				o.uv1 = patch[0].uv1 * bary.x + patch[1].uv1 * bary.y + patch[2].uv1 * bary.z;
 				o.uv2 = patch[0].uv2 * bary.x + patch[1].uv2 * bary.y + patch[2].uv2 * bary.z;
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -4290,29 +4291,27 @@ Shader "Water"
 				float3 V = GetWorldSpaceNormalizeViewDir(input.positionRWS);
 
 				GlobalSurfaceDescription surfaceDescription = (GlobalSurfaceDescription)0;
-				float2 texCoord12 = packedInput.ase_texcoord7.xy * float2( 32,32 ) + float2( 0,0 );
-				float2 uv2_g16 = texCoord12;
-				float amplitude2_g16 = _Amplitude;
-				int detail2_g16 = 32;
-				float2 derivative2_g16 = float2( 0,0 );
-				float mulTime13 = _TimeParameters.x * 1.1;
-				float t2_g16 = mulTime13;
-				float localSumOfSines2_g16 = SumOfSines( uv2_g16 , amplitude2_g16 , detail2_g16 , derivative2_g16 , t2_g16 );
-				float2 break55 = derivative2_g16;
-				float3 appendResult37 = (float3(1.0 , 0.0 , break55.x));
-				float3 appendResult38 = (float3(0.0 , 1.0 , break55.y));
-				float3 temp_output_24_0 = cross( appendResult37 , appendResult38 );
-				
-				float3 ase_worldBitangent = packedInput.ase_texcoord8.xyz;
+				float3 ase_worldBitangent = packedInput.ase_texcoord7.xyz;
 				float3x3 ase_worldToTangent = float3x3(tangentWS.xyz,ase_worldBitangent,normalWS);
-				float3x3 invertVal79 = Inverse3x3( ase_worldToTangent );
-				float fresnelNdotV76 = dot( mul( invertVal79, temp_output_24_0 ), V );
+				float tiling2_g22 = _Tiling;
+				float amplitude2_g22 = _Amplitude;
+				int detail2_g22 = 16;
+				float3 position2_g22 = packedInput.ase_texcoord8.xyz;
+				float3 normal2_g22 = float3( 0,0,0 );
+				float3 tangent2_g22 = float3( 0,0,0 );
+				float3 binormal2_g22 = float3( 0,0,0 );
+				float mulTime13 = _TimeParameters.x * 2.0;
+				float t2_g22 = mulTime13;
+				float sharpness2_g22 = _WaveSharpness;
+				float localSumOfGerstner2_g22 = SumOfGerstner( tiling2_g22 , amplitude2_g22 , detail2_g22 , position2_g22 , normal2_g22 , tangent2_g22 , binormal2_g22 , t2_g22 , sharpness2_g22 );
+				float3 temp_output_117_4 = normal2_g22;
+				
+				float fresnelNdotV76 = dot( temp_output_117_4, V );
 				float fresnelNode76 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV76, 5.0 ) );
-				float temp_output_61_0 = localSumOfSines2_g16;
-				float4 lerpResult82 = lerp( float4( 0,0,0,0 ) , _TransmissionColor , ( fresnelNode76 * (0.0 + (temp_output_61_0 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) ));
+				float4 lerpResult82 = lerp( float4( 0,0,0,0 ) , _TransmissionColor , ( fresnelNode76 * (0.0 + (localSumOfGerstner2_g22 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) ));
 				
 				surfaceDescription.BaseColor = _BaseColor.rgb;
-				surfaceDescription.Normal = temp_output_24_0;
+				surfaceDescription.Normal = mul( ase_worldToTangent, temp_output_117_4 );
 				surfaceDescription.BentNormal = float3( 0, 0, 1 );
 				surfaceDescription.CoatMask = 0;
 				surfaceDescription.Metallic = 0;
@@ -4596,7 +4595,9 @@ Shader "Water"
             CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColor;
 			float4 _TransmissionColor;
+			float _Tiling;
 			float _Amplitude;
+			float _WaveSharpness;
 			float _RefractionIndex;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
@@ -4662,8 +4663,8 @@ Shader "Water"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
 
-			#include "SumOfSines.cginc"
-			#define ASE_NEEDS_VERT_NORMAL
+			#include "Packages/com.gatordragongames.churn-vector.sdk/Extras/Water/SumOfSines.cginc"
+			#define ASE_NEEDS_VERT_POSITION
 
 
 			struct VertexInput
@@ -4671,7 +4672,7 @@ Shader "Water"
 				float3 positionOS : POSITION;
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
-				float4 ase_texcoord : TEXCOORD0;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -4799,23 +4800,24 @@ Shader "Water"
 				UNITY_SETUP_INSTANCE_ID(inputMesh);
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, o );
 
-				float2 texCoord12 = inputMesh.ase_texcoord.xy * float2( 32,32 ) + float2( 0,0 );
-				float2 uv2_g16 = texCoord12;
-				float amplitude2_g16 = _Amplitude;
-				int detail2_g16 = 32;
-				float2 derivative2_g16 = float2( 0,0 );
-				float mulTime13 = _TimeParameters.x * 1.1;
-				float t2_g16 = mulTime13;
-				float localSumOfSines2_g16 = SumOfSines( uv2_g16 , amplitude2_g16 , detail2_g16 , derivative2_g16 , t2_g16 );
-				float temp_output_61_0 = localSumOfSines2_g16;
-				float3 temp_output_15_0 = ( inputMesh.normalOS * temp_output_61_0 );
+				float tiling2_g22 = _Tiling;
+				float amplitude2_g22 = _Amplitude;
+				int detail2_g22 = 16;
+				float3 position2_g22 = inputMesh.positionOS;
+				float3 normal2_g22 = float3( 0,0,0 );
+				float3 tangent2_g22 = float3( 0,0,0 );
+				float3 binormal2_g22 = float3( 0,0,0 );
+				float mulTime13 = _TimeParameters.x * 2.0;
+				float t2_g22 = mulTime13;
+				float sharpness2_g22 = _WaveSharpness;
+				float localSumOfGerstner2_g22 = SumOfGerstner( tiling2_g22 , amplitude2_g22 , detail2_g22 , position2_g22 , normal2_g22 , tangent2_g22 , binormal2_g22 , t2_g22 , sharpness2_g22 );
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue =  temp_output_15_0;
+				float3 vertexValue =  position2_g22;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
 				#else
@@ -4841,8 +4843,7 @@ Shader "Water"
 				float3 positionOS : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
-				float4 ase_texcoord : TEXCOORD0;
-
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -4860,7 +4861,7 @@ Shader "Water"
 				o.positionOS = v.positionOS;
 				o.normalOS = v.normalOS;
 				o.tangentOS = v.tangentOS;
-				o.ase_texcoord = v.ase_texcoord;
+				
 				return o;
 			}
 
@@ -4905,7 +4906,7 @@ Shader "Water"
 				o.positionOS = patch[0].positionOS * bary.x + patch[1].positionOS * bary.y + patch[2].positionOS * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
 				o.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -5232,13 +5233,6 @@ Shader "Water"
 }
 /*ASEBEGIN
 Version=19201
-Node;AmplifyShaderEditor.NormalVertexDataNode;14;-626.4326,259.5852;Inherit;False;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;15;-231.3327,339.8617;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.TextureCoordinatesNode;12;-1449.916,519.9171;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;32,32;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.FunctionNode;61;-1158.603,603.9714;Inherit;False;SumOfSines;-1;;16;69c33baa9cd39e043b97573e1f046986;0;4;1;FLOAT2;0,0;False;5;INT;4;False;6;FLOAT;0.2;False;3;FLOAT;0;False;2;FLOAT;0;FLOAT2;4
-Node;AmplifyShaderEditor.SimpleTimeNode;13;-1412.659,869.7783;Inherit;False;1;0;FLOAT;1.1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;63;-1552.243,762.5923;Inherit;False;Property;_Amplitude;Amplitude;0;0;Create;True;0;0;0;False;0;False;0.2;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.IntNode;60;-1425.243,669.5923;Inherit;False;Constant;_Detail;Detail;0;0;Create;True;0;0;0;False;0;False;32;4;True;0;1;INT;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;META;0;1;META;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;3;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;SceneSelectionPass;0;3;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
@@ -5250,19 +5244,9 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;8;0,0;Float;False;False;-1;
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;9;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;Forward;0;9;Forward;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;True;0;True;_CullModeForward;False;False;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelOne;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelTwo;False;False;False;True;True;0;True;_StencilRef;255;False;;255;True;_StencilWriteMask;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;0;True;_ZWrite;True;0;True;_ZTestDepthEqualForOpaque;False;True;1;LightMode=Forward;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;10;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;ScenePickingPass;0;10;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;3;False;;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;643.2814,-80.88885;Float;False;True;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;Water;53b46d85872c5b24c8f4f0a1c3fe4c87;True;GBuffer;0;0;GBuffer;34;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;True;True;True;True;0;True;_LightLayersMaskBuffer4;False;False;False;False;False;False;False;True;True;0;True;_StencilRefGBuffer;255;False;;255;True;_StencilWriteMaskGBuffer;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;False;True;0;True;_ZTestGBuffer;False;True;1;LightMode=GBuffer;False;False;0;;0;0;Standard;39;Surface Type;1;638446927057792748;  Rendering Pass;1;0;  Refraction Model;2;638446939227315069;    Blending Mode;0;0;    Blend Preserves Specular;1;0;  Back Then Front Rendering;0;0;  Transparent Depth Prepass;0;0;  Transparent Depth Postpass;0;0;  ZWrite;0;0;  Z Test;4;0;Double-Sided;0;0;Alpha Clipping;0;0;  Use Shadow Threshold;0;0;Material Type,InvertActionOnDeselection;0;638446944603301998;  Energy Conserving Specular;1;0;  Transmission,InvertActionOnDeselection;0;0;Forward Only;0;0;Receive Decals;1;0;Receives SSR;1;0;Receive SSR Transparent;0;0;Motion Vectors;0;0;  Add Precomputed Velocity;0;0;Specular AA;0;0;Specular Occlusion Mode;1;0;Override Baked GI;0;0;Depth Offset;0;0;DOTS Instancing;0;0;GPU Instancing;1;0;LOD CrossFade;0;0;Tessellation;1;638446804460253144;  Phong;0;0;  Strength;0.5,False,;0;  Type;1;638446945431079720;  Tess;8,False,;638446948081786666;  Min;8,False,;638446946568652291;  Max;25,False,;638446946581378865;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position;1;0;0;11;True;True;True;True;True;False;False;False;False;True;True;False;;False;0
-Node;AmplifyShaderEditor.BreakToComponentsNode;55;-833.2014,658.8891;Inherit;False;FLOAT2;1;0;FLOAT2;0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
-Node;AmplifyShaderEditor.DynamicAppendNode;37;-599.8126,572.705;Inherit;False;FLOAT3;4;0;FLOAT;1;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.DynamicAppendNode;38;-599.4911,742.8622;Inherit;False;FLOAT3;4;0;FLOAT;0;False;1;FLOAT;1;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.CrossProductOpNode;24;-381.0529,641.6888;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.RangedFloatNode;64;-15.62163,210.1283;Inherit;False;Property;_RefractionIndex;RefractionIndex;3;0;Create;True;0;0;0;False;0;False;1;0;0.9;1.1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;44;94.58881,-46.15892;Inherit;False;Constant;_Float1;Float 1;0;0;Create;True;0;0;0;False;0;False;0.98;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.NegateNode;75;-1228.128,281.4482;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TFHCRemapNode;74;-783.941,-114.4855;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;-1;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.WorldToTangentMatrix;78;-381.0424,920.9001;Inherit;False;0;1;FLOAT3x3;0
-Node;AmplifyShaderEditor.InverseOpNode;79;-164.375,817.1299;Inherit;False;1;0;FLOAT3x3;0,0,0,1,0,0,1,0,1;False;1;FLOAT3x3;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;80;20.625,668.1299;Inherit;False;2;2;0;FLOAT3x3;0,0,0,1,0,0,1,0,1;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.ViewDirInputsCoordNode;77;-882.1677,-360.6021;Inherit;False;World;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.FresnelNode;76;-598.2611,-347.924;Inherit;False;Standard;WorldNormal;ViewDir;False;False;5;0;FLOAT3;0,0,1;False;4;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;5;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;81;-318.5028,-337.7462;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.LerpOp;82;-0.5269775,-487.9054;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.ColorNode;83;-306.0276,-581.5054;Inherit;False;Property;_TransmissionColor;TransmissionColor;2;0;Create;True;0;0;0;False;0;False;0.3820755,1,0.9364549,1;0.7169812,0.7169812,0.7169812,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
@@ -5272,38 +5256,33 @@ Node;AmplifyShaderEditor.SimpleSubtractOpNode;68;-21.10107,60.8598;Inherit;False
 Node;AmplifyShaderEditor.ScreenDepthNode;67;-456.1011,0.8598022;Inherit;False;0;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SurfaceDepthNode;66;-593.3014,152.9151;Inherit;False;1;1;0;FLOAT3;0,0,0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.LinearDepthNode;69;-262.8853,150.4571;Inherit;False;0;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.PosVertexDataNode;92;-347.5065,519.301;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleAddOpNode;93;-87.26819,483.3253;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;94;513.1641,359.1554;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SaturateNode;95;717.2747,458.451;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.DepthFade;91;255.8983,463.2136;Inherit;False;True;False;True;2;1;FLOAT3;0,0,0;False;0;FLOAT;1;False;1;FLOAT;0
-WireConnection;15;0;14;0
-WireConnection;15;1;61;0
-WireConnection;61;1;12;0
-WireConnection;61;5;60;0
-WireConnection;61;6;63;0
-WireConnection;61;3;13;0
+Node;AmplifyShaderEditor.RangedFloatNode;99;-1562.228,316.4085;Inherit;False;Property;_WaveSharpness;WaveSharpness;5;0;Create;True;0;0;0;False;0;False;0.5;2.5;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;63;-1540.243,763.5923;Inherit;False;Property;_Amplitude;Amplitude;0;0;Create;True;0;0;0;False;0;False;1;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.NegateNode;75;-1153.431,228.8204;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.WorldNormalVector;107;-1028.07,-479.3538;Inherit;False;False;1;0;FLOAT3;0,0,1;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.ViewDirInputsCoordNode;77;-919.1677,-310.6021;Inherit;False;World;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.TangentVertexDataNode;104;-1031.934,1010.569;Inherit;False;1;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.DynamicAppendNode;105;-731.2657,1015.396;Inherit;False;FLOAT4;4;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.PosVertexDataNode;101;-1719.226,799.1132;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;97;-1510.028,902.1081;Inherit;False;Property;_Tiling;Tiling;4;0;Create;True;0;0;0;False;0;False;8;32;0;8;0;1;FLOAT;0
+Node;AmplifyShaderEditor.IntNode;60;-1459.243,664.5923;Inherit;False;Constant;_Detail;Detail;0;0;Create;True;0;0;0;False;0;False;16;4;True;0;1;INT;0
+Node;AmplifyShaderEditor.FunctionNode;117;-1120.528,800.4124;Inherit;False;SumOfGerstner;-1;;22;4bf2394a7a8e2894ebf8a3bfafb106b5;0;6;7;FLOAT;0.5;False;1;FLOAT3;0,0,0;False;5;INT;4;False;6;FLOAT;0.2;False;12;FLOAT;1;False;3;FLOAT;0;False;5;FLOAT3;4;FLOAT3;8;FLOAT;10;FLOAT3;9;FLOAT3;11
+Node;AmplifyShaderEditor.WorldToTangentMatrix;78;-318.0424,648.9001;Inherit;False;0;1;FLOAT3x3;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;118;-84.70337,814.1095;Inherit;False;2;2;0;FLOAT3x3;0,0,0,1,1,1,1,0,1;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.InverseOpNode;79;-29.375,626.1299;Inherit;False;1;0;FLOAT3x3;0,0,0,1,1,1,1,0,1;False;1;FLOAT3x3;0
+Node;AmplifyShaderEditor.SimpleTimeNode;13;-1500.459,1037.178;Inherit;False;1;0;FLOAT;2;False;1;FLOAT;0
+Node;AmplifyShaderEditor.FresnelNode;76;-627.8998,-353.8516;Inherit;False;Standard;WorldNormal;ViewDir;False;False;5;0;FLOAT3;0,0,1;False;4;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;5;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;80;210.3111,693.8594;Inherit;False;2;2;0;FLOAT3x3;0,0,0,1,1,1,1,0,1;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
 WireConnection;0;0;16;0
-WireConnection;0;1;24;0
+WireConnection;0;1;118;0
 WireConnection;0;6;82;0
 WireConnection;0;7;44;0
 WireConnection;0;9;16;4
 WireConnection;0;17;64;0
-WireConnection;0;11;15;0
-WireConnection;55;0;61;4
-WireConnection;37;2;55;0
-WireConnection;38;2;55;1
-WireConnection;24;0;37;0
-WireConnection;24;1;38;0
-WireConnection;75;0;63;0
-WireConnection;74;0;61;0
+WireConnection;0;11;117;8
+WireConnection;74;0;117;10
 WireConnection;74;1;75;0
 WireConnection;74;2;63;0
-WireConnection;79;0;78;0
-WireConnection;80;0;79;0
-WireConnection;80;1;24;0
-WireConnection;76;0;80;0
-WireConnection;76;4;77;0
 WireConnection;81;0;76;0
 WireConnection;81;1;74;0
 WireConnection;82;1;83;0
@@ -5311,11 +5290,21 @@ WireConnection;82;2;81;0
 WireConnection;68;0;67;0
 WireConnection;68;1;69;0
 WireConnection;69;0;66;0
-WireConnection;93;0;15;0
-WireConnection;93;1;92;0
-WireConnection;94;0;16;4
-WireConnection;94;1;91;0
-WireConnection;95;0;94;0
-WireConnection;91;1;93;0
+WireConnection;75;0;63;0
+WireConnection;105;0;117;9
+WireConnection;105;3;104;4
+WireConnection;117;7;99;0
+WireConnection;117;1;101;0
+WireConnection;117;5;60;0
+WireConnection;117;6;63;0
+WireConnection;117;12;97;0
+WireConnection;117;3;13;0
+WireConnection;118;0;78;0
+WireConnection;118;1;117;4
+WireConnection;79;0;78;0
+WireConnection;76;0;117;4
+WireConnection;76;4;77;0
+WireConnection;80;0;79;0
+WireConnection;80;1;117;4
 ASEEND*/
-//CHKSM=E4FBDBD530A8E0229A1A7F079C5CECE3CE0BE354
+//CHKSM=F2BA7598306F89B749F66693FB11C2A0866867E2
