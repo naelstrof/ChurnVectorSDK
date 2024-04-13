@@ -172,9 +172,10 @@ Material:
     - _AlphaSrcBlend: 1
     - _AlphaToMask: 0
     - _AlphaToMaskInspectorValue: 0
-    - _Amplitude: 0.049
+    - _Amplitude: 0.149
     - _Anisotropy: 0
     - _BlendMode: 0
+    - _CircularWaves: 0
     - _CoatMask: 0
     - _CullMode: 2
     - _CullModeForward: 2
@@ -232,7 +233,7 @@ Material:
     - _RayTracing: 0
     - _ReceivesSSR: 1
     - _ReceivesSSRTransparent: 0
-    - _RefractionIndex: 1.0161
+    - _RefractionIndex: 1.05
     - _RefractionModel: 0
     - _RenderQueueType: 4
     - _RequireSplitLighting: 0
@@ -242,6 +243,7 @@ Material:
     - _SpecularAAScreenSpaceVariance: 0.1
     - _SpecularAAThreshold: 0.2
     - _SpecularOcclusionMode: 1
+    - _Speed: 3
     - _SrcBlend: 1
     - _StencilRef: 0
     - _StencilRefDepth: 0
@@ -262,7 +264,7 @@ Material:
     - _TexWorldScale: 1
     - _TexWorldScaleEmissive: 1
     - _Thickness: 1
-    - _Tiling: 5.15
+    - _Tiling: 3
     - _TransmissionEnable: 1
     - _TransmissionMask: 1
     - _TransparentBackfaceEnable: 0
@@ -286,7 +288,10 @@ Material:
     m_Colors:
     - _BaseColor: {r: 0.10902457, g: 0.3651988, b: 0.4716981, a: 0.18431373}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
+    - _CircleSpawnExtents: {r: 5, g: 5, b: 0, a: 0}
+    - _CircleSpawnPosition: {r: 234.07, g: -127.89, b: 0, a: 0}
     - _Color: {r: 0.10902453, g: 0.36519876, b: 0.4716981, a: 0.18431373}
+    - _DepthColor: {r: 0.09892293, g: 0.22934353, b: 0.36792436, a: 0.36862746}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _DiffusionProfile_Asset: {r: 1.3726927e+19, g: 0.00000028451828, b: -2.0689837e+16,
         a: 147023940}
@@ -300,7 +305,7 @@ Material:
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _ThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
     - _Tiling: {r: 32, g: 32, b: 0, a: 0}
-    - _TransmissionColor: {r: 0.38207546, g: 1, b: 0.9364549, a: 1}
+    - _TransmissionColor: {r: 0.38207543, g: 1, b: 0.9364549, a: 1}
     - _TransmittanceColor: {r: 1, g: 1, b: 1, a: 1}
     - _UVDetailsMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}

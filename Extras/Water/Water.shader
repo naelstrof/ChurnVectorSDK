@@ -11,9 +11,13 @@ Shader "Water"
 		_Tiling("Tiling", Range( 0 , 16)) = 1
 		_WaveSharpness("WaveSharpness", Range( 0 , 1)) = 0.5
 		_WaterTexture("WaterTexture", 2D) = "white" {}
+		_CircleSpawnExtents("CircleSpawnExtents", Vector) = (1,1,0,0)
 		_Foam("Foam", 2D) = "white" {}
 		_FoamColor("FoamColor", Color) = (1,1,1,1)
+		_CircleSpawnPosition("CircleSpawnPosition", Vector) = (0,0,0,0)
 		_Speed("Speed", Float) = 4
+		[Toggle(_CIRCULARWAVES_ON)] _CircularWaves("CircularWaves", Float) = 0
+		_DepthColor("DepthColor", Color) = (0.09892309,0.2293437,0.3679245,0.3490196)
 
 		[HideInInspector] _RenderQueueType("Render Queue Type", Float) = 5
 		//[HideInInspector][ToggleUI] _AddPrecomputedVelocity("Add Precomputed Velocity", Float) = 1
@@ -38,8 +42,8 @@ Shader "Water"
 		[HideInInspector] _DstBlend("Dst Blend", Float) = 0
 		[HideInInspector] _AlphaSrcBlend("Alpha Src Blend", Float) = 1
 		[HideInInspector] _AlphaDstBlend("Alpha Dst Blend", Float) = 0
-		[HideInInspector][ToggleUI] _ZWrite("ZWrite", Float) = 0
-		[HideInInspector][ToggleUI] _TransparentZWrite("Transparent ZWrite", Float) = 0
+		[HideInInspector][ToggleUI] _ZWrite("ZWrite", Float) = 1
+		[HideInInspector][ToggleUI] _TransparentZWrite("Transparent ZWrite", Float) = 1
 		[HideInInspector] _CullMode("Cull Mode", Float) = 2
 		[HideInInspector] _TransparentSortPriority("Transparent Sort Priority", Float) = 0
 		[HideInInspector][ToggleUI] _EnableFogOnTransparent("Enable Fog", Float) = 1
@@ -308,9 +312,10 @@ Shader "Water"
             #pragma require tessellation tessHW
             #pragma hull HullFunction
             #pragma domain DomainFunction
-            #define _HAS_REFRACTION 1
-            #define _REFRACTION_SPHERE 1
             #define ASE_DISTANCE_TESSELLATION
+            #define ASE_ABSOLUTE_VERTEX_POS 1
+            #define _HAS_REFRACTION 1
+            #define _REFRACTION_PLANE 1
             #define HAVE_MESH_MODIFICATION
             #define ASE_SRP_VERSION 140008
 
@@ -388,10 +393,13 @@ Shader "Water"
 			#endif
 
 			CBUFFER_START( UnityPerMaterial )
+			float4 _DepthColor;
 			float4 _WaterTexture_ST;
 			float4 _FoamColor;
 			float4 _Foam_ST;
 			float4 _TransmissionColor;
+			float2 _CircleSpawnExtents;
+			float2 _CircleSpawnPosition;
 			float _Tiling;
 			float _Amplitude;
 			float _Speed;
@@ -480,12 +488,13 @@ Shader "Water"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
 			#include "Packages/com.gatordragongames.churn-vector.sdk/Extras/Water/SumOfSines.cginc"
-			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
+			#define ASE_NEEDS_FRAG_RELATIVE_WORLD_POS
 			#define ASE_NEEDS_FRAG_WORLD_TANGENT
 			#define ASE_NEEDS_FRAG_WORLD_NORMAL
 			#define ASE_NEEDS_VERT_NORMAL
 			#define ASE_NEEDS_VERT_TANGENT
+			#pragma shader_feature_local _CIRCULARWAVES_ON
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -513,7 +522,6 @@ Shader "Water"
 				float4 uv2 : TEXCOORD4;
 				float4 ase_texcoord5 : TEXCOORD5;
 				float4 ase_texcoord6 : TEXCOORD6;
-				float4 ase_texcoord7 : TEXCOORD7;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
@@ -747,35 +755,54 @@ Shader "Water"
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( outputPackedVaryingsMeshToPS );
 
-				float tiling2_g26 = _Tiling;
-				float amplitude2_g26 = _Amplitude;
-				int detail2_g26 = 16;
-				float3 position2_g26 = inputMesh.positionOS;
-				float3 normal2_g26 = float3( 0,0,0 );
+				float tiling2_g28 = _Tiling;
+				float amplitude2_g28 = _Amplitude;
+				int detail2_g28 = 16;
+				float3 ase_worldPos = GetAbsolutePositionWS( TransformObjectToWorld( (inputMesh.positionOS).xyz ) );
+				float3 position2_g28 = ase_worldPos;
+				float3 normal2_g28 = float3( 0,0,0 );
 				float mulTime13 = _TimeParameters.x * _Speed;
-				float t2_g26 = mulTime13;
-				float sharpness2_g26 = _WaveSharpness;
-				float localSumOfGerstnerDirectional2_g26 = SumOfGerstnerDirectional( tiling2_g26 , amplitude2_g26 , detail2_g26 , position2_g26 , normal2_g26 , t2_g26 , sharpness2_g26 );
+				float t2_g28 = mulTime13;
+				float sharpness2_g28 = _WaveSharpness;
+				float localSumOfGerstnerDirectional2_g28 = SumOfGerstnerDirectional( tiling2_g28 , amplitude2_g28 , detail2_g28 , position2_g28 , normal2_g28 , t2_g28 , sharpness2_g28 );
+				float2 spawnExtents2_g29 = _CircleSpawnExtents;
+				float2 spawnPosition2_g29 = _CircleSpawnPosition;
+				float tiling2_g29 = _Tiling;
+				float amplitude2_g29 = _Amplitude;
+				int detail2_g29 = 16;
+				float3 position2_g29 = ase_worldPos;
+				float3 normal2_g29 = float3( 0,0,0 );
+				float t2_g29 = mulTime13;
+				float sharpness2_g29 = _WaveSharpness;
+				float localSumOfGerstnerCircular2_g29 = SumOfGerstnerCircular( spawnExtents2_g29 , spawnPosition2_g29 , tiling2_g29 , amplitude2_g29 , detail2_g29 , position2_g29 , normal2_g29 , t2_g29 , sharpness2_g29 );
+				#ifdef _CIRCULARWAVES_ON
+				float3 staticSwitch211 = position2_g29;
+				#else
+				float3 staticSwitch211 = position2_g28;
+				#endif
+				float4 appendResult201 = (float4(staticSwitch211 , 1.0));
+				float4 localWorldVar200 = appendResult201;
+				(localWorldVar200).xyz = GetCameraRelativePositionWS((localWorldVar200).xyz);
+				float4 transform200 = mul(GetWorldToObjectMatrix(),localWorldVar200);
 				
 				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
 				float3 ase_worldTangent = TransformObjectToWorldDir(inputMesh.tangentOS.xyz);
 				float ase_vertexTangentSign = inputMesh.tangentOS.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
 				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
-				outputPackedVaryingsMeshToPS.ase_texcoord7.xyz = ase_worldBitangent;
+				outputPackedVaryingsMeshToPS.ase_texcoord6.xyz = ase_worldBitangent;
 				
 				outputPackedVaryingsMeshToPS.ase_texcoord5.xy = inputMesh.ase_texcoord.xy;
-				outputPackedVaryingsMeshToPS.ase_texcoord6 = float4(inputMesh.positionOS,1);
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
 				outputPackedVaryingsMeshToPS.ase_texcoord5.zw = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord7.w = 0;
+				outputPackedVaryingsMeshToPS.ase_texcoord6.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = position2_g26;
+				float3 vertexValue = (transform200).xyz;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -933,37 +960,57 @@ Shader "Water"
 				GlobalSurfaceDescription surfaceDescription = (GlobalSurfaceDescription)0;
 				float2 uv_WaterTexture = packedInput.ase_texcoord5.xy * _WaterTexture_ST.xy + _WaterTexture_ST.zw;
 				float4 break185 = tex2D( _WaterTexture, uv_WaterTexture );
-				float tiling2_g26 = _Tiling;
-				float amplitude2_g26 = _Amplitude;
-				int detail2_g26 = 16;
-				float3 position2_g26 = packedInput.ase_texcoord6.xyz;
-				float3 normal2_g26 = float3( 0,0,0 );
+				float4 appendResult186 = (float4(break185.r , break185.g , break185.b , break185.a));
+				float tiling2_g28 = _Tiling;
+				float amplitude2_g28 = _Amplitude;
+				int detail2_g28 = 16;
+				float3 ase_worldPos = GetAbsolutePositionWS( positionRWS );
+				float3 position2_g28 = ase_worldPos;
+				float3 normal2_g28 = float3( 0,0,0 );
 				float mulTime13 = _TimeParameters.x * _Speed;
-				float t2_g26 = mulTime13;
-				float sharpness2_g26 = _WaveSharpness;
-				float localSumOfGerstnerDirectional2_g26 = SumOfGerstnerDirectional( tiling2_g26 , amplitude2_g26 , detail2_g26 , position2_g26 , normal2_g26 , t2_g26 , sharpness2_g26 );
-				float4 appendResult15_g26 = (float4(normal2_g26 , 0.0));
-				float3 temp_output_182_4 = (mul( GetObjectToWorldMatrix(), appendResult15_g26 )).xyz;
-				float fresnelNdotV188 = dot( normalize( temp_output_182_4 ), V );
-				float fresnelNode188 = ( 0.1 + 3.0 * pow( 1.0 - fresnelNdotV188, 4.0 ) );
-				float4 appendResult186 = (float4(break185.r , break185.g , break185.b , ( break185.a * saturate( fresnelNode188 ) )));
+				float t2_g28 = mulTime13;
+				float sharpness2_g28 = _WaveSharpness;
+				float localSumOfGerstnerDirectional2_g28 = SumOfGerstnerDirectional( tiling2_g28 , amplitude2_g28 , detail2_g28 , position2_g28 , normal2_g28 , t2_g28 , sharpness2_g28 );
+				float2 spawnExtents2_g29 = _CircleSpawnExtents;
+				float2 spawnPosition2_g29 = _CircleSpawnPosition;
+				float tiling2_g29 = _Tiling;
+				float amplitude2_g29 = _Amplitude;
+				int detail2_g29 = 16;
+				float3 position2_g29 = ase_worldPos;
+				float3 normal2_g29 = float3( 0,0,0 );
+				float t2_g29 = mulTime13;
+				float sharpness2_g29 = _WaveSharpness;
+				float localSumOfGerstnerCircular2_g29 = SumOfGerstnerCircular( spawnExtents2_g29 , spawnPosition2_g29 , tiling2_g29 , amplitude2_g29 , detail2_g29 , position2_g29 , normal2_g29 , t2_g29 , sharpness2_g29 );
+				#ifdef _CIRCULARWAVES_ON
+				float3 staticSwitch210 = normal2_g29;
+				#else
+				float3 staticSwitch210 = normal2_g28;
+				#endif
+				float fresnelNdotV188 = dot( normalize( staticSwitch210 ), V );
+				float fresnelNode188 = ( 0.1 + 3.0 * pow( 1.0 - fresnelNdotV188, 6.0 ) );
+				float4 lerpResult239 = lerp( _DepthColor , appendResult186 , saturate( fresnelNode188 ));
 				float2 uv_Foam = packedInput.ase_texcoord5.xy * _Foam_ST.xy + _Foam_ST.zw;
 				float2 panner190 = ( 1.0 * _Time.y * float2( -0.032,-0.032 ) + uv_Foam);
-				float temp_output_143_0 = saturate( (0.0 + (localSumOfGerstnerDirectional2_g26 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) );
-				float temp_output_180_0 = ( tex2D( _Foam, panner190 ).r * temp_output_143_0 * _FoamColor.a );
-				float4 lerpResult155 = lerp( appendResult186 , _FoamColor , temp_output_180_0);
+				#ifdef _CIRCULARWAVES_ON
+				float staticSwitch212 = localSumOfGerstnerDirectional2_g28;
+				#else
+				float staticSwitch212 = localSumOfGerstnerCircular2_g29;
+				#endif
+				float temp_output_143_0 = saturate( (0.0 + (staticSwitch212 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) );
+				float temp_output_180_0 = ( tex2D( _Foam, panner190 ).r * ( temp_output_143_0 * temp_output_143_0 ) * _FoamColor.a );
+				float4 lerpResult155 = lerp( lerpResult239 , _FoamColor , temp_output_180_0);
 				
-				float3 ase_worldBitangent = packedInput.ase_texcoord7.xyz;
+				float3 ase_worldBitangent = packedInput.ase_texcoord6.xyz;
 				float3x3 ase_worldToTangent = float3x3(tangentWS.xyz,ase_worldBitangent,normalWS);
 				
-				float fresnelNdotV76 = dot( normalize( temp_output_182_4 ), V );
+				float fresnelNdotV76 = dot( normalize( staticSwitch210 ), V );
 				float fresnelNode76 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV76, 5.0 ) );
 				float4 lerpResult82 = lerp( float4( 0,0,0,0 ) , _TransmissionColor , ( _TransmissionColor.a * ( saturate( fresnelNode76 ) * temp_output_143_0 ) ));
 				
 				float lerpResult179 = lerp( 0.95 , 0.25 , temp_output_180_0);
 				
 				surfaceDescription.BaseColor = lerpResult155.rgb;
-				surfaceDescription.Normal = mul( ase_worldToTangent, temp_output_182_4 );
+				surfaceDescription.Normal = mul( ase_worldToTangent, staticSwitch210 );
 				surfaceDescription.BentNormal = float3( 0, 0, 1 );
 				surfaceDescription.CoatMask = 0;
 				surfaceDescription.Metallic = 0;
@@ -1073,9 +1120,10 @@ Shader "Water"
 			#pragma require tessellation tessHW
 			#pragma hull HullFunction
 			#pragma domain DomainFunction
-			#define _HAS_REFRACTION 1
-			#define _REFRACTION_SPHERE 1
 			#define ASE_DISTANCE_TESSELLATION
+			#define ASE_ABSOLUTE_VERTEX_POS 1
+			#define _HAS_REFRACTION 1
+			#define _REFRACTION_PLANE 1
 			#define HAVE_MESH_MODIFICATION
 			#define ASE_SRP_VERSION 140008
 
@@ -1139,10 +1187,13 @@ Shader "Water"
 			#endif
 
 			CBUFFER_START( UnityPerMaterial )
+			float4 _DepthColor;
 			float4 _WaterTexture_ST;
 			float4 _FoamColor;
 			float4 _Foam_ST;
 			float4 _TransmissionColor;
+			float2 _CircleSpawnExtents;
+			float2 _CircleSpawnPosition;
 			float _Tiling;
 			float _Amplitude;
 			float _Speed;
@@ -1231,9 +1282,9 @@ Shader "Water"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
 			#include "Packages/com.gatordragongames.churn-vector.sdk/Extras/Water/SumOfSines.cginc"
-			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_VERT_TANGENT
 			#define ASE_NEEDS_VERT_NORMAL
+			#pragma shader_feature_local _CIRCULARWAVES_ON
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -1265,7 +1316,6 @@ Shader "Water"
 				float4 ase_texcoord4 : TEXCOORD4;
 				float4 ase_texcoord5 : TEXCOORD5;
 				float4 ase_texcoord6 : TEXCOORD6;
-				float4 ase_texcoord7 : TEXCOORD7;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
 				FRONT_FACE_TYPE cullFace : FRONT_FACE_SEMANTIC;
@@ -1482,43 +1532,61 @@ Shader "Water"
 				UNITY_SETUP_INSTANCE_ID(inputMesh);
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
 
-				float tiling2_g26 = _Tiling;
-				float amplitude2_g26 = _Amplitude;
-				int detail2_g26 = 16;
-				float3 position2_g26 = inputMesh.positionOS;
-				float3 normal2_g26 = float3( 0,0,0 );
-				float mulTime13 = _TimeParameters.x * _Speed;
-				float t2_g26 = mulTime13;
-				float sharpness2_g26 = _WaveSharpness;
-				float localSumOfGerstnerDirectional2_g26 = SumOfGerstnerDirectional( tiling2_g26 , amplitude2_g26 , detail2_g26 , position2_g26 , normal2_g26 , t2_g26 , sharpness2_g26 );
-				
+				float tiling2_g28 = _Tiling;
+				float amplitude2_g28 = _Amplitude;
+				int detail2_g28 = 16;
 				float3 ase_worldPos = GetAbsolutePositionWS( TransformObjectToWorld( (inputMesh.positionOS).xyz ) );
+				float3 position2_g28 = ase_worldPos;
+				float3 normal2_g28 = float3( 0,0,0 );
+				float mulTime13 = _TimeParameters.x * _Speed;
+				float t2_g28 = mulTime13;
+				float sharpness2_g28 = _WaveSharpness;
+				float localSumOfGerstnerDirectional2_g28 = SumOfGerstnerDirectional( tiling2_g28 , amplitude2_g28 , detail2_g28 , position2_g28 , normal2_g28 , t2_g28 , sharpness2_g28 );
+				float2 spawnExtents2_g29 = _CircleSpawnExtents;
+				float2 spawnPosition2_g29 = _CircleSpawnPosition;
+				float tiling2_g29 = _Tiling;
+				float amplitude2_g29 = _Amplitude;
+				int detail2_g29 = 16;
+				float3 position2_g29 = ase_worldPos;
+				float3 normal2_g29 = float3( 0,0,0 );
+				float t2_g29 = mulTime13;
+				float sharpness2_g29 = _WaveSharpness;
+				float localSumOfGerstnerCircular2_g29 = SumOfGerstnerCircular( spawnExtents2_g29 , spawnPosition2_g29 , tiling2_g29 , amplitude2_g29 , detail2_g29 , position2_g29 , normal2_g29 , t2_g29 , sharpness2_g29 );
+				#ifdef _CIRCULARWAVES_ON
+				float3 staticSwitch211 = position2_g29;
+				#else
+				float3 staticSwitch211 = position2_g28;
+				#endif
+				float4 appendResult201 = (float4(staticSwitch211 , 1.0));
+				float4 localWorldVar200 = appendResult201;
+				(localWorldVar200).xyz = GetCameraRelativePositionWS((localWorldVar200).xyz);
+				float4 transform200 = mul(GetWorldToObjectMatrix(),localWorldVar200);
+				
 				outputPackedVaryingsMeshToPS.ase_texcoord3.xyz = ase_worldPos;
 				
 				float3 ase_worldTangent = TransformObjectToWorldDir(inputMesh.tangentOS.xyz);
-				outputPackedVaryingsMeshToPS.ase_texcoord5.xyz = ase_worldTangent;
+				outputPackedVaryingsMeshToPS.ase_texcoord4.xyz = ase_worldTangent;
 				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
-				outputPackedVaryingsMeshToPS.ase_texcoord6.xyz = ase_worldNormal;
+				outputPackedVaryingsMeshToPS.ase_texcoord5.xyz = ase_worldNormal;
 				float ase_vertexTangentSign = inputMesh.tangentOS.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
 				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
-				outputPackedVaryingsMeshToPS.ase_texcoord7.xyz = ase_worldBitangent;
+				outputPackedVaryingsMeshToPS.ase_texcoord6.xyz = ase_worldBitangent;
 				
 				outputPackedVaryingsMeshToPS.ase_texcoord2.xy = inputMesh.uv0.xy;
-				outputPackedVaryingsMeshToPS.ase_texcoord4 = float4(inputMesh.positionOS,1);
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
 				outputPackedVaryingsMeshToPS.ase_texcoord2.zw = 0;
 				outputPackedVaryingsMeshToPS.ase_texcoord3.w = 0;
+				outputPackedVaryingsMeshToPS.ase_texcoord4.w = 0;
 				outputPackedVaryingsMeshToPS.ase_texcoord5.w = 0;
 				outputPackedVaryingsMeshToPS.ase_texcoord6.w = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord7.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = position2_g26;
+				float3 vertexValue = (transform200).xyz;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -1668,42 +1736,61 @@ Shader "Water"
 				GlobalSurfaceDescription surfaceDescription = (GlobalSurfaceDescription)0;
 				float2 uv_WaterTexture = packedInput.ase_texcoord2.xy * _WaterTexture_ST.xy + _WaterTexture_ST.zw;
 				float4 break185 = tex2D( _WaterTexture, uv_WaterTexture );
+				float4 appendResult186 = (float4(break185.r , break185.g , break185.b , break185.a));
 				float3 ase_worldPos = packedInput.ase_texcoord3.xyz;
 				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - ase_worldPos );
 				ase_worldViewDir = normalize(ase_worldViewDir);
-				float tiling2_g26 = _Tiling;
-				float amplitude2_g26 = _Amplitude;
-				int detail2_g26 = 16;
-				float3 position2_g26 = packedInput.ase_texcoord4.xyz;
-				float3 normal2_g26 = float3( 0,0,0 );
+				float tiling2_g28 = _Tiling;
+				float amplitude2_g28 = _Amplitude;
+				int detail2_g28 = 16;
+				float3 position2_g28 = ase_worldPos;
+				float3 normal2_g28 = float3( 0,0,0 );
 				float mulTime13 = _TimeParameters.x * _Speed;
-				float t2_g26 = mulTime13;
-				float sharpness2_g26 = _WaveSharpness;
-				float localSumOfGerstnerDirectional2_g26 = SumOfGerstnerDirectional( tiling2_g26 , amplitude2_g26 , detail2_g26 , position2_g26 , normal2_g26 , t2_g26 , sharpness2_g26 );
-				float4 appendResult15_g26 = (float4(normal2_g26 , 0.0));
-				float3 temp_output_182_4 = (mul( GetObjectToWorldMatrix(), appendResult15_g26 )).xyz;
-				float fresnelNdotV188 = dot( normalize( temp_output_182_4 ), ase_worldViewDir );
-				float fresnelNode188 = ( 0.1 + 3.0 * pow( 1.0 - fresnelNdotV188, 4.0 ) );
-				float4 appendResult186 = (float4(break185.r , break185.g , break185.b , ( break185.a * saturate( fresnelNode188 ) )));
+				float t2_g28 = mulTime13;
+				float sharpness2_g28 = _WaveSharpness;
+				float localSumOfGerstnerDirectional2_g28 = SumOfGerstnerDirectional( tiling2_g28 , amplitude2_g28 , detail2_g28 , position2_g28 , normal2_g28 , t2_g28 , sharpness2_g28 );
+				float2 spawnExtents2_g29 = _CircleSpawnExtents;
+				float2 spawnPosition2_g29 = _CircleSpawnPosition;
+				float tiling2_g29 = _Tiling;
+				float amplitude2_g29 = _Amplitude;
+				int detail2_g29 = 16;
+				float3 position2_g29 = ase_worldPos;
+				float3 normal2_g29 = float3( 0,0,0 );
+				float t2_g29 = mulTime13;
+				float sharpness2_g29 = _WaveSharpness;
+				float localSumOfGerstnerCircular2_g29 = SumOfGerstnerCircular( spawnExtents2_g29 , spawnPosition2_g29 , tiling2_g29 , amplitude2_g29 , detail2_g29 , position2_g29 , normal2_g29 , t2_g29 , sharpness2_g29 );
+				#ifdef _CIRCULARWAVES_ON
+				float3 staticSwitch210 = normal2_g29;
+				#else
+				float3 staticSwitch210 = normal2_g28;
+				#endif
+				float fresnelNdotV188 = dot( normalize( staticSwitch210 ), ase_worldViewDir );
+				float fresnelNode188 = ( 0.1 + 3.0 * pow( 1.0 - fresnelNdotV188, 6.0 ) );
+				float4 lerpResult239 = lerp( _DepthColor , appendResult186 , saturate( fresnelNode188 ));
 				float2 uv_Foam = packedInput.ase_texcoord2.xy * _Foam_ST.xy + _Foam_ST.zw;
 				float2 panner190 = ( 1.0 * _Time.y * float2( -0.032,-0.032 ) + uv_Foam);
-				float temp_output_143_0 = saturate( (0.0 + (localSumOfGerstnerDirectional2_g26 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) );
-				float temp_output_180_0 = ( tex2D( _Foam, panner190 ).r * temp_output_143_0 * _FoamColor.a );
-				float4 lerpResult155 = lerp( appendResult186 , _FoamColor , temp_output_180_0);
+				#ifdef _CIRCULARWAVES_ON
+				float staticSwitch212 = localSumOfGerstnerDirectional2_g28;
+				#else
+				float staticSwitch212 = localSumOfGerstnerCircular2_g29;
+				#endif
+				float temp_output_143_0 = saturate( (0.0 + (staticSwitch212 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) );
+				float temp_output_180_0 = ( tex2D( _Foam, panner190 ).r * ( temp_output_143_0 * temp_output_143_0 ) * _FoamColor.a );
+				float4 lerpResult155 = lerp( lerpResult239 , _FoamColor , temp_output_180_0);
 				
-				float3 ase_worldTangent = packedInput.ase_texcoord5.xyz;
-				float3 ase_worldNormal = packedInput.ase_texcoord6.xyz;
-				float3 ase_worldBitangent = packedInput.ase_texcoord7.xyz;
+				float3 ase_worldTangent = packedInput.ase_texcoord4.xyz;
+				float3 ase_worldNormal = packedInput.ase_texcoord5.xyz;
+				float3 ase_worldBitangent = packedInput.ase_texcoord6.xyz;
 				float3x3 ase_worldToTangent = float3x3(ase_worldTangent,ase_worldBitangent,ase_worldNormal);
 				
-				float fresnelNdotV76 = dot( normalize( temp_output_182_4 ), ase_worldViewDir );
+				float fresnelNdotV76 = dot( normalize( staticSwitch210 ), ase_worldViewDir );
 				float fresnelNode76 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV76, 5.0 ) );
 				float4 lerpResult82 = lerp( float4( 0,0,0,0 ) , _TransmissionColor , ( _TransmissionColor.a * ( saturate( fresnelNode76 ) * temp_output_143_0 ) ));
 				
 				float lerpResult179 = lerp( 0.95 , 0.25 , temp_output_180_0);
 				
 				surfaceDescription.BaseColor = lerpResult155.rgb;
-				surfaceDescription.Normal = mul( ase_worldToTangent, temp_output_182_4 );
+				surfaceDescription.Normal = mul( ase_worldToTangent, staticSwitch210 );
 				surfaceDescription.BentNormal = float3( 0, 0, 1 );
 				surfaceDescription.CoatMask = 0;
 				surfaceDescription.Metallic = 0;
@@ -1807,9 +1894,10 @@ Shader "Water"
 			#pragma require tessellation tessHW
 			#pragma hull HullFunction
 			#pragma domain DomainFunction
-			#define _HAS_REFRACTION 1
-			#define _REFRACTION_SPHERE 1
 			#define ASE_DISTANCE_TESSELLATION
+			#define ASE_ABSOLUTE_VERTEX_POS 1
+			#define _HAS_REFRACTION 1
+			#define _REFRACTION_PLANE 1
 			#define HAVE_MESH_MODIFICATION
 			#define ASE_SRP_VERSION 140008
 
@@ -1882,10 +1970,13 @@ Shader "Water"
 			#endif
 
 			CBUFFER_START( UnityPerMaterial )
+			float4 _DepthColor;
 			float4 _WaterTexture_ST;
 			float4 _FoamColor;
 			float4 _Foam_ST;
 			float4 _TransmissionColor;
+			float2 _CircleSpawnExtents;
+			float2 _CircleSpawnPosition;
 			float _Tiling;
 			float _Amplitude;
 			float _Speed;
@@ -1974,8 +2065,9 @@ Shader "Water"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
 			#include "Packages/com.gatordragongames.churn-vector.sdk/Extras/Water/SumOfSines.cginc"
-			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
+			#define ASE_NEEDS_FRAG_RELATIVE_WORLD_POS
+			#pragma shader_feature_local _CIRCULARWAVES_ON
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -1995,7 +2087,6 @@ Shader "Water"
 				SV_POSITION_QUALIFIERS float4 positionCS : SV_Position;
 				float3 positionRWS : TEXCOORD0;
 				float4 ase_texcoord1 : TEXCOORD1;
-				float4 ase_texcoord2 : TEXCOORD2;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
@@ -2161,18 +2252,37 @@ Shader "Water"
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( outputPackedVaryingsMeshToPS );
 
-				float tiling2_g26 = _Tiling;
-				float amplitude2_g26 = _Amplitude;
-				int detail2_g26 = 16;
-				float3 position2_g26 = inputMesh.positionOS;
-				float3 normal2_g26 = float3( 0,0,0 );
+				float tiling2_g28 = _Tiling;
+				float amplitude2_g28 = _Amplitude;
+				int detail2_g28 = 16;
+				float3 ase_worldPos = GetAbsolutePositionWS( TransformObjectToWorld( (inputMesh.positionOS).xyz ) );
+				float3 position2_g28 = ase_worldPos;
+				float3 normal2_g28 = float3( 0,0,0 );
 				float mulTime13 = _TimeParameters.x * _Speed;
-				float t2_g26 = mulTime13;
-				float sharpness2_g26 = _WaveSharpness;
-				float localSumOfGerstnerDirectional2_g26 = SumOfGerstnerDirectional( tiling2_g26 , amplitude2_g26 , detail2_g26 , position2_g26 , normal2_g26 , t2_g26 , sharpness2_g26 );
+				float t2_g28 = mulTime13;
+				float sharpness2_g28 = _WaveSharpness;
+				float localSumOfGerstnerDirectional2_g28 = SumOfGerstnerDirectional( tiling2_g28 , amplitude2_g28 , detail2_g28 , position2_g28 , normal2_g28 , t2_g28 , sharpness2_g28 );
+				float2 spawnExtents2_g29 = _CircleSpawnExtents;
+				float2 spawnPosition2_g29 = _CircleSpawnPosition;
+				float tiling2_g29 = _Tiling;
+				float amplitude2_g29 = _Amplitude;
+				int detail2_g29 = 16;
+				float3 position2_g29 = ase_worldPos;
+				float3 normal2_g29 = float3( 0,0,0 );
+				float t2_g29 = mulTime13;
+				float sharpness2_g29 = _WaveSharpness;
+				float localSumOfGerstnerCircular2_g29 = SumOfGerstnerCircular( spawnExtents2_g29 , spawnPosition2_g29 , tiling2_g29 , amplitude2_g29 , detail2_g29 , position2_g29 , normal2_g29 , t2_g29 , sharpness2_g29 );
+				#ifdef _CIRCULARWAVES_ON
+				float3 staticSwitch211 = position2_g29;
+				#else
+				float3 staticSwitch211 = position2_g28;
+				#endif
+				float4 appendResult201 = (float4(staticSwitch211 , 1.0));
+				float4 localWorldVar200 = appendResult201;
+				(localWorldVar200).xyz = GetCameraRelativePositionWS((localWorldVar200).xyz);
+				float4 transform200 = mul(GetWorldToObjectMatrix(),localWorldVar200);
 				
 				outputPackedVaryingsMeshToPS.ase_texcoord1.xy = inputMesh.ase_texcoord.xy;
-				outputPackedVaryingsMeshToPS.ase_texcoord2 = float4(inputMesh.positionOS,1);
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
 				outputPackedVaryingsMeshToPS.ase_texcoord1.zw = 0;
@@ -2182,7 +2292,7 @@ Shader "Water"
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = position2_g26;
+				float3 vertexValue = (transform200).xyz;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -2346,25 +2456,45 @@ Shader "Water"
 				AlphaSurfaceDescription surfaceDescription = (AlphaSurfaceDescription)0;
 				float2 uv_WaterTexture = packedInput.ase_texcoord1.xy * _WaterTexture_ST.xy + _WaterTexture_ST.zw;
 				float4 break185 = tex2D( _WaterTexture, uv_WaterTexture );
-				float tiling2_g26 = _Tiling;
-				float amplitude2_g26 = _Amplitude;
-				int detail2_g26 = 16;
-				float3 position2_g26 = packedInput.ase_texcoord2.xyz;
-				float3 normal2_g26 = float3( 0,0,0 );
+				float4 appendResult186 = (float4(break185.r , break185.g , break185.b , break185.a));
+				float tiling2_g28 = _Tiling;
+				float amplitude2_g28 = _Amplitude;
+				int detail2_g28 = 16;
+				float3 ase_worldPos = GetAbsolutePositionWS( positionRWS );
+				float3 position2_g28 = ase_worldPos;
+				float3 normal2_g28 = float3( 0,0,0 );
 				float mulTime13 = _TimeParameters.x * _Speed;
-				float t2_g26 = mulTime13;
-				float sharpness2_g26 = _WaveSharpness;
-				float localSumOfGerstnerDirectional2_g26 = SumOfGerstnerDirectional( tiling2_g26 , amplitude2_g26 , detail2_g26 , position2_g26 , normal2_g26 , t2_g26 , sharpness2_g26 );
-				float4 appendResult15_g26 = (float4(normal2_g26 , 0.0));
-				float3 temp_output_182_4 = (mul( GetObjectToWorldMatrix(), appendResult15_g26 )).xyz;
-				float fresnelNdotV188 = dot( normalize( temp_output_182_4 ), V );
-				float fresnelNode188 = ( 0.1 + 3.0 * pow( 1.0 - fresnelNdotV188, 4.0 ) );
-				float4 appendResult186 = (float4(break185.r , break185.g , break185.b , ( break185.a * saturate( fresnelNode188 ) )));
+				float t2_g28 = mulTime13;
+				float sharpness2_g28 = _WaveSharpness;
+				float localSumOfGerstnerDirectional2_g28 = SumOfGerstnerDirectional( tiling2_g28 , amplitude2_g28 , detail2_g28 , position2_g28 , normal2_g28 , t2_g28 , sharpness2_g28 );
+				float2 spawnExtents2_g29 = _CircleSpawnExtents;
+				float2 spawnPosition2_g29 = _CircleSpawnPosition;
+				float tiling2_g29 = _Tiling;
+				float amplitude2_g29 = _Amplitude;
+				int detail2_g29 = 16;
+				float3 position2_g29 = ase_worldPos;
+				float3 normal2_g29 = float3( 0,0,0 );
+				float t2_g29 = mulTime13;
+				float sharpness2_g29 = _WaveSharpness;
+				float localSumOfGerstnerCircular2_g29 = SumOfGerstnerCircular( spawnExtents2_g29 , spawnPosition2_g29 , tiling2_g29 , amplitude2_g29 , detail2_g29 , position2_g29 , normal2_g29 , t2_g29 , sharpness2_g29 );
+				#ifdef _CIRCULARWAVES_ON
+				float3 staticSwitch210 = normal2_g29;
+				#else
+				float3 staticSwitch210 = normal2_g28;
+				#endif
+				float fresnelNdotV188 = dot( normalize( staticSwitch210 ), V );
+				float fresnelNode188 = ( 0.1 + 3.0 * pow( 1.0 - fresnelNdotV188, 6.0 ) );
+				float4 lerpResult239 = lerp( _DepthColor , appendResult186 , saturate( fresnelNode188 ));
 				float2 uv_Foam = packedInput.ase_texcoord1.xy * _Foam_ST.xy + _Foam_ST.zw;
 				float2 panner190 = ( 1.0 * _Time.y * float2( -0.032,-0.032 ) + uv_Foam);
-				float temp_output_143_0 = saturate( (0.0 + (localSumOfGerstnerDirectional2_g26 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) );
-				float temp_output_180_0 = ( tex2D( _Foam, panner190 ).r * temp_output_143_0 * _FoamColor.a );
-				float4 lerpResult155 = lerp( appendResult186 , _FoamColor , temp_output_180_0);
+				#ifdef _CIRCULARWAVES_ON
+				float staticSwitch212 = localSumOfGerstnerDirectional2_g28;
+				#else
+				float staticSwitch212 = localSumOfGerstnerCircular2_g29;
+				#endif
+				float temp_output_143_0 = saturate( (0.0 + (staticSwitch212 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) );
+				float temp_output_180_0 = ( tex2D( _Foam, panner190 ).r * ( temp_output_143_0 * temp_output_143_0 ) * _FoamColor.a );
+				float4 lerpResult155 = lerp( lerpResult239 , _FoamColor , temp_output_180_0);
 				
 				surfaceDescription.Alpha = lerpResult155.a;
 
@@ -2431,9 +2561,10 @@ Shader "Water"
             #pragma require tessellation tessHW
             #pragma hull HullFunction
             #pragma domain DomainFunction
-            #define _HAS_REFRACTION 1
-            #define _REFRACTION_SPHERE 1
             #define ASE_DISTANCE_TESSELLATION
+            #define ASE_ABSOLUTE_VERTEX_POS 1
+            #define _HAS_REFRACTION 1
+            #define _REFRACTION_PLANE 1
             #define HAVE_MESH_MODIFICATION
             #define ASE_SRP_VERSION 140008
 
@@ -2504,10 +2635,13 @@ Shader "Water"
 			#endif
 
 			CBUFFER_START( UnityPerMaterial )
+			float4 _DepthColor;
 			float4 _WaterTexture_ST;
 			float4 _FoamColor;
 			float4 _Foam_ST;
 			float4 _TransmissionColor;
+			float2 _CircleSpawnExtents;
+			float2 _CircleSpawnPosition;
 			float _Tiling;
 			float _Amplitude;
 			float _Speed;
@@ -2597,8 +2731,9 @@ Shader "Water"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
 			#include "Packages/com.gatordragongames.churn-vector.sdk/Extras/Water/SumOfSines.cginc"
-			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
+			#define ASE_NEEDS_FRAG_RELATIVE_WORLD_POS
+			#pragma shader_feature_local _CIRCULARWAVES_ON
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -2618,7 +2753,6 @@ Shader "Water"
 				SV_POSITION_QUALIFIERS float4 positionCS : SV_Position;
 				float3 positionRWS : TEXCOORD0;
 				float4 ase_texcoord1 : TEXCOORD1;
-				float4 ase_texcoord2 : TEXCOORD2;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
@@ -2780,18 +2914,37 @@ Shader "Water"
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( outputPackedVaryingsMeshToPS );
 
-				float tiling2_g26 = _Tiling;
-				float amplitude2_g26 = _Amplitude;
-				int detail2_g26 = 16;
-				float3 position2_g26 = inputMesh.positionOS;
-				float3 normal2_g26 = float3( 0,0,0 );
+				float tiling2_g28 = _Tiling;
+				float amplitude2_g28 = _Amplitude;
+				int detail2_g28 = 16;
+				float3 ase_worldPos = GetAbsolutePositionWS( TransformObjectToWorld( (inputMesh.positionOS).xyz ) );
+				float3 position2_g28 = ase_worldPos;
+				float3 normal2_g28 = float3( 0,0,0 );
 				float mulTime13 = _TimeParameters.x * _Speed;
-				float t2_g26 = mulTime13;
-				float sharpness2_g26 = _WaveSharpness;
-				float localSumOfGerstnerDirectional2_g26 = SumOfGerstnerDirectional( tiling2_g26 , amplitude2_g26 , detail2_g26 , position2_g26 , normal2_g26 , t2_g26 , sharpness2_g26 );
+				float t2_g28 = mulTime13;
+				float sharpness2_g28 = _WaveSharpness;
+				float localSumOfGerstnerDirectional2_g28 = SumOfGerstnerDirectional( tiling2_g28 , amplitude2_g28 , detail2_g28 , position2_g28 , normal2_g28 , t2_g28 , sharpness2_g28 );
+				float2 spawnExtents2_g29 = _CircleSpawnExtents;
+				float2 spawnPosition2_g29 = _CircleSpawnPosition;
+				float tiling2_g29 = _Tiling;
+				float amplitude2_g29 = _Amplitude;
+				int detail2_g29 = 16;
+				float3 position2_g29 = ase_worldPos;
+				float3 normal2_g29 = float3( 0,0,0 );
+				float t2_g29 = mulTime13;
+				float sharpness2_g29 = _WaveSharpness;
+				float localSumOfGerstnerCircular2_g29 = SumOfGerstnerCircular( spawnExtents2_g29 , spawnPosition2_g29 , tiling2_g29 , amplitude2_g29 , detail2_g29 , position2_g29 , normal2_g29 , t2_g29 , sharpness2_g29 );
+				#ifdef _CIRCULARWAVES_ON
+				float3 staticSwitch211 = position2_g29;
+				#else
+				float3 staticSwitch211 = position2_g28;
+				#endif
+				float4 appendResult201 = (float4(staticSwitch211 , 1.0));
+				float4 localWorldVar200 = appendResult201;
+				(localWorldVar200).xyz = GetCameraRelativePositionWS((localWorldVar200).xyz);
+				float4 transform200 = mul(GetWorldToObjectMatrix(),localWorldVar200);
 				
 				outputPackedVaryingsMeshToPS.ase_texcoord1.xy = inputMesh.ase_texcoord.xy;
-				outputPackedVaryingsMeshToPS.ase_texcoord2 = float4(inputMesh.positionOS,1);
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
 				outputPackedVaryingsMeshToPS.ase_texcoord1.zw = 0;
@@ -2801,7 +2954,7 @@ Shader "Water"
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = position2_g26;
+				float3 vertexValue = (transform200).xyz;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -2947,25 +3100,45 @@ Shader "Water"
 				SceneSurfaceDescription surfaceDescription = (SceneSurfaceDescription)0;
 				float2 uv_WaterTexture = packedInput.ase_texcoord1.xy * _WaterTexture_ST.xy + _WaterTexture_ST.zw;
 				float4 break185 = tex2D( _WaterTexture, uv_WaterTexture );
-				float tiling2_g26 = _Tiling;
-				float amplitude2_g26 = _Amplitude;
-				int detail2_g26 = 16;
-				float3 position2_g26 = packedInput.ase_texcoord2.xyz;
-				float3 normal2_g26 = float3( 0,0,0 );
+				float4 appendResult186 = (float4(break185.r , break185.g , break185.b , break185.a));
+				float tiling2_g28 = _Tiling;
+				float amplitude2_g28 = _Amplitude;
+				int detail2_g28 = 16;
+				float3 ase_worldPos = GetAbsolutePositionWS( positionRWS );
+				float3 position2_g28 = ase_worldPos;
+				float3 normal2_g28 = float3( 0,0,0 );
 				float mulTime13 = _TimeParameters.x * _Speed;
-				float t2_g26 = mulTime13;
-				float sharpness2_g26 = _WaveSharpness;
-				float localSumOfGerstnerDirectional2_g26 = SumOfGerstnerDirectional( tiling2_g26 , amplitude2_g26 , detail2_g26 , position2_g26 , normal2_g26 , t2_g26 , sharpness2_g26 );
-				float4 appendResult15_g26 = (float4(normal2_g26 , 0.0));
-				float3 temp_output_182_4 = (mul( GetObjectToWorldMatrix(), appendResult15_g26 )).xyz;
-				float fresnelNdotV188 = dot( normalize( temp_output_182_4 ), V );
-				float fresnelNode188 = ( 0.1 + 3.0 * pow( 1.0 - fresnelNdotV188, 4.0 ) );
-				float4 appendResult186 = (float4(break185.r , break185.g , break185.b , ( break185.a * saturate( fresnelNode188 ) )));
+				float t2_g28 = mulTime13;
+				float sharpness2_g28 = _WaveSharpness;
+				float localSumOfGerstnerDirectional2_g28 = SumOfGerstnerDirectional( tiling2_g28 , amplitude2_g28 , detail2_g28 , position2_g28 , normal2_g28 , t2_g28 , sharpness2_g28 );
+				float2 spawnExtents2_g29 = _CircleSpawnExtents;
+				float2 spawnPosition2_g29 = _CircleSpawnPosition;
+				float tiling2_g29 = _Tiling;
+				float amplitude2_g29 = _Amplitude;
+				int detail2_g29 = 16;
+				float3 position2_g29 = ase_worldPos;
+				float3 normal2_g29 = float3( 0,0,0 );
+				float t2_g29 = mulTime13;
+				float sharpness2_g29 = _WaveSharpness;
+				float localSumOfGerstnerCircular2_g29 = SumOfGerstnerCircular( spawnExtents2_g29 , spawnPosition2_g29 , tiling2_g29 , amplitude2_g29 , detail2_g29 , position2_g29 , normal2_g29 , t2_g29 , sharpness2_g29 );
+				#ifdef _CIRCULARWAVES_ON
+				float3 staticSwitch210 = normal2_g29;
+				#else
+				float3 staticSwitch210 = normal2_g28;
+				#endif
+				float fresnelNdotV188 = dot( normalize( staticSwitch210 ), V );
+				float fresnelNode188 = ( 0.1 + 3.0 * pow( 1.0 - fresnelNdotV188, 6.0 ) );
+				float4 lerpResult239 = lerp( _DepthColor , appendResult186 , saturate( fresnelNode188 ));
 				float2 uv_Foam = packedInput.ase_texcoord1.xy * _Foam_ST.xy + _Foam_ST.zw;
 				float2 panner190 = ( 1.0 * _Time.y * float2( -0.032,-0.032 ) + uv_Foam);
-				float temp_output_143_0 = saturate( (0.0 + (localSumOfGerstnerDirectional2_g26 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) );
-				float temp_output_180_0 = ( tex2D( _Foam, panner190 ).r * temp_output_143_0 * _FoamColor.a );
-				float4 lerpResult155 = lerp( appendResult186 , _FoamColor , temp_output_180_0);
+				#ifdef _CIRCULARWAVES_ON
+				float staticSwitch212 = localSumOfGerstnerDirectional2_g28;
+				#else
+				float staticSwitch212 = localSumOfGerstnerCircular2_g29;
+				#endif
+				float temp_output_143_0 = saturate( (0.0 + (staticSwitch212 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) );
+				float temp_output_180_0 = ( tex2D( _Foam, panner190 ).r * ( temp_output_143_0 * temp_output_143_0 ) * _FoamColor.a );
+				float4 lerpResult155 = lerp( lerpResult239 , _FoamColor , temp_output_180_0);
 				
 				surfaceDescription.Alpha = lerpResult155.a;
 
@@ -3020,9 +3193,10 @@ Shader "Water"
             #pragma require tessellation tessHW
             #pragma hull HullFunction
             #pragma domain DomainFunction
-            #define _HAS_REFRACTION 1
-            #define _REFRACTION_SPHERE 1
             #define ASE_DISTANCE_TESSELLATION
+            #define ASE_ABSOLUTE_VERTEX_POS 1
+            #define _HAS_REFRACTION 1
+            #define _REFRACTION_PLANE 1
             #define HAVE_MESH_MODIFICATION
             #define ASE_SRP_VERSION 140008
 
@@ -3094,10 +3268,13 @@ Shader "Water"
 			#endif
 
 			CBUFFER_START( UnityPerMaterial )
+			float4 _DepthColor;
 			float4 _WaterTexture_ST;
 			float4 _FoamColor;
 			float4 _Foam_ST;
 			float4 _TransmissionColor;
+			float2 _CircleSpawnExtents;
+			float2 _CircleSpawnPosition;
 			float _Tiling;
 			float _Amplitude;
 			float _Speed;
@@ -3186,12 +3363,13 @@ Shader "Water"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
 			#include "Packages/com.gatordragongames.churn-vector.sdk/Extras/Water/SumOfSines.cginc"
-			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_TANGENT
 			#define ASE_NEEDS_FRAG_WORLD_NORMAL
 			#define ASE_NEEDS_VERT_NORMAL
 			#define ASE_NEEDS_VERT_TANGENT
+			#define ASE_NEEDS_FRAG_RELATIVE_WORLD_POS
 			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
+			#pragma shader_feature_local _CIRCULARWAVES_ON
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -3215,7 +3393,6 @@ Shader "Water"
 				float4 tangentWS : TEXCOORD2;
 				float4 ase_texcoord3 : TEXCOORD3;
 				float4 ase_texcoord4 : TEXCOORD4;
-				float4 ase_texcoord5 : TEXCOORD5;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
@@ -3383,15 +3560,35 @@ Shader "Water"
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( outputPackedVaryingsMeshToPS );
 
-				float tiling2_g26 = _Tiling;
-				float amplitude2_g26 = _Amplitude;
-				int detail2_g26 = 16;
-				float3 position2_g26 = inputMesh.positionOS;
-				float3 normal2_g26 = float3( 0,0,0 );
+				float tiling2_g28 = _Tiling;
+				float amplitude2_g28 = _Amplitude;
+				int detail2_g28 = 16;
+				float3 ase_worldPos = GetAbsolutePositionWS( TransformObjectToWorld( (inputMesh.positionOS).xyz ) );
+				float3 position2_g28 = ase_worldPos;
+				float3 normal2_g28 = float3( 0,0,0 );
 				float mulTime13 = _TimeParameters.x * _Speed;
-				float t2_g26 = mulTime13;
-				float sharpness2_g26 = _WaveSharpness;
-				float localSumOfGerstnerDirectional2_g26 = SumOfGerstnerDirectional( tiling2_g26 , amplitude2_g26 , detail2_g26 , position2_g26 , normal2_g26 , t2_g26 , sharpness2_g26 );
+				float t2_g28 = mulTime13;
+				float sharpness2_g28 = _WaveSharpness;
+				float localSumOfGerstnerDirectional2_g28 = SumOfGerstnerDirectional( tiling2_g28 , amplitude2_g28 , detail2_g28 , position2_g28 , normal2_g28 , t2_g28 , sharpness2_g28 );
+				float2 spawnExtents2_g29 = _CircleSpawnExtents;
+				float2 spawnPosition2_g29 = _CircleSpawnPosition;
+				float tiling2_g29 = _Tiling;
+				float amplitude2_g29 = _Amplitude;
+				int detail2_g29 = 16;
+				float3 position2_g29 = ase_worldPos;
+				float3 normal2_g29 = float3( 0,0,0 );
+				float t2_g29 = mulTime13;
+				float sharpness2_g29 = _WaveSharpness;
+				float localSumOfGerstnerCircular2_g29 = SumOfGerstnerCircular( spawnExtents2_g29 , spawnPosition2_g29 , tiling2_g29 , amplitude2_g29 , detail2_g29 , position2_g29 , normal2_g29 , t2_g29 , sharpness2_g29 );
+				#ifdef _CIRCULARWAVES_ON
+				float3 staticSwitch211 = position2_g29;
+				#else
+				float3 staticSwitch211 = position2_g28;
+				#endif
+				float4 appendResult201 = (float4(staticSwitch211 , 1.0));
+				float4 localWorldVar200 = appendResult201;
+				(localWorldVar200).xyz = GetCameraRelativePositionWS((localWorldVar200).xyz);
+				float4 transform200 = mul(GetWorldToObjectMatrix(),localWorldVar200);
 				
 				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
 				float3 ase_worldTangent = TransformObjectToWorldDir(inputMesh.tangentOS.xyz);
@@ -3399,19 +3596,18 @@ Shader "Water"
 				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
 				outputPackedVaryingsMeshToPS.ase_texcoord3.xyz = ase_worldBitangent;
 				
-				outputPackedVaryingsMeshToPS.ase_texcoord4 = float4(inputMesh.positionOS,1);
-				outputPackedVaryingsMeshToPS.ase_texcoord5.xy = inputMesh.ase_texcoord.xy;
+				outputPackedVaryingsMeshToPS.ase_texcoord4.xy = inputMesh.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
 				outputPackedVaryingsMeshToPS.ase_texcoord3.w = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord5.zw = 0;
+				outputPackedVaryingsMeshToPS.ase_texcoord4.zw = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = position2_g26;
+				float3 vertexValue = (transform200).xyz;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -3587,32 +3783,52 @@ Shader "Water"
 				SmoothSurfaceDescription surfaceDescription = (SmoothSurfaceDescription)0;
 				float3 ase_worldBitangent = packedInput.ase_texcoord3.xyz;
 				float3x3 ase_worldToTangent = float3x3(tangentWS.xyz,ase_worldBitangent,normalWS);
-				float tiling2_g26 = _Tiling;
-				float amplitude2_g26 = _Amplitude;
-				int detail2_g26 = 16;
-				float3 position2_g26 = packedInput.ase_texcoord4.xyz;
-				float3 normal2_g26 = float3( 0,0,0 );
+				float tiling2_g28 = _Tiling;
+				float amplitude2_g28 = _Amplitude;
+				int detail2_g28 = 16;
+				float3 ase_worldPos = GetAbsolutePositionWS( positionRWS );
+				float3 position2_g28 = ase_worldPos;
+				float3 normal2_g28 = float3( 0,0,0 );
 				float mulTime13 = _TimeParameters.x * _Speed;
-				float t2_g26 = mulTime13;
-				float sharpness2_g26 = _WaveSharpness;
-				float localSumOfGerstnerDirectional2_g26 = SumOfGerstnerDirectional( tiling2_g26 , amplitude2_g26 , detail2_g26 , position2_g26 , normal2_g26 , t2_g26 , sharpness2_g26 );
-				float4 appendResult15_g26 = (float4(normal2_g26 , 0.0));
-				float3 temp_output_182_4 = (mul( GetObjectToWorldMatrix(), appendResult15_g26 )).xyz;
+				float t2_g28 = mulTime13;
+				float sharpness2_g28 = _WaveSharpness;
+				float localSumOfGerstnerDirectional2_g28 = SumOfGerstnerDirectional( tiling2_g28 , amplitude2_g28 , detail2_g28 , position2_g28 , normal2_g28 , t2_g28 , sharpness2_g28 );
+				float2 spawnExtents2_g29 = _CircleSpawnExtents;
+				float2 spawnPosition2_g29 = _CircleSpawnPosition;
+				float tiling2_g29 = _Tiling;
+				float amplitude2_g29 = _Amplitude;
+				int detail2_g29 = 16;
+				float3 position2_g29 = ase_worldPos;
+				float3 normal2_g29 = float3( 0,0,0 );
+				float t2_g29 = mulTime13;
+				float sharpness2_g29 = _WaveSharpness;
+				float localSumOfGerstnerCircular2_g29 = SumOfGerstnerCircular( spawnExtents2_g29 , spawnPosition2_g29 , tiling2_g29 , amplitude2_g29 , detail2_g29 , position2_g29 , normal2_g29 , t2_g29 , sharpness2_g29 );
+				#ifdef _CIRCULARWAVES_ON
+				float3 staticSwitch210 = normal2_g29;
+				#else
+				float3 staticSwitch210 = normal2_g28;
+				#endif
 				
-				float2 uv_Foam = packedInput.ase_texcoord5.xy * _Foam_ST.xy + _Foam_ST.zw;
+				float2 uv_Foam = packedInput.ase_texcoord4.xy * _Foam_ST.xy + _Foam_ST.zw;
 				float2 panner190 = ( 1.0 * _Time.y * float2( -0.032,-0.032 ) + uv_Foam);
-				float temp_output_143_0 = saturate( (0.0 + (localSumOfGerstnerDirectional2_g26 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) );
-				float temp_output_180_0 = ( tex2D( _Foam, panner190 ).r * temp_output_143_0 * _FoamColor.a );
+				#ifdef _CIRCULARWAVES_ON
+				float staticSwitch212 = localSumOfGerstnerDirectional2_g28;
+				#else
+				float staticSwitch212 = localSumOfGerstnerCircular2_g29;
+				#endif
+				float temp_output_143_0 = saturate( (0.0 + (staticSwitch212 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) );
+				float temp_output_180_0 = ( tex2D( _Foam, panner190 ).r * ( temp_output_143_0 * temp_output_143_0 ) * _FoamColor.a );
 				float lerpResult179 = lerp( 0.95 , 0.25 , temp_output_180_0);
 				
-				float2 uv_WaterTexture = packedInput.ase_texcoord5.xy * _WaterTexture_ST.xy + _WaterTexture_ST.zw;
+				float2 uv_WaterTexture = packedInput.ase_texcoord4.xy * _WaterTexture_ST.xy + _WaterTexture_ST.zw;
 				float4 break185 = tex2D( _WaterTexture, uv_WaterTexture );
-				float fresnelNdotV188 = dot( normalize( temp_output_182_4 ), V );
-				float fresnelNode188 = ( 0.1 + 3.0 * pow( 1.0 - fresnelNdotV188, 4.0 ) );
-				float4 appendResult186 = (float4(break185.r , break185.g , break185.b , ( break185.a * saturate( fresnelNode188 ) )));
-				float4 lerpResult155 = lerp( appendResult186 , _FoamColor , temp_output_180_0);
+				float4 appendResult186 = (float4(break185.r , break185.g , break185.b , break185.a));
+				float fresnelNdotV188 = dot( normalize( staticSwitch210 ), V );
+				float fresnelNode188 = ( 0.1 + 3.0 * pow( 1.0 - fresnelNdotV188, 6.0 ) );
+				float4 lerpResult239 = lerp( _DepthColor , appendResult186 , saturate( fresnelNode188 ));
+				float4 lerpResult155 = lerp( lerpResult239 , _FoamColor , temp_output_180_0);
 				
-				surfaceDescription.Normal = mul( ase_worldToTangent, temp_output_182_4 );
+				surfaceDescription.Normal = mul( ase_worldToTangent, staticSwitch210 );
 				surfaceDescription.Smoothness = lerpResult179;
 				surfaceDescription.Alpha = lerpResult155.a;
 
@@ -3690,9 +3906,10 @@ Shader "Water"
             #pragma require tessellation tessHW
             #pragma hull HullFunction
             #pragma domain DomainFunction
-            #define _HAS_REFRACTION 1
-            #define _REFRACTION_SPHERE 1
             #define ASE_DISTANCE_TESSELLATION
+            #define ASE_ABSOLUTE_VERTEX_POS 1
+            #define _HAS_REFRACTION 1
+            #define _REFRACTION_PLANE 1
             #define HAVE_MESH_MODIFICATION
             #define ASE_SRP_VERSION 140008
 
@@ -3782,10 +3999,13 @@ Shader "Water"
 			#endif
 
 			CBUFFER_START( UnityPerMaterial )
+			float4 _DepthColor;
 			float4 _WaterTexture_ST;
 			float4 _FoamColor;
 			float4 _Foam_ST;
 			float4 _TransmissionColor;
+			float2 _CircleSpawnExtents;
+			float2 _CircleSpawnPosition;
 			float _Tiling;
 			float _Amplitude;
 			float _Speed;
@@ -3877,12 +4097,13 @@ Shader "Water"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
 			#include "Packages/com.gatordragongames.churn-vector.sdk/Extras/Water/SumOfSines.cginc"
-			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
+			#define ASE_NEEDS_FRAG_RELATIVE_WORLD_POS
 			#define ASE_NEEDS_FRAG_WORLD_TANGENT
 			#define ASE_NEEDS_FRAG_WORLD_NORMAL
 			#define ASE_NEEDS_VERT_NORMAL
 			#define ASE_NEEDS_VERT_TANGENT
+			#pragma shader_feature_local _CIRCULARWAVES_ON
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
@@ -3916,7 +4137,6 @@ Shader "Water"
 				#endif
 				float4 ase_texcoord7 : TEXCOORD7;
 				float4 ase_texcoord8 : TEXCOORD8;
-				float4 ase_texcoord9 : TEXCOORD9;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
@@ -4144,35 +4364,54 @@ Shader "Water"
 			AttributesMesh ApplyMeshModification(AttributesMesh inputMesh, float3 timeParameters, inout PackedVaryingsMeshToPS outputPackedVaryingsMeshToPS )
 			{
 				_TimeParameters.xyz = timeParameters;
-				float tiling2_g26 = _Tiling;
-				float amplitude2_g26 = _Amplitude;
-				int detail2_g26 = 16;
-				float3 position2_g26 = inputMesh.positionOS;
-				float3 normal2_g26 = float3( 0,0,0 );
+				float tiling2_g28 = _Tiling;
+				float amplitude2_g28 = _Amplitude;
+				int detail2_g28 = 16;
+				float3 ase_worldPos = GetAbsolutePositionWS( TransformObjectToWorld( (inputMesh.positionOS).xyz ) );
+				float3 position2_g28 = ase_worldPos;
+				float3 normal2_g28 = float3( 0,0,0 );
 				float mulTime13 = _TimeParameters.x * _Speed;
-				float t2_g26 = mulTime13;
-				float sharpness2_g26 = _WaveSharpness;
-				float localSumOfGerstnerDirectional2_g26 = SumOfGerstnerDirectional( tiling2_g26 , amplitude2_g26 , detail2_g26 , position2_g26 , normal2_g26 , t2_g26 , sharpness2_g26 );
+				float t2_g28 = mulTime13;
+				float sharpness2_g28 = _WaveSharpness;
+				float localSumOfGerstnerDirectional2_g28 = SumOfGerstnerDirectional( tiling2_g28 , amplitude2_g28 , detail2_g28 , position2_g28 , normal2_g28 , t2_g28 , sharpness2_g28 );
+				float2 spawnExtents2_g29 = _CircleSpawnExtents;
+				float2 spawnPosition2_g29 = _CircleSpawnPosition;
+				float tiling2_g29 = _Tiling;
+				float amplitude2_g29 = _Amplitude;
+				int detail2_g29 = 16;
+				float3 position2_g29 = ase_worldPos;
+				float3 normal2_g29 = float3( 0,0,0 );
+				float t2_g29 = mulTime13;
+				float sharpness2_g29 = _WaveSharpness;
+				float localSumOfGerstnerCircular2_g29 = SumOfGerstnerCircular( spawnExtents2_g29 , spawnPosition2_g29 , tiling2_g29 , amplitude2_g29 , detail2_g29 , position2_g29 , normal2_g29 , t2_g29 , sharpness2_g29 );
+				#ifdef _CIRCULARWAVES_ON
+				float3 staticSwitch211 = position2_g29;
+				#else
+				float3 staticSwitch211 = position2_g28;
+				#endif
+				float4 appendResult201 = (float4(staticSwitch211 , 1.0));
+				float4 localWorldVar200 = appendResult201;
+				(localWorldVar200).xyz = GetCameraRelativePositionWS((localWorldVar200).xyz);
+				float4 transform200 = mul(GetWorldToObjectMatrix(),localWorldVar200);
 				
 				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
 				float3 ase_worldTangent = TransformObjectToWorldDir(inputMesh.tangentOS.xyz);
 				float ase_vertexTangentSign = inputMesh.tangentOS.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
 				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
-				outputPackedVaryingsMeshToPS.ase_texcoord9.xyz = ase_worldBitangent;
+				outputPackedVaryingsMeshToPS.ase_texcoord8.xyz = ase_worldBitangent;
 				
 				outputPackedVaryingsMeshToPS.ase_texcoord7.xy = inputMesh.ase_texcoord.xy;
-				outputPackedVaryingsMeshToPS.ase_texcoord8 = float4(inputMesh.positionOS,1);
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
 				outputPackedVaryingsMeshToPS.ase_texcoord7.zw = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord9.w = 0;
+				outputPackedVaryingsMeshToPS.ase_texcoord8.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = position2_g26;
+				float3 vertexValue = (transform200).xyz;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -4424,37 +4663,57 @@ Shader "Water"
 				GlobalSurfaceDescription surfaceDescription = (GlobalSurfaceDescription)0;
 				float2 uv_WaterTexture = packedInput.ase_texcoord7.xy * _WaterTexture_ST.xy + _WaterTexture_ST.zw;
 				float4 break185 = tex2D( _WaterTexture, uv_WaterTexture );
-				float tiling2_g26 = _Tiling;
-				float amplitude2_g26 = _Amplitude;
-				int detail2_g26 = 16;
-				float3 position2_g26 = packedInput.ase_texcoord8.xyz;
-				float3 normal2_g26 = float3( 0,0,0 );
+				float4 appendResult186 = (float4(break185.r , break185.g , break185.b , break185.a));
+				float tiling2_g28 = _Tiling;
+				float amplitude2_g28 = _Amplitude;
+				int detail2_g28 = 16;
+				float3 ase_worldPos = GetAbsolutePositionWS( positionRWS );
+				float3 position2_g28 = ase_worldPos;
+				float3 normal2_g28 = float3( 0,0,0 );
 				float mulTime13 = _TimeParameters.x * _Speed;
-				float t2_g26 = mulTime13;
-				float sharpness2_g26 = _WaveSharpness;
-				float localSumOfGerstnerDirectional2_g26 = SumOfGerstnerDirectional( tiling2_g26 , amplitude2_g26 , detail2_g26 , position2_g26 , normal2_g26 , t2_g26 , sharpness2_g26 );
-				float4 appendResult15_g26 = (float4(normal2_g26 , 0.0));
-				float3 temp_output_182_4 = (mul( GetObjectToWorldMatrix(), appendResult15_g26 )).xyz;
-				float fresnelNdotV188 = dot( normalize( temp_output_182_4 ), V );
-				float fresnelNode188 = ( 0.1 + 3.0 * pow( 1.0 - fresnelNdotV188, 4.0 ) );
-				float4 appendResult186 = (float4(break185.r , break185.g , break185.b , ( break185.a * saturate( fresnelNode188 ) )));
+				float t2_g28 = mulTime13;
+				float sharpness2_g28 = _WaveSharpness;
+				float localSumOfGerstnerDirectional2_g28 = SumOfGerstnerDirectional( tiling2_g28 , amplitude2_g28 , detail2_g28 , position2_g28 , normal2_g28 , t2_g28 , sharpness2_g28 );
+				float2 spawnExtents2_g29 = _CircleSpawnExtents;
+				float2 spawnPosition2_g29 = _CircleSpawnPosition;
+				float tiling2_g29 = _Tiling;
+				float amplitude2_g29 = _Amplitude;
+				int detail2_g29 = 16;
+				float3 position2_g29 = ase_worldPos;
+				float3 normal2_g29 = float3( 0,0,0 );
+				float t2_g29 = mulTime13;
+				float sharpness2_g29 = _WaveSharpness;
+				float localSumOfGerstnerCircular2_g29 = SumOfGerstnerCircular( spawnExtents2_g29 , spawnPosition2_g29 , tiling2_g29 , amplitude2_g29 , detail2_g29 , position2_g29 , normal2_g29 , t2_g29 , sharpness2_g29 );
+				#ifdef _CIRCULARWAVES_ON
+				float3 staticSwitch210 = normal2_g29;
+				#else
+				float3 staticSwitch210 = normal2_g28;
+				#endif
+				float fresnelNdotV188 = dot( normalize( staticSwitch210 ), V );
+				float fresnelNode188 = ( 0.1 + 3.0 * pow( 1.0 - fresnelNdotV188, 6.0 ) );
+				float4 lerpResult239 = lerp( _DepthColor , appendResult186 , saturate( fresnelNode188 ));
 				float2 uv_Foam = packedInput.ase_texcoord7.xy * _Foam_ST.xy + _Foam_ST.zw;
 				float2 panner190 = ( 1.0 * _Time.y * float2( -0.032,-0.032 ) + uv_Foam);
-				float temp_output_143_0 = saturate( (0.0 + (localSumOfGerstnerDirectional2_g26 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) );
-				float temp_output_180_0 = ( tex2D( _Foam, panner190 ).r * temp_output_143_0 * _FoamColor.a );
-				float4 lerpResult155 = lerp( appendResult186 , _FoamColor , temp_output_180_0);
+				#ifdef _CIRCULARWAVES_ON
+				float staticSwitch212 = localSumOfGerstnerDirectional2_g28;
+				#else
+				float staticSwitch212 = localSumOfGerstnerCircular2_g29;
+				#endif
+				float temp_output_143_0 = saturate( (0.0 + (staticSwitch212 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) );
+				float temp_output_180_0 = ( tex2D( _Foam, panner190 ).r * ( temp_output_143_0 * temp_output_143_0 ) * _FoamColor.a );
+				float4 lerpResult155 = lerp( lerpResult239 , _FoamColor , temp_output_180_0);
 				
-				float3 ase_worldBitangent = packedInput.ase_texcoord9.xyz;
+				float3 ase_worldBitangent = packedInput.ase_texcoord8.xyz;
 				float3x3 ase_worldToTangent = float3x3(tangentWS.xyz,ase_worldBitangent,normalWS);
 				
-				float fresnelNdotV76 = dot( normalize( temp_output_182_4 ), V );
+				float fresnelNdotV76 = dot( normalize( staticSwitch210 ), V );
 				float fresnelNode76 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV76, 5.0 ) );
 				float4 lerpResult82 = lerp( float4( 0,0,0,0 ) , _TransmissionColor , ( _TransmissionColor.a * ( saturate( fresnelNode76 ) * temp_output_143_0 ) ));
 				
 				float lerpResult179 = lerp( 0.95 , 0.25 , temp_output_180_0);
 				
 				surfaceDescription.BaseColor = lerpResult155.rgb;
-				surfaceDescription.Normal = mul( ase_worldToTangent, temp_output_182_4 );
+				surfaceDescription.Normal = mul( ase_worldToTangent, staticSwitch210 );
 				surfaceDescription.BentNormal = float3( 0, 0, 1 );
 				surfaceDescription.CoatMask = 0;
 				surfaceDescription.Metallic = 0;
@@ -4680,9 +4939,10 @@ Shader "Water"
 			#pragma require tessellation tessHW
 			#pragma hull HullFunction
 			#pragma domain DomainFunction
-			#define _HAS_REFRACTION 1
-			#define _REFRACTION_SPHERE 1
 			#define ASE_DISTANCE_TESSELLATION
+			#define ASE_ABSOLUTE_VERTEX_POS 1
+			#define _HAS_REFRACTION 1
+			#define _REFRACTION_PLANE 1
 			#define HAVE_MESH_MODIFICATION
 			#define ASE_SRP_VERSION 140008
 
@@ -4736,10 +4996,13 @@ Shader "Water"
 
 			float4 _SelectionID;
             CBUFFER_START( UnityPerMaterial )
+			float4 _DepthColor;
 			float4 _WaterTexture_ST;
 			float4 _FoamColor;
 			float4 _Foam_ST;
 			float4 _TransmissionColor;
+			float2 _CircleSpawnExtents;
+			float2 _CircleSpawnPosition;
 			float _Tiling;
 			float _Amplitude;
 			float _Speed;
@@ -4812,7 +5075,7 @@ Shader "Water"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
 
 			#include "Packages/com.gatordragongames.churn-vector.sdk/Extras/Water/SumOfSines.cginc"
-			#define ASE_NEEDS_VERT_POSITION
+			#pragma shader_feature_local _CIRCULARWAVES_ON
 
 
 			struct VertexInput
@@ -4831,7 +5094,6 @@ Shader "Water"
 				float4 tangentWS : TEXCOORD1;
 				float4 ase_texcoord2 : TEXCOORD2;
 				float4 ase_texcoord3 : TEXCOORD3;
-				float4 ase_texcoord4 : TEXCOORD4;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
@@ -4950,21 +5212,39 @@ Shader "Water"
 				UNITY_SETUP_INSTANCE_ID(inputMesh);
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, o );
 
-				float tiling2_g26 = _Tiling;
-				float amplitude2_g26 = _Amplitude;
-				int detail2_g26 = 16;
-				float3 position2_g26 = inputMesh.positionOS;
-				float3 normal2_g26 = float3( 0,0,0 );
-				float mulTime13 = _TimeParameters.x * _Speed;
-				float t2_g26 = mulTime13;
-				float sharpness2_g26 = _WaveSharpness;
-				float localSumOfGerstnerDirectional2_g26 = SumOfGerstnerDirectional( tiling2_g26 , amplitude2_g26 , detail2_g26 , position2_g26 , normal2_g26 , t2_g26 , sharpness2_g26 );
-				
+				float tiling2_g28 = _Tiling;
+				float amplitude2_g28 = _Amplitude;
+				int detail2_g28 = 16;
 				float3 ase_worldPos = GetAbsolutePositionWS( TransformObjectToWorld( (inputMesh.positionOS).xyz ) );
+				float3 position2_g28 = ase_worldPos;
+				float3 normal2_g28 = float3( 0,0,0 );
+				float mulTime13 = _TimeParameters.x * _Speed;
+				float t2_g28 = mulTime13;
+				float sharpness2_g28 = _WaveSharpness;
+				float localSumOfGerstnerDirectional2_g28 = SumOfGerstnerDirectional( tiling2_g28 , amplitude2_g28 , detail2_g28 , position2_g28 , normal2_g28 , t2_g28 , sharpness2_g28 );
+				float2 spawnExtents2_g29 = _CircleSpawnExtents;
+				float2 spawnPosition2_g29 = _CircleSpawnPosition;
+				float tiling2_g29 = _Tiling;
+				float amplitude2_g29 = _Amplitude;
+				int detail2_g29 = 16;
+				float3 position2_g29 = ase_worldPos;
+				float3 normal2_g29 = float3( 0,0,0 );
+				float t2_g29 = mulTime13;
+				float sharpness2_g29 = _WaveSharpness;
+				float localSumOfGerstnerCircular2_g29 = SumOfGerstnerCircular( spawnExtents2_g29 , spawnPosition2_g29 , tiling2_g29 , amplitude2_g29 , detail2_g29 , position2_g29 , normal2_g29 , t2_g29 , sharpness2_g29 );
+				#ifdef _CIRCULARWAVES_ON
+				float3 staticSwitch211 = position2_g29;
+				#else
+				float3 staticSwitch211 = position2_g28;
+				#endif
+				float4 appendResult201 = (float4(staticSwitch211 , 1.0));
+				float4 localWorldVar200 = appendResult201;
+				(localWorldVar200).xyz = GetCameraRelativePositionWS((localWorldVar200).xyz);
+				float4 transform200 = mul(GetWorldToObjectMatrix(),localWorldVar200);
+				
 				o.ase_texcoord3.xyz = ase_worldPos;
 				
 				o.ase_texcoord2.xy = inputMesh.ase_texcoord.xy;
-				o.ase_texcoord4 = float4(inputMesh.positionOS,1);
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
 				o.ase_texcoord2.zw = 0;
@@ -4974,7 +5254,7 @@ Shader "Water"
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue =  position2_g26;
+				float3 vertexValue =  (transform200).xyz;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
 				#else
@@ -5102,28 +5382,47 @@ Shader "Water"
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 				float2 uv_WaterTexture = packedInput.ase_texcoord2.xy * _WaterTexture_ST.xy + _WaterTexture_ST.zw;
 				float4 break185 = tex2D( _WaterTexture, uv_WaterTexture );
+				float4 appendResult186 = (float4(break185.r , break185.g , break185.b , break185.a));
 				float3 ase_worldPos = packedInput.ase_texcoord3.xyz;
 				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - ase_worldPos );
 				ase_worldViewDir = normalize(ase_worldViewDir);
-				float tiling2_g26 = _Tiling;
-				float amplitude2_g26 = _Amplitude;
-				int detail2_g26 = 16;
-				float3 position2_g26 = packedInput.ase_texcoord4.xyz;
-				float3 normal2_g26 = float3( 0,0,0 );
+				float tiling2_g28 = _Tiling;
+				float amplitude2_g28 = _Amplitude;
+				int detail2_g28 = 16;
+				float3 position2_g28 = ase_worldPos;
+				float3 normal2_g28 = float3( 0,0,0 );
 				float mulTime13 = _TimeParameters.x * _Speed;
-				float t2_g26 = mulTime13;
-				float sharpness2_g26 = _WaveSharpness;
-				float localSumOfGerstnerDirectional2_g26 = SumOfGerstnerDirectional( tiling2_g26 , amplitude2_g26 , detail2_g26 , position2_g26 , normal2_g26 , t2_g26 , sharpness2_g26 );
-				float4 appendResult15_g26 = (float4(normal2_g26 , 0.0));
-				float3 temp_output_182_4 = (mul( GetObjectToWorldMatrix(), appendResult15_g26 )).xyz;
-				float fresnelNdotV188 = dot( normalize( temp_output_182_4 ), ase_worldViewDir );
-				float fresnelNode188 = ( 0.1 + 3.0 * pow( 1.0 - fresnelNdotV188, 4.0 ) );
-				float4 appendResult186 = (float4(break185.r , break185.g , break185.b , ( break185.a * saturate( fresnelNode188 ) )));
+				float t2_g28 = mulTime13;
+				float sharpness2_g28 = _WaveSharpness;
+				float localSumOfGerstnerDirectional2_g28 = SumOfGerstnerDirectional( tiling2_g28 , amplitude2_g28 , detail2_g28 , position2_g28 , normal2_g28 , t2_g28 , sharpness2_g28 );
+				float2 spawnExtents2_g29 = _CircleSpawnExtents;
+				float2 spawnPosition2_g29 = _CircleSpawnPosition;
+				float tiling2_g29 = _Tiling;
+				float amplitude2_g29 = _Amplitude;
+				int detail2_g29 = 16;
+				float3 position2_g29 = ase_worldPos;
+				float3 normal2_g29 = float3( 0,0,0 );
+				float t2_g29 = mulTime13;
+				float sharpness2_g29 = _WaveSharpness;
+				float localSumOfGerstnerCircular2_g29 = SumOfGerstnerCircular( spawnExtents2_g29 , spawnPosition2_g29 , tiling2_g29 , amplitude2_g29 , detail2_g29 , position2_g29 , normal2_g29 , t2_g29 , sharpness2_g29 );
+				#ifdef _CIRCULARWAVES_ON
+				float3 staticSwitch210 = normal2_g29;
+				#else
+				float3 staticSwitch210 = normal2_g28;
+				#endif
+				float fresnelNdotV188 = dot( normalize( staticSwitch210 ), ase_worldViewDir );
+				float fresnelNode188 = ( 0.1 + 3.0 * pow( 1.0 - fresnelNdotV188, 6.0 ) );
+				float4 lerpResult239 = lerp( _DepthColor , appendResult186 , saturate( fresnelNode188 ));
 				float2 uv_Foam = packedInput.ase_texcoord2.xy * _Foam_ST.xy + _Foam_ST.zw;
 				float2 panner190 = ( 1.0 * _Time.y * float2( -0.032,-0.032 ) + uv_Foam);
-				float temp_output_143_0 = saturate( (0.0 + (localSumOfGerstnerDirectional2_g26 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) );
-				float temp_output_180_0 = ( tex2D( _Foam, panner190 ).r * temp_output_143_0 * _FoamColor.a );
-				float4 lerpResult155 = lerp( appendResult186 , _FoamColor , temp_output_180_0);
+				#ifdef _CIRCULARWAVES_ON
+				float staticSwitch212 = localSumOfGerstnerDirectional2_g28;
+				#else
+				float staticSwitch212 = localSumOfGerstnerCircular2_g29;
+				#endif
+				float temp_output_143_0 = saturate( (0.0 + (staticSwitch212 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) );
+				float temp_output_180_0 = ( tex2D( _Foam, panner190 ).r * ( temp_output_143_0 * temp_output_143_0 ) * _FoamColor.a );
+				float4 lerpResult155 = lerp( lerpResult239 , _FoamColor , temp_output_180_0);
 				
 				surfaceDescription.Alpha = lerpResult155.a;
 				surfaceDescription.AlphaClipThreshold =  _AlphaCutoff;
@@ -5415,7 +5714,6 @@ Shader "Water"
 }
 /*ASEBEGIN
 Version=19201
-Node;AmplifyShaderEditor.RangedFloatNode;44;234.8388,48.4541;Inherit;False;Constant;_Float1;Float 1;0;0;Create;True;0;0;0;False;0;False;0.95;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;META;0;1;META;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;3;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;SceneSelectionPass;0;3;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
@@ -5426,103 +5724,134 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;7;0,0;Float;False;False;-1;
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;8;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;TransparentDepthPostpass;0;8;TransparentDepthPostpass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=TransparentDepthPostpass;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;9;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;Forward;0;9;Forward;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;True;0;True;_CullModeForward;False;False;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelOne;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelTwo;False;False;False;True;True;0;True;_StencilRef;255;False;;255;True;_StencilWriteMask;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;0;True;_ZWrite;True;0;True;_ZTestDepthEqualForOpaque;False;True;1;LightMode=Forward;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;10;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;ScenePickingPass;0;10;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;3;False;;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;118;235.0984,-75.93423;Inherit;False;2;2;0;FLOAT3x3;0,0,0,1,1,1,1,0,1;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.WorldToTangentMatrix;78;-53.89573,-113.1374;Inherit;False;0;1;FLOAT3x3;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;81;-236.8605,-256.1038;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.PosVertexDataNode;101;-1469.626,275.2133;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;97;-1447.628,469.2085;Inherit;False;Property;_Tiling;Tiling;3;0;Create;True;0;0;0;False;0;False;1;32;0;16;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;99;-1355.587,191.0554;Inherit;False;Property;_WaveSharpness;WaveSharpness;4;0;Create;True;0;0;0;False;0;False;0.5;2.5;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleTimeNode;13;-1289.86,540.578;Inherit;False;1;0;FLOAT;4;False;1;FLOAT;0
-Node;AmplifyShaderEditor.IntNode;60;-1293.741,397.0923;Inherit;False;Constant;_Detail;Detail;0;0;Create;True;0;0;0;False;0;False;16;4;True;0;1;INT;0
-Node;AmplifyShaderEditor.RangedFloatNode;63;-1377.142,-70.00772;Inherit;False;Property;_Amplitude;Amplitude;0;0;Create;True;0;0;0;False;0;False;1;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SaturateNode;143;-581.2851,-57.77795;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;1340.288,-165.463;Float;False;True;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;Water;53b46d85872c5b24c8f4f0a1c3fe4c87;True;GBuffer;0;0;GBuffer;34;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;True;True;True;True;0;True;_LightLayersMaskBuffer4;False;False;False;False;False;False;False;True;True;0;True;_StencilRefGBuffer;255;False;;255;True;_StencilWriteMaskGBuffer;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;False;True;0;True;_ZTestGBuffer;False;True;1;LightMode=GBuffer;False;False;0;;0;0;Standard;39;Surface Type;1;638446927057792748;  Rendering Pass;1;0;  Refraction Model;2;638446939227315069;    Blending Mode;0;0;    Blend Preserves Specular;1;0;  Back Then Front Rendering;0;0;  Transparent Depth Prepass;0;638485478657869523;  Transparent Depth Postpass;0;0;  ZWrite;0;0;  Z Test;4;0;Double-Sided;0;0;Alpha Clipping;0;0;  Use Shadow Threshold;0;0;Material Type,InvertActionOnDeselection;0;638446944603301998;  Energy Conserving Specular;1;0;  Transmission,InvertActionOnDeselection;0;0;Forward Only;0;0;Receive Decals;1;0;Receives SSR;1;0;Receive SSR Transparent;0;0;Motion Vectors;0;0;  Add Precomputed Velocity;0;0;Specular AA;0;0;Specular Occlusion Mode;1;0;Override Baked GI;0;0;Depth Offset;0;0;DOTS Instancing;0;0;GPU Instancing;1;0;LOD CrossFade;0;0;Tessellation;1;638446804460253144;  Phong;0;0;  Strength;0.5,False,;0;  Type;1;638446945431079720;  Tess;8,False,;638446948081786666;  Min;8,False,;638446946568652291;  Max;25,False,;638446946581378865;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position;1;0;0;11;True;True;True;True;True;False;False;False;False;True;True;False;;False;0
-Node;AmplifyShaderEditor.FunctionNode;182;-907.3841,278.1608;Inherit;False;SumOfGerstnerDirectional;-1;;26;4bf2394a7a8e2894ebf8a3bfafb106b5;0;6;7;FLOAT;0.5;False;1;FLOAT3;0,0,0;False;5;INT;4;False;6;FLOAT;0.2;False;12;FLOAT;1;False;3;FLOAT;0;False;3;FLOAT3;4;FLOAT3;8;FLOAT;10
 Node;AmplifyShaderEditor.SaturateNode;184;-386.8946,-309.1566;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.ViewDirInputsCoordNode;77;-869.8337,-298.0995;Inherit;False;World;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.FresnelNode;76;-595.9999,-320.3516;Inherit;False;Standard;WorldNormal;ViewDir;True;False;5;0;FLOAT3;0,0,1;False;4;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;5;False;1;FLOAT;0
-Node;AmplifyShaderEditor.FresnelNode;188;-508.5847,82.36298;Inherit;False;Standard;WorldNormal;ViewDir;True;False;5;0;FLOAT3;0,0,1;False;4;FLOAT3;0,0,0;False;1;FLOAT;0.1;False;2;FLOAT;3;False;3;FLOAT;4;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;194;-77.65247,-263.6293;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.LerpOp;82;110.2435,-367.2557;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;64;94.33678,178.5017;Inherit;False;Property;_RefractionIndex;RefractionIndex;2;0;Create;True;0;0;0;False;0;False;1;0;0.95;1.05;0;1;FLOAT;0
-Node;AmplifyShaderEditor.ColorNode;83;-1119.106,-585.5153;Inherit;False;Property;_TransmissionColor;TransmissionColor;1;0;Create;True;0;0;0;False;0;False;0.3820755,1,0.9364549,1;0.7169812,0.7169812,0.7169812,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.LerpOp;179;1043.019,-465.9569;Inherit;False;3;0;FLOAT;0.95;False;1;FLOAT;0.25;False;2;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;180;915.5668,-620.3632;Inherit;False;3;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;149;443.5766,-1626.914;Inherit;True;Property;_WaterTextureSample;WaterTextureSample;5;0;Create;True;0;0;0;False;0;False;-1;e793edb4a59e4374a88f62a166569c48;200a165fa467df44083105be5846b496;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SamplerNode;174;102.6348,-1061.111;Inherit;True;Property;_WaterTextureSample1;WaterTextureSample;5;0;Create;True;0;0;0;False;0;False;-1;e793edb4a59e4374a88f62a166569c48;200a165fa467df44083105be5846b496;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.BreakToComponentsNode;177;685.4835,-937.1581;Inherit;False;COLOR;1;0;COLOR;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
+Node;AmplifyShaderEditor.ColorNode;83;-1119.106,-585.5153;Inherit;False;Property;_TransmissionColor;TransmissionColor;1;0;Create;True;0;0;0;False;0;False;0.3820755,1,0.9364549,1;0.3820754,1,0.9364549,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;149;443.5766,-1626.914;Inherit;True;Property;_WaterTextureSample;WaterTextureSample;5;0;Create;True;0;0;0;False;0;False;-1;e793edb4a59e4374a88f62a166569c48;e793edb4a59e4374a88f62a166569c48;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;174;102.6348,-1061.111;Inherit;True;Property;_WaterTextureSample1;WaterTextureSample;5;0;Create;True;0;0;0;False;0;False;-1;e793edb4a59e4374a88f62a166569c48;e793edb4a59e4374a88f62a166569c48;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.BreakToComponentsNode;185;819.9666,-1572.558;Inherit;False;COLOR;1;0;COLOR;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
 Node;AmplifyShaderEditor.DynamicAppendNode;186;1006.31,-1550.74;Inherit;False;FLOAT4;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT4;0
-Node;AmplifyShaderEditor.BreakToComponentsNode;187;1233.56,-901.3485;Inherit;False;COLOR;1;0;COLOR;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;193;883.6387,-1410.407;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.PannerNode;190;-179.8576,-1169.336;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;-0.032,-0.032;False;1;FLOAT;1;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.TextureCoordinatesNode;170;-471.7751,-1279.057;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TexturePropertyNode;171;-757.9583,-1134.015;Inherit;True;Property;_Foam;Foam;6;0;Create;True;0;0;0;False;0;False;7fa60e7d307e45b44b9c081b16162c3d;None;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
-Node;AmplifyShaderEditor.TexturePropertyNode;148;-222.7962,-1668.293;Inherit;True;Property;_WaterTexture;WaterTexture;5;0;Create;True;0;0;0;False;0;False;4a1ef29df10dfc7469e650d7aa54eb52;None;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
+Node;AmplifyShaderEditor.TexturePropertyNode;148;-222.7962,-1668.293;Inherit;True;Property;_WaterTexture;WaterTexture;5;0;Create;True;0;0;0;False;0;False;4a1ef29df10dfc7469e650d7aa54eb52;4a1ef29df10dfc7469e650d7aa54eb52;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
 Node;AmplifyShaderEditor.TextureCoordinatesNode;150;94.42441,-1741.034;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.LerpOp;155;1009.385,-1099.662;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ColorNode;178;196.8524,-1364.338;Inherit;False;Property;_FoamColor;FoamColor;7;0;Create;True;0;0;0;False;0;False;1,1,1,1;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;178;196.8524,-1364.338;Inherit;False;Property;_FoamColor;FoamColor;8;0;Create;True;0;0;0;False;0;False;1,1,1,1;1,1,1,0.6941177;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SaturateNode;189;-254.2074,89.2558;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.NegateNode;138;-1031.987,-74.18863;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TFHCRemapNode;137;-827.9229,-59.97869;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;-1;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;196;-1505.178,626.2457;Inherit;False;Property;_Speed;Speed;8;0;Create;True;0;0;0;False;0;False;4;0;0;0;0;1;FLOAT;0
-WireConnection;118;0;78;0
-WireConnection;118;1;182;4
+Node;AmplifyShaderEditor.FunctionNode;206;-1197.322,472.1635;Inherit;False;SumOfGerstnerDirectional;-1;;28;4bf2394a7a8e2894ebf8a3bfafb106b5;0;6;7;FLOAT;0.5;False;1;FLOAT3;0,0,0;False;5;INT;4;False;6;FLOAT;0.2;False;12;FLOAT;1;False;3;FLOAT;0;False;3;FLOAT3;4;FLOAT3;8;FLOAT;10
+Node;AmplifyShaderEditor.RangedFloatNode;97;-1737.566,663.2111;Inherit;False;Property;_Tiling;Tiling;3;0;Create;True;0;0;0;False;0;False;1;5.15;0;16;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;99;-1645.525,385.0581;Inherit;False;Property;_WaveSharpness;WaveSharpness;4;0;Create;True;0;0;0;False;0;False;0.5;1;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleTimeNode;13;-1579.798,734.5806;Inherit;False;1;0;FLOAT;4;False;1;FLOAT;0
+Node;AmplifyShaderEditor.IntNode;60;-1583.679,591.0949;Inherit;False;Constant;_Detail;Detail;0;0;Create;True;0;0;0;False;0;False;16;4;True;0;1;INT;0
+Node;AmplifyShaderEditor.RangedFloatNode;196;-1795.116,820.2484;Inherit;False;Property;_Speed;Speed;10;0;Create;True;0;0;0;False;0;False;4;4;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.WorldPosInputsNode;198;-1795.155,477.0615;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.RangedFloatNode;63;-1799.258,55.77431;Inherit;False;Property;_Amplitude;Amplitude;0;0;Create;True;0;0;0;False;0;False;1;0.058;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;207;-1236.993,715.7894;Inherit;False;SumOfGerstnerCircular;-1;;29;dc2374c520193d74f84dbfa8d8fde39d;0;8;7;FLOAT;0.5;False;1;FLOAT3;0,0,0;False;5;INT;4;False;6;FLOAT;0.2;False;12;FLOAT;1;False;13;FLOAT2;1,1;False;14;FLOAT2;1,1;False;3;FLOAT;0;False;3;FLOAT3;4;FLOAT3;8;FLOAT;10
+Node;AmplifyShaderEditor.StaticSwitch;211;-824.2922,715.7814;Inherit;False;Property;_Keyword0;Keyword 0;11;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Reference;210;True;True;All;9;1;FLOAT3;0,0,0;False;0;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT3;0,0,0;False;5;FLOAT3;0,0,0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.StaticSwitch;210;-821.8923,595.4813;Inherit;False;Property;_CircularWaves;CircularWaves;11;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;FLOAT3;0,0,0;False;0;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT3;0,0,0;False;5;FLOAT3;0,0,0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.StaticSwitch;212;-818.2922,827.7814;Inherit;False;Property;_Keyword1;Keyword 0;11;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Reference;210;True;True;All;9;1;FLOAT;0;False;0;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.DynamicAppendNode;201;-374.1673,652.1545;Inherit;False;FLOAT4;4;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;1;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.WorldToObjectTransfNode;200;-139.5138,586.2355;Inherit;False;1;0;FLOAT4;0,0,0,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SwizzleNode;202;163.0946,524.5226;Inherit;False;FLOAT3;0;1;2;3;1;0;FLOAT4;0,0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.Vector2Node;208;-1696.993,1169.789;Inherit;False;Property;_CircleSpawnPosition;CircleSpawnPosition;9;0;Create;True;0;0;0;False;0;False;0,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.Vector2Node;209;-1704.993,1017.789;Inherit;False;Property;_CircleSpawnExtents;CircleSpawnExtents;6;0;Create;True;0;0;0;False;0;False;1,1;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.FresnelNode;188;-508.5847,83.36298;Inherit;False;Standard;WorldNormal;ViewDir;True;False;5;0;FLOAT3;0,0,1;False;4;FLOAT3;0,0,0;False;1;FLOAT;0.1;False;2;FLOAT;3;False;3;FLOAT;6;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;118;311.8492,25.15235;Inherit;False;2;2;0;FLOAT3x3;0,0,0,1,1,1,1,0,1;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.WorldToTangentMatrix;78;22.85519,-12.05082;Inherit;False;0;1;FLOAT3x3;0
+Node;AmplifyShaderEditor.RangedFloatNode;64;749.1652,197.0543;Inherit;False;Property;_RefractionIndex;RefractionIndex;2;0;Create;True;0;0;0;False;0;False;1;1.0161;0.95;1.05;0;1;FLOAT;0
+Node;AmplifyShaderEditor.ColorNode;238;625.2054,-1406.315;Inherit;False;Property;_DepthColor;DepthColor;13;0;Create;True;0;0;0;False;0;False;0.09892309,0.2293437,0.3679245,0.3490196;0.09892309,0.2293437,0.3679245,0.3490196;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.BreakToComponentsNode;177;449.8297,-1044.77;Inherit;False;COLOR;1;0;COLOR;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;240;-27.34927,-541.1338;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.LerpOp;179;938.1323,-412.8326;Inherit;False;3;0;FLOAT;0.95;False;1;FLOAT;0.25;False;2;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SaturateNode;143;-576.0038,-51.41577;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;180;673.3129,-1056.153;Inherit;False;3;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.LerpOp;155;1329.316,-1220.265;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.BreakToComponentsNode;187;1531.716,-995.15;Inherit;False;COLOR;1;0;COLOR;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;1708.795,-214.0388;Float;False;True;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;Water;53b46d85872c5b24c8f4f0a1c3fe4c87;True;GBuffer;0;0;GBuffer;34;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;True;True;True;True;0;True;_LightLayersMaskBuffer4;False;False;False;False;False;False;False;True;True;0;True;_StencilRefGBuffer;255;False;;255;True;_StencilWriteMaskGBuffer;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;False;True;0;True;_ZTestGBuffer;False;True;1;LightMode=GBuffer;False;False;0;;0;0;Standard;39;Surface Type;1;638446927057792748;  Rendering Pass;1;0;  Refraction Model;1;638485860447169621;    Blending Mode;0;0;    Blend Preserves Specular;1;0;  Back Then Front Rendering;0;0;  Transparent Depth Prepass;0;638485478657869523;  Transparent Depth Postpass;0;0;  ZWrite;1;638485866295630727;  Z Test;4;0;Double-Sided;0;0;Alpha Clipping;0;0;  Use Shadow Threshold;0;0;Material Type,InvertActionOnDeselection;0;638446944603301998;  Energy Conserving Specular;1;0;  Transmission,InvertActionOnDeselection;0;0;Forward Only;0;0;Receive Decals;1;0;Receives SSR;1;0;Receive SSR Transparent;0;0;Motion Vectors;0;0;  Add Precomputed Velocity;0;0;Specular AA;0;0;Specular Occlusion Mode;1;0;Override Baked GI;0;0;Depth Offset;0;0;DOTS Instancing;0;0;GPU Instancing;1;0;LOD CrossFade;0;0;Tessellation;1;638446804460253144;  Phong;0;0;  Strength;0.5,False,;0;  Type;1;638446945431079720;  Tess;8,False,;638446948081786666;  Min;8,False,;638446946568652291;  Max;25,False,;638446946581378865;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position;0;638485783748411010;0;11;True;True;True;True;True;False;False;False;False;True;True;False;;False;0
+Node;AmplifyShaderEditor.LerpOp;239;1211.172,-1483.051;Inherit;False;3;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0,0,0,0;False;2;FLOAT;0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.TexturePropertyNode;171;-844.9583,-1206.015;Inherit;True;Property;_Foam;Foam;7;0;Create;True;0;0;0;False;0;False;7fa60e7d307e45b44b9c081b16162c3d;7fa60e7d307e45b44b9c081b16162c3d;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
 WireConnection;81;0;184;0
 WireConnection;81;1;143;0
-WireConnection;13;0;196;0
-WireConnection;143;0;137;0
-WireConnection;0;0;155;0
-WireConnection;0;1;118;0
-WireConnection;0;6;82;0
-WireConnection;0;7;179;0
-WireConnection;0;9;187;3
-WireConnection;0;17;64;0
-WireConnection;0;11;182;8
-WireConnection;182;7;99;0
-WireConnection;182;1;101;0
-WireConnection;182;5;60;0
-WireConnection;182;6;63;0
-WireConnection;182;12;97;0
-WireConnection;182;3;13;0
 WireConnection;184;0;76;0
-WireConnection;76;0;182;4
+WireConnection;76;0;210;0
 WireConnection;76;4;77;0
-WireConnection;188;0;182;4
-WireConnection;188;4;77;0
 WireConnection;194;0;83;4
 WireConnection;194;1;81;0
 WireConnection;82;1;83;0
 WireConnection;82;2;194;0
-WireConnection;179;2;180;0
-WireConnection;180;0;177;0
-WireConnection;180;1;143;0
-WireConnection;180;2;178;4
 WireConnection;149;0;148;0
 WireConnection;149;1;150;0
 WireConnection;149;7;148;1
 WireConnection;174;0;171;0
 WireConnection;174;1;190;0
 WireConnection;174;7;171;1
-WireConnection;177;0;174;0
 WireConnection;185;0;149;0
 WireConnection;186;0;185;0
 WireConnection;186;1;185;1
 WireConnection;186;2;185;2
-WireConnection;186;3;193;0
-WireConnection;187;0;155;0
-WireConnection;193;0;185;3
-WireConnection;193;1;189;0
+WireConnection;186;3;185;3
 WireConnection;190;0;170;0
 WireConnection;170;2;171;0
 WireConnection;150;2;148;0
-WireConnection;155;0;186;0
-WireConnection;155;1;178;0
-WireConnection;155;2;180;0
 WireConnection;189;0;188;0
 WireConnection;138;0;63;0
-WireConnection;137;0;182;10
+WireConnection;137;0;212;0
 WireConnection;137;1;138;0
 WireConnection;137;2;63;0
+WireConnection;206;7;99;0
+WireConnection;206;1;198;0
+WireConnection;206;5;60;0
+WireConnection;206;6;63;0
+WireConnection;206;12;97;0
+WireConnection;206;3;13;0
+WireConnection;13;0;196;0
+WireConnection;207;7;99;0
+WireConnection;207;1;198;0
+WireConnection;207;5;60;0
+WireConnection;207;6;63;0
+WireConnection;207;12;97;0
+WireConnection;207;13;209;0
+WireConnection;207;14;208;0
+WireConnection;207;3;13;0
+WireConnection;211;1;206;8
+WireConnection;211;0;207;8
+WireConnection;210;1;206;4
+WireConnection;210;0;207;4
+WireConnection;212;1;207;10
+WireConnection;212;0;206;10
+WireConnection;201;0;211;0
+WireConnection;200;0;201;0
+WireConnection;202;0;200;0
+WireConnection;188;0;210;0
+WireConnection;188;4;77;0
+WireConnection;118;0;78;0
+WireConnection;118;1;210;0
+WireConnection;177;0;174;0
+WireConnection;240;0;143;0
+WireConnection;240;1;143;0
+WireConnection;179;2;180;0
+WireConnection;143;0;137;0
+WireConnection;180;0;177;0
+WireConnection;180;1;240;0
+WireConnection;180;2;178;4
+WireConnection;155;0;239;0
+WireConnection;155;1;178;0
+WireConnection;155;2;180;0
+WireConnection;187;0;155;0
+WireConnection;0;0;155;0
+WireConnection;0;1;118;0
+WireConnection;0;6;82;0
+WireConnection;0;7;179;0
+WireConnection;0;9;187;3
+WireConnection;0;17;64;0
+WireConnection;0;11;202;0
+WireConnection;239;0;238;0
+WireConnection;239;1;186;0
+WireConnection;239;2;189;0
 ASEEND*/
-//CHKSM=601130297E3EE2B1DAD582B078FA822786BF6FF1
+//CHKSM=7AE90E8A7A1E29D9DB771556CD72279F1CFAD33F

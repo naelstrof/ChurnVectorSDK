@@ -70,7 +70,7 @@ float SumOfGerstnerDirectional(float tiling, float amplitude, int detail, inout 
         frequency *= 1.12;
     }
     
-    position = float3(positionSum.x/tiling,positionSum.z+position.y,positionSum.y/tiling);
+    position = position+float3(positionSum.x/tiling,positionSum.z,positionSum.y/tiling);
     normal = float3(-normalSum.x, 1-normalSum.z, -normalSum.y);
     //binormal = float3(1-binormalSum.x, binormalSum.z, -binormalSum.y);
     //tangent = float3(-tangentSum.x, tangentSum.z, 1-tangentSum.y);
@@ -84,13 +84,13 @@ float SumOfGerstnerCircular(float2 spawnExtents, float2 spawnPosition, float til
     float frequency = 0.5;
     float currentSteepness = min(2,detail);
     for(int i=0;i<detail;i++) {
-        float x = noise_randomValue(float2(i*2345,i*1428));
+        float x = noise_randomValue(float2(i*2545,i*1428));
         float y = noise_randomValue(float2(i*1234,i*3294));
         const float2 circleOffset = (float2(x,y)*2-float2(1,1))*spawnExtents;
         const float2 circlePos = (spawnPosition+circleOffset);
         const float2 dir = normalize(circlePos-position.xz);
         
-        const float speed = 1+(noise_randomValue(i*123)-0.5)*0.1f;
+        const float speed = 1;
         const float wavelength = 2*PI/frequency;
         const float phase = speed*2*PI/wavelength;
         const float steepness = steepnessNormalized/(frequency*amplitude*currentSteepness);
@@ -111,7 +111,7 @@ float SumOfGerstnerCircular(float2 spawnExtents, float2 spawnPosition, float til
         frequency *= 1.12;
     }
     
-    position = float3(positionSum.x/tiling,positionSum.z+position.y,positionSum.y/tiling);
+    position = position+float3(positionSum.x/tiling,positionSum.z,positionSum.y/tiling);
     normal = float3(-normalSum.x, 1-normalSum.z, -normalSum.y);
     return positionSum.z;
 }
