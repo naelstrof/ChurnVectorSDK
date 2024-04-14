@@ -64,7 +64,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Foam:
         m_Texture: {fileID: 2800000, guid: 7fa60e7d307e45b44b9c081b16162c3d, type: 3}
-        m_Scale: {x: 3, y: 3}
+        m_Scale: {x: 8, y: 8}
         m_Offset: {x: 0, y: 0}
     - _HeightMap:
         m_Texture: {fileID: 0}
@@ -132,7 +132,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _WaterTexture:
         m_Texture: {fileID: 2800000, guid: 4a1ef29df10dfc7469e650d7aa54eb52, type: 3}
-        m_Scale: {x: 3, y: 3}
+        m_Scale: {x: 8, y: 8}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
         m_Texture: {fileID: 0}
@@ -172,7 +172,7 @@ Material:
     - _AlphaSrcBlend: 1
     - _AlphaToMask: 0
     - _AlphaToMaskInspectorValue: 0
-    - _Amplitude: 0.149
+    - _Amplitude: 0.053
     - _Anisotropy: 0
     - _BlendMode: 0
     - _CircularWaves: 0
@@ -194,6 +194,7 @@ Material:
     - _DoubleSidedGIMode: 0
     - _DoubleSidedNormalMode: 1
     - _DstBlend: 10
+    - _Emission: 25
     - _EmissiveColorMode: 1
     - _EmissiveExposureWeight: 1
     - _EmissiveIntensity: 1
@@ -202,6 +203,7 @@ Material:
     - _EnableFogOnTransparent: 1
     - _EnableGeometricSpecularAA: 0
     - _EnergyConservingSpecularColor: 1
+    - _FogStrength: 3.41
     - _HeightAmplitude: 0.02
     - _HeightCenter: 0.5
     - _HeightMapParametrization: 0
@@ -233,7 +235,7 @@ Material:
     - _RayTracing: 0
     - _ReceivesSSR: 1
     - _ReceivesSSRTransparent: 0
-    - _RefractionIndex: 1.05
+    - _RefractionIndex: 0.9822
     - _RefractionModel: 0
     - _RenderQueueType: 4
     - _RequireSplitLighting: 0
@@ -243,7 +245,7 @@ Material:
     - _SpecularAAScreenSpaceVariance: 0.1
     - _SpecularAAThreshold: 0.2
     - _SpecularOcclusionMode: 1
-    - _Speed: 3
+    - _Speed: 2
     - _SrcBlend: 1
     - _StencilRef: 0
     - _StencilRefDepth: 0
@@ -264,7 +266,7 @@ Material:
     - _TexWorldScale: 1
     - _TexWorldScaleEmissive: 1
     - _Thickness: 1
-    - _Tiling: 3
+    - _Tiling: 1
     - _TransmissionEnable: 1
     - _TransmissionMask: 1
     - _TransparentBackfaceEnable: 0
@@ -279,19 +281,21 @@ Material:
     - _UVEmissive: 0
     - _UseEmissiveIntensity: 0
     - _UseShadowThreshold: 0
-    - _WaveSharpness: 1
+    - _WaveSharpness: 0.953
     - _ZTestDepthEqualForOpaque: 4
     - _ZTestGBuffer: 4
     - _ZTestTransparent: 4
     - _ZWrite: 1
-    - _scale: 3.07
+    - _peakFoamPower: 3.96
+    - _power: 4
+    - _scale: 3
     m_Colors:
     - _BaseColor: {r: 0.10902457, g: 0.3651988, b: 0.4716981, a: 0.18431373}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
-    - _CircleSpawnExtents: {r: 5, g: 5, b: 0, a: 0}
+    - _CircleSpawnExtents: {r: 3, g: 3, b: 0, a: 0}
     - _CircleSpawnPosition: {r: 234.07, g: -127.89, b: 0, a: 0}
     - _Color: {r: 0.10902453, g: 0.36519876, b: 0.4716981, a: 0.18431373}
-    - _DepthColor: {r: 0.09892293, g: 0.22934353, b: 0.36792436, a: 0.36862746}
+    - _DepthColor: {r: 0.09892263, g: 0.22934318, b: 0.367924, a: 1}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _DiffusionProfile_Asset: {r: 1.3726927e+19, g: 0.00000028451828, b: -2.0689837e+16,
         a: 147023940}
@@ -299,10 +303,11 @@ Material:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissiveColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissiveColorLDR: {r: 0, g: 0, b: 0, a: 1}
-    - _FoamColor: {r: 1, g: 1, b: 1, a: 0.69411767}
+    - _FoamColor: {r: 1, g: 1, b: 1, a: 1}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SurfaceColor: {r: 0.5235404, g: 0.6132076, b: 0.6132076, a: 1}
     - _ThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
     - _Tiling: {r: 32, g: 32, b: 0, a: 0}
     - _TransmissionColor: {r: 0.38207543, g: 1, b: 0.9364549, a: 1}

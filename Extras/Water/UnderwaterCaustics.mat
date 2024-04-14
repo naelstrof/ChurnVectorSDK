@@ -153,7 +153,7 @@ Material:
     - _AlphaSrcBlend: 1
     - _AlphaToMask: 0
     - _AlphaToMaskInspectorValue: 0
-    - _Amplitude: 0.149
+    - _Amplitude: 0.053
     - _Anisotropy: 0
     - _BlendMode: 0
     - _CircularWaves: 0
@@ -191,7 +191,7 @@ Material:
     - _HeightPoMAmplitude: 2
     - _HeightTessAmplitude: 2
     - _HeightTessCenter: 0.5
-    - _Intensity: 1
+    - _Intensity: 4.4
     - _InvTilingScale: 1
     - _Ior: 1.5
     - _IridescenceMask: 1
@@ -241,7 +241,7 @@ Material:
     - _TexWorldScale: 1
     - _TexWorldScaleEmissive: 1
     - _Thickness: 1
-    - _Tiling: 3
+    - _Tiling: 1
     - _TransmissionEnable: 1
     - _TransmissionMask: 1
     - _TransparentBackfaceEnable: 0
@@ -256,8 +256,8 @@ Material:
     - _UVEmissive: 0
     - _UseEmissiveIntensity: 0
     - _UseShadowThreshold: 0
-    - _WaterDepth: 0.088
-    - _WaveSharpness: 1
+    - _WaterDepth: 0
+    - _WaveSharpness: 0.953
     - _ZTestDepthEqualForOpaque: 3
     - _ZTestGBuffer: 4
     - _ZTestTransparent: 4
@@ -265,7 +265,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
-    - _CircleSpawnExtents: {r: 5, g: 5, b: 0, a: 0}
+    - _CircleSpawnExtents: {r: 3, g: 3, b: 0, a: 0}
     - _CircleSpawnPosition: {r: 234.07, g: -127.89, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}

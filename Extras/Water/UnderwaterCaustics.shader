@@ -18,7 +18,6 @@ Shader "UnderwaterCaustics"
 		_CircleSpawnPosition("CircleSpawnPosition", Vector) = (0,0,0,0)
 		[Toggle(_CIRCULARWAVES_ON)] _CircularWaves("CircularWaves", Float) = 0
 		_Intensity("Intensity", Range( 0 , 100)) = 1
-		_TransmissionColor("TransmissionColor", Color) = (0.09714311,0.2402553,0.3490566,1)
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 
 		[HideInInspector] _RenderQueueType("Render Queue Type", Float) = 1
@@ -387,17 +386,16 @@ Shader "UnderwaterCaustics"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColorMap_ST;
-			float4 _TransmissionColor;
 			float4 _NormalMap_ST;
 			float4 _MaskMap_ST;
 			float2 _CircleSpawnExtents;
 			float2 _CircleSpawnPosition;
+			float _Intensity;
 			float _Tiling;
 			float _Amplitude;
 			float _Speed;
 			float _WaveSharpness;
 			float _WaterDepth;
-			float _Intensity;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -461,9 +459,9 @@ Shader "UnderwaterCaustics"
             #endif
 
 			sampler2D _BaseColorMap;
-			sampler2D _EnvironmentLighting;
 			sampler2D _NormalMap;
 			sampler2D _MaskMap;
+			sampler2D _EnvironmentLighting;
 
 
             #ifdef DEBUG_DISPLAY
@@ -918,6 +916,12 @@ Shader "UnderwaterCaustics"
 				GlobalSurfaceDescription surfaceDescription = (GlobalSurfaceDescription)0;
 				float2 uv_BaseColorMap = packedInput.ase_texcoord5.xy * _BaseColorMap_ST.xy + _BaseColorMap_ST.zw;
 				float4 tex2DNode11 = tex2D( _BaseColorMap, uv_BaseColorMap );
+				
+				float2 uv_NormalMap = packedInput.ase_texcoord5.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
+				
+				float2 uv_MaskMap = packedInput.ase_texcoord5.xy * _MaskMap_ST.xy + _MaskMap_ST.zw;
+				float4 tex2DNode13 = tex2D( _MaskMap, uv_MaskMap );
+				
 				float tiling2_g1 = _Tiling;
 				float amplitude2_g1 = _Amplitude;
 				int detail2_g1 = 16;
@@ -958,17 +962,8 @@ Shader "UnderwaterCaustics"
 				#endif
 				float planeD24 = ( staticSwitch40 + _WaterDepth );
 				float3 localline_plane_intercept24 = line_plane_intercept24( lineP24 , lineN24 , planeN24 , planeD24 );
-				float temp_output_44_0 = ( tex2D( _EnvironmentLighting, ( float2( 0.5,0.5 ) + ( (localline_plane_intercept24).xy * float2( 0.8,0.8 ) ) ) ).r * _Intensity );
-				float4 lerpResult46 = lerp( ( tex2DNode11 * _TransmissionColor ) , tex2DNode11 , temp_output_44_0);
 				
-				float2 uv_NormalMap = packedInput.ase_texcoord5.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
-				
-				float2 uv_MaskMap = packedInput.ase_texcoord5.xy * _MaskMap_ST.xy + _MaskMap_ST.zw;
-				float4 tex2DNode13 = tex2D( _MaskMap, uv_MaskMap );
-				
-				float3 temp_cast_1 = (temp_output_44_0).xxx;
-				
-				surfaceDescription.BaseColor = lerpResult46.rgb;
+				surfaceDescription.BaseColor = tex2DNode11.rgb;
 				surfaceDescription.Normal = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
 				surfaceDescription.BentNormal = float3( 0, 0, 1 );
 				surfaceDescription.CoatMask = 0;
@@ -978,7 +973,7 @@ Shader "UnderwaterCaustics"
 				surfaceDescription.Specular = 0;
 				#endif
 
-				surfaceDescription.Emission = temp_cast_1;
+				surfaceDescription.Emission = ( ( _Intensity * tex2D( _EnvironmentLighting, ( float2( 0.5,0.5 ) + ( (localline_plane_intercept24).xy * float2( 0.8,0.8 ) ) ) ).r ) * tex2DNode11 ).rgb;
 				surfaceDescription.Smoothness = tex2DNode13.a;
 				surfaceDescription.Occlusion = tex2DNode13.g;
 				surfaceDescription.Alpha = 1;
@@ -1138,17 +1133,16 @@ Shader "UnderwaterCaustics"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColorMap_ST;
-			float4 _TransmissionColor;
 			float4 _NormalMap_ST;
 			float4 _MaskMap_ST;
 			float2 _CircleSpawnExtents;
 			float2 _CircleSpawnPosition;
+			float _Intensity;
 			float _Tiling;
 			float _Amplitude;
 			float _Speed;
 			float _WaveSharpness;
 			float _WaterDepth;
-			float _Intensity;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -1212,9 +1206,9 @@ Shader "UnderwaterCaustics"
             #endif
 
 			sampler2D _BaseColorMap;
-			sampler2D _EnvironmentLighting;
 			sampler2D _NormalMap;
 			sampler2D _MaskMap;
+			sampler2D _EnvironmentLighting;
 
 
             #ifdef DEBUG_DISPLAY
@@ -1649,6 +1643,12 @@ Shader "UnderwaterCaustics"
 				GlobalSurfaceDescription surfaceDescription = (GlobalSurfaceDescription)0;
 				float2 uv_BaseColorMap = packedInput.ase_texcoord2.xy * _BaseColorMap_ST.xy + _BaseColorMap_ST.zw;
 				float4 tex2DNode11 = tex2D( _BaseColorMap, uv_BaseColorMap );
+				
+				float2 uv_NormalMap = packedInput.ase_texcoord2.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
+				
+				float2 uv_MaskMap = packedInput.ase_texcoord2.xy * _MaskMap_ST.xy + _MaskMap_ST.zw;
+				float4 tex2DNode13 = tex2D( _MaskMap, uv_MaskMap );
+				
 				float tiling2_g1 = _Tiling;
 				float amplitude2_g1 = _Amplitude;
 				int detail2_g1 = 16;
@@ -1689,17 +1689,8 @@ Shader "UnderwaterCaustics"
 				#endif
 				float planeD24 = ( staticSwitch40 + _WaterDepth );
 				float3 localline_plane_intercept24 = line_plane_intercept24( lineP24 , lineN24 , planeN24 , planeD24 );
-				float temp_output_44_0 = ( tex2D( _EnvironmentLighting, ( float2( 0.5,0.5 ) + ( (localline_plane_intercept24).xy * float2( 0.8,0.8 ) ) ) ).r * _Intensity );
-				float4 lerpResult46 = lerp( ( tex2DNode11 * _TransmissionColor ) , tex2DNode11 , temp_output_44_0);
 				
-				float2 uv_NormalMap = packedInput.ase_texcoord2.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
-				
-				float2 uv_MaskMap = packedInput.ase_texcoord2.xy * _MaskMap_ST.xy + _MaskMap_ST.zw;
-				float4 tex2DNode13 = tex2D( _MaskMap, uv_MaskMap );
-				
-				float3 temp_cast_1 = (temp_output_44_0).xxx;
-				
-				surfaceDescription.BaseColor = lerpResult46.rgb;
+				surfaceDescription.BaseColor = tex2DNode11.rgb;
 				surfaceDescription.Normal = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
 				surfaceDescription.BentNormal = float3( 0, 0, 1 );
 				surfaceDescription.CoatMask = 0;
@@ -1709,7 +1700,7 @@ Shader "UnderwaterCaustics"
 				surfaceDescription.Specular = 0;
 				#endif
 
-				surfaceDescription.Emission = temp_cast_1;
+				surfaceDescription.Emission = ( ( _Intensity * tex2D( _EnvironmentLighting, ( float2( 0.5,0.5 ) + ( (localline_plane_intercept24).xy * float2( 0.8,0.8 ) ) ) ).r ) * tex2DNode11 ).rgb;
 				surfaceDescription.Smoothness = tex2DNode13.a;
 				surfaceDescription.Occlusion = tex2DNode13.g;
 				surfaceDescription.Alpha = 1;
@@ -1872,17 +1863,16 @@ Shader "UnderwaterCaustics"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColorMap_ST;
-			float4 _TransmissionColor;
 			float4 _NormalMap_ST;
 			float4 _MaskMap_ST;
 			float2 _CircleSpawnExtents;
 			float2 _CircleSpawnPosition;
+			float _Intensity;
 			float _Tiling;
 			float _Amplitude;
 			float _Speed;
 			float _WaveSharpness;
 			float _WaterDepth;
-			float _Intensity;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -2447,17 +2437,16 @@ Shader "UnderwaterCaustics"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColorMap_ST;
-			float4 _TransmissionColor;
 			float4 _NormalMap_ST;
 			float4 _MaskMap_ST;
 			float2 _CircleSpawnExtents;
 			float2 _CircleSpawnPosition;
+			float _Intensity;
 			float _Tiling;
 			float _Amplitude;
 			float _Speed;
 			float _WaveSharpness;
 			float _WaterDepth;
-			float _Intensity;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -2990,17 +2979,16 @@ Shader "UnderwaterCaustics"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColorMap_ST;
-			float4 _TransmissionColor;
 			float4 _NormalMap_ST;
 			float4 _MaskMap_ST;
 			float2 _CircleSpawnExtents;
 			float2 _CircleSpawnPosition;
+			float _Intensity;
 			float _Tiling;
 			float _Amplitude;
 			float _Speed;
 			float _WaveSharpness;
 			float _WaterDepth;
-			float _Intensity;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -3600,17 +3588,16 @@ Shader "UnderwaterCaustics"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColorMap_ST;
-			float4 _TransmissionColor;
 			float4 _NormalMap_ST;
 			float4 _MaskMap_ST;
 			float2 _CircleSpawnExtents;
 			float2 _CircleSpawnPosition;
+			float _Intensity;
 			float _Tiling;
 			float _Amplitude;
 			float _Speed;
 			float _WaveSharpness;
 			float _WaterDepth;
-			float _Intensity;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -4306,17 +4293,16 @@ Shader "UnderwaterCaustics"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColorMap_ST;
-			float4 _TransmissionColor;
 			float4 _NormalMap_ST;
 			float4 _MaskMap_ST;
 			float2 _CircleSpawnExtents;
 			float2 _CircleSpawnPosition;
+			float _Intensity;
 			float _Tiling;
 			float _Amplitude;
 			float _Speed;
 			float _WaveSharpness;
 			float _WaterDepth;
-			float _Intensity;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -4380,9 +4366,9 @@ Shader "UnderwaterCaustics"
             #endif
 
 			sampler2D _BaseColorMap;
-			sampler2D _EnvironmentLighting;
 			sampler2D _NormalMap;
 			sampler2D _MaskMap;
+			sampler2D _EnvironmentLighting;
 
 
             #ifdef DEBUG_DISPLAY
@@ -4934,6 +4920,12 @@ Shader "UnderwaterCaustics"
 				GlobalSurfaceDescription surfaceDescription = (GlobalSurfaceDescription)0;
 				float2 uv_BaseColorMap = packedInput.ase_texcoord7.xy * _BaseColorMap_ST.xy + _BaseColorMap_ST.zw;
 				float4 tex2DNode11 = tex2D( _BaseColorMap, uv_BaseColorMap );
+				
+				float2 uv_NormalMap = packedInput.ase_texcoord7.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
+				
+				float2 uv_MaskMap = packedInput.ase_texcoord7.xy * _MaskMap_ST.xy + _MaskMap_ST.zw;
+				float4 tex2DNode13 = tex2D( _MaskMap, uv_MaskMap );
+				
 				float tiling2_g1 = _Tiling;
 				float amplitude2_g1 = _Amplitude;
 				int detail2_g1 = 16;
@@ -4974,17 +4966,8 @@ Shader "UnderwaterCaustics"
 				#endif
 				float planeD24 = ( staticSwitch40 + _WaterDepth );
 				float3 localline_plane_intercept24 = line_plane_intercept24( lineP24 , lineN24 , planeN24 , planeD24 );
-				float temp_output_44_0 = ( tex2D( _EnvironmentLighting, ( float2( 0.5,0.5 ) + ( (localline_plane_intercept24).xy * float2( 0.8,0.8 ) ) ) ).r * _Intensity );
-				float4 lerpResult46 = lerp( ( tex2DNode11 * _TransmissionColor ) , tex2DNode11 , temp_output_44_0);
 				
-				float2 uv_NormalMap = packedInput.ase_texcoord7.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
-				
-				float2 uv_MaskMap = packedInput.ase_texcoord7.xy * _MaskMap_ST.xy + _MaskMap_ST.zw;
-				float4 tex2DNode13 = tex2D( _MaskMap, uv_MaskMap );
-				
-				float3 temp_cast_1 = (temp_output_44_0).xxx;
-				
-				surfaceDescription.BaseColor = lerpResult46.rgb;
+				surfaceDescription.BaseColor = tex2DNode11.rgb;
 				surfaceDescription.Normal = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
 				surfaceDescription.BentNormal = float3( 0, 0, 1 );
 				surfaceDescription.CoatMask = 0;
@@ -4994,7 +4977,7 @@ Shader "UnderwaterCaustics"
 				surfaceDescription.Specular = 0;
 				#endif
 
-				surfaceDescription.Emission = temp_cast_1;
+				surfaceDescription.Emission = ( ( _Intensity * tex2D( _EnvironmentLighting, ( float2( 0.5,0.5 ) + ( (localline_plane_intercept24).xy * float2( 0.8,0.8 ) ) ) ).r ) * tex2DNode11 ).rgb;
 				surfaceDescription.Smoothness = tex2DNode13.a;
 				surfaceDescription.Occlusion = tex2DNode13.g;
 				surfaceDescription.Alpha = 1;
@@ -5260,17 +5243,16 @@ Shader "UnderwaterCaustics"
 			float4 _SelectionID;
             CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColorMap_ST;
-			float4 _TransmissionColor;
 			float4 _NormalMap_ST;
 			float4 _MaskMap_ST;
 			float2 _CircleSpawnExtents;
 			float2 _CircleSpawnPosition;
+			float _Intensity;
 			float _Tiling;
 			float _Amplitude;
 			float _Speed;
 			float _WaveSharpness;
 			float _WaterDepth;
-			float _Intensity;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -5904,7 +5886,7 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;9;0,0;Float;False;False;-1;
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;10;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;ScenePickingPass;0;10;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;3;False;;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.SamplerNode;12;-520.3332,-65.16504;Inherit;True;Property;_NormalMap;NormalMap;2;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;bump;Auto;True;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SamplerNode;13;-513.3331,134.835;Inherit;True;Property;_MaskMap;MaskMap;3;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SamplerNode;23;-462.8411,482.9473;Inherit;True;Property;_EnvironmentLighting;EnvironmentLighting;6;0;Create;True;0;0;0;False;0;False;-1;3c848d12d77bc214dbffb711bdd1241b;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;23;-462.8411,482.9473;Inherit;True;Property;_EnvironmentLighting;EnvironmentLighting;6;0;Create;True;0;0;0;False;0;False;-1;3c848d12d77bc214dbffb711bdd1241b;3c848d12d77bc214dbffb711bdd1241b;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.FunctionNode;14;-1887.589,607.067;Inherit;False;SumOfGerstnerDirectional;-1;;1;4bf2394a7a8e2894ebf8a3bfafb106b5;0;6;7;FLOAT;0.5;False;1;FLOAT3;0,0,0;False;5;INT;4;False;6;FLOAT;0.2;False;12;FLOAT;1;False;3;FLOAT;0;False;3;FLOAT3;4;FLOAT3;8;FLOAT;10
 Node;AmplifyShaderEditor.RangedFloatNode;15;-2541.788,721.205;Inherit;False;Property;_Tiling;Tiling;4;0;Create;True;0;0;0;False;0;False;1;5.15;0;16;0;1;FLOAT;0
 Node;AmplifyShaderEditor.IntNode;18;-2387.902,649.0889;Inherit;False;Constant;_Detail;Detail;0;0;Create;True;0;0;0;False;0;False;16;4;True;0;1;INT;0
@@ -5927,13 +5909,11 @@ Node;AmplifyShaderEditor.SwizzleNode;28;-840.0018,341.961;Inherit;False;FLOAT2;0
 Node;AmplifyShaderEditor.Vector3Node;25;-1312.552,528.6169;Inherit;False;Constant;_Vector0;Vector 0;8;0;Create;True;0;0;0;False;0;False;0,1,0;0,0,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;43;-725.208,484.7426;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT2;0.8,0.8;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;32;-591.4289,383.0621;Inherit;False;2;2;0;FLOAT2;0.5,0.5;False;1;FLOAT2;0,0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;159,-56;Float;False;True;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;UnderwaterCaustics;53b46d85872c5b24c8f4f0a1c3fe4c87;True;GBuffer;0;0;GBuffer;34;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;True;True;True;True;0;True;_LightLayersMaskBuffer4;False;False;False;False;False;False;False;True;True;0;True;_StencilRefGBuffer;255;False;;255;True;_StencilWriteMaskGBuffer;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;False;True;0;True;_ZTestGBuffer;False;True;1;LightMode=GBuffer;False;False;0;;0;0;Standard;39;Surface Type;0;0;  Rendering Pass;1;0;  Refraction Model;0;0;    Blending Mode;0;0;    Blend Preserves Specular;1;0;  Back Then Front Rendering;0;0;  Transparent Depth Prepass;0;0;  Transparent Depth Postpass;0;0;  ZWrite;0;0;  Z Test;4;0;Double-Sided;0;0;Alpha Clipping;0;0;  Use Shadow Threshold;0;0;Material Type,InvertActionOnDeselection;0;0;  Energy Conserving Specular;1;0;  Transmission,InvertActionOnDeselection;0;0;Forward Only;0;0;Receive Decals;1;0;Receives SSR;1;0;Receive SSR Transparent;0;0;Motion Vectors;1;0;  Add Precomputed Velocity;0;0;Specular AA;0;0;Specular Occlusion Mode;1;0;Override Baked GI;0;0;Depth Offset;0;0;DOTS Instancing;0;0;GPU Instancing;1;0;LOD CrossFade;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;8,False,;0;  Min;8,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position;1;0;0;11;True;True;True;True;True;True;False;False;False;True;True;False;;False;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;44;-91.88623,319.4028;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;45;-361.0826,699.6633;Inherit;False;Property;_Intensity;Intensity;13;0;Create;True;0;0;0;False;0;False;1;0;0;100;0;1;FLOAT;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;667.5872,-24.96754;Float;False;True;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;UnderwaterCaustics;53b46d85872c5b24c8f4f0a1c3fe4c87;True;GBuffer;0;0;GBuffer;34;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;True;True;True;True;0;True;_LightLayersMaskBuffer4;False;False;False;False;False;False;False;True;True;0;True;_StencilRefGBuffer;255;False;;255;True;_StencilWriteMaskGBuffer;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;False;True;0;True;_ZTestGBuffer;False;True;1;LightMode=GBuffer;False;False;0;;0;0;Standard;39;Surface Type;0;0;  Rendering Pass;1;0;  Refraction Model;0;0;    Blending Mode;0;0;    Blend Preserves Specular;1;0;  Back Then Front Rendering;0;0;  Transparent Depth Prepass;0;0;  Transparent Depth Postpass;0;0;  ZWrite;0;0;  Z Test;4;0;Double-Sided;0;0;Alpha Clipping;0;0;  Use Shadow Threshold;0;0;Material Type,InvertActionOnDeselection;0;0;  Energy Conserving Specular;1;0;  Transmission,InvertActionOnDeselection;0;0;Forward Only;0;0;Receive Decals;1;0;Receives SSR;1;0;Receive SSR Transparent;0;0;Motion Vectors;1;0;  Add Precomputed Velocity;0;0;Specular AA;0;0;Specular Occlusion Mode;1;0;Override Baked GI;0;0;Depth Offset;0;0;DOTS Instancing;0;0;GPU Instancing;1;0;LOD CrossFade;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;8,False,;0;  Min;8,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position;1;0;0;11;True;True;True;True;True;True;False;False;False;True;True;False;;False;0
 Node;AmplifyShaderEditor.SamplerNode;11;-526.3333,-253.1651;Inherit;True;Property;_BaseColorMap;BaseColorMap;0;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;47;-199.1095,-531.798;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ColorNode;48;-520.2992,-470.1676;Inherit;False;Property;_TransmissionColor;TransmissionColor;14;0;Create;True;0;0;0;False;0;False;0.09714311,0.2402553,0.3490566,1;0.09714311,0.2402553,0.3490566,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.LerpOp;46;34.37627,-281.7207;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;45;-396.0826,402.6633;Inherit;False;Property;_Intensity;Intensity;12;0;Create;True;0;0;0;False;0;False;1;0;0;100;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;44;171.1138,376.4028;Inherit;False;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;51;-70.64323,471.2283;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 WireConnection;23;1;32;0
 WireConnection;14;7;16;0
 WireConnection;14;1;21;0
@@ -5967,18 +5947,15 @@ WireConnection;24;3;27;0
 WireConnection;28;0;24;0
 WireConnection;43;0;28;0
 WireConnection;32;1;43;0
-WireConnection;0;0;46;0
+WireConnection;0;0;11;0
 WireConnection;0;1;12;0
 WireConnection;0;4;13;1
 WireConnection;0;6;44;0
 WireConnection;0;7;13;4
 WireConnection;0;8;13;2
-WireConnection;44;0;23;1
-WireConnection;44;1;45;0
-WireConnection;47;0;11;0
-WireConnection;47;1;48;0
-WireConnection;46;0;47;0
-WireConnection;46;1;11;0
-WireConnection;46;2;44;0
+WireConnection;44;0;51;0
+WireConnection;44;1;11;0
+WireConnection;51;0;45;0
+WireConnection;51;1;23;1
 ASEEND*/
-//CHKSM=2382738FFF340EA42AAAD791CD9527F07883D0E9
+//CHKSM=74FC5A59F9B65B45CFFF1A3BCC5DC3D86C24CFD0

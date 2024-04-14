@@ -6,8 +6,7 @@ Shader "Water"
 	{
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
 		_Amplitude("Amplitude", Range( 0 , 1)) = 1
-		_TransmissionColor("TransmissionColor", Color) = (0.3820755,1,0.9364549,1)
-		_RefractionIndex("RefractionIndex", Range( 0.95 , 1.05)) = 1
+		_RefractionIndex("RefractionIndex", Range( 0.95 , 1)) = 1
 		_Tiling("Tiling", Range( 0 , 16)) = 1
 		_WaveSharpness("WaveSharpness", Range( 0 , 1)) = 0.5
 		_WaterTexture("WaterTexture", 2D) = "white" {}
@@ -18,6 +17,8 @@ Shader "Water"
 		_Speed("Speed", Float) = 4
 		[Toggle(_CIRCULARWAVES_ON)] _CircularWaves("CircularWaves", Float) = 0
 		_DepthColor("DepthColor", Color) = (0.09892309,0.2293437,0.3679245,0.3490196)
+		_SurfaceColor("SurfaceColor", Color) = (0.2901961,0.5764706,0.7411765,1)
+		_FogStrength("FogStrength", Range( 0 , 10)) = 0.21
 
 		[HideInInspector] _RenderQueueType("Render Queue Type", Float) = 5
 		//[HideInInspector][ToggleUI] _AddPrecomputedVelocity("Add Precomputed Velocity", Float) = 1
@@ -42,8 +43,8 @@ Shader "Water"
 		[HideInInspector] _DstBlend("Dst Blend", Float) = 0
 		[HideInInspector] _AlphaSrcBlend("Alpha Src Blend", Float) = 1
 		[HideInInspector] _AlphaDstBlend("Alpha Dst Blend", Float) = 0
-		[HideInInspector][ToggleUI] _ZWrite("ZWrite", Float) = 1
-		[HideInInspector][ToggleUI] _TransparentZWrite("Transparent ZWrite", Float) = 1
+		[HideInInspector][ToggleUI] _ZWrite("ZWrite", Float) = 0
+		[HideInInspector][ToggleUI] _TransparentZWrite("Transparent ZWrite", Float) = 0
 		[HideInInspector] _CullMode("Cull Mode", Float) = 2
 		[HideInInspector] _TransparentSortPriority("Transparent Sort Priority", Float) = 0
 		[HideInInspector][ToggleUI] _EnableFogOnTransparent("Enable Fog", Float) = 1
@@ -314,10 +315,10 @@ Shader "Water"
             #pragma domain DomainFunction
             #define ASE_DISTANCE_TESSELLATION
             #define ASE_ABSOLUTE_VERTEX_POS 1
-            #define _HAS_REFRACTION 1
-            #define _REFRACTION_PLANE 1
+            #define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
             #define HAVE_MESH_MODIFICATION
             #define ASE_SRP_VERSION 140008
+            #define REQUIRE_OPAQUE_TEXTURE 1
 
 
             #pragma shader_feature _SURFACE_TYPE_TRANSPARENT
@@ -394,10 +395,10 @@ Shader "Water"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _DepthColor;
+			float4 _SurfaceColor;
 			float4 _WaterTexture_ST;
 			float4 _FoamColor;
 			float4 _Foam_ST;
-			float4 _TransmissionColor;
 			float2 _CircleSpawnExtents;
 			float2 _CircleSpawnPosition;
 			float _Tiling;
@@ -405,6 +406,7 @@ Shader "Water"
 			float _Speed;
 			float _WaveSharpness;
 			float _RefractionIndex;
+			float _FogStrength;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -522,6 +524,7 @@ Shader "Water"
 				float4 uv2 : TEXCOORD4;
 				float4 ase_texcoord5 : TEXCOORD5;
 				float4 ase_texcoord6 : TEXCOORD6;
+				float4 ase_texcoord7 : TEXCOORD7;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
@@ -530,7 +533,42 @@ Shader "Water"
 			};
 
 
+			float GetAmp252( int detail, float amp )
+			{
+				float x = amp;
+				float sum = 0;
+				for(int i=0;i<detail;i++) {
+				sum += x;
+				x *= 0.83;
+				}
+				return sum;
+			}
 			
+			inline float4 ComputeGrabScreenPos( float4 pos )
+			{
+			#if UNITY_UV_STARTS_AT_TOP
+				float scale = -1.0;
+			#else
+				float scale = 1.0;
+			#endif
+				float4 o = pos * 0.5f;
+				o.xy = float2( o.x, o.y*scale ) + o.w;
+			#ifdef UNITY_SINGLE_PASS_STEREO
+				o.xy = TransformStereoScreenSpaceTex ( o.xy, pos.w );
+			#endif
+				o.zw = pos.zw;
+				return o;
+			}
+			
+			float4 ASEHDSampleSceneColor(float2 uv, float lod, float exposureMultiplier)
+			{
+				#if defined(REQUIRE_OPAQUE_TEXTURE) && defined(_SURFACE_TYPE_TRANSPARENT) && defined(SHADERPASS) && (SHADERPASS != SHADERPASS_LIGHT_TRANSPORT)
+				return float4( SampleCameraColor(uv, lod) * exposureMultiplier, 1.0 );
+				#endif
+				return float4(0.0, 0.0, 0.0, 1.0);
+			}
+			
+
 			void BuildSurfaceData(FragInputs fragInputs, inout GlobalSurfaceDescription surfaceDescription, float3 V, PositionInputs posInput, out SurfaceData surfaceData, out float3 bentNormalWS)
 			{
 				ZERO_INITIALIZE(SurfaceData, surfaceData);
@@ -791,11 +829,23 @@ Shader "Water"
 				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
 				outputPackedVaryingsMeshToPS.ase_texcoord6.xyz = ase_worldBitangent;
 				
+				float3 vertexToFrag282 = staticSwitch211;
+				outputPackedVaryingsMeshToPS.ase_texcoord7.xyz = vertexToFrag282;
+				float4 appendResult321 = (float4(vertexToFrag282 , 1.0));
+				float4 localWorldVar322 = appendResult321;
+				(localWorldVar322).xyz = GetCameraRelativePositionWS((localWorldVar322).xyz);
+				float4 transform322 = mul(GetWorldToObjectMatrix(),localWorldVar322);
+				float3 temp_output_336_0 = (transform322).xyz;
+				float3 customSurfaceDepth303 = temp_output_336_0;
+				float customEye303 = -TransformWorldToView(TransformObjectToWorld( customSurfaceDepth303 )).z;
+				outputPackedVaryingsMeshToPS.ase_texcoord5.z = customEye303;
+				
 				outputPackedVaryingsMeshToPS.ase_texcoord5.xy = inputMesh.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
-				outputPackedVaryingsMeshToPS.ase_texcoord5.zw = 0;
+				outputPackedVaryingsMeshToPS.ase_texcoord5.w = 0;
 				outputPackedVaryingsMeshToPS.ase_texcoord6.w = 0;
+				outputPackedVaryingsMeshToPS.ase_texcoord7.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
@@ -958,9 +1008,10 @@ Shader "Water"
 				BuiltinData builtinData;
 
 				GlobalSurfaceDescription surfaceDescription = (GlobalSurfaceDescription)0;
+				float4 appendResult265 = (float4(_DepthColor.r , _DepthColor.g , _DepthColor.b , 1.0));
+				float4 appendResult343 = (float4(_SurfaceColor.r , _SurfaceColor.g , _SurfaceColor.b , 1.0));
 				float2 uv_WaterTexture = packedInput.ase_texcoord5.xy * _WaterTexture_ST.xy + _WaterTexture_ST.zw;
-				float4 break185 = tex2D( _WaterTexture, uv_WaterTexture );
-				float4 appendResult186 = (float4(break185.r , break185.g , break185.b , break185.a));
+				float4 lerpResult255 = lerp( appendResult265 , appendResult343 , tex2D( _WaterTexture, uv_WaterTexture ).r);
 				float tiling2_g28 = _Tiling;
 				float amplitude2_g28 = _Amplitude;
 				int detail2_g28 = 16;
@@ -987,25 +1038,49 @@ Shader "Water"
 				float3 staticSwitch210 = normal2_g28;
 				#endif
 				float fresnelNdotV188 = dot( normalize( staticSwitch210 ), V );
-				float fresnelNode188 = ( 0.1 + 3.0 * pow( 1.0 - fresnelNdotV188, 6.0 ) );
-				float4 lerpResult239 = lerp( _DepthColor , appendResult186 , saturate( fresnelNode188 ));
+				float fresnelNode188 = ( 0.0 + 3.0 * pow( 1.0 - fresnelNdotV188, 4.0 ) );
+				float temp_output_189_0 = saturate( fresnelNode188 );
+				float4 lerpResult239 = lerp( _DepthColor , lerpResult255 , temp_output_189_0);
+				float4 lerpResult308 = lerp( float4( 0,0,0,0 ) , lerpResult239 , temp_output_189_0);
 				float2 uv_Foam = packedInput.ase_texcoord5.xy * _Foam_ST.xy + _Foam_ST.zw;
 				float2 panner190 = ( 1.0 * _Time.y * float2( -0.032,-0.032 ) + uv_Foam);
 				#ifdef _CIRCULARWAVES_ON
-				float staticSwitch212 = localSumOfGerstnerDirectional2_g28;
-				#else
 				float staticSwitch212 = localSumOfGerstnerCircular2_g29;
+				#else
+				float staticSwitch212 = localSumOfGerstnerDirectional2_g28;
 				#endif
-				float temp_output_143_0 = saturate( (0.0 + (staticSwitch212 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) );
-				float temp_output_180_0 = ( tex2D( _Foam, panner190 ).r * ( temp_output_143_0 * temp_output_143_0 ) * _FoamColor.a );
-				float4 lerpResult155 = lerp( lerpResult239 , _FoamColor , temp_output_180_0);
+				int detail252 = 16;
+				float amp252 = _Amplitude;
+				float localGetAmp252 = GetAmp252( detail252 , amp252 );
+				float temp_output_250_0 = pow( saturate( (0.0 + (staticSwitch212 - -localGetAmp252) * (1.0 - 0.0) / (localGetAmp252 - -localGetAmp252)) ) , 5.0 );
+				float temp_output_180_0 = ( _FoamColor.a * tex2D( _Foam, panner190 ).r * temp_output_250_0 );
+				float4 lerpResult155 = lerp( lerpResult308 , _FoamColor , temp_output_180_0);
 				
 				float3 ase_worldBitangent = packedInput.ase_texcoord6.xyz;
 				float3x3 ase_worldToTangent = float3x3(tangentWS.xyz,ase_worldBitangent,normalWS);
 				
-				float fresnelNdotV76 = dot( normalize( staticSwitch210 ), V );
-				float fresnelNode76 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV76, 5.0 ) );
-				float4 lerpResult82 = lerp( float4( 0,0,0,0 ) , _TransmissionColor , ( _TransmissionColor.a * ( saturate( fresnelNode76 ) * temp_output_143_0 ) ));
+				float3 vertexToFrag282 = packedInput.ase_texcoord7.xyz;
+				float4 appendResult321 = (float4(vertexToFrag282 , 1.0));
+				float4 localWorldVar322 = appendResult321;
+				(localWorldVar322).xyz = GetCameraRelativePositionWS((localWorldVar322).xyz);
+				float4 transform322 = mul(GetWorldToObjectMatrix(),localWorldVar322);
+				float3 temp_output_336_0 = (transform322).xyz;
+				float4 unityObjectToClipPos337 = TransformWorldToHClip(TransformObjectToWorld(temp_output_336_0));
+				float4 computeScreenPos338 = ComputeScreenPos( unityObjectToClipPos337 , _ProjectionParams.x );
+				float eyeDepth302 = LinearEyeDepth(SampleCameraDepth( computeScreenPos338.xy ),_ZBufferParams);
+				float customEye303 = packedInput.ase_texcoord5.z;
+				float4 appendResult278 = (float4(( vertexToFrag282 + ( refract( -V , staticSwitch210 , _RefractionIndex ) * saturate( ( eyeDepth302 - customEye303 ) ) ) ) , 1.0));
+				float4 localWorldVar277 = appendResult278;
+				(localWorldVar277).xyz = GetCameraRelativePositionWS((localWorldVar277).xyz);
+				float4 transform277 = mul(GetWorldToObjectMatrix(),localWorldVar277);
+				float4 unityObjectToClipPos259 = TransformWorldToHClip(TransformObjectToWorld((transform277).xyz));
+				float4 computeGrabScreenPos258 = ComputeGrabScreenPos( ( unityObjectToClipPos259 + float4( 0,0,0,0 ) ) );
+				float3 temp_output_286_0 = ( (computeGrabScreenPos258).xyz / (computeGrabScreenPos258).w );
+				float4 fetchOpaqueVal260 = ASEHDSampleSceneColor(temp_output_286_0.xy, 0.0, GetInverseCurrentExposureMultiplier());
+				float4 DepthColorCopy312 = _DepthColor;
+				float eyeDepth326 = LinearEyeDepth(SampleCameraDepth( float4( temp_output_286_0 , 0.0 ).xy ),_ZBufferParams);
+				float4 lerpResult314 = lerp( fetchOpaqueVal260 , DepthColorCopy312 , ( 1.0 - ( 1.0 / ( ( saturate( ( eyeDepth326 - customEye303 ) ) * _FogStrength ) + 1.0 ) ) ));
+				float4 lerpResult306 = lerp( lerpResult314 , float4( 0,0,0,0 ) , temp_output_189_0);
 				
 				float lerpResult179 = lerp( 0.95 , 0.25 , temp_output_180_0);
 				
@@ -1019,10 +1094,10 @@ Shader "Water"
 				surfaceDescription.Specular = 0;
 				#endif
 
-				surfaceDescription.Emission = lerpResult82.rgb;
+				surfaceDescription.Emission = lerpResult306.rgb;
 				surfaceDescription.Smoothness = lerpResult179;
 				surfaceDescription.Occlusion = 1;
-				surfaceDescription.Alpha = lerpResult155.a;
+				surfaceDescription.Alpha = 1;
 
 				#ifdef _ALPHATEST_ON
 				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
@@ -1049,7 +1124,7 @@ Shader "Water"
 				#endif
 
 				#ifdef _HAS_REFRACTION
-				surfaceDescription.RefractionIndex = _RefractionIndex;
+				surfaceDescription.RefractionIndex = 1;
 				surfaceDescription.RefractionColor = float3( 1, 1, 1 );
 				surfaceDescription.RefractionDistance = 0;
 				#endif
@@ -1122,10 +1197,10 @@ Shader "Water"
 			#pragma domain DomainFunction
 			#define ASE_DISTANCE_TESSELLATION
 			#define ASE_ABSOLUTE_VERTEX_POS 1
-			#define _HAS_REFRACTION 1
-			#define _REFRACTION_PLANE 1
+			#define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
 			#define HAVE_MESH_MODIFICATION
 			#define ASE_SRP_VERSION 140008
+			#define REQUIRE_OPAQUE_TEXTURE 1
 
 
 			#pragma shader_feature _SURFACE_TYPE_TRANSPARENT
@@ -1188,10 +1263,10 @@ Shader "Water"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _DepthColor;
+			float4 _SurfaceColor;
 			float4 _WaterTexture_ST;
 			float4 _FoamColor;
 			float4 _Foam_ST;
-			float4 _TransmissionColor;
 			float2 _CircleSpawnExtents;
 			float2 _CircleSpawnPosition;
 			float _Tiling;
@@ -1199,6 +1274,7 @@ Shader "Water"
 			float _Speed;
 			float _WaveSharpness;
 			float _RefractionIndex;
+			float _FogStrength;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -1316,13 +1392,49 @@ Shader "Water"
 				float4 ase_texcoord4 : TEXCOORD4;
 				float4 ase_texcoord5 : TEXCOORD5;
 				float4 ase_texcoord6 : TEXCOORD6;
+				float4 ase_texcoord7 : TEXCOORD7;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
 				FRONT_FACE_TYPE cullFace : FRONT_FACE_SEMANTIC;
 				#endif
 			};
 
+			float GetAmp252( int detail, float amp )
+			{
+				float x = amp;
+				float sum = 0;
+				for(int i=0;i<detail;i++) {
+				sum += x;
+				x *= 0.83;
+				}
+				return sum;
+			}
 			
+			inline float4 ComputeGrabScreenPos( float4 pos )
+			{
+			#if UNITY_UV_STARTS_AT_TOP
+				float scale = -1.0;
+			#else
+				float scale = 1.0;
+			#endif
+				float4 o = pos * 0.5f;
+				o.xy = float2( o.x, o.y*scale ) + o.w;
+			#ifdef UNITY_SINGLE_PASS_STEREO
+				o.xy = TransformStereoScreenSpaceTex ( o.xy, pos.w );
+			#endif
+				o.zw = pos.zw;
+				return o;
+			}
+			
+			float4 ASEHDSampleSceneColor(float2 uv, float lod, float exposureMultiplier)
+			{
+				#if defined(REQUIRE_OPAQUE_TEXTURE) && defined(_SURFACE_TYPE_TRANSPARENT) && defined(SHADERPASS) && (SHADERPASS != SHADERPASS_LIGHT_TRANSPORT)
+				return float4( SampleCameraColor(uv, lod) * exposureMultiplier, 1.0 );
+				#endif
+				return float4(0.0, 0.0, 0.0, 1.0);
+			}
+			
+
 			void BuildSurfaceData(FragInputs fragInputs, inout GlobalSurfaceDescription surfaceDescription, float3 V, PositionInputs posInput, out SurfaceData surfaceData, out float3 bentNormalWS)
 			{
 				ZERO_INITIALIZE(SurfaceData, surfaceData);
@@ -1572,14 +1684,26 @@ Shader "Water"
 				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
 				outputPackedVaryingsMeshToPS.ase_texcoord6.xyz = ase_worldBitangent;
 				
+				float3 vertexToFrag282 = staticSwitch211;
+				outputPackedVaryingsMeshToPS.ase_texcoord7.xyz = vertexToFrag282;
+				float4 appendResult321 = (float4(vertexToFrag282 , 1.0));
+				float4 localWorldVar322 = appendResult321;
+				(localWorldVar322).xyz = GetCameraRelativePositionWS((localWorldVar322).xyz);
+				float4 transform322 = mul(GetWorldToObjectMatrix(),localWorldVar322);
+				float3 temp_output_336_0 = (transform322).xyz;
+				float3 customSurfaceDepth303 = temp_output_336_0;
+				float customEye303 = -TransformWorldToView(TransformObjectToWorld( customSurfaceDepth303 )).z;
+				outputPackedVaryingsMeshToPS.ase_texcoord2.z = customEye303;
+				
 				outputPackedVaryingsMeshToPS.ase_texcoord2.xy = inputMesh.uv0.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
-				outputPackedVaryingsMeshToPS.ase_texcoord2.zw = 0;
+				outputPackedVaryingsMeshToPS.ase_texcoord2.w = 0;
 				outputPackedVaryingsMeshToPS.ase_texcoord3.w = 0;
 				outputPackedVaryingsMeshToPS.ase_texcoord4.w = 0;
 				outputPackedVaryingsMeshToPS.ase_texcoord5.w = 0;
 				outputPackedVaryingsMeshToPS.ase_texcoord6.w = 0;
+				outputPackedVaryingsMeshToPS.ase_texcoord7.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
@@ -1734,9 +1858,10 @@ Shader "Water"
 				SurfaceData surfaceData;
 				BuiltinData builtinData;
 				GlobalSurfaceDescription surfaceDescription = (GlobalSurfaceDescription)0;
+				float4 appendResult265 = (float4(_DepthColor.r , _DepthColor.g , _DepthColor.b , 1.0));
+				float4 appendResult343 = (float4(_SurfaceColor.r , _SurfaceColor.g , _SurfaceColor.b , 1.0));
 				float2 uv_WaterTexture = packedInput.ase_texcoord2.xy * _WaterTexture_ST.xy + _WaterTexture_ST.zw;
-				float4 break185 = tex2D( _WaterTexture, uv_WaterTexture );
-				float4 appendResult186 = (float4(break185.r , break185.g , break185.b , break185.a));
+				float4 lerpResult255 = lerp( appendResult265 , appendResult343 , tex2D( _WaterTexture, uv_WaterTexture ).r);
 				float3 ase_worldPos = packedInput.ase_texcoord3.xyz;
 				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - ase_worldPos );
 				ase_worldViewDir = normalize(ase_worldViewDir);
@@ -1765,27 +1890,51 @@ Shader "Water"
 				float3 staticSwitch210 = normal2_g28;
 				#endif
 				float fresnelNdotV188 = dot( normalize( staticSwitch210 ), ase_worldViewDir );
-				float fresnelNode188 = ( 0.1 + 3.0 * pow( 1.0 - fresnelNdotV188, 6.0 ) );
-				float4 lerpResult239 = lerp( _DepthColor , appendResult186 , saturate( fresnelNode188 ));
+				float fresnelNode188 = ( 0.0 + 3.0 * pow( 1.0 - fresnelNdotV188, 4.0 ) );
+				float temp_output_189_0 = saturate( fresnelNode188 );
+				float4 lerpResult239 = lerp( _DepthColor , lerpResult255 , temp_output_189_0);
+				float4 lerpResult308 = lerp( float4( 0,0,0,0 ) , lerpResult239 , temp_output_189_0);
 				float2 uv_Foam = packedInput.ase_texcoord2.xy * _Foam_ST.xy + _Foam_ST.zw;
 				float2 panner190 = ( 1.0 * _Time.y * float2( -0.032,-0.032 ) + uv_Foam);
 				#ifdef _CIRCULARWAVES_ON
-				float staticSwitch212 = localSumOfGerstnerDirectional2_g28;
-				#else
 				float staticSwitch212 = localSumOfGerstnerCircular2_g29;
+				#else
+				float staticSwitch212 = localSumOfGerstnerDirectional2_g28;
 				#endif
-				float temp_output_143_0 = saturate( (0.0 + (staticSwitch212 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) );
-				float temp_output_180_0 = ( tex2D( _Foam, panner190 ).r * ( temp_output_143_0 * temp_output_143_0 ) * _FoamColor.a );
-				float4 lerpResult155 = lerp( lerpResult239 , _FoamColor , temp_output_180_0);
+				int detail252 = 16;
+				float amp252 = _Amplitude;
+				float localGetAmp252 = GetAmp252( detail252 , amp252 );
+				float temp_output_250_0 = pow( saturate( (0.0 + (staticSwitch212 - -localGetAmp252) * (1.0 - 0.0) / (localGetAmp252 - -localGetAmp252)) ) , 5.0 );
+				float temp_output_180_0 = ( _FoamColor.a * tex2D( _Foam, panner190 ).r * temp_output_250_0 );
+				float4 lerpResult155 = lerp( lerpResult308 , _FoamColor , temp_output_180_0);
 				
 				float3 ase_worldTangent = packedInput.ase_texcoord4.xyz;
 				float3 ase_worldNormal = packedInput.ase_texcoord5.xyz;
 				float3 ase_worldBitangent = packedInput.ase_texcoord6.xyz;
 				float3x3 ase_worldToTangent = float3x3(ase_worldTangent,ase_worldBitangent,ase_worldNormal);
 				
-				float fresnelNdotV76 = dot( normalize( staticSwitch210 ), ase_worldViewDir );
-				float fresnelNode76 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV76, 5.0 ) );
-				float4 lerpResult82 = lerp( float4( 0,0,0,0 ) , _TransmissionColor , ( _TransmissionColor.a * ( saturate( fresnelNode76 ) * temp_output_143_0 ) ));
+				float3 vertexToFrag282 = packedInput.ase_texcoord7.xyz;
+				float4 appendResult321 = (float4(vertexToFrag282 , 1.0));
+				float4 localWorldVar322 = appendResult321;
+				(localWorldVar322).xyz = GetCameraRelativePositionWS((localWorldVar322).xyz);
+				float4 transform322 = mul(GetWorldToObjectMatrix(),localWorldVar322);
+				float3 temp_output_336_0 = (transform322).xyz;
+				float4 unityObjectToClipPos337 = TransformWorldToHClip(TransformObjectToWorld(temp_output_336_0));
+				float4 computeScreenPos338 = ComputeScreenPos( unityObjectToClipPos337 , _ProjectionParams.x );
+				float eyeDepth302 = LinearEyeDepth(SampleCameraDepth( computeScreenPos338.xy ),_ZBufferParams);
+				float customEye303 = packedInput.ase_texcoord2.z;
+				float4 appendResult278 = (float4(( vertexToFrag282 + ( refract( -ase_worldViewDir , staticSwitch210 , _RefractionIndex ) * saturate( ( eyeDepth302 - customEye303 ) ) ) ) , 1.0));
+				float4 localWorldVar277 = appendResult278;
+				(localWorldVar277).xyz = GetCameraRelativePositionWS((localWorldVar277).xyz);
+				float4 transform277 = mul(GetWorldToObjectMatrix(),localWorldVar277);
+				float4 unityObjectToClipPos259 = TransformWorldToHClip(TransformObjectToWorld((transform277).xyz));
+				float4 computeGrabScreenPos258 = ComputeGrabScreenPos( ( unityObjectToClipPos259 + float4( 0,0,0,0 ) ) );
+				float3 temp_output_286_0 = ( (computeGrabScreenPos258).xyz / (computeGrabScreenPos258).w );
+				float4 fetchOpaqueVal260 = ASEHDSampleSceneColor(temp_output_286_0.xy, 0.0, GetInverseCurrentExposureMultiplier());
+				float4 DepthColorCopy312 = _DepthColor;
+				float eyeDepth326 = LinearEyeDepth(SampleCameraDepth( float4( temp_output_286_0 , 0.0 ).xy ),_ZBufferParams);
+				float4 lerpResult314 = lerp( fetchOpaqueVal260 , DepthColorCopy312 , ( 1.0 - ( 1.0 / ( ( saturate( ( eyeDepth326 - customEye303 ) ) * _FogStrength ) + 1.0 ) ) ));
+				float4 lerpResult306 = lerp( lerpResult314 , float4( 0,0,0,0 ) , temp_output_189_0);
 				
 				float lerpResult179 = lerp( 0.95 , 0.25 , temp_output_180_0);
 				
@@ -1799,10 +1948,10 @@ Shader "Water"
 				surfaceDescription.Specular = 0;
 				#endif
 
-				surfaceDescription.Emission = lerpResult82.rgb;
+				surfaceDescription.Emission = lerpResult306.rgb;
 				surfaceDescription.Smoothness = lerpResult179;
 				surfaceDescription.Occlusion = 1;
-				surfaceDescription.Alpha = lerpResult155.a;
+				surfaceDescription.Alpha = 1;
 
 				#ifdef _ALPHATEST_ON
 				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
@@ -1822,7 +1971,7 @@ Shader "Water"
 				#endif
 
 				#ifdef _HAS_REFRACTION
-				surfaceDescription.RefractionIndex = _RefractionIndex;
+				surfaceDescription.RefractionIndex = 1;
 				surfaceDescription.RefractionColor = float3( 1, 1, 1 );
 				surfaceDescription.RefractionDistance = 0;
 				#endif
@@ -1896,8 +2045,7 @@ Shader "Water"
 			#pragma domain DomainFunction
 			#define ASE_DISTANCE_TESSELLATION
 			#define ASE_ABSOLUTE_VERTEX_POS 1
-			#define _HAS_REFRACTION 1
-			#define _REFRACTION_PLANE 1
+			#define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
 			#define HAVE_MESH_MODIFICATION
 			#define ASE_SRP_VERSION 140008
 
@@ -1971,10 +2119,10 @@ Shader "Water"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _DepthColor;
+			float4 _SurfaceColor;
 			float4 _WaterTexture_ST;
 			float4 _FoamColor;
 			float4 _Foam_ST;
-			float4 _TransmissionColor;
 			float2 _CircleSpawnExtents;
 			float2 _CircleSpawnPosition;
 			float _Tiling;
@@ -1982,6 +2130,7 @@ Shader "Water"
 			float _Speed;
 			float _WaveSharpness;
 			float _RefractionIndex;
+			float _FogStrength;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -2044,9 +2193,7 @@ Shader "Water"
 			int _PassValue;
             #endif
 
-			sampler2D _WaterTexture;
-			sampler2D _Foam;
-
+			
 
             #ifdef DEBUG_DISPLAY
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
@@ -2065,8 +2212,6 @@ Shader "Water"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
 			#include "Packages/com.gatordragongames.churn-vector.sdk/Extras/Water/SumOfSines.cginc"
-			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
-			#define ASE_NEEDS_FRAG_RELATIVE_WORLD_POS
 			#pragma shader_feature_local _CIRCULARWAVES_ON
 
 
@@ -2078,7 +2223,7 @@ Shader "Water"
 			{
 				float3 positionOS : POSITION;
 				float3 normalOS : NORMAL;
-				float4 ase_texcoord : TEXCOORD0;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -2086,7 +2231,7 @@ Shader "Water"
 			{
 				SV_POSITION_QUALIFIERS float4 positionCS : SV_Position;
 				float3 positionRWS : TEXCOORD0;
-				float4 ase_texcoord1 : TEXCOORD1;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
@@ -2282,10 +2427,6 @@ Shader "Water"
 				(localWorldVar200).xyz = GetCameraRelativePositionWS((localWorldVar200).xyz);
 				float4 transform200 = mul(GetWorldToObjectMatrix(),localWorldVar200);
 				
-				outputPackedVaryingsMeshToPS.ase_texcoord1.xy = inputMesh.ase_texcoord.xy;
-				
-				//setting value to unused interpolator channels and avoid initialization warnings
-				outputPackedVaryingsMeshToPS.ase_texcoord1.zw = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
@@ -2313,8 +2454,7 @@ Shader "Water"
 			{
 				float3 positionOS : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
-				float4 ase_texcoord : TEXCOORD0;
-
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -2331,7 +2471,7 @@ Shader "Water"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.positionOS = v.positionOS;
 				o.normalOS = v.normalOS;
-				o.ase_texcoord = v.ase_texcoord;
+				
 				return o;
 			}
 
@@ -2375,7 +2515,7 @@ Shader "Water"
 				AttributesMesh o = (AttributesMesh) 0;
 				o.positionOS = patch[0].positionOS * bary.x + patch[1].positionOS * bary.y + patch[2].positionOS * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -2454,49 +2594,8 @@ Shader "Water"
 				float3 V = GetWorldSpaceNormalizeViewDir(input.positionRWS);
 
 				AlphaSurfaceDescription surfaceDescription = (AlphaSurfaceDescription)0;
-				float2 uv_WaterTexture = packedInput.ase_texcoord1.xy * _WaterTexture_ST.xy + _WaterTexture_ST.zw;
-				float4 break185 = tex2D( _WaterTexture, uv_WaterTexture );
-				float4 appendResult186 = (float4(break185.r , break185.g , break185.b , break185.a));
-				float tiling2_g28 = _Tiling;
-				float amplitude2_g28 = _Amplitude;
-				int detail2_g28 = 16;
-				float3 ase_worldPos = GetAbsolutePositionWS( positionRWS );
-				float3 position2_g28 = ase_worldPos;
-				float3 normal2_g28 = float3( 0,0,0 );
-				float mulTime13 = _TimeParameters.x * _Speed;
-				float t2_g28 = mulTime13;
-				float sharpness2_g28 = _WaveSharpness;
-				float localSumOfGerstnerDirectional2_g28 = SumOfGerstnerDirectional( tiling2_g28 , amplitude2_g28 , detail2_g28 , position2_g28 , normal2_g28 , t2_g28 , sharpness2_g28 );
-				float2 spawnExtents2_g29 = _CircleSpawnExtents;
-				float2 spawnPosition2_g29 = _CircleSpawnPosition;
-				float tiling2_g29 = _Tiling;
-				float amplitude2_g29 = _Amplitude;
-				int detail2_g29 = 16;
-				float3 position2_g29 = ase_worldPos;
-				float3 normal2_g29 = float3( 0,0,0 );
-				float t2_g29 = mulTime13;
-				float sharpness2_g29 = _WaveSharpness;
-				float localSumOfGerstnerCircular2_g29 = SumOfGerstnerCircular( spawnExtents2_g29 , spawnPosition2_g29 , tiling2_g29 , amplitude2_g29 , detail2_g29 , position2_g29 , normal2_g29 , t2_g29 , sharpness2_g29 );
-				#ifdef _CIRCULARWAVES_ON
-				float3 staticSwitch210 = normal2_g29;
-				#else
-				float3 staticSwitch210 = normal2_g28;
-				#endif
-				float fresnelNdotV188 = dot( normalize( staticSwitch210 ), V );
-				float fresnelNode188 = ( 0.1 + 3.0 * pow( 1.0 - fresnelNdotV188, 6.0 ) );
-				float4 lerpResult239 = lerp( _DepthColor , appendResult186 , saturate( fresnelNode188 ));
-				float2 uv_Foam = packedInput.ase_texcoord1.xy * _Foam_ST.xy + _Foam_ST.zw;
-				float2 panner190 = ( 1.0 * _Time.y * float2( -0.032,-0.032 ) + uv_Foam);
-				#ifdef _CIRCULARWAVES_ON
-				float staticSwitch212 = localSumOfGerstnerDirectional2_g28;
-				#else
-				float staticSwitch212 = localSumOfGerstnerCircular2_g29;
-				#endif
-				float temp_output_143_0 = saturate( (0.0 + (staticSwitch212 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) );
-				float temp_output_180_0 = ( tex2D( _Foam, panner190 ).r * ( temp_output_143_0 * temp_output_143_0 ) * _FoamColor.a );
-				float4 lerpResult155 = lerp( lerpResult239 , _FoamColor , temp_output_180_0);
 				
-				surfaceDescription.Alpha = lerpResult155.a;
+				surfaceDescription.Alpha = 1;
 
 				#ifdef _ALPHATEST_ON
 				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
@@ -2563,8 +2662,7 @@ Shader "Water"
             #pragma domain DomainFunction
             #define ASE_DISTANCE_TESSELLATION
             #define ASE_ABSOLUTE_VERTEX_POS 1
-            #define _HAS_REFRACTION 1
-            #define _REFRACTION_PLANE 1
+            #define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
             #define HAVE_MESH_MODIFICATION
             #define ASE_SRP_VERSION 140008
 
@@ -2636,10 +2734,10 @@ Shader "Water"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _DepthColor;
+			float4 _SurfaceColor;
 			float4 _WaterTexture_ST;
 			float4 _FoamColor;
 			float4 _Foam_ST;
-			float4 _TransmissionColor;
 			float2 _CircleSpawnExtents;
 			float2 _CircleSpawnPosition;
 			float _Tiling;
@@ -2647,6 +2745,7 @@ Shader "Water"
 			float _Speed;
 			float _WaveSharpness;
 			float _RefractionIndex;
+			float _FogStrength;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -2709,9 +2808,7 @@ Shader "Water"
 			int _PassValue;
             #endif
 
-			sampler2D _WaterTexture;
-			sampler2D _Foam;
-
+			
 
             #ifdef DEBUG_DISPLAY
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
@@ -2731,8 +2828,6 @@ Shader "Water"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
 			#include "Packages/com.gatordragongames.churn-vector.sdk/Extras/Water/SumOfSines.cginc"
-			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
-			#define ASE_NEEDS_FRAG_RELATIVE_WORLD_POS
 			#pragma shader_feature_local _CIRCULARWAVES_ON
 
 
@@ -2744,7 +2839,7 @@ Shader "Water"
 			{
 				float3 positionOS : POSITION;
 				float3 normalOS : NORMAL;
-				float4 ase_texcoord : TEXCOORD0;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -2752,7 +2847,7 @@ Shader "Water"
 			{
 				SV_POSITION_QUALIFIERS float4 positionCS : SV_Position;
 				float3 positionRWS : TEXCOORD0;
-				float4 ase_texcoord1 : TEXCOORD1;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
@@ -2944,10 +3039,6 @@ Shader "Water"
 				(localWorldVar200).xyz = GetCameraRelativePositionWS((localWorldVar200).xyz);
 				float4 transform200 = mul(GetWorldToObjectMatrix(),localWorldVar200);
 				
-				outputPackedVaryingsMeshToPS.ase_texcoord1.xy = inputMesh.ase_texcoord.xy;
-				
-				//setting value to unused interpolator channels and avoid initialization warnings
-				outputPackedVaryingsMeshToPS.ase_texcoord1.zw = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
@@ -2975,8 +3066,7 @@ Shader "Water"
 			{
 				float3 positionOS : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
-				float4 ase_texcoord : TEXCOORD0;
-
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -2993,7 +3083,7 @@ Shader "Water"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.positionOS = v.positionOS;
 				o.normalOS = v.normalOS;
-				o.ase_texcoord = v.ase_texcoord;
+				
 				return o;
 			}
 
@@ -3037,7 +3127,7 @@ Shader "Water"
 				AttributesMesh o = (AttributesMesh) 0;
 				o.positionOS = patch[0].positionOS * bary.x + patch[1].positionOS * bary.y + patch[2].positionOS * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -3098,49 +3188,8 @@ Shader "Water"
 				float3 V = GetWorldSpaceNormalizeViewDir(input.positionRWS);
 
 				SceneSurfaceDescription surfaceDescription = (SceneSurfaceDescription)0;
-				float2 uv_WaterTexture = packedInput.ase_texcoord1.xy * _WaterTexture_ST.xy + _WaterTexture_ST.zw;
-				float4 break185 = tex2D( _WaterTexture, uv_WaterTexture );
-				float4 appendResult186 = (float4(break185.r , break185.g , break185.b , break185.a));
-				float tiling2_g28 = _Tiling;
-				float amplitude2_g28 = _Amplitude;
-				int detail2_g28 = 16;
-				float3 ase_worldPos = GetAbsolutePositionWS( positionRWS );
-				float3 position2_g28 = ase_worldPos;
-				float3 normal2_g28 = float3( 0,0,0 );
-				float mulTime13 = _TimeParameters.x * _Speed;
-				float t2_g28 = mulTime13;
-				float sharpness2_g28 = _WaveSharpness;
-				float localSumOfGerstnerDirectional2_g28 = SumOfGerstnerDirectional( tiling2_g28 , amplitude2_g28 , detail2_g28 , position2_g28 , normal2_g28 , t2_g28 , sharpness2_g28 );
-				float2 spawnExtents2_g29 = _CircleSpawnExtents;
-				float2 spawnPosition2_g29 = _CircleSpawnPosition;
-				float tiling2_g29 = _Tiling;
-				float amplitude2_g29 = _Amplitude;
-				int detail2_g29 = 16;
-				float3 position2_g29 = ase_worldPos;
-				float3 normal2_g29 = float3( 0,0,0 );
-				float t2_g29 = mulTime13;
-				float sharpness2_g29 = _WaveSharpness;
-				float localSumOfGerstnerCircular2_g29 = SumOfGerstnerCircular( spawnExtents2_g29 , spawnPosition2_g29 , tiling2_g29 , amplitude2_g29 , detail2_g29 , position2_g29 , normal2_g29 , t2_g29 , sharpness2_g29 );
-				#ifdef _CIRCULARWAVES_ON
-				float3 staticSwitch210 = normal2_g29;
-				#else
-				float3 staticSwitch210 = normal2_g28;
-				#endif
-				float fresnelNdotV188 = dot( normalize( staticSwitch210 ), V );
-				float fresnelNode188 = ( 0.1 + 3.0 * pow( 1.0 - fresnelNdotV188, 6.0 ) );
-				float4 lerpResult239 = lerp( _DepthColor , appendResult186 , saturate( fresnelNode188 ));
-				float2 uv_Foam = packedInput.ase_texcoord1.xy * _Foam_ST.xy + _Foam_ST.zw;
-				float2 panner190 = ( 1.0 * _Time.y * float2( -0.032,-0.032 ) + uv_Foam);
-				#ifdef _CIRCULARWAVES_ON
-				float staticSwitch212 = localSumOfGerstnerDirectional2_g28;
-				#else
-				float staticSwitch212 = localSumOfGerstnerCircular2_g29;
-				#endif
-				float temp_output_143_0 = saturate( (0.0 + (staticSwitch212 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) );
-				float temp_output_180_0 = ( tex2D( _Foam, panner190 ).r * ( temp_output_143_0 * temp_output_143_0 ) * _FoamColor.a );
-				float4 lerpResult155 = lerp( lerpResult239 , _FoamColor , temp_output_180_0);
 				
-				surfaceDescription.Alpha = lerpResult155.a;
+				surfaceDescription.Alpha = 1;
 
 				#ifdef _ALPHATEST_ON
 				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
@@ -3195,8 +3244,7 @@ Shader "Water"
             #pragma domain DomainFunction
             #define ASE_DISTANCE_TESSELLATION
             #define ASE_ABSOLUTE_VERTEX_POS 1
-            #define _HAS_REFRACTION 1
-            #define _REFRACTION_PLANE 1
+            #define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
             #define HAVE_MESH_MODIFICATION
             #define ASE_SRP_VERSION 140008
 
@@ -3269,10 +3317,10 @@ Shader "Water"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _DepthColor;
+			float4 _SurfaceColor;
 			float4 _WaterTexture_ST;
 			float4 _FoamColor;
 			float4 _Foam_ST;
-			float4 _TransmissionColor;
 			float2 _CircleSpawnExtents;
 			float2 _CircleSpawnPosition;
 			float _Tiling;
@@ -3280,6 +3328,7 @@ Shader "Water"
 			float _Speed;
 			float _WaveSharpness;
 			float _RefractionIndex;
+			float _FogStrength;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -3343,7 +3392,6 @@ Shader "Water"
             #endif
 
 			sampler2D _Foam;
-			sampler2D _WaterTexture;
 
 
             #ifdef DEBUG_DISPLAY
@@ -3368,7 +3416,6 @@ Shader "Water"
 			#define ASE_NEEDS_VERT_NORMAL
 			#define ASE_NEEDS_VERT_TANGENT
 			#define ASE_NEEDS_FRAG_RELATIVE_WORLD_POS
-			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
 			#pragma shader_feature_local _CIRCULARWAVES_ON
 
 
@@ -3400,7 +3447,18 @@ Shader "Water"
 				#endif
 			};
 
+			float GetAmp252( int detail, float amp )
+			{
+				float x = amp;
+				float sum = 0;
+				for(int i=0;i<detail;i++) {
+				sum += x;
+				x *= 0.83;
+				}
+				return sum;
+			}
 			
+
 			void BuildSurfaceData(FragInputs fragInputs, inout SmoothSurfaceDescription surfaceDescription, float3 V, PositionInputs posInput, out SurfaceData surfaceData, out float3 bentNormalWS)
 			{
 				ZERO_INITIALIZE(SurfaceData, surfaceData);
@@ -3812,25 +3870,20 @@ Shader "Water"
 				float2 uv_Foam = packedInput.ase_texcoord4.xy * _Foam_ST.xy + _Foam_ST.zw;
 				float2 panner190 = ( 1.0 * _Time.y * float2( -0.032,-0.032 ) + uv_Foam);
 				#ifdef _CIRCULARWAVES_ON
-				float staticSwitch212 = localSumOfGerstnerDirectional2_g28;
-				#else
 				float staticSwitch212 = localSumOfGerstnerCircular2_g29;
+				#else
+				float staticSwitch212 = localSumOfGerstnerDirectional2_g28;
 				#endif
-				float temp_output_143_0 = saturate( (0.0 + (staticSwitch212 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) );
-				float temp_output_180_0 = ( tex2D( _Foam, panner190 ).r * ( temp_output_143_0 * temp_output_143_0 ) * _FoamColor.a );
+				int detail252 = 16;
+				float amp252 = _Amplitude;
+				float localGetAmp252 = GetAmp252( detail252 , amp252 );
+				float temp_output_250_0 = pow( saturate( (0.0 + (staticSwitch212 - -localGetAmp252) * (1.0 - 0.0) / (localGetAmp252 - -localGetAmp252)) ) , 5.0 );
+				float temp_output_180_0 = ( _FoamColor.a * tex2D( _Foam, panner190 ).r * temp_output_250_0 );
 				float lerpResult179 = lerp( 0.95 , 0.25 , temp_output_180_0);
-				
-				float2 uv_WaterTexture = packedInput.ase_texcoord4.xy * _WaterTexture_ST.xy + _WaterTexture_ST.zw;
-				float4 break185 = tex2D( _WaterTexture, uv_WaterTexture );
-				float4 appendResult186 = (float4(break185.r , break185.g , break185.b , break185.a));
-				float fresnelNdotV188 = dot( normalize( staticSwitch210 ), V );
-				float fresnelNode188 = ( 0.1 + 3.0 * pow( 1.0 - fresnelNdotV188, 6.0 ) );
-				float4 lerpResult239 = lerp( _DepthColor , appendResult186 , saturate( fresnelNode188 ));
-				float4 lerpResult155 = lerp( lerpResult239 , _FoamColor , temp_output_180_0);
 				
 				surfaceDescription.Normal = mul( ase_worldToTangent, staticSwitch210 );
 				surfaceDescription.Smoothness = lerpResult179;
-				surfaceDescription.Alpha = lerpResult155.a;
+				surfaceDescription.Alpha = 1;
 
 				#ifdef _ALPHATEST_ON
 				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
@@ -3908,10 +3961,10 @@ Shader "Water"
             #pragma domain DomainFunction
             #define ASE_DISTANCE_TESSELLATION
             #define ASE_ABSOLUTE_VERTEX_POS 1
-            #define _HAS_REFRACTION 1
-            #define _REFRACTION_PLANE 1
+            #define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
             #define HAVE_MESH_MODIFICATION
             #define ASE_SRP_VERSION 140008
+            #define REQUIRE_OPAQUE_TEXTURE 1
 
 
             #pragma shader_feature _SURFACE_TYPE_TRANSPARENT
@@ -4000,10 +4053,10 @@ Shader "Water"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _DepthColor;
+			float4 _SurfaceColor;
 			float4 _WaterTexture_ST;
 			float4 _FoamColor;
 			float4 _Foam_ST;
-			float4 _TransmissionColor;
 			float2 _CircleSpawnExtents;
 			float2 _CircleSpawnPosition;
 			float _Tiling;
@@ -4011,6 +4064,7 @@ Shader "Water"
 			float _Speed;
 			float _WaveSharpness;
 			float _RefractionIndex;
+			float _FogStrength;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -4137,6 +4191,7 @@ Shader "Water"
 				#endif
 				float4 ase_texcoord7 : TEXCOORD7;
 				float4 ase_texcoord8 : TEXCOORD8;
+				float4 ase_texcoord9 : TEXCOORD9;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
@@ -4144,7 +4199,42 @@ Shader "Water"
 				#endif
 			};
 
+			float GetAmp252( int detail, float amp )
+			{
+				float x = amp;
+				float sum = 0;
+				for(int i=0;i<detail;i++) {
+				sum += x;
+				x *= 0.83;
+				}
+				return sum;
+			}
 			
+			inline float4 ComputeGrabScreenPos( float4 pos )
+			{
+			#if UNITY_UV_STARTS_AT_TOP
+				float scale = -1.0;
+			#else
+				float scale = 1.0;
+			#endif
+				float4 o = pos * 0.5f;
+				o.xy = float2( o.x, o.y*scale ) + o.w;
+			#ifdef UNITY_SINGLE_PASS_STEREO
+				o.xy = TransformStereoScreenSpaceTex ( o.xy, pos.w );
+			#endif
+				o.zw = pos.zw;
+				return o;
+			}
+			
+			float4 ASEHDSampleSceneColor(float2 uv, float lod, float exposureMultiplier)
+			{
+				#if defined(REQUIRE_OPAQUE_TEXTURE) && defined(_SURFACE_TYPE_TRANSPARENT) && defined(SHADERPASS) && (SHADERPASS != SHADERPASS_LIGHT_TRANSPORT)
+				return float4( SampleCameraColor(uv, lod) * exposureMultiplier, 1.0 );
+				#endif
+				return float4(0.0, 0.0, 0.0, 1.0);
+			}
+			
+
 			void BuildSurfaceData(FragInputs fragInputs, inout GlobalSurfaceDescription surfaceDescription, float3 V, PositionInputs posInput, out SurfaceData surfaceData, out float3 bentNormalWS)
 			{
 				ZERO_INITIALIZE(SurfaceData, surfaceData);
@@ -4400,11 +4490,23 @@ Shader "Water"
 				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
 				outputPackedVaryingsMeshToPS.ase_texcoord8.xyz = ase_worldBitangent;
 				
+				float3 vertexToFrag282 = staticSwitch211;
+				outputPackedVaryingsMeshToPS.ase_texcoord9.xyz = vertexToFrag282;
+				float4 appendResult321 = (float4(vertexToFrag282 , 1.0));
+				float4 localWorldVar322 = appendResult321;
+				(localWorldVar322).xyz = GetCameraRelativePositionWS((localWorldVar322).xyz);
+				float4 transform322 = mul(GetWorldToObjectMatrix(),localWorldVar322);
+				float3 temp_output_336_0 = (transform322).xyz;
+				float3 customSurfaceDepth303 = temp_output_336_0;
+				float customEye303 = -TransformWorldToView(TransformObjectToWorld( customSurfaceDepth303 )).z;
+				outputPackedVaryingsMeshToPS.ase_texcoord7.z = customEye303;
+				
 				outputPackedVaryingsMeshToPS.ase_texcoord7.xy = inputMesh.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
-				outputPackedVaryingsMeshToPS.ase_texcoord7.zw = 0;
+				outputPackedVaryingsMeshToPS.ase_texcoord7.w = 0;
 				outputPackedVaryingsMeshToPS.ase_texcoord8.w = 0;
+				outputPackedVaryingsMeshToPS.ase_texcoord9.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
@@ -4661,9 +4763,10 @@ Shader "Water"
 				float3 V = GetWorldSpaceNormalizeViewDir(input.positionRWS);
 
 				GlobalSurfaceDescription surfaceDescription = (GlobalSurfaceDescription)0;
+				float4 appendResult265 = (float4(_DepthColor.r , _DepthColor.g , _DepthColor.b , 1.0));
+				float4 appendResult343 = (float4(_SurfaceColor.r , _SurfaceColor.g , _SurfaceColor.b , 1.0));
 				float2 uv_WaterTexture = packedInput.ase_texcoord7.xy * _WaterTexture_ST.xy + _WaterTexture_ST.zw;
-				float4 break185 = tex2D( _WaterTexture, uv_WaterTexture );
-				float4 appendResult186 = (float4(break185.r , break185.g , break185.b , break185.a));
+				float4 lerpResult255 = lerp( appendResult265 , appendResult343 , tex2D( _WaterTexture, uv_WaterTexture ).r);
 				float tiling2_g28 = _Tiling;
 				float amplitude2_g28 = _Amplitude;
 				int detail2_g28 = 16;
@@ -4690,25 +4793,49 @@ Shader "Water"
 				float3 staticSwitch210 = normal2_g28;
 				#endif
 				float fresnelNdotV188 = dot( normalize( staticSwitch210 ), V );
-				float fresnelNode188 = ( 0.1 + 3.0 * pow( 1.0 - fresnelNdotV188, 6.0 ) );
-				float4 lerpResult239 = lerp( _DepthColor , appendResult186 , saturate( fresnelNode188 ));
+				float fresnelNode188 = ( 0.0 + 3.0 * pow( 1.0 - fresnelNdotV188, 4.0 ) );
+				float temp_output_189_0 = saturate( fresnelNode188 );
+				float4 lerpResult239 = lerp( _DepthColor , lerpResult255 , temp_output_189_0);
+				float4 lerpResult308 = lerp( float4( 0,0,0,0 ) , lerpResult239 , temp_output_189_0);
 				float2 uv_Foam = packedInput.ase_texcoord7.xy * _Foam_ST.xy + _Foam_ST.zw;
 				float2 panner190 = ( 1.0 * _Time.y * float2( -0.032,-0.032 ) + uv_Foam);
 				#ifdef _CIRCULARWAVES_ON
-				float staticSwitch212 = localSumOfGerstnerDirectional2_g28;
-				#else
 				float staticSwitch212 = localSumOfGerstnerCircular2_g29;
+				#else
+				float staticSwitch212 = localSumOfGerstnerDirectional2_g28;
 				#endif
-				float temp_output_143_0 = saturate( (0.0 + (staticSwitch212 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) );
-				float temp_output_180_0 = ( tex2D( _Foam, panner190 ).r * ( temp_output_143_0 * temp_output_143_0 ) * _FoamColor.a );
-				float4 lerpResult155 = lerp( lerpResult239 , _FoamColor , temp_output_180_0);
+				int detail252 = 16;
+				float amp252 = _Amplitude;
+				float localGetAmp252 = GetAmp252( detail252 , amp252 );
+				float temp_output_250_0 = pow( saturate( (0.0 + (staticSwitch212 - -localGetAmp252) * (1.0 - 0.0) / (localGetAmp252 - -localGetAmp252)) ) , 5.0 );
+				float temp_output_180_0 = ( _FoamColor.a * tex2D( _Foam, panner190 ).r * temp_output_250_0 );
+				float4 lerpResult155 = lerp( lerpResult308 , _FoamColor , temp_output_180_0);
 				
 				float3 ase_worldBitangent = packedInput.ase_texcoord8.xyz;
 				float3x3 ase_worldToTangent = float3x3(tangentWS.xyz,ase_worldBitangent,normalWS);
 				
-				float fresnelNdotV76 = dot( normalize( staticSwitch210 ), V );
-				float fresnelNode76 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV76, 5.0 ) );
-				float4 lerpResult82 = lerp( float4( 0,0,0,0 ) , _TransmissionColor , ( _TransmissionColor.a * ( saturate( fresnelNode76 ) * temp_output_143_0 ) ));
+				float3 vertexToFrag282 = packedInput.ase_texcoord9.xyz;
+				float4 appendResult321 = (float4(vertexToFrag282 , 1.0));
+				float4 localWorldVar322 = appendResult321;
+				(localWorldVar322).xyz = GetCameraRelativePositionWS((localWorldVar322).xyz);
+				float4 transform322 = mul(GetWorldToObjectMatrix(),localWorldVar322);
+				float3 temp_output_336_0 = (transform322).xyz;
+				float4 unityObjectToClipPos337 = TransformWorldToHClip(TransformObjectToWorld(temp_output_336_0));
+				float4 computeScreenPos338 = ComputeScreenPos( unityObjectToClipPos337 , _ProjectionParams.x );
+				float eyeDepth302 = LinearEyeDepth(SampleCameraDepth( computeScreenPos338.xy ),_ZBufferParams);
+				float customEye303 = packedInput.ase_texcoord7.z;
+				float4 appendResult278 = (float4(( vertexToFrag282 + ( refract( -V , staticSwitch210 , _RefractionIndex ) * saturate( ( eyeDepth302 - customEye303 ) ) ) ) , 1.0));
+				float4 localWorldVar277 = appendResult278;
+				(localWorldVar277).xyz = GetCameraRelativePositionWS((localWorldVar277).xyz);
+				float4 transform277 = mul(GetWorldToObjectMatrix(),localWorldVar277);
+				float4 unityObjectToClipPos259 = TransformWorldToHClip(TransformObjectToWorld((transform277).xyz));
+				float4 computeGrabScreenPos258 = ComputeGrabScreenPos( ( unityObjectToClipPos259 + float4( 0,0,0,0 ) ) );
+				float3 temp_output_286_0 = ( (computeGrabScreenPos258).xyz / (computeGrabScreenPos258).w );
+				float4 fetchOpaqueVal260 = ASEHDSampleSceneColor(temp_output_286_0.xy, 0.0, GetInverseCurrentExposureMultiplier());
+				float4 DepthColorCopy312 = _DepthColor;
+				float eyeDepth326 = LinearEyeDepth(SampleCameraDepth( float4( temp_output_286_0 , 0.0 ).xy ),_ZBufferParams);
+				float4 lerpResult314 = lerp( fetchOpaqueVal260 , DepthColorCopy312 , ( 1.0 - ( 1.0 / ( ( saturate( ( eyeDepth326 - customEye303 ) ) * _FogStrength ) + 1.0 ) ) ));
+				float4 lerpResult306 = lerp( lerpResult314 , float4( 0,0,0,0 ) , temp_output_189_0);
 				
 				float lerpResult179 = lerp( 0.95 , 0.25 , temp_output_180_0);
 				
@@ -4722,10 +4849,10 @@ Shader "Water"
 				surfaceDescription.Specular = 0;
 				#endif
 
-				surfaceDescription.Emission = lerpResult82.rgb;
+				surfaceDescription.Emission = lerpResult306.rgb;
 				surfaceDescription.Smoothness = lerpResult179;
 				surfaceDescription.Occlusion = 1;
-				surfaceDescription.Alpha = lerpResult155.a;
+				surfaceDescription.Alpha = 1;
 
 				#ifdef _ALPHATEST_ON
 				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
@@ -4745,7 +4872,7 @@ Shader "Water"
 				#endif
 
 				#ifdef _HAS_REFRACTION
-				surfaceDescription.RefractionIndex = _RefractionIndex;
+				surfaceDescription.RefractionIndex = 1;
 				surfaceDescription.RefractionColor = float3( 1, 1, 1 );
 				surfaceDescription.RefractionDistance = 0;
 				#endif
@@ -4941,8 +5068,7 @@ Shader "Water"
 			#pragma domain DomainFunction
 			#define ASE_DISTANCE_TESSELLATION
 			#define ASE_ABSOLUTE_VERTEX_POS 1
-			#define _HAS_REFRACTION 1
-			#define _REFRACTION_PLANE 1
+			#define SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
 			#define HAVE_MESH_MODIFICATION
 			#define ASE_SRP_VERSION 140008
 
@@ -4997,10 +5123,10 @@ Shader "Water"
 			float4 _SelectionID;
             CBUFFER_START( UnityPerMaterial )
 			float4 _DepthColor;
+			float4 _SurfaceColor;
 			float4 _WaterTexture_ST;
 			float4 _FoamColor;
 			float4 _Foam_ST;
-			float4 _TransmissionColor;
 			float2 _CircleSpawnExtents;
 			float2 _CircleSpawnPosition;
 			float _Tiling;
@@ -5008,6 +5134,7 @@ Shader "Water"
 			float _Speed;
 			float _WaveSharpness;
 			float _RefractionIndex;
+			float _FogStrength;
 			float4 _EmissionColor;
 			float _AlphaCutoff;
 			float _RenderQueueType;
@@ -5059,9 +5186,7 @@ Shader "Water"
 			#endif
 			CBUFFER_END
 
-			sampler2D _WaterTexture;
-			sampler2D _Foam;
-
+			
 
             #ifdef DEBUG_DISPLAY
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
@@ -5083,7 +5208,7 @@ Shader "Water"
 				float3 positionOS : POSITION;
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
-				float4 ase_texcoord : TEXCOORD0;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -5092,8 +5217,7 @@ Shader "Water"
 				float4 positionCS : SV_POSITION;
 				float3 normalWS : TEXCOORD0;
 				float4 tangentWS : TEXCOORD1;
-				float4 ase_texcoord2 : TEXCOORD2;
-				float4 ase_texcoord3 : TEXCOORD3;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
@@ -5242,13 +5366,6 @@ Shader "Water"
 				(localWorldVar200).xyz = GetCameraRelativePositionWS((localWorldVar200).xyz);
 				float4 transform200 = mul(GetWorldToObjectMatrix(),localWorldVar200);
 				
-				o.ase_texcoord3.xyz = ase_worldPos;
-				
-				o.ase_texcoord2.xy = inputMesh.ase_texcoord.xy;
-				
-				//setting value to unused interpolator channels and avoid initialization warnings
-				o.ase_texcoord2.zw = 0;
-				o.ase_texcoord3.w = 0;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
 				#else
@@ -5280,8 +5397,7 @@ Shader "Water"
 				float3 positionOS : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
-				float4 ase_texcoord : TEXCOORD0;
-
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -5299,7 +5415,7 @@ Shader "Water"
 				o.positionOS = v.positionOS;
 				o.normalOS = v.normalOS;
 				o.tangentOS = v.tangentOS;
-				o.ase_texcoord = v.ase_texcoord;
+				
 				return o;
 			}
 
@@ -5344,7 +5460,7 @@ Shader "Water"
 				o.positionOS = patch[0].positionOS * bary.x + patch[1].positionOS * bary.y + patch[2].positionOS * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
 				o.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -5380,51 +5496,8 @@ Shader "Water"
 				PositionInputs posInput = GetPositionInput(input.positionSS.xy, _ScreenSize.zw, input.positionSS.z, input.positionSS.w, input.positionRWS);
 
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
-				float2 uv_WaterTexture = packedInput.ase_texcoord2.xy * _WaterTexture_ST.xy + _WaterTexture_ST.zw;
-				float4 break185 = tex2D( _WaterTexture, uv_WaterTexture );
-				float4 appendResult186 = (float4(break185.r , break185.g , break185.b , break185.a));
-				float3 ase_worldPos = packedInput.ase_texcoord3.xyz;
-				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - ase_worldPos );
-				ase_worldViewDir = normalize(ase_worldViewDir);
-				float tiling2_g28 = _Tiling;
-				float amplitude2_g28 = _Amplitude;
-				int detail2_g28 = 16;
-				float3 position2_g28 = ase_worldPos;
-				float3 normal2_g28 = float3( 0,0,0 );
-				float mulTime13 = _TimeParameters.x * _Speed;
-				float t2_g28 = mulTime13;
-				float sharpness2_g28 = _WaveSharpness;
-				float localSumOfGerstnerDirectional2_g28 = SumOfGerstnerDirectional( tiling2_g28 , amplitude2_g28 , detail2_g28 , position2_g28 , normal2_g28 , t2_g28 , sharpness2_g28 );
-				float2 spawnExtents2_g29 = _CircleSpawnExtents;
-				float2 spawnPosition2_g29 = _CircleSpawnPosition;
-				float tiling2_g29 = _Tiling;
-				float amplitude2_g29 = _Amplitude;
-				int detail2_g29 = 16;
-				float3 position2_g29 = ase_worldPos;
-				float3 normal2_g29 = float3( 0,0,0 );
-				float t2_g29 = mulTime13;
-				float sharpness2_g29 = _WaveSharpness;
-				float localSumOfGerstnerCircular2_g29 = SumOfGerstnerCircular( spawnExtents2_g29 , spawnPosition2_g29 , tiling2_g29 , amplitude2_g29 , detail2_g29 , position2_g29 , normal2_g29 , t2_g29 , sharpness2_g29 );
-				#ifdef _CIRCULARWAVES_ON
-				float3 staticSwitch210 = normal2_g29;
-				#else
-				float3 staticSwitch210 = normal2_g28;
-				#endif
-				float fresnelNdotV188 = dot( normalize( staticSwitch210 ), ase_worldViewDir );
-				float fresnelNode188 = ( 0.1 + 3.0 * pow( 1.0 - fresnelNdotV188, 6.0 ) );
-				float4 lerpResult239 = lerp( _DepthColor , appendResult186 , saturate( fresnelNode188 ));
-				float2 uv_Foam = packedInput.ase_texcoord2.xy * _Foam_ST.xy + _Foam_ST.zw;
-				float2 panner190 = ( 1.0 * _Time.y * float2( -0.032,-0.032 ) + uv_Foam);
-				#ifdef _CIRCULARWAVES_ON
-				float staticSwitch212 = localSumOfGerstnerDirectional2_g28;
-				#else
-				float staticSwitch212 = localSumOfGerstnerCircular2_g29;
-				#endif
-				float temp_output_143_0 = saturate( (0.0 + (staticSwitch212 - -_Amplitude) * (1.0 - 0.0) / (_Amplitude - -_Amplitude)) );
-				float temp_output_180_0 = ( tex2D( _Foam, panner190 ).r * ( temp_output_143_0 * temp_output_143_0 ) * _FoamColor.a );
-				float4 lerpResult155 = lerp( lerpResult239 , _FoamColor , temp_output_180_0);
 				
-				surfaceDescription.Alpha = lerpResult155.a;
+				surfaceDescription.Alpha = 1;
 				surfaceDescription.AlphaClipThreshold =  _AlphaCutoff;
 
 
@@ -5714,6 +5787,7 @@ Shader "Water"
 }
 /*ASEBEGIN
 Version=19201
+Node;AmplifyShaderEditor.CommentaryNode;266;-1096.749,1308.718;Inherit;False;4641.319;1417.395;Refraction + Depth fog;36;329;320;330;328;327;333;314;303;338;302;304;337;336;322;321;259;285;282;258;326;313;260;277;278;274;276;300;287;288;286;305;64;301;275;340;342;;1,1,1,1;0;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;META;0;1;META;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;3;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;SceneSelectionPass;0;3;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
@@ -5724,92 +5798,135 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;7;0,0;Float;False;False;-1;
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;8;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;TransparentDepthPostpass;0;8;TransparentDepthPostpass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=TransparentDepthPostpass;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;9;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;Forward;0;9;Forward;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;True;0;True;_CullModeForward;False;False;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelOne;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelTwo;False;False;False;True;True;0;True;_StencilRef;255;False;;255;True;_StencilWriteMask;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;0;True;_ZWrite;True;0;True;_ZTestDepthEqualForOpaque;False;True;1;LightMode=Forward;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;10;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;ScenePickingPass;0;10;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;3;False;;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;81;-236.8605,-256.1038;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SaturateNode;184;-386.8946,-309.1566;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.ViewDirInputsCoordNode;77;-869.8337,-298.0995;Inherit;False;World;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.FresnelNode;76;-595.9999,-320.3516;Inherit;False;Standard;WorldNormal;ViewDir;True;False;5;0;FLOAT3;0,0,1;False;4;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;5;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;194;-77.65247,-263.6293;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.LerpOp;82;110.2435,-367.2557;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ColorNode;83;-1119.106,-585.5153;Inherit;False;Property;_TransmissionColor;TransmissionColor;1;0;Create;True;0;0;0;False;0;False;0.3820755,1,0.9364549,1;0.3820754,1,0.9364549,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SamplerNode;149;443.5766,-1626.914;Inherit;True;Property;_WaterTextureSample;WaterTextureSample;5;0;Create;True;0;0;0;False;0;False;-1;e793edb4a59e4374a88f62a166569c48;e793edb4a59e4374a88f62a166569c48;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SamplerNode;174;102.6348,-1061.111;Inherit;True;Property;_WaterTextureSample1;WaterTextureSample;5;0;Create;True;0;0;0;False;0;False;-1;e793edb4a59e4374a88f62a166569c48;e793edb4a59e4374a88f62a166569c48;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.BreakToComponentsNode;185;819.9666,-1572.558;Inherit;False;COLOR;1;0;COLOR;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
-Node;AmplifyShaderEditor.DynamicAppendNode;186;1006.31,-1550.74;Inherit;False;FLOAT4;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT4;0
-Node;AmplifyShaderEditor.PannerNode;190;-179.8576,-1169.336;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;-0.032,-0.032;False;1;FLOAT;1;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.TextureCoordinatesNode;170;-471.7751,-1279.057;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TexturePropertyNode;148;-222.7962,-1668.293;Inherit;True;Property;_WaterTexture;WaterTexture;5;0;Create;True;0;0;0;False;0;False;4a1ef29df10dfc7469e650d7aa54eb52;4a1ef29df10dfc7469e650d7aa54eb52;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
-Node;AmplifyShaderEditor.TextureCoordinatesNode;150;94.42441,-1741.034;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;178;196.8524,-1364.338;Inherit;False;Property;_FoamColor;FoamColor;8;0;Create;True;0;0;0;False;0;False;1,1,1,1;1,1,1,0.6941177;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SaturateNode;189;-254.2074,89.2558;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.NegateNode;138;-1031.987,-74.18863;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.TFHCRemapNode;137;-827.9229,-59.97869;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;-1;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.FunctionNode;206;-1197.322,472.1635;Inherit;False;SumOfGerstnerDirectional;-1;;28;4bf2394a7a8e2894ebf8a3bfafb106b5;0;6;7;FLOAT;0.5;False;1;FLOAT3;0,0,0;False;5;INT;4;False;6;FLOAT;0.2;False;12;FLOAT;1;False;3;FLOAT;0;False;3;FLOAT3;4;FLOAT3;8;FLOAT;10
-Node;AmplifyShaderEditor.RangedFloatNode;97;-1737.566,663.2111;Inherit;False;Property;_Tiling;Tiling;3;0;Create;True;0;0;0;False;0;False;1;5.15;0;16;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;99;-1645.525,385.0581;Inherit;False;Property;_WaveSharpness;WaveSharpness;4;0;Create;True;0;0;0;False;0;False;0.5;1;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleTimeNode;13;-1579.798,734.5806;Inherit;False;1;0;FLOAT;4;False;1;FLOAT;0
-Node;AmplifyShaderEditor.IntNode;60;-1583.679,591.0949;Inherit;False;Constant;_Detail;Detail;0;0;Create;True;0;0;0;False;0;False;16;4;True;0;1;INT;0
-Node;AmplifyShaderEditor.RangedFloatNode;196;-1795.116,820.2484;Inherit;False;Property;_Speed;Speed;10;0;Create;True;0;0;0;False;0;False;4;4;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.WorldPosInputsNode;198;-1795.155,477.0615;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.RangedFloatNode;63;-1799.258,55.77431;Inherit;False;Property;_Amplitude;Amplitude;0;0;Create;True;0;0;0;False;0;False;1;0.058;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;207;-1236.993,715.7894;Inherit;False;SumOfGerstnerCircular;-1;;29;dc2374c520193d74f84dbfa8d8fde39d;0;8;7;FLOAT;0.5;False;1;FLOAT3;0,0,0;False;5;INT;4;False;6;FLOAT;0.2;False;12;FLOAT;1;False;13;FLOAT2;1,1;False;14;FLOAT2;1,1;False;3;FLOAT;0;False;3;FLOAT3;4;FLOAT3;8;FLOAT;10
-Node;AmplifyShaderEditor.StaticSwitch;211;-824.2922,715.7814;Inherit;False;Property;_Keyword0;Keyword 0;11;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Reference;210;True;True;All;9;1;FLOAT3;0,0,0;False;0;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT3;0,0,0;False;5;FLOAT3;0,0,0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.StaticSwitch;210;-821.8923,595.4813;Inherit;False;Property;_CircularWaves;CircularWaves;11;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;FLOAT3;0,0,0;False;0;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT3;0,0,0;False;5;FLOAT3;0,0,0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.StaticSwitch;212;-818.2922,827.7814;Inherit;False;Property;_Keyword1;Keyword 0;11;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Reference;210;True;True;All;9;1;FLOAT;0;False;0;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.DynamicAppendNode;201;-374.1673,652.1545;Inherit;False;FLOAT4;4;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;1;False;1;FLOAT4;0
-Node;AmplifyShaderEditor.WorldToObjectTransfNode;200;-139.5138,586.2355;Inherit;False;1;0;FLOAT4;0,0,0,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SwizzleNode;202;163.0946,524.5226;Inherit;False;FLOAT3;0;1;2;3;1;0;FLOAT4;0,0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.Vector2Node;208;-1696.993,1169.789;Inherit;False;Property;_CircleSpawnPosition;CircleSpawnPosition;9;0;Create;True;0;0;0;False;0;False;0,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
 Node;AmplifyShaderEditor.Vector2Node;209;-1704.993,1017.789;Inherit;False;Property;_CircleSpawnExtents;CircleSpawnExtents;6;0;Create;True;0;0;0;False;0;False;1,1;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
-Node;AmplifyShaderEditor.FresnelNode;188;-508.5847,83.36298;Inherit;False;Standard;WorldNormal;ViewDir;True;False;5;0;FLOAT3;0,0,1;False;4;FLOAT3;0,0,0;False;1;FLOAT;0.1;False;2;FLOAT;3;False;3;FLOAT;6;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;118;311.8492,25.15235;Inherit;False;2;2;0;FLOAT3x3;0,0,0,1,1,1,1,0,1;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.WorldToTangentMatrix;78;22.85519,-12.05082;Inherit;False;0;1;FLOAT3x3;0
-Node;AmplifyShaderEditor.RangedFloatNode;64;749.1652,197.0543;Inherit;False;Property;_RefractionIndex;RefractionIndex;2;0;Create;True;0;0;0;False;0;False;1;1.0161;0.95;1.05;0;1;FLOAT;0
-Node;AmplifyShaderEditor.ColorNode;238;625.2054,-1406.315;Inherit;False;Property;_DepthColor;DepthColor;13;0;Create;True;0;0;0;False;0;False;0.09892309,0.2293437,0.3679245,0.3490196;0.09892309,0.2293437,0.3679245,0.3490196;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.BreakToComponentsNode;177;449.8297,-1044.77;Inherit;False;COLOR;1;0;COLOR;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;240;-27.34927,-541.1338;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.LerpOp;179;938.1323,-412.8326;Inherit;False;3;0;FLOAT;0.95;False;1;FLOAT;0.25;False;2;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SaturateNode;143;-576.0038,-51.41577;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;180;673.3129,-1056.153;Inherit;False;3;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.LerpOp;155;1329.316,-1220.265;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.BreakToComponentsNode;187;1531.716,-995.15;Inherit;False;COLOR;1;0;COLOR;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;1708.795,-214.0388;Float;False;True;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;Water;53b46d85872c5b24c8f4f0a1c3fe4c87;True;GBuffer;0;0;GBuffer;34;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;True;True;True;True;0;True;_LightLayersMaskBuffer4;False;False;False;False;False;False;False;True;True;0;True;_StencilRefGBuffer;255;False;;255;True;_StencilWriteMaskGBuffer;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;False;True;0;True;_ZTestGBuffer;False;True;1;LightMode=GBuffer;False;False;0;;0;0;Standard;39;Surface Type;1;638446927057792748;  Rendering Pass;1;0;  Refraction Model;1;638485860447169621;    Blending Mode;0;0;    Blend Preserves Specular;1;0;  Back Then Front Rendering;0;0;  Transparent Depth Prepass;0;638485478657869523;  Transparent Depth Postpass;0;0;  ZWrite;1;638485866295630727;  Z Test;4;0;Double-Sided;0;0;Alpha Clipping;0;0;  Use Shadow Threshold;0;0;Material Type,InvertActionOnDeselection;0;638446944603301998;  Energy Conserving Specular;1;0;  Transmission,InvertActionOnDeselection;0;0;Forward Only;0;0;Receive Decals;1;0;Receives SSR;1;0;Receive SSR Transparent;0;0;Motion Vectors;0;0;  Add Precomputed Velocity;0;0;Specular AA;0;0;Specular Occlusion Mode;1;0;Override Baked GI;0;0;Depth Offset;0;0;DOTS Instancing;0;0;GPU Instancing;1;0;LOD CrossFade;0;0;Tessellation;1;638446804460253144;  Phong;0;0;  Strength;0.5,False,;0;  Type;1;638446945431079720;  Tess;8,False,;638446948081786666;  Min;8,False,;638446946568652291;  Max;25,False,;638446946581378865;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position;0;638485783748411010;0;11;True;True;True;True;True;False;False;False;False;True;True;False;;False;0
-Node;AmplifyShaderEditor.LerpOp;239;1211.172,-1483.051;Inherit;False;3;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0,0,0,0;False;2;FLOAT;0;False;1;FLOAT4;0
-Node;AmplifyShaderEditor.TexturePropertyNode;171;-844.9583,-1206.015;Inherit;True;Property;_Foam;Foam;7;0;Create;True;0;0;0;False;0;False;7fa60e7d307e45b44b9c081b16162c3d;7fa60e7d307e45b44b9c081b16162c3d;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
-WireConnection;81;0;184;0
-WireConnection;81;1;143;0
-WireConnection;184;0;76;0
-WireConnection;76;0;210;0
-WireConnection;76;4;77;0
-WireConnection;194;0;83;4
-WireConnection;194;1;81;0
-WireConnection;82;1;83;0
-WireConnection;82;2;194;0
-WireConnection;149;0;148;0
-WireConnection;149;1;150;0
-WireConnection;149;7;148;1
-WireConnection;174;0;171;0
-WireConnection;174;1;190;0
-WireConnection;174;7;171;1
-WireConnection;185;0;149;0
-WireConnection;186;0;185;0
-WireConnection;186;1;185;1
-WireConnection;186;2;185;2
-WireConnection;186;3;185;3
-WireConnection;190;0;170;0
-WireConnection;170;2;171;0
-WireConnection;150;2;148;0
-WireConnection;189;0;188;0
-WireConnection;138;0;63;0
-WireConnection;137;0;212;0
-WireConnection;137;1;138;0
-WireConnection;137;2;63;0
+Node;AmplifyShaderEditor.SaturateNode;143;-583.0038,-64.41577;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.CustomExpressionNode;252;-1383.418,3.697784;Inherit;False;float x = amp@$float sum = 0@$for(int i=0@i<detail@i++) {$sum += x@$x *= 0.83@$}$return sum@;1;Create;2;True;detail;INT;0;In;;Inherit;False;True;amp;FLOAT;0;In;;Inherit;False;GetAmp;True;False;0;;False;2;0;INT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ColorNode;178;523.5253,-1335.503;Inherit;False;Property;_FoamColor;FoamColor;8;0;Create;True;0;0;0;False;0;False;1,1,1,1;1,1,1,0.6941177;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;174;352.1743,-1044.476;Inherit;True;Property;_WaterTextureSample1;WaterTextureSample;5;0;Create;True;0;0;0;False;0;False;-1;e793edb4a59e4374a88f62a166569c48;e793edb4a59e4374a88f62a166569c48;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.PannerNode;190;64.78189,-1152.662;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;-0.032,-0.032;False;1;FLOAT;1;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;170;-272.7751,-1155.057;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.TexturePropertyNode;171;-580.1027,-1030.684;Inherit;True;Property;_Foam;Foam;7;0;Create;True;0;0;0;False;0;False;7fa60e7d307e45b44b9c081b16162c3d;7fa60e7d307e45b44b9c081b16162c3d;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
+Node;AmplifyShaderEditor.SimpleTimeNode;13;-1592.938,822.5162;Inherit;False;1;0;FLOAT;4;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;196;-1773.89,827.3235;Inherit;False;Property;_Speed;Speed;10;0;Create;True;0;0;0;False;0;False;4;4;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;97;-1723.416,704.6522;Inherit;False;Property;_Tiling;Tiling;3;0;Create;True;0;0;0;False;0;False;1;5.15;0;16;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;99;-1804.126,345.7353;Inherit;False;Property;_WaveSharpness;WaveSharpness;4;0;Create;True;0;0;0;False;0;False;0.5;1;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.TFHCRemapNode;137;-817.9229,-60.97869;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;-1;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.LerpOp;255;700.6154,-1624.613;Inherit;False;3;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0,0,0,0;False;2;FLOAT;0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.SaturateNode;184;-215.7669,-394.5122;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ColorNode;83;-143.5887,-679.6282;Inherit;False;Property;_TransmissionColor;TransmissionColor;1;0;Create;True;0;0;0;False;0;False;0.3820755,1,0.9364549,1;0.3820754,1,0.9364549,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;194;580.4132,-509.1633;Inherit;False;3;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.IntNode;60;-1583.679,591.0949;Inherit;False;Constant;_Detail;Detail;0;0;Create;True;0;0;0;False;0;False;16;4;True;0;1;INT;0
+Node;AmplifyShaderEditor.FresnelNode;76;-529.1344,-393.4361;Inherit;False;Standard;WorldNormal;ViewDir;True;False;5;0;FLOAT3;0,0,1;False;4;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;5;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TexturePropertyNode;148;-529.1471,-1653.782;Inherit;True;Property;_WaterTexture;WaterTexture;5;0;Create;True;0;0;0;False;0;False;4a1ef29df10dfc7469e650d7aa54eb52;4a1ef29df10dfc7469e650d7aa54eb52;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
+Node;AmplifyShaderEditor.TextureCoordinatesNode;150;-252.1204,-1732.942;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;149;22.63669,-1678.311;Inherit;True;Property;_WaterTextureSample;WaterTextureSample;5;0;Create;True;0;0;0;False;0;False;-1;e793edb4a59e4374a88f62a166569c48;e793edb4a59e4374a88f62a166569c48;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.FresnelNode;188;-496.9631,134.3596;Inherit;False;Standard;WorldNormal;ViewDir;True;False;5;0;FLOAT3;0,0,1;False;4;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;3;False;3;FLOAT;4;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ColorNode;253;145.272,-1910.142;Inherit;False;Property;_SurfaceColor;SurfaceColor;13;0;Create;True;0;0;0;False;0;False;0.2901961,0.5764706,0.7411765,1;0.373487,0.707814,0.7264151,0.254902;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.DynamicAppendNode;201;514.0551,-154.7523;Inherit;False;FLOAT4;4;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;1;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.WorldToObjectTransfNode;200;729.209,-155.672;Inherit;False;1;0;FLOAT4;0,0,0,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SwizzleNode;202;1008.417,-158.8845;Inherit;False;FLOAT3;0;1;2;3;1;0;FLOAT4;0,0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.StaticSwitch;210;-824.3818,533.2551;Inherit;False;Property;_CircularWaves;CircularWaves;11;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;FLOAT3;0,0,0;False;0;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT3;0,0,0;False;5;FLOAT3;0,0,0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;118;685.035,557.633;Inherit;False;2;2;0;FLOAT3x3;0,0,0,1,1,1,1,0,1;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.WorldToTangentMatrix;78;351.4711,633.4237;Inherit;False;0;1;FLOAT3x3;0
+Node;AmplifyShaderEditor.SaturateNode;189;-154.8668,75.62524;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;207;-1216.993,758.7894;Inherit;False;SumOfGerstnerCircular;-1;;29;dc2374c520193d74f84dbfa8d8fde39d;0;8;7;FLOAT;0.5;False;1;FLOAT3;0,0,0;False;5;INT;4;False;6;FLOAT;0.2;False;12;FLOAT;1;False;13;FLOAT2;1,1;False;14;FLOAT2;1,1;False;3;FLOAT;0;False;3;FLOAT3;4;FLOAT3;8;FLOAT;10
+Node;AmplifyShaderEditor.StaticSwitch;212;-803.5569,885.4523;Inherit;False;Property;_Keyword1;Keyword 0;11;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Reference;210;True;True;All;9;1;FLOAT;0;False;0;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.StaticSwitch;211;-805.7249,750.1841;Inherit;False;Property;_Keyword0;Keyword 0;11;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Reference;210;True;True;All;9;1;FLOAT3;0,0,0;False;0;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT3;0,0,0;False;5;FLOAT3;0,0,0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RefractOpVec;275;550.0211,1811.035;Inherit;False;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.NegateNode;301;337.9172,1844.762;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RangedFloatNode;64;274.2786,1989.588;Inherit;False;Property;_RefractionIndex;RefractionIndex;2;0;Create;True;0;0;0;False;0;False;1;1.0161;0.95;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleDivideOpNode;286;2426.344,1381.637;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.SwizzleNode;288;2252.346,1433.636;Inherit;False;FLOAT;3;1;2;3;1;0;FLOAT4;0,0,0,0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SwizzleNode;287;2253.346,1361.637;Inherit;False;FLOAT3;0;1;2;3;1;0;FLOAT4;0,0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;276;1805.951,1439.917;Inherit;False;2;2;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0,0,0,0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.ColorNode;238;144.6187,-2128.133;Inherit;False;Property;_DepthColor;DepthColor;12;0;Create;True;0;0;0;False;0;False;0.09892309,0.2293437,0.3679245,0.3490196;0.09892309,0.2293437,0.3679245,0.3490196;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RegisterLocalVarNode;312;393.324,-2204.858;Inherit;False;DepthColorCopy;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;2782.031,-492.5256;Float;False;True;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;Water;53b46d85872c5b24c8f4f0a1c3fe4c87;True;GBuffer;0;0;GBuffer;34;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;True;True;True;True;0;True;_LightLayersMaskBuffer4;False;False;False;False;False;False;False;True;True;0;True;_StencilRefGBuffer;255;False;;255;True;_StencilWriteMaskGBuffer;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;False;True;0;True;_ZTestGBuffer;False;True;1;LightMode=GBuffer;False;False;0;;0;0;Standard;39;Surface Type;1;638446927057792748;  Rendering Pass;1;0;  Refraction Model;0;638486524120139896;    Blending Mode;0;0;    Blend Preserves Specular;1;0;  Back Then Front Rendering;0;0;  Transparent Depth Prepass;0;638485478657869523;  Transparent Depth Postpass;0;0;  ZWrite;0;638486533366313909;  Z Test;4;0;Double-Sided;0;0;Alpha Clipping;0;0;  Use Shadow Threshold;0;0;Material Type,InvertActionOnDeselection;0;638446944603301998;  Energy Conserving Specular;1;0;  Transmission,InvertActionOnDeselection;0;0;Forward Only;0;0;Receive Decals;1;0;Receives SSR;1;0;Receive SSR Transparent;0;0;Motion Vectors;0;0;  Add Precomputed Velocity;0;0;Specular AA;0;0;Specular Occlusion Mode;1;0;Override Baked GI;0;0;Depth Offset;0;0;DOTS Instancing;0;0;GPU Instancing;1;0;LOD CrossFade;0;0;Tessellation;1;638446804460253144;  Phong;0;0;  Strength;0.5,False,;0;  Type;1;638446945431079720;  Tess;8,False,;638446948081786666;  Min;8,False,;638446946568652291;  Max;25,False,;638446946581378865;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position;0;638485783748411010;0;11;True;True;True;True;True;False;False;False;False;True;True;False;;False;0
+Node;AmplifyShaderEditor.WorldToObjectTransfNode;277;1234.164,1448.088;Inherit;False;1;0;FLOAT4;0,0,0,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ScreenColorNode;260;2813.984,1367.073;Inherit;False;Global;_GrabScreen0;Grab Screen 0;14;0;Create;True;0;0;0;False;0;False;Object;-1;False;False;False;False;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ComputeGrabScreenPosHlpNode;258;1957.593,1415.892;Inherit;False;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.SwizzleNode;285;1415.246,1445.737;Inherit;False;FLOAT3;0;1;2;3;1;0;FLOAT4;0,0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.UnityObjToClipPosHlpNode;259;1574.101,1438.862;Inherit;False;1;0;FLOAT3;0,0,0;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.LerpOp;314;3357.247,1412.206;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.OneMinusNode;333;3240.91,1695.946;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.DynamicAppendNode;278;1078.599,1426.096;Inherit;False;FLOAT4;4;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;1;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.SimpleSubtractOpNode;304;637.0195,2096.25;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ScreenDepthNode;302;376.9533,2107.804;Inherit;False;0;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SaturateNode;340;804.7963,2098.566;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;300;936.7689,1428.176;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.ComputeScreenPosHlpNode;338;117.7184,2113.581;Inherit;False;False;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;305;845.6524,1795.906;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.UnityObjToClipPosHlpNode;337;-193.6086,1846.184;Inherit;False;1;0;FLOAT3;0,0,0;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SwizzleNode;336;-388.4458,2041.846;Inherit;False;FLOAT3;0;1;2;3;1;0;FLOAT4;0,0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.WorldToObjectTransfNode;322;-615.6747,1890.218;Inherit;False;1;0;FLOAT4;0,0,0,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.DynamicAppendNode;321;-833.6064,1887.452;Inherit;False;FLOAT4;4;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;1;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.ViewDirInputsCoordNode;274;90.28267,1843.483;Inherit;False;World;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.SurfaceDepthNode;303;329.4042,2293.036;Inherit;False;0;1;0;FLOAT3;0,0,0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ScreenDepthNode;326;2214.497,1633.003;Inherit;False;0;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SaturateNode;342;2628.681,1739.53;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleSubtractOpNode;327;2440.732,1660.11;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;328;2754.376,1819.835;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;330;2919.737,1800.427;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleDivideOpNode;329;3068.837,1756.946;Inherit;False;2;0;FLOAT;1;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;313;2880.542,1597.139;Inherit;False;312;DepthColorCopy;1;0;OBJECT;;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;320;2342.298,1954.978;Inherit;False;Property;_FogStrength;FogStrength;14;0;Create;True;0;0;0;False;0;False;0.21;0.21;0;10;0;1;FLOAT;0
+Node;AmplifyShaderEditor.DynamicAppendNode;265;558.5745,-2099.182;Inherit;False;FLOAT4;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;1;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.DynamicAppendNode;343;431.8376,-1829.91;Inherit;False;FLOAT4;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;1;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.LerpOp;239;1165.863,-1682.861;Inherit;False;3;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0,0,0,0;False;2;FLOAT;0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.LerpOp;306;2197.197,-308.5764;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.LerpOp;82;1079.023,-679.2596;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.LerpOp;179;1240.026,-873.3132;Inherit;False;3;0;FLOAT;0.95;False;1;FLOAT;0.25;False;2;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.VertexToFragmentNode;282;-1026.751,1428.94;Inherit;False;False;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;344;2111.367,-463.0727;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;180;880.5967,-1059.76;Inherit;False;3;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.LerpOp;308;1609.411,-1530.177;Inherit;False;3;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0,0,0,0;False;2;FLOAT;0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.LerpOp;155;2108.24,-900.428;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.PowerNode;250;-297.8839,-93.31847;Inherit;False;False;2;0;FLOAT;0;False;1;FLOAT;5;False;1;FLOAT;0
+WireConnection;138;0;252;0
 WireConnection;206;7;99;0
 WireConnection;206;1;198;0
 WireConnection;206;5;60;0
 WireConnection;206;6;63;0
 WireConnection;206;12;97;0
 WireConnection;206;3;13;0
+WireConnection;143;0;137;0
+WireConnection;252;0;60;0
+WireConnection;252;1;63;0
+WireConnection;174;0;171;0
+WireConnection;174;1;190;0
+WireConnection;174;7;171;1
+WireConnection;190;0;170;0
+WireConnection;170;2;171;0
 WireConnection;13;0;196;0
+WireConnection;137;0;212;0
+WireConnection;137;1;138;0
+WireConnection;137;2;252;0
+WireConnection;255;0;265;0
+WireConnection;255;1;343;0
+WireConnection;255;2;149;1
+WireConnection;184;0;76;0
+WireConnection;194;0;83;4
+WireConnection;194;1;184;0
+WireConnection;194;2;250;0
+WireConnection;76;0;210;0
+WireConnection;150;2;148;0
+WireConnection;149;0;148;0
+WireConnection;149;1;150;0
+WireConnection;149;7;148;1
+WireConnection;188;0;210;0
+WireConnection;201;0;211;0
+WireConnection;200;0;201;0
+WireConnection;202;0;200;0
+WireConnection;210;1;206;4
+WireConnection;210;0;207;4
+WireConnection;118;0;78;0
+WireConnection;118;1;210;0
+WireConnection;189;0;188;0
 WireConnection;207;7;99;0
 WireConnection;207;1;198;0
 WireConnection;207;5;60;0
@@ -5818,40 +5935,82 @@ WireConnection;207;12;97;0
 WireConnection;207;13;209;0
 WireConnection;207;14;208;0
 WireConnection;207;3;13;0
+WireConnection;212;1;206;10
+WireConnection;212;0;207;10
 WireConnection;211;1;206;8
 WireConnection;211;0;207;8
-WireConnection;210;1;206;4
-WireConnection;210;0;207;4
-WireConnection;212;1;207;10
-WireConnection;212;0;206;10
-WireConnection;201;0;211;0
-WireConnection;200;0;201;0
-WireConnection;202;0;200;0
-WireConnection;188;0;210;0
-WireConnection;188;4;77;0
-WireConnection;118;0;78;0
-WireConnection;118;1;210;0
-WireConnection;177;0;174;0
-WireConnection;240;0;143;0
-WireConnection;240;1;143;0
-WireConnection;179;2;180;0
-WireConnection;143;0;137;0
-WireConnection;180;0;177;0
-WireConnection;180;1;240;0
-WireConnection;180;2;178;4
-WireConnection;155;0;239;0
-WireConnection;155;1;178;0
-WireConnection;155;2;180;0
-WireConnection;187;0;155;0
+WireConnection;275;0;301;0
+WireConnection;275;1;210;0
+WireConnection;275;2;64;0
+WireConnection;301;0;274;0
+WireConnection;286;0;287;0
+WireConnection;286;1;288;0
+WireConnection;288;0;258;0
+WireConnection;287;0;258;0
+WireConnection;276;0;259;0
+WireConnection;312;0;238;0
 WireConnection;0;0;155;0
 WireConnection;0;1;118;0
-WireConnection;0;6;82;0
+WireConnection;0;6;306;0
 WireConnection;0;7;179;0
-WireConnection;0;9;187;3
-WireConnection;0;17;64;0
 WireConnection;0;11;202;0
+WireConnection;277;0;278;0
+WireConnection;260;0;286;0
+WireConnection;258;0;276;0
+WireConnection;285;0;277;0
+WireConnection;259;0;285;0
+WireConnection;314;0;260;0
+WireConnection;314;1;313;0
+WireConnection;314;2;333;0
+WireConnection;333;0;329;0
+WireConnection;278;0;300;0
+WireConnection;304;0;302;0
+WireConnection;304;1;303;0
+WireConnection;302;0;338;0
+WireConnection;340;0;304;0
+WireConnection;300;0;282;0
+WireConnection;300;1;305;0
+WireConnection;338;0;337;0
+WireConnection;305;0;275;0
+WireConnection;305;1;340;0
+WireConnection;337;0;336;0
+WireConnection;336;0;322;0
+WireConnection;322;0;321;0
+WireConnection;321;0;282;0
+WireConnection;303;0;336;0
+WireConnection;326;0;286;0
+WireConnection;342;0;327;0
+WireConnection;327;0;326;0
+WireConnection;327;1;303;0
+WireConnection;328;0;342;0
+WireConnection;328;1;320;0
+WireConnection;330;0;328;0
+WireConnection;329;1;330;0
+WireConnection;265;0;238;1
+WireConnection;265;1;238;2
+WireConnection;265;2;238;3
+WireConnection;343;0;253;1
+WireConnection;343;1;253;2
+WireConnection;343;2;253;3
 WireConnection;239;0;238;0
-WireConnection;239;1;186;0
+WireConnection;239;1;255;0
 WireConnection;239;2;189;0
+WireConnection;306;0;314;0
+WireConnection;306;2;189;0
+WireConnection;82;1;83;0
+WireConnection;82;2;194;0
+WireConnection;179;2;180;0
+WireConnection;282;0;211;0
+WireConnection;344;0;82;0
+WireConnection;344;1;306;0
+WireConnection;180;0;178;4
+WireConnection;180;1;174;1
+WireConnection;180;2;250;0
+WireConnection;308;1;239;0
+WireConnection;308;2;189;0
+WireConnection;155;0;308;0
+WireConnection;155;1;178;0
+WireConnection;155;2;180;0
+WireConnection;250;0;143;0
 ASEEND*/
-//CHKSM=7AE90E8A7A1E29D9DB771556CD72279F1CFAD33F
+//CHKSM=5C59851060EE6CF72A162979E9BE3DACEE1C4EF2
