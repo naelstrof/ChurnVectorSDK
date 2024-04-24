@@ -20,6 +20,8 @@ public class InputGeneratorPlayerPossession : InputGenerator {
     private Vector3 lastLook;
     private PlayerInput input;
     private float toggleCrouchAmount = 0f;
+    private float minCrouch = 0f;
+    private float maxCrouch = 0.5f;
     private CharacterBase character;
     private Coroutine switchShoulderRoutine;
     private CatmullSpline cachedSpline;
@@ -310,7 +312,10 @@ public class InputGeneratorPlayerPossession : InputGenerator {
         }
 
         if (crouchSetting.GetValue() == 0) {
-            return input.actions["Crouch"].ReadValue<float>();
+            float readValue = input.actions["Crouch"].ReadValue<float>();
+            minCrouch = Mathf.Min(minCrouch, readValue);
+            maxCrouch = Mathf.Max(maxCrouch, readValue);
+            return readValue.Remap(minCrouch, maxCrouch, 0f, 1f);
         } else {
             return toggleCrouchAmount;
         }
