@@ -597,10 +597,14 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
             }
         }
 
-        if (grounded && inputGenerator.GetJumpInput() && taseCount == 0)
-        {
-            if (previousCrouchAmount <= crouchAmount) {velocity.y = 2f + (1f - crouchAmount) * 4f;}
-            else {velocity.y = 2f + (1f + crouchAmount) * 4f;}
+        if (grounded && inputGenerator.GetJumpInput() && taseCount == 0) {
+            // TODO: Probably replace this with an easier to execute jump (pressing jump while grounded, crouched, and not moving maybe gives you the bonus and uncrouches you?)
+            if (previousCrouchAmount <= crouchAmount) {
+                velocity.y = 2f + (1f - crouchAmount) * 4f;
+            } else {
+                velocity.y = 2f + (1f + crouchAmount) * 4f;
+            }
+            
             voreContainer?.OnJump(velocity.y);
             grounded = false;
 
