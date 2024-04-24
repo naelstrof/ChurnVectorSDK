@@ -4184,6 +4184,11 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ea83885ab4a71154dbaa21e622fec6cb
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/Extras/Blends/Kitchen/26fbx.fbx
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 45ba01601caec634d960d95861748758, type: 2}
   m_SchemaSet:
