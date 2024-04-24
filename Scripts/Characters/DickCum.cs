@@ -92,9 +92,12 @@ public class DickCum : MonoBehaviour {
 
                 int index = cumParticleSystems.IndexOf(cumParticleSystem);
                 if (index >= 0 && index < targetDicks.Count) {
-                    if (targetDicks[index].GetPenetrationData()?.tipIsInside ?? true) {
+                    if ((!targetDicks[index].GetPenetrationData()?.tipIsInside) ?? true) {
                         var emissionModule = cumParticleSystem.emission;
                         emissionModule.rateOverTime = 60f;
+                    } else {
+                        var emissionModule = cumParticleSystem.emission;
+                        emissionModule.rateOverTime = 0f;
                     }
                 } else {
                     var emissionModule = cumParticleSystem.emission;
