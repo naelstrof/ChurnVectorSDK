@@ -136,6 +136,7 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
 
     private Animator displayAnimator;
     private float crouchAmount = 0f;
+    private float previousCrouchAmount = 0f;
     private float originalColliderHeight;
     private Vector3 originalColliderOffset;
     //[SerializeField, SerializeReference, SerializeReferenceButton] protected InputGenerator inputGenerator;
@@ -562,7 +563,7 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
                 collider.height = Mathf.Lerp(originalColliderHeight, minimumCrouchHeight, crouchAmount);
                 collider.center = Vector3.Lerp(originalColliderOffset, originalColliderOffset - Vector3.up * ((originalColliderHeight - minimumCrouchHeight)*0.5f), crouchAmount);
             } else {
-                float previousCrouchAmount = crouchAmount;
+                previousCrouchAmount = crouchAmount;
                 crouchAmount = Mathf.MoveTowards(crouchAmount, inputGenerator.GetCrouchInput(), Time.deltaTime*3f);
                 collider.height = Mathf.Lerp(originalColliderHeight, minimumCrouchHeight, crouchAmount);
                 collider.center = Vector3.Lerp(originalColliderOffset, originalColliderOffset - Vector3.up * ((originalColliderHeight - minimumCrouchHeight)*0.5f), crouchAmount);
@@ -596,10 +597,13 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
             }
         }
 
-        if (grounded && inputGenerator.GetJumpInput() && taseCount == 0) {
-            velocity.y = 2f+(1f-crouchAmount)*4f;
+        if (grounded && inputGenerator.GetJumpInput() && taseCount == 0)
+        {
+            if (previousCrouchAmount <= crouchAmount) {velocity.y = 2f + (1f - crouchAmount) * 4f;}
+            else {velocity.y = 2f + (1f + crouchAmount) * 4f;}
             voreContainer?.OnJump(velocity.y);
             grounded = false;
+
         }
 
         if (grounded) {
