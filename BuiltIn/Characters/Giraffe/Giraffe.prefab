@@ -201,7 +201,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e01a97cba5dcd2f41ae578e88f01c79f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  penetrables: []
+  penetrables:
+  - penetrable: {fileID: 7003096131685993523}
+    penetrableType: 1
   volumeSolid: 14
   volumeChurned: 6
   dialogueTheme: {fileID: 11400000, guid: 229f4cd9a3f3c70448ef8f6b82c80306, type: 2}
