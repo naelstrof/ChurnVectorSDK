@@ -30,9 +30,11 @@ public abstract class CharacterDetector : CharacterBase {
     private Transform headTransform;
     private Vector3 localEyeCenter;
 
-    private const float spottedInSeconds = 4f;
-    private const float visionConeDegrees = 55f;
-    private const float maxSightDistance = 25f;
+    private const float spottedInSeconds = 2.5f;
+    private const float maxSpottedInSeconds = 6f;
+    private const float visionConeDegrees = 45f;
+    private const float maxSightDistance = 20f;
+    public const float awarenessBuffer = 0.25f;
 
     private bool ignorePlayer;
 
@@ -207,7 +209,6 @@ public abstract class CharacterDetector : CharacterBase {
 
         float facingAmount = (visionConeDegrees * 2f - angleFromFacingDirectionToPlayer) / visionConeDegrees;
         multiplier *= (Mathf.Clamp01(facingAmount) * Mathf.Clamp01(facingAmount));
-        float maxSpottedInSeconds = 8f;
         knowledgeDatabase.AddAwareness(target, Time.deltaTime * Mathf.Max(1f / maxSpottedInSeconds, 1f / spottedInSeconds * multiplier), KnowledgeDatabase.KnowledgeLevel.Alert, target.transform.position);
     }
 

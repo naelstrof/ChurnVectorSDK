@@ -70,7 +70,7 @@ public class DetectionVisuals : MonoBehaviour {
                 lastTime = Time.time;
             }
 
-            if (!source.isPlaying) {
+            if (!source.isPlaying && knowledge.awareness > 0f) {
                 source.Play();
             }
             float awareness = Mathf.Clamp01(knowledge.awareness);
@@ -82,7 +82,7 @@ public class DetectionVisuals : MonoBehaviour {
             float lookingRightAt = screenDir.magnitude;
             volume = Mathf.MoveTowards(volume,awareness, Time.deltaTime*8f);
             arc.rectTransform.sizeDelta = Vector2.one * (20f + volume * 20f);
-            arc.color = arc.color.With(a: volume*lookingRightAt*lookingRightAt);
+            arc.color = arc.color.With(a: Mathf.Clamp01(knowledge.awareness+knowledge.awarenessBuffer*2f)*lookingRightAt*lookingRightAt);
             arc.rectTransform.rotation = Quaternion.Euler(0f, 0f, angle-90f);
             source.volume = volumeCurve.Evaluate(volume)*fullVolume;
             source.pitch = 0.9f+volume*1.9f;
