@@ -94,12 +94,18 @@ public class ActionSearch : Action {
     public override ActionEventResponse OnReceivedEvent(Actor actor, Event e) {
         switch (e) {
             case FailedToFindPath failedToFindPath:
+                failures++;
                 Vector3 targetPosition = target.transform.position.With(y:actor.transform.position.y);
                 if (NavMesh.SamplePosition(lastKnownPosition, out NavMeshHit firstHit, FollowPathToPoint.maxDistanceFromNavmesh, NavMesh.AllAreas)) {
                     return new ActionEventResponseTransition(new ActionTransitionChangeTo(
                         new ActionSearch(target, targetPosition,
-                            Random.insideUnitSphere.With(y: 0f).normalized, false, failures+1, 8f),
+                            Random.insideUnitSphere.With(y: 0f).normalized, false, failures, 8f),
                         "Can't path to target, executing search!"));
+                }
+                if (failures > 4) {
+                    return new ActionEventResponseTransition( new ActionTransitionChangeTo( new DoNothing(1f), "Couldn't path to target, couldn't path to search!"));
+                } else {
+                    return new ActionEventResponseTransition( new ActionTransitionSuspendFor( new DoNothing(1f), "Couldn't path to search, waiting a sec."));
                 }
                 break;
             case KnowledgeChanged alert:
