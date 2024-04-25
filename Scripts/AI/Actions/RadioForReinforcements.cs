@@ -20,7 +20,7 @@ public class RadioForReinforcements : Action {
         foreach(var cop in actor.GetAllCops()) {
             if (cop.knowledgeDatabase.GetKnowledge(target.gameObject).awareness < 1f) {
                 actor.RaiseEvent(new RadioEvent("TalkRadio"));
-                return new ActionTransitionSuspendFor(new DoNothing(2f), "Radioing in!");
+                return new ActionTransitionSuspendFor(new DoNothing(1.5f), "Radioing in!");
             }
         }
         return new ActionTransitionDone("No ignorant cops in range!");
