@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class MapSpawner : MonoBehaviour {
     [SerializeField] private GameObject levelDisplayPrefab;
@@ -33,6 +35,11 @@ public class MapSpawner : MonoBehaviour {
             }
             var obj = Instantiate(levelDisplayPrefab, transform);
             MapButton button = obj.GetComponent<MapButton>();
+            if (EventSystem.current.currentSelectedGameObject == null || !EventSystem.current.currentSelectedGameObject.activeInHierarchy) {
+                if (button.GetComponent<Button>() != null) {
+                    button.GetComponent<Button>().Select();
+                }
+            }
             
             button.SetLevel(level);
             button.SetMapInspectPanel(mapInspector);
