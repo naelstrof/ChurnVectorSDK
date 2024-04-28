@@ -7,7 +7,7 @@ public class RandomMovement : MonoBehaviour
     public Vector3 maxPosition = new Vector3(0f, 0f, 0f);
     public float baseMovementInterval = 60f; 
     public float variance = 10f; 
-    public bool snapToNavmesh = true
+    public bool snapToNavmesh = true;
     private float timer;
     private NavMeshAgent navMeshAgent;
 
