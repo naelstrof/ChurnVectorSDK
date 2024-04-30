@@ -30,10 +30,10 @@ public abstract class CharacterDetector : CharacterBase {
     private Transform headTransform;
     private Vector3 localEyeCenter;
 
-    private const float spottedInSeconds = 2.5f;
-    private const float maxSpottedInSeconds = 6f;
-    private const float visionConeDegrees = 45f;
-    private const float maxSightDistance = 20f;
+    private const float spottedInSeconds = 1.5f;
+    private const float maxSpottedInSeconds = 5f;
+    private const float visionConeDegrees = 55f;
+    private const float maxSightDistance = 18f;
     public const float awarenessBuffer = 0.25f;
 
     private bool ignorePlayer;
@@ -168,6 +168,32 @@ public abstract class CharacterDetector : CharacterBase {
         return hits;
     }
 
+    public float GetNoticability() {
+        float visibility = 1f;
+        if (IsVoring()) {
+            visibility += 3f;
+        }
+        if ((IsSprinting() && GetBody().velocity.With(y:0f).magnitude > 0.05f) || GetBody().velocity.With(y:0f).magnitude > 4f) {
+            visibility += 1f;
+        }
+        
+        if (!grounded) {
+            visibility += 1f;
+        }
+
+        visibility += Mathf.Sqrt(1f + GetBallVolume())-1f;
+        visibility += (GetGrabbed() != null ? 2f : 0f);
+
+        visibility *= Mathf.Lerp(1f, 0.75f, GetCrouchAmount());
+        visibility *= (ticketLock.GetLocked(TicketLock.LockFlags.Kinematic) ? 0.5f : 1f);
+        
+        return Mathf.Min(visibility,GetMaxNoticability());
+    }
+
+    public float GetMaxNoticability() {
+        return 4f;
+    }
+
     private void AttemptDetect(GameObject target) {
         if (IsPlayer()) {
             return;
@@ -188,23 +214,10 @@ public abstract class CharacterDetector : CharacterBase {
         float distanceMultiplier = distanceToPlayer / maxSightDistance;
         float multiplier = Mathf.Lerp((1f-distanceMultiplier) * (1f-distanceMultiplier), 1f-distanceMultiplier, 0.25f);
 
-        if (target.TryGetComponent(out CharacterBase character)) {
-            multiplier *= Mathf.Sqrt(1f + character.GetBallVolume() * 0.1f);
-            multiplier *= (character.GetGrabbed() != null ? 2f : 1f);
-            multiplier *= (character.ticketLock.GetLocked() ? 0.5f : 1f);
+        if (target.TryGetComponent(out CharacterDetector detector)) {
+            multiplier *= detector.GetNoticability();
         } else { // Must be a condom, we detect those much faster.
             multiplier += 1f;
-        }
-
-        if (target.TryGetComponent(out CharacterBase player) && player.IsPlayer()) {
-            if (player.IsVoring()) {
-                multiplier *= 2f;
-            } else if (player.IsSprinting()) {
-                float playerSpeed = player.GetBody().velocity.magnitude;
-                multiplier *= 1f + 2f * Mathf.Clamp01(playerSpeed);
-            } else if (player.GetBallVolume() <= 1f && this is Civilian civilian && civilian.GetActor()?.IsCop() == false && !CanCockVorePlayer()) { // Civilians are less sensitive to a character trying to be sneaky
-                multiplier *= Mathf.Lerp(0.8f, 0.6f, player.GetCrouchAmount());
-            }
         }
 
         float facingAmount = (visionConeDegrees * 2f - angleFromFacingDirectionToPlayer) / visionConeDegrees;
