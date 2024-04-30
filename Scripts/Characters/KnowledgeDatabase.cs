@@ -9,6 +9,7 @@ public class KnowledgeDatabase {
     private List<Knowledge> database;
     private CharacterBase owner;
     private static KnowledgeLevel maxPlayerKnowledge;
+    private RaycastHit[] hits = new RaycastHit[32];
 
     public void ForgetImmediately(GameObject target) {
         for (int i = 0; i < database.Count; i++) {
@@ -238,7 +239,15 @@ public class KnowledgeDatabase {
         var knowledge = database[targetIndex];
 
         if (awarenessPosition.HasValue) {
-            knowledge.SetLastKnownPosition(awarenessPosition.Value);
+            int hitCount = Physics.RaycastNonAlloc(new Ray(awarenessPosition.Value, Vector3.down), hits, 10f, CharacterBase.solidWorldMask);
+            RaycastHit? nearestHit = null;
+            for (int i = 0; i < hitCount; i++) {
+                if (nearestHit == null || nearestHit.Value.distance > hits[i].distance) {
+                    nearestHit = hits[i];
+                }
+            }
+
+            knowledge.SetLastKnownPosition(nearestHit?.point ?? awarenessPosition.Value);
         }
         if (delta == 0f) {
             database[targetIndex] = knowledge;

@@ -26,12 +26,14 @@ public static class FixupOnLoad {
         }
         
         var settings = AddressableAssetSettingsDefaultObject.Settings;
-        Undo.RecordObject(settings, "Ensuring settings are set up correctly.");
-        settings.BuildRemoteCatalog = true;
-        settings.UniqueBundleIds = false;
-        settings.ShaderBundleNaming = ShaderBundleNaming.Custom;
-        settings.ShaderBundleCustomNaming = "ChurnVector";
-        settings.MonoScriptBundleNaming = MonoScriptBundleNaming.Disabled;
-        EditorUtility.SetDirty(settings);
+        if (settings != null) {
+            Undo.RecordObject(settings, "Ensuring settings are set up correctly.");
+            settings.BuildRemoteCatalog = true;
+            settings.UniqueBundleIds = false;
+            settings.ShaderBundleNaming = ShaderBundleNaming.Custom;
+            settings.ShaderBundleCustomNaming = "ChurnVector";
+            settings.MonoScriptBundleNaming = MonoScriptBundleNaming.Disabled;
+            EditorUtility.SetDirty(settings);
+        }
     }
 }
