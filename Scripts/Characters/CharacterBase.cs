@@ -484,17 +484,20 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
 
     protected virtual void Update() {
         if (!ticketLock.GetLocked(TicketLock.LockFlags.FacingDirectionLock)) {
-            Quaternion desiredRotation = QuaternionExtensions.LookRotationUpPriority(inputGenerator.GetLookDirection(), transform.up);
-            if (!IsSprinting() || body.velocity.magnitude <= 0.01f){
-                facingDirection = Quaternion.RotateTowards(facingDirection, desiredRotation, Time.deltaTime * (30f + Quaternion.Angle(facingDirection, desiredRotation) * 4f));
+            Quaternion desiredRotation;
+            if ((!IsSprinting() && grounded) || body.velocity.magnitude <= 0.01f){
+                desiredRotation = QuaternionExtensions.LookRotationUpPriority(inputGenerator.GetLookDirection(), transform.up);
+            } else {
+                if (body.velocity.magnitude < 0.05f) {
+                    desiredRotation = facingDirection;
+                } else {
+                    desiredRotation = Quaternion.LookRotation(new Vector3(body.velocity.x, 0, body.velocity.z));
+                }
             }
-            else {
-                //facingDirection = Quaternion.LookRotation(new Vector3(body.velocity.x, 0, body.velocity.z));
-                facingDirection = Quaternion.RotateTowards(facingDirection, Quaternion.LookRotation(new Vector3(body.velocity.x, 0, body.velocity.z)), Time.deltaTime * (30f + Quaternion.Angle(facingDirection, Quaternion.LookRotation(new Vector3(body.velocity.x, 0, body.velocity.z))) * 4f));
-            }
-            }
+            facingDirection = Quaternion.RotateTowards(facingDirection, desiredRotation, Time.deltaTime * (45f + Quaternion.Angle(facingDirection, desiredRotation) * 5f));
+        }
 
-            if (ticketLock.GetLocked(TicketLock.LockFlags.Kinematic)) {
+        if (ticketLock.GetLocked(TicketLock.LockFlags.Kinematic)) {
             movementChanged?.Invoke(Vector3.zero, facingDirection);
         } else {
             movementChanged?.Invoke(inputGenerator.GetWishDirection(), facingDirection);

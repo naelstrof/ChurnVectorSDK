@@ -185,13 +185,14 @@ public class Level : ScriptableObject {
         }
 
         if (worldBounds != null) {
-            var bounds = worldBounds.Value;
             int subdivisions = 1;
+            
+            var bounds = worldBounds.Value;
             float divisor = 1f / subdivisions;
             var cam = OrbitCamera.GetCamera();
             Vector3 oldPosition = cam.transform.position;
             cam.GetComponent<OrbitCamera>().enabled = false; // Disable orbitcam so it doesn't override our positions.
-            cam.GetComponent<OrbitCamera>().StopAllCoroutines();
+            cam.GetComponent<OrbitCamera>().StopAllCoroutines(); // TODO: This probably should be made into some orbitcamera functionality.
             for (float x = -bounds.extents.x; x <= bounds.extents.x; x += bounds.extents.x * divisor) {
                 for (float y = -bounds.extents.y; y <= bounds.extents.y; y += bounds.extents.y * divisor) {
                     for (float z = -bounds.extents.z; z <= bounds.extents.z; z += bounds.extents.z * divisor) {
