@@ -162,15 +162,48 @@ public class Level : ScriptableObject {
         var objectiveSetupRoutine = SetupObjectives();
         yield return cameraSetupRoutine;
         yield return objectiveSetupRoutine;
-        InitializationManager.InitializeAll();
-        yield return new WaitUntil(()=>InitializationManager.GetCurrentStage() == InitializationManager.InitializationStage.FinishedLoading);
+        var task = InitializationManager.InitializeAll();
+        yield return new WaitUntil(() => task.IsCompleted);
         
         if (FindObjectsOfType<CharacterLoader>(true).Length == 0) {
-            Debug.LogError("No character loaders found, place them to spawn the player and NPCs!");
+            Debug.LogWarning("No character loaders found, place them to spawn the player and NPCs!");
         }
 
         // Quickly do a save to write out blank objectives.
         SetCompletionStatus(false, ObjectivesDescription.GetObjectives(), 0f);
+        
+        // Now we gotta force the camera to look at a bunch of stuff, to reduce stutter during play.
+        Bounds? worldBounds = null;
+        foreach (var renderer in FindObjectsOfType<MeshRenderer>()) {
+            if (worldBounds == null) {
+                worldBounds = renderer.bounds;
+            } else {
+                var bounds = worldBounds.Value;
+                bounds.Encapsulate(renderer.bounds);
+                worldBounds = bounds;
+            }
+        }
+
+        if (worldBounds != null) {
+            int subdivisions = 1;
+            
+            var bounds = worldBounds.Value;
+            float divisor = 1f / subdivisions;
+            var cam = OrbitCamera.GetCamera();
+            Vector3 oldPosition = cam.transform.position;
+            OrbitCamera.SetPaused(true);
+            for (float x = -bounds.extents.x; x <= bounds.extents.x; x += bounds.extents.x * divisor) {
+                for (float y = -bounds.extents.y; y <= bounds.extents.y; y += bounds.extents.y * divisor) {
+                    for (float z = -bounds.extents.z; z <= bounds.extents.z; z += bounds.extents.z * divisor) {
+                        cam.transform.position = bounds.center+new Vector3(x, y, z);
+                        cam.transform.rotation = Quaternion.LookRotation((bounds.center-cam.transform.position).normalized, Vector3.up);
+                        yield return null;
+                    }
+                }
+            }
+            cam.transform.position = oldPosition;
+            OrbitCamera.SetPaused(false);
+        }
         
         // We're finally playing!
         Pauser.ForcePause(false);

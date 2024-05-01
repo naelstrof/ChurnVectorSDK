@@ -9,8 +9,6 @@ public class CustomBakeLighting : MonoBehaviour {
         #if RealtimeCSG
         RealtimeCSG.CSGModelManager.BuildLightmapUvs();
         #endif
-        NavMeshBuilder.ClearAllNavMeshes();
-        NavMeshBuilder.BuildNavMesh();
         GenerateLightProbes.Generate();
         Lightmapping.Clear();
         Lightmapping.BakeAsync();

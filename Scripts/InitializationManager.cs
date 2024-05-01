@@ -9,7 +9,7 @@ public class InitializationManager : MonoBehaviour {
     private static InitializationManager instance;
     private static Dictionary<InitializationStage,List<InitializationManagerInitialized>> trackedBehaviors = new();
     private static InitializationStage currentStage = InitializationStage.Unloaded;
-    private static Coroutine initializeRoutine = null;
+    private static Task initializeRoutine = null;
     public static InitializationStage GetCurrentStage() => currentStage;
     public enum InitializationStage {
         Unloaded,
@@ -57,10 +57,9 @@ public class InitializationManager : MonoBehaviour {
         currentStage = InitializationStage.Unloaded;
     }
 
-    public static void InitializeAll() {
-        if (initializeRoutine == null) {
-            initializeRoutine = instance.StartCoroutine(instance.InitializeAllRoutine());
-        }
+    public static Task InitializeAll() {
+        initializeRoutine ??= instance.InitializeAllRoutine();
+        return initializeRoutine;
     }
 
     private async Task InitializeStage(InitializationStage stage) {
@@ -78,15 +77,13 @@ public class InitializationManager : MonoBehaviour {
         }
     }
 
-    private IEnumerator InitializeAllRoutine() {
+    private async Task InitializeAllRoutine() {
         currentStage = InitializationStage.Unloaded;
-        yield return new WaitUntil(() => !Modding.IsLoading());
+        await Modding.GetLoadingTask();
         currentStage = InitializationStage.AfterMods;
-        var afterModsTask = InitializeStage(currentStage);
-        yield return new WaitUntil(() => afterModsTask.IsCompleted);
+        await InitializeStage(currentStage);
         currentStage = InitializationStage.AfterLevelLoad;
-        var afterLevelLoadTask = InitializeStage(currentStage);
-        yield return new WaitUntil(() => afterLevelLoadTask.IsCompleted);
+        await InitializeStage(currentStage);
         currentStage = InitializationStage.FinishedLoading;
         initializeRoutine = null;
     }

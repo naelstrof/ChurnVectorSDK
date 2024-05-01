@@ -4184,6 +4184,31 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ea83885ab4a71154dbaa21e622fec6cb
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/Extras/Blends/Kitchen/26fbx.fbx
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 83a34ddcefa08144c890b4b2383449e0
+    m_Address: Packages/com.naelstrof.flocking/FlockingProcedural.shader
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3dca0f17c6fb6174a8a3c6281cf89f34
+    m_Address: Packages/com.naelstrof.flocking/ProceduralPrimitive.mat
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 30b0268b49c86d144b7f305725d0b0bd
+    m_Address: Packages/com.naelstrof.flocking/Foliage.blend
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ac93f3feddfe1824da6ae203ffbc3cac
+    m_Address: Packages/com.naelstrof.flocking/foliagemap.png
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 45ba01601caec634d960d95861748758, type: 2}
   m_SchemaSet:

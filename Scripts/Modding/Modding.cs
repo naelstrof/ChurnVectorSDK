@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.AddressableAssets.ResourceLocators;
@@ -18,6 +20,18 @@ public class Modding : MonoBehaviour {
     private static int remainingLoads = 0;
 
     public static bool IsLoading() => loading || remainingLoads != 0;
+
+    public static Task GetLoadingTask() {
+        if (!IsLoading()) {
+            return Task.CompletedTask;
+        }
+
+        return new Task(() => {
+            while (IsLoading()) {
+                Thread.Sleep(10);
+            }
+        });
+    }
     public static IReadOnlyCollection<Mod> GetMods() {
         if (IsLoading()) {
             throw new UnityException( "Tried to get a character before modding was done... Please use the InitializationManager to ensure things are ready...");

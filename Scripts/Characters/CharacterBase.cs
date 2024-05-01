@@ -136,6 +136,7 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
 
     private Animator displayAnimator;
     private float crouchAmount = 0f;
+    private float previousCrouchAmount = 0f;
     private float originalColliderHeight;
     private Vector3 originalColliderOffset;
     //[SerializeField, SerializeReference, SerializeReferenceButton] protected InputGenerator inputGenerator;
@@ -483,8 +484,17 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
 
     protected virtual void Update() {
         if (!ticketLock.GetLocked(TicketLock.LockFlags.FacingDirectionLock)) {
-            Quaternion desiredRotation = QuaternionExtensions.LookRotationUpPriority(inputGenerator.GetLookDirection(), transform.up);
-            facingDirection = Quaternion.RotateTowards(facingDirection, desiredRotation, Time.deltaTime * (30f+Quaternion.Angle(facingDirection,desiredRotation)*4f));
+            Quaternion desiredRotation;
+            if ((!IsSprinting() && grounded) || body.velocity.magnitude <= 0.01f){
+                desiredRotation = QuaternionExtensions.LookRotationUpPriority(inputGenerator.GetLookDirection(), transform.up);
+            } else {
+                if (body.velocity.magnitude < 0.05f) {
+                    desiredRotation = facingDirection;
+                } else {
+                    desiredRotation = Quaternion.LookRotation(new Vector3(body.velocity.x, 0, body.velocity.z));
+                }
+            }
+            facingDirection = Quaternion.RotateTowards(facingDirection, desiredRotation, Time.deltaTime * (45f + Quaternion.Angle(facingDirection, desiredRotation) * 5f));
         }
 
         if (ticketLock.GetLocked(TicketLock.LockFlags.Kinematic)) {
@@ -562,7 +572,7 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
                 collider.height = Mathf.Lerp(originalColliderHeight, minimumCrouchHeight, crouchAmount);
                 collider.center = Vector3.Lerp(originalColliderOffset, originalColliderOffset - Vector3.up * ((originalColliderHeight - minimumCrouchHeight)*0.5f), crouchAmount);
             } else {
-                float previousCrouchAmount = crouchAmount;
+                previousCrouchAmount = crouchAmount;
                 crouchAmount = Mathf.MoveTowards(crouchAmount, inputGenerator.GetCrouchInput(), Time.deltaTime*3f);
                 collider.height = Mathf.Lerp(originalColliderHeight, minimumCrouchHeight, crouchAmount);
                 collider.center = Vector3.Lerp(originalColliderOffset, originalColliderOffset - Vector3.up * ((originalColliderHeight - minimumCrouchHeight)*0.5f), crouchAmount);
@@ -597,9 +607,16 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
         }
 
         if (grounded && inputGenerator.GetJumpInput() && taseCount == 0) {
-            velocity.y = 2f+(1f-crouchAmount)*4f;
+            // TODO: Probably replace this with an easier to execute jump (pressing jump while grounded, crouched, and not moving maybe gives you the bonus and uncrouches you?)
+            if (previousCrouchAmount <= crouchAmount) {
+                velocity.y = 2f + (1f - crouchAmount) * 4f;
+            } else {
+                velocity.y = 2f + (1f + crouchAmount) * 4f;
+            }
+            
             voreContainer?.OnJump(velocity.y);
             grounded = false;
+
         }
 
         if (grounded) {
@@ -607,6 +624,8 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
         }
 
         if (taseCount == 0) {
+
+            //what if wishdir itself was lerping/smooth? would that not solve things down the line?
             Vector3 wishDirection = Vector3.ProjectOnPlane(inputGenerator.GetWishDirection(), Vector3.up).normalized;
             velocity = Accelerate(velocity, wishDirection, GetMaxSpeed(), 10f, grounded, 1f);
         }

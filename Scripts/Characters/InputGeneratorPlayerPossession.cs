@@ -19,9 +19,9 @@ public class InputGeneratorPlayerPossession : InputGenerator {
     private CameraMode cameraMode = CameraMode.LeftShoulder;
     private Vector3 lastLook;
     private PlayerInput input;
+    private float toggleCrouchAmount = 0f;
     private float minCrouch = 0f;
     private float maxCrouch = 0.5f;
-    private float toggleCrouchAmount = 0f;
     private CharacterBase character;
     private Coroutine switchShoulderRoutine;
     private CatmullSpline cachedSpline;
@@ -117,9 +117,9 @@ public class InputGeneratorPlayerPossession : InputGenerator {
         
         GameObject crouchPivotObj = new GameObject("CrouchPivot", typeof(OrbitCameraPivotBasic));
         crouchPivotObj.transform.SetParent(character.transform);
-        crouchPivotObj.transform.localPosition = (headLocalPos-Vector3.down).With(x: 0f, z: 0f)*0.3f + Vector3.down;
+        crouchPivotObj.transform.localPosition = (headLocalPos).With(x: 0f, z: 0f);
         crouchPivot = crouchPivotObj.GetComponent<OrbitCameraPivotBasic>();
-        crouchPivot.SetInfo(new Vector2(0.3f, 0.12f), 1.75f, 60f);
+        crouchPivot.SetInfo(new Vector2(0.3f, 0.5f), 1.75f, 60f);
         
         GameObject buttPivotObj = new GameObject("ButtPivot", typeof(OrbitCameraPivotBasic));
         buttPivotObj.transform.SetParent(animator.GetBoneTransform(HumanBodyBones.Hips));

@@ -9,6 +9,7 @@ public class KnowledgeDatabase {
     private List<Knowledge> database;
     private CharacterBase owner;
     private static KnowledgeLevel maxPlayerKnowledge;
+    private RaycastHit[] hits = new RaycastHit[32];
 
     public void ForgetImmediately(GameObject target) {
         for (int i = 0; i < database.Count; i++) {
@@ -62,14 +63,15 @@ public class KnowledgeDatabase {
         public GameObject target;
         public float awareness;
         private float lastSeenTime;
+        public float awarenessBuffer;
 
         public bool CanRemember() => Time.time - lastSeenTime < GetMemorySpan() || keepAlive;
         private float GetMemorySpan() {
             switch (GetKnowledgeLevel()) {
                 default:
-                case KnowledgeLevel.Ignorant: return 3f;
-                case KnowledgeLevel.Investigative: return 6f;
-                case KnowledgeLevel.Alert: return 8f;
+                case KnowledgeLevel.Ignorant: return 2.5f;
+                case KnowledgeLevel.Investigative: return 3.5f;
+                case KnowledgeLevel.Alert: return 4f;
             }
         }
 
@@ -107,6 +109,7 @@ public class KnowledgeDatabase {
             this.owner = owner;
             this.target = target;
             awareness = 0f;
+            awarenessBuffer = 0f;
             lastKnownPosition = Vector3.zero;
             lastKnownMoveDirection = Vector3.forward;
             lastSeenTime = Time.time-3.1f;
@@ -146,7 +149,8 @@ public class KnowledgeDatabase {
             KnowledgeLevel lastLevel = knowledge.GetKnowledgeLevel();
             float oldAwareness = knowledge.awareness;
             if (!knowledge.CanRemember()) {
-                knowledge.awareness = Mathf.MoveTowards(knowledge.awareness, 0f, Time.deltaTime * 0.15f);
+                knowledge.awarenessBuffer = 0f;
+                knowledge.awareness = Mathf.MoveTowards(knowledge.awareness, 0f, Time.deltaTime * 0.2f);
             }
             HandleKnowledgeLevelChange(ref knowledge, lastLevel);
             if (!Mathf.Approximately(oldAwareness, knowledge.awareness)) {
@@ -235,9 +239,26 @@ public class KnowledgeDatabase {
         var knowledge = database[targetIndex];
 
         if (awarenessPosition.HasValue) {
-            knowledge.SetLastKnownPosition(awarenessPosition.Value);
+            int hitCount = Physics.RaycastNonAlloc(new Ray(awarenessPosition.Value, Vector3.down), hits, 10f, CharacterBase.solidWorldMask);
+            RaycastHit? nearestHit = null;
+            for (int i = 0; i < hitCount; i++) {
+                if (nearestHit == null || nearestHit.Value.distance > hits[i].distance) {
+                    nearestHit = hits[i];
+                }
+            }
+
+            knowledge.SetLastKnownPosition(nearestHit?.point ?? awarenessPosition.Value);
         }
         if (delta == 0f) {
+            database[targetIndex] = knowledge;
+            return knowledge;
+        }
+
+        if (knowledge.awarenessBuffer < CharacterDetector.awarenessBuffer) {
+            knowledge.awarenessBuffer += delta;
+            if (target.TryGetComponent(out CharacterBase chara)) {
+                chara.GotSeen(knowledge, owner);
+            }
             database[targetIndex] = knowledge;
             return knowledge;
         }

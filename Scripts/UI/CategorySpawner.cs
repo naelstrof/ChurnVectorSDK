@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.EventSystems;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 
@@ -61,6 +62,10 @@ public class CategorySpawner : MonoBehaviour {
         var categoryObj = Instantiate(categoryPrefab, transform);
         MapCategoryPanel panel = categoryObj.GetComponent<MapCategoryPanel>();
         panel.SetCategory(category, mapLevelSelect);
+        if (EventSystem.current.currentSelectedGameObject == null || !EventSystem.current.currentSelectedGameObject.activeInHierarchy) {
+            panel.GetComponent<Button>().Select();
+        }
+
         panel.GetComponent<Button>().onClick.AddListener(() => {
             selfPanel.SetActive(false);
             activatePanel.SetActive(true);
