@@ -12,8 +12,6 @@ public class ActionSearch : Action {
     private Vector3 lastKnownPosition;
     private GameObject target;
     private List<Vector3> searchPositions;
-    private float startTime;
-    private bool searching;
     private float overrideDistanceSearch;
     private bool keepMemoryAlive;
     private int failures;
@@ -35,7 +33,6 @@ public class ActionSearch : Action {
             actor.KeepMemoryAlive(target, true);
         }
         // Five fork fan search, ping pong'd
-        startTime = Time.time;
         if (NavMesh.SamplePosition(lastKnownPosition, out NavMeshHit firstHit, 2f, NavMesh.AllAreas)) {
             Debug.DrawRay(firstHit.position, Vector3.up, Color.white, 10f);
             searchPositions.Add(firstHit.position);
@@ -60,18 +57,9 @@ public class ActionSearch : Action {
             return new ActionTransitionDone("Found them!");
         }
 
-        if (searching && Time.time-startTime < 2f) {
-            // Looking around a little.
-            return continueWork;
-        } else {
-            searching = false;
-        }
-
         if (Vector3.Distance(searchPositions[currentPoint], actor.transform.TransformPoint(Vector3.down)) < 0.25f) {
             currentPoint++;
-            searching = true;
-            startTime = Time.time;
-            return continueWork;
+            return new ActionTransitionSuspendFor(new LookLeftAndRight(), "Looking around!");
         }
         return new ActionTransitionSuspendFor(new FollowPathToPoint(searchPositions[currentPoint], Vector3.down, 0.1f), "Moving toward this spot, memory: " + keepMemoryAlive);
     }

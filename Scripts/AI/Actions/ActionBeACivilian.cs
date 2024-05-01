@@ -49,9 +49,12 @@ namespace ActorActions {
                     if (knowledgeChanged.GetKnowledge().target.TryGetComponent(out CharacterBase character) && character.IsPlayer()) {
                         switch (knowledgeChanged.GetKnowledge().GetKnowledgeLevel()) {
                             case KnowledgeDatabase.KnowledgeLevel.Investigative:
-                                return new ActionEventResponseTransition(new ActionTransitionSuspendFor(
-                                    new Investigate(knowledgeChanged.GetKnowledge().target),
-                                    "What's going on over there?"));
+                                if (Random.Range(0f, 1f) < 0.5f) {
+                                    return new ActionEventResponseTransition( new ActionTransitionSuspendFor( new Investigate(knowledgeChanged.GetKnowledge().target), "What's going on over there?"));
+                                } else {
+                                    knowledgeChanged.GetKnowledge().TryGetLastKnownDirection(out Vector3 dir);
+                                    return new ActionEventResponseTransition( new ActionTransitionSuspendFor(new ActionTurnToFaceDirection(dir, 5f), "What's going on over there?"));
+                                }
                             case KnowledgeDatabase.KnowledgeLevel.Alert:
                                 return new ActionEventResponseTransition(new ActionTransitionSuspendFor(new GetSurprised(character.gameObject, new ActionRunAway(character.gameObject)),
                                     "is that.. that's cockvore!!"));

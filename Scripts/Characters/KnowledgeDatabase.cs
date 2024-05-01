@@ -70,8 +70,8 @@ public class KnowledgeDatabase {
             switch (GetKnowledgeLevel()) {
                 default:
                 case KnowledgeLevel.Ignorant: return 2.5f;
-                case KnowledgeLevel.Investigative: return 3.5f;
-                case KnowledgeLevel.Alert: return 4f;
+                case KnowledgeLevel.Investigative: return 4f;
+                case KnowledgeLevel.Alert: return 6f;
             }
         }
 

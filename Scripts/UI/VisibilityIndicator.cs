@@ -24,6 +24,7 @@ public class VisibilityIndicator : MonoBehaviour {
     }
 
     private void OnPlayerDisabled(CharacterBase player) {
+        hasPlayer = false;
         this.player = null;
     }
 

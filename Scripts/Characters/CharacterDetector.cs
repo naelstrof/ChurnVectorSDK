@@ -30,11 +30,11 @@ public abstract class CharacterDetector : CharacterBase {
     private Transform headTransform;
     private Vector3 localEyeCenter;
 
-    private const float spottedInSeconds = 1.5f;
-    private const float maxSpottedInSeconds = 5f;
+    private const float spottedInSeconds = 1.4f;
+    private const float maxSpottedInSeconds = 4f;
     private const float visionConeDegrees = 55f;
     private const float maxSightDistance = 18f;
-    public const float awarenessBuffer = 0.25f;
+    public const float awarenessBuffer = 0.3f;
 
     private bool ignorePlayer;
 
@@ -169,7 +169,7 @@ public abstract class CharacterDetector : CharacterBase {
     }
 
     public float GetNoticability() {
-        float visibility = 1f;
+        float visibility = 1.25f;
         if (IsVoring()) {
             visibility += 3f;
         }
