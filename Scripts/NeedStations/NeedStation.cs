@@ -49,6 +49,8 @@ public class NeedStation : InitializationManagerInitialized, IInteractable {
     [SerializeField] private IKTarget[] ikTargets;
     [SerializeField] private bool hidesUser = false;
     [SerializeField] private bool escape = false;
+    [SerializeField] private bool requiresPrimary = false;
+    [SerializeField] private bool singleUse = false;
     [SerializeField] private List<CharacterGroup> validGroups;
     
     public class NeedStationInfo : MonoBehaviour {
@@ -137,7 +139,7 @@ public class NeedStation : InitializationManagerInitialized, IInteractable {
             Debug.DrawLine(origin, raycastHits[i].point, Color.red);
             return false;
         }*/
-        if (escape && !ObjectiveManager.HasCompletedObjectives()) {
+        if ((requiresPrimary && !ObjectiveManager.HasCompletedObjectives()) || (singleUse && activated)) {
             return false;
         }
 
