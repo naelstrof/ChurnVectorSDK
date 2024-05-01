@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Animations;
+using UnityEngine.Serialization;
 
 public class NeedStation : InitializationManagerInitialized, IInteractable {
     [SerializeField, SerializeReference, SubclassSelector]
@@ -49,7 +50,7 @@ public class NeedStation : InitializationManagerInitialized, IInteractable {
     [SerializeField] private IKTarget[] ikTargets;
     [SerializeField] private bool hidesUser = false;
     [SerializeField] private bool escape = false;
-    [SerializeField] private bool requiresPrimary = false;
+    [FormerlySerializedAs("requiresPrimary")] [SerializeField] private bool requiresPrimaryObjectivesCompleted = false;
     [SerializeField] private bool singleUse = false;
     [SerializeField] private List<CharacterGroup> validGroups;
     
@@ -139,7 +140,7 @@ public class NeedStation : InitializationManagerInitialized, IInteractable {
             Debug.DrawLine(origin, raycastHits[i].point, Color.red);
             return false;
         }*/
-        if ((requiresPrimary && !ObjectiveManager.HasCompletedObjectives()) || (singleUse && activated)) {
+        if ((requiresPrimaryObjectivesCompleted && !ObjectiveManager.HasCompletedObjectives()) || (singleUse && activated)) {
             return false;
         }
 
