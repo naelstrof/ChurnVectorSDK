@@ -568,11 +568,20 @@ public class CharacterAnimatorController : MonoBehaviour {
         }
     }
 
-    private void OnMovementChanged(Vector3 wishDirection, Quaternion facingDirection) {
+    private Vector3 accelerationVel;
+    private Vector3 dampedAcceleration;
+    private void OnMovementChanged(Vector3 wishDirection, Vector3 acceleration, Quaternion facingDirection) {
         if (character.IsBeingVored()) {
             return;
         }
-        transform.rotation = facingDirection;
+
+        dampedAcceleration = Vector3.SmoothDamp(dampedAcceleration, acceleration, ref accelerationVel, 0.1f);
+        var rotationAxis = Vector3.Cross(dampedAcceleration, Vector3.up);
+        if (rotationAxis != Vector3.zero) {
+            transform.rotation = Quaternion.AngleAxis(-rotationAxis.magnitude*10f, rotationAxis.normalized) * facingDirection;
+        } else {
+            transform.rotation = facingDirection;
+        }
     }
 
     private void OnCockCockVoreStart(CockVoreMachine.VoreStatus status) {
