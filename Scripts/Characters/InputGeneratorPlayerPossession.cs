@@ -88,14 +88,14 @@ public class InputGeneratorPlayerPossession : InputGenerator {
     private OrbitCameraConfiguration CreateFPSConfig(CharacterBase character) {
         var animator = character.GetDisplayAnimator();
         GameObject headPivotObj = new GameObject("FPSPivot", typeof(OrbitCameraPivotBasic));
-        headPivotObj.transform.SetParent(animator.transform, false);
-        headPivotObj.transform.position = animator.GetBoneTransform(HumanBodyBones.Head).position + animator.transform.forward * 0.2f + animator.transform.up * 0.1f;
+        headPivotObj.transform.SetParent(character.transform, false);
+        headPivotObj.transform.position = animator.GetBoneTransform(HumanBodyBones.Head).position + character.transform.forward * 0.2f + character.transform.up * 0.1f;
         var fpsPivot = headPivotObj.GetComponent<OrbitCameraPivotBasic>();
         fpsPivot.SetInfo(new Vector2(0.5f, 0f), 0.01f, 65f);
         
         GameObject crouchPivotObj = new GameObject("FPSCrouchPivot", typeof(OrbitCameraPivotBasic));
-        crouchPivotObj.transform.SetParent(animator.transform, false);
-        crouchPivotObj.transform.position = animator.GetBoneTransform(HumanBodyBones.Head).position + animator.transform.forward * 0.5f - animator.transform.up * 0.35f;
+        crouchPivotObj.transform.SetParent(character.transform, false);
+        crouchPivotObj.transform.position = animator.GetBoneTransform(HumanBodyBones.Head).position + character.transform.forward * 0.5f - character.transform.up * 0.35f;
         var fpsCrouchPivot = crouchPivotObj.GetComponent<OrbitCameraPivotBasic>();
         fpsCrouchPivot.SetInfo(new Vector2(0.5f, 0.5f), 0.01f, 65f);
         
@@ -331,6 +331,10 @@ public class InputGeneratorPlayerPossession : InputGenerator {
     public override Vector3 GetLookDirection() {
         if (GetWishDirection().magnitude > 0.1f || GetAimingWeapon() || currentConfiguration == fpsConfig) {
             lastLook = OrbitCamera.GetPlayerIntendedRotation() * Vector3.forward;
+        }
+
+        if ((GetSprint() || !character.GetGrounded()) && !(character.GetBody().velocity.magnitude <= 0.01f) && cameraMode != CameraMode.FPS) {
+            lastLook = character.GetBody().velocity.With(y: 0f).normalized;
         }
 
         return lastLook;

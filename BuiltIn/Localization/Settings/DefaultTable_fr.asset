@@ -1369,7 +1369,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 87612992032677888
-    m_Localized: "Campagne de vecteur de d\xE9sabonnement"
+    m_Localized: "Campagne de d\xE9sabonnement"
     m_Metadata:
       m_Items: []
   - m_Id: 87612992032677889
@@ -1390,8 +1390,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 87755815642013696
-    m_Localized: "Erreur fatale en essayant d'installer les mods. V\xE9rifiez les
-      erreurs dans le journal."
+    m_Localized: "Erreur fatale lors de la tentative d'installation des mods. V\xE9rifiez
+      les erreurs dans le journal."
     m_Metadata:
       m_Items: []
   - m_Id: 89611307746140160
@@ -1428,7 +1428,7 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 89611307767111687
     m_Localized: "Je me suis tellement amus\xE9 la derni\xE8re fois que je dois juste
-      lui rendre la pareille\_!"
+      rendre la pareille\_!"
     m_Metadata:
       m_Items: []
   - m_Id: 89611307767111688
@@ -1453,6 +1453,19 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 89611307783888899
     m_Localized: "\xC9vadez-vous par l'entr\xE9e principale,"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102517513796001792
+    m_Localized: La tour
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102517513821167616
+    m_Localized: "Une mont\xE9e au sommet !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102525622698450944
+    m_Localized: "Wow, c'\xE9tait une surprise, content que vous leur ayez laiss\xE9
+      tomber. Nous essaierons de n\xE9gocier une prime de risque pour vous."
     m_Metadata:
       m_Items: []
   references:

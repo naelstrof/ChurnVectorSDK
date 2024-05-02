@@ -37,7 +37,7 @@ public class ActionFight : Action {
     public override ActionTransition Update(Actor actor) {
         var knowledge = actor.GetKnowledgeOf(target.gameObject);
         if (knowledge.GetKnowledgeLevel() == KnowledgeDatabase.KnowledgeLevel.Ignorant) {
-            return new ActionTransitionChangeTo(new DoNothing(5f),"I think I lost them...");
+            return new ActionTransitionChangeTo(new LookLeftAndRight(),"I think I lost them...");
         }
         knowledge.TryGetLastKnownDirection(out Vector3 lastKnownDirection);
         if (!knowledge.TryGetLastKnownPosition(out Vector3 lastKnownPosition)) {
@@ -46,7 +46,7 @@ public class ActionFight : Action {
                 return new ActionTransitionSuspendFor(
                     new ActionSearch(target.gameObject, lastKnownPosition, lastKnownDirection, true, 0), "Where'd they go?");
             } else {
-                return new ActionTransitionSuspendFor(new DoNothing(1f), "I lost them...");
+                return new ActionTransitionSuspendFor(new LookLeftAndRight(), "I lost them...");
             }
         }
         

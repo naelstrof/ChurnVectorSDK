@@ -757,7 +757,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511315
-    m_Localized: Cosa...
+    m_Localized: Che cosa...
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511316
@@ -1124,7 +1124,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547840
-    m_Localized: "Lo squalo \xE8 imbarazzato dai loro interessi, il cazzo li vomita
+    m_Localized: "Lo squalo \xE8 imbarazzato dai loro interessi, il gallo li vomita
       con discrezione."
     m_Metadata:
       m_Items: []
@@ -1368,7 +1368,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 87755815612653568
-    m_Localized: "Il download delle mod \xE8 ancora in corso... Attendi prego."
+    m_Localized: "Il download delle mod \xE8 ancora in corso... Attendi."
     m_Metadata:
       m_Items: []
   - m_Id: 87755815642013696
@@ -1436,6 +1436,19 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 89611307783888899
     m_Localized: Fuggi dall'ingresso principale,
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102517513796001792
+    m_Localized: Torre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102517513821167616
+    m_Localized: Una scalata verso l'alto!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102525622698450944
+    m_Localized: "Wow, \xE8 stata una sorpresa, sono felice che tu li abbia lasciati
+      scappare. Cercheremo di negoziare una indennit\xE0 di rischio per te."
     m_Metadata:
       m_Items: []
   references:

@@ -904,7 +904,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511353
-    m_Localized: "Du f\xFChlst dich dort unten so gut~"
+    m_Localized: "Du f\xFChlst dich dort unten so gut"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511354
@@ -1136,7 +1136,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547843
-    m_Localized: "Lassen Sie sich nicht von der B\xFCrosicherheit erwischen!"
+    m_Localized: "Lassen Sie sich nicht vom Sicherheitsdienst des B\xFCros erwischen!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547844
@@ -1363,7 +1363,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 87612992032677891
-    m_Localized: Verschiedene Levels durch die Community!
+    m_Localized: Verschiedene Levels von der Community!
     m_Metadata:
       m_Items: []
   - m_Id: 87755815612653568
@@ -1434,6 +1434,19 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 89611307783888899
     m_Localized: Flucht durch den Haupteingang,
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102517513796001792
+    m_Localized: Turm
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102517513821167616
+    m_Localized: Ein Aufstieg nach oben!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102525622698450944
+    m_Localized: "Wow, das war eine \xDCberraschung. Ich bin froh, dass du ihnen
+      entwischt bist. Wir werden versuchen, f\xFCr Sie eine Gefahrenzulage auszuhandeln."
     m_Metadata:
       m_Items: []
   references:

@@ -57,8 +57,9 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
     public Quaternion GetFacingDirection() => facingDirection;
     public Vector3 GetLookDirection() => inputGenerator.GetLookDirection();
     public void SetFacingDirection(Quaternion facingDirection) => this.facingDirection = facingDirection;
+    private Vector3 oldVelocity;
     private bool wasGrounded;
-    public delegate void MovementChangeAction(Vector3 wishDirection, Quaternion facingDirection);
+    public delegate void MovementChangeAction(Vector3 wishDirection, Vector3 acceleration, Quaternion facingDirection);
 
     public delegate void GrabbedOtherAction(IInteractable other);
 
@@ -484,23 +485,14 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
 
     protected virtual void Update() {
         if (!ticketLock.GetLocked(TicketLock.LockFlags.FacingDirectionLock)) {
-            Quaternion desiredRotation;
-            if ((!IsSprinting() && grounded) || body.velocity.magnitude <= 0.01f){
-                desiredRotation = QuaternionExtensions.LookRotationUpPriority(inputGenerator.GetLookDirection(), transform.up);
-            } else {
-                if (body.velocity.magnitude < 0.05f) {
-                    desiredRotation = facingDirection;
-                } else {
-                    desiredRotation = Quaternion.LookRotation(new Vector3(body.velocity.x, 0, body.velocity.z));
-                }
-            }
-            facingDirection = Quaternion.RotateTowards(facingDirection, desiredRotation, Time.deltaTime * (45f + Quaternion.Angle(facingDirection, desiredRotation) * 5f));
+            Quaternion desiredRotation = QuaternionExtensions.LookRotationUpPriority(inputGenerator.GetLookDirection(), transform.up);
+            facingDirection = Quaternion.RotateTowards(facingDirection, desiredRotation, Time.deltaTime * (90f + Quaternion.Angle(facingDirection, desiredRotation) * 10f));
         }
 
         if (ticketLock.GetLocked(TicketLock.LockFlags.Kinematic)) {
-            movementChanged?.Invoke(Vector3.zero, facingDirection);
+            movementChanged?.Invoke(Vector3.zero, Vector3.zero, facingDirection);
         } else {
-            movementChanged?.Invoke(inputGenerator.GetWishDirection(), facingDirection);
+            movementChanged?.Invoke(inputGenerator.GetWishDirection(), accelerationThisFrame, facingDirection);
         }
 
         if (grabbedInteractable != null) {
@@ -551,6 +543,7 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
         return false;
     }
 
+    private Vector3 accelerationThisFrame;
     protected virtual void FixedUpdate() {
         if (grabbedInteractable != null) {
             Vector3 diff = body.position - grabbedInteractable.transform.position;
@@ -589,10 +582,12 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
             return;
         }
         // Rotate towards facingDirection
-        Vector3 rotationNeeded = Vector3.Cross(GetFacingDirection() * Vector3.forward, body.rotation * Vector3.forward);
-        body.angularVelocity = new Vector3(rotationNeeded.x, rotationNeeded.y, rotationNeeded.z)*10f;
+        Vector3 rotationNeeded = Vector3.Cross(body.rotation * Vector3.forward, GetFacingDirection() * Vector3.forward);
+        body.angularVelocity = new Vector3(rotationNeeded.x, rotationNeeded.y, rotationNeeded.z)*20f;
         
         Vector3 velocity = body.velocity;
+        accelerationThisFrame = velocity-oldVelocity;
+        oldVelocity = velocity;
         grounded = IsGrounded(out float groundDistance, out Vector3 groundNormal, wasGrounded, GetRaytraceQuality()) && (Vector3.Dot(velocity, Physics.gravity.normalized) > 0f || wasGrounded);
 
         if (!wasGrounded && grounded)
@@ -624,7 +619,6 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
         }
 
         if (taseCount == 0) {
-
             //what if wishdir itself was lerping/smooth? would that not solve things down the line?
             Vector3 wishDirection = Vector3.ProjectOnPlane(inputGenerator.GetWishDirection(), Vector3.up).normalized;
             velocity = Accelerate(velocity, wishDirection, GetMaxSpeed(), 10f, grounded, 1f);

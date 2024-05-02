@@ -251,7 +251,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 27565149668298755
-    m_Localized: "Sjekk din HUD for m\xE5lene dine."
+    m_Localized: "Sjekk HUD for dine m\xE5l."
     m_Metadata:
       m_Items: []
   - m_Id: 27565149668298756
@@ -732,7 +732,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511307
-    m_Localized: For helvete bedrift...
+    m_Localized: Jammen bedrift...
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511310
@@ -780,7 +780,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511321
-    m_Localized: Vel, det ser vel ut hvem som slakter seg!
+    m_Localized: Vel, det ser ut hvem som slakter seg!
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511322
@@ -788,11 +788,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511323
-    m_Localized: Haha, jeg gir deg ingen bekymringer.
+    m_Localized: Haha, jeg skal ikke bekymre deg.
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511324
-    m_Localized: Vel, det ser vel ut hvem som slakter seg!
+    m_Localized: Vel, det ser ut hvem som slakter seg!
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511325
@@ -1146,7 +1146,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547846
-    m_Localized: "Head tech plassert i side power room \xF8nsker en pause fra jobben."
+    m_Localized: "Head tech plassert i sidekraftrommet \xF8nsker en pause fra jobben."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547847
@@ -1159,7 +1159,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547849
-    m_Localized: CV Office Manager Kenguru!
+    m_Localized: CV Office Manager Kengaroo!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547850
@@ -1185,7 +1185,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547855
-    m_Localized: CV prestrotten!
+    m_Localized: CV prestrotta!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547856
@@ -1198,8 +1198,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547858
-    m_Localized: "En vitenskapsmann som befinner seg i det gr\xF8nne omr\xE5det vil
-      at du skal gi dem vitenskap!"
+    m_Localized: "En vitenskapsmann i det gr\xF8nne omr\xE5det vil at du skal gi
+      dem vitenskap!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547859
@@ -1207,8 +1207,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547860
-    m_Localized: "Kj\xF8kkensjefen vil at du skal hjelpe dem med \xE5 pr\xF8ve ut
-      en ny ingrediens ved \xE5 gj\xF8re dem om til den!"
+    m_Localized: "Kokken vil at du skal hjelpe dem \xE5 pr\xF8ve ut en ny ingrediens
+      ved \xE5 gj\xF8re dem om til den!"
     m_Metadata:
       m_Items: []
   - m_Id: 59064884090425344
@@ -1261,8 +1261,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 60147729936470016
-    m_Localized: "God arbeidsagent, hai-sjefen er angivelig mye hyggeligere etter
-      \xE5 ha f\xE5tt knekkene sine. Vi gjorde verden k\xE5tere, ett m\xE5l om gangen!"
+    m_Localized: "God arbeidsagent, hai-sjefen er etter sigende mye hyggeligere etter
+      \xE5 ha unntatt kinkene sine. Vi gjorde verden k\xE5tere, ett m\xE5l om gangen!"
     m_Metadata:
       m_Items: []
   - m_Id: 60147729965830144
@@ -1301,7 +1301,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 60181309914968066
-    m_Localized: "Oppbevar et kondom som inneholder vaktmesteren p\xE5 badet i hovedgangen."
+    m_Localized: "Lagre et kondom som inneholder vaktmesteren p\xE5 badet i hovedgangen."
     m_Metadata:
       m_Items: []
   - m_Id: 60288126066192384
@@ -1338,7 +1338,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49239933124661251
-    m_Localized: "Det er s\xE5 varmt!"
+    m_Localized: "Den er s\xE5 varm!"
     m_Metadata:
       m_Items: []
   - m_Id: 87612992032677888
@@ -1379,7 +1379,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 89611307767111682
-    m_Localized: "Det er helg s\xE5 det burde v\xE6re knapt noen her"
+    m_Localized: "Det er helg, s\xE5 det burde v\xE6re knapt noen her"
     m_Metadata:
       m_Items: []
   - m_Id: 89611307767111683
@@ -1424,6 +1424,19 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 89611307783888899
     m_Localized: "R\xF8m gjennom hovedinngangen,"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102517513796001792
+    m_Localized: "T\xE5rn"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102517513821167616
+    m_Localized: En klatring til toppen!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102525622698450944
+    m_Localized: "Wow det var en overraskelse, glad du ga dem lappen. Vi vil pr\xF8ve
+      \xE5 forhandle om noen farel\xF8nn for deg."
     m_Metadata:
       m_Items: []
   references:

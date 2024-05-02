@@ -37,14 +37,14 @@ namespace AI.Actions {
                     return new ActionTransitionSuspendFor(new ActionSearch(target, knownPosition, knownDirection, true, 0), "I think they went this way.");
                 }
                 if (!knowledge.TryGetLastKnownPosition(out knownPosition) || !NavMesh.SamplePosition(knownPosition, out NavMeshHit hit, FollowPathToPoint.maxDistanceFromNavmesh, NavMesh.AllAreas)) {
-                    return new ActionTransitionSuspendFor(new DoNothing(1f), "Swear I saw something...");
+                    return new ActionTransitionSuspendFor(new LookLeftAndRight(), "Swear I saw something...");
                 }
                 if (Vector3.Distance(actor.gameObject.transform.position, hit.position) > 1.1f) {
                     return new ActionTransitionSuspendFor(new FollowPathToPoint(hit.position, Vector3.down),
                         "Going to go check out where I last saw them...");
                 }
             }
-            return new ActionTransitionSuspendFor(new DoNothing(1f), "Swear I saw something...");
+            return new ActionTransitionSuspendFor(new LookLeftAndRight(), "Swear I saw something...");
         }
 
         public override ActionTransition OnStart(Actor actor) {

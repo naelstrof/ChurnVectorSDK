@@ -741,7 +741,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511311
-    m_Localized: Laten we je terugbrengen
+    m_Localized: Laten we je terughalen
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511312
@@ -1187,7 +1187,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547855
-    m_Localized: CV de priesterrat!
+    m_Localized: CV de Priester Rat!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547856
@@ -1299,7 +1299,7 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 60181309914968064
     m_Localized: Berg een condoom met daarin het hoofd van de beveiliging op in de
-      beveiligingskleedkamer.
+      veiligheidskleedkamer.
     m_Metadata:
       m_Items: []
   - m_Id: 60181309914968065
@@ -1424,7 +1424,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 89611307767111689
-    m_Localized: Het is een val! Agent, ga daar weg!
+    m_Localized: Het is een val! Agent, ga weg!
     m_Metadata:
       m_Items: []
   - m_Id: 89611307783888896
@@ -1441,6 +1441,19 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 89611307783888899
     m_Localized: Ontsnap via de hoofdingang,
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102517513796001792
+    m_Localized: Toren
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102517513821167616
+    m_Localized: Een klim naar de top!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102525622698450944
+    m_Localized: Wauw, dat was een verrassing, blij dat je ze de slip hebt gegeven.
+      We zullen proberen een risicovergoeding voor u te onderhandelen.
     m_Metadata:
       m_Items: []
   references:

@@ -1480,6 +1480,19 @@ MonoBehaviour:
     m_Localized: Escape through the main entrance,
     m_Metadata:
       m_Items: []
+  - m_Id: 102517513796001792
+    m_Localized: Tower
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102517513821167616
+    m_Localized: A climb to the top!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102525622698450944
+    m_Localized: Wow that was a surprise, glad you gave them the slip. We'll try
+      to negotiate some hazard pay for you.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
