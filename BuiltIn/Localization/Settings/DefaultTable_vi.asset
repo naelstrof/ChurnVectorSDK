@@ -1524,6 +1524,13 @@ MonoBehaviour:
     m_Localized: "M\u1ED9t cu\u1ED9c leo l\xEAn \u0111\u1EC9nh cao!"
     m_Metadata:
       m_Items: []
+  - m_Id: 102525622698450944
+    m_Localized: "\u1ED2, th\u1EADt l\xE0 b\u1EA5t ng\u1EDD, r\u1EA5t vui v\xEC b\u1EA1n
+      \u0111\xE3 b\u1ECF qua cho h\u1ECD. Ch\xFAng t\xF4i s\u1EBD c\u1ED1 g\u1EAFng
+      th\u01B0\u01A1ng l\u01B0\u1EE3ng m\u1ED9t s\u1ED1 kho\u1EA3n chi tr\u1EA3 r\u1EE7i
+      ro cho b\u1EA1n."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

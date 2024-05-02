@@ -1446,6 +1446,11 @@ MonoBehaviour:
     m_Localized: Una scalata verso l'alto!
     m_Metadata:
       m_Items: []
+  - m_Id: 102525622698450944
+    m_Localized: "Wow, \xE8 stata una sorpresa, sono felice che tu li abbia lasciati
+      scappare. Cercheremo di negoziare una indennit\xE0 di rischio per te."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

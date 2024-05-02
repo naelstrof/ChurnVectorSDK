@@ -1456,6 +1456,11 @@ MonoBehaviour:
     m_Localized: "V\xFDstup na vrchol!"
     m_Metadata:
       m_Items: []
+  - m_Id: 102525622698450944
+    m_Localized: "P\xE1ni, to bylo p\u0159ekvapen\xED, jsem r\xE1d, \u017Ee jsi jim
+      dal skluz. Pokus\xEDme se pro v\xE1s vyjednat n\u011Bjakou rizikovou odm\u011Bnu."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

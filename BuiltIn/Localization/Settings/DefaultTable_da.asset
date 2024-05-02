@@ -1439,6 +1439,11 @@ MonoBehaviour:
     m_Localized: En stigning til toppen!
     m_Metadata:
       m_Items: []
+  - m_Id: 102525622698450944
+    m_Localized: "Wow det var en overraskelse, glad for at du gav dem lappen. Vi
+      vil fors\xF8ge at forhandle en risikobetaling for dig."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

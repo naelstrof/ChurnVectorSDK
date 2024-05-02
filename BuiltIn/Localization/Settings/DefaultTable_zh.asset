@@ -1418,6 +1418,10 @@ MonoBehaviour:
     m_Localized: "\u6500\u767B\u9876\u5CF0\uFF01"
     m_Metadata:
       m_Items: []
+  - m_Id: 102525622698450944
+    m_Localized: "\u54C7\uFF0C\u771F\u662F\u4E00\u4E2A\u60CA\u559C\uFF0C\u5F88\u9AD8\u5174\u4F60\u7ED9\u4E86\u4ED6\u4EEC\u8FD9\u5F20\u7EB8\u6761\u3002\u6211\u4EEC\u5C06\u5C3D\u529B\u4E3A\u60A8\u534F\u5546\u4E00\u4E9B\u5371\u9669\u6D25\u8D34\u3002"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

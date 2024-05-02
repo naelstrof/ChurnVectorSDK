@@ -1463,6 +1463,11 @@ MonoBehaviour:
     m_Localized: "Une mont\xE9e au sommet !"
     m_Metadata:
       m_Items: []
+  - m_Id: 102525622698450944
+    m_Localized: "Wow, c'\xE9tait une surprise, content que vous leur ayez laiss\xE9
+      tomber. Nous essaierons de n\xE9gocier une prime de risque pour vous."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

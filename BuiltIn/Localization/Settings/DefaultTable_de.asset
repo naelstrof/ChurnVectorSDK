@@ -1444,6 +1444,11 @@ MonoBehaviour:
     m_Localized: Ein Aufstieg nach oben!
     m_Metadata:
       m_Items: []
+  - m_Id: 102525622698450944
+    m_Localized: "Wow, das war eine \xDCberraschung. Ich bin froh, dass du ihnen
+      entwischt bist. Wir werden versuchen, f\xFCr Sie eine Gefahrenzulage auszuhandeln."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

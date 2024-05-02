@@ -1453,6 +1453,11 @@ MonoBehaviour:
     m_Localized: "\xA1Una subida a la cima!"
     m_Metadata:
       m_Items: []
+  - m_Id: 102525622698450944
+    m_Localized: Vaya, eso fue una sorpresa, me alegro de que se les haya escapado.
+      Intentaremos negociar alguna prima por riesgo para usted.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

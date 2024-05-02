@@ -1455,6 +1455,12 @@ MonoBehaviour:
     m_Localized: Wspinaczka na szczyt!
     m_Metadata:
       m_Items: []
+  - m_Id: 102525622698450944
+    m_Localized: "Wow, to by\u0142a niespodzianka, ciesz\u0119 si\u0119, \u017Ce
+      im si\u0119 wymkn\u0119\u0142a\u015B. Spr\xF3bujemy wynegocjowa\u0107 dla Ciebie
+      wynagrodzenie za ryzyko."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

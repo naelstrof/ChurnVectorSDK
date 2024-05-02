@@ -1448,6 +1448,12 @@ MonoBehaviour:
     m_Localized: "M\xE1sz\xE1s a cs\xFAcsra!"
     m_Metadata:
       m_Items: []
+  - m_Id: 102525622698450944
+    m_Localized: "H\xFA, ez meglepet\xE9s volt, \xF6r\xFCl\xF6k, hogy \xE1tadtad
+      nekik a c\xE9dul\xE1t. Megpr\xF3b\xE1lunk kialkudni \xD6nnek egy kis kock\xE1zati
+      fizet\xE9st."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

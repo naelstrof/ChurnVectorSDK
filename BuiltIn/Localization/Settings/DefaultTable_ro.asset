@@ -1454,6 +1454,11 @@ MonoBehaviour:
     m_Localized: "O urcare \xEEn v\xE2rf!"
     m_Metadata:
       m_Items: []
+  - m_Id: 102525622698450944
+    m_Localized: "Wow, asta a fost o surpriz\u0103, m\u0103 bucur c\u0103 le-ai dat
+      balonul. Vom \xEEncerca s\u0103 negociem o plat\u0103 de risc pentru tine."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -1434,6 +1434,11 @@ MonoBehaviour:
     m_Localized: En klatring til toppen!
     m_Metadata:
       m_Items: []
+  - m_Id: 102525622698450944
+    m_Localized: "Wow det var en overraskelse, glad du ga dem lappen. Vi vil pr\xF8ve
+      \xE5 forhandle om noen farel\xF8nn for deg."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

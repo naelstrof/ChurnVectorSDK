@@ -1451,6 +1451,11 @@ MonoBehaviour:
     m_Localized: Een klim naar de top!
     m_Metadata:
       m_Items: []
+  - m_Id: 102525622698450944
+    m_Localized: Wauw, dat was een verrassing, blij dat je ze de slip hebt gegeven.
+      We zullen proberen een risicovergoeding voor u te onderhandelen.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

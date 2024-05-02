@@ -1444,6 +1444,11 @@ MonoBehaviour:
     m_Localized: Nousu huipulle!
     m_Metadata:
       m_Items: []
+  - m_Id: 102525622698450944
+    m_Localized: "Vau, se oli yll\xE4tys, iloinen, ett\xE4 annoit heille lipun. Yrit\xE4mme
+      neuvotella sinulle riskikorvauksen."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
