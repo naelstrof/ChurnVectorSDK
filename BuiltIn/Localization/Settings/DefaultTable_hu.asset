@@ -693,7 +693,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511297
-    m_Localized: nem, nem!
+    m_Localized: nem, neeeee!
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511298
@@ -725,7 +725,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511305
-    m_Localized: "V\xE1rj, azt hittem, hogy a fekv\u0151t\xE1masz visszateszi a ruh\xE1imat?"
+    m_Localized: "V\xE1rj, azt hittem, a fekv\u0151t\xE1masz visszateszi a ruh\xE1imat?"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511306
@@ -797,7 +797,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511325
-    m_Localized: "Eln\xE9z\xE9st, h\xF6lgyem."
+    m_Localized: "Eln\xE9z\xE9st, asszonyom."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511326
@@ -833,7 +833,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511335
-    m_Localized: "Elolvadt m\xE1r?"
+    m_Localized: "M\xE1r elolvadt?"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511336
@@ -897,7 +897,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511351
-    m_Localized: Pont ahova tartozol~
+    m_Localized: "Ahov\xE1 tartozol~"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511352
@@ -1027,7 +1027,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511355
-    m_Localized: Van teher nekem?
+    m_Localized: "Van terhel\xE9sem?"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511356
@@ -1047,7 +1047,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511360
-    m_Localized: Legyen gyorsan, van hol lenni.
+    m_Localized: Legyen gyors, van hol legyek.
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511361
@@ -1059,7 +1059,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511363
-    m_Localized: "Van valakivel, akivel tal\xE1lkozhatok."
+    m_Localized: "Van valaki, akivel tal\xE1lkozhatok."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511364
@@ -1138,12 +1138,12 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547843
-    m_Localized: "Ne ragadja meg mag\xE1t az Office biztons\xE1ga!"
+    m_Localized: "Ne ragadjon meg az Office biztons\xE1ga!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547844
-    m_Localized: "A biztons\xE1gi szem\xE9lyzetnek van olyan r\xE1di\xF3ja, amelyik
-      feljelentheti \xD6nt, legyen \xF3vatos."
+    m_Localized: "A biztons\xE1gi szem\xE9lyzetnek van r\xE1di\xF3ja, amely feljelentheti
+      \xD6nt, legyen \xF3vatos."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547845
@@ -1170,8 +1170,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547850
-    m_Localized: "A rakt\xE1rhelyis\xE9g menedzsere kezd inger\xFClten dolgozni,
-      \xE9s szeretne valami \xFAjat kipr\xF3b\xE1lni."
+    m_Localized: "A rakt\xE1rhelyis\xE9g menedzsere kezdi a munk\xE1t, \xE9s szeretne
+      valami \xFAjat kipr\xF3b\xE1lni."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547851
@@ -1308,7 +1308,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 60181309914968065
-    m_Localized: "A h\xE1zmester elrejt\xE9se (opcion\xE1lis)"
+    m_Localized: "A port\xE1s elrejt\xE9se (opcion\xE1lis)"
     m_Metadata:
       m_Items: []
   - m_Id: 60181309914968066
@@ -1337,7 +1337,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411267
-    m_Localized: "Ez azt eredm\xE9nyezte, hogy stresszes \xE1llapotban eszik a szem\xE9lyzet\xFCket"
+    m_Localized: "Ez azt eredm\xE9nyezte, hogy stresszes m\xF3don megeszik a szem\xE9lyzet\xFCket"
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411268
@@ -1412,7 +1412,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 89611307767111687
-    m_Localized: "Annyira j\xF3l \xE9reztem magam a m\xFAltkor, csak viszonozni kell
+    m_Localized: "Annyira j\xF3l sz\xF3rakoztam a m\xFAltkor, csak viszonozni kell
       a sz\xEDvess\xE9get!"
     m_Metadata:
       m_Items: []
@@ -1421,7 +1421,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 89611307767111689
-    m_Localized: "Ez egy csapda! \xDCgyn\xF6k, menjen onnan!"
+    m_Localized: "Ez egy csapda! \xDCgyn\xF6k ments ki onnan!"
     m_Metadata:
       m_Items: []
   - m_Id: 89611307783888896
@@ -1438,6 +1438,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 89611307783888899
     m_Localized: "Menek\xFCl\xE9s a f\u0151bej\xE1raton,"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102517513796001792
+    m_Localized: Torony
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102517513821167616
+    m_Localized: "M\xE1sz\xE1s a cs\xFAcsra!"
     m_Metadata:
       m_Items: []
   references:

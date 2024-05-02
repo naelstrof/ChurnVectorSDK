@@ -705,7 +705,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511299
-    m_Localized: "My\u015Bl\u0119, \u017Ce ca\u0142kiem nie\u017Ale wygl\u0105da\u0142a\u015B
+    m_Localized: "My\u015Bl\u0119, \u017Ce ca\u0142kiem nie\u017Ale wygl\u0105dasz
       w bieli"
     m_Metadata:
       m_Items: []
@@ -791,8 +791,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511322
-    m_Localized: "Przepraszam, w takim razie pozw\xF3l mi po prostu pojecha\u0107
-      na swoj\u0105 stacj\u0119."
+    m_Localized: "Przepraszam, w takim razie pozw\xF3l, \u017Ce pojad\u0119 na swoj\u0105
+      stacj\u0119."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511323
@@ -860,7 +860,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511340
-    m_Localized: "Lepiej, \u017Ceby by\u0142o ci tam wygodnie"
+    m_Localized: "Lepiej si\u0119 tam rozgo\u015B\u0107"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511341
@@ -888,7 +888,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511347
-    m_Localized: "Zobaczmy, jak d\u0142ugo wytrzymasz ~"
+    m_Localized: "Zobaczymy, jak d\u0142ugo wytrzymasz ~"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511348
@@ -904,7 +904,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511351
-    m_Localized: "Dok\u0142adnie tam, gdzie nale\u017Cysz~"
+    m_Localized: "Dok\u0142adnie tam, gdzie twoje miejsce~"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511352
@@ -1428,7 +1428,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 89611307767111689
-    m_Localized: "To pu\u0142apka! Agencie, wyno\u015B si\u0119 stamt\u0105d!"
+    m_Localized: "To pu\u0142apka! Agencie, uciekaj stamt\u0105d!"
     m_Metadata:
       m_Items: []
   - m_Id: 89611307783888896
@@ -1445,6 +1445,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 89611307783888899
     m_Localized: "Ucieknij g\u0142\xF3wnym wej\u015Bciem,"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102517513796001792
+    m_Localized: "Wie\u017Ca"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102517513821167616
+    m_Localized: Wspinaczka na szczyt!
     m_Metadata:
       m_Items: []
   references:

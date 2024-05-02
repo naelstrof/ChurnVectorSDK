@@ -485,17 +485,8 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
 
     protected virtual void Update() {
         if (!ticketLock.GetLocked(TicketLock.LockFlags.FacingDirectionLock)) {
-            Quaternion desiredRotation;
-            if ((!IsSprinting() && grounded) || body.velocity.magnitude <= 0.01f){
-                desiredRotation = QuaternionExtensions.LookRotationUpPriority(inputGenerator.GetLookDirection(), transform.up);
-            } else {
-                if (body.velocity.magnitude < 0.05f) {
-                    desiredRotation = facingDirection;
-                } else {
-                    desiredRotation = Quaternion.LookRotation(new Vector3(body.velocity.x, 0, body.velocity.z));
-                }
-            }
-            facingDirection = Quaternion.RotateTowards(facingDirection, desiredRotation, Time.deltaTime * (45f + Quaternion.Angle(facingDirection, desiredRotation) * 5f));
+            Quaternion desiredRotation = QuaternionExtensions.LookRotationUpPriority(inputGenerator.GetLookDirection(), transform.up);
+            facingDirection = Quaternion.RotateTowards(facingDirection, desiredRotation, Time.deltaTime * (90f + Quaternion.Angle(facingDirection, desiredRotation) * 10f));
         }
 
         if (ticketLock.GetLocked(TicketLock.LockFlags.Kinematic)) {
@@ -591,8 +582,8 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
             return;
         }
         // Rotate towards facingDirection
-        Vector3 rotationNeeded = Vector3.Cross(GetFacingDirection() * Vector3.forward, body.rotation * Vector3.forward);
-        body.angularVelocity = new Vector3(rotationNeeded.x, rotationNeeded.y, rotationNeeded.z)*10f;
+        Vector3 rotationNeeded = Vector3.Cross(body.rotation * Vector3.forward, GetFacingDirection() * Vector3.forward);
+        body.angularVelocity = new Vector3(rotationNeeded.x, rotationNeeded.y, rotationNeeded.z)*20f;
         
         Vector3 velocity = body.velocity;
         accelerationThisFrame = velocity-oldVelocity;

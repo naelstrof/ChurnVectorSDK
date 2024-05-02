@@ -103,6 +103,7 @@ public class GameManager : MonoBehaviour {
         foreach(var check in FindObjectsOfType<GameManager>(true)) {
             Debug.LogError("Please don't include the game manager in your scene, as it might be replaced or changed in future builds.", check.gameObject);
             instance = check;
+            DontDestroyOnLoad(instance.gameObject);
             return;
         }
         var path = AssetDatabase.GUIDToAssetPath("cd22b2666f158cc45b56bd0d42959cac");
@@ -114,7 +115,7 @@ public class GameManager : MonoBehaviour {
 #endif
 
     private void Awake() {
-        if (instance != null) {
+        if (instance != null && instance != this) {
             Destroy(gameObject);
             return;
         }

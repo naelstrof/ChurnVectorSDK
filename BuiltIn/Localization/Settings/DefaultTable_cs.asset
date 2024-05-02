@@ -840,7 +840,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511336
-    m_Localized: "Nezbylo nic jin\xE9ho ne\u017E cum"
+    m_Localized: "Nezbylo nic ne\u017E cum"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511337
@@ -864,7 +864,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511342
-    m_Localized: "Mo\u017En\xE1, \u017Ee p\u0159\xED\u0161t\xED bude v\xEDce napln\u011Bn\xFD"
+    m_Localized: "Mo\u017En\xE1, \u017Ee p\u0159\xED\u0161t\xED bude v\xEDce nabit\xE9"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511343
@@ -897,7 +897,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511350
-    m_Localized: "Klidn\u011B se kroutit ~"
+    m_Localized: "Klidn\u011B se kroutit~"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511351
@@ -1131,7 +1131,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547840
-    m_Localized: "\u017Dralok se za jejich z\xE1jmy styd\xED, kohout je diskr\xE9tn\u011B
+    m_Localized: "\u017Dralok je za jejich z\xE1jmy v rozpac\xEDch, kohout je diskr\xE9tn\u011B
       vol\xED."
     m_Metadata:
       m_Items: []
@@ -1222,11 +1222,11 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 59060303696547860
     m_Localized: "\u0160\xE9fkucha\u0159 chce, abyste jim pomohli vyzkou\u0161et
-      novou surovinu t\xEDm, \u017Ee je p\u0159em\u011Bn\xEDte na!"
+      novou surovinu t\xEDm, \u017Ee je na ni p\u0159em\u011Bn\xEDte!"
     m_Metadata:
       m_Items: []
   - m_Id: 59064884090425344
-    m_Localized: "Odejd\u011Bte pomoc\xED jedn\u011Bch z \xFAnikov\xFDch dve\u0159\xED."
+    m_Localized: "Odejd\u011Bte pomoc\xED jednoho z \xFAnikov\xFDch dve\u0159\xED."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547861
@@ -1433,7 +1433,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 89611307783888896
-    m_Localized: "CV klokan\xED \u0161\xE9f!"
+    m_Localized: "CV klokan\xEDho \u0161\xE9fa!"
     m_Metadata:
       m_Items: []
   - m_Id: 89611307783888897
@@ -1446,6 +1446,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 89611307783888899
     m_Localized: "\xDAt\u011Bk hlavn\xEDm vchodem,"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102517513796001792
+    m_Localized: "V\u011B\u017E"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102517513821167616
+    m_Localized: "V\xFDstup na vrchol!"
     m_Metadata:
       m_Items: []
   references:

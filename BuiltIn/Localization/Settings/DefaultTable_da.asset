@@ -688,7 +688,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511296
-    m_Localized: "Ah, s\xE5 er vi igang igen."
+    m_Localized: Ah dang, nu er vi i gang igen.
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511297
@@ -732,7 +732,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511307
-    m_Localized: Forbandet virksomhed...
+    m_Localized: Forbandet firma...
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511310
@@ -780,7 +780,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511321
-    m_Localized: Jamen godt ser ud hvem der slapper af!
+    m_Localized: "N\xE5 godt ser ud hvem der slapper af!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511322
@@ -792,7 +792,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511324
-    m_Localized: Jamen godt ser ud hvem der slapper af!
+    m_Localized: "N\xE5 godt ser ud hvem der slapper af!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511325
@@ -820,7 +820,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511331
-    m_Localized: "Tilbage s\xE5 snart?"
+    m_Localized: "S\xE5 snart tilbage?"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511332
@@ -868,7 +868,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511344
-    m_Localized: Nyd, mens det varer!
+    m_Localized: Nyd mens det varer!
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511345
@@ -962,7 +962,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 51459478631534592
-    m_Localized: Kreditter
+    m_Localized: Credits
     m_Metadata:
       m_Items: []
   - m_Id: 49219015019122693
@@ -1165,7 +1165,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547850
-    m_Localized: "Lagerchefen er ved at blive frisk p\xE5 jobbet og vil pr\xF8ve
+    m_Localized: "Lagerchefen er ved at blive frisk p\xE5 jobbet og vil gerne pr\xF8ve
       noget nyt."
     m_Metadata:
       m_Items: []
@@ -1201,7 +1201,7 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 59060303696547858
     m_Localized: "En videnskabsmand placeret i det gr\xF8nne omr\xE5de vil have dig
-      til at give dem videnskab!"
+      til at churne dem til videnskab!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547859
@@ -1296,7 +1296,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 60181309914968064
-    m_Localized: "Gem et kondom indeholdende sikkerhedschefen i sikkerhedsomkl\xE6dningsrummet."
+    m_Localized: "Gem et kondom med sikkerhedschef i sikkerhedsomkl\xE6dningsrummet."
     m_Metadata:
       m_Items: []
   - m_Id: 60181309914968065
@@ -1313,7 +1313,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 62087231205634048
-    m_Localized: "Jeg h\xE5ber, du er klar til noget tungtl\xF8ftende agent."
+    m_Localized: "Jeg h\xE5ber du er klar til noget tungtl\xF8ftende agent."
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411264
@@ -1429,6 +1429,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 89611307783888899
     m_Localized: Flygte gennem hovedindgangen,
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102517513796001792
+    m_Localized: "T\xE5rn"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102517513821167616
+    m_Localized: En stigning til toppen!
     m_Metadata:
       m_Items: []
   references:

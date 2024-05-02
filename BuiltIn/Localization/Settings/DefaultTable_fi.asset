@@ -455,7 +455,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363538
-    m_Localized: Jumalauta, olen niin raskas nyt...
+    m_Localized: Jumalauta, olen nyt niin raskas...
     m_Metadata:
       m_Items: []
   - m_Id: 41664608400363539
@@ -707,7 +707,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511300
-    m_Localized: "Vai niin! Lopeta, sin\xE4 nolaat minua..."
+    m_Localized: Vai niin! Lopeta, nolatat minua...
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511301
@@ -743,7 +743,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511311
-    m_Localized: Saa sinut takaisin
+    m_Localized: Saadaan sinut takaisin
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511312
@@ -767,7 +767,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511317
-    m_Localized: "N\xE4ytt\xE4\xE4 niin raskaalta..."
+    m_Localized: "Se n\xE4ytt\xE4\xE4 niin raskaalta..."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511318
@@ -787,7 +787,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511322
-    m_Localized: "Anteeksi, anna minun kierty\xE4 sitten asemalleni."
+    m_Localized: "Anteeksi, anna minun vain kierty\xE4 sitten asemalleni."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511323
@@ -907,11 +907,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511353
-    m_Localized: "Sinulla on niin hyv\xE4 olo siell\xE4 ~"
+    m_Localized: "Sinusta tuntuu niin hyv\xE4lt\xE4 siell\xE4 ~"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511354
-    m_Localized: "Squirt mit\xE4 haluat ~"
+    m_Localized: "Squirrel mit\xE4 haluat ~"
     m_Metadata:
       m_Items: []
   - m_Id: 49239933124661248
@@ -1041,7 +1041,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511358
-    m_Localized: "Ole lempe\xE4, jooko?"
+    m_Localized: "Ole lempe\xE4, okei?"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511359
@@ -1121,7 +1121,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303662993408
-    m_Localized: Hain pomo CV!
+    m_Localized: CV Shark pomo!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547840
@@ -1177,7 +1177,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547852
-    m_Localized: "K\xE4yt\xE4 kuorma-autoa paetaksesi!"
+    m_Localized: "K\xE4yt\xE4 kuorma-autoa pakenemiseen!"
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547853
@@ -1208,7 +1208,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547859
-    m_Localized: Possum Cookin CV!
+    m_Localized: CV Possum Cook!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547860
@@ -1434,6 +1434,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 89611307783888899
     m_Localized: "Pakene p\xE4\xE4sis\xE4\xE4nk\xE4ynnin kautta,"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102517513796001792
+    m_Localized: Torni
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102517513821167616
+    m_Localized: Nousu huipulle!
     m_Metadata:
       m_Items: []
   references:

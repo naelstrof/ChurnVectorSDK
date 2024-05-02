@@ -777,7 +777,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511320
-    m_Localized: "Mi-ar pl\u0103cea s\u0103 fiu eu..."
+    m_Localized: "Mi-a\u0219 fi dorit s\u0103 fiu eu..."
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511321
@@ -900,7 +900,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511351
-    m_Localized: "Exact acolo unde \xEE\u021Bi apar\u021Bine~"
+    m_Localized: Exact acolo unde iti este locul~
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511352
@@ -1056,7 +1056,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511361
-    m_Localized: Am asteptat de mult pe cineva!
+    m_Localized: "A\u0219tept at\xE2t de mult pe cineva!"
     m_Metadata:
       m_Items: []
   - m_Id: 49219015027511362
@@ -1159,7 +1159,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547847
-    m_Localized: CV-ul Cangurul Supraveghetor!
+    m_Localized: CV Cangurul Supraveghetor!
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547848
@@ -1222,7 +1222,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 59064884090425344
-    m_Localized: "Ie\u0219i folosind una dintre u\u0219ile de ie\u0219ire."
+    m_Localized: "Pleac\u0103 folosind una dintre u\u0219ile de ie\u0219ire."
     m_Metadata:
       m_Items: []
   - m_Id: 59060303696547861
@@ -1251,7 +1251,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49239933124661250
-    m_Localized: "E at\xE2t de dr\u0103gu\u021B cum te zv\xE2rcoli acolo ~"
+    m_Localized: "E at\xE2t de dr\u0103gu\u021B cum te zv\xE2rne\u0219ti acolo~"
     m_Metadata:
       m_Items: []
   - m_Id: 59758640264781824
@@ -1272,7 +1272,7 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 60147729936470016
     m_Localized: "Agent bun de lucru, \u0219eful rechinului este mult mai dr\u0103gu\u021B
-      dup\u0103 ce le-a fost r\u0103sf\u0103\u021Bat. F\u0103ceam lumea mai excitat\u0103,
+      dup\u0103 ce \u0219i-a f\u0103cut pl\u0103cere. F\u0103ceam lumea mai excitat\u0103,
       c\xE2te o \u021Bint\u0103 la un moment dat!"
     m_Metadata:
       m_Items: []
@@ -1288,7 +1288,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 60147729965830146
-    m_Localized: "Excelent agent de lucru! Personalul sta\u021Biei este pu\u021Bin
+    m_Localized: "Excelent agent de munca! Personalul sta\u021Biei este pu\u021Bin
       mai excitat, cu at\xE2t de mul\u021Bi dintre colegii lor care vorbesc despre
       experien\u021Ba lor cu tine."
     m_Metadata:
@@ -1338,7 +1338,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411266
-    m_Localized: "Au fost sub o mare presiune \xEEn ultima vreme"
+    m_Localized: "Au fost supu\u0219i mult\u0103 presiune \xEEn ultima vreme"
     m_Metadata:
       m_Items: []
   - m_Id: 62087231222411267
@@ -1397,7 +1397,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 89611307767111682
-    m_Localized: "Este weekendul, a\u0219a c\u0103 abia ar trebui s\u0103 fie cineva
+    m_Localized: "Este weekend, a\u0219a c\u0103 abia ar trebui s\u0103 fie cineva
       aici"
     m_Metadata:
       m_Items: []
@@ -1444,6 +1444,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 89611307783888899
     m_Localized: "Evada\u021Bi prin intrarea principal\u0103,"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102517513796001792
+    m_Localized: Turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102517513821167616
+    m_Localized: "O urcare \xEEn v\xE2rf!"
     m_Metadata:
       m_Items: []
   references:
