@@ -85,7 +85,7 @@ MonoBehaviour:
       maxDirectionalLightsOnScreen: 16
       maxPunctualLightsOnScreen: 512
       maxAreaLightsOnScreen: 64
-      maxCubeReflectionOnScreen: 48
+      maxCubeReflectionOnScreen: 64
       maxPlanarReflectionOnScreen: 16
       maxDecalsOnScreen: 512
       maxLightsPerClusterCell: 8
@@ -152,6 +152,7 @@ MonoBehaviour:
       forcedPercentage: 100
       lowResTransparencyMinimumThreshold: 0
       rayTracingHalfResThreshold: 50
+      lowResSSGIMinimumThreshold: 0
     lowresTransparentSettings:
       enabled: 1
       checkerboardDepthBuffer: 1
