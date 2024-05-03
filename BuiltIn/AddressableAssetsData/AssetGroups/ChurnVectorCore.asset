@@ -4209,6 +4209,52 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fe393ace9b354375a9cb14cdbbc28be4
+    m_Address: Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 49cb5aa34272b034d8b754c65d9cdbfa
+    m_Address: Packages/com.unity.visualeffectgraph/Textures/Sparkle.tga
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7ff2eb1fdd0edab4c8f71034ddbf10e9
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/Extras/Shared/GenericMaterials/WaterCoolerGlass
+      - Copy.mat
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 60e5ceb642d20db49aaf28e594de4795
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/UI/Settings/AntiAliasing.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 94b1c304afcbcc54d9d751a3cf47895f
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/UI/Icons/ico_eye_partial2.png
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3c0300b7d4c19024d82c7f2e6984882e
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/UI/Icons/ico_eye_partial3.png
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d8f591e83be73ce47897bd2ff656d198
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/UI/Icons/ico_eye_closed.png
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 531b2a8cb89146644ae4dddb074f00e6
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/UI/Icons/ico_eye_partial1.png
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 389734ee1e820204ba419370057e5691
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/UI/Icons/ico_eye_open.png
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 45ba01601caec634d960d95861748758, type: 2}
   m_SchemaSet:

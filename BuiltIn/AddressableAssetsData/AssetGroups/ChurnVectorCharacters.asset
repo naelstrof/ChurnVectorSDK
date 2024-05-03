@@ -101,6 +101,18 @@ MonoBehaviour:
     m_SerializedLabels:
     - ChurnVectorCharacter
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cdc05e7d90ede3b4699f14dab599d3a6
+    m_Address: MannedWolf
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - ChurnVectorCharacter
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7670f1b945797a347a60981da007eafb
+    m_Address: MuscleDragon
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - ChurnVectorCharacter
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 45ba01601caec634d960d95861748758, type: 2}
   m_SchemaSet:
