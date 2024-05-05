@@ -16,14 +16,14 @@ public static class FixupOnLoad {
         if (UnityEditor.Localization.LocalizationEditorSettings.ActiveLocalizationSettings != localizationSettings) {
             UnityEditor.Localization.LocalizationEditorSettings.ActiveLocalizationSettings = localizationSettings;
         }
-        var hdrpGraphicsPipelineAsset = AssetDatabase.LoadAssetAtPath<HDRenderPipelineAsset>(AssetDatabase.GUIDToAssetPath("0ae905cf973c7d740b0afccc16300884"));
-        var overrideGraphicsPipelineAsset = AssetDatabase.LoadAssetAtPath<HDRenderPipelineAsset>(AssetDatabase.GUIDToAssetPath("4f5ebb1b57178a241a071e9ecb8b7857"));
-        var graphicsSettings = AssetDatabase.LoadAssetAtPath<RenderPipelineGlobalSettings>(AssetDatabase.GUIDToAssetPath("bc58a23133f32d3419b72fe3fb2b75aa"));
-        if (GraphicsSettings.defaultRenderPipeline != hdrpGraphicsPipelineAsset || QualitySettings.renderPipeline != overrideGraphicsPipelineAsset || GraphicsSettings.GetSettingsForRenderPipeline<HDRenderPipeline>() != graphicsSettings) {
-            GraphicsSettings.defaultRenderPipeline = hdrpGraphicsPipelineAsset;
-            QualitySettings.renderPipeline = overrideGraphicsPipelineAsset;
-            GraphicsSettings.RegisterRenderPipelineSettings<HDRenderPipeline>(graphicsSettings);
-        }
+        //var hdrpGraphicsPipelineAsset = AssetDatabase.LoadAssetAtPath<HDRenderPipelineAsset>(AssetDatabase.GUIDToAssetPath("0ae905cf973c7d740b0afccc16300884"));
+        //var overrideGraphicsPipelineAsset = AssetDatabase.LoadAssetAtPath<HDRenderPipelineAsset>(AssetDatabase.GUIDToAssetPath("4f5ebb1b57178a241a071e9ecb8b7857"));
+        //var graphicsSettings = AssetDatabase.LoadAssetAtPath<RenderPipelineGlobalSettings>(AssetDatabase.GUIDToAssetPath("bc58a23133f32d3419b72fe3fb2b75aa"));
+        //if (GraphicsSettings.defaultRenderPipeline != hdrpGraphicsPipelineAsset || QualitySettings.renderPipeline != overrideGraphicsPipelineAsset || GraphicsSettings.GetSettingsForRenderPipeline<HDRenderPipeline>() != graphicsSettings) {
+            //GraphicsSettings.defaultRenderPipeline = hdrpGraphicsPipelineAsset;
+            //QualitySettings.renderPipeline = overrideGraphicsPipelineAsset;
+            //GraphicsSettings.RegisterRenderPipelineSettings<HDRenderPipeline>(graphicsSettings);
+        //}
         
         var settings = AddressableAssetSettingsDefaultObject.Settings;
         if (settings != null) {
