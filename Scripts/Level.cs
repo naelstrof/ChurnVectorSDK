@@ -231,7 +231,7 @@ public class Level : ScriptableObject {
             }
 
             if (camera.targetTexture == null) {
-                Debug.LogError("Found floating camera " + camera + " attempting to render to the screen. This will cause performance problems in HDRP and will be disabled. Consider deleting it.", camera.gameObject);
+                Debug.LogWarning("Found floating camera " + camera + " attempting to render to the screen. This will cause performance problems in HDRP and will be disabled. Consider deleting it.", camera.gameObject);
                 camera.gameObject.SetActive(false);
             }
         }
@@ -241,7 +241,7 @@ public class Level : ScriptableObject {
         if (FindObjectOfType<ObjectivesDescription>() != null) yield break;
         var handle = Addressables.InstantiateAsync("f0a78b55e6b12b84ea06b8da9c12d7f2");
         yield return handle;
-        Debug.LogError( "No objectives found in level, spawned a default set. Consider creating an ObjectivesDescription to track objectives in this level.");
+        Debug.LogWarning( "No objectives found in level, spawned a default set. Consider creating an ObjectivesDescription to track objectives in this level.");
     }
 
 #if UNITY_EDITOR
