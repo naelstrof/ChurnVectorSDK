@@ -4255,6 +4255,51 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8895f37439130364c93afb15d4809332
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Fuckables/GloryHoleSubmissive.controller
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4cf974c4ccab2a04dbc106de79f0967d
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/GenericAnimations/GloryHoleStand_FuckOut.anim
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 42ae0ad96c30cb848973a33bc1d5355a
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/GenericAnimations/GloryHole_Ahego1.anim
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1c83b01c0ef21684d9f4bcd3bdaa666c
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/GenericAnimations/GloryHole_Ahego3.anim
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e5a7898f46812ab4e88bbab448104bca
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/GenericAnimations/GloryHoleStand_FuckIn.anim
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e4f72e2fabd5a1f499866bfe8011fc7c
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/GenericAnimations/GloryHoleStand.anim
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0d10d3c59eb566e45ba44971b19eb235
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/GenericAnimations/GloryHoleStand_FuckIdle.anim
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ff2a3aa708c57c447a16cb2fd38f0118
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/GenericAnimations/GloryHole_Ahego2.anim
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8bf2ce6833bb23d4faf1e5578cb338b6
+    m_Address: Packages/com.gatordragongames.churn-vector.sdk/BuiltIn/Characters/GenericAnimations/GloryHoleStandLookAround.anim
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 45ba01601caec634d960d95861748758, type: 2}
   m_SchemaSet:
