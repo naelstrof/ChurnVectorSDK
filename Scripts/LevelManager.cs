@@ -179,7 +179,7 @@ public class LevelManager : MonoBehaviour {
             var newLevel = ScriptableObject.CreateInstance<Level>();
             newLevel.SetScene(SceneManager.GetActiveScene());
             instance.levels.Add(newLevel);
-            Debug.LogError("Created a level instance in memory for temporary use.");
+            Debug.Log("Created a level instance in memory for temporary use.");
             return newLevel;
         }
         return null;

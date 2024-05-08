@@ -63,7 +63,7 @@ public class InteractableLibrary : MonoBehaviour {
         #if UNITY_EDITOR
         if (self is NeedStation need) {
             if (!NavMesh.SamplePosition(self.transform.position, out NavMeshHit targetHit, FollowPathToPoint.maxDistanceFromNavmesh, NavMesh.AllAreas)) {
-                Debug.LogError("Need station " + need + " is too far off the navmesh! AI will get stuck trying to get to it.", need.gameObject);
+                Debug.LogWarning("Need station " + need + " is too far off the navmesh! AI will get stuck trying to get to it.", need.gameObject);
             }
         }
         #endif
