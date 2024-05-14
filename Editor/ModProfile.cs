@@ -428,7 +428,8 @@ public class ModProfile : ScriptableObject {
 	        }
 
 	        // Don't allow things in default group
-	        foreach (var entry in settings.DefaultGroup.entries) {
+	        List<AddressableAssetEntry> entriesToMove = new List<AddressableAssetEntry>(settings.DefaultGroup.entries);
+	        foreach (var entry in entriesToMove) {
 		        settings.CreateOrMoveEntry(entry.guid, group, false, false);
 	        }
 
