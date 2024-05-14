@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
 using UnityEditor.AddressableAssets.Build;
-using UnityEngine;
 using UnityEngine.Localization.Settings;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.HighDefinition;
 
 public static class FixupOnLoad {
     //Doesn't trigger on import, of course. Why would it??

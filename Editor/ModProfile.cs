@@ -396,6 +396,8 @@ public class ModProfile : ScriptableObject {
     public void Build() {
         var settings = AddressableAssetSettingsDefaultObject.Settings;
 
+        settings.ShaderBundleCustomNaming = $"ChurnVectorMod_{name}";
+
         var group = settings.FindGroup(name);
         if (group == null) {
 	        group = settings.CreateGroup(name, false, false, true, settings.DefaultGroup.Schemas);
@@ -405,7 +407,6 @@ public class ModProfile : ScriptableObject {
 		Undo.RecordObject(schema, "Schema change.");
 		schema.IncludeInBuild = true;
         try {
-	        
 	        Undo.RecordObject(group, "Filled custom group.");
 
 	        foreach (var level in levels) {
