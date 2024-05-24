@@ -155,7 +155,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: VendingMachineOverrideL=1
+  m_Name: ComputerOverrideL=1
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Tall
@@ -199,7 +199,8 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 51408b2b30023e84085f57b7a0387c27, type: 2}
+  m_Motion: {fileID: -203655887218126122, guid: c8f9409db49cf8f4da885eaa1fd3b760,
+    type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -249,7 +250,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: a48cce29a1997c14f83bbb26cc9d4c81, type: 2}
+  m_Motion: {fileID: 7400000, guid: 53c42491d8d64e740beb969fe8199f26, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
