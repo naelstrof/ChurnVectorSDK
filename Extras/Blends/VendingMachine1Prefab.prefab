@@ -1029,7 +1029,7 @@ PrefabInstance:
         type: 3}
       propertyPath: interactableController
       value: 
-      objectReference: {fileID: 9100000, guid: 3de71e2324885074badccbf87ebdb48a, type: 2}
+      objectReference: {fileID: 9100000, guid: eb950bbfa16cda647911002bae14a851, type: 2}
     - target: {fileID: 2696744656921091790, guid: d154fa52dd43dc843a5af414f8e125b6,
         type: 3}
       propertyPath: m_Layer
