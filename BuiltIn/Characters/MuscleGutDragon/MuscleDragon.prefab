@@ -46,9 +46,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e01a97cba5dcd2f41ae578e88f01c79f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  penetrables: []
   volumeSolid: 6
   volumeChurned: 3
-  dialogueTheme: {fileID: 11400000, guid: 89f6803d936315e4aafe928ff38c1f29, type: 2}
+  dialogueTheme: {fileID: 11400000, guid: 48cb01b36a77f804999d9287841b3501, type: 2}
   voreContainer:
     rid: 7223213278616616963
   headSprite: {fileID: 21300000, guid: 0082b9dcc8a66ee4798be7d0f446428f, type: 3}
@@ -433,16 +434,11 @@ MonoBehaviour:
     bounce: {fileID: 11400000, guid: b2df0e3fa0b4eb74782ac1368940a6b9, type: 2}
     listeners:
     - rid: 7889474856813068293
-  dick: {fileID: 5835626132997363939}
   ballsCenter: {fileID: 4329539747473367621}
   ballsRoot: {fileID: 7610934994101962647}
   ballStorageScale: 1
-  dickBulgeStart: 1.5
-  dickBulgeEnd: -0.5
   xrayBodyRenderers:
   - {fileID: 7742532212843116651}
-  xrayDickRenderers:
-  - {fileID: 5835626132997363939}
   clothRipPack: {fileID: 11400000, guid: 7e870ee698555364da4f3c090c44669c, type: 2}
   clothRipAsset: {fileID: 8926484042661614526, guid: b32f72eaeaac6064c86ca204efddd3f3,
     type: 3}
@@ -457,8 +453,6 @@ MonoBehaviour:
   - {fileID: 6681217138964585569}
   - {fileID: 6321562565285401825}
   bounceCurve: {fileID: 11400000, guid: b2df0e3fa0b4eb74782ac1368940a6b9, type: 2}
-  bulgeCurve: {fileID: 11400000, guid: eeef56254ffeb3245b4a7e5332fabbfb, type: 2}
-  tipOpenCurve: {fileID: 11400000, guid: 4f8107d8c8de6d64c8fc9a016cb5f6d2, type: 2}
   cumInflation:
     bounce: {fileID: 0}
     listeners: []
@@ -627,6 +621,8 @@ MonoBehaviour:
   jiggleSettings: {fileID: 11400000, guid: 24137bf2fa333b346a22e1d5efa30f0a, type: 2}
   leftRightCurvature: 0
   upDownCurvature: 0
+  baseUpDownCurvatureOffset: 0
+  baseLeftRightCurvatureOffset: 0
   penetratorLengthFriction: 0.5
   penetratorLengthElasticity: 0.7
   knotForce: 1
