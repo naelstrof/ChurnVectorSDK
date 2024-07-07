@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
+[System.Serializable]
 public class OrbitCameraCharacterLoaderConfiguration : OrbitCameraConfiguration {
     [SerializeField] private CharacterLoader targetLoader;
     private Civilian target;

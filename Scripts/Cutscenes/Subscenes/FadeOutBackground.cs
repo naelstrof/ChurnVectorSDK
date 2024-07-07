@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 namespace Cutscenes.Subscenes {
+	[System.Serializable]
     public class FadeOutBackground : Subscene {
         [SerializeField]
         private float duration;
