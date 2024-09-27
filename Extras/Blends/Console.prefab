@@ -97,6 +97,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7029948723529949830, guid: ae2414a41e7720444a3a04c1a9009e54,
         type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -7029948723529949830, guid: ae2414a41e7720444a3a04c1a9009e54,
+        type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -104,6 +109,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 122
+      objectReference: {fileID: 0}
+    - target: {fileID: -6763858364670572316, guid: ae2414a41e7720444a3a04c1a9009e54,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -6763858364670572316, guid: ae2414a41e7720444a3a04c1a9009e54,
         type: 3}
@@ -119,6 +129,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BigConsole
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ae2414a41e7720444a3a04c1a9009e54,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ae2414a41e7720444a3a04c1a9009e54,
         type: 3}
