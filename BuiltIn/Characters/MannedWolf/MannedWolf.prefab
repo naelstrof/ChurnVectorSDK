@@ -52,7 +52,7 @@ MonoBehaviour:
   dialogueTheme: {fileID: 11400000, guid: c054ef5b4e3f44c49b4de337b79b031c, type: 2}
   voreContainer:
     rid: 560420572127821828
-  headSprite: {fileID: 21300000, guid: c63797b07889be04f9fd8bcdd3891200, type: 3}
+  headSprite: {fileID: 21300000, guid: 2d0ec2a8de799bf4f948ac43ea6dcd89, type: 3}
   speed: 2.5
   animationGroup: []
   voreMachine:
