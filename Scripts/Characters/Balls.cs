@@ -77,7 +77,9 @@ public class Balls : VoreContainer {
         if (target.IsPlayer()) {
             foreach (var builder in target.GetComponentsInChildren<JiggleRigBuilder>()) {
                 foreach (var rig in builder.jiggleRigs) {
-                    rig.colliders.Add(collider);
+                    List<Collider> existingColliders = new List<Collider>(rig.GetColliders());
+                    existingColliders.Add(collider);
+                    rig.SetColliders(existingColliders);
                 }
             }
         }

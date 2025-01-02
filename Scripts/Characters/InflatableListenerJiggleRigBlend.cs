@@ -27,6 +27,6 @@ public class InflatableListenerJiggleRigBlend : InflatableListener {
 
     public override void OnSizeChanged(float newSize) {
         base.OnSizeChanged(newSize);
-        targetBlend.normalizedBlend = curve.Evaluate(newSize);
+        targetBlend.SetNormalizedBlend(curve.Evaluate(newSize));
     }
 }
