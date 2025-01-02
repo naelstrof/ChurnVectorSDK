@@ -93,6 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e01a97cba5dcd2f41ae578e88f01c79f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  penetrables: []
   volumeSolid: 8
   volumeChurned: 1
   dialogueTheme: {fileID: 11400000, guid: 24dfcba50b4388148a8ceca4d809d64c, type: 2}
@@ -153,6 +154,8 @@ MonoBehaviour:
   jiggleSettings: {fileID: 11400000, guid: 24137bf2fa333b346a22e1d5efa30f0a, type: 2}
   leftRightCurvature: 0
   upDownCurvature: 0
+  baseUpDownCurvatureOffset: 0
+  baseLeftRightCurvatureOffset: 0
   penetratorLengthFriction: 0.4
   penetratorLengthElasticity: 0.7
   knotForce: 1
@@ -496,6 +499,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7563463167467558315}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 169fe2109c5a780459d0d9d302163283,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9022121964027036212}
     - targetCorrespondingSourceObject: {fileID: 7564023887253780529, guid: 169fe2109c5a780459d0d9d302163283,
         type: 3}
       insertIndex: -1
@@ -753,36 +760,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d76f24409a39604ca3986f91ce6d28a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interpolate: 1
+  jiggleUpdateMode: 0
+  <blend>k__BackingField: 1
   jiggleRigs:
   - rootTransform: {fileID: 5869768170366347541}
     jiggleSettings: {fileID: 11400000, guid: 6cec72251937a23498e5b4994c31ae92, type: 2}
     ignoredTransforms: []
     colliders: []
+    animated: 1
   - rootTransform: {fileID: 1478468481983908759}
     jiggleSettings: {fileID: 11400000, guid: 6cec72251937a23498e5b4994c31ae92, type: 2}
     ignoredTransforms: []
     colliders: []
+    animated: 1
   - rootTransform: {fileID: 7985387923866453782}
     jiggleSettings: {fileID: 11400000, guid: a0af0f0e1e9f3514a87de4a3b489abdb, type: 2}
     ignoredTransforms: []
     colliders: []
+    animated: 0
   - rootTransform: {fileID: 6312709514955622252}
     jiggleSettings: {fileID: 11400000, guid: a0af0f0e1e9f3514a87de4a3b489abdb, type: 2}
     ignoredTransforms: []
     colliders: []
+    animated: 0
   - rootTransform: {fileID: 8686973854170813357}
     jiggleSettings: {fileID: 11400000, guid: 7b346d233f6573048a7e1d846647e70e, type: 2}
     ignoredTransforms:
     - {fileID: 0}
     colliders: []
+    animated: 1
   - rootTransform: {fileID: 6988835916604835335}
     jiggleSettings: {fileID: 11400000, guid: a0af0f0e1e9f3514a87de4a3b489abdb, type: 2}
     ignoredTransforms:
     - {fileID: 0}
     colliders: []
+    animated: 0
   wind: {x: 0, y: 0, z: 0}
-  levelOfDetail: {fileID: 0}
   debugDraw: 0
 --- !u!114 &7563463167467558315
 MonoBehaviour:
@@ -804,16 +817,11 @@ MonoBehaviour:
     bounce: {fileID: 11400000, guid: b2df0e3fa0b4eb74782ac1368940a6b9, type: 2}
     listeners:
     - rid: 3525424898348941314
-  dick: {fileID: 205916041200471174}
   ballsCenter: {fileID: 3177648907107708756}
   ballsRoot: {fileID: 8686973854170813357}
   ballStorageScale: 1
-  dickBulgeStart: 2.6
-  dickBulgeEnd: -0.6
   xrayBodyRenderers:
   - {fileID: 5755309128852848756}
-  xrayDickRenderers:
-  - {fileID: 205916041200471174}
   clothRipPack: {fileID: 0}
   clothRipAsset: {fileID: 0}
   clothTexture: {fileID: 0}
@@ -822,8 +830,6 @@ MonoBehaviour:
   clothedBodyRenderers: []
   boobOomphEffect: []
   bounceCurve: {fileID: 11400000, guid: b2df0e3fa0b4eb74782ac1368940a6b9, type: 2}
-  bulgeCurve: {fileID: 11400000, guid: eeef56254ffeb3245b4a7e5332fabbfb, type: 2}
-  tipOpenCurve: {fileID: 11400000, guid: 4f8107d8c8de6d64c8fc9a016cb5f6d2, type: 2}
   cumInflation:
     bounce: {fileID: 0}
     listeners: []
@@ -894,6 +900,20 @@ MonoBehaviour:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
+--- !u!114 &9022121964027036212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6178412684899098743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dd32c33758450940b888c7923a130a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 20
+  blend: 5
 --- !u!4 &6312709514955622252 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8150257963764278710, guid: 169fe2109c5a780459d0d9d302163283,

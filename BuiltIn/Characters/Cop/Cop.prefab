@@ -859,6 +859,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8483325421276413680}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 18712d14c7c598d45b8abcc91379aebc,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3653980176821549119}
     - targetCorrespondingSourceObject: {fileID: -5710242040085100075, guid: 18712d14c7c598d45b8abcc91379aebc,
         type: 3}
       insertIndex: -1
@@ -1056,22 +1060,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d76f24409a39604ca3986f91ce6d28a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interpolate: 1
+  jiggleUpdateMode: 0
+  <blend>k__BackingField: 1
   jiggleRigs:
   - rootTransform: {fileID: 3515070774487543607}
     jiggleSettings: {fileID: 11400000, guid: 6cec72251937a23498e5b4994c31ae92, type: 2}
     ignoredTransforms: []
     colliders: []
+    animated: 1
   - rootTransform: {fileID: 2803253638921836848}
     jiggleSettings: {fileID: 11400000, guid: 6cec72251937a23498e5b4994c31ae92, type: 2}
     ignoredTransforms: []
     colliders: []
+    animated: 1
   - rootTransform: {fileID: 2073753556560926685}
     jiggleSettings: {fileID: 11400000, guid: 656cac149a4bf9c44a363bf3293d7183, type: 2}
     ignoredTransforms: []
     colliders: []
+    animated: 0
   wind: {x: 0, y: 0, z: 0}
-  levelOfDetail: {fileID: 11400000, guid: f47a5fc26c7403346afb008b53a65859, type: 2}
   debugDraw: 0
 --- !u!114 &7008983181185655583
 MonoBehaviour:
@@ -1170,6 +1177,20 @@ MonoBehaviour:
   targetRenderers:
   - {fileID: 8639406508908805710}
   detailOnly: 0
+--- !u!114 &3653980176821549119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7891855486495956557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dd32c33758450940b888c7923a130a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 20
+  blend: 5
 --- !u!137 &8113988642445009570 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 1287542132067729854, guid: 18712d14c7c598d45b8abcc91379aebc,

@@ -77,6 +77,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e01a97cba5dcd2f41ae578e88f01c79f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  penetrables: []
   volumeSolid: 22
   volumeChurned: 8
   dialogueTheme: {fileID: 11400000, guid: 24dfcba50b4388148a8ceca4d809d64c, type: 2}
@@ -464,6 +465,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5015926320990057210}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 835082fcc69eda749a45893014247572,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6139818878705512175}
     - targetCorrespondingSourceObject: {fileID: 827075974287967996, guid: 835082fcc69eda749a45893014247572,
         type: 3}
       insertIndex: -1
@@ -604,16 +609,11 @@ MonoBehaviour:
     bounce: {fileID: 11400000, guid: b2df0e3fa0b4eb74782ac1368940a6b9, type: 2}
     listeners:
     - rid: 3525424930317664258
-  dick: {fileID: 6423564856395859981}
   ballsCenter: {fileID: 7884506465655610970}
   ballsRoot: {fileID: 8524118899704123236}
   ballStorageScale: 1
-  dickBulgeStart: 2.5
-  dickBulgeEnd: -0.25
   xrayBodyRenderers:
   - {fileID: 3049105324984802362}
-  xrayDickRenderers:
-  - {fileID: 6423564856395859981}
   clothRipPack: {fileID: 0}
   clothRipAsset: {fileID: 0}
   clothTexture: {fileID: 0}
@@ -622,8 +622,6 @@ MonoBehaviour:
   clothedBodyRenderers: []
   boobOomphEffect: []
   bounceCurve: {fileID: 11400000, guid: b2df0e3fa0b4eb74782ac1368940a6b9, type: 2}
-  bulgeCurve: {fileID: 11400000, guid: eeef56254ffeb3245b4a7e5332fabbfb, type: 2}
-  tipOpenCurve: {fileID: 11400000, guid: 4f8107d8c8de6d64c8fc9a016cb5f6d2, type: 2}
   cumInflation:
     bounce: {fileID: 0}
     listeners: []
@@ -740,7 +738,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d76f24409a39604ca3986f91ce6d28a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interpolate: 1
+  jiggleUpdateMode: 0
+  <blend>k__BackingField: 1
   jiggleRigs:
   - rootTransform: {fileID: 3819671203545445343}
     jiggleSettings: {fileID: 11400000, guid: 89293589b4088124183a2396deb3f068, type: 2}
@@ -753,20 +752,23 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
     colliders: []
+    animated: 1
   - rootTransform: {fileID: 2133556903442954288}
     jiggleSettings: {fileID: 11400000, guid: 0beba21cb8d8e9e49b3c467eafeefcfb, type: 2}
     ignoredTransforms: []
     colliders: []
+    animated: 1
   - rootTransform: {fileID: 1628379526353301680}
     jiggleSettings: {fileID: 11400000, guid: 0beba21cb8d8e9e49b3c467eafeefcfb, type: 2}
     ignoredTransforms: []
     colliders: []
+    animated: 1
   - rootTransform: {fileID: 8524118899704123236}
     jiggleSettings: {fileID: 11400000, guid: 7b346d233f6573048a7e1d846647e70e, type: 2}
     ignoredTransforms: []
     colliders: []
+    animated: 1
   wind: {x: 0, y: 0, z: 0}
-  levelOfDetail: {fileID: 0}
   debugDraw: 0
 --- !u!114 &5015926320990057210
 MonoBehaviour:
@@ -797,10 +799,26 @@ MonoBehaviour:
   jiggleSettings: {fileID: 11400000, guid: 24137bf2fa333b346a22e1d5efa30f0a, type: 2}
   leftRightCurvature: 0
   upDownCurvature: -15.3
+  baseUpDownCurvatureOffset: 0
+  baseLeftRightCurvatureOffset: 0
   penetratorLengthFriction: 0.5
   penetratorLengthElasticity: 0.7
   knotForce: 1
   linkedPenetrable: {fileID: 0}
+--- !u!114 &6139818878705512175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3472362799718693945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dd32c33758450940b888c7923a130a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 20
+  blend: 5
 --- !u!4 &3819671203545445343 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8506432213329169737, guid: 835082fcc69eda749a45893014247572,

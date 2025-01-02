@@ -551,6 +551,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7213457230357396117}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f16da1f19671dac4497f488ae818416f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2004720623004202247}
   m_SourcePrefab: {fileID: 100100000, guid: f16da1f19671dac4497f488ae818416f, type: 3}
 --- !u!4 &511646549639108066 stripped
 Transform:
@@ -630,30 +634,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d76f24409a39604ca3986f91ce6d28a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interpolate: 1
+  jiggleUpdateMode: 0
+  <blend>k__BackingField: 1
   jiggleRigs:
   - rootTransform: {fileID: 9116996151325874888}
     jiggleSettings: {fileID: 11400000, guid: 84c1a4d865536b14494664762d838706, type: 2}
     ignoredTransforms: []
     colliders: []
+    animated: 0
   - rootTransform: {fileID: 6205902810688524583}
     jiggleSettings: {fileID: 11400000, guid: 90b94ba1441fd9e4fa476accae06a3c5, type: 2}
     ignoredTransforms: []
     colliders: []
+    animated: 1
   - rootTransform: {fileID: 6709531698590259623}
     jiggleSettings: {fileID: 11400000, guid: 90b94ba1441fd9e4fa476accae06a3c5, type: 2}
     ignoredTransforms: []
     colliders: []
+    animated: 1
   - rootTransform: {fileID: 4582380318533129481}
     jiggleSettings: {fileID: 11400000, guid: a0af0f0e1e9f3514a87de4a3b489abdb, type: 2}
     ignoredTransforms: []
     colliders: []
+    animated: 0
   - rootTransform: {fileID: 1564670580526946249}
     jiggleSettings: {fileID: 11400000, guid: a0af0f0e1e9f3514a87de4a3b489abdb, type: 2}
     ignoredTransforms: []
     colliders: []
+    animated: 0
   wind: {x: 0, y: 0, z: 0}
-  levelOfDetail: {fileID: 11400000, guid: f47a5fc26c7403346afb008b53a65859, type: 2}
   debugDraw: 0
 --- !u!114 &7123060872985946947
 MonoBehaviour:
@@ -750,6 +759,20 @@ MonoBehaviour:
   targetRenderers:
   - {fileID: 7049461805760132397}
   detailOnly: 0
+--- !u!114 &2004720623004202247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8913871176300746030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dd32c33758450940b888c7923a130a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 20
+  blend: 5
 --- !u!4 &9012922518260323022 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 747969231759637169, guid: f16da1f19671dac4497f488ae818416f,
