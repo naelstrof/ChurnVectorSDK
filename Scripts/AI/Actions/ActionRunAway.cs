@@ -26,12 +26,13 @@ public class ActionRunAway : Action {
         Vector3 away;
         // Run from the last known else from the 'from' location if last known hasn't been init yet
         if (knowledge.TryGetLastKnownPosition(out Vector3 lastKnownPosition)) {
-            away = (actor.transform.position - lastKnownPosition).normalized*10f;
+            away = (actor.transform.position - lastKnownPosition).With(y:0).normalized*10f;
             Debug.DrawLine(actor.gameObject.transform.position,  lastKnownPosition, Color.red, 5f);
         } else {
-            away = (actor.transform.position - runAwayFrom.transform.position).normalized * 10f;
+            away = (actor.transform.position - runAwayFrom.transform.position).With(y: 0).normalized * 10f;
         }
-        
+
+        Debug.DrawLine(away + actor.gameObject.transform.position, actor.gameObject.transform.position, Color.red, 5f);
         if (NavMesh.SamplePosition(away+actor.gameObject.transform.position, out NavMeshHit hit, FollowPathToPoint.maxDistanceFromNavmesh, NavMesh.AllAreas) && hit.hit) {
             Debug.DrawLine(actor.gameObject.transform.position, hit.position, Color.cyan, 5f);
             return new ActionTransitionSuspendFor(new FollowPathToPoint(hit.position, Vector3.down), "Running away!!!");
