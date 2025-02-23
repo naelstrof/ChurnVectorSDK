@@ -1,5 +1,8 @@
 using AI;
 using UnityEngine;
+using DPG;
+using Packages.ChurnVectorSDK.Scripts.Characters;
+using static UnityEngine.UI.CanvasScaler;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -17,9 +20,18 @@ public partial class Civilian : CharacterDetector {
         return null;
     }
 
+    protected override void Start() {
+        var dicks = GetComponentsInChildren<Penetrator>();
+        foreach (Penetrator d in dicks) {
+            var t = gameObject.AddComponent<PlapSource>();
+            t.Init(d);
+        }
+        base.Start();
+    }
+
     protected override void OnEnable() {
         base.OnEnable();
-        CopOnEnable();
+        CopOnEnable();        
     }
 
     protected override void Update() {
