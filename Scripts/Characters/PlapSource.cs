@@ -32,9 +32,11 @@ namespace Packages.ChurnVectorSDK.Scripts.Characters {
             plapSource.maxDistance = 10f;
             plapSource.rolloffMode = AudioRolloffMode.Custom;
             plapSource.SetCustomCurve(AudioSourceCurveType.CustomRolloff, audioFalloff);
+            plapSource.spread = 30f;
             plapSource.enabled = false;
 
             moveSource = gameObject.AddComponent<AudioSource>();
+            moveSource.transform.position.With(x: moveSource.transform.position.x + 2f);
             moveSource.loop = true;
             moveSource.spatialBlend = 1f;
             moveSource.minDistance = 1f;
@@ -42,6 +44,7 @@ namespace Packages.ChurnVectorSDK.Scripts.Characters {
             moveSource.priority = 129;
             moveSource.rolloffMode = AudioRolloffMode.Custom;
             moveSource.SetCustomCurve(AudioSourceCurveType.CustomRolloff, audioFalloff);
+            moveSource.spread = 120f;
             moveSource.enabled = false;
 
             var plapHandle = Addressables.LoadAssetAsync<AudioPack>("Plap");
@@ -91,6 +94,8 @@ namespace Packages.ChurnVectorSDK.Scripts.Characters {
 
 
         private void Update() {
+            if (!loadedPlap || !loadedSlide) return;
+
             moveVolume = Mathf.MoveTowards(moveVolume, 0f, Time.deltaTime);
             plapTTL = Mathf.MoveTowards(plapTTL, 0f, Time.deltaTime);
             moveSource.volume = moveVolume;

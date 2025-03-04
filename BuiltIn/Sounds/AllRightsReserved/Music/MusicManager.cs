@@ -23,6 +23,7 @@ public class MusicManager : MonoBehaviour {
     [CanBeNull] private MusicalState currentState;
     private const float overallVolume = 0.6f;
     private bool hasChurned = false;
+    private bool hasPlayer = false;
 
     private KnowledgeDatabase.KnowledgeLevel lastKnowledge;
     private void Start() {
@@ -30,11 +31,6 @@ public class MusicManager : MonoBehaviour {
         Pauser.pauseChanged += OnPauseChanged;
         SceneManager.sceneLoaded += OnSceneLoaded;
         ObjectiveManager.objectiveChanged += OnObjectivesChanged;
-        var player = CharacterBase.GetPlayer();
-        if (player != null) {
-            player.voreMachine.voreStart += OnCockCockVoreStart;
-            player.voreMachine.voreEnd += OnCockCockVoreEnd;
-        }
         startBriefing.triggered += OnStartBriefing;
         endBriefing.triggered += OnEndBriefing;
         LevelManager.levelCompleted += OnLevelEnded;
@@ -46,6 +42,17 @@ public class MusicManager : MonoBehaviour {
 
     private void OnLevelEnded() {
         Switch(successState, true);
+    }
+
+    private void FixedUpdate() {
+        if(!hasPlayer) {
+            var player = CharacterBase.GetPlayer();
+            if (player != null) {
+                player.voreMachine.voreStart += OnCockCockVoreStart;
+                player.voreMachine.voreEnd += OnCockCockVoreEnd;
+                hasPlayer = true;
+            }
+        }
     }
 
     private void OnObjectivesChanged(List<Objective> objectives, Objective changedobjective) {
@@ -94,11 +101,7 @@ public class MusicManager : MonoBehaviour {
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadMode) {
         KnowledgeDatabase.ForcePoll();
-        var player = CharacterBase.GetPlayer();
-        if (player != null) {
-            player.voreMachine.voreStart += OnCockCockVoreStart;
-            player.voreMachine.voreEnd += OnCockCockVoreEnd;
-        }
+        hasPlayer = false;
         hasChurned = false;
         if (scene.name == "MainMenu") {
             Switch(mainMenuState, false);
