@@ -16,11 +16,9 @@ namespace Packages.ChurnVectorSDK.Scripts.Characters {
         private AudioSource moveSource;
 
         private float moveVolume = 0f;
-        private bool loaded = false;
+        private bool loadedPlap = false;
+        private bool loadedSlide = false;
         private float plapTTL = 0f;
-
-        AsyncOperationHandle<AudioPack> plapHandle;
-        AsyncOperationHandle<AudioPack> moveHandle;
 
         private static AnimationCurve audioFalloff = new() { keys = new Keyframe[] { new(0f, 1f, 0, -3.1f), new(1f, 0f, 0f, 0f) } };
         public void Init(Penetrator dick) {
@@ -28,7 +26,7 @@ namespace Packages.ChurnVectorSDK.Scripts.Characters {
             penetrator.penetrated += OnPenetration;
 
             plapSource = gameObject.AddComponent<AudioSource>();
-            plapSource.loop = true;
+            plapSource.loop = false;
             plapSource.spatialBlend = 1f;
             plapSource.minDistance = 1f;
             plapSource.maxDistance = 10f;
@@ -46,12 +44,22 @@ namespace Packages.ChurnVectorSDK.Scripts.Characters {
             moveSource.SetCustomCurve(AudioSourceCurveType.CustomRolloff, audioFalloff);
             moveSource.enabled = false;
 
-            plapHandle = Addressables.LoadAssetAsync<AudioPack>("Plap");
-            moveHandle = Addressables.LoadAssetAsync<AudioPack>("FuckableSlide");
+            var plapHandle = Addressables.LoadAssetAsync<AudioPack>("Plap");
+            plapHandle.Completed += (handle) => {
+                plapPack = handle.Result;
+                loadedPlap = true;
+                Addressables.Release(plapHandle);
+            };
+            var moveHandle = Addressables.LoadAssetAsync<AudioPack>("FuckableSlide");
+            moveHandle.Completed += (handle) => {
+                movePack = handle.Result;
+                loadedSlide = true;
+                Addressables.Release(moveHandle);
+            };
         }
 
         private void OnPenetration(Penetrator penetrator, Penetrable penetrable, Penetrator.PenetrationArgs penetrationArgs, Penetrable.PenetrationResult result) {
-            if (!loaded) return;
+            if (!loadedPlap || !loadedSlide) return;
 
             plapSource.enabled = true;
             moveSource.enabled = true;
@@ -62,7 +70,7 @@ namespace Packages.ChurnVectorSDK.Scripts.Characters {
                 return;
             }
             // slide sounds
-            if (movement > Mathf.Epsilon) {
+            if (movement > Mathf.Epsilon && !moveSource.isPlaying) {
                 movePack.Play(moveSource);
             }
             moveVolume += Mathf.Abs(movement);
@@ -83,11 +91,6 @@ namespace Packages.ChurnVectorSDK.Scripts.Characters {
 
 
         private void Update() {
-            if (!loaded && plapHandle.IsDone && moveHandle.IsDone) {
-                plapPack = plapHandle.Result;
-                movePack = moveHandle.Result;
-                loaded = true;
-            }
             moveVolume = Mathf.MoveTowards(moveVolume, 0f, Time.deltaTime);
             plapTTL = Mathf.MoveTowards(plapTTL, 0f, Time.deltaTime);
             moveSource.volume = moveVolume;
