@@ -14,10 +14,10 @@ public class MusicManager : MonoBehaviour {
     [SerializeField] private MusicalState completedPrimaryObjectives;
     [SerializeField] private MusicalState mainMenuState;
     [SerializeField] private MusicalState successState;
-    
+
     [SerializeField] private GameEvent startBriefing;
     [SerializeField] private GameEvent endBriefing;
-    
+
     [SerializeField] private AudioMixerGroup group;
 
     [CanBeNull] private MusicalState currentState;
@@ -44,8 +44,8 @@ public class MusicManager : MonoBehaviour {
         Switch(successState, true);
     }
 
-    private void FixedUpdate() {
-        if(!hasPlayer) {
+    private void Update() {
+        if (!hasPlayer) {
             var player = CharacterBase.GetPlayer();
             if (player != null) {
                 player.voreMachine.voreStart += OnCockCockVoreStart;
@@ -94,7 +94,7 @@ public class MusicManager : MonoBehaviour {
             }
         }
     }
-    
+
     private void OnPauseChanged(bool paused) {
         currentState?.SetPaused(paused);
     }

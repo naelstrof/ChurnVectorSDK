@@ -42,6 +42,9 @@ public class InitializationManager : MonoBehaviour {
     }
     public static void UntrackObject(InitializationManagerInitialized obj) {
         var targetStage = obj.GetInitializationStage();
+        if (!trackedBehaviors?.ContainsKey(targetStage) ?? false) {
+            return;
+        }
         trackedBehaviors?[targetStage]?.Remove(obj);
     }
     private void Awake() {

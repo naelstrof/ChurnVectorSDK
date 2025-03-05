@@ -10,7 +10,7 @@ public class CumStorage {
     public event ChurnedAction drained;
     public class CumSource {
         private readonly IChurnable churnable;
-        private readonly float startTime;
+        private float startTime;
         private float drainedPercentage = 0f;
 
         public IChurnable GetChurnable() => churnable;
@@ -53,10 +53,16 @@ public class CumStorage {
             return 1f;
         }
         float churnProgress = 0f;
+        int count = 0;
         foreach (var source in sources) {
-            churnProgress += source.GetChurnProgress();
+            var p = source.GetChurnProgress();
+            if(p < 0.95f) {
+                churnProgress += p;
+                ++count;
+            }
         }
-        return churnProgress / sources.Count;
+        if (count == 0) return 1f;
+        return churnProgress / count;
     }
 
     public float GetChurnProgress(IChurnable churnable) {
