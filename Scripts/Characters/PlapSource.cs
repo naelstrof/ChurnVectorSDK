@@ -62,13 +62,12 @@ namespace Packages.ChurnVectorSDK.Scripts.Characters {
         }
 
         private void OnPenetration(Penetrator penetrator, Penetrable penetrable, Penetrator.PenetrationArgs penetrationArgs, Penetrable.PenetrationResult result) {
-            if (!loadedPlap || !loadedSlide) return;
-
-            plapSource.enabled = true;
-            moveSource.enabled = true;
+            if (!loadedPlap || !loadedSlide) return;     
 
             float movement = penetrationArgs.penetrationDepth - (lastPenetrationDepth ?? penetrationArgs.penetrationDepth);
             lastPenetrationDepth = penetrationArgs.penetrationDepth;
+
+            moveSource.enabled = true;
             if (Mathf.Abs(movement) < 0.001f || penetrationArgs.penetrationDepth < 0f) {
                 return;
             }
@@ -81,13 +80,13 @@ namespace Packages.ChurnVectorSDK.Scripts.Characters {
 
             // plap sounds
             dickLength = penetrator.GetSquashStretchedWorldLength();
-            if(dickLength - penetrationArgs.penetrationDepth < 0.1f) {
-                if (!hasPlapped) {
-                    plapPack.PlayOneShot(plapSource);
-                    plapTTL = plapPack.GetClip().length + 0.5f;
-                }
+            var penetrationDepth = dickLength - penetrationArgs.penetrationDepth;
+            if(!hasPlapped && penetrationDepth < 0.1f) {
+                plapSource.enabled = true;
+                plapPack.PlayOneShot(plapSource);
+                plapTTL = plapPack.GetClip().length + 0.5f;
                 hasPlapped = true;                
-            } else {
+            } else if(penetrationDepth > 0.12f){
                 hasPlapped = false;
             }
         }

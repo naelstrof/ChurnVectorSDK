@@ -19,7 +19,7 @@ public class GloryHole : BreedingStand {
     private CharacterDetector submissive;
     private TicketLock.Ticket submissiveLock;
     private CharacterAnimatorController submissiveController;
-    private float lastUseTime;
+    private float lastUseTime = 0f;
     
     private Vector3 knotForcePosition;
     private Vector3 knotForceVelocity;
@@ -44,7 +44,7 @@ public class GloryHole : BreedingStand {
 
     public override void OnBeginInteract(CharacterBase from) {
         base.OnBeginInteract(from);
-        if (Time.time - lastUseTime > 8f) {
+        if (lastUseTime == 0 || Time.time - lastUseTime > 8f) {
             GameManager.StaticStartCoroutine(DialogueLibrary.GetDialogue(DialogueLibrary.DialogueGroupType.PartnerSex).Begin(new DialogueCharacter[] {
                 DialogueCharacterSpecificCharacter.Get(from),
                 DialogueCharacterSpecificCharacter.Get(submissive),
@@ -166,7 +166,6 @@ public class GloryHole : BreedingStand {
 
     public override async Task OnInitialized() {
         handle = submissivePrefabReference.GetCharacter();
-        lastUseTime = Time.time;
         await handle.Task;
         submissive = handle.Result;
         submissive.GetActor()?.OverrideActionNow(new ActionWaitToBeFilledWithCum());
