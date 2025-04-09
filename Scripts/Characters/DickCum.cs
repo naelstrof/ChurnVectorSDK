@@ -205,4 +205,13 @@ public class DickCum : MonoBehaviour {
         if (!(stimulationBuffer >= maxStimulation-0.0001f)) return;
         Cum();
     }
+
+    public void ReduceStimulation(float movement)
+    {
+        if (movement == 0f || cumming)
+            return;
+
+        stimulationBuffer -= Mathf.Abs(movement);
+        stimulationBuffer = Mathf.Max(stimulationBuffer, 0f);
+    }
 }

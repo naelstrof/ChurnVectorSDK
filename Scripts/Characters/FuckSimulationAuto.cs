@@ -54,6 +54,7 @@ public class FuckSimulationAuto : FuckSimulation
             {
                 stimulationData = dc;
                 stimulationData.cummed += Nut;
+                stimulationData.stimulated += SlowStimulation;
             }
 
             thrustProgress = outerLimit;
@@ -80,6 +81,13 @@ public class FuckSimulationAuto : FuckSimulation
 
             return ((pullingOut) ? 1 : -1);
 
+        }
+
+        //Decrease stimulation to artificially extend the time AI spend using stands.
+        private void SlowStimulation(float newStim)
+        {
+            if (newStim < 0.9f && newStim > 0.25f)
+                stimulationData.ReduceStimulation(0.35f * Time.deltaTime);
         }
 
         private void Nut()
