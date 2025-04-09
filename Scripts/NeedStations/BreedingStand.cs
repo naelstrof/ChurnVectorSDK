@@ -51,11 +51,13 @@ public class BreedingStand : NeedStation, ICumContainer {
 
     public override bool CanInteract(CharacterBase from) {
         //return from.GetBallVolume() > 0 && !broken;
-        return !broken && from.CanCockVorePlayer();
+        return !broken && beingUsedBy == null && from.CanCockVorePlayer() && (from.GetBallVolume() > 0 || from.IsPlayer());
     }
 
     public override bool ShouldInteract(CharacterBase from) {
-        return from.IsPlayer();
+        //return from.IsPlayer();
+        if (from.voreContainer == null) return false;
+        return from.GetBallVolume() > 0 || from.IsPlayer();
     }
 
     public override void OnBeginInteract(CharacterBase from) {
@@ -85,8 +87,16 @@ public class BreedingStand : NeedStation, ICumContainer {
         from.transform.position = lastPosition;
         animator.transform.rotation = lastRotation;
 
-        simulation = new FuckSimulation(OrbitCamera.GetCamera(), currentDick.GetRootTransform(), penetrable, currentDick, from.GetDisplayAnimator());
-        OrbitCamera.AddConfiguration(fuckConfiguration);
+        //simulation = new FuckSimulation(OrbitCamera.GetCamera(), currentDick.GetRootTransform(), penetrable, currentDick, from.GetDisplayAnimator());
+        //OrbitCamera.AddConfiguration(fuckConfiguration);
+        if (beingUsedBy.IsPlayer())
+        {
+            simulation = new FuckSimulation(OrbitCamera.GetCamera(), currentDick.GetRootTransform(), penetrable, currentDick, from.GetDisplayAnimator());
+            OrbitCamera.AddConfiguration(fuckConfiguration);
+        }
+        else
+            simulation = new FuckSimulationAuto(from, currentDick.GetRootTransform(), penetrable, currentDick, from.GetDisplayAnimator());
+        
         if (from.voreContainer is Balls balls) {
             var ballsBody = balls.GetBallsRigidbody();
             if (ballsBody != null) {
@@ -144,6 +154,11 @@ public class BreedingStand : NeedStation, ICumContainer {
             return;
         }
 
+        if (churnable is CharacterBase churnableCharacter && churnableCharacter.IsPlayer())
+        {
+            AttachCameraToTarget(currentCondom.gameObject);
+        }
+
         currentCondom.OnCondomFinishedFill(churnable);
         currentCondom = null;
 
@@ -153,6 +168,20 @@ public class BreedingStand : NeedStation, ICumContainer {
             }
             SetBroken(true);
         }
+    }
+
+    public void AttachCameraToTarget(GameObject target)
+    {
+        if (target == null)
+            return;
+
+        OrbitCameraBasicConfiguration basicConfig = new OrbitCameraBasicConfiguration();
+        GameObject targetPivot = new GameObject("CondomPivot", typeof(OrbitCameraPivotBasic));
+        targetPivot.transform.SetParent(target.transform, false);
+        OrbitCameraPivotBasic basicPivot = targetPivot.GetComponent<OrbitCameraPivotBasic>();
+        basicPivot.SetInfo(basicPivot.GetScreenOffset(), 2f, 65);
+        basicConfig.SetPivot(basicPivot);
+        OrbitCamera.AddConfiguration(basicConfig);
     }
 
     public virtual void AddCum(float amount) {

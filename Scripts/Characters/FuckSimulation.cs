@@ -71,8 +71,28 @@ public class FuckSimulation {
     public void SimulateStep(float dt) {
         SubStep(dt, Time.time);
     }
-    
-    private void SubStep(float dt, double time) {
+
+    protected virtual Vector3 GetMousePosition()
+    {
+        if (AutoInputSwitcher.GetControlType() == AutoInputSwitcher.ControlType.KeyboardMouse)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Confined;
+            Vector3 dickScreenPosition = cam.WorldToScreenPoint(dick.hipPosition);
+            Vector2 mousePosition = Mouse.current.position.ReadValue();
+            return cam.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, dickScreenPosition.z));
+        }
+        else
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            Vector2 inputVector = Gamepad.current.leftStick.ReadValue() * 0.5f;
+            Vector3 worldMove = cam.transform.rotation * inputVector;
+            return worldMove + dick.hipPosition;
+        }
+    }
+
+    protected virtual void SubStep(float dt, double time) {
         Vector3 correctiveForce = Vector3.zero;
         float friction = 0.5f;
         dick.hipVelocity *= 1f - (friction * friction);
@@ -87,22 +107,7 @@ public class FuckSimulation {
         Vector3 correction = Vector3.Project(dickToHole, alignmentVector);
         dick.hipVelocity += correction * (dt * 10f);
 
-        Vector3 mouseWorldPosition;
-        // Mouse Control
-        if (AutoInputSwitcher.GetControlType() == AutoInputSwitcher.ControlType.KeyboardMouse) {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.Confined;
-            Vector3 dickScreenPosition = cam.WorldToScreenPoint(dick.hipPosition);
-            Vector2 mousePosition = Mouse.current.position.ReadValue();
-            mouseWorldPosition = cam.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, dickScreenPosition.z));
-        } else {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-            Vector2 inputVector = Gamepad.current.leftStick.ReadValue()*0.5f;
-            Vector3 worldMove = cam.transform.rotation * inputVector;
-            mouseWorldPosition = worldMove + dick.hipPosition;
-        }
-        
+        Vector3 mouseWorldPosition = GetMousePosition();
         //float gradientAdjustment = Mathf.Clamp01((dick.length * 1.25f - splineDistanceToHole) * 2.5f);
 
         float arbitraryMouseForceAdjustment = 90f;
