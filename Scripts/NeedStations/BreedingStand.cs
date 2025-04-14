@@ -44,7 +44,10 @@ public class BreedingStand : NeedStation, ICumContainer {
         if (beingUsedBy.voreContainer is Balls balls) {
             var ballsBody = balls.GetBallsRigidbody();
             if (ballsBody != null) {
-                ballsBody.AddForce(OrbitCamera.GetCamera().transform.forward * 8f, ForceMode.Acceleration);
+                if(beingUsedBy.IsPlayer())
+                    ballsBody.AddForce(OrbitCamera.GetCamera().transform.forward * 8f, ForceMode.Acceleration);
+                else
+                    ballsBody.AddForce(beingUsedBy.transform.forward * -8f, ForceMode.Acceleration);
             }
         }
     }
