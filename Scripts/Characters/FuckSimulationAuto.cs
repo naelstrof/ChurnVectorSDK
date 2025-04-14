@@ -40,10 +40,11 @@ public class FuckSimulationAuto : FuckSimulation
         private bool pullingOut = false;
         private bool nut = false;
 
+        float deltaTime;
         CumStorage storage;
         DickCum stimulationData;
 
-        float deltaTime;
+        //Inner & Outer thrust distances, could be calculated for character size?
         private float outerLimit = -0.05f;
         private float insertLimit = 1f;
 
@@ -97,43 +98,30 @@ public class FuckSimulationAuto : FuckSimulation
             }
         }
 
+        //Adjusts the speed of the motion as time goes on. Perhaps move this out to be adjustable later?
         private float ThrustSpeedScalar()
         {
-            float baseSpeed;
-
             if (nut)
             {
-                if (!pullingOut)
-                    baseSpeed = (thrustProgress <= insertLimit * 0.9f) ? 2f : 0.04f;
-                else
-                    baseSpeed = 3f;
+                if (pullingOut)
+                    return 3f;
+
+                return (thrustProgress <= insertLimit * 0.9f) ? 2f : 0.04f;
             }
 
-            else
-            {
-                if (timeUsed < 2.5f)
-                {
-                    baseSpeed = (pullingOut) ? 0.5f : 0.25f;
-                }
+            if (timeUsed < 2.5f)
+                return pullingOut ? 0.5f : 0.25f;
 
-                else if (timeUsed < 10f)
-                {
-                    baseSpeed = (pullingOut) ? 1f : 0.75f;
-                }
-                else if (timeUsed < 15f)
-                {
-                    baseSpeed = (pullingOut) ? 1.25f : 1f;
-                }
-                else if (timeUsed < 20f)
-                {
-                    baseSpeed = (pullingOut) ? 1.5f : 1.25f;
-                }
+            if (timeUsed < 10f)
+                return pullingOut ? 1f : 0.75f;
+            
+            if (timeUsed < 15f)
+                return pullingOut ? 1.25f : 1f;
 
-                else
-                    baseSpeed = (pullingOut) ? 2f : 1.75f;
-            }
+            if (timeUsed < 20f)
+                return pullingOut ? 1.5f : 1.25f;
 
-            return baseSpeed;
+            return pullingOut ? 2f : 1.75f;
         }
 
         public void Disable()
