@@ -33,6 +33,11 @@ public class FuckSimulationAuto : FuckSimulation
         base.SubStep(dt, time);
     }
 
+    public void Disable()
+    {
+        controller.Disable();
+    }
+
     private class AutoFuckController
     {
         private float timeUsed = 0f;
@@ -129,6 +134,7 @@ public class FuckSimulationAuto : FuckSimulation
             if (stimulationData != null)
             {
                 stimulationData.cummed -= Nut;
+                stimulationData.stimulated -= SlowStimulation;
             }
         }
     }

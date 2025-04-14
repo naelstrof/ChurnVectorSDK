@@ -146,6 +146,8 @@ public class BreedingStand : NeedStation, ICumContainer {
         } else {
             throw new UnityException("Don't currently support anything except jiggle deform dicks...");
         }
+        if (simulation is FuckSimulationAuto autoSim)
+            autoSim.Disable();
         simulation = null;
         OrbitCamera.RemoveConfiguration(fuckConfiguration);
     }
