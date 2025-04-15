@@ -29,10 +29,6 @@ public class CumRecombobulator : NeedStation {
                     ballsBody.position = recombobulateLocation.position + Vector3.up;
                     ballsBody.rotation = Quaternion.identity;
                 }
-                if (churnableCharacter.IsPlayer())
-                {
-                    RestorePlayerCamera(churnableCharacter);
-                }
             }
 
             churnable.transform.gameObject.SetActive(true);
@@ -43,15 +39,5 @@ public class CumRecombobulator : NeedStation {
             }));
             break;
         }
-    }
-    private void RestorePlayerCamera(CharacterBase churnableCharacter)
-    {
-        OrbitCameraPivotBasic headPivot = churnableCharacter.transform.Find("HeadPivot")?.GetComponent<OrbitCameraPivotBasic>();
-        OrbitCameraPivotBasic crouchPivot = churnableCharacter.transform.Find("CrouchPivot")?.GetComponent<OrbitCameraPivotBasic>();
-        OrbitCameraPivotBasic buttPivot = churnableCharacter.GetDisplayAnimator().GetBoneTransform(HumanBodyBones.Hips).Find("ButtPivot")?.GetComponent<OrbitCameraPivotBasic>();
-
-        OrbitCameraCharacterHitmanConfiguration hitmanConfig = new OrbitCameraCharacterHitmanConfiguration();
-        hitmanConfig.SetPivots(churnableCharacter, headPivot, crouchPivot, buttPivot);
-        OrbitCamera.AddConfiguration(hitmanConfig);
     }
 }

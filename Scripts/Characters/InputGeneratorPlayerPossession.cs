@@ -62,6 +62,8 @@ public class InputGeneratorPlayerPossession : InputGenerator {
             currentConfiguration = shoulderConfig;
             OrbitCamera.AddConfiguration(shoulderConfig);
             hasCreatedConfig = true;
+        } else {
+            OrbitCamera.AddConfiguration(currentConfiguration, 0f);
         }
 
         if (currentConfiguration == fpsConfig) {
@@ -257,6 +259,10 @@ public class InputGeneratorPlayerPossession : InputGenerator {
         }
         character.GetDisplayAnimator().GetBoneTransform(HumanBodyBones.Neck).localScale = neckLocalScale;
         OrbitCamera.configurationChanged -= OnConfigurationChanged;
+        
+        if (hasCreatedConfig) {
+            OrbitCamera.RemoveConfiguration(currentConfiguration);
+        }
         input.actions["Interact"].started -= OnInteractInputStarted;
         input.actions["Interact"].canceled -= OnInteractInputCancelled;
         input.actions["ToggleCamera"].performed -= OnCameraPerformed;
