@@ -53,6 +53,11 @@ public class FuckSimulationAuto : FuckSimulation
         private float outerLimit = -0.05f;
         private float insertLimit = 1f;
 
+        //Usage Verification
+        private float forcedUsageLimit = 35f;
+        private float lastStimulation = 0.5f;
+        private int forceEndCounter = 0;
+
         public AutoFuckController(CharacterBase user)
         {
             if (user.TryGetComponent(out DickCum dc))
@@ -70,6 +75,8 @@ public class FuckSimulationAuto : FuckSimulation
         {
             deltaTime = dt;
             timeUsed += deltaTime;
+
+            UsageChecks();
 
             thrustProgress += ThrustDirection() * ThrustSpeedScalar() * deltaTime;
         }
@@ -91,6 +98,7 @@ public class FuckSimulationAuto : FuckSimulation
         //Decrease stimulation to artificially extend the time AI spend using stands.
         private void SlowStimulation(float newStim)
         {
+            lastStimulation = newStim;
             if (newStim < 0.9f && newStim > 0.25f)
                 stimulationData.ReduceStimulation(0.35f * Time.deltaTime);
         }
@@ -127,6 +135,29 @@ public class FuckSimulationAuto : FuckSimulation
                 return pullingOut ? 1.5f : 1.25f;
 
             return pullingOut ? 2f : 1.75f;
+        }
+
+        private void UsageChecks()
+        {
+            if (nut)
+                return;
+
+            /*Overcharges the stimulation to force an ending if:
+             *   -The stand has been in use longer than the usage limit
+             *   -The penetrator is still below the minimum stimulation after several attempts at increase
+             */
+            if (timeUsed > forcedUsageLimit || forceEndCounter >= 5)
+            {
+                //Is there a better way to force an ending?
+                stimulationData.AddStimulation(10f);
+            }
+
+            //Adds stimulation if it is below a certain threshold
+            else if (lastStimulation < 0.2f && timeUsed > 5f + (2f * forceEndCounter))
+            {
+                stimulationData.AddStimulation(0.3f);
+                forceEndCounter++;
+            }
         }
 
         public void Disable()
