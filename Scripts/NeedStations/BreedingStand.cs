@@ -175,17 +175,19 @@ public class BreedingStand : NeedStation, ICumContainer {
         }
     }
 
-    public void AttachCameraToTarget(GameObject target)
-    {
+    public void AttachCameraToTarget(GameObject target) {
         if (target == null)
             return;
 
         OrbitCameraBasicConfiguration basicConfig = new OrbitCameraBasicConfiguration();
-        GameObject targetPivot = new GameObject("CondomPivot", typeof(OrbitCameraPivotBasic));
+        GameObject targetPivot = new GameObject("CondomPivot", typeof(OrbitCameraPivotBasic), typeof(OnDestroyEventHandler));
         targetPivot.transform.SetParent(target.transform, false);
         OrbitCameraPivotBasic basicPivot = targetPivot.GetComponent<OrbitCameraPivotBasic>();
         basicPivot.SetInfo(basicPivot.GetScreenOffset(), 2f, 65);
         basicConfig.SetPivot(basicPivot);
+        targetPivot.GetComponent<OnDestroyEventHandler>().onDestroyOrDisable += (obj) => {
+            OrbitCamera.RemoveConfiguration(basicConfig);
+        };
         OrbitCamera.AddConfiguration(basicConfig);
     }
 
