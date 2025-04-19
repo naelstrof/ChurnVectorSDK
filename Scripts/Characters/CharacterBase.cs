@@ -63,6 +63,12 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
 
     public delegate void GrabbedOtherAction(IInteractable other);
 
+    //Currently isnt enough functionality to have this in it's own partial class
+    public delegate void ReceiveStimulationAction(float stimulation);
+    public event ReceiveStimulationAction receivedStimulation;
+
+    public void Stimulated(float stimulation) => receivedStimulation.Invoke(stimulation);
+
     public event GrabbedOtherAction grabbedOther;
     public event MovementChangeAction movementChanged;
     public delegate void VelocityChangeAction(Vector3 velocity);

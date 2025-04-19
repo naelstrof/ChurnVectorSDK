@@ -203,6 +203,7 @@ public class DickCum : MonoBehaviour {
         stimulationBuffer += Mathf.Abs(movement);
         stimulationBuffer = Mathf.Min(stimulationBuffer, maxStimulation);
         stimulated?.Invoke(stimulationBuffer/maxStimulation);
+        attachedCharacter.Stimulated(stimulationBuffer / maxStimulation);
         if (!(stimulationBuffer >= maxStimulation-0.0001f)) return;
         Cum();
     }

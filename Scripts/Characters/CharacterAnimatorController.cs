@@ -168,6 +168,7 @@ public class CharacterAnimatorController : MonoBehaviour {
         character.movementChanged += OnMovementChanged;
         character.velocityChanged += OnVelocityChanged;
         character.tased += OnTased;
+        character.receivedStimulation += OnReceiveStimulation;
 
         character.grabChanged += OnGrabChanged;
         character.startCockVoreAsPrey += OnCockVoreStartAsPrey;
@@ -220,6 +221,15 @@ public class CharacterAnimatorController : MonoBehaviour {
 
     private void OnGrabOther(IInteractable other) {
         if (other is CharacterBase) {
+            boner.SetSize(1f, this);
+            lastBonerTime = Time.time;
+        }
+    }
+
+    private void OnReceiveStimulation(float stimulation)
+    {
+        if(stimulation > 0)
+        {
             boner.SetSize(1f, this);
             lastBonerTime = Time.time;
         }
