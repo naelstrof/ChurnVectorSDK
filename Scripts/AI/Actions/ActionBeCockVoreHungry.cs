@@ -58,8 +58,16 @@ namespace ActorActions {
                         }
                     }
 
-                    if (knowledgeChanged.GetKnowledge().target.TryGetComponent(out Condom condom)) {
-                        return new ActionEventResponseTransition(new ActionTransitionSuspendFor( new GetSurprised(condom.gameObject, new ReturnCondomToRecombobulator(condom)), "Is that... is that a condom??"));
+                    if (knowledgeChanged.GetKnowledge().target.TryGetComponent(out Condom condom))
+                    {
+                        //return new ActionEventResponseTransition(new ActionTransitionSuspendFor(new GetSurprised(condom.gameObject, new ReturnCondomToRecombobulator(condom)), "Is that... is that a condom??"));
+                        if (condom.GetChurnable() is CharacterBase churnableCharacter)
+                        {
+                            if (!churnableCharacter.ShouldInteract(actor.GetCharacter()))
+                            {
+                                return new ActionEventResponseTransition(new ActionTransitionSuspendFor(new GetSurprised(condom.gameObject, new ReturnCondomToRecombobulator(condom)), "Is that... is that a condom??"));
+                            }
+                        }
                     }
 
                     return ignoreResponse;
