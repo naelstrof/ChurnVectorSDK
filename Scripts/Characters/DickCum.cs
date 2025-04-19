@@ -37,6 +37,7 @@ public class DickCum : MonoBehaviour {
     }
 
     private bool cumming = false;
+    public bool Cumming => cumming;
 
     private List<CumBlendshape> _cumBlendshapes;
     private ICumContainer stand;

@@ -57,6 +57,7 @@ public class FuckSimulationAuto : FuckSimulation
         private float forcedUsageLimit = 35f;
         private float lastStimulation = 0.5f;
         private int forceEndCounter = 0;
+        private CharacterBase user;
 
         public AutoFuckController(CharacterBase user)
         {
@@ -69,6 +70,7 @@ public class FuckSimulationAuto : FuckSimulation
 
             thrustProgress = outerLimit;
             storage = user.voreContainer.GetStorage();
+            this.user = user;
         }
 
         public void Step(float dt)
@@ -140,7 +142,18 @@ public class FuckSimulationAuto : FuckSimulation
         private void UsageChecks()
         {
             if (nut)
+            {
+                if(!stimulationData.Cumming)
+                {
+                    nut = false;
+                    if (storage.GetVolume() > 0)
+                        timeUsed = 0;
+                    else
+                        user.StopInteraction();
+
+                }
                 return;
+            }
 
             /*Overcharges the stimulation to force an ending if:
              *   -The stand has been in use longer than the usage limit
