@@ -107,10 +107,7 @@ public class FuckSimulationAuto : FuckSimulation
 
         private void Nut()
         {
-            if (storage.GetDoneChurning())
-            {
-                nut = true;
-            }
+            nut = true;
         }
 
         //Adjusts the speed of the motion as time goes on. Perhaps move this out to be adjustable later?
