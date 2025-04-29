@@ -144,7 +144,7 @@ public class FuckSimulationAuto : FuckSimulation
                 {
                     nut = false;
                     if (storage.GetVolume() > 0)
-                        timeUsed = 0;
+                        timeUsed = 15f;
                     else
                         user.StopInteraction();
 
@@ -160,6 +160,7 @@ public class FuckSimulationAuto : FuckSimulation
             {
                 //Is there a better way to force an ending?
                 stimulationData.AddStimulation(10f);
+                thrustProgress = outerLimit;
             }
 
             //Adds stimulation if it is below a certain threshold
