@@ -38,6 +38,7 @@ public class BreedingStand : NeedStation, ICumContainer {
     protected virtual void FixedUpdate() {
         if (simulation == null || beingUsedBy == null) return;
         simulation.SimulateStep(Time.deltaTime);
+        if (simulation == null) return; // Step can trigger this to become null
         var thrust = GetThrustValue();
         beingUsedBy.GetDisplayAnimator().SetFloat(ThrustBackForward, thrust.z*2f);
         beingUsedBy.GetDisplayAnimator().SetFloat(ThrustDownUp, thrust.y*2f);
@@ -53,14 +54,14 @@ public class BreedingStand : NeedStation, ICumContainer {
     }
 
     public override bool CanInteract(CharacterBase from) {
-        //return from.GetBallVolume() > 0 && !broken;
         return !broken && beingUsedBy == null && from.CanCockVorePlayer() && (from.GetBallVolume() > 0 || from.IsPlayer());
     }
 
     public override bool ShouldInteract(CharacterBase from) {
-        //return from.IsPlayer();
-        if (from.voreContainer == null) return false;
-        return from.GetBallVolume() > 0 || from.IsPlayer();
+        if (from.voreContainer == null || from.GetBallVolume() <= 0) return false;
+        if (from.IsPlayer()) return true;
+
+        return base.ShouldInteract(from);
     }
 
     public override void OnBeginInteract(CharacterBase from) {
