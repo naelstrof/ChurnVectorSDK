@@ -39,18 +39,29 @@ public class CharacterSpawnInfo {
             throw new UnityException("Loaded a non-civilian as a character! Characters must have it as a behavior!");
         }
 
+        bool assignedGroups = false;
+
         if (characterBase.gameObject.TryGetComponent(out ActorOverride overrides))
         {
-            if ((overrideLocks.Locks & (1 << 0)) != 1)
+            bool actionLocked = (overrideLocks.Locks & (1 << 0)) == (1 << 0);
+            bool groupsLocked = (overrideLocks.Locks & (1 << 1)) == (1 << 1);
+
+            if (!actionLocked)
                 overrides.ApplyActionOverride(inputSource);
 
-            if ((overrideLocks.Locks & (1 << 1)) != 1)
+            if (!groupsLocked)
+            {;
                 overrides.ApplyGroupOverrides(characterBase, overrideGroups, overrideUseByGroups);
+                assignedGroups = true;
+            }
         }
 
         characterBase.SetInputGenerator(inputSource);
-        characterBase.SetGroups(overrideGroups);
-        characterBase.SetUseByGroups(overrideUseByGroups);
+        if(!assignedGroups)
+        {
+            characterBase.SetGroups(overrideGroups);
+            characterBase.SetUseByGroups(overrideUseByGroups);
+        }
     }
 
 }
