@@ -11,6 +11,7 @@ public class OverrideLocks
     public int Locks => enabledLocks;
 }
 
+#if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(OverrideLocks))]
 public class MultiSelectExampleDrawer : PropertyDrawer
 {
@@ -30,3 +31,4 @@ public class MultiSelectExampleDrawer : PropertyDrawer
         }
     }
 }
+#endif

@@ -13,7 +13,7 @@ public class ActorOverride : MonoBehaviour
 
     public void ApplyActionOverride(InputGenerator inputGenerator)
     {
-        if (startingAction == null || inputGenerator is InputGeneratorPlayerPossession)
+        if (startingAction == null || inputGenerator == null || inputGenerator is InputGeneratorPlayerPossession)
             return;
 
         ((Actor)inputGenerator).SetStartingAction(startingAction);
