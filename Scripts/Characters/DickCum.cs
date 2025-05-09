@@ -37,6 +37,7 @@ public class DickCum : MonoBehaviour {
     }
 
     private bool cumming = false;
+    public bool Cumming => cumming;
 
     private List<CumBlendshape> _cumBlendshapes;
     private ICumContainer stand;
@@ -204,5 +205,14 @@ public class DickCum : MonoBehaviour {
         stimulated?.Invoke(stimulationBuffer/maxStimulation);
         if (!(stimulationBuffer >= maxStimulation-0.0001f)) return;
         Cum();
+    }
+
+    public void ReduceStimulation(float movement)
+    {
+        if (movement == 0f || cumming)
+            return;
+
+        stimulationBuffer -= Mathf.Abs(movement);
+        stimulationBuffer = Mathf.Max(stimulationBuffer, 0f);
     }
 }

@@ -58,10 +58,6 @@ namespace ActorActions {
                         }
                     }
 
-                    if (knowledgeChanged.GetKnowledge().target.TryGetComponent(out Condom condom)) {
-                        return new ActionEventResponseTransition(new ActionTransitionSuspendFor( new GetSurprised(condom.gameObject, new ReturnCondomToRecombobulator(condom)), "Is that... is that a condom??"));
-                    }
-
                     return ignoreResponse;
                 case HeardInterestingNoise noise: {
                     if (actor.GetKnowledgeOf(noise.GetOwner().gameObject).GetKnowledgeLevel() == KnowledgeDatabase.KnowledgeLevel.Ignorant) {

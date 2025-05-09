@@ -38,24 +38,30 @@ public class BreedingStand : NeedStation, ICumContainer {
     protected virtual void FixedUpdate() {
         if (simulation == null || beingUsedBy == null) return;
         simulation.SimulateStep(Time.deltaTime);
+        if (simulation == null) return; // Step can trigger this to become null
         var thrust = GetThrustValue();
         beingUsedBy.GetDisplayAnimator().SetFloat(ThrustBackForward, thrust.z*2f);
         beingUsedBy.GetDisplayAnimator().SetFloat(ThrustDownUp, thrust.y*2f);
         if (beingUsedBy.voreContainer is Balls balls) {
             var ballsBody = balls.GetBallsRigidbody();
             if (ballsBody != null) {
-                ballsBody.AddForce(OrbitCamera.GetCamera().transform.forward * 8f, ForceMode.Acceleration);
+                if(beingUsedBy.IsPlayer())
+                    ballsBody.AddForce(OrbitCamera.GetCamera().transform.forward * 8f, ForceMode.Acceleration);
+                else
+                    ballsBody.AddForce(beingUsedBy.transform.forward * -8f, ForceMode.Acceleration);
             }
         }
     }
 
     public override bool CanInteract(CharacterBase from) {
-        //return from.GetBallVolume() > 0 && !broken;
-        return !broken && from.CanCockVorePlayer();
+        return !broken && beingUsedBy == null && from.CanCockVorePlayer() && (from.GetBallVolume() > 0 || from.IsPlayer());
     }
 
     public override bool ShouldInteract(CharacterBase from) {
-        return from.IsPlayer();
+        if (from.voreContainer == null || from.GetBallVolume() <= 0) return false;
+        if (from.IsPlayer()) return true;
+
+        return base.ShouldInteract(from);
     }
 
     public override void OnBeginInteract(CharacterBase from) {
@@ -85,8 +91,16 @@ public class BreedingStand : NeedStation, ICumContainer {
         from.transform.position = lastPosition;
         animator.transform.rotation = lastRotation;
 
-        simulation = new FuckSimulation(OrbitCamera.GetCamera(), currentDick.GetRootTransform(), penetrable, currentDick, from.GetDisplayAnimator());
-        OrbitCamera.AddConfiguration(fuckConfiguration);
+        //simulation = new FuckSimulation(OrbitCamera.GetCamera(), currentDick.GetRootTransform(), penetrable, currentDick, from.GetDisplayAnimator());
+        //OrbitCamera.AddConfiguration(fuckConfiguration);
+        if (beingUsedBy.IsPlayer())
+        {
+            simulation = new FuckSimulation(OrbitCamera.GetCamera(), currentDick.GetRootTransform(), penetrable, currentDick, from.GetDisplayAnimator());
+            OrbitCamera.AddConfiguration(fuckConfiguration);
+        }
+        else
+            simulation = new FuckSimulationAuto(from, currentDick.GetRootTransform(), penetrable, currentDick, from.GetDisplayAnimator());
+        
         if (from.voreContainer is Balls balls) {
             var ballsBody = balls.GetBallsRigidbody();
             if (ballsBody != null) {
@@ -133,6 +147,8 @@ public class BreedingStand : NeedStation, ICumContainer {
         } else {
             throw new UnityException("Don't currently support anything except jiggle deform dicks...");
         }
+        if (simulation is FuckSimulationAuto autoSim)
+            autoSim.Disable();
         simulation = null;
         OrbitCamera.RemoveConfiguration(fuckConfiguration);
     }
@@ -144,6 +160,11 @@ public class BreedingStand : NeedStation, ICumContainer {
             return;
         }
 
+        if (churnable is CharacterBase churnableCharacter && churnableCharacter.IsPlayer())
+        {
+            AttachCameraToTarget(currentCondom.gameObject);
+        }
+
         currentCondom.OnCondomFinishedFill(churnable);
         currentCondom = null;
 
@@ -153,6 +174,22 @@ public class BreedingStand : NeedStation, ICumContainer {
             }
             SetBroken(true);
         }
+    }
+
+    public void AttachCameraToTarget(GameObject target) {
+        if (target == null)
+            return;
+
+        OrbitCameraBasicConfiguration basicConfig = new OrbitCameraBasicConfiguration();
+        GameObject targetPivot = new GameObject("CondomPivot", typeof(OrbitCameraPivotBasic), typeof(OnDestroyEventHandler));
+        targetPivot.transform.SetParent(target.transform, false);
+        OrbitCameraPivotBasic basicPivot = targetPivot.GetComponent<OrbitCameraPivotBasic>();
+        basicPivot.SetInfo(basicPivot.GetScreenOffset(), 2f, 65);
+        basicConfig.SetPivot(basicPivot);
+        targetPivot.GetComponent<OnDestroyEventHandler>().onDestroyOrDisable += (obj) => {
+            OrbitCamera.RemoveConfiguration(basicConfig);
+        };
+        OrbitCamera.AddConfiguration(basicConfig);
     }
 
     public virtual void AddCum(float amount) {

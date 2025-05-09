@@ -223,7 +223,7 @@ public class CharacterAnimatorController : MonoBehaviour {
             boner.SetSize(1f, this);
             lastBonerTime = Time.time;
         }
-    }
+    } 
 
     private void OnStartChurn(CumStorage.CumSource churnable) {
         StartCoroutine(ChurningRoutine());
