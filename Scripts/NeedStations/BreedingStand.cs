@@ -159,10 +159,12 @@ public class BreedingStand : NeedStation, ICumContainer {
         if (currentCondom == null) {
             return;
         }
-
-        if (churnable is CharacterBase churnableCharacter && churnableCharacter.IsPlayer())
+        if (churnable is CharacterBase churnableCharacter)
         {
-            AttachCameraToTarget(currentCondom.gameObject);
+            churnableCharacter.voreContainer.SetActive(false);
+            if(churnableCharacter.IsPlayer()) {
+                AttachCameraToTarget(currentCondom.gameObject);
+            }            
         }
 
         currentCondom.OnCondomFinishedFill(churnable);

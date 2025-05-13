@@ -88,6 +88,7 @@ public class Balls : VoreContainer {
         SetActive(false);
     }
 
+
     private void OnStartChurn(CumStorage.CumSource churnable) {
         if (churning == false) {
             if (!gameObject.activeSelf) {
@@ -149,7 +150,7 @@ public class Balls : VoreContainer {
         UpdateInflater();
     }
 
-    private void SetActive(bool active) {
+    public override void SetActive(bool active) {
         if (active && !gameObject.activeSelf) {
             gameObject.SetActive(true);
             target.StartCoroutine(DisableCollisionForAWhile());
@@ -157,6 +158,7 @@ public class Balls : VoreContainer {
             gameObject.transform.position = hipPosition;
             body.position = hipPosition;
             body.velocity = targetAnimator.transform.forward * -3f;
+            inflater.OnEnable();
         } else if (!active && gameObject.activeSelf) {
             gameObject.SetActive(false);
         }

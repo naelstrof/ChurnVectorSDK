@@ -545,6 +545,7 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
 
     private Vector3 accelerationThisFrame;
     protected virtual void FixedUpdate() {
+        if(inputGenerator == null) { return; } // Early terminate as the character has not been initialised yet
         if (grabbedInteractable != null) {
             Vector3 diff = body.position - grabbedInteractable.transform.position;
             Vector3 dir = diff.normalized;
@@ -561,20 +562,20 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
                 body.MoveRotation(QuaternionExtensions.LookRotationUpPriority(body.transform.forward, Vector3.up));
             }
             if (inputGenerator.GetCrouchInput() > 0.5f && !inputGenerator.GetSprint()) {
-                crouchAmount = Mathf.MoveTowards(crouchAmount, inputGenerator.GetCrouchInput(), Time.deltaTime*3f);
+                crouchAmount = Mathf.MoveTowards(crouchAmount, inputGenerator.GetCrouchInput(), Time.deltaTime * 3f);
                 collider.height = Mathf.Lerp(originalColliderHeight, minimumCrouchHeight, crouchAmount);
-                collider.center = Vector3.Lerp(originalColliderOffset, originalColliderOffset - Vector3.up * ((originalColliderHeight - minimumCrouchHeight)*0.5f), crouchAmount);
+                collider.center = Vector3.Lerp(originalColliderOffset, originalColliderOffset - Vector3.up * ((originalColliderHeight - minimumCrouchHeight) * 0.5f), crouchAmount);
             } else {
                 previousCrouchAmount = crouchAmount;
-                crouchAmount = Mathf.MoveTowards(crouchAmount, inputGenerator.GetCrouchInput(), Time.deltaTime*3f);
+                crouchAmount = Mathf.MoveTowards(crouchAmount, inputGenerator.GetCrouchInput(), Time.deltaTime * 3f);
                 collider.height = Mathf.Lerp(originalColliderHeight, minimumCrouchHeight, crouchAmount);
-                collider.center = Vector3.Lerp(originalColliderOffset, originalColliderOffset - Vector3.up * ((originalColliderHeight - minimumCrouchHeight)*0.5f), crouchAmount);
+                collider.center = Vector3.Lerp(originalColliderOffset, originalColliderOffset - Vector3.up * ((originalColliderHeight - minimumCrouchHeight) * 0.5f), crouchAmount);
                 if (Stuck()) {
                     crouchAmount = previousCrouchAmount;
                     collider.height = Mathf.Lerp(originalColliderHeight, minimumCrouchHeight, crouchAmount);
-                    collider.center = Vector3.Lerp(originalColliderOffset, originalColliderOffset - Vector3.up * ((originalColliderHeight - minimumCrouchHeight)*0.5f), crouchAmount);
+                    collider.center = Vector3.Lerp(originalColliderOffset, originalColliderOffset - Vector3.up * ((originalColliderHeight - minimumCrouchHeight) * 0.5f), crouchAmount);
                 }
-            }
+            }            
         }
 
         if (ticketLock.GetLocked(TicketLock.LockFlags.Kinematic)) {

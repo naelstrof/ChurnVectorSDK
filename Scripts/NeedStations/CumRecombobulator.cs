@@ -23,15 +23,17 @@ public class CumRecombobulator : NeedStation {
             }
             churnable.transform.position = recombobulateLocation.position;
             churnable.transform.rotation = Quaternion.identity;
+            churnable.transform.gameObject.SetActive(true);
+
             if (churnable is CharacterBase churnableCharacter) {
                 if (churnableCharacter.voreContainer is Balls balls) {
                     var ballsBody = balls.GetStorageTransform();
                     ballsBody.position = recombobulateLocation.position + Vector3.up;
-                    ballsBody.rotation = Quaternion.identity;
+                    ballsBody.rotation = Quaternion.identity;                    
                 }
+                churnableCharacter.voreContainer.SetActive(true);
             }
-
-            churnable.transform.gameObject.SetActive(true);
+            
             Destroy(condom.gameObject);
             beingUsedBy.StartCoroutine(DialogueLibrary.GetDialogue(DialogueLibrary.DialogueGroupType.Recombobulate).Begin(new DialogueCharacter[] {
                 DialogueCharacterSpecificCharacter.Get(churnable.transform.GetComponent<CharacterBase>()),

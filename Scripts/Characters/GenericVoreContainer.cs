@@ -14,6 +14,7 @@ public class GenericVoreContainer : VoreContainer {
     private Animator targetAnimator;
     private CharacterBase target;
     private CumStorage storage;
+    private bool isActive;
     public override CumStorage GetStorage() => storage;
     private float churnAccumulator;
     private const float churnTick = 3f;
@@ -35,6 +36,10 @@ public class GenericVoreContainer : VoreContainer {
     }
 
     public override void LateUpdate() {
+        if (!isActive) {
+            return;
+        }
+
         churnAccumulator += Time.deltaTime;
         if (churnAccumulator > churnTick) {
             churnAccumulator -= churnTick;
@@ -86,5 +91,12 @@ public class GenericVoreContainer : VoreContainer {
 
     public void BeginEmission(CumStorage.ChurnedAction startEvent = null, CumStorage.EmitCumAction emitEvent = null, CumStorage.ChurnedAction endEvent = null) {
         storage.BeginEmission(1.2f, target, startEvent, emitEvent, endEvent);
+    }
+
+    public override void SetActive(bool active) {
+        this.isActive = active;
+        if(active) {
+            inflater.OnEnable();
+        }
     }
 }
