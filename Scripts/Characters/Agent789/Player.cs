@@ -55,7 +55,7 @@ public partial class CharacterBase {
     }
 
     private void OnDisablePlayer() {
-        OnPaused(true);
+        //OnPaused(true);
         Cutscene.cutsceneStarted -= OnCutsceneStarted;
         Cutscene.cutsceneEnded -= OnCutsceneEnded;
         endCockVoreAsPrey -= OnCockVoreAsPrey;

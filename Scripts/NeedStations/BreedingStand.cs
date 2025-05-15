@@ -140,8 +140,11 @@ public class BreedingStand : NeedStation, ICumContainer {
         }
 
         base.OnEndInteract(from);
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        if(from.IsPlayer()) {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        
         if (currentDick is PenetratorJiggleDeform jiggleDeformDick) {
             jiggleDeformDick.SetLinkedPenetrable(null);
         } else {
