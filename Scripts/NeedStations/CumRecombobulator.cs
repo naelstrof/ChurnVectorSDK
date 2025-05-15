@@ -31,6 +31,9 @@ public class CumRecombobulator : NeedStation {
                     ballsBody.position = recombobulateLocation.position + Vector3.up;
                     ballsBody.rotation = Quaternion.identity;                    
                 }
+                if(churnableCharacter.IsPlayer()) {
+                    CharacterDetector.AddTrackingGameObjectToAll(churnableCharacter.gameObject);
+                }
                 churnableCharacter.voreContainer.SetActive(true);
             }
             
