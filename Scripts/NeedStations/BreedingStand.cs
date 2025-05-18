@@ -59,7 +59,6 @@ public class BreedingStand : NeedStation, ICumContainer {
 
     public override bool ShouldInteract(CharacterBase from) {
         if (from.voreContainer == null || from.GetBallVolume() <= 0) return false;
-        if (from.IsPlayer()) return true;
 
         return base.ShouldInteract(from);
     }

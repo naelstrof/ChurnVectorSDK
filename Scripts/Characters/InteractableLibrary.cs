@@ -56,6 +56,17 @@ public class InteractableLibrary : MonoBehaviour {
         if (instance.possibleInteractables.Count == 0) {
             return null;
         }
+        // If the player is the one vored, make the NPC diceroll to empty them rather than rely on random interactable choice
+        foreach (var source in character.voreContainer.GetStorage().GetSources()) {
+            if(source.GetChurnable() is CharacterBase churnable && churnable.IsPlayer()) {
+                if(Random.Range(0, 0.4f) < 0.1f) {
+                    if(TryGetInteractableOfType<BreedingStand>(out var b, character.transform.position)) {
+                        return b;
+                    }
+                }
+            }
+        }
+
         return instance.possibleInteractables[Random.Range(0, instance.possibleInteractables.Count)];
     }
 
