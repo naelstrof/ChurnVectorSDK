@@ -95,7 +95,6 @@ public class ActionSearch : Action {
                 } else {
                     return new ActionEventResponseTransition( new ActionTransitionSuspendFor( new DoNothing(1f), "Couldn't path to search, waiting a sec."));
                 }
-                break;
             case KnowledgeChanged alert:
                 return new ActionEventResponseTransition(continueWork);
         }

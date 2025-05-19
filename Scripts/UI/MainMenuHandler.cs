@@ -16,6 +16,13 @@ public class MainMenuHandler : MonoBehaviour {
     private void OnPauseChanged(bool paused) {
         if (LevelManager.InLevel()) {
             gameObject.SetActive(paused);
+            if(AutoInputSwitcher.GetControlType() == AutoInputSwitcher.ControlType.KeyboardMouse && paused) {
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.Confined;   
+            } else {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+            }            
         }
     }
     

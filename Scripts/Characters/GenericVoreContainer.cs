@@ -18,7 +18,6 @@ public class GenericVoreContainer : VoreContainer {
     public override CumStorage GetStorage() => storage;
     private float churnAccumulator;
     private const float churnTick = 3f;
-    private bool churning = false;
     public override Transform GetStorageTransform() {
         return targetAnimator.GetBoneTransform(HumanBodyBones.Spine);
     }

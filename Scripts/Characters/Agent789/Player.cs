@@ -25,8 +25,6 @@ public partial class CharacterBase {
         Cutscene.cutsceneStarted += OnCutsceneStarted;
         Cutscene.cutsceneEnded += OnCutsceneEnded;
         endCockVoreAsPrey += OnCockVoreAsPrey;
-        Pauser.pauseChanged += OnPaused;
-        OnPaused(Pauser.GetPaused());
         playerEnabled?.Invoke(this);
         interactVisualization = Instantiate(GameManager.GetLibrary().interactVisualizationPrefab);
     }
@@ -44,22 +42,10 @@ public partial class CharacterBase {
         CharacterDetector.RemoveTrackingGameObjectFromAll(gameObject);
     }
 
-    private void OnPaused(bool paused) {
-        if (paused) {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-        } else {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-    }
-
     private void OnDisablePlayer() {
-        //OnPaused(true);
         Cutscene.cutsceneStarted -= OnCutsceneStarted;
         Cutscene.cutsceneEnded -= OnCutsceneEnded;
         endCockVoreAsPrey -= OnCockVoreAsPrey;
-        Pauser.pauseChanged -= OnPaused;
         playerDisabled?.Invoke(this);
         Destroy(interactVisualization);
     }
