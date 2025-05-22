@@ -33,7 +33,7 @@ public partial class CharacterBase {
         if (IsPlayer()) {
             GameManager.PlayerGotCockVored();
         }
-
+        this.gameObject.transform.position = this.gameObject.transform.position.With(y: this.gameObject.transform.position.y - 100);
         var configuration = new OrbitCameraBasicConfiguration();
         var pivot = other.voreContainer.GetStorageTransform().gameObject.AddComponent<OrbitCameraPivotBasic>();
         pivot.SetInfo(Vector2.one * 0.5f, 4f, 65f);

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static KnowledgeDatabase;
 
 public class KnowledgeDatabase {
     public delegate void KnowledgeChangedAction(KnowledgeLevel lastKnowledgeLevel, Knowledge knowledge);
@@ -12,12 +13,7 @@ public class KnowledgeDatabase {
     private RaycastHit[] hits = new RaycastHit[32];
 
     public void ForgetImmediately(GameObject target) {
-        for (int i = 0; i < database.Count; i++) {
-            if (database[i].target == target) {
-                database.RemoveAt(i);
-                break;
-            }
-        }
+        ResetAwareness(target);
 
         if (target.TryGetComponent(out CharacterBase player) && player.IsPlayer()) {
             overallPlayerKnowledge.Remove(this);
@@ -218,6 +214,30 @@ public class KnowledgeDatabase {
         var knowledge = database[targetIndex];
         knowledge.KeepMemoryAlive(keepAlive);
         database[targetIndex] = knowledge;
+    }
+
+    public void ResetAwareness(GameObject target) {
+        int targetIndex = 0;
+        bool searchFound = false;
+        for (int i = 0; i < database.Count; i++) {
+            if (database[i].target == target) {
+                targetIndex = i;
+                searchFound = true;
+                break;
+            }
+        }
+
+        if(!searchFound) {
+            return;
+        }
+
+        var knowledge = database[targetIndex];
+
+        if (knowledge.awareness > 0.6f) {
+            knowledge.awareness = 0.6f;
+            database[targetIndex] = knowledge;
+        }
+        return;
     }
 
     public Knowledge AddAwareness(GameObject target, float delta, KnowledgeLevel maxKnowledgeLevel, Vector3? awarenessPosition = null) {
