@@ -44,15 +44,22 @@ public class GloryHole : BreedingStand {
 
     public override void OnBeginInteract(CharacterBase from) {
         base.OnBeginInteract(from);
+        submissive.GetDisplayAnimator().SetBool(BeingFucked, true);
         if (lastUseTime == 0 || Time.time - lastUseTime > 8f) {
             GameManager.StaticStartCoroutine(DialogueLibrary.GetDialogue(DialogueLibrary.DialogueGroupType.PartnerSex).Begin(new DialogueCharacter[] {
                 DialogueCharacterSpecificCharacter.Get(from),
                 DialogueCharacterSpecificCharacter.Get(submissive),
             }));
             lastUseTime = Time.time;
-            submissive.GetDisplayAnimator().SetBool(BeingFucked, true);
         }
     }
+
+    public override void OnEndInteract(CharacterBase from)
+    {
+        submissive.GetDisplayAnimator().SetBool(BeingFucked, false);
+        base.OnEndInteract(from);
+    }
+
     protected override void FixedUpdate() {
         base.FixedUpdate();
         if (!initialized) {
