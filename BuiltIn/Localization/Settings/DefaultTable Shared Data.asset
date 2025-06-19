@@ -1479,6 +1479,14 @@ MonoBehaviour:
     m_Key: MODDING_INVALID
     m_Metadata:
       m_Items: []
+  - m_Id: 252241196964302848
+    m_Key: MENU_MODDING
+    m_Metadata:
+      m_Items: []
+  - m_Id: 252265831571312640
+    m_Key: MENU_MODS
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

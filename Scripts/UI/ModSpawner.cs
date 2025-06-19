@@ -1,0 +1,57 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.EventSystems;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.UI;
+
+public class ModSpawner : MonoBehaviour
+{
+    [SerializeField] private GameObject modPanelPrefab;
+    [SerializeField] private GameObject errorText;
+    private List<ModPanel> spawnedPrefabs = new List<ModPanel>();
+
+    private void OnEnable()
+    {
+        StartCoroutine(SpawnRoutine());
+    }
+
+    private void OnDisable()
+    {
+        if(spawnedPrefabs == null)
+            return;
+
+        foreach(var obj in spawnedPrefabs)
+            Destroy(obj.gameObject);
+
+        spawnedPrefabs = null;
+        Modding.SavePreferences();
+    }
+
+    private IEnumerator SpawnRoutine()
+    {
+        yield return new WaitUntil(() => !Modding.IsLoading());
+
+        IReadOnlyCollection<Mod> mods = Modding.GetMods(true);
+        foreach(Mod mod in mods)
+        {
+            if (mod != null && mod.GetDescription().GetReplacementCharacters().Count > 0)
+                OnFoundMod(mod);
+        }
+    }
+
+    private void OnFoundMod(Mod mod)
+    {
+        spawnedPrefabs ??= new List<ModPanel>();
+        var modObj = Instantiate(modPanelPrefab, transform);
+
+        ModPanel panel = modObj.GetComponent<ModPanel>();
+        panel.SetMod(mod);
+
+        spawnedPrefabs.Add(panel);
+        errorText.gameObject.SetActive(false);
+    }
+}
