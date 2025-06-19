@@ -23,6 +23,8 @@ public class ModDescription {
         public string replacementGUID;
     }
 
+    Sprite cachedPreview = null;
+
     private Dictionary<string, bool> activeReplacements = new Dictionary<string, bool>();
 
     public IReadOnlyCollection<ReplacementCharacter> GetReplacementCharacters() {
@@ -31,8 +33,12 @@ public class ModDescription {
 
     public Sprite GetPreviewImage()
     {
-        Rect rec = new Rect(0, 0, preview.width, preview.height);
-        return Sprite.Create(preview, rec, Vector2.zero);
+        if (cachedPreview == null)
+        {
+            Rect rec = new Rect(0, 0, preview.width, preview.height);
+            cachedPreview = Sprite.Create(preview, rec, Vector2.zero);
+        }
+        return cachedPreview;
     }
     
     public ModDescription(FileInfo jsonFileInfo) {
@@ -74,9 +80,9 @@ public class ModDescription {
         active = false;
     }
 
-    public bool IsReplacementActive(string replacementGUID)
+    public bool IsReplacementActive(string replacementGUID, bool ignoreModStatus = false)
     {
-        if (!active)
+        if (!active && !ignoreModStatus)
             return false;
 
         if(activeReplacements.ContainsKey(replacementGUID))
@@ -87,14 +93,7 @@ public class ModDescription {
 
     public void SetReplacementActive(string replacementGUID, bool active)
     {
-        Debug.Log($"Toggled: {replacementGUID} = {active}");
-        if (activeReplacements.ContainsKey(replacementGUID))
-            activeReplacements[replacementGUID] = active;
-
-        else
-            activeReplacements.Add(replacementGUID, active);
-
-        Debug.Log($"Result: {replacementGUID} = {activeReplacements[replacementGUID]}");
+        activeReplacements[replacementGUID] = active;
     }
 
     public void SetModActive(bool active)
@@ -102,33 +101,31 @@ public class ModDescription {
         this.active = active;
     }
 
+    private const bool DefaultReplacementActive = true;
+
     public void LoadPreferences(JSONNode rootNode)
     {
-        JSONNode node = rootNode[publishedFileId?.ToString()].Or(JSONNode.Parse("{}"));
+        JSONNode node = rootNode[publishedFileId?.ToString()];
         active = node[nameof(active)];
 
-        foreach(var replacement in replacementCharacters)
+        JSONNode replacementNode = node["replacements"];
+        foreach (var replacement in replacementCharacters)
         {
-            JSONNode replacementNode = node[replacement.replacementGUID].Or(JSONNode.Parse("{}"));
-            if(activeReplacements.ContainsKey(replacement.replacementGUID))
-                activeReplacements[replacement.replacementGUID] = replacementNode["active"].Or(true);
-            else
-                activeReplacements.Add(replacement.replacementGUID, replacementNode["active"].Or(true));
+            activeReplacements[replacement.replacementGUID] = replacementNode[replacement.replacementGUID].Or(DefaultReplacementActive);
         }
     }
 
     public void SavePreferences(JSONNode rootNode)
     {
-        JSONNode node = rootNode[publishedFileId?.ToString()].Or(JSONNode.Parse("{}"));
+        JSONNode node = rootNode[publishedFileId?.ToString()];
         node[nameof(active)] = active;
 
+        JSONNode replacementNode = node["replacements"];
         foreach (var replacement in replacementCharacters)
         {
-            JSONNode replacementNode = node[replacement.replacementGUID].Or(JSONNode.Parse("{}"));
-            replacementNode["active"] = (activeReplacements.ContainsKey(replacement.replacementGUID)) ? activeReplacements[replacement.replacementGUID] : true;
-
-            node[replacement.replacementGUID] = replacementNode;
+            replacementNode[replacement.replacementGUID] = activeReplacements.TryGetValue(replacement.replacementGUID, out bool value) ? value : DefaultReplacementActive;
         }
+        node["replacements"] = replacementNode;
 
         rootNode[publishedFileId?.ToString()] = node;
     }
@@ -136,6 +133,7 @@ public class ModDescription {
     public void Destroy() {
         if (preview != null) {
             Object.Destroy(preview);
+            preview = null;
         }
     }
 }

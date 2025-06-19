@@ -14,12 +14,12 @@ public class CharacterVariant
     public Sprite GetIcon() => characterIcon;
     public Mod GetSource() => source;
     public CivilianReference GetReference() => reference;
-    public virtual bool IsActive()
+    public virtual bool IsActive(bool ignoreSourceState = false)
     {
         if (source == null)
             return true;
 
-        return source.GetDescription().IsReplacementActive(reference.AssetGUID);
+        return source.GetDescription().IsReplacementActive(reference.AssetGUID, ignoreSourceState);
     }
 
     public CharacterVariant(Mod source, string assetGUID)

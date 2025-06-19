@@ -20,7 +20,7 @@ public class VariantPanel : MonoBehaviour
         variantName.text = variant.GetName();
         variantPreview.sprite = variant.GetIcon();
         modSource.text = variant.GetSource().GetDescription().GetTitle();
-        variantToggle.isOn = variant.IsActive();
+        variantToggle.isOn = variant.IsActive(true);
     }
 
     public void ToggleVariant()
