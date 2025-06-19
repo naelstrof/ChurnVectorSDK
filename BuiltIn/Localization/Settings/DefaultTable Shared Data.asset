@@ -1487,6 +1487,10 @@ MonoBehaviour:
     m_Key: MENU_MODS
     m_Metadata:
       m_Items: []
+  - m_Id: 252500120158261248
+    m_Key: MENU_CHARACTERS
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

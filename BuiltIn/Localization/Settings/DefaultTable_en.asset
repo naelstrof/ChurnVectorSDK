@@ -1501,6 +1501,10 @@ MonoBehaviour:
     m_Localized: Mods
     m_Metadata:
       m_Items: []
+  - m_Id: 252500120158261248
+    m_Localized: Character Options
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

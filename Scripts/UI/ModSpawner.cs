@@ -12,6 +12,10 @@ public class ModSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject modPanelPrefab;
     [SerializeField] private GameObject errorText;
+    [SerializeField] private ModReplacementSpawner replacementSpawner;
+
+    [SerializeField] private GameObject selfPanel;
+    [SerializeField] private GameObject activatePanel;
     private List<ModPanel> spawnedPrefabs = new List<ModPanel>();
 
     private void OnEnable()
@@ -53,5 +57,11 @@ public class ModSpawner : MonoBehaviour
 
         spawnedPrefabs.Add(panel);
         errorText.gameObject.SetActive(false);
+
+        panel.GetComponent<Button>().onClick.AddListener(() => {
+            replacementSpawner.AssignMod(mod);
+            selfPanel.SetActive(false);
+            activatePanel.SetActive(true);
+        });
     }
 }

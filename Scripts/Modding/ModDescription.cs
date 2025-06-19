@@ -23,6 +23,8 @@ public class ModDescription {
         public string replacementGUID;
     }
 
+    private Dictionary<string, bool> activeReplacements = new Dictionary<string, bool>();
+
     public IReadOnlyCollection<ReplacementCharacter> GetReplacementCharacters() {
         return replacementCharacters.AsReadOnly();
     }
@@ -72,6 +74,29 @@ public class ModDescription {
         active = false;
     }
 
+    public bool IsReplacementActive(string replacementGUID)
+    {
+        if (!active)
+            return false;
+
+        if(activeReplacements.ContainsKey(replacementGUID))
+            return activeReplacements[replacementGUID];
+
+        return true;
+    }
+
+    public void SetReplacementActive(string replacementGUID, bool active)
+    {
+        Debug.Log($"Toggled: {replacementGUID} = {active}");
+        if (activeReplacements.ContainsKey(replacementGUID))
+            activeReplacements[replacementGUID] = active;
+
+        else
+            activeReplacements.Add(replacementGUID, active);
+
+        Debug.Log($"Result: {replacementGUID} = {activeReplacements[replacementGUID]}");
+    }
+
     public void SetModActive(bool active)
     {
         this.active = active;
@@ -81,12 +106,29 @@ public class ModDescription {
     {
         JSONNode node = rootNode[publishedFileId?.ToString()].Or(JSONNode.Parse("{}"));
         active = node[nameof(active)];
+
+        foreach(var replacement in replacementCharacters)
+        {
+            JSONNode replacementNode = node[replacement.replacementGUID].Or(JSONNode.Parse("{}"));
+            if(activeReplacements.ContainsKey(replacement.replacementGUID))
+                activeReplacements[replacement.replacementGUID] = replacementNode["active"].Or(true);
+            else
+                activeReplacements.Add(replacement.replacementGUID, replacementNode["active"].Or(true));
+        }
     }
 
     public void SavePreferences(JSONNode rootNode)
     {
         JSONNode node = rootNode[publishedFileId?.ToString()].Or(JSONNode.Parse("{}"));
         node[nameof(active)] = active;
+
+        foreach (var replacement in replacementCharacters)
+        {
+            JSONNode replacementNode = node[replacement.replacementGUID].Or(JSONNode.Parse("{}"));
+            replacementNode["active"] = (activeReplacements.ContainsKey(replacement.replacementGUID)) ? activeReplacements[replacement.replacementGUID] : true;
+
+            node[replacement.replacementGUID] = replacementNode;
+        }
 
         rootNode[publishedFileId?.ToString()] = node;
     }
