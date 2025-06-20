@@ -14,13 +14,31 @@ public class VariantPanel : MonoBehaviour
     [SerializeField] private Toggle variantToggle;
     private CharacterVariant variant;
 
-    public void SetVariant(CharacterVariant variant)
+    public IEnumerator SetVariant(CharacterVariant variant)
     {
+        CanvasGroup group = GetComponent<CanvasGroup>();
+        group.alpha = 0;
+        yield return variant.LoadCharacterData();
+
         this.variant = variant;
         variantName.text = variant.GetName();
         variantPreview.sprite = variant.GetIcon();
         modSource.text = variant.GetSource().GetDescription().GetTitle();
         variantToggle.isOn = variant.IsActive(true);
+
+        StartCoroutine(FadeIn(group));
+    }
+
+    private IEnumerator FadeIn(CanvasGroup group)
+    {
+        float t = 0;
+        while (t < 1f)
+        {
+            t += Time.deltaTime * 4f;
+            group.alpha = t;
+            yield return null;
+        }
+        group.alpha = 1;
     }
 
     public void ToggleVariant()

@@ -41,20 +41,22 @@ public class ModReplacementSpawner : MonoBehaviour
         {
             if(variant != null)
             {
-                OnFoundVariant(variant);
+                StartCoroutine(OnFoundVariant(variant));
             }
         }
     }
 
-    private void OnFoundVariant(CharacterVariant variant)
+    private IEnumerator OnFoundVariant(CharacterVariant variant)
     {
         spawnedPrefabs ??= new List<VariantPanel>();
         var variantObj = Instantiate(variantPanelPrefab, transform);
+        //variantObj.SetActive(false);
 
         VariantPanel panel = variantObj.GetComponent<VariantPanel>();
-        panel.SetVariant(variant);
+        yield return panel.SetVariant(variant);
+        errorText.gameObject.SetActive(false);
 
         spawnedPrefabs.Add(panel);
-        errorText.gameObject.SetActive(false);
+        //variantObj.SetActive(true);
     }
 }

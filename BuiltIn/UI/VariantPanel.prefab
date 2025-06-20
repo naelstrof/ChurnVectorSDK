@@ -860,6 +860,7 @@ GameObject:
   - component: {fileID: 8553612914435934271}
   - component: {fileID: 8807006153310430274}
   - component: {fileID: 5206123332732253171}
+  - component: {fileID: 875218000882624542}
   m_Layer: 5
   m_Name: VariantPanel
   m_TagString: Untagged
@@ -957,3 +958,15 @@ MonoBehaviour:
   variantName: {fileID: 4023151595984493776}
   modSource: {fileID: 3083230974295969005}
   variantToggle: {fileID: 8374595125040022853}
+--- !u!225 &875218000882624542
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8768315851006269602}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

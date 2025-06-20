@@ -45,11 +45,6 @@ public class CharacterLibrary : MonoBehaviour
             }
         }
 
-        foreach(var character in variants.Values)
-        {
-            yield return StartCoroutine(character.LoadVariants());
-        }
-
         loading = false;
     }
 
@@ -119,12 +114,6 @@ public class CharacterLibrary : MonoBehaviour
             }
 
             return null;
-        }
-
-        public IEnumerator LoadVariants()
-        {
-            foreach (CharacterVariant variant in variants)
-                yield return variant.LoadCharacterData();
         }
     }
 }

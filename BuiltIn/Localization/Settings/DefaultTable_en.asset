@@ -1505,6 +1505,12 @@ MonoBehaviour:
     m_Localized: Character Options
     m_Metadata:
       m_Items: []
+  - m_Id: 252587473203810304
+    m_Localized: 'Variants are still loading...
+
+      Please wait.'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

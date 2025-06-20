@@ -1491,6 +1491,10 @@ MonoBehaviour:
     m_Key: MENU_CHARACTERS
     m_Metadata:
       m_Items: []
+  - m_Id: 252587473203810304
+    m_Key: VARIANTS_NOT_READY
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
