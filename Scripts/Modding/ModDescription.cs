@@ -25,7 +25,7 @@ public class ModDescription {
 
     Sprite cachedPreview = null;
 
-    private Dictionary<string, bool> activeReplacements = new Dictionary<string, bool>();
+    private Dictionary<(string,string), bool> activeReplacements = new Dictionary<(string,string), bool>();
 
     public IReadOnlyCollection<ReplacementCharacter> GetReplacementCharacters() {
         return replacementCharacters.AsReadOnly();
@@ -80,20 +80,22 @@ public class ModDescription {
         active = false;
     }
 
-    public bool IsReplacementActive(string replacementGUID, bool ignoreModStatus = false)
+    public bool IsReplacementActive(string baseGUID, string replacementGUID, bool ignoreModStatus = false)
     {
         if (!active && !ignoreModStatus)
             return false;
 
-        if(activeReplacements.ContainsKey(replacementGUID))
-            return activeReplacements[replacementGUID];
+        var key = (baseGUID, replacementGUID);
+        if(activeReplacements.ContainsKey(key))
+            return activeReplacements[key];
 
         return true;
     }
 
-    public void SetReplacementActive(string replacementGUID, bool active)
+    public void SetReplacementActive(string baseGUID, string replacementGUID, bool active)
     {
-        activeReplacements[replacementGUID] = active;
+        var key = (baseGUID, replacementGUID);
+        activeReplacements[key] = active;
     }
 
     public void SetModActive(bool active)
@@ -105,25 +107,28 @@ public class ModDescription {
 
     public void LoadPreferences(JSONNode rootNode)
     {
-        JSONNode node = rootNode[publishedFileId?.ToString()];
+        JSONNode node = rootNode[publishedFileId?.ToString()].Or(JSON.Parse("{}"));
         active = node[nameof(active)];
 
-        JSONNode replacementNode = node["replacements"];
+        JSONNode replacementNode = node["replacements"].Or(JSON.Parse("{}"));
         foreach (var replacement in replacementCharacters)
         {
-            activeReplacements[replacement.replacementGUID] = replacementNode[replacement.replacementGUID].Or(DefaultReplacementActive);
+            var key = (replacement.existingGUID, replacement.replacementGUID);
+            activeReplacements[key] = replacementNode[$"{replacement.existingGUID}>{replacement.replacementGUID}"].Or(DefaultReplacementActive);
         }
     }
 
     public void SavePreferences(JSONNode rootNode)
     {
-        JSONNode node = rootNode[publishedFileId?.ToString()];
+        JSONNode node = rootNode[publishedFileId?.ToString()].Or(JSON.Parse("{}"));
         node[nameof(active)] = active;
 
-        JSONNode replacementNode = node["replacements"];
+        JSONNode replacementNode = node["replacements"].Or(JSON.Parse("{}"));
         foreach (var replacement in replacementCharacters)
         {
-            replacementNode[replacement.replacementGUID] = activeReplacements.TryGetValue(replacement.replacementGUID, out bool value) ? value : DefaultReplacementActive;
+            var key = (replacement.existingGUID, replacement.replacementGUID);
+            bool status = activeReplacements.ContainsKey(key) ? activeReplacements[key] : DefaultReplacementActive;
+            replacementNode[$"{replacement.existingGUID}>{replacement.replacementGUID}"] = status;
         }
         node["replacements"] = replacementNode;
 

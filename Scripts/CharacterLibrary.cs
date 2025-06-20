@@ -40,7 +40,7 @@ public class CharacterLibrary : MonoBehaviour
             foreach(var character in mod.GetDescription().GetReplacementCharacters())
             {
                 if (variants.ContainsKey(character.existingGUID))
-                    variants[character.existingGUID].AddVariant(mod, character.replacementGUID);
+                    variants[character.existingGUID].AddVariant(mod, character.existingGUID, character.replacementGUID);
 
             }
         }
@@ -93,9 +93,9 @@ public class CharacterLibrary : MonoBehaviour
             baseVariant = newVariant;
         }
 
-        public void AddVariant(Mod source, string assetGUID)
+        public void AddVariant(Mod source, string baseGUID, string assetGUID)
         {
-            CharacterVariant variant = new CharacterVariant(source, assetGUID);
+            CharacterVariant variant = new CharacterVariant(source, baseGUID, assetGUID);
             if (!variants.Contains(variant))
                 variants.Add(variant);
         }

@@ -5,6 +5,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public class CharacterVariant
 {
     private Mod source;
+    private string baseGUID;
     private CivilianReference reference;
 
     private string name;
@@ -19,18 +20,27 @@ public class CharacterVariant
         if (source == null)
             return true;
 
-        return source.GetDescription().IsReplacementActive(reference.AssetGUID, ignoreSourceState);
+        return source.GetDescription().IsReplacementActive(baseGUID, reference.AssetGUID, ignoreSourceState);
     }
 
-    public CharacterVariant(Mod source, string assetGUID)
+    public CharacterVariant(Mod source, string baseGUID, string assetGUID)
     {
         this.source = source;
+        this.baseGUID = baseGUID;
         this.reference = new CivilianReference(assetGUID);
+    }
+
+    public CharacterVariant(Mod source, string baseGUID)
+    {
+        this.source = source;
+        this.baseGUID = baseGUID;
+        this.reference = new CivilianReference(baseGUID);
     }
 
     public virtual void SetVariantActive(bool active)
     {
-        source.GetDescription().SetReplacementActive(reference.AssetGUID, active);
+        if(source != null)
+            source.GetDescription().SetReplacementActive(baseGUID, reference.AssetGUID, active);
     }
 
     private AsyncOperationHandle<GameObject>? characterHandle;
