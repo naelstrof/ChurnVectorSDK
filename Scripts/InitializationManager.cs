@@ -83,6 +83,7 @@ public class InitializationManager : MonoBehaviour {
     private async Task InitializeAllRoutine() {
         currentStage = InitializationStage.Unloaded;
         await Modding.GetLoadingTask();
+        await CharacterLibrary.GetLoadingTask();
         currentStage = InitializationStage.AfterMods;
         await InitializeStage(currentStage);
         currentStage = InitializationStage.AfterLevelLoad;

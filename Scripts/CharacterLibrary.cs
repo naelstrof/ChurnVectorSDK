@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 public class CharacterLibrary : MonoBehaviour
 {
@@ -14,6 +16,21 @@ public class CharacterLibrary : MonoBehaviour
     private static Dictionary<string, CharacterData> variants = new Dictionary<string, CharacterData>();
 
     public static bool IsLoading() => loading;
+
+    public static Task GetLoadingTask()
+    {
+        if (!IsLoading())
+        {
+            return Task.CompletedTask;
+        }
+
+        return new Task(() => {
+            while (IsLoading())
+            {
+                Thread.Sleep(10);
+            }
+        });
+    }
 
     private void Awake()
     {
@@ -26,7 +43,7 @@ public class CharacterLibrary : MonoBehaviour
 
     private IEnumerator Initiaize()
     {
-        foreach(var character in defaultCharacters)
+        foreach (var character in defaultCharacters)
         {
             string guid = character.AssetGUID;
             if(!variants.ContainsKey(guid))
@@ -35,7 +52,7 @@ public class CharacterLibrary : MonoBehaviour
 
         yield return new WaitUntil(() => !Modding.IsLoading());
 
-        foreach(var mod in Modding.GetMods(true))
+        foreach (var mod in Modding.GetMods(true))
         {
             foreach(var character in mod.GetDescription().GetReplacementCharacters())
             {
