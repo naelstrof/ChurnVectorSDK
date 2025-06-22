@@ -6,6 +6,7 @@ using UnityEngine;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using SimpleJSON;
 
 public class CharacterLibrary : MonoBehaviour
 {
@@ -14,8 +15,17 @@ public class CharacterLibrary : MonoBehaviour
     private static bool loading = true;
     private static CharacterLibrary instance;
     private static Dictionary<string, CharacterData> variants = new Dictionary<string, CharacterData>();
+    private static ReplacementMethod replacementMethod;
+
+    public enum ReplacementMethod
+    {
+        Default,
+        Random,
+        Alternating
+    }
 
     public static bool IsLoading() => loading;
+    public static ReplacementMethod GetReplacementMethod() => replacementMethod;
 
     public static Task GetLoadingTask()
     {
@@ -65,12 +75,22 @@ public class CharacterLibrary : MonoBehaviour
         loading = false;
     }
 
+    public static void Load(JSONNode node)
+    {
+        replacementMethod = (ReplacementMethod)(int)node[nameof(replacementMethod)].Or(0);
+    }
+
+    public static void Save(JSONNode node)
+    {
+        node[nameof(replacementMethod)] = (int)replacementMethod;
+    }
+
     public static CivilianReference GetCharacter(CivilianReference civilian)
     {
         if(!variants.ContainsKey(civilian.AssetGUID))
             return null;
 
-        return variants[civilian.AssetGUID].GetCharacter();
+        return variants[civilian.AssetGUID].GetCharacter(replacementMethod);
     }
 
     public static IReadOnlyCollection<CharacterVariant> GetVariants(Mod mod)
@@ -93,10 +113,19 @@ public class CharacterLibrary : MonoBehaviour
         return result;
     }
 
+    public static void SetReplacementMethod(ReplacementMethod newMethod)
+    {
+        replacementMethod = newMethod;
+    }
+
     private class CharacterData
     {
         private CharacterVariant baseVariant;
         private List<CharacterVariant> variants;
+
+        private CivilianReference lastUsed;
+        private float timeSinceAccess = -1f;
+        private int index = 0;
 
         public CharacterData(CivilianReference baseCharacter)
         {
@@ -112,14 +141,34 @@ public class CharacterLibrary : MonoBehaviour
                 variants.Add(variant);
         }
 
-        public CivilianReference GetCharacter()
+        public CivilianReference GetCharacter(ReplacementMethod method = ReplacementMethod.Default)
         {
             var activeVariants = variants.Where(variant => variant.IsActive()).ToList();
 
             if (activeVariants.Count == 0)
                 return baseVariant.GetReference();
 
-            return activeVariants[UnityEngine.Random.Range(0, activeVariants.Count)].GetReference();
+            CivilianReference result;
+
+            switch(method)
+            {
+                case ReplacementMethod.Random:
+                    result = activeVariants[UnityEngine.Random.Range(0, activeVariants.Count)].GetReference();
+                    break;
+                case ReplacementMethod.Alternating:
+                    if (timeSinceAccess > Time.time - 15f)
+                        index++;
+                    else
+                        index = 0;
+                    result = activeVariants[index % activeVariants.Count].GetReference();
+                    break;
+                default:
+                    result = activeVariants[0].GetReference();
+                    break;
+            }
+
+            timeSinceAccess = Time.time;
+            return result;
         }
 
         public CharacterVariant GetVariant(string assetGUID)

@@ -1495,6 +1495,22 @@ MonoBehaviour:
     m_Key: VARIANTS_NOT_READY
     m_Metadata:
       m_Items: []
+  - m_Id: 253372394331623424
+    m_Key: ENABLE_MODS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372398412681216
+    m_Key: DISABLE_MODS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372564507119616
+    m_Key: MENU_MOD_OPTIONS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372618949185536
+    m_Key: MENU_REPLACEMENT
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

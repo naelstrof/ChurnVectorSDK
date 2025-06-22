@@ -26,4 +26,9 @@ public class ModPanel : MonoBehaviour
     {
         mod.GetDescription().SetModActive(modToggle.isOn);
     }
+
+    public void Refresh()
+    {
+        modToggle.isOn = mod.GetDescription().IsActive();
+    }
 }

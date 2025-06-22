@@ -16,16 +16,20 @@ public class ModSpawner : MonoBehaviour
 
     [SerializeField] private GameObject selfPanel;
     [SerializeField] private GameObject activatePanel;
+    [SerializeField] private GameObject modPanel;
     private List<ModPanel> spawnedPrefabs = new List<ModPanel>();
 
     private void OnEnable()
     {
+        modPanel.SetActive(true);
         StartCoroutine(SpawnRoutine());
     }
 
     private void OnDisable()
     {
-        if(spawnedPrefabs == null)
+        modPanel.SetActive(false);
+
+        if (spawnedPrefabs == null)
             return;
 
         foreach(var obj in spawnedPrefabs)
@@ -63,5 +67,11 @@ public class ModSpawner : MonoBehaviour
             selfPanel.SetActive(false);
             activatePanel.SetActive(true);
         });
+    }
+
+    public void RefreshAll()
+    {
+        foreach (ModPanel panel in spawnedPrefabs)
+            panel.Refresh();
     }
 }

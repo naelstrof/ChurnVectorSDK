@@ -127,6 +127,8 @@ public class Modding : MonoBehaviour {
         JSONNode data = SaveManager.GetData();
         JSONNode preferences = data["mods"].Or(JSONNode.Parse("{}"));
 
+        CharacterLibrary.Load(preferences);
+
         foreach(Mod mod in mods)
         {
             mod.GetDescription().LoadPreferences(preferences);
@@ -137,6 +139,8 @@ public class Modding : MonoBehaviour {
     {
         JSONNode data = SaveManager.GetData();
         JSONNode preferences = data["mods"].Or(JSONNode.Parse("{}"));
+
+        CharacterLibrary.Save(preferences);
 
         foreach (Mod mod in mods)
         {

@@ -6,17 +6,21 @@ public class ModReplacementSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject variantPanelPrefab;
     [SerializeField] private GameObject errorText;
+    [SerializeField] private GameObject junk;
     private List<VariantPanel> spawnedPrefabs = new List<VariantPanel>();
 
     private Mod mod;
 
     private void OnEnable()
     {
+        junk.SetActive(true);
         StartCoroutine(SpawnRoutine());
     }
 
     private void OnDisable()
     {
+        junk.SetActive(false);
+
         if (spawnedPrefabs == null)
             return;
 

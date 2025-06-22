@@ -1511,6 +1511,22 @@ MonoBehaviour:
       Please wait.'
     m_Metadata:
       m_Items: []
+  - m_Id: 253372398412681216
+    m_Localized: Disable All
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372394331623424
+    m_Localized: Enable All
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372564507119616
+    m_Localized: Mod Options
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372618949185536
+    m_Localized: Replacement Options
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
