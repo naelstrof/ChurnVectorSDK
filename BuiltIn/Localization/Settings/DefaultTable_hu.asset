@@ -1454,6 +1454,54 @@ MonoBehaviour:
       fizet\xE9st."
     m_Metadata:
       m_Items: []
+  - m_Id: 252241196964302848
+    m_Localized: Moding
+    m_Metadata:
+      m_Items: []
+  - m_Id: 252265831571312640
+    m_Localized: Mods
+    m_Metadata:
+      m_Items: []
+  - m_Id: 252500120158261248
+    m_Localized: "Karakter opci\xF3k"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 252587473203810304
+    m_Localized: "A v\xE1ltozatok m\xE9g t\xF6lt\u0151dnek...\nK\xE9rj\xFCk, v\xE1rjon."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372394331623424
+    m_Localized: "\xD6sszes enged\xE9lyez\xE9se"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372398412681216
+    m_Localized: "\xD6sszes letilt\xE1sa"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372564507119616
+    m_Localized: Mod Options
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372618949185536
+    m_Localized: "Csere opci\xF3k"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531261900345344
+    m_Localized: "Nem tal\xE1lhat\xF3 mod."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531820321591296
+    m_Localized: "Alap\xE9rtelmezett"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531822213222400
+    m_Localized: "V\xE1ltakoz\xF3"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531824138407936
+    m_Localized: "V\xE9letlen"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

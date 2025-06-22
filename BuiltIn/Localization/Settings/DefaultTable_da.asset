@@ -1444,6 +1444,54 @@ MonoBehaviour:
       vil fors\xF8ge at forhandle en risikobetaling for dig."
     m_Metadata:
       m_Items: []
+  - m_Id: 252241196964302848
+    m_Localized: Modding
+    m_Metadata:
+      m_Items: []
+  - m_Id: 252265831571312640
+    m_Localized: Mods
+    m_Metadata:
+      m_Items: []
+  - m_Id: 252500120158261248
+    m_Localized: Karakterindstillinger
+    m_Metadata:
+      m_Items: []
+  - m_Id: 252587473203810304
+    m_Localized: "Varianter indl\xE6ses stadig...\nVent venligst."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372394331623424
+    m_Localized: Aktiver alle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372398412681216
+    m_Localized: Deaktiver alle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372564507119616
+    m_Localized: Mod muligheder
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372618949185536
+    m_Localized: Udskiftningsmuligheder
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531261900345344
+    m_Localized: Ingen mods fundet.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531820321591296
+    m_Localized: Misligholdelse
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531822213222400
+    m_Localized: Skiftende
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531824138407936
+    m_Localized: "Tilf\xE6ldig"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -14,6 +14,7 @@ public class ModOptions : MonoBehaviour
     [SerializeField] private TMP_Dropdown dropdown;
     [SerializeField] private Button enableButton;
     [SerializeField] private Button disableButton;
+    [SerializeField] private LocalizedString[] options;
 
     private CharacterLibrary.ReplacementMethod selectMethod;
     bool initialized = false;
@@ -26,19 +27,25 @@ public class ModOptions : MonoBehaviour
             InitializeButtons();
             initialized = true;
         }
+
+        UpdateDropdown();
     }
 
     private void InitializeDropdown()
     {
         selectMethod = CharacterLibrary.GetReplacementMethod();
+        UpdateDropdown();
+        dropdown.onValueChanged.AddListener(SetValue);
+    }
 
+    public void UpdateDropdown()
+    {
         List<TMP_Dropdown.OptionData> data = new List<TMP_Dropdown.OptionData>();
-        foreach (string str in Enum.GetNames(typeof(CharacterLibrary.ReplacementMethod)))
+        foreach (int value in Enum.GetValues(typeof(CharacterLibrary.ReplacementMethod)))
         {
-            data.Add(new TMP_Dropdown.OptionData(str));
+            data.Add(new TMP_Dropdown.OptionData(options[value].GetLocalizedString()));
         }
         dropdown.options = data;
-        dropdown.onValueChanged.AddListener(SetValue);
         dropdown.SetValueWithoutNotify((int)selectMethod);
     }
 

@@ -1459,6 +1459,54 @@ MonoBehaviour:
       balonul. Vom \xEEncerca s\u0103 negociem o plat\u0103 de risc pentru tine."
     m_Metadata:
       m_Items: []
+  - m_Id: 252241196964302848
+    m_Localized: Modificare
+    m_Metadata:
+      m_Items: []
+  - m_Id: 252265831571312640
+    m_Localized: Moduri
+    m_Metadata:
+      m_Items: []
+  - m_Id: 252500120158261248
+    m_Localized: "Op\u021Biuni de caractere"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 252587473203810304
+    m_Localized: "Variantele \xEEnc\u0103 se \xEEncarc\u0103...\nVa rugam asteptati."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372394331623424
+    m_Localized: "Activa\u021Bi toate"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372398412681216
+    m_Localized: "Dezactiva\u021Bi toate"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372564507119616
+    m_Localized: "Op\u021Biuni de modificare"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372618949185536
+    m_Localized: "Op\u021Biuni de \xEEnlocuire"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531261900345344
+    m_Localized: "Nu s-au g\u0103sit modific\u0103ri."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531820321591296
+    m_Localized: Implicit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531822213222400
+    m_Localized: Alternativ
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531824138407936
+    m_Localized: Aleatoriu
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

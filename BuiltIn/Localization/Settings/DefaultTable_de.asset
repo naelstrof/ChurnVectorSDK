@@ -1449,6 +1449,56 @@ MonoBehaviour:
       entwischt bist. Wir werden versuchen, f\xFCr Sie eine Gefahrenzulage auszuhandeln."
     m_Metadata:
       m_Items: []
+  - m_Id: 252241196964302848
+    m_Localized: Modding
+    m_Metadata:
+      m_Items: []
+  - m_Id: 252265831571312640
+    m_Localized: Mods
+    m_Metadata:
+      m_Items: []
+  - m_Id: 252500120158261248
+    m_Localized: Charakteroptionen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 252587473203810304
+    m_Localized: 'Varianten werden noch geladen...
+
+      Bitte warten.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372394331623424
+    m_Localized: Alle aktivieren
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372398412681216
+    m_Localized: Alle deaktivieren
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372564507119616
+    m_Localized: Mod-Optionen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372618949185536
+    m_Localized: Ersatzoptionen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531261900345344
+    m_Localized: Keine Mods gefunden.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531820321591296
+    m_Localized: Standard
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531822213222400
+    m_Localized: Abwechselnd
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531824138407936
+    m_Localized: "Zuf\xE4llig"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

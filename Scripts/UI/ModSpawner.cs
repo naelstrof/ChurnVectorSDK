@@ -7,9 +7,12 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.EventSystems;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
+using UnityEngine.Localization;
+using TMPro;
 
 public class ModSpawner : MonoBehaviour
 {
+    [SerializeField] private LocalizedString noModString;
     [SerializeField] private GameObject modPanelPrefab;
     [SerializeField] private GameObject errorText;
     [SerializeField] private ModReplacementSpawner replacementSpawner;
@@ -48,6 +51,11 @@ public class ModSpawner : MonoBehaviour
         {
             if (mod != null && mod.GetDescription().GetReplacementCharacters().Count > 0)
                 OnFoundMod(mod);
+        }
+
+        if(spawnedPrefabs == null || spawnedPrefabs.Count == 0)
+        {
+            errorText.GetComponent<TMP_Text>().text = noModString.GetLocalizedString();
         }
     }
 

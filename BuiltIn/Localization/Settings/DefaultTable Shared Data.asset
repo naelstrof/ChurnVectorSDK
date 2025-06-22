@@ -1511,6 +1511,22 @@ MonoBehaviour:
     m_Key: MENU_REPLACEMENT
     m_Metadata:
       m_Items: []
+  - m_Id: 253531261900345344
+    m_Key: NO_MODS_FOUND
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531820321591296
+    m_Key: REPLACEMENT_DEFAULT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531822213222400
+    m_Key: REPLACEMENT_ALTERNATING
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531824138407936
+    m_Key: REPLACEMENT_RANDOM
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

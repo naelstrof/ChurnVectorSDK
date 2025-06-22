@@ -1527,6 +1527,22 @@ MonoBehaviour:
     m_Localized: Replacement Options
     m_Metadata:
       m_Items: []
+  - m_Id: 253531261900345344
+    m_Localized: No mods found.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531820321591296
+    m_Localized: Default
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531822213222400
+    m_Localized: Alternating
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531824138407936
+    m_Localized: Random
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
