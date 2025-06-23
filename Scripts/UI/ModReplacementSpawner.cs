@@ -1,18 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Localization;
+using TMPro;
 
 public class ModReplacementSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject variantPanelPrefab;
-    [SerializeField] private GameObject errorText;
+    [SerializeField] private TMP_Text errorText;
     [SerializeField] private GameObject junk;
-    private List<VariantPanel> spawnedPrefabs = new List<VariantPanel>();
+    [SerializeField] private GameObject selfPanel;
+    [SerializeField] private Button backButton;
 
-    private Mod mod;
+    [SerializeField] private LocalizedString errorMessage;
+    [SerializeField] private LocalizedString notFoundMessage;
+
+    private List<VariantPanel> spawnedPrefabs = new List<VariantPanel>();
+    private List<CharacterVariant> characterVariants = new List<CharacterVariant>();
+    private GameObject previous;
+
+    bool found = false;
 
     private void OnEnable()
     {
+        found = false;
+
+        selfPanel.SetActive(true);
         junk.SetActive(true);
         StartCoroutine(SpawnRoutine());
     }
@@ -20,6 +34,8 @@ public class ModReplacementSpawner : MonoBehaviour
     private void OnDisable()
     {
         junk.SetActive(false);
+        selfPanel.SetActive(false);
+        previous.SetActive(true);
 
         if (spawnedPrefabs == null)
             return;
@@ -31,23 +47,44 @@ public class ModReplacementSpawner : MonoBehaviour
         Modding.SavePreferences();
     }
 
+    public void SetPreviousMenu(GameObject menu)
+    {
+        previous = menu;
+        backButton.onClick.RemoveAllListeners();
+        backButton.onClick.AddListener(() =>
+        {
+            selfPanel.SetActive(false);
+            previous.SetActive(true);
+        });
+    }
+
     public void AssignMod(Mod mod)
     {
-        this.mod = mod;
+        characterVariants = CharacterLibrary.GetVariants(mod);
+    }
+
+    public void AssignBase(CivilianReference baseCharacter)
+    {
+        characterVariants = CharacterLibrary.GetVariants(baseCharacter);
     }
 
     private IEnumerator SpawnRoutine()
     {
         yield return new WaitUntil(() => !CharacterLibrary.IsLoading());
-        errorText.SetActive(true);
+        errorText.gameObject.SetActive(true);
+        errorText.text = errorMessage.GetLocalizedString();
 
-        foreach(var variant in CharacterLibrary.GetVariants(mod))
+        foreach(var variant in characterVariants)
         {
             if(variant != null)
             {
+                found = true;
                 StartCoroutine(OnFoundVariant(variant));
             }
         }
+
+        if (found == false)
+            errorText.text = notFoundMessage.GetLocalizedString();
     }
 
     private IEnumerator OnFoundVariant(CharacterVariant variant)
@@ -57,10 +94,10 @@ public class ModReplacementSpawner : MonoBehaviour
         //variantObj.SetActive(false);
 
         VariantPanel panel = variantObj.GetComponent<VariantPanel>();
+        spawnedPrefabs.Add(panel);
         yield return panel.SetVariant(variant);
         errorText.gameObject.SetActive(false);
 
-        spawnedPrefabs.Add(panel);
         //variantObj.SetActive(true);
     }
 }

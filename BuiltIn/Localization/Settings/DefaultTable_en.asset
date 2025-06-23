@@ -1543,6 +1543,14 @@ MonoBehaviour:
     m_Localized: Random
     m_Metadata:
       m_Items: []
+  - m_Id: 253663697682485248
+    m_Localized: Character Library
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253663765089144832
+    m_Localized: No variants found.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

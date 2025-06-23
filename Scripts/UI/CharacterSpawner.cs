@@ -1,37 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Localization;
+using UnityEngine.UI;
+using TMPro;
 
-public class ModSpawner : MonoBehaviour
+public class CharacterSpawner : MonoBehaviour
 {
     [SerializeField] private LocalizedString noModString;
-    [SerializeField] private GameObject modPanelPrefab;
+    [SerializeField] private GameObject characterPanelPrefab;
     [SerializeField] private GameObject errorText;
     [SerializeField] private ModReplacementSpawner replacementSpawner;
 
     [SerializeField] private GameObject selfPanel;
     [SerializeField] private GameObject activatePanel;
-    [SerializeField] private GameObject modPanel;
-    private List<ModPanel> spawnedPrefabs = new List<ModPanel>();
+    [SerializeField] private GameObject junk;
+    private List<CharacterPanel> spawnedPrefabs = new List<CharacterPanel>();
 
     private void OnEnable()
     {
         replacementSpawner.SetPreviousMenu(selfPanel);
-        modPanel.SetActive(true);
+        junk.SetActive(true);
         StartCoroutine(SpawnRoutine());
     }
 
     private void OnDisable()
     {
-        modPanel.SetActive(false);
-
+        junk.SetActive(false);
         if (spawnedPrefabs == null)
             return;
 
-        foreach(var obj in spawnedPrefabs)
+        foreach (var obj in spawnedPrefabs)
             Destroy(obj.gameObject);
 
         spawnedPrefabs = null;
@@ -40,42 +39,34 @@ public class ModSpawner : MonoBehaviour
 
     private IEnumerator SpawnRoutine()
     {
-        yield return new WaitUntil(() => !Modding.IsLoading());
+        yield return new WaitUntil(() => !CharacterLibrary.IsLoading());
 
-        IReadOnlyCollection<Mod> mods = Modding.GetMods(true);
-        foreach(Mod mod in mods)
+        foreach(CharacterVariant variant in CharacterLibrary.GetDefaults())
         {
-            if (mod != null && mod.GetDescription().GetReplacementCharacters().Count > 0)
-                OnFoundMod(mod);
+            StartCoroutine(OnFoundCharacter(variant));
         }
 
-        if(spawnedPrefabs == null || spawnedPrefabs.Count == 0)
+
+        if (spawnedPrefabs == null || spawnedPrefabs.Count == 0)
         {
             errorText.GetComponent<TMP_Text>().text = noModString.GetLocalizedString();
         }
     }
 
-    private void OnFoundMod(Mod mod)
+    private IEnumerator OnFoundCharacter(CharacterVariant character)
     {
-        spawnedPrefabs ??= new List<ModPanel>();
-        var modObj = Instantiate(modPanelPrefab, transform);
+        spawnedPrefabs ??= new List<CharacterPanel>();
+        var uiObj = Instantiate(characterPanelPrefab, transform);
 
-        ModPanel panel = modObj.GetComponent<ModPanel>();
-        panel.SetMod(mod);
+        CharacterPanel panel = uiObj.GetComponent<CharacterPanel>();
+        yield return panel.SetCharacter(character, replacementSpawner);
 
         spawnedPrefabs.Add(panel);
         errorText.gameObject.SetActive(false);
 
         panel.GetComponent<Button>().onClick.AddListener(() => {
-            replacementSpawner.AssignMod(mod);
             selfPanel.SetActive(false);
             activatePanel.SetActive(true);
         });
-    }
-
-    public void RefreshAll()
-    {
-        foreach (ModPanel panel in spawnedPrefabs)
-            panel.Refresh();
     }
 }

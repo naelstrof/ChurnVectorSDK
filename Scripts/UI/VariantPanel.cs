@@ -23,7 +23,8 @@ public class VariantPanel : MonoBehaviour
         this.variant = variant;
         variantName.text = variant.GetName();
         variantPreview.sprite = variant.GetIcon();
-        modSource.text = variant.GetSource().GetDescription().GetTitle();
+        if(variant.GetSource() != null)
+            modSource.text = variant.GetSource().GetDescription().GetTitle();
         variantToggle.isOn = variant.IsActive(true);
 
         StartCoroutine(FadeIn(group));

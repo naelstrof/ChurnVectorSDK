@@ -93,7 +93,7 @@ public class CharacterLibrary : MonoBehaviour
         return variants[civilian.AssetGUID].GetCharacter(replacementMethod);
     }
 
-    public static IReadOnlyCollection<CharacterVariant> GetVariants(Mod mod)
+    public static List<CharacterVariant> GetVariants(Mod mod)
     {
         var result = new List<CharacterVariant>();
 
@@ -113,6 +113,31 @@ public class CharacterLibrary : MonoBehaviour
         return result;
     }
 
+    public static List<CharacterVariant> GetDefaults()
+    {
+        List<CharacterVariant> result = new List<CharacterVariant>();
+
+        foreach(var character in variants.Values)
+        {
+            result.Add(character.GetBaseVariant());
+        }
+
+        return result;
+    }
+
+    public static List<CharacterVariant> GetVariants(CivilianReference baseCharacter)
+    {
+        var result = new List<CharacterVariant>();
+
+        if(!variants.ContainsKey(baseCharacter.AssetGUID))
+        {
+            return result;
+        }
+
+        result = variants[baseCharacter.AssetGUID].GetVariants();
+        return result;
+    }
+
     public static void SetReplacementMethod(ReplacementMethod newMethod)
     {
         replacementMethod = newMethod;
@@ -126,6 +151,8 @@ public class CharacterLibrary : MonoBehaviour
         private CivilianReference lastUsed;
         private float timeSinceAccess = -1f;
         private int index = 0;
+
+        public CharacterVariant GetBaseVariant() => baseVariant;
 
         public CharacterData(CivilianReference baseCharacter)
         {
@@ -180,6 +207,11 @@ public class CharacterLibrary : MonoBehaviour
             }
 
             return null;
+        }
+
+        public List<CharacterVariant> GetVariants()
+        {
+            return variants.Where(variant => variant.GetSource().GetDescription().IsActive()).ToList();
         }
     }
 }

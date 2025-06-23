@@ -1527,6 +1527,14 @@ MonoBehaviour:
     m_Key: REPLACEMENT_RANDOM
     m_Metadata:
       m_Items: []
+  - m_Id: 253663697682485248
+    m_Key: CHARACTER_LIBRARY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253663765089144832
+    m_Key: NO_VARIANTS
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
