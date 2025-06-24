@@ -1495,7 +1495,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 253531822213222400
-    m_Localized: "V\xE1ltakoz\xF3"
+    m_Localized: "Ciklus csoportonk\xE9nt"
     m_Metadata:
       m_Items: []
   - m_Id: 253531824138407936
@@ -1512,6 +1512,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 253669925896769536
     m_Localized: Karakterek
+    m_Metadata:
+      m_Items: []
+  - m_Id: 254275821354012672
+    m_Localized: "Ciklus karakterenk\xE9nt"
     m_Metadata:
       m_Items: []
   references:

@@ -1492,7 +1492,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 253531822213222400
-    m_Localized: Abwechselnd
+    m_Localized: Zyklus nach Gruppe
     m_Metadata:
       m_Items: []
   - m_Id: 253531824138407936
@@ -1509,6 +1509,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 253669925896769536
     m_Localized: Charaktere
+    m_Metadata:
+      m_Items: []
+  - m_Id: 254275821354012672
+    m_Localized: Zyklus nach Charakter
     m_Metadata:
       m_Items: []
   references:

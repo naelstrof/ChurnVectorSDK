@@ -1494,7 +1494,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 253531822213222400
-    m_Localized: Alternando
+    m_Localized: Ciclo per gruppo
     m_Metadata:
       m_Items: []
   - m_Id: 253531824138407936
@@ -1511,6 +1511,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 253669925896769536
     m_Localized: Caratteri
+    m_Metadata:
+      m_Items: []
+  - m_Id: 254275821354012672
+    m_Localized: Ciclo per personaggio
     m_Metadata:
       m_Items: []
   references:

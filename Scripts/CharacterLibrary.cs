@@ -10,6 +10,7 @@ using SimpleJSON;
 
 public class CharacterLibrary : MonoBehaviour
 {
+    public GameEvent startGameEvent;
     public List<CivilianReference> defaultCharacters;
 
     private static bool loading = true;
@@ -17,11 +18,14 @@ public class CharacterLibrary : MonoBehaviour
     private static Dictionary<string, CharacterData> variants = new Dictionary<string, CharacterData>();
     private static ReplacementMethod replacementMethod;
 
+    protected static int cycle = 0;
+
     public enum ReplacementMethod
     {
         Default,
         Random,
-        Alternating
+        CycleGroup,
+        CycleIndividual
     }
 
     public static bool IsLoading() => loading;
@@ -48,6 +52,21 @@ public class CharacterLibrary : MonoBehaviour
         {
             instance = this;
             StartCoroutine(Initiaize());
+
+            instance.startGameEvent.triggered += Cycle;
+        }
+    }
+
+    private void Cycle()
+    {
+        cycle++;
+    }
+
+    private void OnDestroy()
+    {
+        if(instance == this)
+        {
+            instance.startGameEvent.triggered -= Cycle;
         }
     }
 
@@ -62,7 +81,7 @@ public class CharacterLibrary : MonoBehaviour
 
         yield return new WaitUntil(() => !Modding.IsLoading());
 
-        foreach (var mod in Modding.GetMods(true))
+        foreach (var mod in Modding.GetMods())
         {
             foreach(var character in mod.GetDescription().GetReplacementCharacters())
             {
@@ -148,10 +167,6 @@ public class CharacterLibrary : MonoBehaviour
         private CharacterVariant baseVariant;
         private List<CharacterVariant> variants;
 
-        private CivilianReference lastUsed;
-        private float timeSinceAccess = -1f;
-        private int index = 0;
-
         public CharacterVariant GetBaseVariant() => baseVariant;
 
         public CharacterData(CivilianReference baseCharacter)
@@ -168,6 +183,8 @@ public class CharacterLibrary : MonoBehaviour
                 variants.Add(variant);
         }
 
+        private int index = 0;
+
         public CivilianReference GetCharacter(ReplacementMethod method = ReplacementMethod.Default)
         {
             var activeVariants = variants.Where(variant => variant.IsActive()).ToList();
@@ -182,19 +199,18 @@ public class CharacterLibrary : MonoBehaviour
                 case ReplacementMethod.Random:
                     result = activeVariants[UnityEngine.Random.Range(0, activeVariants.Count)].GetReference();
                     break;
-                case ReplacementMethod.Alternating:
-                    if (timeSinceAccess > Time.time - 15f)
-                        index++;
-                    else
-                        index = 0;
+                case ReplacementMethod.CycleGroup:
+                    result = activeVariants[cycle % activeVariants.Count].GetReference();
+                    break;
+                case ReplacementMethod.CycleIndividual:
                     result = activeVariants[index % activeVariants.Count].GetReference();
+                    index++;
                     break;
                 default:
                     result = activeVariants[0].GetReference();
                     break;
             }
 
-            timeSinceAccess = Time.time;
             return result;
         }
 

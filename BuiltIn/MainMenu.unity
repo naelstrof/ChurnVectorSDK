@@ -229,6 +229,27 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 849001599780390319, guid: cd22b2666f158cc45b56bd0d42959cac,
+        type: 3}
+      propertyPath: options.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 849001599780390319, guid: cd22b2666f158cc45b56bd0d42959cac,
+        type: 3}
+      propertyPath: options.Array.data[3].m_TableEntryReference.m_KeyId
+      value: 254275821354012672
+      objectReference: {fileID: 0}
+    - target: {fileID: 849001599780390319, guid: cd22b2666f158cc45b56bd0d42959cac,
+        type: 3}
+      propertyPath: options.Array.data[3].m_TableReference.m_TableCollectionName
+      value: GUID:801b23fcb4b7b884196ed7584cceb3c9
+      objectReference: {fileID: 0}
+    - target: {fileID: 969793964381983075, guid: cd22b2666f158cc45b56bd0d42959cac,
+        type: 3}
+      propertyPath: startGameEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: fd0d8a4fe192d7046ab6f52407247b5a,
+        type: 2}
     - target: {fileID: 4943892592661157618, guid: cd22b2666f158cc45b56bd0d42959cac,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -287,6 +308,11 @@ PrefabInstance:
     - target: {fileID: 5662563756023277933, guid: cd22b2666f158cc45b56bd0d42959cac,
         type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6523275212426408569, guid: cd22b2666f158cc45b56bd0d42959cac,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:

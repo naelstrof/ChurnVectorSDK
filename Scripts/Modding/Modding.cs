@@ -34,14 +34,11 @@ public class Modding : MonoBehaviour {
             }
         });
     }
-    public static IReadOnlyCollection<Mod> GetMods(bool includeInactive = false) {
+    public static IReadOnlyCollection<Mod> GetMods() {
         if (IsLoading()) {
             throw new UnityException( "Tried to get a character before modding was done... Please use the InitializationManager to ensure things are ready...");
         }
         LoadPreferences();
-
-        if(!includeInactive)
-            return mods.Where(mod => mod.GetDescription().IsActive()).ToList().AsReadOnly();
 
         return mods.AsReadOnly();
     }

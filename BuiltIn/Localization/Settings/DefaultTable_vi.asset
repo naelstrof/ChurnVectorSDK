@@ -1573,7 +1573,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 253531822213222400
-    m_Localized: "xen k\u1EBD"
+    m_Localized: "Chu k\u1EF3 theo nh\xF3m"
     m_Metadata:
       m_Items: []
   - m_Id: 253531824138407936
@@ -1590,6 +1590,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 253669925896769536
     m_Localized: "Nh\xE2n v\u1EADt"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 254275821354012672
+    m_Localized: "Chu k\u1EF3 theo k\xFD t\u1EF1"
     m_Metadata:
       m_Items: []
   references:

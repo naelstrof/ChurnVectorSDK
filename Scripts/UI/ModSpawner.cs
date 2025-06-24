@@ -19,7 +19,6 @@ public class ModSpawner : MonoBehaviour
 
     private void OnEnable()
     {
-        modPanel.SetActive(true);
         StartCoroutine(SpawnRoutine());
     }
 
@@ -41,8 +40,10 @@ public class ModSpawner : MonoBehaviour
     {
         yield return new WaitUntil(() => !Modding.IsLoading());
 
-        IReadOnlyCollection<Mod> mods = Modding.GetMods(true);
-        foreach(Mod mod in mods)
+        IReadOnlyCollection<Mod> mods = Modding.GetMods();
+        modPanel.SetActive(true);
+
+        foreach (Mod mod in mods)
         {
             if (mod != null && mod.GetDescription().GetReplacementCharacters().Count > 0)
                 OnFoundMod(mod);

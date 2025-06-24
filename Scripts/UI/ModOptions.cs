@@ -33,13 +33,14 @@ public class ModOptions : MonoBehaviour
 
     private void InitializeDropdown()
     {
-        selectMethod = CharacterLibrary.GetReplacementMethod();
         UpdateDropdown();
         dropdown.onValueChanged.AddListener(SetValue);
     }
 
     public void UpdateDropdown()
     {
+        selectMethod = CharacterLibrary.GetReplacementMethod();
+
         List<TMP_Dropdown.OptionData> data = new List<TMP_Dropdown.OptionData>();
         foreach (int value in Enum.GetValues(typeof(CharacterLibrary.ReplacementMethod)))
         {
@@ -68,7 +69,7 @@ public class ModOptions : MonoBehaviour
 
     public void ToggleAll(bool active)
     {
-        foreach(Mod mod in Modding.GetMods(true))
+        foreach(Mod mod in Modding.GetMods())
         {
             mod.GetDescription().SetModActive(active);
         }

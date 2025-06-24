@@ -1502,7 +1502,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 253531822213222400
-    m_Localized: "St\u0159\xEDdav\u011B"
+    m_Localized: Cyklus podle skupiny
     m_Metadata:
       m_Items: []
   - m_Id: 253531824138407936
@@ -1519,6 +1519,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 253669925896769536
     m_Localized: Postavy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 254275821354012672
+    m_Localized: Cyklus podle postavy
     m_Metadata:
       m_Items: []
   references:
