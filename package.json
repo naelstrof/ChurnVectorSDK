@@ -4,7 +4,7 @@
   "version": "0.0.2",
   "unity": "2022.3",
   "dependencies": {
-    "com.naelstrof.inflatable": "0.0.1",
+    "com.naelstrof.inflatable": "0.0.3",
     "com.naelstrof.orbitcam": "0.0.2",
     "com.naelstrof.jigglephysics": "7.1.4",
     "com.naelstrof.skinnedmeshdecals": "7.0.0",
