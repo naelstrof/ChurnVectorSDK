@@ -11,6 +11,7 @@ public class ModPanel : MonoBehaviour
     [SerializeField] private Image modImage;
     [SerializeField] private TMP_Text modTitle;
     [SerializeField] private Toggle modToggle;
+    [SerializeField] private Button detailsButton;
     private Mod mod;
 
     public void SetMod(Mod mod)
@@ -21,6 +22,8 @@ public class ModPanel : MonoBehaviour
         modTitle.text = modDesc.GetTitle();
         modToggle.isOn = modDesc.IsActive();
     }
+
+    public Button DetailsButton() => detailsButton;
 
     public void ToggleMod()
     {

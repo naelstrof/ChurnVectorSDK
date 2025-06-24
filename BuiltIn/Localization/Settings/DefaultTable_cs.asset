@@ -1509,6 +1509,18 @@ MonoBehaviour:
     m_Localized: "N\xE1hodn\xFD"
     m_Metadata:
       m_Items: []
+  - m_Id: 253663697682485248
+    m_Localized: Knihovna postav
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253663765089144832
+    m_Localized: "Nebyly nalezeny \u017E\xE1dn\xE9 varianty."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253669925896769536
+    m_Localized: Postavy
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

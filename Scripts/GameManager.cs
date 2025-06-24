@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour {
     private GameObject saveSelectMenu;
     [SerializeField]
     private GameObject moddingMenu;
+    [SerializeField]
+    private GameObject characterLibraryMenu;
     [SerializeField] private GameObject orbitCameraPrefab;
     [SerializeField] private GameObject defaultObjectivesPrefab;
 
@@ -43,6 +45,7 @@ public class GameManager : MonoBehaviour {
         Credits,
         SaveSelect,
         Modding,
+        CharacterLibrary,
     }
 
     public void ShowMenu(MainMenuMode mode) {
@@ -52,6 +55,7 @@ public class GameManager : MonoBehaviour {
         campaignMenu.SetActive(false);
         saveSelectMenu.SetActive(false);
         moddingMenu.SetActive(false);
+        characterLibraryMenu.SetActive(false);
         switch (mode) {
             case MainMenuMode.Pause: pauseMenu.SetActive(true); break;
             case MainMenuMode.Credits: creditsMenu.SetActive(true); break;
@@ -59,6 +63,7 @@ public class GameManager : MonoBehaviour {
             case MainMenuMode.CampaignSelect: campaignMenu.SetActive(true); break;
             case MainMenuMode.SaveSelect: saveSelectMenu.SetActive(true); break;
             case MainMenuMode.Modding: moddingMenu.SetActive(true); break;
+            case MainMenuMode.CharacterLibrary: characterLibraryMenu.SetActive(true); break;
         }
     }
 

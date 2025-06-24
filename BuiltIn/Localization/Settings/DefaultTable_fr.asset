@@ -1517,6 +1517,18 @@ MonoBehaviour:
     m_Localized: "Al\xE9atoire"
     m_Metadata:
       m_Items: []
+  - m_Id: 253663697682485248
+    m_Localized: "Biblioth\xE8que de personnages"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253663765089144832
+    m_Localized: "Aucune variante trouv\xE9e."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253669925896769536
+    m_Localized: Personnages
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

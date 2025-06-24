@@ -1501,6 +1501,18 @@ MonoBehaviour:
     m_Localized: Casuale
     m_Metadata:
       m_Items: []
+  - m_Id: 253663697682485248
+    m_Localized: Biblioteca dei personaggi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253663765089144832
+    m_Localized: Nessuna variante trovata.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253669925896769536
+    m_Localized: Caratteri
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

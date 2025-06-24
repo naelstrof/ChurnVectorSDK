@@ -19,7 +19,6 @@ public class ModSpawner : MonoBehaviour
 
     private void OnEnable()
     {
-        replacementSpawner.SetPreviousMenu(selfPanel);
         modPanel.SetActive(true);
         StartCoroutine(SpawnRoutine());
     }
@@ -66,7 +65,7 @@ public class ModSpawner : MonoBehaviour
         spawnedPrefabs.Add(panel);
         errorText.gameObject.SetActive(false);
 
-        panel.GetComponent<Button>().onClick.AddListener(() => {
+        panel.DetailsButton().onClick.AddListener(() => {
             replacementSpawner.AssignMod(mod);
             selfPanel.SetActive(false);
             activatePanel.SetActive(true);

@@ -14,19 +14,15 @@ public class CharacterSpawner : MonoBehaviour
 
     [SerializeField] private GameObject selfPanel;
     [SerializeField] private GameObject activatePanel;
-    [SerializeField] private GameObject junk;
     private List<CharacterPanel> spawnedPrefabs = new List<CharacterPanel>();
 
     private void OnEnable()
     {
-        replacementSpawner.SetPreviousMenu(selfPanel);
-        junk.SetActive(true);
         StartCoroutine(SpawnRoutine());
     }
 
     private void OnDisable()
     {
-        junk.SetActive(false);
         if (spawnedPrefabs == null)
             return;
 

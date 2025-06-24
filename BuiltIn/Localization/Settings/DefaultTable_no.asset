@@ -1489,6 +1489,18 @@ MonoBehaviour:
     m_Localized: Tilfeldig
     m_Metadata:
       m_Items: []
+  - m_Id: 253663697682485248
+    m_Localized: Karakterbibliotek
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253663765089144832
+    m_Localized: Ingen varianter funnet.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253669925896769536
+    m_Localized: Karakterer
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -11,14 +11,12 @@ public class ModReplacementSpawner : MonoBehaviour
     [SerializeField] private TMP_Text errorText;
     [SerializeField] private GameObject junk;
     [SerializeField] private GameObject selfPanel;
-    [SerializeField] private Button backButton;
 
     [SerializeField] private LocalizedString errorMessage;
     [SerializeField] private LocalizedString notFoundMessage;
 
     private List<VariantPanel> spawnedPrefabs = new List<VariantPanel>();
     private List<CharacterVariant> characterVariants = new List<CharacterVariant>();
-    private GameObject previous;
 
     bool found = false;
 
@@ -27,15 +25,16 @@ public class ModReplacementSpawner : MonoBehaviour
         found = false;
 
         selfPanel.SetActive(true);
-        junk.SetActive(true);
+        if(junk)
+            junk.SetActive(true);
         StartCoroutine(SpawnRoutine());
     }
 
     private void OnDisable()
     {
-        junk.SetActive(false);
+        if (junk)
+            junk.SetActive(false);
         selfPanel.SetActive(false);
-        previous.SetActive(true);
 
         if (spawnedPrefabs == null)
             return;
@@ -45,17 +44,6 @@ public class ModReplacementSpawner : MonoBehaviour
 
         spawnedPrefabs = null;
         Modding.SavePreferences();
-    }
-
-    public void SetPreviousMenu(GameObject menu)
-    {
-        previous = menu;
-        backButton.onClick.RemoveAllListeners();
-        backButton.onClick.AddListener(() =>
-        {
-            selfPanel.SetActive(false);
-            previous.SetActive(true);
-        });
     }
 
     public void AssignMod(Mod mod)

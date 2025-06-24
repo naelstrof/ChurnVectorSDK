@@ -1580,6 +1580,18 @@ MonoBehaviour:
     m_Localized: "Ng\u1EABu nhi\xEAn"
     m_Metadata:
       m_Items: []
+  - m_Id: 253663697682485248
+    m_Localized: "Th\u01B0 vi\u1EC7n nh\xE2n v\u1EADt"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253663765089144832
+    m_Localized: "Kh\xF4ng t\xECm th\u1EA5y bi\u1EBFn th\u1EC3 n\xE0o."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253669925896769536
+    m_Localized: "Nh\xE2n v\u1EADt"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

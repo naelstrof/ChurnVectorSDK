@@ -1498,6 +1498,18 @@ MonoBehaviour:
     m_Localized: "Aleat\xF3rio"
     m_Metadata:
       m_Items: []
+  - m_Id: 253663697682485248
+    m_Localized: Biblioteca de Personagens
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253663765089144832
+    m_Localized: Nenhuma variante encontrada.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253669925896769536
+    m_Localized: Personagens
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

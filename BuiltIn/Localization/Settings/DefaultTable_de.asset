@@ -1499,6 +1499,18 @@ MonoBehaviour:
     m_Localized: "Zuf\xE4llig"
     m_Metadata:
       m_Items: []
+  - m_Id: 253663697682485248
+    m_Localized: Charakterbibliothek
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253663765089144832
+    m_Localized: Keine Varianten gefunden.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253669925896769536
+    m_Localized: Charaktere
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

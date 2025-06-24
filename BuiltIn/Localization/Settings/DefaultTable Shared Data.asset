@@ -1535,6 +1535,10 @@ MonoBehaviour:
     m_Key: NO_VARIANTS
     m_Metadata:
       m_Items: []
+  - m_Id: 253669925896769536
+    m_Key: MOD_CHARACTERS
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

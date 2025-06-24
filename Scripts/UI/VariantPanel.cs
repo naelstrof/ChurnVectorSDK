@@ -35,7 +35,7 @@ public class VariantPanel : MonoBehaviour
         float t = 0;
         while (t < 1f)
         {
-            t += Time.deltaTime * 4f;
+            t += Time.unscaledDeltaTime * 4f;
             group.alpha = t;
             yield return null;
         }
