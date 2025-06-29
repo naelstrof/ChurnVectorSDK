@@ -2,11 +2,13 @@ using UnityEngine;
 
 public class CumRecombobulator : NeedStation {
     [SerializeField] private Transform recombobulateLocation;
+
+    private float maxDistance = 3f;
     
     public override bool ShouldInteract(CharacterBase from) {
         foreach (var condom in Condom.GetCondoms()) {
             float distance = Vector3.Distance(condom.transform.position, transform.position);
-            if (distance < 10f) return base.ShouldInteract(from);
+            if (distance < maxDistance) return base.ShouldInteract(from);
         }
         return false;
     }
@@ -15,7 +17,7 @@ public class CumRecombobulator : NeedStation {
         base.Activate();
         foreach (var condom in Condom.GetCondoms()) {
             float distance = Vector3.Distance(condom.transform.position, transform.position);
-            if (!(distance < 10f)) continue;
+            if (!(distance < maxDistance)) continue;
             var churnable = condom.GetChurnable();
             if (churnable == null) {
                 Destroy(condom.gameObject);
@@ -32,7 +34,10 @@ public class CumRecombobulator : NeedStation {
                     ballsBody.rotation = Quaternion.identity;                    
                 }
                 if(churnableCharacter.IsPlayer()) {
-                    CharacterDetector.AddTrackingGameObjectToAll(churnableCharacter.gameObject);
+                    CharacterDetector.AddTrackingGameObjectToAll(churnableCharacter.gameObject);                    
+                }
+                if (churnableCharacter.voreContainer is Balls) {
+                    (churnableCharacter.voreContainer as Balls).OnReEnabled();
                 }
                 churnableCharacter.voreContainer.SetActive(true);
             }

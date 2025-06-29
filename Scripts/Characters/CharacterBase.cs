@@ -49,6 +49,7 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
     [SerializeField, SerializeReference, SubclassSelector]
     public VoreContainer voreContainer;
     public bool IsPlayer() => inputGenerator is InputGeneratorPlayerPossession;
+    public InputGenerator GetInputGenerator() => inputGenerator;
     private new CapsuleCollider collider;
     private IInteractable grabbedInteractable;
     private Quaternion facingDirection;
