@@ -63,7 +63,7 @@ public class InputGeneratorPlayerPossession : InputGenerator {
             OrbitCamera.AddConfiguration(shoulderConfig);
             hasCreatedConfig = true;
         } else {
-            OrbitCamera.AddConfiguration(currentConfiguration, 0f);
+            OrbitCamera.AddConfigurationAtIndex(currentConfiguration, 1, 0f);
         }
 
         if (currentConfiguration == fpsConfig) {

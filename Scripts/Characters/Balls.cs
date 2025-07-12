@@ -199,4 +199,9 @@ public class Balls : VoreContainer {
     public void BeginEmission(CumStorage.ChurnedAction startEvent = null, CumStorage.EmitCumAction emitEvent = null, CumStorage.ChurnedAction endEvent = null) {
         storage.BeginEmission(1.2f, target, startEvent, emitEvent, endEvent);
     }
+
+    // Stop tween coroutines that might have become stuck when recombobulated
+    public void OnReEnabled() {
+        inflater.EarilyTerminateTween(target);
+    }
 }
