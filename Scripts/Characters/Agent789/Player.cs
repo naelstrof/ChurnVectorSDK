@@ -1,8 +1,4 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.VFX;
-using Random = UnityEngine.Random;
 
 public partial class CharacterBase {
     private static CharacterBase playerInstance;
@@ -16,7 +12,9 @@ public partial class CharacterBase {
     private GameObject interactVisualization;
 
     private TicketLock.Ticket cutsceneLock;
-    
+
+    private OrbitCameraBasicConfiguration playerPredConfig;
+
 
     public delegate void SeenAction(KnowledgeDatabase.Knowledge knowledge, CharacterBase by);
     public event SeenAction seen;
@@ -40,6 +38,14 @@ public partial class CharacterBase {
         configuration.SetPivot(pivot);
         OrbitCamera.AddConfiguration(configuration);
         CharacterDetector.RemoveTrackingGameObjectFromAll(gameObject);
+        playerPredConfig = configuration;
+    }
+
+    public void RemovePredConfig() {
+        if(playerPredConfig != null) {
+            OrbitCamera.RemoveConfiguration(playerPredConfig);
+            playerPredConfig = null;
+        }        
     }
 
     private void OnDisablePlayer() {

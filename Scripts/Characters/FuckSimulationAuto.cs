@@ -157,12 +157,14 @@ public class FuckSimulationAuto : FuckSimulation
              *   -The penetrator is still below the minimum stimulation after several attempts at increase
              */
 
+
             if (timeUsed > forcedUsageLimit || forceEndCounter >= 5)
             {
                 //Is there a better way to force an ending?
                 stimulationData.AddStimulation(10f);
                 thrustProgress = outerLimit;
             }
+                     
 
             //Adds stimulation if it is below a certain threshold
             else if (lastStimulation < 0.2f && timeUsed > 5f + (2f * forceEndCounter))
