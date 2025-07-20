@@ -21,13 +21,13 @@ public class CharacterSpawnInfo {
         }
 
         CivilianReference realReference = civilianPrefab;
-        foreach (var mod in Modding.GetMods()) {
-            foreach (var replacement in mod.GetDescription().GetReplacementCharacters()) {
-                if (replacement.existingGUID == realReference.AssetGUID) {
-                    realReference = new CivilianReference(replacement.replacementGUID);
-                }
-            } 
+        CivilianReference replacement = CharacterLibrary.GetCharacter(realReference);
+
+        if (replacement != null)
+        {
+            realReference = replacement;
         }
+
         handle = realReference.InstantiateAsync(position, rotation);
         handle.Completed += OnLoadComplete;
         return handle;
