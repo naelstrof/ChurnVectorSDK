@@ -31,7 +31,7 @@ public partial class Civilian : CharacterDetector {
 
     protected override void OnEnable() {
         base.OnEnable();
-        CopOnEnable();        
+        CopOnEnable();
     }
 
     protected override void Update() {

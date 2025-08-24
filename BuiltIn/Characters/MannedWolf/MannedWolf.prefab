@@ -92,7 +92,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderers:
   - {fileID: 2224912994458059344}
-  - {fileID: 0}
+  - {fileID: 4919737432412923128}
 --- !u!1001 &5973976818479069610
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -166,6 +166,7 @@ public class BreedingStand : NeedStation, ICumContainer {
             churnableCharacter.voreContainer.SetActive(false);
             if(churnableCharacter.IsPlayer()) {
                 AttachCameraToTarget(currentCondom.gameObject);
+                churnableCharacter.RemovePredConfig();
             }            
         }
 
@@ -193,6 +194,7 @@ public class BreedingStand : NeedStation, ICumContainer {
         targetPivot.GetComponent<OnDestroyEventHandler>().onDestroyOrDisable += (obj) => {
             OrbitCamera.RemoveConfiguration(basicConfig);
         };
+
         OrbitCamera.AddConfiguration(basicConfig);
     }
 

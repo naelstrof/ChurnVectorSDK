@@ -29,6 +29,9 @@ public class Condom : MonoBehaviour, IInteractable {
     private IChurnable contents;
     private static readonly int BaseColorMap = Shader.PropertyToID("_BaseColorMap");
 
+    private InputGenerator inputGenerator;
+    private bool contentsIsPlayer;
+
     private class GrabbingIK : MonoBehaviour {
         private Transform target;
         private Animator animator;
@@ -64,6 +67,8 @@ public class Condom : MonoBehaviour, IInteractable {
             condomMaterials.AddRange(r.materials);
         }
         SetFlattenAmount(0f);
+
+        lastImpulseTime = Time.time - 10f;
     }
 
     private void SetFlattenAmount(float amount) {
@@ -120,11 +125,28 @@ public class Condom : MonoBehaviour, IInteractable {
         }
     }
 
+    private float lastImpulseTime;
+
     private void FixedUpdate() {
         if (body.isKinematic) {
             return;
         }
         body.velocity = (body.velocity*0.95f).With(y:body.velocity.y);
+
+        if(contentsIsPlayer) {
+            Vector3 velocity = body.velocity;
+            var isSprinting = inputGenerator.GetSprint();
+
+            Vector3 wishDirection = Vector3.ProjectOnPlane(inputGenerator.GetWishDirection(), Vector3.up).normalized;
+            velocity = Accelerate(velocity, wishDirection, 1f, 10f);
+
+            if (lastImpulseTime + 5f < Time.time && wishDirection != Vector3.zero && isSprinting) {                
+                velocity = Accelerate(velocity, wishDirection, 20f, 20f);
+                lastImpulseTime = Time.time;
+            }
+
+            body.velocity = velocity;
+        }
     }
 
     public void OnCondomStartFill(Transform tipFillLocation) {
@@ -138,6 +160,10 @@ public class Condom : MonoBehaviour, IInteractable {
 
     public void OnCondomFinishedFill(IChurnable churnable) {
         contents = churnable;
+        if (contents is CharacterBase content && content.IsPlayer()) {
+            this.inputGenerator = content.GetInputGenerator();
+            contentsIsPlayer = true;
+        }
         photosRenderer.enabled = true;
         photosRenderer.material.SetTexture(BaseColorMap, churnable.GetHeadSprite().texture);
         CharacterDetector.AddTrackingGameObjectToAll(gameObject);
@@ -206,5 +232,21 @@ public class Condom : MonoBehaviour, IInteractable {
 
     public Bounds GetInteractBounds() {
         return GetComponent<Collider>().bounds;
+    }
+
+    // Player movement
+    private Vector3 Accelerate(Vector3 velocity, Vector3 wishdir, float wishspeed, float accel) {
+        float wishspd = wishspeed;
+        float currentspeed = Vector3.Dot(velocity, wishdir);
+
+        float addspeed = wishspd - currentspeed;
+        if (addspeed <= 0) {
+            return velocity;
+        }
+        float accelspeed = accel * wishspeed * Time.deltaTime;
+
+        accelspeed = Mathf.Min(accelspeed, addspeed);
+
+        return velocity + accelspeed * wishdir;
     }
 }
