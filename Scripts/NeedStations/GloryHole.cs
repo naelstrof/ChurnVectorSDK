@@ -128,6 +128,7 @@ public class GloryHole : BreedingStand {
         if (churnable is CharacterBase churnableCharacter && churnableCharacter.IsPlayer())
         {
             AttachCameraToTarget(submissive.gameObject);
+            churnableCharacter.RemovePredConfig();
         }
         if (++condomsFinished >= condomsAllowedUntilBreak) {
             if (beingUsedBy != null) {

@@ -17,7 +17,7 @@ public class NavigateSelectSomething : MonoBehaviour {
     }
 
     void OnPerformed(InputAction.CallbackContext ctx) {
-        if (Cursor.lockState == CursorLockMode.Locked || (!Pauser.GetPaused() && LevelManager.InLevel())) {
+        if (!Pauser.GetPaused() && LevelManager.InLevel()) {
             return;
         }
         if (EventSystem.current.currentSelectedGameObject == null || !EventSystem.current.currentSelectedGameObject.activeInHierarchy || !EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>().IsInteractable()) {

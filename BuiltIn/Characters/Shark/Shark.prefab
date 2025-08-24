@@ -179,6 +179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderers:
   - {fileID: 7619402634825531318}
+  - {fileID: 1701571442231264153}
 --- !u!1 &8879919943298181093
 GameObject:
   m_ObjectHideFlags: 0

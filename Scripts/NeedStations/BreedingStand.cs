@@ -59,7 +59,6 @@ public class BreedingStand : NeedStation, ICumContainer {
 
     public override bool ShouldInteract(CharacterBase from) {
         if (from.voreContainer == null || from.GetBallVolume() <= 0) return false;
-        if (from.IsPlayer()) return true;
 
         return base.ShouldInteract(from);
     }
@@ -140,8 +139,11 @@ public class BreedingStand : NeedStation, ICumContainer {
         }
 
         base.OnEndInteract(from);
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        if(from.IsPlayer()) {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        
         if (currentDick is PenetratorJiggleDeform jiggleDeformDick) {
             jiggleDeformDick.SetLinkedPenetrable(null);
         } else {
@@ -159,10 +161,13 @@ public class BreedingStand : NeedStation, ICumContainer {
         if (currentCondom == null) {
             return;
         }
-
-        if (churnable is CharacterBase churnableCharacter && churnableCharacter.IsPlayer())
+        if (churnable is CharacterBase churnableCharacter)
         {
-            AttachCameraToTarget(currentCondom.gameObject);
+            churnableCharacter.voreContainer.SetActive(false);
+            if(churnableCharacter.IsPlayer()) {
+                AttachCameraToTarget(currentCondom.gameObject);
+                churnableCharacter.RemovePredConfig();
+            }            
         }
 
         currentCondom.OnCondomFinishedFill(churnable);
@@ -189,6 +194,7 @@ public class BreedingStand : NeedStation, ICumContainer {
         targetPivot.GetComponent<OnDestroyEventHandler>().onDestroyOrDisable += (obj) => {
             OrbitCamera.RemoveConfiguration(basicConfig);
         };
+
         OrbitCamera.AddConfiguration(basicConfig);
     }
 

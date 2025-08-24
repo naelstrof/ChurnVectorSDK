@@ -10,7 +10,7 @@ public partial class Civilian : CharacterDetector {
     private Modifier speedModifer;
     private static List<Civilian> allCops = new List<Civilian>();
     public static List<Civilian> GetAllCops() => allCops;
-    public bool GetAimingWeapon() => inputGenerator.GetAimingWeapon();
+    public bool GetAimingWeapon() => inputGenerator?.GetAimingWeapon() ?? false;
     public bool IsCop() => taserOutput != null;
     public event InputGenerator.InputTriggeredAction reloaded;
     private class TaserConnection {

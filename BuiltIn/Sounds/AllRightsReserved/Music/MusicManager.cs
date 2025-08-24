@@ -23,6 +23,7 @@ public class MusicManager : MonoBehaviour {
     [CanBeNull] private MusicalState currentState;
     private const float overallVolume = 0.6f;
     private bool hasChurned = false;
+    private bool hasPrimary = false;
     private bool hasPlayer = false;
 
     private KnowledgeDatabase.KnowledgeLevel lastKnowledge;
@@ -30,7 +31,6 @@ public class MusicManager : MonoBehaviour {
         KnowledgeDatabase.globalKnowledgeLevelChanged += OnGlobalKnowledgeLevelChanged;
         Pauser.pauseChanged += OnPauseChanged;
         SceneManager.sceneLoaded += OnSceneLoaded;
-        ObjectiveManager.objectiveChanged += OnObjectivesChanged;
         startBriefing.triggered += OnStartBriefing;
         endBriefing.triggered += OnEndBriefing;
         LevelManager.levelCompleted += OnLevelEnded;
@@ -52,12 +52,6 @@ public class MusicManager : MonoBehaviour {
                 player.voreMachine.voreEnd += OnCockCockVoreEnd;
                 hasPlayer = true;
             }
-        }
-    }
-
-    private void OnObjectivesChanged(List<Objective> objectives, Objective changedobjective) {
-        if (ObjectiveManager.HasCompletedObjectives() && KnowledgeDatabase.GetMaxPlayerKnowledgeLevel() == KnowledgeDatabase.KnowledgeLevel.Ignorant) {
-            Switch(completedPrimaryObjectives, false);
         }
     }
 
@@ -87,10 +81,14 @@ public class MusicManager : MonoBehaviour {
         }
     }
     private void OnCockCockVoreEnd(CockVoreMachine.VoreStatus status) {
-        if (!hasChurned && KnowledgeDatabase.GetMaxPlayerKnowledgeLevel() == KnowledgeDatabase.KnowledgeLevel.Ignorant) {
-            hasChurned = true;
-            if (currentState != completedPrimaryObjectives) {
+        if (KnowledgeDatabase.GetMaxPlayerKnowledgeLevel() == KnowledgeDatabase.KnowledgeLevel.Ignorant) {            
+            if(!hasPrimary && ObjectiveManager.HasCompletedObjectives()) {
+                Switch(completedPrimaryObjectives, false);
+                hasPrimary = true;
+                hasChurned = true;
+            } else if(!hasChurned){
                 Switch(firstChurnState, false);
+                hasChurned = true;
             }
         }
     }

@@ -1,8 +1,4 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.VFX;
-using Random = UnityEngine.Random;
 
 public partial class CharacterBase {
     private static CharacterBase playerInstance;
@@ -16,7 +12,9 @@ public partial class CharacterBase {
     private GameObject interactVisualization;
 
     private TicketLock.Ticket cutsceneLock;
-    
+
+    private OrbitCameraBasicConfiguration playerPredConfig;
+
 
     public delegate void SeenAction(KnowledgeDatabase.Knowledge knowledge, CharacterBase by);
     public event SeenAction seen;
@@ -25,8 +23,6 @@ public partial class CharacterBase {
         Cutscene.cutsceneStarted += OnCutsceneStarted;
         Cutscene.cutsceneEnded += OnCutsceneEnded;
         endCockVoreAsPrey += OnCockVoreAsPrey;
-        Pauser.pauseChanged += OnPaused;
-        OnPaused(Pauser.GetPaused());
         playerEnabled?.Invoke(this);
         interactVisualization = Instantiate(GameManager.GetLibrary().interactVisualizationPrefab);
     }
@@ -35,31 +31,27 @@ public partial class CharacterBase {
         if (IsPlayer()) {
             GameManager.PlayerGotCockVored();
         }
-
+        this.gameObject.transform.position = this.gameObject.transform.position.With(y: this.gameObject.transform.position.y - 100);
         var configuration = new OrbitCameraBasicConfiguration();
         var pivot = other.voreContainer.GetStorageTransform().gameObject.AddComponent<OrbitCameraPivotBasic>();
         pivot.SetInfo(Vector2.one * 0.5f, 4f, 65f);
         configuration.SetPivot(pivot);
         OrbitCamera.AddConfiguration(configuration);
         CharacterDetector.RemoveTrackingGameObjectFromAll(gameObject);
+        playerPredConfig = configuration;
     }
 
-    private void OnPaused(bool paused) {
-        if (paused) {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-        } else {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
+    public void RemovePredConfig() {
+        if(playerPredConfig != null) {
+            OrbitCamera.RemoveConfiguration(playerPredConfig);
+            playerPredConfig = null;
+        }        
     }
 
     private void OnDisablePlayer() {
-        OnPaused(true);
         Cutscene.cutsceneStarted -= OnCutsceneStarted;
         Cutscene.cutsceneEnded -= OnCutsceneEnded;
         endCockVoreAsPrey -= OnCockVoreAsPrey;
-        Pauser.pauseChanged -= OnPaused;
         playerDisabled?.Invoke(this);
         Destroy(interactVisualization);
     }
