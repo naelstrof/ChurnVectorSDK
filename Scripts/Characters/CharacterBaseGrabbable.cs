@@ -263,6 +263,21 @@ public partial class CharacterBase : IInteractable, IVorable {
         }
         beingVored = false;
         endCockVoreAsPrey?.Invoke(from);
+
+        if(this.contents is CharacterBase character && character.IsPlayer()) {
+            // The current config will be the orbit cam of the current submissive turned civilian
+            var subConfig = OrbitCamera.GetConfiguration();
+
+            var configuration = new OrbitCameraBasicConfiguration();
+            var pivot = from.voreContainer.GetStorageTransform().gameObject.AddComponent<OrbitCameraPivotBasic>();
+            pivot.SetInfo(Vector2.one * 0.5f, 4f, 65f);
+            configuration.SetPivot(pivot);
+            OrbitCamera.AddConfiguration(configuration);
+
+            OrbitCamera.RemoveConfiguration(subConfig);
+            this.contents = null;
+        }
+
         gameObject.SetActive(false);
     }
 

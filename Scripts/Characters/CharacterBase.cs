@@ -71,6 +71,7 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
     private float lastLeftGround;
     public bool IsSprinting() => inputGenerator.GetSprint() && GetCrouchAmount() < 0.5f;
     protected bool grounded;
+    private IChurnable contents; // Keep a reference to the character thats been ejected into this one
 
     private Dictionary<PenetrableType, Penetrable> backupPenetrables;
 
@@ -745,6 +746,12 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
         volumeChurned += churned;
         volumeSolid += solid;
     }
+
+    public void SetContents(IChurnable churnable) {
+        this.contents = churnable;
+    }
+
+    public IChurnable GetContents() { return contents; }
     
     public Sprite GetHeadSprite() => headSprite;
 
