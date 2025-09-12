@@ -1,3 +1,5 @@
+# This guide is now depricated, please use the github wiki section instead!
+
 # Adding a new character
 
 This guide assumes you have run through the new project guide and have a working example scene, this guide does not include adding the parts necessary to make a predator (player or NPC) character.
@@ -160,3 +162,4 @@ If however your character is floating or under the floor while walking between n
 
 This happens if you exported your model with the jaw open rather than closed, the easiest solution to this is to go back into the avatar rig configuration, remove the jaw bone and then in the prefab, rotate it to be closed.
 The better fix would be to go back to your 3d editor of choice and set the mouth being closed as the default pose of the avatar but this can be complex to do if the model is already finished and has blend/shape keys so don't worry too much if you can't do that.
+
