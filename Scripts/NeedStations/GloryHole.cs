@@ -124,7 +124,6 @@ public class GloryHole : BreedingStand {
     }
 
     public override void FinishCondom(IChurnable churnable) {
-        submissive.AddChurnVolumeAndSolidVolume(churnable.GetVolumeChurned(), churnable.GetVolumeSolid());
         submissive.SetContents(churnable);
 
         if (churnable is CharacterBase churnableCharacter && churnableCharacter.IsPlayer())

@@ -157,7 +157,6 @@ public class FuckSimulationAuto : FuckSimulation
              *   -The penetrator is still below the minimum stimulation after several attempts at increase
              */
 
-
             if (timeUsed > forcedUsageLimit || forceEndCounter >= 5)
             {
                 //Is there a better way to force an ending?

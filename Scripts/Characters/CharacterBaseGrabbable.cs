@@ -273,11 +273,10 @@ public partial class CharacterBase : IInteractable, IVorable {
             pivot.SetInfo(Vector2.one * 0.5f, 4f, 65f);
             configuration.SetPivot(pivot);
             OrbitCamera.AddConfiguration(configuration);
-
-            OrbitCamera.RemoveConfiguration(subConfig);
-            this.contents = null;
+            OrbitCamera.RemoveConfiguration(subConfig);            
         }
 
+        this.contents = null;
         gameObject.SetActive(false);
     }
 
