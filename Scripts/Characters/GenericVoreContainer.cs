@@ -94,7 +94,7 @@ public class GenericVoreContainer : VoreContainer {
 
     public override void SetActive(bool active) {
         this.isActive = active;
-        if(active) {
+        if(active && inflater != null) {
             inflater.OnEnable();
         }
     }

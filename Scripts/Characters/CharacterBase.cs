@@ -742,6 +742,11 @@ public abstract partial class CharacterBase : MonoBehaviour, ITasable, IChurnabl
         return 30f;
     }
 
+    public void AddChurnVolumeAndSolidVolume(float churned, float solid) {
+        volumeChurned += churned;
+        volumeSolid += solid;
+    }
+
     public void SetContents(IChurnable churnable) {
         this.contents = churnable;
     }
