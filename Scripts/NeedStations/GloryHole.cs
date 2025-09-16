@@ -124,13 +124,13 @@ public class GloryHole : BreedingStand {
     }
 
     public override void FinishCondom(IChurnable churnable) {
-        submissive.AddChurnVolumeAndSolidVolume(churnable.GetVolumeChurned(), churnable.GetVolumeSolid());
-
         if (churnable is CharacterBase churnableCharacter && churnableCharacter.IsPlayer())
         {
             submissive.SetContents(churnable);
             AttachCameraToTarget(submissive.gameObject);
             churnableCharacter.RemovePredConfig();
+        } else {
+            submissive.AddChurnVolumeAndSolidVolume(churnable.GetVolumeChurned(), churnable.GetVolumeSolid());
         }
         if (++condomsFinished >= condomsAllowedUntilBreak) {
             if (beingUsedBy != null) {
