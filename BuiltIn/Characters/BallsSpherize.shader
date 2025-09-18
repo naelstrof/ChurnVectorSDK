@@ -1,30 +1,30 @@
-// Made with Amplify Shader Editor v1.9.2.1
+// Made with Amplify Shader Editor v1.9.9.4
 // Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "BallsSpherize"
 {
 	Properties
 	{
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
-		_SpherePosition("SpherePosition", Vector) = (0,0,0,0)
-		_WorldDickPosition("WorldDickPosition", Vector) = (0,0,0,0)
-		_WorldDickNormal("WorldDickNormal", Vector) = (0,1,0,0)
-		_WorldDickBinormal("WorldDickBinormal", Vector) = (0,0,1,0)
-		[Toggle(_COCKVORESQUISHENABLED_ON)] _CockVoreSquishEnabled("CockVoreSquishEnabled", Float) = 0
-		_Angle("Angle", Range( 0 , 89)) = 45
-		_TipRadius("TipRadius", Range( 0 , 1)) = 0.1
-		_SphereRadius("SphereRadius", Float) = 0
-		[Toggle(_SPHERIZE_ON)] _Spherize("Spherize", Float) = 0
-		_SpherizeAmount("SpherizeAmount", Range( 0 , 1)) = 0.5
-		_DecalColorMap("_DecalColorMap", 2D) = "black" {}
-		[Toggle(_SKINNED_ON)] _Skinned("Skinned", Float) = 0
-		_BaseColorMap("BaseColorMap", 2D) = "white" {}
-		_MaskMap("MaskMap", 2D) = "gray" {}
-		_NormalMap("NormalMap", 2D) = "bump" {}
+		_SpherePosition( "SpherePosition", Vector ) = ( 0, 0, 0, 0 )
+		[HideInInspector] _WorldDickPosition( "WorldDickPosition", Vector ) = ( 0, 0, 0, 0 )
+		[HideInInspector] _WorldDickNormal( "WorldDickNormal", Vector ) = ( 0, 1, 0, 0 )
+		[HideInInspector] _WorldDickBinormal( "WorldDickBinormal", Vector ) = ( 0, 0, 1, 0 )
+		[Toggle( _COCKVORESQUISHENABLED_ON )] _CockVoreSquishEnabled( "CockVoreSquishEnabled", Float ) = 0
+		[HideInInspector] _Angle( "Angle", Range( 0, 89 ) ) = 45
+		[HideInInspector] _TipRadius( "TipRadius", Range( 0, 1 ) ) = 0.1
+		_SphereRadius( "SphereRadius", Float ) = 0
+		[Toggle( _SPHERIZE_ON )] _Spherize( "Spherize", Float ) = 0
+		_SpherizeAmount( "SpherizeAmount", Range( 0, 1 ) ) = 0.5
+		_DecalColorMap( "_DecalColorMap", 2D ) = "black" {}
+		[Toggle( _SKINNED_ON )] _Skinned( "Skinned", Float ) = 0
+		_BaseColorMap( "BaseColorMap", 2D ) = "white" {}
+		_MaskMap( "MaskMap", 2D ) = "gray" {}
+		_NormalMap( "NormalMap", 2D ) = "bump" {}
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 
 		[HideInInspector] _RenderQueueType("Render Queue Type", Float) = 1
-		[HideInInspector][ToggleUI] _AddPrecomputedVelocity("Add Precomputed Velocity", Float) = 1
-		[HideInInspector][ToggleUI] _SupportDecals("Support Decals", Float) = 1.0
+		//[HideInInspector][ToggleUI] _AddPrecomputedVelocity("Add Precomputed Velocity", Float) = 1
+		//[HideInInspector][ToggleUI] _SupportDecals("Support Decals", Float) = 1.0
 		[HideInInspector] _StencilRef("Stencil Ref", Int) = 0 // StencilUsage.Clear
 		[HideInInspector] _StencilWriteMask("Stencil Write Mask", Int) = 3 // StencilUsage.RequiresDeferredLighting | StencilUsage.SubsurfaceScattering
 		[HideInInspector] _StencilRefDepth("Stencil Ref Depth", Int) = 0 // Nothing
@@ -77,10 +77,16 @@ Shader "BallsSpherize"
         [HideInInspector][NoScaleOffset] unity_LightmapsInd("unity_LightmapsInd", 2DArray) = "" {}
         [HideInInspector][NoScaleOffset] unity_ShadowMasks("unity_ShadowMasks", 2DArray) = "" {}
 
-		[HideInInspector][Enum(Auto, 0, On, 1, Off, 2)] _DoubleSidedGIMode("Double sided GI mode", Float) = 0 //DoubleSidedGIMode added in api 12x and higher
+		[HideInInspector][Enum(Auto, 0, On, 1, Off, 2)] _DoubleSidedGIMode("Double sided GI mode", Float) = 0
 
 		[HideInInspector][ToggleUI] _AlphaToMaskInspectorValue("_AlphaToMaskInspectorValue", Float) = 0 // Property used to save the alpha to mask state in the inspector
         [HideInInspector][ToggleUI] _AlphaToMask("__alphaToMask", Float) = 0
+
+		//_Refrac ( "Refraction Model", Float) = 0
+        [HideInInspector][ToggleUI]_DepthOffsetEnable("Boolean", Float) = 1
+        [HideInInspector][ToggleUI]_ConservativeDepthOffsetEnable("Boolean", Float) = 1
+
+		//_InstancedTerrainNormals("Instanced Terrain Normals", Float) = 1.0
 	}
 
 	SubShader
@@ -89,7 +95,11 @@ Shader "BallsSpherize"
 
 		
 
+		
+
 		Tags { "RenderPipeline"="HDRenderPipeline" "RenderType"="Opaque" "Queue"="Geometry" }
+
+		AlphaToMask Off
 
 		HLSLINCLUDE
 		#pragma target 4.5
@@ -114,71 +124,113 @@ Shader "BallsSpherize"
 			float AlphaClipThresholdShadow;
 			float AlphaClipThresholdDepthPrepass;
 			float AlphaClipThresholdDepthPostpass;
+			float SpecularOcclusion;
 			float SpecularAAScreenSpaceVariance;
 			float SpecularAAThreshold;
-			float SpecularOcclusion;
-			float DepthOffset;
-			//Refraction
 			float RefractionIndex;
 			float3 RefractionColor;
 			float RefractionDistance;
-			//SSS/Translucent
 			float DiffusionProfile;
 			float TransmissionMask;
-			// Transmission + Diffusion Profile
 			float Thickness;
 			float SubsurfaceMask;
-			//Anisotropy
 			float Anisotropy;
 			float3 Tangent;
-			//Iridescent
 			float IridescenceMask;
 			float IridescenceThickness;
-			//BakedGI
 			float3 BakedGI;
 			float3 BakedBackGI;
-			//Virtual Texturing
+			float DepthOffset;
 			float4 VTPackedFeedback;
 		};
 
 		struct AlphaSurfaceDescription // ShadowCaster
 		{
+			float3 Emission;
 			float Alpha;
 			float AlphaClipThreshold;
 			float AlphaClipThresholdShadow;
+			float3 BakedGI;
+			float3 BakedBackGI;
 			float DepthOffset;
+			float4 VTPackedFeedback;
 		};
 
 		struct SceneSurfaceDescription // SceneSelection
 		{
+		    float3 Emission;
 			float Alpha;
 			float AlphaClipThreshold;
+			float AlphaClipThresholdShadow;
+			float RefractionIndex;
+			float3 RefractionColor;
+			float RefractionDistance;
+			float3 BakedGI;
+			float3 BakedBackGI;
 			float DepthOffset;
+			float4 VTPackedFeedback;
 		};
 
 		struct PrePassSurfaceDescription // DepthPrePass
 		{
 			float3 Normal;
+			float3 Emission;
 			float Smoothness;
 			float Alpha;
+			float AlphaClipThreshold;
+			float AlphaClipThresholdShadow;
 			float AlphaClipThresholdDepthPrepass;
+			float3 BakedGI;
+			float3 BakedBackGI;
 			float DepthOffset;
+			float4 VTPackedFeedback;
 		};
 
 		struct PostPassSurfaceDescription //DepthPostPass
 		{
+			float3 Emission;
 			float Alpha;
+			float AlphaClipThreshold;
+			float AlphaClipThresholdShadow;
 			float AlphaClipThresholdDepthPostpass;
+			float3 BakedGI;
+			float3 BakedBackGI;
 			float DepthOffset;
+			float4 VTPackedFeedback;
 		};
 
 		struct SmoothSurfaceDescription // MotionVectors DepthOnly
 		{
 			float3 Normal;
+			float3 Emission;
 			float Smoothness;
 			float Alpha;
 			float AlphaClipThreshold;
+			float AlphaClipThresholdShadow;
+			float3 BakedGI;
+			float3 BakedBackGI;
 			float DepthOffset;
+			float4 VTPackedFeedback;
+		};
+
+        struct PickingSurfaceDescription //Picking
+		{
+            float3 BentNormal;
+			float3 Emission;
+			float Alpha;
+			float AlphaClipThreshold;
+			float AlphaClipThresholdShadow;
+			float3 BakedGI;
+			float3 BakedBackGI;
+			float DepthOffset;
+			float4 VTPackedFeedback;
+
+			float3 ObjectSpaceNormal;
+			float3 WorldSpaceNormal;
+			float3 TangentSpaceNormal;
+			float3 ObjectSpaceViewDirection;
+			float3 WorldSpaceViewDirection;
+			float3 ObjectSpacePosition;
 		};
 
 		#ifndef ASE_TESS_FUNCS
@@ -306,35 +358,41 @@ Shader "BallsSpherize"
 			ColorMask [_LightLayersMaskBuffer5] 5
 
 			HLSLPROGRAM
-
+            #define ASE_GEOMETRY
+            #pragma shader_feature_local _ _DOUBLESIDED_ON
+            #define ASE_FRAGMENT_NORMAL 0
             #define _SPECULAR_OCCLUSION_FROM_AO 1
-            #pragma multi_compile_instancing
-            #pragma instancing_options renderinglayer
             #define ASE_ABSOLUTE_VERTEX_POS 1
-            #define _MATERIAL_FEATURE_CLEAR_COAT 1
+            #define ASE_NEED_CULLFACE 1
+            #pragma multi_compile_local_fragment _DISABLE_DECALS
+            #pragma shader_feature_local_fragment _ _DISABLE_SSR
+            #define _MATERIAL_FEATURE_CLEAR_COAT
             #define _AMBIENT_OCCLUSION 1
             #define HAVE_MESH_MODIFICATION
-            #define ASE_SRP_VERSION 140008
+            #define ASE_VERSION 19904
+            #define ASE_SRP_VERSION 140011
+            #define ASE_USING_SAMPLING_MACROS 1
 
+            #pragma multi_compile _ DOTS_INSTANCING_ON
 
-            #pragma shader_feature _SURFACE_TYPE_TRANSPARENT
-            #pragma shader_feature_local _TRANSPARENT_WRITES_MOTION_VEC
-            #pragma shader_feature_local_fragment _ENABLE_FOG_ON_TRANSPARENT
-			#pragma shader_feature_local _DOUBLESIDED_ON
-			#pragma shader_feature_local _ALPHATEST_ON
+            #pragma shader_feature _ _SURFACE_TYPE_TRANSPARENT
+            #pragma shader_feature_local _ _TRANSPARENT_WRITES_MOTION_VEC
+            #pragma shader_feature_local_fragment _ _ENABLE_FOG_ON_TRANSPARENT
 
-			#pragma multi_compile_fragment _ SHADOWS_SHADOWMASK
 			#pragma multi_compile_fragment _ LIGHT_LAYERS
-			#pragma multi_compile_fragment PROBE_VOLUMES_OFF PROBE_VOLUMES_L1 PROBE_VOLUMES_L2
-			#pragma multi_compile _ DEBUG_DISPLAY
-			#pragma multi_compile _ LIGHTMAP_ON
-			#pragma multi_compile _ DIRLIGHTMAP_COMBINED
-			#pragma multi_compile _ DYNAMICLIGHTMAP_ON
-			#pragma multi_compile_fragment DECALS_OFF DECALS_3RT DECALS_4RT
-			#pragma multi_compile_fragment _ DECAL_SURFACE_GRADIENT
+            #pragma multi_compile_fragment _ SHADOWS_SHADOWMASK
+            #pragma multi_compile _ DEBUG_DISPLAY
+            #pragma multi_compile _ LIGHTMAP_ON
+            #pragma multi_compile _ DIRLIGHTMAP_COMBINED
+            #pragma multi_compile_fragment PROBE_VOLUMES_OFF PROBE_VOLUMES_L1 PROBE_VOLUMES_L2
+            #pragma multi_compile _ DYNAMICLIGHTMAP_ON
+            #pragma multi_compile_fragment DECALS_OFF DECALS_3RT DECALS_4RT
+            #pragma multi_compile_fragment _ DECAL_SURFACE_GRADIENT
 
 			#pragma vertex Vert
 			#pragma fragment Frag
+
+			#define SHADERPASS SHADERPASS_GBUFFER
 
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GeometricTools.hlsl"
@@ -347,12 +405,22 @@ Shader "BallsSpherize"
 
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
 
-			#define SHADERPASS SHADERPASS_GBUFFER
+            #ifdef RAYTRACING_SHADER_GRAPH_DEFAULT
+                #define RAYTRACING_SHADER_GRAPH_HIGH
+            #endif
 
-			#ifndef SHADER_UNLIT
-			#if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
-			#define VARYINGS_NEED_CULLFACE
-			#endif
+            #ifdef RAYTRACING_SHADER_GRAPH_RAYTRACED
+                #define RAYTRACING_SHADER_GRAPH_LOW
+            #endif
+
+            #ifndef SHADER_UNLIT
+            #if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
+                #define VARYINGS_NEED_CULLFACE
+            #endif
+            #endif
+
+			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
+			    #define ASE_NEED_CULLFACE 1
 			#endif
 
 		    #if defined(_MATERIAL_FEATURE_SUBSURFACE_SCATTERING) && !defined(_SURFACE_TYPE_TRANSPARENT)
@@ -365,29 +433,29 @@ Shader "BallsSpherize"
 			#define _REFRACTION_THIN
 		    #endif
 
-			#if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
-			#if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
-				#define WRITE_NORMAL_BUFFER
-			#endif
-			#endif
+            #if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
+            #if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
+                #define WRITE_NORMAL_BUFFER
+            #endif
+            #endif
 
-			#ifndef DEBUG_DISPLAY
-				#if !defined(_SURFACE_TYPE_TRANSPARENT)
-					#if SHADERPASS == SHADERPASS_FORWARD
-					#define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
-					#elif SHADERPASS == SHADERPASS_GBUFFER
-					#define SHADERPASS_GBUFFER_BYPASS_ALPHA_TEST
-					#endif
-				#endif
-			#endif
+            #ifndef DEBUG_DISPLAY
+                #if !defined(_SURFACE_TYPE_TRANSPARENT)
+                    #if SHADERPASS == SHADERPASS_FORWARD
+                    #define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
+                    #elif SHADERPASS == SHADERPASS_GBUFFER
+                    #define SHADERPASS_GBUFFER_BYPASS_ALPHA_TEST
+                    #endif
+                #endif
+            #endif
 
-			#if defined(SHADER_LIT) && !defined(_SURFACE_TYPE_TRANSPARENT)
-			#define _DEFERRED_CAPABLE_MATERIAL
-			#endif
+            #if defined(SHADER_LIT) && !defined(_SURFACE_TYPE_TRANSPARENT)
+                #define _DEFERRED_CAPABLE_MATERIAL
+            #endif
 
-			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
-			#define _WRITE_TRANSPARENT_MOTION_VECTOR
-			#endif
+            #if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
+                #define _WRITE_TRANSPARENT_MOTION_VECTOR
+            #endif
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColorMap_ST;
@@ -405,7 +473,7 @@ Shader "BallsSpherize"
 			float _AlphaCutoff;
 			float _RenderQueueType;
 			#ifdef _ADD_PRECOMPUTED_VELOCITY
-			float _AddPrecomputedVelocity;
+			    float _AddPrecomputedVelocity;
 			#endif
 			float _StencilRef;
 			float _StencilWriteMask;
@@ -413,6 +481,8 @@ Shader "BallsSpherize"
 			float _StencilWriteMaskDepth;
 			float _StencilRefMV;
 			float _StencilWriteMaskMV;
+			float _StencilRefDistortionVec;
+			float _StencilWriteMaskDistortionVec;
 			float _StencilWriteMaskGBuffer;
 			float _StencilRefGBuffer;
 			float _ZTestGBuffer;
@@ -421,7 +491,7 @@ Shader "BallsSpherize"
 			float _SurfaceType;
 			float _BlendMode;
             #ifdef SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
-			float _EnableBlendModePreserveSpecularLighting;
+			    float _EnableBlendModePreserveSpecularLighting;
             #endif
 			float _SrcBlend;
 			float _DstBlend;
@@ -443,34 +513,36 @@ Shader "BallsSpherize"
 			float _DoubleSidedNormalMode;
 			float4 _DoubleSidedConstants;
 			#ifdef ASE_TESSELLATION
-			float _TessPhongStrength;
-			float _TessValue;
-			float _TessMin;
-			float _TessMax;
-			float _TessEdgeLength;
-			float _TessMaxDisp;
+			    float _TessPhongStrength;
+			    float _TessValue;
+			    float _TessMin;
+			    float _TessMax;
+			    float _TessEdgeLength;
+			    float _TessMaxDisp;
 			#endif
 			CBUFFER_END
 
-		    // Property used by ScenePickingPass
             #ifdef SCENEPICKINGPASS
 			float4 _SelectionID;
             #endif
 
-			// Properties used by SceneSelectionPass
             #ifdef SCENESELECTIONPASS
 			int _ObjectId;
 			int _PassValue;
             #endif
 
-			sampler2D _BaseColorMap;
-			sampler2D _DecalColorMap;
-			sampler2D _NormalMap;
+			TEXTURE2D(_BaseColorMap);
+			SAMPLER(sampler_BaseColorMap);
+			TEXTURE2D(_DecalColorMap);
+			SAMPLER(sampler_DecalColorMap);
+			TEXTURE2D(_NormalMap);
+			SAMPLER(sampler_NormalMap);
 			float4x4 unity_CameraProjection;
 			float4x4 unity_CameraInvProjection;
 			float4x4 unity_WorldToCamera;
 			float4x4 unity_CameraToWorld;
-			sampler2D _MaskMap;
+			TEXTURE2D(_MaskMap);
+			SAMPLER(sampler_MaskMap);
 
 
             #ifdef DEBUG_DISPLAY
@@ -484,35 +556,39 @@ Shader "BallsSpherize"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
 
-			// Setup DECALS_OFF so the shader stripper can remove variants
-            #define HAVE_DECALS ( (defined(DECALS_3RT) || defined(DECALS_4RT)) && !defined(_DISABLE_DECALS) )
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
+			#if defined( UNITY_INSTANCING_ENABLED ) && defined( ASE_INSTANCED_TERRAIN ) && ( defined(_TERRAIN_INSTANCED_PERPIXEL_NORMAL) || defined(_INSTANCEDTERRAINNORMALS_PIXEL) )
+				#define ENABLE_TERRAIN_PERPIXEL_NORMAL
+			#endif
+
 			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_VERT_NORMAL
-			#define ASE_NEEDS_FRAG_RELATIVE_WORLD_POS
+			#define ASE_NEEDS_TEXTURE_COORDINATES0
+			#define ASE_NEEDS_TEXTURE_COORDINATES1
+			#define ASE_NEEDS_FRAG_TEXTURE_COORDINATES1
+			#define ASE_NEEDS_FRAG_TEXTURE_COORDINATES0
+			#define ASE_NEEDS_FRAG_WORLD_POSITION
+			#define ASE_NEEDS_WORLD_NORMAL
 			#define ASE_NEEDS_FRAG_WORLD_NORMAL
+			#define ASE_NEEDS_WORLD_TANGENT
 			#define ASE_NEEDS_FRAG_WORLD_TANGENT
-			#define ASE_NEEDS_VERT_TANGENT
+			#define ASE_NEEDS_FRAG_WORLD_BITANGENT
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
 			#pragma multi_compile_local __ _SPHERIZE_ON
 			#pragma shader_feature_local _SKINNED_ON
 
-
-			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
-			#define ASE_NEED_CULLFACE 1
-			#endif
 
 			struct AttributesMesh
 			{
 				float3 positionOS : POSITION;
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
+				float4 uv0 : TEXCOORD0;
 				float4 uv1 : TEXCOORD1;
 				float4 uv2 : TEXCOORD2;
 				float4 ase_color : COLOR;
-				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -521,12 +597,11 @@ Shader "BallsSpherize"
 				SV_POSITION_QUALIFIERS float4 positionCS : SV_Position;
 				float3 positionRWS : TEXCOORD0;
 				float3 normalWS : TEXCOORD1;
-				float4 tangentWS : TEXCOORD2;
+				float4 tangentWS : TEXCOORD2; // holds terrainUV ifdef ENABLE_TERRAIN_PERPIXEL_NORMAL
 				float4 uv1 : TEXCOORD3;
 				float4 uv2 : TEXCOORD4;
 				float4 ase_texcoord5 : TEXCOORD5;
 				float4 ase_texcoord6 : TEXCOORD6;
-				float4 ase_texcoord7 : TEXCOORD7;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
@@ -535,7 +610,7 @@ Shader "BallsSpherize"
 			};
 
 
-			float3 MyCustomExpression11_g1( float3 pos )
+			float3 MyCustomExpression11_g369( float3 pos )
 			{
 				return GetCameraRelativePositionWS(pos);
 			}
@@ -567,7 +642,7 @@ Shader "BallsSpherize"
 				return transpose( cofactors ) / determinant( input );
 			}
 			
-			float3 MyCustomExpression32_g250( float3 pos )
+			float3 MyCustomExpression32_g371( float3 pos )
 			{
 				return GetAbsolutePositionWS(pos);
 			}
@@ -619,21 +694,6 @@ Shader "BallsSpherize"
 				return 42.0 * dot( m, px);
 			}
 			
-			float3 PerturbNormal107_g262( float3 surf_pos, float3 surf_norm, float height, float scale )
-			{
-				// "Bump Mapping Unparametrized Surfaces on the GPU" by Morten S. Mikkelsen
-				float3 vSigmaS = ddx( surf_pos );
-				float3 vSigmaT = ddy( surf_pos );
-				float3 vN = surf_norm;
-				float3 vR1 = cross( vSigmaT , vN );
-				float3 vR2 = cross( vN , vSigmaS );
-				float fDet = dot( vSigmaS , vR1 );
-				float dBs = ddx( height );
-				float dBt = ddy( height );
-				float3 vSurfGrad = scale * 0.05 * sign( fDet ) * ( dBs * vR1 + dBt * vR2 );
-				return normalize ( abs( fDet ) * vN - vSurfGrad );
-			}
-			
 
 			void BuildSurfaceData(FragInputs fragInputs, inout GlobalSurfaceDescription surfaceDescription, float3 V, PositionInputs posInput, out SurfaceData surfaceData, out float3 bentNormalWS)
 			{
@@ -641,7 +701,6 @@ Shader "BallsSpherize"
 
 				surfaceData.specularOcclusion = 1.0;
 
-				// surface data
 				surfaceData.baseColor =					surfaceDescription.BaseColor;
 				surfaceData.perceptualSmoothness =		surfaceDescription.Smoothness;
 				surfaceData.ambientOcclusion =			surfaceDescription.Occlusion;
@@ -651,306 +710,339 @@ Shader "BallsSpherize"
 				#ifdef _SPECULAR_OCCLUSION_CUSTOM
 				surfaceData.specularOcclusion =			surfaceDescription.SpecularOcclusion;
 				#endif
+
 				#ifdef _MATERIAL_FEATURE_SUBSURFACE_SCATTERING
 				surfaceData.subsurfaceMask =			surfaceDescription.SubsurfaceMask;
 				#endif
+
 				#if defined(_HAS_REFRACTION) || defined(_MATERIAL_FEATURE_TRANSMISSION)
 				surfaceData.thickness =					surfaceDescription.Thickness;
 				#endif
+
 				#ifdef _MATERIAL_FEATURE_TRANSMISSION
 				surfaceData.transmissionMask =			surfaceDescription.TransmissionMask;
 				#endif
+
 				#if defined( _MATERIAL_FEATURE_SUBSURFACE_SCATTERING ) || defined( _MATERIAL_FEATURE_TRANSMISSION )
 				surfaceData.diffusionProfileHash =		asuint(surfaceDescription.DiffusionProfile);
 				#endif
+
 				#ifdef _MATERIAL_FEATURE_SPECULAR_COLOR
 				surfaceData.specularColor =				surfaceDescription.Specular;
 				#endif
+
 				#ifdef _MATERIAL_FEATURE_ANISOTROPY
 				surfaceData.anisotropy =				surfaceDescription.Anisotropy;
 				#endif
+
 				#ifdef _MATERIAL_FEATURE_IRIDESCENCE
 				surfaceData.iridescenceMask =			surfaceDescription.IridescenceMask;
 				surfaceData.iridescenceThickness =		surfaceDescription.IridescenceThickness;
 				#endif
 
 				// refraction
-				#ifdef _HAS_REFRACTION
-				if( _EnableSSRefraction )
-				{
-					surfaceData.ior = surfaceDescription.RefractionIndex;
-					surfaceData.transmittanceColor = surfaceDescription.RefractionColor;
-					surfaceData.atDistance = surfaceDescription.RefractionDistance;
-
-					surfaceData.transmittanceMask = ( 1.0 - surfaceDescription.Alpha );
-					surfaceDescription.Alpha = 1.0;
-				}
-				else
-				{
-					surfaceData.ior = 1.0;
-					surfaceData.transmittanceColor = float3( 1.0, 1.0, 1.0 );
-					surfaceData.atDistance = 1.0;
-					surfaceData.transmittanceMask = 0.0;
-					surfaceDescription.Alpha = 1.0;
-				}
-				#else
-				surfaceData.ior = 1.0;
-				surfaceData.transmittanceColor = float3( 1.0, 1.0, 1.0 );
-				surfaceData.atDistance = 1.0;
-				surfaceData.transmittanceMask = 0.0;
-				#endif
-
-
-				// material features
-				surfaceData.materialFeatures = MATERIALFEATUREFLAGS_LIT_STANDARD;
-				#ifdef _MATERIAL_FEATURE_SUBSURFACE_SCATTERING
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SUBSURFACE_SCATTERING;
-				#endif
-				#ifdef _MATERIAL_FEATURE_TRANSMISSION
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_TRANSMISSION;
-				#endif
-                #ifdef _MATERIAL_FEATURE_ANISOTROPY
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_ANISOTROPY;
-				surfaceData.normalWS = float3(0, 1, 0);
+                #if defined(_REFRACTION_PLANE) || defined(_REFRACTION_SPHERE) || defined(_REFRACTION_THIN)
+                    if (_EnableSSRefraction)
+                    {
+                        surfaceData.ior =                       surfaceDescription.RefractionIndex;
+                        surfaceData.transmittanceColor =        surfaceDescription.RefractionColor;
+                        surfaceData.atDistance =                surfaceDescription.RefractionDistance;
+                        surfaceData.transmittanceMask = (1.0 - surfaceDescription.Alpha);
+                        surfaceDescription.Alpha = 1.0;
+                    }
+                    else
+                    {
+                        surfaceData.ior = 1.0;
+                        surfaceData.transmittanceColor = float3(1.0, 1.0, 1.0);
+                        surfaceData.atDistance = 1.0;
+                        surfaceData.transmittanceMask = 0.0;
+                        surfaceDescription.Alpha = 1.0;
+                    }
+                #else
+                    surfaceData.ior = 1.0;
+                    surfaceData.transmittanceColor = float3(1.0, 1.0, 1.0);
+                    surfaceData.atDistance = 1.0;
+                    surfaceData.transmittanceMask = 0.0;
                 #endif
-				#ifdef _MATERIAL_FEATURE_CLEAR_COAT
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_CLEAR_COAT;
-				#endif
-				#ifdef _MATERIAL_FEATURE_IRIDESCENCE
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_IRIDESCENCE;
-				#endif
-				#ifdef _MATERIAL_FEATURE_SPECULAR_COLOR
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SPECULAR_COLOR;
+
+				surfaceData.materialFeatures = MATERIALFEATUREFLAGS_LIT_STANDARD;
+
+				#ifdef _MATERIAL_FEATURE_SUBSURFACE_SCATTERING
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SUBSURFACE_SCATTERING;
 				#endif
 
-				// others
+				#ifdef _MATERIAL_FEATURE_TRANSMISSION
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_TRANSMISSION;
+				#endif
+
+                #ifdef _MATERIAL_FEATURE_ANISOTROPY
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_ANISOTROPY;
+                    surfaceData.normalWS = float3(0, 1, 0);
+                #endif
+
+				#ifdef _MATERIAL_FEATURE_CLEAR_COAT
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_CLEAR_COAT;
+				#endif
+
+				#ifdef _MATERIAL_FEATURE_IRIDESCENCE
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_IRIDESCENCE;
+				#endif
+
+				#ifdef _MATERIAL_FEATURE_SPECULAR_COLOR
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SPECULAR_COLOR;
+				#endif
+
 				#if defined (_MATERIAL_FEATURE_SPECULAR_COLOR) && defined (_ENERGY_CONSERVING_SPECULAR)
-				surfaceData.baseColor *= ( 1.0 - Max3( surfaceData.specularColor.r, surfaceData.specularColor.g, surfaceData.specularColor.b ) );
+                    surfaceData.baseColor *= ( 1.0 - Max3( surfaceData.specularColor.r, surfaceData.specularColor.g, surfaceData.specularColor.b ) );
 				#endif
 
 				#ifdef _DOUBLESIDED_ON
-				float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
+					float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
 				#else
-				float3 doubleSidedConstants = float3( 1.0, 1.0, 1.0 );
+					float3 doubleSidedConstants = float3( 1.0, 1.0, 1.0 );
 				#endif
 
-				// normals
-				float3 normalTS = float3(0.0f, 0.0f, 1.0f);
-				normalTS = surfaceDescription.Normal;
+				float3 normal = surfaceDescription.Normal;
 
-				surfaceData.geomNormalWS = fragInputs.tangentToWorld[ 2 ];
-				surfaceData.tangentWS = normalize( fragInputs.tangentToWorld[ 0 ].xyz );
-
-				// decals
-			#ifdef DECAL_NORMAL_BLENDING
-				if (_EnableDecals)
-				{
-					#ifndef SURFACE_GRADIENT
-					normalTS = SurfaceGradientFromTangentSpaceNormalAndFromTBN(normalTS, fragInputs.tangentToWorld[0], fragInputs.tangentToWorld[1]);
-					#endif
-
-					DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
-					ApplyDecalToSurfaceData(decalSurfaceData, fragInputs.tangentToWorld[2], surfaceData, normalTS);
-				}
-
-				GetNormalWS_SG(fragInputs, normalTS, surfaceData.normalWS, doubleSidedConstants);
-			#else
-				GetNormalWS(fragInputs, normalTS, surfaceData.normalWS, doubleSidedConstants);
+			#if ( UNITY_VERSION <= 202236 )
+				#if ( ASE_FRAGMENT_NORMAL == 1 )
+					GetNormalWS_SrcOS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+				#elif ( ASE_FRAGMENT_NORMAL == 2 )
+					GetNormalWS_SrcWS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+				#else
+					GetNormalWS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+				#endif
 
 				#if HAVE_DECALS
 				if (_EnableDecals)
 				{
-					// Both uses and modifies 'surfaceData.normalWS'.
 					DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
 					ApplyDecalToSurfaceData(decalSurfaceData, fragInputs.tangentToWorld[2], surfaceData);
 				}
 				#endif
+			#else
+				#ifdef DECAL_NORMAL_BLENDING
+					#if ( ASE_FRAGMENT_NORMAL == 1 )
+						normal = SurfaceGradientFromPerturbedNormal(TransformWorldToObjectNormal(fragInputs.tangentToWorld[2]), normal);
+					#elif ( ASE_FRAGMENT_NORMAL == 2 )
+						normal = SurfaceGradientFromPerturbedNormal(fragInputs.tangentToWorld[2], normal);
+					#else
+						normal = SurfaceGradientFromTangentSpaceNormalAndFromTBN(normal, fragInputs.tangentToWorld[0], fragInputs.tangentToWorld[1]);
+					#endif
+
+					#if HAVE_DECALS
+					if (_EnableDecals)
+					{
+						DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
+						ApplyDecalToSurfaceNormal(decalSurfaceData, fragInputs.tangentToWorld[2], normal);
+						ApplyDecalToSurfaceDataNoNormal(decalSurfaceData, surfaceData);
+					}
+					#endif
+
+					GetNormalWS_SG(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+				#else
+					#if ( ASE_FRAGMENT_NORMAL == 1 )
+						GetNormalWS_SrcOS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+					#elif ( ASE_FRAGMENT_NORMAL == 2 )
+						GetNormalWS_SrcWS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+					#else
+						GetNormalWS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+					#endif
+
+					#if HAVE_DECALS
+					if (_EnableDecals)
+					{
+						DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
+						ApplyDecalToSurfaceNormal(decalSurfaceData, surfaceData.normalWS.xyz);
+						ApplyDecalToSurfaceDataNoNormal(decalSurfaceData, surfaceData);
+					}
+					#endif
+				#endif
 			#endif
-				
+
+				surfaceData.geomNormalWS = fragInputs.tangentToWorld[2];
+                surfaceData.tangentWS = normalize(fragInputs.tangentToWorld[0].xyz );
+                surfaceData.tangentWS = Orthonormalize(surfaceData.tangentWS, surfaceData.normalWS);
+
 				bentNormalWS = surfaceData.normalWS;
 
 				#ifdef ASE_BENT_NORMAL
-				GetNormalWS( fragInputs, surfaceDescription.BentNormal, bentNormalWS, doubleSidedConstants );
+                    GetNormalWS( fragInputs, surfaceDescription.BentNormal, bentNormalWS, doubleSidedConstants );
 				#endif
 
 				#ifdef _MATERIAL_FEATURE_ANISOTROPY
-				surfaceData.tangentWS = TransformTangentToWorld( surfaceDescription.Tangent, fragInputs.tangentToWorld );
+                    surfaceData.tangentWS = TransformTangentToWorld(surfaceDescription.Tangent, fragInputs.tangentToWorld);
 				#endif
-				surfaceData.tangentWS = Orthonormalize( surfaceData.tangentWS, surfaceData.normalWS );
+
+				#if defined(DEBUG_DISPLAY)
+					if (_DebugMipMapMode != DEBUGMIPMAPMODE_NONE)
+					{
+						surfaceData.metallic = 0;
+					}
+					ApplyDebugToSurfaceData(fragInputs.tangentToWorld, surfaceData);
+				#endif
 
                 #if defined(_SPECULAR_OCCLUSION_CUSTOM)
                 #elif defined(_SPECULAR_OCCLUSION_FROM_AO_BENT_NORMAL)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromBentAO(V, bentNormalWS, surfaceData.normalWS, surfaceData.ambientOcclusion, PerceptualSmoothnessToPerceptualRoughness(surfaceData.perceptualSmoothness));
+                    surfaceData.specularOcclusion = GetSpecularOcclusionFromBentAO(V, bentNormalWS, surfaceData.normalWS, surfaceData.ambientOcclusion, PerceptualSmoothnessToPerceptualRoughness(surfaceData.perceptualSmoothness));
                 #elif defined(_AMBIENT_OCCLUSION) && defined(_SPECULAR_OCCLUSION_FROM_AO)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion(ClampNdotV(dot(surfaceData.normalWS, V)), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness(surfaceData.perceptualSmoothness));
+                    surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion(ClampNdotV(dot(surfaceData.normalWS, V)), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness(surfaceData.perceptualSmoothness));
                 #endif
 
-				#ifdef _ENABLE_GEOMETRIC_SPECULAR_AA
-				surfaceData.perceptualSmoothness = GeometricNormalFiltering( surfaceData.perceptualSmoothness, fragInputs.tangentToWorld[ 2 ], surfaceDescription.SpecularAAScreenSpaceVariance, surfaceDescription.SpecularAAThreshold );
-				#endif
-
-				// debug
-				#if defined(DEBUG_DISPLAY)
-				if (_DebugMipMapMode != DEBUGMIPMAPMODE_NONE)
-				{
-					surfaceData.metallic = 0;
-				}
-				ApplyDebugToSurfaceData(fragInputs.tangentToWorld, surfaceData);
-				#endif
+                #ifdef _ENABLE_GEOMETRIC_SPECULAR_AA
+                    surfaceData.perceptualSmoothness = GeometricNormalFiltering(surfaceData.perceptualSmoothness, fragInputs.tangentToWorld[2], surfaceDescription.SpecularAAScreenSpaceVariance, surfaceDescription.SpecularAAThreshold);
+                #endif
 			}
 
+			// Get Surface And BuiltinData
 			void GetSurfaceAndBuiltinData(GlobalSurfaceDescription surfaceDescription, FragInputs fragInputs, float3 V, inout PositionInputs posInput, out SurfaceData surfaceData, out BuiltinData builtinData)
 			{
 				#ifdef LOD_FADE_CROSSFADE
-				LODDitheringTransition(ComputeFadeMaskSeed(V, posInput.positionSS), unity_LODFade.x);
+                    LODDitheringTransition(ComputeFadeMaskSeed(V, posInput.positionSS), unity_LODFade.x);
 				#endif
 
-				#ifdef _DOUBLESIDED_ON
-				float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
-				#else
-				float3 doubleSidedConstants = float3( 1.0, 1.0, 1.0 );
-				#endif
-
-				ApplyDoubleSidedFlipOrMirror( fragInputs, doubleSidedConstants );
+                #ifdef _DOUBLESIDED_ON
+                    float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
+                #else
+                    float3 doubleSidedConstants = float3(1.0, 1.0, 1.0);
+                #endif
+                ApplyDoubleSidedFlipOrMirror(fragInputs, doubleSidedConstants);
 
 				#ifdef _ALPHATEST_ON
-				DoAlphaTest( surfaceDescription.Alpha, surfaceDescription.AlphaClipThreshold );
+                    DoAlphaTest( surfaceDescription.Alpha, surfaceDescription.AlphaClipThreshold );
+				#endif
+
+				#ifdef _ALPHATEST_SHADOW_ON
+                    DoAlphaTest( surfaceDescription.Alpha, surfaceDescription.AlphaClipThresholdShadow);
 				#endif
 
 				#ifdef _DEPTHOFFSET_ON
-				ApplyDepthOffsetPositionInput( V, surfaceDescription.DepthOffset, GetViewForwardDir(), GetWorldToHClipMatrix(), posInput );
+                    ApplyDepthOffsetPositionInput(V, surfaceDescription.DepthOffset, GetViewForwardDir(), GetWorldToHClipMatrix(), posInput);
 				#endif
 
 				float3 bentNormalWS;
-				BuildSurfaceData( fragInputs, surfaceDescription, V, posInput, surfaceData, bentNormalWS );
-
-				InitBuiltinData( posInput, surfaceDescription.Alpha, bentNormalWS, -fragInputs.tangentToWorld[ 2 ], fragInputs.texCoord1, fragInputs.texCoord2, builtinData );
+                BuildSurfaceData(fragInputs, surfaceDescription, V, posInput, surfaceData, bentNormalWS);
+                InitBuiltinData(posInput, surfaceDescription.Alpha, bentNormalWS, -fragInputs.tangentToWorld[2], fragInputs.texCoord1, fragInputs.texCoord2, builtinData);
 
 				#ifdef _DEPTHOFFSET_ON
-				builtinData.depthOffset = surfaceDescription.DepthOffset;
+                    builtinData.depthOffset = surfaceDescription.DepthOffset;
 				#endif
 
-				#ifdef _ALPHATEST_ON
-				builtinData.alphaClipTreshold = surfaceDescription.AlphaClipThreshold;
+                #ifdef _ALPHATEST_ON
+                    builtinData.alphaClipTreshold = surfaceDescription.AlphaClipThreshold;
                 #endif
 
-				#ifdef UNITY_VIRTUAL_TEXTURING
-                builtinData.vtPackedFeedback = surfaceDescription.VTPackedFeedback;
+                #ifdef UNITY_VIRTUAL_TEXTURING
+                    builtinData.vtPackedFeedback = surfaceDescription.VTPackedFeedback;
                 #endif
 
 				#ifdef ASE_BAKEDGI
-				builtinData.bakeDiffuseLighting = surfaceDescription.BakedGI;
+                    builtinData.bakeDiffuseLighting = surfaceDescription.BakedGI;
 				#endif
 
 				#ifdef ASE_BAKEDBACKGI
-				builtinData.backBakeDiffuseLighting = surfaceDescription.BakedBackGI;
+                    builtinData.backBakeDiffuseLighting = surfaceDescription.BakedBackGI;
 				#endif
 
-				builtinData.emissiveColor = surfaceDescription.Emission;
+                builtinData.emissiveColor = surfaceDescription.Emission;
 
 				PostInitBuiltinData(V, posInput, surfaceData, builtinData);
 			}
 
 			PackedVaryingsMeshToPS VertexFunction(AttributesMesh inputMesh )
 			{
-				PackedVaryingsMeshToPS outputPackedVaryingsMeshToPS;
+				PackedVaryingsMeshToPS output;
 
 				UNITY_SETUP_INSTANCE_ID(inputMesh);
-				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
-				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( outputPackedVaryingsMeshToPS );
+				UNITY_TRANSFER_INSTANCE_ID(inputMesh, output);
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( output );
 
-				float3 pos11_g1 = _SpherePosition;
-				float3 localMyCustomExpression11_g1 = MyCustomExpression11_g1( pos11_g1 );
-				float4 appendResult1_g1 = (float4(localMyCustomExpression11_g1 , 1.0));
-				float3 temp_output_5_0_g1 = (mul( GetWorldToObjectMatrix(), appendResult1_g1 )).xyz;
-				float3 temp_output_3_0_g253 = temp_output_5_0_g1;
-				float3 normalizeResult6_g253 = normalize( ( inputMesh.positionOS - temp_output_3_0_g253 ) );
-				float4 appendResult4_g1 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float3 temp_output_6_0_g1 = ( ( normalizeResult6_g253 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g1 )).xyz ) ) ) + temp_output_3_0_g253 );
-				float temp_output_18_0_g1 = ( _SpherizeAmount * inputMesh.ase_color.r );
-				float3 lerpResult21_g1 = lerp( inputMesh.positionOS , temp_output_6_0_g1 , temp_output_18_0_g1);
+				float3 pos11_g369 = _SpherePosition;
+				float3 localMyCustomExpression11_g369 = MyCustomExpression11_g369( pos11_g369 );
+				float4 appendResult1_g369 = (float4(localMyCustomExpression11_g369 , 1.0));
+				float3 temp_output_5_0_g369 = (mul( GetWorldToObjectMatrix(), appendResult1_g369 )).xyz;
+				float3 temp_output_3_0_g370 = temp_output_5_0_g369;
+				float3 normalizeResult6_g370 = normalize( ( inputMesh.positionOS - temp_output_3_0_g370 ) );
+				float4 appendResult4_g369 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float3 temp_output_6_0_g369 = ( ( normalizeResult6_g370 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g369 )).xyz ) ) ) + temp_output_3_0_g370 );
+				float temp_output_18_0_g369 = ( _SpherizeAmount * inputMesh.ase_color.r );
+				float3 lerpResult21_g369 = lerp( inputMesh.positionOS , temp_output_6_0_g369 , temp_output_18_0_g369);
 				#ifdef _SPHERIZE_ON
-				float3 staticSwitch16_g1 = lerpResult21_g1;
+				float3 staticSwitch16_g369 = lerpResult21_g369;
 				#else
-				float3 staticSwitch16_g1 = inputMesh.positionOS;
+				float3 staticSwitch16_g369 = inputMesh.positionOS;
 				#endif
-				float3 normalizeResult27_g252 = normalize( _WorldDickNormal );
-				float3 normalizeResult31_g252 = normalize( _WorldDickBinormal );
-				float3 normalizeResult29_g252 = normalize( cross( normalizeResult27_g252 , normalizeResult31_g252 ) );
-				float4 appendResult26_g251 = (float4(1.0 , 0.0 , 0.0 , 0.0));
-				float4 appendResult28_g251 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float4 appendResult31_g251 = (float4(0.0 , 0.0 , 1.0 , 0.0));
-				float3 break27_g251 = -_WorldDickPosition;
-				float4 appendResult29_g251 = (float4(break27_g251.x , break27_g251.y , break27_g251.z , 1.0));
-				float4x4 temp_output_30_0_g251 = mul( transpose( float4x4( float4( normalizeResult27_g252 , 0.0 ).x,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).x,float4( normalizeResult29_g252 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g252 , 0.0 ).y,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).y,float4( normalizeResult29_g252 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g252 , 0.0 ).z,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).z,float4( normalizeResult29_g252 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g252 , 0.0 ).w,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).w,float4( normalizeResult29_g252 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g251.x,appendResult28_g251.x,appendResult31_g251.x,appendResult29_g251.x,appendResult26_g251.y,appendResult28_g251.y,appendResult31_g251.y,appendResult29_g251.y,appendResult26_g251.z,appendResult28_g251.z,appendResult31_g251.z,appendResult29_g251.z,appendResult26_g251.w,appendResult28_g251.w,appendResult31_g251.w,appendResult29_g251.w ) );
-				float4x4 invertVal44_g251 = Inverse4x4( temp_output_30_0_g251 );
-				float4 appendResult27_g250 = (float4(inputMesh.positionOS , 1.0));
-				float3 pos32_g250 = mul( GetObjectToWorldMatrix(), appendResult27_g250 ).xyz;
-				float3 localMyCustomExpression32_g250 = MyCustomExpression32_g250( pos32_g250 );
-				float4 appendResult32_g251 = (float4(localMyCustomExpression32_g250 , 1.0));
-				float4 break35_g251 = mul( temp_output_30_0_g251, appendResult32_g251 );
-				float temp_output_124_0_g251 = _TipRadius;
-				float2 appendResult36_g251 = (float2(break35_g251.y , break35_g251.z));
-				float2 normalizeResult41_g251 = normalize( appendResult36_g251 );
-				float temp_output_120_0_g251 = sqrt( max( break35_g251.x , 0.0 ) );
-				float temp_output_48_0_g251 = tan( radians( _Angle ) );
-				float temp_output_125_0_g251 = ( temp_output_124_0_g251 + ( temp_output_120_0_g251 * temp_output_48_0_g251 ) );
-				float temp_output_37_0_g251 = length( appendResult36_g251 );
-				float temp_output_114_0_g251 = ( ( temp_output_125_0_g251 - temp_output_37_0_g251 ) + 1.0 );
-				float lerpResult102_g251 = lerp( temp_output_125_0_g251 , temp_output_37_0_g251 , saturate( temp_output_114_0_g251 ));
-				float lerpResult130_g251 = lerp( 0.0 , lerpResult102_g251 , saturate( ( -( -temp_output_124_0_g251 - break35_g251.x ) / temp_output_124_0_g251 ) ));
-				float2 break43_g251 = ( normalizeResult41_g251 * lerpResult130_g251 );
-				float4 appendResult40_g251 = (float4(max( break35_g251.x , -temp_output_124_0_g251 ) , break43_g251.x , break43_g251.y , 1.0));
-				float4 appendResult28_g250 = (float4(((mul( invertVal44_g251, appendResult40_g251 )).xyz).xyz , 1.0));
-				float4 localWorldVar29_g250 = appendResult28_g250;
-				(localWorldVar29_g250).xyz = GetCameraRelativePositionWS((localWorldVar29_g250).xyz);
-				float4 transform29_g250 = mul(GetWorldToObjectMatrix(),localWorldVar29_g250);
+				float3 normalizeResult27_g373 = normalize( _WorldDickNormal );
+				float3 normalizeResult31_g373 = normalize( _WorldDickBinormal );
+				float3 normalizeResult29_g373 = normalize( cross( normalizeResult27_g373 , normalizeResult31_g373 ) );
+				float4 appendResult26_g372 = (float4(1.0 , 0.0 , 0.0 , 0.0));
+				float4 appendResult28_g372 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float4 appendResult31_g372 = (float4(0.0 , 0.0 , 1.0 , 0.0));
+				float3 break27_g372 = -_WorldDickPosition;
+				float4 appendResult29_g372 = (float4(break27_g372.x , break27_g372.y , break27_g372.z , 1.0));
+				float4x4 temp_output_30_0_g372 = mul( transpose( float4x4( float4( normalizeResult27_g373 , 0.0 ).x, float4( cross( normalizeResult29_g373 , normalizeResult27_g373 ) , 0.0 ).x, float4( normalizeResult29_g373 , 0.0 ).x, float4( 0, 0, 0, 1 ).x, float4( normalizeResult27_g373 , 0.0 ).y, float4( cross( normalizeResult29_g373 , normalizeResult27_g373 ) , 0.0 ).y, float4( normalizeResult29_g373 , 0.0 ).y, float4( 0, 0, 0, 1 ).y, float4( normalizeResult27_g373 , 0.0 ).z, float4( cross( normalizeResult29_g373 , normalizeResult27_g373 ) , 0.0 ).z, float4( normalizeResult29_g373 , 0.0 ).z, float4( 0, 0, 0, 1 ).z, float4( normalizeResult27_g373 , 0.0 ).w, float4( cross( normalizeResult29_g373 , normalizeResult27_g373 ) , 0.0 ).w, float4( normalizeResult29_g373 , 0.0 ).w, float4( 0, 0, 0, 1 ).w ) ), float4x4( appendResult26_g372.x, appendResult28_g372.x, appendResult31_g372.x, appendResult29_g372.x, appendResult26_g372.y, appendResult28_g372.y, appendResult31_g372.y, appendResult29_g372.y, appendResult26_g372.z, appendResult28_g372.z, appendResult31_g372.z, appendResult29_g372.z, appendResult26_g372.w, appendResult28_g372.w, appendResult31_g372.w, appendResult29_g372.w ) );
+				float4x4 invertVal44_g372 = Inverse4x4( temp_output_30_0_g372 );
+				float4 appendResult27_g371 = (float4(inputMesh.positionOS , 1.0));
+				float3 pos32_g371 = mul( GetObjectToWorldMatrix(), appendResult27_g371 ).xyz;
+				float3 localMyCustomExpression32_g371 = MyCustomExpression32_g371( pos32_g371 );
+				float4 appendResult32_g372 = (float4(localMyCustomExpression32_g371 , 1.0));
+				float4 break35_g372 = mul( temp_output_30_0_g372, appendResult32_g372 );
+				float temp_output_124_0_g372 = _TipRadius;
+				float2 appendResult36_g372 = (float2(break35_g372.y , break35_g372.z));
+				float2 normalizeResult41_g372 = normalize( appendResult36_g372 );
+				float temp_output_120_0_g372 = sqrt( max( break35_g372.x , 0.0 ) );
+				float temp_output_48_0_g372 = tan( radians( _Angle ) );
+				float temp_output_125_0_g372 = ( temp_output_124_0_g372 + ( temp_output_120_0_g372 * temp_output_48_0_g372 ) );
+				float temp_output_37_0_g372 = length( appendResult36_g372 );
+				float temp_output_114_0_g372 = ( ( temp_output_125_0_g372 - temp_output_37_0_g372 ) + 1.0 );
+				float lerpResult102_g372 = lerp( temp_output_125_0_g372 , temp_output_37_0_g372 , saturate( temp_output_114_0_g372 ));
+				float lerpResult130_g372 = lerp( 0.0 , lerpResult102_g372 , saturate( ( -( -temp_output_124_0_g372 - break35_g372.x ) / temp_output_124_0_g372 ) ));
+				float2 break43_g372 = ( normalizeResult41_g372 * lerpResult130_g372 );
+				float4 appendResult40_g372 = (float4(max( break35_g372.x , -temp_output_124_0_g372 ) , break43_g372.x , break43_g372.y , 1.0));
+				float4 appendResult28_g371 = (float4(((mul( invertVal44_g372, appendResult40_g372 )).xyz).xyz , 1.0));
+				float4 localWorldVar29_g371 = appendResult28_g371;
+				(localWorldVar29_g371).xyz = GetCameraRelativePositionWS((localWorldVar29_g371).xyz);
+				float4 transform29_g371 = mul(GetWorldToObjectMatrix(),localWorldVar29_g371);
 				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch13_g250 = (transform29_g250).xyz;
+				float3 staticSwitch13_g371 = (transform29_g371).xyz;
 				#else
-				float3 staticSwitch13_g250 = staticSwitch16_g1;
+				float3 staticSwitch13_g371 = staticSwitch16_g369;
 				#endif
 				
-				float3 normalizeResult13_g1 = normalize( ( temp_output_6_0_g1 - temp_output_5_0_g1 ) );
-				float3 lerpResult12_g1 = lerp( inputMesh.normalOS , normalizeResult13_g1 , temp_output_18_0_g1);
+				float3 normalizeResult13_g369 = normalize( ( temp_output_6_0_g369 - temp_output_5_0_g369 ) );
+				float3 lerpResult12_g369 = lerp( inputMesh.normalOS , normalizeResult13_g369 , temp_output_18_0_g369);
+				float3 normalizeResult55_g369 = normalize( lerpResult12_g369 );
 				#ifdef _SPHERIZE_ON
-				float3 staticSwitch15_g1 = lerpResult12_g1;
+				float3 staticSwitch15_g369 = normalizeResult55_g369;
 				#else
-				float3 staticSwitch15_g1 = inputMesh.normalOS;
+				float3 staticSwitch15_g369 = inputMesh.normalOS;
 				#endif
-				float3 temp_output_50_0_g250 = staticSwitch15_g1;
-				float2 break146_g251 = normalizeResult41_g251;
-				float4 appendResult139_g251 = (float4(temp_output_48_0_g251 , break146_g251.x , break146_g251.y , 0.0));
-				float3 normalizeResult144_g251 = normalize( (mul( invertVal44_g251, appendResult139_g251 )).xyz );
-				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , temp_output_50_0_g250 , saturate( sign( temp_output_114_0_g251 ) ));
+				float3 temp_output_50_0_g371 = staticSwitch15_g369;
+				float2 break146_g372 = normalizeResult41_g372;
+				float4 appendResult139_g372 = (float4(temp_output_48_0_g372 , break146_g372.x , break146_g372.y , 0.0));
+				float3 normalizeResult144_g372 = normalize( (mul( invertVal44_g372, appendResult139_g372 )).xyz );
+				float3 lerpResult44_g371 = lerp( normalizeResult144_g372 , temp_output_50_0_g371 , saturate( sign( temp_output_114_0_g372 ) ));
 				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch17_g250 = lerpResult44_g250;
+				float3 staticSwitch17_g371 = lerpResult44_g371;
 				#else
-				float3 staticSwitch17_g250 = temp_output_50_0_g250;
+				float3 staticSwitch17_g371 = temp_output_50_0_g371;
 				#endif
 				
-				float3 vertexToFrag28_g260 = mul( UNITY_MATRIX_M, float4( inputMesh.positionOS , 0.0 ) ).xyz;
-				outputPackedVaryingsMeshToPS.ase_texcoord6.xyz = vertexToFrag28_g260;
+				float3 vertexToFrag28_g260 = mul( GetObjectToWorldMatrix(), float4( inputMesh.positionOS , 0.0 ) ).xyz;
+				output.ase_texcoord6.xyz = vertexToFrag28_g260;
 				
-				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
-				float3 ase_worldTangent = TransformObjectToWorldDir(inputMesh.tangentOS.xyz);
-				float ase_vertexTangentSign = inputMesh.tangentOS.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
-				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
-				outputPackedVaryingsMeshToPS.ase_texcoord7.xyz = ase_worldBitangent;
-				
-				outputPackedVaryingsMeshToPS.ase_texcoord5.xy = inputMesh.ase_texcoord.xy;
+				output.ase_texcoord5.xy = inputMesh.uv0.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
-				outputPackedVaryingsMeshToPS.ase_texcoord5.zw = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord6.w = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord7.w = 0;
+				output.ase_texcoord5.zw = 0;
+				output.ase_texcoord6.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = staticSwitch13_g250;
+				float3 vertexValue = staticSwitch13_g371;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -958,20 +1050,25 @@ Shader "BallsSpherize"
 				inputMesh.positionOS.xyz += vertexValue;
 				#endif
 
-				inputMesh.normalOS = staticSwitch17_g250;
-				inputMesh.tangentOS =  inputMesh.tangentOS ;
+				inputMesh.normalOS = staticSwitch17_g371;
+				inputMesh.tangentOS = inputMesh.tangentOS;
 
 				float3 positionRWS = TransformObjectToWorld(inputMesh.positionOS);
 				float3 normalWS = TransformObjectToWorldNormal(inputMesh.normalOS);
 				float4 tangentWS = float4(TransformObjectToWorldDir(inputMesh.tangentOS.xyz), inputMesh.tangentOS.w);
 
-				outputPackedVaryingsMeshToPS.positionCS = TransformWorldToHClip(positionRWS);
-				outputPackedVaryingsMeshToPS.positionRWS.xyz = positionRWS;
-				outputPackedVaryingsMeshToPS.normalWS.xyz = normalWS;
-				outputPackedVaryingsMeshToPS.tangentWS.xyzw = tangentWS;
-				outputPackedVaryingsMeshToPS.uv1.xyzw = inputMesh.uv1;
-				outputPackedVaryingsMeshToPS.uv2.xyzw = inputMesh.uv2;
-				return outputPackedVaryingsMeshToPS;
+				output.positionCS = TransformWorldToHClip(positionRWS);
+				output.positionRWS = positionRWS;
+				output.normalWS = normalWS;
+				output.tangentWS = tangentWS;
+				output.uv1 = inputMesh.uv1;
+				output.uv2 = inputMesh.uv2;
+
+				#if defined( ENABLE_TERRAIN_PERPIXEL_NORMAL )
+					output.tangentWS.zw = inputMesh.uv0.xy;
+					output.tangentWS.xy = inputMesh.uv0.xy * unity_LightmapST.xy + unity_LightmapST.zw;
+				#endif
+				return output;
 			}
 
 			#if defined(ASE_TESSELLATION)
@@ -980,10 +1077,10 @@ Shader "BallsSpherize"
 				float3 positionOS : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
+				float4 uv0 : TEXCOORD0;
 				float4 uv1 : TEXCOORD1;
 				float4 uv2 : TEXCOORD2;
 				float4 ase_color : COLOR;
-				float4 ase_texcoord : TEXCOORD0;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -1002,10 +1099,10 @@ Shader "BallsSpherize"
 				o.positionOS = v.positionOS;
 				o.normalOS = v.normalOS;
 				o.tangentOS = v.tangentOS;
+				o.uv0 = v.uv0;
 				o.uv1 = v.uv1;
 				o.uv2 = v.uv2;
 				o.ase_color = v.ase_color;
-				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -1050,10 +1147,10 @@ Shader "BallsSpherize"
 				o.positionOS = patch[0].positionOS * bary.x + patch[1].positionOS * bary.y + patch[2].positionOS * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
 				o.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
+				o.uv0 = patch[0].uv0 * bary.x + patch[1].uv0 * bary.y + patch[2].uv0 * bary.z;
 				o.uv1 = patch[0].uv1 * bary.x + patch[1].uv1 * bary.y + patch[2].uv1 * bary.z;
 				o.uv2 = patch[0].uv2 * bary.x + patch[1].uv2 * bary.y + patch[2].uv2 * bary.z;
 				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1073,45 +1170,54 @@ Shader "BallsSpherize"
 
 			void Frag( PackedVaryingsMeshToPS packedInput,
 						OUTPUT_GBUFFER(outGBuffer)
-						#ifdef _DEPTHOFFSET_ON
-						, out float outputDepth : DEPTH_OFFSET_SEMANTIC
+						#if defined( ASE_DEPTH_WRITE_ON )
+							, out float outputDepth : DEPTH_OFFSET_SEMANTIC
 						#endif
-						
-						)
+						 )
 			{
 				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX( packedInput );
 				UNITY_SETUP_INSTANCE_ID( packedInput );
+
 				FragInputs input;
 				ZERO_INITIALIZE(FragInputs, input);
-				input.tangentToWorld = k_identity3x3;
-				float3 positionRWS = packedInput.positionRWS.xyz;
-				float3 normalWS = packedInput.normalWS.xyz;
-				float4 tangentWS = packedInput.tangentWS.xyzw;
-
 				input.positionSS = packedInput.positionCS;
-				input.positionRWS = positionRWS;
-				input.tangentToWorld = BuildTangentToWorld(tangentWS, normalWS);
+				input.positionRWS = packedInput.positionRWS;
+				input.tangentToWorld = BuildTangentToWorld(packedInput.tangentWS, packedInput.normalWS);
 				input.texCoord1 = packedInput.uv1.xyzw;
 				input.texCoord2 = packedInput.uv2.xyzw;
 
-				#if _DOUBLESIDED_ON && SHADER_STAGE_FRAGMENT
-				input.isFrontFace = IS_FRONT_VFACE( packedInput.cullFace, true, false);
-				#elif SHADER_STAGE_FRAGMENT
-				#if defined(ASE_NEED_CULLFACE)
-				input.isFrontFace = IS_FRONT_VFACE( packedInput.cullFace, true, false );
-				#endif
-				#endif
-				half isFrontFace = input.isFrontFace;
-
 				PositionInputs posInput = GetPositionInput(input.positionSS.xy, _ScreenSize.zw, input.positionSS.z, input.positionSS.w, input.positionRWS);
-				float3 V = GetWorldSpaceNormalizeViewDir(input.positionRWS);
-				SurfaceData surfaceData;
-				BuiltinData builtinData;
 
-				GlobalSurfaceDescription surfaceDescription = (GlobalSurfaceDescription)0;
+				#if _DOUBLESIDED_ON && SHADER_STAGE_FRAGMENT
+					input.isFrontFace = IS_FRONT_VFACE(packedInput.cullFace, true, false);
+				#elif SHADER_STAGE_FRAGMENT
+					#if defined(ASE_NEED_CULLFACE)
+						input.isFrontFace = IS_FRONT_VFACE(packedInput.cullFace, true, false);
+					#endif
+				#endif
+
+				half IsFrontFace = input.isFrontFace;
+				float3 PositionRWS = posInput.positionWS;
+				float3 PositionWS = GetAbsolutePositionWS( posInput.positionWS );
+				float3 V = GetWorldSpaceNormalizeViewDir( packedInput.positionRWS );
+				float4 ScreenPosNorm = float4( posInput.positionNDC, packedInput.positionCS.zw );
+				float4 ClipPos = ComputeClipSpacePosition( ScreenPosNorm.xy, packedInput.positionCS.z ) * packedInput.positionCS.w;
+				float4 ScreenPos = ComputeScreenPos( ClipPos, _ProjectionParams.x );
+				float3 NormalWS = packedInput.normalWS;
+				float3 TangentWS = packedInput.tangentWS.xyz;
+				float3 BitangentWS = input.tangentToWorld[ 1 ];
+
+				#if defined( ENABLE_TERRAIN_PERPIXEL_NORMAL )
+					float2 sampleCoords = (packedInput.tangentWS.zw / _TerrainHeightmapRecipSize.zw + 0.5f) * _TerrainHeightmapRecipSize.xy;
+					NormalWS = TransformObjectToWorldNormal(normalize(SAMPLE_TEXTURE2D(_TerrainNormalmapTexture, sampler_TerrainNormalmapTexture, sampleCoords).rgb * 2 - 1));
+					TangentWS = -cross(GetObjectToWorldMatrix()._13_23_33, NormalWS);
+					input.tangentToWorld = BuildTangentToWorld( float4( TangentWS, -1 ), NormalWS );
+					BitangentWS = input.tangentToWorld[ 1 ];
+				#endif
+
 				float2 uv_BaseColorMap = packedInput.ase_texcoord5.xy * _BaseColorMap_ST.xy + _BaseColorMap_ST.zw;
-				float4 temp_output_1_0_g260 = tex2D( _BaseColorMap, uv_BaseColorMap );
-				float4 color20_g260 = IsGammaSpace() ? float4(1,1,1,1) : float4(1,1,1,1);
+				float4 temp_output_1_0_g260 = SAMPLE_TEXTURE2D( _BaseColorMap, sampler_BaseColorMap, uv_BaseColorMap );
+				float4 color20_g260 = IsGammaSpace() ? float4( 1, 1, 1, 1 ) : float4( 1, 1, 1, 1 );
 				float3 vertexToFrag28_g260 = packedInput.ase_texcoord6.xyz;
 				#ifdef _SKINNED_ON
 				float3 staticSwitch26_g260 = float3( packedInput.uv1.xy ,  0.0 );
@@ -1121,7 +1227,7 @@ Shader "BallsSpherize"
 				float simplePerlin3D9_g260 = snoise( ( ( staticSwitch26_g260 * float3( 2,2,2 ) ) + float3( 0,0,0 ) ) );
 				simplePerlin3D9_g260 = simplePerlin3D9_g260*0.5 + 0.5;
 				float temp_output_16_0_g260 = ( ( simplePerlin3D9_g260 - 0.5 ) * 0.5 );
-				float temp_output_12_0_g260 = ( tex2D( _DecalColorMap, packedInput.uv1.xy ).r + temp_output_16_0_g260 );
+				float temp_output_12_0_g260 = ( SAMPLE_TEXTURE2D( _DecalColorMap, sampler_DecalColorMap, packedInput.uv1.xy ).r + temp_output_16_0_g260 );
 				float lerpResult22_g260 = lerp( ( temp_output_12_0_g260 + temp_output_16_0_g260 ) , 0.7 , 0.8);
 				float4 lerpResult19_g260 = lerp( temp_output_1_0_g260 , color20_g260 , ( 1.0 - lerpResult22_g260 ));
 				float temp_output_3_0_g261 = ( 0.5 - temp_output_12_0_g260 );
@@ -1129,27 +1235,27 @@ Shader "BallsSpherize"
 				float4 lerpResult18_g260 = lerp( temp_output_1_0_g260 , lerpResult19_g260 , temp_output_10_0_g260);
 				
 				float2 uv_NormalMap = packedInput.ase_texcoord5.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
-				float3 temp_output_4_0_g260 = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
-				float3 ase_worldPos = GetAbsolutePositionWS( positionRWS );
-				float3 surf_pos107_g262 = ase_worldPos;
-				float3 surf_norm107_g262 = normalWS;
-				float height107_g262 = simplePerlin3D9_g260;
-				float scale107_g262 = 0.5;
-				float3 localPerturbNormal107_g262 = PerturbNormal107_g262( surf_pos107_g262 , surf_norm107_g262 , height107_g262 , scale107_g262 );
-				float3 ase_worldBitangent = packedInput.ase_texcoord7.xyz;
-				float3x3 ase_worldToTangent = float3x3(tangentWS.xyz,ase_worldBitangent,normalWS);
-				float3 worldToTangentDir42_g262 = mul( ase_worldToTangent, localPerturbNormal107_g262);
+				float3 temp_output_4_0_g260 = UnpackNormalScale( SAMPLE_TEXTURE2D( _NormalMap, sampler_NormalMap, uv_NormalMap ), 1.0f );
+				float3 temp_output_111_0_g262 = ddx( PositionWS );
+				float3 temp_output_113_0_g262 = cross( ddy( PositionWS ) , NormalWS );
+				float dotResult115_g262 = dot( temp_output_111_0_g262 , temp_output_113_0_g262 );
+				float temp_output_20_0_g262 = simplePerlin3D9_g260;
+				float3 normalizeResult130_g262 = normalize( ( ( abs( dotResult115_g262 ) * NormalWS ) - ( 0.5 * float3( 0.05,0.05,0.05 ) * sign( dotResult115_g262 ) * ( ( ddx( temp_output_20_0_g262 ) * temp_output_113_0_g262 ) + ( ddy( temp_output_20_0_g262 ) * cross( NormalWS , temp_output_111_0_g262 ) ) ) ) ) );
+				float3x3 ase_worldToTangent = float3x3( TangentWS, BitangentWS, NormalWS );
+				float3 worldToTangentDir42_g262 = mul( ase_worldToTangent, normalizeResult130_g262 );
 				float3 lerpResult6_g260 = lerp( temp_output_4_0_g260 , BlendNormal( worldToTangentDir42_g262 , temp_output_4_0_g260 ) , temp_output_10_0_g260);
 				float3 normalizeResult33_g260 = normalize( lerpResult6_g260 );
-				float3 temp_output_46_5 = normalizeResult33_g260;
 				
 				float lerpResult32_g260 = lerp( 0.0 , 1.0 , temp_output_10_0_g260);
 				
 				float2 uv_MaskMap = packedInput.ase_texcoord5.xy * _MaskMap_ST.xy + _MaskMap_ST.zw;
-				float4 tex2DNode3 = tex2D( _MaskMap, uv_MaskMap );
+				float4 tex2DNode3 = SAMPLE_TEXTURE2D( _MaskMap, sampler_MaskMap, uv_MaskMap );
 				
+
+				GlobalSurfaceDescription surfaceDescription = (GlobalSurfaceDescription)0;
+
 				surfaceDescription.BaseColor = lerpResult18_g260.rgb;
-				surfaceDescription.Normal = temp_output_46_5;
+				surfaceDescription.Normal = normalizeResult33_g260;
 				surfaceDescription.BentNormal = float3( 0, 0, 1 );
 				surfaceDescription.CoatMask = lerpResult32_g260;
 				surfaceDescription.Metallic = tex2DNode3.r;
@@ -1158,9 +1264,9 @@ Shader "BallsSpherize"
 				surfaceDescription.Specular = 0;
 				#endif
 
-				surfaceDescription.Emission = 0;
 				surfaceDescription.Smoothness = tex2DNode3.a;
 				surfaceDescription.Occlusion = tex2DNode3.g;
+				surfaceDescription.Emission = 0;
 				surfaceDescription.Alpha = 1;
 
 				#ifdef _ALPHATEST_ON
@@ -1184,7 +1290,7 @@ Shader "BallsSpherize"
 				#endif
 
 				#if defined(_HAS_REFRACTION) || defined(_MATERIAL_FEATURE_TRANSMISSION)
-				surfaceDescription.Thickness = 0;
+				surfaceDescription.Thickness = 1;
 				#endif
 
 				#ifdef _HAS_REFRACTION
@@ -1222,18 +1328,30 @@ Shader "BallsSpherize"
 				surfaceDescription.BakedBackGI = 0;
 				#endif
 
-				#ifdef _DEPTHOFFSET_ON
-				surfaceDescription.DepthOffset = 0;
+				#if defined( ASE_CHANGES_WORLD_POS )
+					posInput.positionWS = PositionRWS;
+				#endif
+
+				#if defined( ASE_DEPTH_WRITE_ON )
+					#if !defined( _DEPTHOFFSET_ON )
+						posInput.deviceDepth = input.positionSS.z;
+					#else
+						surfaceDescription.DepthOffset = 0;
+					#endif
 				#endif
 
 				#ifdef UNITY_VIRTUAL_TEXTURING
 				surfaceDescription.VTPackedFeedback = float4(1.0f,1.0f,1.0f,1.0f);
 				#endif
 
+				SurfaceData surfaceData;
+				BuiltinData builtinData;
 				GetSurfaceAndBuiltinData( surfaceDescription, input, V, posInput, surfaceData, builtinData );
+
 				ENCODE_INTO_GBUFFER( surfaceData, builtinData, posInput.positionSS, outGBuffer );
-				#ifdef _DEPTHOFFSET_ON
-				outputDepth = posInput.deviceDepth;
+
+				#if defined( ASE_DEPTH_WRITE_ON )
+					outputDepth = posInput.deviceDepth;
 				#endif
 			}
 
@@ -1250,27 +1368,33 @@ Shader "BallsSpherize"
 			Cull Off
 
 			HLSLPROGRAM
-
+			#define ASE_GEOMETRY
+			#pragma shader_feature_local _ _DOUBLESIDED_ON
+			#define ASE_FRAGMENT_NORMAL 0
 			#define _SPECULAR_OCCLUSION_FROM_AO 1
-			#pragma multi_compile_instancing
-			#pragma instancing_options renderinglayer
 			#define ASE_ABSOLUTE_VERTEX_POS 1
-			#define _MATERIAL_FEATURE_CLEAR_COAT 1
+			#define ASE_NEED_CULLFACE 1
+			#pragma multi_compile_local_fragment _DISABLE_DECALS
+			#pragma shader_feature_local_fragment _ _DISABLE_SSR
+			#define _MATERIAL_FEATURE_CLEAR_COAT
 			#define _AMBIENT_OCCLUSION 1
 			#define HAVE_MESH_MODIFICATION
-			#define ASE_SRP_VERSION 140008
+			#define ASE_VERSION 19904
+			#define ASE_SRP_VERSION 140011
+			#define ASE_USING_SAMPLING_MACROS 1
 
+			#pragma shader_feature _ EDITOR_VISUALIZATION
+			#pragma multi_compile _ DOTS_INSTANCING_ON
 
-			#pragma shader_feature _SURFACE_TYPE_TRANSPARENT
-			#pragma shader_feature_local _TRANSPARENT_WRITES_MOTION_VEC
-			#pragma shader_feature_local_fragment _ENABLE_FOG_ON_TRANSPARENT
-			#pragma shader_feature_local _DOUBLESIDED_ON
-			#pragma shader_feature_local _ALPHATEST_ON
-
-			#pragma shader_feature EDITOR_VISUALIZATION
+            #pragma shader_feature _ _SURFACE_TYPE_TRANSPARENT
+            #pragma shader_feature_local _ _TRANSPARENT_WRITES_MOTION_VEC
+            #pragma shader_feature_local_fragment _ _ENABLE_FOG_ON_TRANSPARENT
 
 			#pragma vertex Vert
 			#pragma fragment Frag
+
+            #define SHADERPASS SHADERPASS_LIGHT_TRANSPORT
+            #define SCENEPICKINGPASS 1
 
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GeometricTools.hlsl"
@@ -1282,42 +1406,59 @@ Shader "BallsSpherize"
             #include "Packages/com.unity.shadergraph/ShaderGraphLibrary/Functions.hlsl"
 
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/PickingSpaceTransforms.hlsl"
 
-			#define SHADERPASS SHADERPASS_LIGHT_TRANSPORT
+            #ifdef RAYTRACING_SHADER_GRAPH_DEFAULT
+                #define RAYTRACING_SHADER_GRAPH_HIGH
+            #endif
 
-			#ifndef SHADER_UNLIT
-			#if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
-			#define VARYINGS_NEED_CULLFACE
-			#endif
+            #ifdef RAYTRACING_SHADER_GRAPH_RAYTRACED
+                #define RAYTRACING_SHADER_GRAPH_LOW
+            #endif
+
+            #ifndef SHADER_UNLIT
+            #if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
+                #define VARYINGS_NEED_CULLFACE
+            #endif
+            #endif
+
+			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
+			    #define ASE_NEED_CULLFACE 1
 			#endif
 
 		    #if defined(_MATERIAL_FEATURE_SUBSURFACE_SCATTERING) && !defined(_SURFACE_TYPE_TRANSPARENT)
 			#define OUTPUT_SPLIT_LIGHTING
 		    #endif
 
-			#if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
-			#if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
-				#define WRITE_NORMAL_BUFFER
-			#endif
-			#endif
+            #if (SHADERPASS == SHADERPASS_PATH_TRACING) && !defined(_DOUBLESIDED_ON) && (defined(_REFRACTION_PLANE) || defined(_REFRACTION_SPHERE))
+            #undef  _REFRACTION_PLANE
+            #undef  _REFRACTION_SPHERE
+            #define _REFRACTION_THIN
+            #endif
 
-			#ifndef DEBUG_DISPLAY
-				#if !defined(_SURFACE_TYPE_TRANSPARENT)
-					#if SHADERPASS == SHADERPASS_FORWARD
-					#define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
-					#elif SHADERPASS == SHADERPASS_GBUFFER
-					#define SHADERPASS_GBUFFER_BYPASS_ALPHA_TEST
-					#endif
-				#endif
-			#endif
+            #if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
+            #if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
+                #define WRITE_NORMAL_BUFFER
+            #endif
+            #endif
 
-			#if defined(SHADER_LIT) && !defined(_SURFACE_TYPE_TRANSPARENT)
-			#define _DEFERRED_CAPABLE_MATERIAL
-			#endif
+            #ifndef DEBUG_DISPLAY
+                #if !defined(_SURFACE_TYPE_TRANSPARENT)
+                    #if SHADERPASS == SHADERPASS_FORWARD
+                    #define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
+                    #elif SHADERPASS == SHADERPASS_GBUFFER
+                    #define SHADERPASS_GBUFFER_BYPASS_ALPHA_TEST
+                    #endif
+                #endif
+            #endif
 
-			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
-			#define _WRITE_TRANSPARENT_MOTION_VECTOR
-			#endif
+            #if defined(SHADER_LIT) && !defined(_SURFACE_TYPE_TRANSPARENT)
+                #define _DEFERRED_CAPABLE_MATERIAL
+            #endif
+
+            #if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
+                #define _WRITE_TRANSPARENT_MOTION_VECTOR
+            #endif
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColorMap_ST;
@@ -1335,7 +1476,7 @@ Shader "BallsSpherize"
 			float _AlphaCutoff;
 			float _RenderQueueType;
 			#ifdef _ADD_PRECOMPUTED_VELOCITY
-			float _AddPrecomputedVelocity;
+			    float _AddPrecomputedVelocity;
 			#endif
 			float _StencilRef;
 			float _StencilWriteMask;
@@ -1343,6 +1484,8 @@ Shader "BallsSpherize"
 			float _StencilWriteMaskDepth;
 			float _StencilRefMV;
 			float _StencilWriteMaskMV;
+			float _StencilRefDistortionVec;
+			float _StencilWriteMaskDistortionVec;
 			float _StencilWriteMaskGBuffer;
 			float _StencilRefGBuffer;
 			float _ZTestGBuffer;
@@ -1351,7 +1494,7 @@ Shader "BallsSpherize"
 			float _SurfaceType;
 			float _BlendMode;
             #ifdef SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
-			float _EnableBlendModePreserveSpecularLighting;
+			    float _EnableBlendModePreserveSpecularLighting;
             #endif
 			float _SrcBlend;
 			float _DstBlend;
@@ -1373,39 +1516,47 @@ Shader "BallsSpherize"
 			float _DoubleSidedNormalMode;
 			float4 _DoubleSidedConstants;
 			#ifdef ASE_TESSELLATION
-			float _TessPhongStrength;
-			float _TessValue;
-			float _TessMin;
-			float _TessMax;
-			float _TessEdgeLength;
-			float _TessMaxDisp;
+			    float _TessPhongStrength;
+			    float _TessValue;
+			    float _TessMin;
+			    float _TessMax;
+			    float _TessEdgeLength;
+			    float _TessMaxDisp;
 			#endif
 			CBUFFER_END
 
-			// Property used by ScenePickingPass
             #ifdef SCENEPICKINGPASS
 			float4 _SelectionID;
             #endif
 
-			// Properties used by SceneSelectionPass
             #ifdef SCENESELECTIONPASS
 			int _ObjectId;
 			int _PassValue;
             #endif
 
-			sampler2D _BaseColorMap;
-			sampler2D _DecalColorMap;
-			sampler2D _NormalMap;
+			TEXTURE2D(_BaseColorMap);
+			SAMPLER(sampler_BaseColorMap);
+			TEXTURE2D(_DecalColorMap);
+			SAMPLER(sampler_DecalColorMap);
+			TEXTURE2D(_NormalMap);
+			SAMPLER(sampler_NormalMap);
 			float4x4 unity_CameraProjection;
 			float4x4 unity_CameraInvProjection;
 			float4x4 unity_WorldToCamera;
 			float4x4 unity_CameraToWorld;
-			sampler2D _MaskMap;
+			TEXTURE2D(_MaskMap);
+			SAMPLER(sampler_MaskMap);
 
 
             #ifdef DEBUG_DISPLAY
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
             #endif
+
+			#if SHADERPASS == SHADERPASS_LIGHT_TRANSPORT
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/PickingSpaceTransforms.hlsl"
+			#endif
+
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/MetaPass.hlsl"
 
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
@@ -1414,22 +1565,24 @@ Shader "BallsSpherize"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
 
-			// Setup DECALS_OFF so the shader stripper can remove variants
-            #define HAVE_DECALS ( (defined(DECALS_3RT) || defined(DECALS_4RT)) && !defined(_DISABLE_DECALS) )
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
+        	#ifdef HAVE_VFX_MODIFICATION
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/VisualEffectVertex.hlsl"
+        	#endif
+
 			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_VERT_NORMAL
+			#define ASE_NEEDS_TEXTURE_COORDINATES0
+			#define ASE_NEEDS_TEXTURE_COORDINATES1
+			#define ASE_NEEDS_FRAG_TEXTURE_COORDINATES1
+			#define ASE_NEEDS_FRAG_TEXTURE_COORDINATES0
 			#define ASE_NEEDS_VERT_TANGENT
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
 			#pragma multi_compile_local __ _SPHERIZE_ON
 			#pragma shader_feature_local _SKINNED_ON
 
-
-			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
-			#define ASE_NEED_CULLFACE 1
-			#endif
 
 			struct AttributesMesh
 			{
@@ -1463,7 +1616,7 @@ Shader "BallsSpherize"
 				#endif
 			};
 
-			float3 MyCustomExpression11_g1( float3 pos )
+			float3 MyCustomExpression11_g369( float3 pos )
 			{
 				return GetCameraRelativePositionWS(pos);
 			}
@@ -1495,7 +1648,7 @@ Shader "BallsSpherize"
 				return transpose( cofactors ) / determinant( input );
 			}
 			
-			float3 MyCustomExpression32_g250( float3 pos )
+			float3 MyCustomExpression32_g371( float3 pos )
 			{
 				return GetAbsolutePositionWS(pos);
 			}
@@ -1547,21 +1700,6 @@ Shader "BallsSpherize"
 				return 42.0 * dot( m, px);
 			}
 			
-			float3 PerturbNormal107_g262( float3 surf_pos, float3 surf_norm, float height, float scale )
-			{
-				// "Bump Mapping Unparametrized Surfaces on the GPU" by Morten S. Mikkelsen
-				float3 vSigmaS = ddx( surf_pos );
-				float3 vSigmaT = ddy( surf_pos );
-				float3 vN = surf_norm;
-				float3 vR1 = cross( vSigmaT , vN );
-				float3 vR2 = cross( vN , vSigmaS );
-				float fDet = dot( vSigmaS , vR1 );
-				float dBs = ddx( height );
-				float dBt = ddy( height );
-				float3 vSurfGrad = scale * 0.05 * sign( fDet ) * ( dBs * vR1 + dBt * vR2 );
-				return normalize ( abs( fDet ) * vN - vSurfGrad );
-			}
-			
 
 			void BuildSurfaceData(FragInputs fragInputs, inout GlobalSurfaceDescription surfaceDescription, float3 V, PositionInputs posInput, out SurfaceData surfaceData, out float3 bentNormalWS)
 			{
@@ -1569,7 +1707,6 @@ Shader "BallsSpherize"
 
 				surfaceData.specularOcclusion = 1.0;
 
-				// surface data
 				surfaceData.baseColor =					surfaceDescription.BaseColor;
 				surfaceData.perceptualSmoothness =		surfaceDescription.Smoothness;
 				surfaceData.ambientOcclusion =			surfaceDescription.Occlusion;
@@ -1579,298 +1716,352 @@ Shader "BallsSpherize"
 				#ifdef _SPECULAR_OCCLUSION_CUSTOM
 				surfaceData.specularOcclusion =			surfaceDescription.SpecularOcclusion;
 				#endif
+
 				#ifdef _MATERIAL_FEATURE_SUBSURFACE_SCATTERING
 				surfaceData.subsurfaceMask =			surfaceDescription.SubsurfaceMask;
 				#endif
+
 				#if defined(_HAS_REFRACTION) || defined(_MATERIAL_FEATURE_TRANSMISSION)
 				surfaceData.thickness = 				surfaceDescription.Thickness;
 				#endif
+
 				#ifdef _MATERIAL_FEATURE_TRANSMISSION
 				surfaceData.transmissionMask =			surfaceDescription.TransmissionMask;
 				#endif
+
 				#if defined( _MATERIAL_FEATURE_SUBSURFACE_SCATTERING ) || defined( _MATERIAL_FEATURE_TRANSMISSION )
 				surfaceData.diffusionProfileHash =		asuint(surfaceDescription.DiffusionProfile);
 				#endif
+
 				#ifdef _MATERIAL_FEATURE_SPECULAR_COLOR
 				surfaceData.specularColor =				surfaceDescription.Specular;
 				#endif
+
 				#ifdef _MATERIAL_FEATURE_ANISOTROPY
 				surfaceData.anisotropy =				surfaceDescription.Anisotropy;
 				#endif
+
 				#ifdef _MATERIAL_FEATURE_IRIDESCENCE
 				surfaceData.iridescenceMask =			surfaceDescription.IridescenceMask;
 				surfaceData.iridescenceThickness =		surfaceDescription.IridescenceThickness;
 				#endif
 
 				// refraction
-				#ifdef _HAS_REFRACTION
-				if( _EnableSSRefraction )
-				{
-					surfaceData.ior = surfaceDescription.RefractionIndex;
-					surfaceData.transmittanceColor = surfaceDescription.RefractionColor;
-					surfaceData.atDistance = surfaceDescription.RefractionDistance;
-
-					surfaceData.transmittanceMask = ( 1.0 - surfaceDescription.Alpha );
-					surfaceDescription.Alpha = 1.0;
-				}
-				else
-				{
-					surfaceData.ior = 1.0;
-					surfaceData.transmittanceColor = float3( 1.0, 1.0, 1.0 );
-					surfaceData.atDistance = 1.0;
-					surfaceData.transmittanceMask = 0.0;
-					surfaceDescription.Alpha = 1.0;
-				}
-				#else
-				surfaceData.ior = 1.0;
-				surfaceData.transmittanceColor = float3( 1.0, 1.0, 1.0 );
-				surfaceData.atDistance = 1.0;
-				surfaceData.transmittanceMask = 0.0;
-				#endif
-
-				// material features
-				surfaceData.materialFeatures = MATERIALFEATUREFLAGS_LIT_STANDARD;
-				#ifdef _MATERIAL_FEATURE_SUBSURFACE_SCATTERING
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SUBSURFACE_SCATTERING;
-				#endif
-				#ifdef _MATERIAL_FEATURE_TRANSMISSION
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_TRANSMISSION;
-				#endif
-                #ifdef _MATERIAL_FEATURE_ANISOTROPY
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_ANISOTROPY;
-				surfaceData.normalWS = float3(0, 1, 0);
+                #if defined(_REFRACTION_PLANE) || defined(_REFRACTION_SPHERE) || defined(_REFRACTION_THIN)
+                    if (_EnableSSRefraction)
+                    {
+                        surfaceData.ior =                       surfaceDescription.RefractionIndex;
+                        surfaceData.transmittanceColor =        surfaceDescription.RefractionColor;
+                        surfaceData.atDistance =                surfaceDescription.RefractionDistance;
+                        surfaceData.transmittanceMask = (1.0 - surfaceDescription.Alpha);
+                        surfaceDescription.Alpha = 1.0;
+                    }
+                    else
+                    {
+                        surfaceData.ior = 1.0;
+                        surfaceData.transmittanceColor = float3(1.0, 1.0, 1.0);
+                        surfaceData.atDistance = 1.0;
+                        surfaceData.transmittanceMask = 0.0;
+                        surfaceDescription.Alpha = 1.0;
+                    }
+                #else
+                    surfaceData.ior = 1.0;
+                    surfaceData.transmittanceColor = float3(1.0, 1.0, 1.0);
+                    surfaceData.atDistance = 1.0;
+                    surfaceData.transmittanceMask = 0.0;
                 #endif
+
+				surfaceData.materialFeatures = MATERIALFEATUREFLAGS_LIT_STANDARD;
+
+                #ifdef _MATERIAL_FEATURE_SUBSURFACE_SCATTERING
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SUBSURFACE_SCATTERING;
+				#endif
+
+				#ifdef _MATERIAL_FEATURE_TRANSMISSION
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_TRANSMISSION;
+				#endif
+
+                #ifdef _MATERIAL_FEATURE_ANISOTROPY
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_ANISOTROPY;
+                    surfaceData.normalWS = float3(0, 1, 0);
+                #endif
+
 				#ifdef _MATERIAL_FEATURE_CLEAR_COAT
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_CLEAR_COAT;
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_CLEAR_COAT;
 				#endif
+
 				#ifdef _MATERIAL_FEATURE_IRIDESCENCE
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_IRIDESCENCE;
-				#endif
-				#ifdef _MATERIAL_FEATURE_SPECULAR_COLOR
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SPECULAR_COLOR;
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_IRIDESCENCE;
 				#endif
 
-				// others
+                #ifdef _MATERIAL_FEATURE_SPECULAR_COLOR
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SPECULAR_COLOR;
+                #endif
+
 				#if defined (_MATERIAL_FEATURE_SPECULAR_COLOR) && defined (_ENERGY_CONSERVING_SPECULAR)
-				surfaceData.baseColor *= ( 1.0 - Max3( surfaceData.specularColor.r, surfaceData.specularColor.g, surfaceData.specularColor.b ) );
+                    surfaceData.baseColor *= ( 1.0 - Max3( surfaceData.specularColor.r, surfaceData.specularColor.g, surfaceData.specularColor.b ) );
 				#endif
+
 				#ifdef _DOUBLESIDED_ON
-				float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
+					float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
 				#else
-				float3 doubleSidedConstants = float3( 1.0, 1.0, 1.0 );
+					float3 doubleSidedConstants = float3( 1.0, 1.0, 1.0 );
 				#endif
 
-				// normals
-				float3 normalTS = float3(0.0f, 0.0f, 1.0f);
-				normalTS = surfaceDescription.Normal;
+				float3 normal = surfaceDescription.Normal;
 
-				surfaceData.geomNormalWS = fragInputs.tangentToWorld[2];
-				surfaceData.tangentWS = normalize( fragInputs.tangentToWorld[ 0 ].xyz );
-
-				// decals
-			#ifdef DECAL_NORMAL_BLENDING
-				if (_EnableDecals)
-				{
-					#ifndef SURFACE_GRADIENT
-					normalTS = SurfaceGradientFromTangentSpaceNormalAndFromTBN(normalTS, fragInputs.tangentToWorld[0], fragInputs.tangentToWorld[1]);
-					#endif
-
-					DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
-					ApplyDecalToSurfaceData(decalSurfaceData, fragInputs.tangentToWorld[2], surfaceData, normalTS);
-				}
-
-				GetNormalWS_SG(fragInputs, normalTS, surfaceData.normalWS, doubleSidedConstants);
-			#else
-				GetNormalWS(fragInputs, normalTS, surfaceData.normalWS, doubleSidedConstants);
+			#if ( UNITY_VERSION <= 202236 )
+				#if ( ASE_FRAGMENT_NORMAL == 1 )
+					GetNormalWS_SrcOS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+				#elif ( ASE_FRAGMENT_NORMAL == 2 )
+					GetNormalWS_SrcWS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+				#else
+					GetNormalWS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+				#endif
 
 				#if HAVE_DECALS
 				if (_EnableDecals)
 				{
-					// Both uses and modifies 'surfaceData.normalWS'.
 					DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
 					ApplyDecalToSurfaceData(decalSurfaceData, fragInputs.tangentToWorld[2], surfaceData);
 				}
 				#endif
+			#else
+				#ifdef DECAL_NORMAL_BLENDING
+					#if ( ASE_FRAGMENT_NORMAL == 1 )
+						normal = SurfaceGradientFromPerturbedNormal(TransformWorldToObjectNormal(fragInputs.tangentToWorld[2]), normal);
+					#elif ( ASE_FRAGMENT_NORMAL == 2 )
+						normal = SurfaceGradientFromPerturbedNormal(fragInputs.tangentToWorld[2], normal);
+					#else
+						normal = SurfaceGradientFromTangentSpaceNormalAndFromTBN(normal, fragInputs.tangentToWorld[0], fragInputs.tangentToWorld[1]);
+					#endif
+
+					#if HAVE_DECALS
+					if (_EnableDecals)
+					{
+						DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
+						ApplyDecalToSurfaceNormal(decalSurfaceData, fragInputs.tangentToWorld[2], normal);
+						ApplyDecalToSurfaceDataNoNormal(decalSurfaceData, surfaceData);
+					}
+					#endif
+
+					GetNormalWS_SG(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+				#else
+					#if ( ASE_FRAGMENT_NORMAL == 1 )
+						GetNormalWS_SrcOS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+					#elif ( ASE_FRAGMENT_NORMAL == 2 )
+						GetNormalWS_SrcWS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+					#else
+						GetNormalWS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+					#endif
+
+					#if HAVE_DECALS
+					if (_EnableDecals)
+					{
+						DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
+						ApplyDecalToSurfaceNormal(decalSurfaceData, surfaceData.normalWS.xyz);
+						ApplyDecalToSurfaceDataNoNormal(decalSurfaceData, surfaceData);
+					}
+					#endif
+				#endif
 			#endif
+
+				surfaceData.geomNormalWS = fragInputs.tangentToWorld[2];
+                surfaceData.tangentWS = normalize(fragInputs.tangentToWorld[0].xyz );
+                surfaceData.tangentWS = Orthonormalize(surfaceData.tangentWS, surfaceData.normalWS);
 
 				bentNormalWS = surfaceData.normalWS;
 
 				#ifdef ASE_BENT_NORMAL
-				GetNormalWS( fragInputs, surfaceDescription.BentNormal, bentNormalWS, doubleSidedConstants );
+                    GetNormalWS( fragInputs, surfaceDescription.BentNormal, bentNormalWS, doubleSidedConstants );
 				#endif
 
 				#ifdef _MATERIAL_FEATURE_ANISOTROPY
-				surfaceData.tangentWS = TransformTangentToWorld( surfaceDescription.Tangent, fragInputs.tangentToWorld );
+                    surfaceData.tangentWS = TransformTangentToWorld(surfaceDescription.Tangent, fragInputs.tangentToWorld);
 				#endif
-				surfaceData.tangentWS = Orthonormalize( surfaceData.tangentWS, surfaceData.normalWS );
+
+				#if defined(DEBUG_DISPLAY)
+					if (_DebugMipMapMode != DEBUGMIPMAPMODE_NONE)
+					{
+						surfaceData.metallic = 0;
+					}
+					ApplyDebugToSurfaceData(fragInputs.tangentToWorld, surfaceData);
+				#endif
 
                 #if defined(_SPECULAR_OCCLUSION_CUSTOM)
                 #elif defined(_SPECULAR_OCCLUSION_FROM_AO_BENT_NORMAL)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromBentAO(V, bentNormalWS, surfaceData.normalWS, surfaceData.ambientOcclusion, PerceptualSmoothnessToPerceptualRoughness(surfaceData.perceptualSmoothness));
+                    surfaceData.specularOcclusion = GetSpecularOcclusionFromBentAO(V, bentNormalWS, surfaceData.normalWS, surfaceData.ambientOcclusion, PerceptualSmoothnessToPerceptualRoughness(surfaceData.perceptualSmoothness));
                 #elif defined(_AMBIENT_OCCLUSION) && defined(_SPECULAR_OCCLUSION_FROM_AO)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion(ClampNdotV(dot(surfaceData.normalWS, V)), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness(surfaceData.perceptualSmoothness));
+                    surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion(ClampNdotV(dot(surfaceData.normalWS, V)), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness(surfaceData.perceptualSmoothness));
                 #endif
 
-				#ifdef _ENABLE_GEOMETRIC_SPECULAR_AA
-				surfaceData.perceptualSmoothness = GeometricNormalFiltering( surfaceData.perceptualSmoothness, fragInputs.tangentToWorld[ 2 ], surfaceDescription.SpecularAAScreenSpaceVariance, surfaceDescription.SpecularAAThreshold );
-				#endif
-
-				// debug
-				#if defined(DEBUG_DISPLAY)
-				if (_DebugMipMapMode != DEBUGMIPMAPMODE_NONE)
-				{
-					surfaceData.metallic = 0;
-				}
-				ApplyDebugToSurfaceData(fragInputs.tangentToWorld, surfaceData);
-				#endif
+                #ifdef _ENABLE_GEOMETRIC_SPECULAR_AA
+                    surfaceData.perceptualSmoothness = GeometricNormalFiltering(surfaceData.perceptualSmoothness, fragInputs.tangentToWorld[2], surfaceDescription.SpecularAAScreenSpaceVariance, surfaceDescription.SpecularAAThreshold);
+                #endif
 			}
 
+			// Get Surface And BuiltinData
 			void GetSurfaceAndBuiltinData(GlobalSurfaceDescription surfaceDescription, FragInputs fragInputs, float3 V, inout PositionInputs posInput, out SurfaceData surfaceData, out BuiltinData builtinData)
 			{
 				#ifdef LOD_FADE_CROSSFADE
-				LODDitheringTransition(ComputeFadeMaskSeed(V, posInput.positionSS), unity_LODFade.x);
+                    LODDitheringTransition(ComputeFadeMaskSeed(V, posInput.positionSS), unity_LODFade.x);
 				#endif
 
-				#ifdef _DOUBLESIDED_ON
-				float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
-				#else
-				float3 doubleSidedConstants = float3( 1.0, 1.0, 1.0 );
-				#endif
-
-				ApplyDoubleSidedFlipOrMirror( fragInputs, doubleSidedConstants );
+                #ifdef _DOUBLESIDED_ON
+                    float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
+                #else
+                    float3 doubleSidedConstants = float3(1.0, 1.0, 1.0);
+                #endif
+                ApplyDoubleSidedFlipOrMirror(fragInputs, doubleSidedConstants);
 
 				#ifdef _ALPHATEST_ON
-				DoAlphaTest( surfaceDescription.Alpha, surfaceDescription.AlphaClipThreshold );
+                    DoAlphaTest( surfaceDescription.Alpha, surfaceDescription.AlphaClipThreshold );
+				#endif
+
+				#ifdef _ALPHATEST_SHADOW_ON
+                    DoAlphaTest( surfaceDescription.Alpha, surfaceDescription.AlphaClipThresholdShadow);
 				#endif
 
 				#ifdef _DEPTHOFFSET_ON
-				builtinData.depthOffset = surfaceDescription.DepthOffset;
-				ApplyDepthOffsetPositionInput( V, surfaceDescription.DepthOffset, GetViewForwardDir(), GetWorldToHClipMatrix(), posInput );
+                    ApplyDepthOffsetPositionInput(V, surfaceDescription.DepthOffset, GetViewForwardDir(), GetWorldToHClipMatrix(), posInput);
 				#endif
 
-				float3 bentNormalWS;
-				BuildSurfaceData( fragInputs, surfaceDescription, V, posInput, surfaceData, bentNormalWS );
+                float3 bentNormalWS;
+                BuildSurfaceData(fragInputs, surfaceDescription, V, posInput, surfaceData, bentNormalWS);
+                InitBuiltinData(posInput, surfaceDescription.Alpha, bentNormalWS, -fragInputs.tangentToWorld[2], fragInputs.texCoord1, fragInputs.texCoord2, builtinData);
 
-				InitBuiltinData( posInput, surfaceDescription.Alpha, bentNormalWS, -fragInputs.tangentToWorld[ 2 ], fragInputs.texCoord1, fragInputs.texCoord2, builtinData );
+				#ifdef _DEPTHOFFSET_ON
+                    builtinData.depthOffset = surfaceDescription.DepthOffset;
+				#endif
 
-				builtinData.emissiveColor = surfaceDescription.Emission;
+                #ifdef _ALPHATEST_ON
+                    builtinData.alphaClipTreshold = surfaceDescription.AlphaClipThreshold;
+                #endif
 
-				PostInitBuiltinData(V, posInput, surfaceData, builtinData);
+                #ifdef UNITY_VIRTUAL_TEXTURING
+                    builtinData.vtPackedFeedback = surfaceDescription.VTPackedFeedback;
+                #endif
+
+				#ifdef ASE_BAKEDGI
+                    builtinData.bakeDiffuseLighting = surfaceDescription.BakedGI;
+				#endif
+
+				#ifdef ASE_BAKEDBACKGI
+                    builtinData.backBakeDiffuseLighting = surfaceDescription.BakedBackGI;
+				#endif
+
+                builtinData.emissiveColor = surfaceDescription.Emission;
+
+                PostInitBuiltinData(V, posInput, surfaceData, builtinData);
 			}
-
-			#if SHADERPASS == SHADERPASS_LIGHT_TRANSPORT
-			#define SCENEPICKINGPASS
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/PickingSpaceTransforms.hlsl"
-			#endif
-
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/MetaPass.hlsl"
 
 			PackedVaryingsMeshToPS VertexFunction(AttributesMesh inputMesh  )
 			{
-				PackedVaryingsMeshToPS outputPackedVaryingsMeshToPS;
+				PackedVaryingsMeshToPS output;
 
 				UNITY_SETUP_INSTANCE_ID(inputMesh);
-				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
+				UNITY_TRANSFER_INSTANCE_ID(inputMesh, output);
 
-				float3 pos11_g1 = _SpherePosition;
-				float3 localMyCustomExpression11_g1 = MyCustomExpression11_g1( pos11_g1 );
-				float4 appendResult1_g1 = (float4(localMyCustomExpression11_g1 , 1.0));
-				float3 temp_output_5_0_g1 = (mul( GetWorldToObjectMatrix(), appendResult1_g1 )).xyz;
-				float3 temp_output_3_0_g253 = temp_output_5_0_g1;
-				float3 normalizeResult6_g253 = normalize( ( inputMesh.positionOS - temp_output_3_0_g253 ) );
-				float4 appendResult4_g1 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float3 temp_output_6_0_g1 = ( ( normalizeResult6_g253 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g1 )).xyz ) ) ) + temp_output_3_0_g253 );
-				float temp_output_18_0_g1 = ( _SpherizeAmount * inputMesh.ase_color.r );
-				float3 lerpResult21_g1 = lerp( inputMesh.positionOS , temp_output_6_0_g1 , temp_output_18_0_g1);
+				float3 pos11_g369 = _SpherePosition;
+				float3 localMyCustomExpression11_g369 = MyCustomExpression11_g369( pos11_g369 );
+				float4 appendResult1_g369 = (float4(localMyCustomExpression11_g369 , 1.0));
+				float3 temp_output_5_0_g369 = (mul( GetWorldToObjectMatrix(), appendResult1_g369 )).xyz;
+				float3 temp_output_3_0_g370 = temp_output_5_0_g369;
+				float3 normalizeResult6_g370 = normalize( ( inputMesh.positionOS - temp_output_3_0_g370 ) );
+				float4 appendResult4_g369 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float3 temp_output_6_0_g369 = ( ( normalizeResult6_g370 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g369 )).xyz ) ) ) + temp_output_3_0_g370 );
+				float temp_output_18_0_g369 = ( _SpherizeAmount * inputMesh.ase_color.r );
+				float3 lerpResult21_g369 = lerp( inputMesh.positionOS , temp_output_6_0_g369 , temp_output_18_0_g369);
 				#ifdef _SPHERIZE_ON
-				float3 staticSwitch16_g1 = lerpResult21_g1;
+				float3 staticSwitch16_g369 = lerpResult21_g369;
 				#else
-				float3 staticSwitch16_g1 = inputMesh.positionOS;
+				float3 staticSwitch16_g369 = inputMesh.positionOS;
 				#endif
-				float3 normalizeResult27_g252 = normalize( _WorldDickNormal );
-				float3 normalizeResult31_g252 = normalize( _WorldDickBinormal );
-				float3 normalizeResult29_g252 = normalize( cross( normalizeResult27_g252 , normalizeResult31_g252 ) );
-				float4 appendResult26_g251 = (float4(1.0 , 0.0 , 0.0 , 0.0));
-				float4 appendResult28_g251 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float4 appendResult31_g251 = (float4(0.0 , 0.0 , 1.0 , 0.0));
-				float3 break27_g251 = -_WorldDickPosition;
-				float4 appendResult29_g251 = (float4(break27_g251.x , break27_g251.y , break27_g251.z , 1.0));
-				float4x4 temp_output_30_0_g251 = mul( transpose( float4x4( float4( normalizeResult27_g252 , 0.0 ).x,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).x,float4( normalizeResult29_g252 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g252 , 0.0 ).y,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).y,float4( normalizeResult29_g252 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g252 , 0.0 ).z,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).z,float4( normalizeResult29_g252 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g252 , 0.0 ).w,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).w,float4( normalizeResult29_g252 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g251.x,appendResult28_g251.x,appendResult31_g251.x,appendResult29_g251.x,appendResult26_g251.y,appendResult28_g251.y,appendResult31_g251.y,appendResult29_g251.y,appendResult26_g251.z,appendResult28_g251.z,appendResult31_g251.z,appendResult29_g251.z,appendResult26_g251.w,appendResult28_g251.w,appendResult31_g251.w,appendResult29_g251.w ) );
-				float4x4 invertVal44_g251 = Inverse4x4( temp_output_30_0_g251 );
-				float4 appendResult27_g250 = (float4(inputMesh.positionOS , 1.0));
-				float3 pos32_g250 = mul( GetObjectToWorldMatrix(), appendResult27_g250 ).xyz;
-				float3 localMyCustomExpression32_g250 = MyCustomExpression32_g250( pos32_g250 );
-				float4 appendResult32_g251 = (float4(localMyCustomExpression32_g250 , 1.0));
-				float4 break35_g251 = mul( temp_output_30_0_g251, appendResult32_g251 );
-				float temp_output_124_0_g251 = _TipRadius;
-				float2 appendResult36_g251 = (float2(break35_g251.y , break35_g251.z));
-				float2 normalizeResult41_g251 = normalize( appendResult36_g251 );
-				float temp_output_120_0_g251 = sqrt( max( break35_g251.x , 0.0 ) );
-				float temp_output_48_0_g251 = tan( radians( _Angle ) );
-				float temp_output_125_0_g251 = ( temp_output_124_0_g251 + ( temp_output_120_0_g251 * temp_output_48_0_g251 ) );
-				float temp_output_37_0_g251 = length( appendResult36_g251 );
-				float temp_output_114_0_g251 = ( ( temp_output_125_0_g251 - temp_output_37_0_g251 ) + 1.0 );
-				float lerpResult102_g251 = lerp( temp_output_125_0_g251 , temp_output_37_0_g251 , saturate( temp_output_114_0_g251 ));
-				float lerpResult130_g251 = lerp( 0.0 , lerpResult102_g251 , saturate( ( -( -temp_output_124_0_g251 - break35_g251.x ) / temp_output_124_0_g251 ) ));
-				float2 break43_g251 = ( normalizeResult41_g251 * lerpResult130_g251 );
-				float4 appendResult40_g251 = (float4(max( break35_g251.x , -temp_output_124_0_g251 ) , break43_g251.x , break43_g251.y , 1.0));
-				float4 appendResult28_g250 = (float4(((mul( invertVal44_g251, appendResult40_g251 )).xyz).xyz , 1.0));
-				float4 localWorldVar29_g250 = appendResult28_g250;
-				(localWorldVar29_g250).xyz = GetCameraRelativePositionWS((localWorldVar29_g250).xyz);
-				float4 transform29_g250 = mul(GetWorldToObjectMatrix(),localWorldVar29_g250);
+				float3 normalizeResult27_g373 = normalize( _WorldDickNormal );
+				float3 normalizeResult31_g373 = normalize( _WorldDickBinormal );
+				float3 normalizeResult29_g373 = normalize( cross( normalizeResult27_g373 , normalizeResult31_g373 ) );
+				float4 appendResult26_g372 = (float4(1.0 , 0.0 , 0.0 , 0.0));
+				float4 appendResult28_g372 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float4 appendResult31_g372 = (float4(0.0 , 0.0 , 1.0 , 0.0));
+				float3 break27_g372 = -_WorldDickPosition;
+				float4 appendResult29_g372 = (float4(break27_g372.x , break27_g372.y , break27_g372.z , 1.0));
+				float4x4 temp_output_30_0_g372 = mul( transpose( float4x4( float4( normalizeResult27_g373 , 0.0 ).x, float4( cross( normalizeResult29_g373 , normalizeResult27_g373 ) , 0.0 ).x, float4( normalizeResult29_g373 , 0.0 ).x, float4( 0, 0, 0, 1 ).x, float4( normalizeResult27_g373 , 0.0 ).y, float4( cross( normalizeResult29_g373 , normalizeResult27_g373 ) , 0.0 ).y, float4( normalizeResult29_g373 , 0.0 ).y, float4( 0, 0, 0, 1 ).y, float4( normalizeResult27_g373 , 0.0 ).z, float4( cross( normalizeResult29_g373 , normalizeResult27_g373 ) , 0.0 ).z, float4( normalizeResult29_g373 , 0.0 ).z, float4( 0, 0, 0, 1 ).z, float4( normalizeResult27_g373 , 0.0 ).w, float4( cross( normalizeResult29_g373 , normalizeResult27_g373 ) , 0.0 ).w, float4( normalizeResult29_g373 , 0.0 ).w, float4( 0, 0, 0, 1 ).w ) ), float4x4( appendResult26_g372.x, appendResult28_g372.x, appendResult31_g372.x, appendResult29_g372.x, appendResult26_g372.y, appendResult28_g372.y, appendResult31_g372.y, appendResult29_g372.y, appendResult26_g372.z, appendResult28_g372.z, appendResult31_g372.z, appendResult29_g372.z, appendResult26_g372.w, appendResult28_g372.w, appendResult31_g372.w, appendResult29_g372.w ) );
+				float4x4 invertVal44_g372 = Inverse4x4( temp_output_30_0_g372 );
+				float4 appendResult27_g371 = (float4(inputMesh.positionOS , 1.0));
+				float3 pos32_g371 = mul( GetObjectToWorldMatrix(), appendResult27_g371 ).xyz;
+				float3 localMyCustomExpression32_g371 = MyCustomExpression32_g371( pos32_g371 );
+				float4 appendResult32_g372 = (float4(localMyCustomExpression32_g371 , 1.0));
+				float4 break35_g372 = mul( temp_output_30_0_g372, appendResult32_g372 );
+				float temp_output_124_0_g372 = _TipRadius;
+				float2 appendResult36_g372 = (float2(break35_g372.y , break35_g372.z));
+				float2 normalizeResult41_g372 = normalize( appendResult36_g372 );
+				float temp_output_120_0_g372 = sqrt( max( break35_g372.x , 0.0 ) );
+				float temp_output_48_0_g372 = tan( radians( _Angle ) );
+				float temp_output_125_0_g372 = ( temp_output_124_0_g372 + ( temp_output_120_0_g372 * temp_output_48_0_g372 ) );
+				float temp_output_37_0_g372 = length( appendResult36_g372 );
+				float temp_output_114_0_g372 = ( ( temp_output_125_0_g372 - temp_output_37_0_g372 ) + 1.0 );
+				float lerpResult102_g372 = lerp( temp_output_125_0_g372 , temp_output_37_0_g372 , saturate( temp_output_114_0_g372 ));
+				float lerpResult130_g372 = lerp( 0.0 , lerpResult102_g372 , saturate( ( -( -temp_output_124_0_g372 - break35_g372.x ) / temp_output_124_0_g372 ) ));
+				float2 break43_g372 = ( normalizeResult41_g372 * lerpResult130_g372 );
+				float4 appendResult40_g372 = (float4(max( break35_g372.x , -temp_output_124_0_g372 ) , break43_g372.x , break43_g372.y , 1.0));
+				float4 appendResult28_g371 = (float4(((mul( invertVal44_g372, appendResult40_g372 )).xyz).xyz , 1.0));
+				float4 localWorldVar29_g371 = appendResult28_g371;
+				(localWorldVar29_g371).xyz = GetCameraRelativePositionWS((localWorldVar29_g371).xyz);
+				float4 transform29_g371 = mul(GetWorldToObjectMatrix(),localWorldVar29_g371);
 				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch13_g250 = (transform29_g250).xyz;
+				float3 staticSwitch13_g371 = (transform29_g371).xyz;
 				#else
-				float3 staticSwitch13_g250 = staticSwitch16_g1;
+				float3 staticSwitch13_g371 = staticSwitch16_g369;
 				#endif
 				
-				float3 normalizeResult13_g1 = normalize( ( temp_output_6_0_g1 - temp_output_5_0_g1 ) );
-				float3 lerpResult12_g1 = lerp( inputMesh.normalOS , normalizeResult13_g1 , temp_output_18_0_g1);
+				float3 normalizeResult13_g369 = normalize( ( temp_output_6_0_g369 - temp_output_5_0_g369 ) );
+				float3 lerpResult12_g369 = lerp( inputMesh.normalOS , normalizeResult13_g369 , temp_output_18_0_g369);
+				float3 normalizeResult55_g369 = normalize( lerpResult12_g369 );
 				#ifdef _SPHERIZE_ON
-				float3 staticSwitch15_g1 = lerpResult12_g1;
+				float3 staticSwitch15_g369 = normalizeResult55_g369;
 				#else
-				float3 staticSwitch15_g1 = inputMesh.normalOS;
+				float3 staticSwitch15_g369 = inputMesh.normalOS;
 				#endif
-				float3 temp_output_50_0_g250 = staticSwitch15_g1;
-				float2 break146_g251 = normalizeResult41_g251;
-				float4 appendResult139_g251 = (float4(temp_output_48_0_g251 , break146_g251.x , break146_g251.y , 0.0));
-				float3 normalizeResult144_g251 = normalize( (mul( invertVal44_g251, appendResult139_g251 )).xyz );
-				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , temp_output_50_0_g250 , saturate( sign( temp_output_114_0_g251 ) ));
+				float3 temp_output_50_0_g371 = staticSwitch15_g369;
+				float2 break146_g372 = normalizeResult41_g372;
+				float4 appendResult139_g372 = (float4(temp_output_48_0_g372 , break146_g372.x , break146_g372.y , 0.0));
+				float3 normalizeResult144_g372 = normalize( (mul( invertVal44_g372, appendResult139_g372 )).xyz );
+				float3 lerpResult44_g371 = lerp( normalizeResult144_g372 , temp_output_50_0_g371 , saturate( sign( temp_output_114_0_g372 ) ));
 				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch17_g250 = lerpResult44_g250;
+				float3 staticSwitch17_g371 = lerpResult44_g371;
 				#else
-				float3 staticSwitch17_g250 = temp_output_50_0_g250;
+				float3 staticSwitch17_g371 = temp_output_50_0_g371;
 				#endif
 				
-				float3 vertexToFrag28_g260 = mul( UNITY_MATRIX_M, float4( inputMesh.positionOS , 0.0 ) ).xyz;
-				outputPackedVaryingsMeshToPS.ase_texcoord3.xyz = vertexToFrag28_g260;
+				float3 vertexToFrag28_g260 = mul( GetObjectToWorldMatrix(), float4( inputMesh.positionOS , 0.0 ) ).xyz;
+				output.ase_texcoord3.xyz = vertexToFrag28_g260;
 				
-				float3 ase_worldPos = GetAbsolutePositionWS( TransformObjectToWorld( (inputMesh.positionOS).xyz ) );
-				outputPackedVaryingsMeshToPS.ase_texcoord4.xyz = ase_worldPos;
-				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
-				outputPackedVaryingsMeshToPS.ase_texcoord5.xyz = ase_worldNormal;
-				float3 ase_worldTangent = TransformObjectToWorldDir(inputMesh.tangentOS.xyz);
-				outputPackedVaryingsMeshToPS.ase_texcoord6.xyz = ase_worldTangent;
-				float ase_vertexTangentSign = inputMesh.tangentOS.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
-				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
-				outputPackedVaryingsMeshToPS.ase_texcoord7.xyz = ase_worldBitangent;
+				float3 ase_positionWS = GetAbsolutePositionWS( TransformObjectToWorld( ( inputMesh.positionOS ).xyz ) );
+				output.ase_texcoord4.xyz = ase_positionWS;
+				float3 ase_normalWS = TransformObjectToWorldNormal( inputMesh.normalOS );
+				output.ase_texcoord5.xyz = ase_normalWS;
+				float3 ase_tangentWS = TransformObjectToWorldDir( inputMesh.tangentOS.xyz );
+				output.ase_texcoord6.xyz = ase_tangentWS;
+				float ase_tangentSign = inputMesh.tangentOS.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
+				float3 ase_bitangentWS = cross( ase_normalWS, ase_tangentWS ) * ase_tangentSign;
+				output.ase_texcoord7.xyz = ase_bitangentWS;
 				
-				outputPackedVaryingsMeshToPS.ase_texcoord2.xy = inputMesh.uv0.xy;
-				outputPackedVaryingsMeshToPS.ase_texcoord2.zw = inputMesh.uv1.xy;
+				output.ase_texcoord2.xy = inputMesh.uv0.xy;
+				output.ase_texcoord2.zw = inputMesh.uv1.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
-				outputPackedVaryingsMeshToPS.ase_texcoord3.w = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord4.w = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord5.w = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord6.w = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord7.w = 0;
+				output.ase_texcoord3.w = 0;
+				output.ase_texcoord4.w = 0;
+				output.ase_texcoord5.w = 0;
+				output.ase_texcoord6.w = 0;
+				output.ase_texcoord7.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = staticSwitch13_g250;
+				float3 vertexValue = staticSwitch13_g371;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -1878,22 +2069,21 @@ Shader "BallsSpherize"
 				inputMesh.positionOS.xyz += vertexValue;
 				#endif
 
-				inputMesh.normalOS = staticSwitch17_g250;
-				inputMesh.tangentOS =  inputMesh.tangentOS ;
+				inputMesh.normalOS = staticSwitch17_g371;
+				inputMesh.tangentOS = inputMesh.tangentOS;
 
-				outputPackedVaryingsMeshToPS.positionCS = UnityMetaVertexPosition(inputMesh.positionOS, inputMesh.uv1.xy, inputMesh.uv2.xy, unity_LightmapST, unity_DynamicLightmapST);
-
+				output.positionCS = UnityMetaVertexPosition(inputMesh.positionOS, inputMesh.uv1.xy, inputMesh.uv2.xy, unity_LightmapST, unity_DynamicLightmapST);
 
 				#ifdef EDITOR_VISUALIZATION
 					float2 vizUV = 0;
 					float4 lightCoord = 0;
 					UnityEditorVizData(inputMesh.positionOS.xyz, inputMesh.uv0.xy, inputMesh.uv1.xy, inputMesh.uv2.xy, vizUV, lightCoord);
 
-					outputPackedVaryingsMeshToPS.VizUV.xy = vizUV;
-					outputPackedVaryingsMeshToPS.LightCoord = lightCoord;
+					output.VizUV.xy = vizUV;
+					output.LightCoord = lightCoord;
 				#endif
 
-				return outputPackedVaryingsMeshToPS;
+				return output;
 			}
 
 			#if defined(ASE_TESSELLATION)
@@ -2004,24 +2194,23 @@ Shader "BallsSpherize"
 				input.tangentToWorld = k_identity3x3;
 				input.positionSS = packedInput.positionCS;
 
+				PositionInputs posInput = GetPositionInput(input.positionSS.xy, _ScreenSize.zw, input.positionSS.z, input.positionSS.w, input.positionRWS);
+
 				#if _DOUBLESIDED_ON && SHADER_STAGE_FRAGMENT
-				input.isFrontFace = IS_FRONT_VFACE( packedInput.cullFace, true, false);
+					input.isFrontFace = IS_FRONT_VFACE(packedInput.cullFace, true, false);
 				#elif SHADER_STAGE_FRAGMENT
-				#if defined(ASE_NEED_CULLFACE)
-				input.isFrontFace = IS_FRONT_VFACE(packedInput.cullFace, true, false);
+					#if defined(ASE_NEED_CULLFACE)
+						input.isFrontFace = IS_FRONT_VFACE(packedInput.cullFace, true, false);
+					#endif
 				#endif
-				#endif
+
 				half isFrontFace = input.isFrontFace;
 
-				PositionInputs posInput = GetPositionInput(input.positionSS.xy, _ScreenSize.zw, input.positionSS.z, input.positionSS.w, input.positionRWS);
 				float3 V = float3(1.0, 1.0, 1.0);
 
-				SurfaceData surfaceData;
-				BuiltinData builtinData;
-				GlobalSurfaceDescription surfaceDescription = (GlobalSurfaceDescription)0;
 				float2 uv_BaseColorMap = packedInput.ase_texcoord2.xy * _BaseColorMap_ST.xy + _BaseColorMap_ST.zw;
-				float4 temp_output_1_0_g260 = tex2D( _BaseColorMap, uv_BaseColorMap );
-				float4 color20_g260 = IsGammaSpace() ? float4(1,1,1,1) : float4(1,1,1,1);
+				float4 temp_output_1_0_g260 = SAMPLE_TEXTURE2D( _BaseColorMap, sampler_BaseColorMap, uv_BaseColorMap );
+				float4 color20_g260 = IsGammaSpace() ? float4( 1, 1, 1, 1 ) : float4( 1, 1, 1, 1 );
 				float3 vertexToFrag28_g260 = packedInput.ase_texcoord3.xyz;
 				#ifdef _SKINNED_ON
 				float3 staticSwitch26_g260 = float3( packedInput.ase_texcoord2.zw ,  0.0 );
@@ -2031,7 +2220,7 @@ Shader "BallsSpherize"
 				float simplePerlin3D9_g260 = snoise( ( ( staticSwitch26_g260 * float3( 2,2,2 ) ) + float3( 0,0,0 ) ) );
 				simplePerlin3D9_g260 = simplePerlin3D9_g260*0.5 + 0.5;
 				float temp_output_16_0_g260 = ( ( simplePerlin3D9_g260 - 0.5 ) * 0.5 );
-				float temp_output_12_0_g260 = ( tex2D( _DecalColorMap, packedInput.ase_texcoord2.zw ).r + temp_output_16_0_g260 );
+				float temp_output_12_0_g260 = ( SAMPLE_TEXTURE2D( _DecalColorMap, sampler_DecalColorMap, packedInput.ase_texcoord2.zw ).r + temp_output_16_0_g260 );
 				float lerpResult22_g260 = lerp( ( temp_output_12_0_g260 + temp_output_16_0_g260 ) , 0.7 , 0.8);
 				float4 lerpResult19_g260 = lerp( temp_output_1_0_g260 , color20_g260 , ( 1.0 - lerpResult22_g260 ));
 				float temp_output_3_0_g261 = ( 0.5 - temp_output_12_0_g260 );
@@ -2039,29 +2228,31 @@ Shader "BallsSpherize"
 				float4 lerpResult18_g260 = lerp( temp_output_1_0_g260 , lerpResult19_g260 , temp_output_10_0_g260);
 				
 				float2 uv_NormalMap = packedInput.ase_texcoord2.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
-				float3 temp_output_4_0_g260 = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
-				float3 ase_worldPos = packedInput.ase_texcoord4.xyz;
-				float3 surf_pos107_g262 = ase_worldPos;
-				float3 ase_worldNormal = packedInput.ase_texcoord5.xyz;
-				float3 surf_norm107_g262 = ase_worldNormal;
-				float height107_g262 = simplePerlin3D9_g260;
-				float scale107_g262 = 0.5;
-				float3 localPerturbNormal107_g262 = PerturbNormal107_g262( surf_pos107_g262 , surf_norm107_g262 , height107_g262 , scale107_g262 );
-				float3 ase_worldTangent = packedInput.ase_texcoord6.xyz;
-				float3 ase_worldBitangent = packedInput.ase_texcoord7.xyz;
-				float3x3 ase_worldToTangent = float3x3(ase_worldTangent,ase_worldBitangent,ase_worldNormal);
-				float3 worldToTangentDir42_g262 = mul( ase_worldToTangent, localPerturbNormal107_g262);
+				float3 temp_output_4_0_g260 = UnpackNormalScale( SAMPLE_TEXTURE2D( _NormalMap, sampler_NormalMap, uv_NormalMap ), 1.0f );
+				float3 ase_positionWS = packedInput.ase_texcoord4.xyz;
+				float3 temp_output_111_0_g262 = ddx( ase_positionWS );
+				float3 ase_normalWS = packedInput.ase_texcoord5.xyz;
+				float3 temp_output_113_0_g262 = cross( ddy( ase_positionWS ) , ase_normalWS );
+				float dotResult115_g262 = dot( temp_output_111_0_g262 , temp_output_113_0_g262 );
+				float temp_output_20_0_g262 = simplePerlin3D9_g260;
+				float3 normalizeResult130_g262 = normalize( ( ( abs( dotResult115_g262 ) * ase_normalWS ) - ( 0.5 * float3( 0.05,0.05,0.05 ) * sign( dotResult115_g262 ) * ( ( ddx( temp_output_20_0_g262 ) * temp_output_113_0_g262 ) + ( ddy( temp_output_20_0_g262 ) * cross( ase_normalWS , temp_output_111_0_g262 ) ) ) ) ) );
+				float3 ase_tangentWS = packedInput.ase_texcoord6.xyz;
+				float3 ase_bitangentWS = packedInput.ase_texcoord7.xyz;
+				float3x3 ase_worldToTangent = float3x3( ase_tangentWS, ase_bitangentWS, ase_normalWS );
+				float3 worldToTangentDir42_g262 = mul( ase_worldToTangent, normalizeResult130_g262 );
 				float3 lerpResult6_g260 = lerp( temp_output_4_0_g260 , BlendNormal( worldToTangentDir42_g262 , temp_output_4_0_g260 ) , temp_output_10_0_g260);
 				float3 normalizeResult33_g260 = normalize( lerpResult6_g260 );
-				float3 temp_output_46_5 = normalizeResult33_g260;
 				
 				float lerpResult32_g260 = lerp( 0.0 , 1.0 , temp_output_10_0_g260);
 				
 				float2 uv_MaskMap = packedInput.ase_texcoord2.xy * _MaskMap_ST.xy + _MaskMap_ST.zw;
-				float4 tex2DNode3 = tex2D( _MaskMap, uv_MaskMap );
+				float4 tex2DNode3 = SAMPLE_TEXTURE2D( _MaskMap, sampler_MaskMap, uv_MaskMap );
 				
+
+				GlobalSurfaceDescription surfaceDescription = (GlobalSurfaceDescription)0;
+
 				surfaceDescription.BaseColor = lerpResult18_g260.rgb;
-				surfaceDescription.Normal = temp_output_46_5;
+				surfaceDescription.Normal = normalizeResult33_g260;
 				surfaceDescription.BentNormal = float3( 0, 0, 1 );
 				surfaceDescription.CoatMask = lerpResult32_g260;
 				surfaceDescription.Metallic = tex2DNode3.r;
@@ -2070,9 +2261,9 @@ Shader "BallsSpherize"
 				surfaceDescription.Specular = 0;
 				#endif
 
-				surfaceDescription.Emission = 0;
 				surfaceDescription.Smoothness = tex2DNode3.a;
 				surfaceDescription.Occlusion = tex2DNode3.g;
+				surfaceDescription.Emission = 0;
 				surfaceDescription.Alpha = 1;
 
 				#ifdef _ALPHATEST_ON
@@ -2120,8 +2311,9 @@ Shader "BallsSpherize"
 				surfaceDescription.IridescenceThickness = 0;
 				#endif
 
+				SurfaceData surfaceData;
+				BuiltinData builtinData;
 				GetSurfaceAndBuiltinData(surfaceDescription,input, V, posInput, surfaceData, builtinData);
-
 				BSDFData bsdfData = ConvertSurfaceDataToBSDFData(input.positionSS.xy, surfaceData);
 				LightTransportData lightTransportData = GetLightTransportData(surfaceData, builtinData, bsdfData);
 
@@ -2156,27 +2348,33 @@ Shader "BallsSpherize"
 			ColorMask 0
 
 			HLSLPROGRAM
-
+			#define ASE_GEOMETRY
+			#pragma shader_feature_local _ _DOUBLESIDED_ON
+			#define ASE_FRAGMENT_NORMAL 0
 			#define _SPECULAR_OCCLUSION_FROM_AO 1
-			#pragma multi_compile_instancing
-			#pragma instancing_options renderinglayer
 			#define ASE_ABSOLUTE_VERTEX_POS 1
-			#define _MATERIAL_FEATURE_CLEAR_COAT 1
+			#define ASE_NEED_CULLFACE 1
+			#pragma multi_compile_local_fragment _DISABLE_DECALS
+			#pragma shader_feature_local_fragment _ _DISABLE_SSR
+			#define _MATERIAL_FEATURE_CLEAR_COAT
 			#define _AMBIENT_OCCLUSION 1
 			#define HAVE_MESH_MODIFICATION
-			#define ASE_SRP_VERSION 140008
+			#define ASE_VERSION 19904
+			#define ASE_SRP_VERSION 140011
+			#define ASE_USING_SAMPLING_MACROS 1
 
+			#pragma multi_compile _ DOTS_INSTANCING_ON
 
-			#pragma shader_feature _SURFACE_TYPE_TRANSPARENT
-			#pragma shader_feature_local _TRANSPARENT_WRITES_MOTION_VEC
-			#pragma shader_feature_local_fragment _ENABLE_FOG_ON_TRANSPARENT
-			#pragma shader_feature_local _DOUBLESIDED_ON
-			#pragma shader_feature_local _ALPHATEST_ON
+            #pragma shader_feature _ _SURFACE_TYPE_TRANSPARENT
+            #pragma shader_feature_local _ _TRANSPARENT_WRITES_MOTION_VEC
+            #pragma shader_feature_local_fragment _ _ENABLE_FOG_ON_TRANSPARENT
 
 			#pragma multi_compile_fragment _ SHADOWS_SHADOWMASK
 
 			#pragma vertex Vert
 			#pragma fragment Frag
+
+			#define SHADERPASS SHADERPASS_SHADOWS
 
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
         	#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GeometricTools.hlsl"
@@ -2188,16 +2386,24 @@ Shader "BallsSpherize"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
             #include "Packages/com.unity.shadergraph/ShaderGraphLibrary/Functions.hlsl"
 
-			//#define USE_LEGACY_UNITY_MATRIX_VARIABLES
-
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
 
-			#define SHADERPASS SHADERPASS_SHADOWS
+            #ifdef RAYTRACING_SHADER_GRAPH_DEFAULT
+                #define RAYTRACING_SHADER_GRAPH_HIGH
+            #endif
 
-			#ifndef SHADER_UNLIT
-			#if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
-			#define VARYINGS_NEED_CULLFACE
-			#endif
+            #ifdef RAYTRACING_SHADER_GRAPH_RAYTRACED
+                #define RAYTRACING_SHADER_GRAPH_LOW
+            #endif
+
+            #ifndef SHADER_UNLIT
+            #if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
+                #define VARYINGS_NEED_CULLFACE
+            #endif
+            #endif
+
+			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
+			    #define ASE_NEED_CULLFACE 1
 			#endif
 
 		    #if defined(_MATERIAL_FEATURE_SUBSURFACE_SCATTERING) && !defined(_SURFACE_TYPE_TRANSPARENT)
@@ -2210,29 +2416,29 @@ Shader "BallsSpherize"
 			#define _REFRACTION_THIN
 		    #endif
 
-			#if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
-			#if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
-			#define WRITE_NORMAL_BUFFER
-			#endif
-			#endif
+            #if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
+            #if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
+                #define WRITE_NORMAL_BUFFER
+            #endif
+            #endif
 
-			#ifndef DEBUG_DISPLAY
-				#if !defined(_SURFACE_TYPE_TRANSPARENT)
-					#if SHADERPASS == SHADERPASS_FORWARD
-					#define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
-					#elif SHADERPASS == SHADERPASS_GBUFFER
-					#define SHADERPASS_GBUFFER_BYPASS_ALPHA_TEST
-					#endif
-				#endif
-			#endif
+            #ifndef DEBUG_DISPLAY
+                #if !defined(_SURFACE_TYPE_TRANSPARENT)
+                    #if SHADERPASS == SHADERPASS_FORWARD
+                    #define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
+                    #elif SHADERPASS == SHADERPASS_GBUFFER
+                    #define SHADERPASS_GBUFFER_BYPASS_ALPHA_TEST
+                    #endif
+                #endif
+            #endif
 
-			#if defined(SHADER_LIT) && !defined(_SURFACE_TYPE_TRANSPARENT)
-			#define _DEFERRED_CAPABLE_MATERIAL
-			#endif
+            #if defined(SHADER_LIT) && !defined(_SURFACE_TYPE_TRANSPARENT)
+                #define _DEFERRED_CAPABLE_MATERIAL
+            #endif
 
-			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
-			#define _WRITE_TRANSPARENT_MOTION_VECTOR
-			#endif
+            #if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
+                #define _WRITE_TRANSPARENT_MOTION_VECTOR
+            #endif
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColorMap_ST;
@@ -2250,7 +2456,7 @@ Shader "BallsSpherize"
 			float _AlphaCutoff;
 			float _RenderQueueType;
 			#ifdef _ADD_PRECOMPUTED_VELOCITY
-			float _AddPrecomputedVelocity;
+			    float _AddPrecomputedVelocity;
 			#endif
 			float _StencilRef;
 			float _StencilWriteMask;
@@ -2258,6 +2464,8 @@ Shader "BallsSpherize"
 			float _StencilWriteMaskDepth;
 			float _StencilRefMV;
 			float _StencilWriteMaskMV;
+			float _StencilRefDistortionVec;
+			float _StencilWriteMaskDistortionVec;
 			float _StencilWriteMaskGBuffer;
 			float _StencilRefGBuffer;
 			float _ZTestGBuffer;
@@ -2266,7 +2474,7 @@ Shader "BallsSpherize"
 			float _SurfaceType;
 			float _BlendMode;
             #ifdef SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
-			float _EnableBlendModePreserveSpecularLighting;
+			    float _EnableBlendModePreserveSpecularLighting;
             #endif
 			float _SrcBlend;
 			float _DstBlend;
@@ -2288,21 +2496,19 @@ Shader "BallsSpherize"
 			float _DoubleSidedNormalMode;
 			float4 _DoubleSidedConstants;
 			#ifdef ASE_TESSELLATION
-			float _TessPhongStrength;
-			float _TessValue;
-			float _TessMin;
-			float _TessMax;
-			float _TessEdgeLength;
-			float _TessMaxDisp;
+			    float _TessPhongStrength;
+			    float _TessValue;
+			    float _TessMin;
+			    float _TessMax;
+			    float _TessEdgeLength;
+			    float _TessMaxDisp;
 			#endif
 			CBUFFER_END
 
-			// Property used by ScenePickingPass
             #ifdef SCENEPICKINGPASS
 			float4 _SelectionID;
             #endif
 
-			// Properties used by SceneSelectionPass
             #ifdef SCENESELECTIONPASS
 			int _ObjectId;
 			int _PassValue;
@@ -2321,10 +2527,12 @@ Shader "BallsSpherize"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
 
-			// Setup DECALS_OFF so the shader stripper can remove variants
-            #define HAVE_DECALS ( (defined(DECALS_3RT) || defined(DECALS_4RT)) && !defined(_DISABLE_DECALS) )
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
+
+        	#ifdef HAVE_VFX_MODIFICATION
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/VisualEffectVertex.hlsl"
+        	#endif
 
 			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_VERT_NORMAL
@@ -2332,14 +2540,11 @@ Shader "BallsSpherize"
 			#pragma multi_compile_local __ _SPHERIZE_ON
 
 
-			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
-			#define ASE_NEED_CULLFACE 1
-			#endif
-
 			struct AttributesMesh
 			{
 				float3 positionOS : POSITION;
 				float3 normalOS : NORMAL;
+				float4 tangentOS : TANGENT;
 				float4 ase_color : COLOR;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -2348,6 +2553,8 @@ Shader "BallsSpherize"
 			{
 				SV_POSITION_QUALIFIERS float4 positionCS : SV_Position;
 				float3 positionRWS : TEXCOORD0;
+				float3 normalWS : TEXCOORD1;
+				float4 tangentWS : TEXCOORD2;
 				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
@@ -2356,7 +2563,7 @@ Shader "BallsSpherize"
 				#endif
 			};
 
-			float3 MyCustomExpression11_g1( float3 pos )
+			float3 MyCustomExpression11_g369( float3 pos )
 			{
 				return GetCameraRelativePositionWS(pos);
 			}
@@ -2388,7 +2595,7 @@ Shader "BallsSpherize"
 				return transpose( cofactors ) / determinant( input );
 			}
 			
-			float3 MyCustomExpression32_g250( float3 pos )
+			float3 MyCustomExpression32_g371( float3 pos )
 			{
 				return GetAbsolutePositionWS(pos);
 			}
@@ -2400,910 +2607,280 @@ Shader "BallsSpherize"
 
 				surfaceData.specularOcclusion = 1.0;
 
-				// surface data
-
-				// refraction
-				#ifdef _HAS_REFRACTION
-				if( _EnableSSRefraction )
-				{
-					surfaceData.transmittanceMask = ( 1.0 - surfaceDescription.Alpha );
-					surfaceDescription.Alpha = 1.0;
-				}
-				else
-				{
-					surfaceData.ior = 1.0;
-					surfaceData.transmittanceColor = float3( 1.0, 1.0, 1.0 );
-					surfaceData.atDistance = 1.0;
-					surfaceData.transmittanceMask = 0.0;
-					surfaceDescription.Alpha = 1.0;
-				}
-				#else
-				surfaceData.ior = 1.0;
-				surfaceData.transmittanceColor = float3( 1.0, 1.0, 1.0 );
-				surfaceData.atDistance = 1.0;
-				surfaceData.transmittanceMask = 0.0;
-				#endif
-
-
-				// material features
-				surfaceData.materialFeatures = MATERIALFEATUREFLAGS_LIT_STANDARD;
-				#ifdef _MATERIAL_FEATURE_SUBSURFACE_SCATTERING
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SUBSURFACE_SCATTERING;
-				#endif
-				#ifdef _MATERIAL_FEATURE_TRANSMISSION
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_TRANSMISSION;
-				#endif
-                #ifdef _MATERIAL_FEATURE_ANISOTROPY
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_ANISOTROPY;
-				surfaceData.normalWS = float3(0, 1, 0);
+				// refraction ShadowCaster
+                #if defined(_REFRACTION_PLANE) || defined(_REFRACTION_SPHERE) || defined(_REFRACTION_THIN)
+                    if (_EnableSSRefraction)
+                    {
+                        surfaceData.transmittanceMask = (1.0 - surfaceDescription.Alpha);
+                        surfaceDescription.Alpha = 1.0;
+                    }
+                    else
+                    {
+                        surfaceData.ior = 1.0;
+                        surfaceData.transmittanceColor = float3(1.0, 1.0, 1.0);
+                        surfaceData.atDistance = 1.0;
+                        surfaceData.transmittanceMask = 0.0;
+                        surfaceDescription.Alpha = 1.0;
+                    }
+                    #else
+                    surfaceData.ior = 1.0;
+                    surfaceData.transmittanceColor = float3(1.0, 1.0, 1.0);
+                    surfaceData.atDistance = 1.0;
+                    surfaceData.transmittanceMask = 0.0;
                 #endif
-				#ifdef _MATERIAL_FEATURE_CLEAR_COAT
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_CLEAR_COAT;
+
+				surfaceData.materialFeatures = MATERIALFEATUREFLAGS_LIT_STANDARD;
+
+				#ifdef _MATERIAL_FEATURE_SUBSURFACE_SCATTERING
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SUBSURFACE_SCATTERING;
 				#endif
+
+				#ifdef _MATERIAL_FEATURE_TRANSMISSION
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_TRANSMISSION;
+				#endif
+
+                #ifdef _MATERIAL_FEATURE_ANISOTROPY
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_ANISOTROPY;
+                    surfaceData.normalWS = float3(0, 1, 0);
+                #endif
+
 				#ifdef _MATERIAL_FEATURE_IRIDESCENCE
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_IRIDESCENCE;
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_IRIDESCENCE;
 				#endif
+
 				#ifdef _MATERIAL_FEATURE_SPECULAR_COLOR
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SPECULAR_COLOR;
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SPECULAR_COLOR;
 				#endif
 
-				// others
+				#ifdef _MATERIAL_FEATURE_CLEAR_COAT
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_CLEAR_COAT;
+				#endif
+
 				#if defined (_MATERIAL_FEATURE_SPECULAR_COLOR) && defined (_ENERGY_CONSERVING_SPECULAR)
-				surfaceData.baseColor *= ( 1.0 - Max3( surfaceData.specularColor.r, surfaceData.specularColor.g, surfaceData.specularColor.b ) );
+                    surfaceData.baseColor *= ( 1.0 - Max3( surfaceData.specularColor.r, surfaceData.specularColor.g, surfaceData.specularColor.b ) );
 				#endif
+
 				#ifdef _DOUBLESIDED_ON
-				float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
+					float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
 				#else
-				float3 doubleSidedConstants = float3( 1.0, 1.0, 1.0 );
+					float3 doubleSidedConstants = float3( 1.0, 1.0, 1.0 );
 				#endif
 
-				// normals
-				float3 normalTS = float3(0.0f, 0.0f, 1.0f);
+				float3 normal = float3(0.0f, 0.0f, 1.0f);
 
-				surfaceData.geomNormalWS = fragInputs.tangentToWorld[2];
-				surfaceData.tangentWS = normalize( fragInputs.tangentToWorld[ 0 ].xyz );
-
-				// decals
-			#ifdef DECAL_NORMAL_BLENDING
-				if (_EnableDecals)
-				{
-					#ifndef SURFACE_GRADIENT
-					normalTS = SurfaceGradientFromTangentSpaceNormalAndFromTBN(normalTS, fragInputs.tangentToWorld[0], fragInputs.tangentToWorld[1]);
-					#endif
-
-					DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
-					ApplyDecalToSurfaceData(decalSurfaceData, fragInputs.tangentToWorld[2], surfaceData, normalTS);
-				}
-
-				GetNormalWS_SG(fragInputs, normalTS, surfaceData.normalWS, doubleSidedConstants);
-			#else
-				GetNormalWS(fragInputs, normalTS, surfaceData.normalWS, doubleSidedConstants);
+			#if ( UNITY_VERSION <= 202236 )
+				#if ( ASE_FRAGMENT_NORMAL == 1 )
+					GetNormalWS_SrcOS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+				#elif ( ASE_FRAGMENT_NORMAL == 2 )
+					GetNormalWS_SrcWS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+				#else
+					GetNormalWS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+				#endif
 
 				#if HAVE_DECALS
 				if (_EnableDecals)
 				{
-					// Both uses and modifies 'surfaceData.normalWS'.
 					DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
 					ApplyDecalToSurfaceData(decalSurfaceData, fragInputs.tangentToWorld[2], surfaceData);
 				}
 				#endif
+			#else
+				#ifdef DECAL_NORMAL_BLENDING
+					#if ( ASE_FRAGMENT_NORMAL == 1 )
+						normal = SurfaceGradientFromPerturbedNormal(TransformWorldToObjectNormal(fragInputs.tangentToWorld[2]), normal);
+					#elif ( ASE_FRAGMENT_NORMAL == 2 )
+						normal = SurfaceGradientFromPerturbedNormal(fragInputs.tangentToWorld[2], normal);
+					#else
+						normal = SurfaceGradientFromTangentSpaceNormalAndFromTBN(normal, fragInputs.tangentToWorld[0], fragInputs.tangentToWorld[1]);
+					#endif
+
+					#if HAVE_DECALS
+					if (_EnableDecals)
+					{
+						DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
+						ApplyDecalToSurfaceNormal(decalSurfaceData, fragInputs.tangentToWorld[2], normal);
+						ApplyDecalToSurfaceDataNoNormal(decalSurfaceData, surfaceData);
+					}
+					#endif
+
+					GetNormalWS_SG(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+				#else
+					#if ( ASE_FRAGMENT_NORMAL == 1 )
+						GetNormalWS_SrcOS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+					#elif ( ASE_FRAGMENT_NORMAL == 2 )
+						GetNormalWS_SrcWS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+					#else
+						GetNormalWS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+					#endif
+
+					#if HAVE_DECALS
+					if (_EnableDecals)
+					{
+						DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
+						ApplyDecalToSurfaceNormal(decalSurfaceData, surfaceData.normalWS.xyz);
+						ApplyDecalToSurfaceDataNoNormal(decalSurfaceData, surfaceData);
+					}
+					#endif
+				#endif
 			#endif
 
+				surfaceData.geomNormalWS = fragInputs.tangentToWorld[2];
+                surfaceData.tangentWS = normalize(fragInputs.tangentToWorld[0].xyz );
+                surfaceData.tangentWS = Orthonormalize(surfaceData.tangentWS, surfaceData.normalWS);
+
 				bentNormalWS = surfaceData.normalWS;
-				surfaceData.tangentWS = Orthonormalize( surfaceData.tangentWS, surfaceData.normalWS );
+
+				#if defined(DEBUG_DISPLAY)
+					if (_DebugMipMapMode != DEBUGMIPMAPMODE_NONE)
+					{
+						surfaceData.metallic = 0;
+					}
+					ApplyDebugToSurfaceData(fragInputs.tangentToWorld, surfaceData);
+				#endif
 
                 #if defined(_SPECULAR_OCCLUSION_CUSTOM)
                 #elif defined(_SPECULAR_OCCLUSION_FROM_AO_BENT_NORMAL)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromBentAO(V, bentNormalWS, surfaceData.normalWS, surfaceData.ambientOcclusion, PerceptualSmoothnessToPerceptualRoughness(surfaceData.perceptualSmoothness));
+                    surfaceData.specularOcclusion = GetSpecularOcclusionFromBentAO(V, bentNormalWS, surfaceData.normalWS, surfaceData.ambientOcclusion, PerceptualSmoothnessToPerceptualRoughness(surfaceData.perceptualSmoothness));
                 #elif defined(_AMBIENT_OCCLUSION) && defined(_SPECULAR_OCCLUSION_FROM_AO)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion(ClampNdotV(dot(surfaceData.normalWS, V)), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness(surfaceData.perceptualSmoothness));
+                    surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion(ClampNdotV(dot(surfaceData.normalWS, V)), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness(surfaceData.perceptualSmoothness));
                 #endif
 
-				// debug
-				#if defined(DEBUG_DISPLAY)
-				if (_DebugMipMapMode != DEBUGMIPMAPMODE_NONE)
-				{
-					surfaceData.metallic = 0;
-				}
-				ApplyDebugToSurfaceData(fragInputs.tangentToWorld, surfaceData);
-				#endif
+                #ifdef _ENABLE_GEOMETRIC_SPECULAR_AA
+                    surfaceData.perceptualSmoothness = GeometricNormalFiltering(surfaceData.perceptualSmoothness, fragInputs.tangentToWorld[2], surfaceDescription.SpecularAAScreenSpaceVariance, surfaceDescription.SpecularAAThreshold);
+                #endif
 			}
 
+			// Get Surface And BuiltinData
 			void GetSurfaceAndBuiltinData(AlphaSurfaceDescription surfaceDescription, FragInputs fragInputs, float3 V, inout PositionInputs posInput, out SurfaceData surfaceData, out BuiltinData builtinData)
 			{
 				#ifdef LOD_FADE_CROSSFADE
-				LODDitheringTransition(ComputeFadeMaskSeed(V, posInput.positionSS), unity_LODFade.x);
+                    LODDitheringTransition(ComputeFadeMaskSeed(V, posInput.positionSS), unity_LODFade.x);
 				#endif
 
-				#ifdef _DOUBLESIDED_ON
-				float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
-				#else
-				float3 doubleSidedConstants = float3( 1.0, 1.0, 1.0 );
-				#endif
-
-				ApplyDoubleSidedFlipOrMirror( fragInputs, doubleSidedConstants );
+                #ifdef _DOUBLESIDED_ON
+                    float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
+                #else
+                    float3 doubleSidedConstants = float3(1.0, 1.0, 1.0);
+                #endif
+                ApplyDoubleSidedFlipOrMirror(fragInputs, doubleSidedConstants);
 
 				#ifdef _ALPHATEST_ON
-				#ifdef _ALPHATEST_SHADOW_ON
-				DoAlphaTest( surfaceDescription.Alpha, surfaceDescription.AlphaClipThresholdShadow );
-				#else
-				DoAlphaTest( surfaceDescription.Alpha, surfaceDescription.AlphaClipThreshold );
-				#endif
-				#endif
-
-				#ifdef _DEPTHOFFSET_ON
-				builtinData.depthOffset = surfaceDescription.DepthOffset;
-				ApplyDepthOffsetPositionInput( V, surfaceDescription.DepthOffset, GetViewForwardDir(), GetWorldToHClipMatrix(), posInput );
-				#endif
-
-				float3 bentNormalWS;
-				BuildSurfaceData( fragInputs, surfaceDescription, V, posInput, surfaceData, bentNormalWS );
-
-				InitBuiltinData( posInput, surfaceDescription.Alpha, bentNormalWS, -fragInputs.tangentToWorld[ 2 ], fragInputs.texCoord1, fragInputs.texCoord2, builtinData );
-
-				PostInitBuiltinData(V, posInput, surfaceData, builtinData);
-			}
-
-			PackedVaryingsMeshToPS VertexFunction(AttributesMesh inputMesh )
-			{
-				PackedVaryingsMeshToPS outputPackedVaryingsMeshToPS;
-				UNITY_SETUP_INSTANCE_ID(inputMesh);
-				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
-				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( outputPackedVaryingsMeshToPS );
-
-				float3 pos11_g1 = _SpherePosition;
-				float3 localMyCustomExpression11_g1 = MyCustomExpression11_g1( pos11_g1 );
-				float4 appendResult1_g1 = (float4(localMyCustomExpression11_g1 , 1.0));
-				float3 temp_output_5_0_g1 = (mul( GetWorldToObjectMatrix(), appendResult1_g1 )).xyz;
-				float3 temp_output_3_0_g253 = temp_output_5_0_g1;
-				float3 normalizeResult6_g253 = normalize( ( inputMesh.positionOS - temp_output_3_0_g253 ) );
-				float4 appendResult4_g1 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float3 temp_output_6_0_g1 = ( ( normalizeResult6_g253 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g1 )).xyz ) ) ) + temp_output_3_0_g253 );
-				float temp_output_18_0_g1 = ( _SpherizeAmount * inputMesh.ase_color.r );
-				float3 lerpResult21_g1 = lerp( inputMesh.positionOS , temp_output_6_0_g1 , temp_output_18_0_g1);
-				#ifdef _SPHERIZE_ON
-				float3 staticSwitch16_g1 = lerpResult21_g1;
-				#else
-				float3 staticSwitch16_g1 = inputMesh.positionOS;
-				#endif
-				float3 normalizeResult27_g252 = normalize( _WorldDickNormal );
-				float3 normalizeResult31_g252 = normalize( _WorldDickBinormal );
-				float3 normalizeResult29_g252 = normalize( cross( normalizeResult27_g252 , normalizeResult31_g252 ) );
-				float4 appendResult26_g251 = (float4(1.0 , 0.0 , 0.0 , 0.0));
-				float4 appendResult28_g251 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float4 appendResult31_g251 = (float4(0.0 , 0.0 , 1.0 , 0.0));
-				float3 break27_g251 = -_WorldDickPosition;
-				float4 appendResult29_g251 = (float4(break27_g251.x , break27_g251.y , break27_g251.z , 1.0));
-				float4x4 temp_output_30_0_g251 = mul( transpose( float4x4( float4( normalizeResult27_g252 , 0.0 ).x,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).x,float4( normalizeResult29_g252 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g252 , 0.0 ).y,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).y,float4( normalizeResult29_g252 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g252 , 0.0 ).z,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).z,float4( normalizeResult29_g252 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g252 , 0.0 ).w,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).w,float4( normalizeResult29_g252 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g251.x,appendResult28_g251.x,appendResult31_g251.x,appendResult29_g251.x,appendResult26_g251.y,appendResult28_g251.y,appendResult31_g251.y,appendResult29_g251.y,appendResult26_g251.z,appendResult28_g251.z,appendResult31_g251.z,appendResult29_g251.z,appendResult26_g251.w,appendResult28_g251.w,appendResult31_g251.w,appendResult29_g251.w ) );
-				float4x4 invertVal44_g251 = Inverse4x4( temp_output_30_0_g251 );
-				float4 appendResult27_g250 = (float4(inputMesh.positionOS , 1.0));
-				float3 pos32_g250 = mul( GetObjectToWorldMatrix(), appendResult27_g250 ).xyz;
-				float3 localMyCustomExpression32_g250 = MyCustomExpression32_g250( pos32_g250 );
-				float4 appendResult32_g251 = (float4(localMyCustomExpression32_g250 , 1.0));
-				float4 break35_g251 = mul( temp_output_30_0_g251, appendResult32_g251 );
-				float temp_output_124_0_g251 = _TipRadius;
-				float2 appendResult36_g251 = (float2(break35_g251.y , break35_g251.z));
-				float2 normalizeResult41_g251 = normalize( appendResult36_g251 );
-				float temp_output_120_0_g251 = sqrt( max( break35_g251.x , 0.0 ) );
-				float temp_output_48_0_g251 = tan( radians( _Angle ) );
-				float temp_output_125_0_g251 = ( temp_output_124_0_g251 + ( temp_output_120_0_g251 * temp_output_48_0_g251 ) );
-				float temp_output_37_0_g251 = length( appendResult36_g251 );
-				float temp_output_114_0_g251 = ( ( temp_output_125_0_g251 - temp_output_37_0_g251 ) + 1.0 );
-				float lerpResult102_g251 = lerp( temp_output_125_0_g251 , temp_output_37_0_g251 , saturate( temp_output_114_0_g251 ));
-				float lerpResult130_g251 = lerp( 0.0 , lerpResult102_g251 , saturate( ( -( -temp_output_124_0_g251 - break35_g251.x ) / temp_output_124_0_g251 ) ));
-				float2 break43_g251 = ( normalizeResult41_g251 * lerpResult130_g251 );
-				float4 appendResult40_g251 = (float4(max( break35_g251.x , -temp_output_124_0_g251 ) , break43_g251.x , break43_g251.y , 1.0));
-				float4 appendResult28_g250 = (float4(((mul( invertVal44_g251, appendResult40_g251 )).xyz).xyz , 1.0));
-				float4 localWorldVar29_g250 = appendResult28_g250;
-				(localWorldVar29_g250).xyz = GetCameraRelativePositionWS((localWorldVar29_g250).xyz);
-				float4 transform29_g250 = mul(GetWorldToObjectMatrix(),localWorldVar29_g250);
-				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch13_g250 = (transform29_g250).xyz;
-				#else
-				float3 staticSwitch13_g250 = staticSwitch16_g1;
-				#endif
-				
-				float3 normalizeResult13_g1 = normalize( ( temp_output_6_0_g1 - temp_output_5_0_g1 ) );
-				float3 lerpResult12_g1 = lerp( inputMesh.normalOS , normalizeResult13_g1 , temp_output_18_0_g1);
-				#ifdef _SPHERIZE_ON
-				float3 staticSwitch15_g1 = lerpResult12_g1;
-				#else
-				float3 staticSwitch15_g1 = inputMesh.normalOS;
-				#endif
-				float3 temp_output_50_0_g250 = staticSwitch15_g1;
-				float2 break146_g251 = normalizeResult41_g251;
-				float4 appendResult139_g251 = (float4(temp_output_48_0_g251 , break146_g251.x , break146_g251.y , 0.0));
-				float3 normalizeResult144_g251 = normalize( (mul( invertVal44_g251, appendResult139_g251 )).xyz );
-				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , temp_output_50_0_g250 , saturate( sign( temp_output_114_0_g251 ) ));
-				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch17_g250 = lerpResult44_g250;
-				#else
-				float3 staticSwitch17_g250 = temp_output_50_0_g250;
-				#endif
-				
-
-				#ifdef ASE_ABSOLUTE_VERTEX_POS
-				float3 defaultVertexValue = inputMesh.positionOS.xyz;
-				#else
-				float3 defaultVertexValue = float3( 0, 0, 0 );
-				#endif
-				float3 vertexValue = staticSwitch13_g250;
-
-				#ifdef ASE_ABSOLUTE_VERTEX_POS
-				inputMesh.positionOS.xyz = vertexValue;
-				#else
-				inputMesh.positionOS.xyz += vertexValue;
-				#endif
-
-				inputMesh.normalOS = staticSwitch17_g250;
-
-				float3 positionRWS = TransformObjectToWorld(inputMesh.positionOS);
-				outputPackedVaryingsMeshToPS.positionCS = TransformWorldToHClip(positionRWS);
-				outputPackedVaryingsMeshToPS.positionRWS.xyz = positionRWS;
-				return outputPackedVaryingsMeshToPS;
-			}
-
-			#if defined(ASE_TESSELLATION)
-			struct VertexControl
-			{
-				float3 positionOS : INTERNALTESSPOS;
-				float3 normalOS : NORMAL;
-				float4 ase_color : COLOR;
-
-				UNITY_VERTEX_INPUT_INSTANCE_ID
-			};
-
-			struct TessellationFactors
-			{
-				float edge[3] : SV_TessFactor;
-				float inside : SV_InsideTessFactor;
-			};
-
-			VertexControl Vert ( AttributesMesh v )
-			{
-				VertexControl o;
-				UNITY_SETUP_INSTANCE_ID(v);
-				UNITY_TRANSFER_INSTANCE_ID(v, o);
-				o.positionOS = v.positionOS;
-				o.normalOS = v.normalOS;
-				o.ase_color = v.ase_color;
-				return o;
-			}
-
-			TessellationFactors TessellationFunction (InputPatch<VertexControl,3> v)
-			{
-				TessellationFactors o;
-				float4 tf = 1;
-				float tessValue = _TessValue; float tessMin = _TessMin; float tessMax = _TessMax;
-				float edgeLength = _TessEdgeLength; float tessMaxDisp = _TessMaxDisp;
-				#if (SHADEROPTIONS_CAMERA_RELATIVE_RENDERING != 0)
-				float3 cameraPos = 0;
-				#else
-				float3 cameraPos = _WorldSpaceCameraPos;
-				#endif
-				#if defined(ASE_FIXED_TESSELLATION)
-				tf = FixedTess( tessValue );
-				#elif defined(ASE_DISTANCE_TESSELLATION)
-				tf = DistanceBasedTess(float4(v[0].positionOS,1), float4(v[1].positionOS,1), float4(v[2].positionOS,1), tessValue, tessMin, tessMax, GetObjectToWorldMatrix(), cameraPos );
-				#elif defined(ASE_LENGTH_TESSELLATION)
-				tf = EdgeLengthBasedTess(float4(v[0].positionOS,1), float4(v[1].positionOS,1), float4(v[2].positionOS,1), edgeLength, GetObjectToWorldMatrix(), cameraPos, _ScreenParams );
-				#elif defined(ASE_LENGTH_CULL_TESSELLATION)
-				tf = EdgeLengthBasedTessCull(float4(v[0].positionOS,1), float4(v[1].positionOS,1), float4(v[2].positionOS,1), edgeLength, tessMaxDisp, GetObjectToWorldMatrix(), cameraPos, _ScreenParams, _FrustumPlanes );
-				#endif
-				o.edge[0] = tf.x; o.edge[1] = tf.y; o.edge[2] = tf.z; o.inside = tf.w;
-				return o;
-			}
-
-			[domain("tri")]
-			[partitioning("fractional_odd")]
-			[outputtopology("triangle_cw")]
-			[patchconstantfunc("TessellationFunction")]
-			[outputcontrolpoints(3)]
-			VertexControl HullFunction(InputPatch<VertexControl, 3> patch, uint id : SV_OutputControlPointID)
-			{
-			   return patch[id];
-			}
-
-			[domain("tri")]
-			PackedVaryingsMeshToPS DomainFunction(TessellationFactors factors, OutputPatch<VertexControl, 3> patch, float3 bary : SV_DomainLocation)
-			{
-				AttributesMesh o = (AttributesMesh) 0;
-				o.positionOS = patch[0].positionOS * bary.x + patch[1].positionOS * bary.y + patch[2].positionOS * bary.z;
-				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
-				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
-				#if defined(ASE_PHONG_TESSELLATION)
-				float3 pp[3];
-				for (int i = 0; i < 3; ++i)
-					pp[i] = o.positionOS.xyz - patch[i].normalOS * (dot(o.positionOS.xyz, patch[i].normalOS) - dot(patch[i].positionOS.xyz, patch[i].normalOS));
-				float phongStrength = _TessPhongStrength;
-				o.positionOS.xyz = phongStrength * (pp[0]*bary.x + pp[1]*bary.y + pp[2]*bary.z) + (1.0f-phongStrength) * o.positionOS.xyz;
-				#endif
-				UNITY_TRANSFER_INSTANCE_ID(patch[0], o);
-				return VertexFunction(o);
-			}
-			#else
-			PackedVaryingsMeshToPS Vert ( AttributesMesh v )
-			{
-				return VertexFunction( v );
-			}
-			#endif
-
-			#if defined(WRITE_NORMAL_BUFFER) && defined(WRITE_MSAA_DEPTH)
-			#define SV_TARGET_DECAL SV_Target2
-			#elif defined(WRITE_NORMAL_BUFFER) || defined(WRITE_MSAA_DEPTH)
-			#define SV_TARGET_DECAL SV_Target1
-			#else
-			#define SV_TARGET_DECAL SV_Target0
-			#endif
-
-			void Frag( PackedVaryingsMeshToPS packedInput
-						#if defined(SCENESELECTIONPASS) || defined(SCENEPICKINGPASS)
-						, out float4 outColor : SV_Target0
-						#else
-							#ifdef WRITE_MSAA_DEPTH
-							, out float4 depthColor : SV_Target0
-								#ifdef WRITE_NORMAL_BUFFER
-								, out float4 outNormalBuffer : SV_Target1
-								#endif
-							#else
-								#ifdef WRITE_NORMAL_BUFFER
-								, out float4 outNormalBuffer : SV_Target0
-								#endif
-							#endif
-
-							#if defined(WRITE_DECAL_BUFFER) && !defined(_DISABLE_DECALS)
-							, out float4 outDecalBuffer : SV_TARGET_DECAL
-							#endif
-						#endif
-
-						#if defined(_DEPTHOFFSET_ON) && !defined(SCENEPICKINGPASS)
-						, out float outputDepth : DEPTH_OFFSET_SEMANTIC
-						#endif
-						
-					)
-			{
-				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX( packedInput );
-				UNITY_SETUP_INSTANCE_ID( packedInput );
-
-				float3 positionRWS = packedInput.positionRWS.xyz;
-
-				FragInputs input;
-				ZERO_INITIALIZE(FragInputs, input);
-
-				input.tangentToWorld = k_identity3x3;
-				input.positionSS = packedInput.positionCS;
-
-				input.positionRWS = positionRWS;
-
-				#if _DOUBLESIDED_ON && SHADER_STAGE_FRAGMENT
-				input.isFrontFace = IS_FRONT_VFACE( packedInput.cullFace, true, false);
-				#elif SHADER_STAGE_FRAGMENT
-				#if defined(ASE_NEED_CULLFACE)
-				input.isFrontFace = IS_FRONT_VFACE( packedInput.cullFace, true, false );
-				#endif
-				#endif
-				half isFrontFace = input.isFrontFace;
-
-				PositionInputs posInput = GetPositionInput(input.positionSS.xy, _ScreenSize.zw, input.positionSS.z, input.positionSS.w, input.positionRWS);
-
-				float3 V = GetWorldSpaceNormalizeViewDir(input.positionRWS);
-
-				AlphaSurfaceDescription surfaceDescription = (AlphaSurfaceDescription)0;
-				
-				surfaceDescription.Alpha = 1;
-
-				#ifdef _ALPHATEST_ON
-				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
+                    DoAlphaTest( surfaceDescription.Alpha, surfaceDescription.AlphaClipThreshold );
 				#endif
 
 				#ifdef _ALPHATEST_SHADOW_ON
-				surfaceDescription.AlphaClipThresholdShadow = 0.5;
+                    DoAlphaTest( surfaceDescription.Alpha, surfaceDescription.AlphaClipThresholdShadow);
 				#endif
 
 				#ifdef _DEPTHOFFSET_ON
-				surfaceDescription.DepthOffset = 0;
+                    ApplyDepthOffsetPositionInput(V, surfaceDescription.DepthOffset, GetViewForwardDir(), GetWorldToHClipMatrix(), posInput);
 				#endif
 
-				SurfaceData surfaceData;
-				BuiltinData builtinData;
-				GetSurfaceAndBuiltinData(surfaceDescription, input, V, posInput, surfaceData, builtinData);
+                float3 bentNormalWS;
+                BuildSurfaceData(fragInputs, surfaceDescription, V, posInput, surfaceData, bentNormalWS);
+                InitBuiltinData(posInput, surfaceDescription.Alpha, bentNormalWS, -fragInputs.tangentToWorld[2], fragInputs.texCoord1, fragInputs.texCoord2, builtinData);
 
 				#ifdef _DEPTHOFFSET_ON
-				outputDepth = posInput.deviceDepth;
-				float bias = max(abs(ddx(posInput.deviceDepth)), abs(ddy(posInput.deviceDepth))) * _SlopeScaleDepthBias;
-				outputDepth += bias;
+                    builtinData.depthOffset = surfaceDescription.DepthOffset;
 				#endif
 
-				#ifdef WRITE_MSAA_DEPTH
-				depthColor = packedInput.vmesh.positionCS.z;
-
-				#ifdef _ALPHATOMASK_ON
-				depthColor.a = SharpenAlpha(builtinData.opacity, builtinData.alphaClipTreshold);
-				#endif
-				#endif
-
-				#if defined(WRITE_NORMAL_BUFFER)
-				EncodeIntoNormalBuffer(ConvertSurfaceDataToNormalData(surfaceData), outNormalBuffer);
-				#endif
-
-				#if defined(WRITE_DECAL_BUFFER) && !defined(_DISABLE_DECALS)
-				DecalPrepassData decalPrepassData;
-				decalPrepassData.geomNormalWS = surfaceData.geomNormalWS;
-				decalPrepassData.decalLayerMask = GetMeshRenderingDecalLayer();
-				EncodeIntoDecalPrepassBuffer(decalPrepassData, outDecalBuffer);
-				#endif
-			}
-			ENDHLSL
-		}
-
-		
-		Pass
-		{
-			
-			Name "SceneSelectionPass"
-			Tags { "LightMode"="SceneSelectionPass" }
-
-			Cull Off
-
-			HLSLPROGRAM
-
-            #define _SPECULAR_OCCLUSION_FROM_AO 1
-            #pragma multi_compile_instancing
-            #pragma instancing_options renderinglayer
-            #define ASE_ABSOLUTE_VERTEX_POS 1
-            #define _MATERIAL_FEATURE_CLEAR_COAT 1
-            #define _AMBIENT_OCCLUSION 1
-            #define HAVE_MESH_MODIFICATION
-            #define ASE_SRP_VERSION 140008
-
-
-            #pragma shader_feature _SURFACE_TYPE_TRANSPARENT
-			#pragma shader_feature_local _TRANSPARENT_WRITES_MOTION_VEC
-			#pragma shader_feature_local_fragment _ENABLE_FOG_ON_TRANSPARENT
-			#pragma shader_feature_local _DOUBLESIDED_ON
-			#pragma shader_feature_local _ALPHATEST_ON
-
-			#pragma editor_sync_compilation
-
-			#pragma vertex Vert
-			#pragma fragment Frag
-
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GeometricTools.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Tessellation.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPass.cs.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
-            #include "Packages/com.unity.shadergraph/ShaderGraphLibrary/Functions.hlsl"
-
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
-
-			#define SHADERPASS SHADERPASS_DEPTH_ONLY
-		    #define SCENESELECTIONPASS 1
-
-			#ifndef SHADER_UNLIT
-			#if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
-			#define VARYINGS_NEED_CULLFACE
-			#endif
-			#endif
-
-		    #if defined(_MATERIAL_FEATURE_SUBSURFACE_SCATTERING) && !defined(_SURFACE_TYPE_TRANSPARENT)
-			#define OUTPUT_SPLIT_LIGHTING
-		    #endif
-
-		    #if (SHADERPASS == SHADERPASS_PATH_TRACING) && !defined(_DOUBLESIDED_ON) && (defined(_REFRACTION_PLANE) || defined(_REFRACTION_SPHERE))
-			#undef  _REFRACTION_PLANE
-			#undef  _REFRACTION_SPHERE
-			#define _REFRACTION_THIN
-		    #endif
-
-			#if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
-			#if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
-				#define WRITE_NORMAL_BUFFER
-			#endif
-			#endif
-
-			#ifndef DEBUG_DISPLAY
-				#if !defined(_SURFACE_TYPE_TRANSPARENT)
-					#if SHADERPASS == SHADERPASS_FORWARD
-					#define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
-					#elif SHADERPASS == SHADERPASS_GBUFFER
-					#define SHADERPASS_GBUFFER_BYPASS_ALPHA_TEST
-					#endif
-				#endif
-			#endif
-
-			#if defined(SHADER_LIT) && !defined(_SURFACE_TYPE_TRANSPARENT)
-			#define _DEFERRED_CAPABLE_MATERIAL
-			#endif
-
-			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
-			#define _WRITE_TRANSPARENT_MOTION_VECTOR
-			#endif
-
-			CBUFFER_START( UnityPerMaterial )
-			float4 _BaseColorMap_ST;
-			float4 _NormalMap_ST;
-			float4 _MaskMap_ST;
-			float3 _SpherePosition;
-			float3 _WorldDickNormal;
-			float3 _WorldDickBinormal;
-			float3 _WorldDickPosition;
-			float _SphereRadius;
-			float _SpherizeAmount;
-			float _TipRadius;
-			float _Angle;
-			float4 _EmissionColor;
-			float _AlphaCutoff;
-			float _RenderQueueType;
-			#ifdef _ADD_PRECOMPUTED_VELOCITY
-			float _AddPrecomputedVelocity;
-			#endif
-			float _StencilRef;
-			float _StencilWriteMask;
-			float _StencilRefDepth;
-			float _StencilWriteMaskDepth;
-			float _StencilRefMV;
-			float _StencilWriteMaskMV;
-			float _StencilWriteMaskGBuffer;
-			float _StencilRefGBuffer;
-			float _ZTestGBuffer;
-			float _RequireSplitLighting;
-			float _ReceivesSSR;
-			float _SurfaceType;
-			float _BlendMode;
-            #ifdef SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
-			float _EnableBlendModePreserveSpecularLighting;
-            #endif
-			float _SrcBlend;
-			float _DstBlend;
-			float _AlphaSrcBlend;
-			float _AlphaDstBlend;
-			float _ZWrite;
-			float _TransparentZWrite;
-			float _CullMode;
-			float _TransparentSortPriority;
-			float _EnableFogOnTransparent;
-			float _CullModeForward;
-			float _TransparentCullMode;
-			float _ZTestDepthEqualForOpaque;
-			float _ZTestTransparent;
-			float _TransparentBackfaceEnable;
-			float _AlphaCutoffEnable;
-			float _UseShadowThreshold;
-			float _DoubleSidedEnable;
-			float _DoubleSidedNormalMode;
-			float4 _DoubleSidedConstants;
-			#ifdef ASE_TESSELLATION
-			float _TessPhongStrength;
-			float _TessValue;
-			float _TessMin;
-			float _TessMax;
-			float _TessEdgeLength;
-			float _TessMaxDisp;
-			#endif
-			CBUFFER_END
-
-			// Property used by ScenePickingPass
-            #ifdef SCENEPICKINGPASS
-			float4 _SelectionID;
-            #endif
-
-			// Properties used by SceneSelectionPass
-            #ifdef SCENESELECTIONPASS
-			int _ObjectId;
-			int _PassValue;
-            #endif
-
-			
-
-            #ifdef DEBUG_DISPLAY
-            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
-            #endif
-
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/PickingSpaceTransforms.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/Lit.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/BuiltinUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
-
-			// Setup DECALS_OFF so the shader stripper can remove variants
-            #define HAVE_DECALS ( (defined(DECALS_3RT) || defined(DECALS_4RT)) && !defined(_DISABLE_DECALS) )
-            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
-            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
-
-			#define ASE_NEEDS_VERT_POSITION
-			#define ASE_NEEDS_VERT_NORMAL
-			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#pragma multi_compile_local __ _SPHERIZE_ON
-
-
-			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
-			#define ASE_NEED_CULLFACE 1
-			#endif
-
-			struct AttributesMesh
-			{
-				float3 positionOS : POSITION;
-				float3 normalOS : NORMAL;
-				float4 ase_color : COLOR;
-				UNITY_VERTEX_INPUT_INSTANCE_ID
-			};
-
-			struct PackedVaryingsMeshToPS
-			{
-				SV_POSITION_QUALIFIERS float4 positionCS : SV_Position;
-				float3 positionRWS : TEXCOORD0;
-				
-				UNITY_VERTEX_INPUT_INSTANCE_ID
-				UNITY_VERTEX_OUTPUT_STEREO
-				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
-				FRONT_FACE_TYPE cullFace : FRONT_FACE_SEMANTIC;
-				#endif
-			};
-
-			float3 MyCustomExpression11_g1( float3 pos )
-			{
-				return GetCameraRelativePositionWS(pos);
-			}
-			
-			float4x4 Inverse4x4(float4x4 input)
-			{
-				#define minor(a,b,c) determinant(float3x3(input.a, input.b, input.c))
-				float4x4 cofactors = float4x4(
-				minor( _22_23_24, _32_33_34, _42_43_44 ),
-				-minor( _21_23_24, _31_33_34, _41_43_44 ),
-				minor( _21_22_24, _31_32_34, _41_42_44 ),
-				-minor( _21_22_23, _31_32_33, _41_42_43 ),
-			
-				-minor( _12_13_14, _32_33_34, _42_43_44 ),
-				minor( _11_13_14, _31_33_34, _41_43_44 ),
-				-minor( _11_12_14, _31_32_34, _41_42_44 ),
-				minor( _11_12_13, _31_32_33, _41_42_43 ),
-			
-				minor( _12_13_14, _22_23_24, _42_43_44 ),
-				-minor( _11_13_14, _21_23_24, _41_43_44 ),
-				minor( _11_12_14, _21_22_24, _41_42_44 ),
-				-minor( _11_12_13, _21_22_23, _41_42_43 ),
-			
-				-minor( _12_13_14, _22_23_24, _32_33_34 ),
-				minor( _11_13_14, _21_23_24, _31_33_34 ),
-				-minor( _11_12_14, _21_22_24, _31_32_34 ),
-				minor( _11_12_13, _21_22_23, _31_32_33 ));
-				#undef minor
-				return transpose( cofactors ) / determinant( input );
-			}
-			
-			float3 MyCustomExpression32_g250( float3 pos )
-			{
-				return GetAbsolutePositionWS(pos);
-			}
-			
-
-			void BuildSurfaceData(FragInputs fragInputs, inout SceneSurfaceDescription surfaceDescription, float3 V, PositionInputs posInput, out SurfaceData surfaceData, out float3 bentNormalWS)
-			{
-				ZERO_INITIALIZE(SurfaceData, surfaceData);
-
-				surfaceData.specularOcclusion = 1.0;
-
-				// surface data
-
-				// refraction
-				#ifdef _HAS_REFRACTION
-				if( _EnableSSRefraction )
-				{
-					surfaceData.transmittanceMask = ( 1.0 - surfaceDescription.Alpha );
-					surfaceDescription.Alpha = 1.0;
-				}
-				else
-				{
-					surfaceData.ior = 1.0;
-					surfaceData.transmittanceColor = float3( 1.0, 1.0, 1.0 );
-					surfaceData.atDistance = 1.0;
-					surfaceData.transmittanceMask = 0.0;
-					surfaceDescription.Alpha = 1.0;
-				}
-				#else
-				surfaceData.ior = 1.0;
-				surfaceData.transmittanceColor = float3( 1.0, 1.0, 1.0 );
-				surfaceData.atDistance = 1.0;
-				surfaceData.transmittanceMask = 0.0;
-				#endif
-
-
-				// material features
-				surfaceData.materialFeatures = MATERIALFEATUREFLAGS_LIT_STANDARD;
-				#ifdef _MATERIAL_FEATURE_SUBSURFACE_SCATTERING
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SUBSURFACE_SCATTERING;
-				#endif
-				#ifdef _MATERIAL_FEATURE_TRANSMISSION
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_TRANSMISSION;
-				#endif
-                #ifdef _MATERIAL_FEATURE_ANISOTROPY
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_ANISOTROPY;
-				surfaceData.normalWS = float3(0, 1, 0);
-                #endif
-				#ifdef _MATERIAL_FEATURE_CLEAR_COAT
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_CLEAR_COAT;
-				#endif
-				#ifdef _MATERIAL_FEATURE_IRIDESCENCE
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_IRIDESCENCE;
-				#endif
-				#ifdef _MATERIAL_FEATURE_SPECULAR_COLOR
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SPECULAR_COLOR;
-				#endif
-
-				// others
-				#if defined (_MATERIAL_FEATURE_SPECULAR_COLOR) && defined (_ENERGY_CONSERVING_SPECULAR)
-				surfaceData.baseColor *= ( 1.0 - Max3( surfaceData.specularColor.r, surfaceData.specularColor.g, surfaceData.specularColor.b ) );
-				#endif
-				#ifdef _DOUBLESIDED_ON
-				float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
-				#else
-				float3 doubleSidedConstants = float3( 1.0, 1.0, 1.0 );
-				#endif
-
-				// normals
-				float3 normalTS = float3(0.0f, 0.0f, 1.0f);
-
-				surfaceData.geomNormalWS = fragInputs.tangentToWorld[2];
-				surfaceData.tangentWS = normalize( fragInputs.tangentToWorld[ 0 ].xyz );
-
-				// decals
-			#ifdef DECAL_NORMAL_BLENDING
-				if (_EnableDecals)
-				{
-					#ifndef SURFACE_GRADIENT
-					normalTS = SurfaceGradientFromTangentSpaceNormalAndFromTBN(normalTS, fragInputs.tangentToWorld[0], fragInputs.tangentToWorld[1]);
-					#endif
-
-					DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
-					ApplyDecalToSurfaceData(decalSurfaceData, fragInputs.tangentToWorld[2], surfaceData, normalTS);
-				}
-
-				GetNormalWS_SG(fragInputs, normalTS, surfaceData.normalWS, doubleSidedConstants);
-			#else
-				GetNormalWS(fragInputs, normalTS, surfaceData.normalWS, doubleSidedConstants);
-
-				#if HAVE_DECALS
-				if (_EnableDecals)
-				{
-					// Both uses and modifies 'surfaceData.normalWS'.
-					DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
-					ApplyDecalToSurfaceData(decalSurfaceData, fragInputs.tangentToWorld[2], surfaceData);
-				}
-				#endif
-			#endif
-
-				bentNormalWS = surfaceData.normalWS;
-				surfaceData.tangentWS = Orthonormalize( surfaceData.tangentWS, surfaceData.normalWS );
-
-                #if defined(_SPECULAR_OCCLUSION_CUSTOM)
-                #elif defined(_SPECULAR_OCCLUSION_FROM_AO_BENT_NORMAL)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromBentAO(V, bentNormalWS, surfaceData.normalWS, surfaceData.ambientOcclusion, PerceptualSmoothnessToPerceptualRoughness(surfaceData.perceptualSmoothness));
-                #elif defined(_AMBIENT_OCCLUSION) && defined(_SPECULAR_OCCLUSION_FROM_AO)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion(ClampNdotV(dot(surfaceData.normalWS, V)), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness(surfaceData.perceptualSmoothness));
+                #ifdef _ALPHATEST_ON
+                    builtinData.alphaClipTreshold = surfaceDescription.AlphaClipThreshold;
                 #endif
 
-				// debug
-				#if defined(DEBUG_DISPLAY)
-				if (_DebugMipMapMode != DEBUGMIPMAPMODE_NONE)
-				{
-					surfaceData.metallic = 0;
-				}
-				ApplyDebugToSurfaceData(fragInputs.tangentToWorld, surfaceData);
-				#endif
-			}
+                #ifdef UNITY_VIRTUAL_TEXTURING
+                    builtinData.vtPackedFeedback = surfaceDescription.VTPackedFeedback;
+                #endif
 
-			void GetSurfaceAndBuiltinData(SceneSurfaceDescription surfaceDescription, FragInputs fragInputs, float3 V, inout PositionInputs posInput, out SurfaceData surfaceData, out BuiltinData builtinData)
-			{
-				#ifdef LOD_FADE_CROSSFADE
-				LODDitheringTransition(ComputeFadeMaskSeed(V, posInput.positionSS), unity_LODFade.x);
+				#ifdef ASE_BAKEDGI
+                    builtinData.bakeDiffuseLighting = surfaceDescription.BakedGI;
 				#endif
 
-				#ifdef _DOUBLESIDED_ON
-				float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
-				#else
-				float3 doubleSidedConstants = float3( 1.0, 1.0, 1.0 );
+				#ifdef ASE_BAKEDBACKGI
+                    builtinData.backBakeDiffuseLighting = surfaceDescription.BakedBackGI;
 				#endif
 
-				ApplyDoubleSidedFlipOrMirror( fragInputs, doubleSidedConstants );
+                builtinData.emissiveColor = surfaceDescription.Emission;
 
-				#ifdef _ALPHATEST_ON
-				DoAlphaTest( surfaceDescription.Alpha, surfaceDescription.AlphaClipThreshold );
-				#endif
-
-				#ifdef _DEPTHOFFSET_ON
-				builtinData.depthOffset = surfaceDescription.DepthOffset;
-				ApplyDepthOffsetPositionInput( V, surfaceDescription.DepthOffset, GetViewForwardDir(), GetWorldToHClipMatrix(), posInput );
-				#endif
-
-				float3 bentNormalWS;
-				BuildSurfaceData( fragInputs, surfaceDescription, V, posInput, surfaceData, bentNormalWS );
-
-				InitBuiltinData( posInput, surfaceDescription.Alpha, bentNormalWS, -fragInputs.tangentToWorld[ 2 ], fragInputs.texCoord1, fragInputs.texCoord2, builtinData );
-
-				PostInitBuiltinData(V, posInput, surfaceData, builtinData);
+                PostInitBuiltinData(V, posInput, surfaceData, builtinData);
 			}
 
 			PackedVaryingsMeshToPS VertexFunction(AttributesMesh inputMesh )
 			{
-				PackedVaryingsMeshToPS outputPackedVaryingsMeshToPS;
+				PackedVaryingsMeshToPS output;
 				UNITY_SETUP_INSTANCE_ID(inputMesh);
-				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
-				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( outputPackedVaryingsMeshToPS );
+				UNITY_TRANSFER_INSTANCE_ID(inputMesh, output);
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( output );
 
-				float3 pos11_g1 = _SpherePosition;
-				float3 localMyCustomExpression11_g1 = MyCustomExpression11_g1( pos11_g1 );
-				float4 appendResult1_g1 = (float4(localMyCustomExpression11_g1 , 1.0));
-				float3 temp_output_5_0_g1 = (mul( GetWorldToObjectMatrix(), appendResult1_g1 )).xyz;
-				float3 temp_output_3_0_g253 = temp_output_5_0_g1;
-				float3 normalizeResult6_g253 = normalize( ( inputMesh.positionOS - temp_output_3_0_g253 ) );
-				float4 appendResult4_g1 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float3 temp_output_6_0_g1 = ( ( normalizeResult6_g253 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g1 )).xyz ) ) ) + temp_output_3_0_g253 );
-				float temp_output_18_0_g1 = ( _SpherizeAmount * inputMesh.ase_color.r );
-				float3 lerpResult21_g1 = lerp( inputMesh.positionOS , temp_output_6_0_g1 , temp_output_18_0_g1);
+				float3 pos11_g369 = _SpherePosition;
+				float3 localMyCustomExpression11_g369 = MyCustomExpression11_g369( pos11_g369 );
+				float4 appendResult1_g369 = (float4(localMyCustomExpression11_g369 , 1.0));
+				float3 temp_output_5_0_g369 = (mul( GetWorldToObjectMatrix(), appendResult1_g369 )).xyz;
+				float3 temp_output_3_0_g370 = temp_output_5_0_g369;
+				float3 normalizeResult6_g370 = normalize( ( inputMesh.positionOS - temp_output_3_0_g370 ) );
+				float4 appendResult4_g369 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float3 temp_output_6_0_g369 = ( ( normalizeResult6_g370 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g369 )).xyz ) ) ) + temp_output_3_0_g370 );
+				float temp_output_18_0_g369 = ( _SpherizeAmount * inputMesh.ase_color.r );
+				float3 lerpResult21_g369 = lerp( inputMesh.positionOS , temp_output_6_0_g369 , temp_output_18_0_g369);
 				#ifdef _SPHERIZE_ON
-				float3 staticSwitch16_g1 = lerpResult21_g1;
+				float3 staticSwitch16_g369 = lerpResult21_g369;
 				#else
-				float3 staticSwitch16_g1 = inputMesh.positionOS;
+				float3 staticSwitch16_g369 = inputMesh.positionOS;
 				#endif
-				float3 normalizeResult27_g252 = normalize( _WorldDickNormal );
-				float3 normalizeResult31_g252 = normalize( _WorldDickBinormal );
-				float3 normalizeResult29_g252 = normalize( cross( normalizeResult27_g252 , normalizeResult31_g252 ) );
-				float4 appendResult26_g251 = (float4(1.0 , 0.0 , 0.0 , 0.0));
-				float4 appendResult28_g251 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float4 appendResult31_g251 = (float4(0.0 , 0.0 , 1.0 , 0.0));
-				float3 break27_g251 = -_WorldDickPosition;
-				float4 appendResult29_g251 = (float4(break27_g251.x , break27_g251.y , break27_g251.z , 1.0));
-				float4x4 temp_output_30_0_g251 = mul( transpose( float4x4( float4( normalizeResult27_g252 , 0.0 ).x,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).x,float4( normalizeResult29_g252 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g252 , 0.0 ).y,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).y,float4( normalizeResult29_g252 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g252 , 0.0 ).z,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).z,float4( normalizeResult29_g252 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g252 , 0.0 ).w,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).w,float4( normalizeResult29_g252 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g251.x,appendResult28_g251.x,appendResult31_g251.x,appendResult29_g251.x,appendResult26_g251.y,appendResult28_g251.y,appendResult31_g251.y,appendResult29_g251.y,appendResult26_g251.z,appendResult28_g251.z,appendResult31_g251.z,appendResult29_g251.z,appendResult26_g251.w,appendResult28_g251.w,appendResult31_g251.w,appendResult29_g251.w ) );
-				float4x4 invertVal44_g251 = Inverse4x4( temp_output_30_0_g251 );
-				float4 appendResult27_g250 = (float4(inputMesh.positionOS , 1.0));
-				float3 pos32_g250 = mul( GetObjectToWorldMatrix(), appendResult27_g250 ).xyz;
-				float3 localMyCustomExpression32_g250 = MyCustomExpression32_g250( pos32_g250 );
-				float4 appendResult32_g251 = (float4(localMyCustomExpression32_g250 , 1.0));
-				float4 break35_g251 = mul( temp_output_30_0_g251, appendResult32_g251 );
-				float temp_output_124_0_g251 = _TipRadius;
-				float2 appendResult36_g251 = (float2(break35_g251.y , break35_g251.z));
-				float2 normalizeResult41_g251 = normalize( appendResult36_g251 );
-				float temp_output_120_0_g251 = sqrt( max( break35_g251.x , 0.0 ) );
-				float temp_output_48_0_g251 = tan( radians( _Angle ) );
-				float temp_output_125_0_g251 = ( temp_output_124_0_g251 + ( temp_output_120_0_g251 * temp_output_48_0_g251 ) );
-				float temp_output_37_0_g251 = length( appendResult36_g251 );
-				float temp_output_114_0_g251 = ( ( temp_output_125_0_g251 - temp_output_37_0_g251 ) + 1.0 );
-				float lerpResult102_g251 = lerp( temp_output_125_0_g251 , temp_output_37_0_g251 , saturate( temp_output_114_0_g251 ));
-				float lerpResult130_g251 = lerp( 0.0 , lerpResult102_g251 , saturate( ( -( -temp_output_124_0_g251 - break35_g251.x ) / temp_output_124_0_g251 ) ));
-				float2 break43_g251 = ( normalizeResult41_g251 * lerpResult130_g251 );
-				float4 appendResult40_g251 = (float4(max( break35_g251.x , -temp_output_124_0_g251 ) , break43_g251.x , break43_g251.y , 1.0));
-				float4 appendResult28_g250 = (float4(((mul( invertVal44_g251, appendResult40_g251 )).xyz).xyz , 1.0));
-				float4 localWorldVar29_g250 = appendResult28_g250;
-				(localWorldVar29_g250).xyz = GetCameraRelativePositionWS((localWorldVar29_g250).xyz);
-				float4 transform29_g250 = mul(GetWorldToObjectMatrix(),localWorldVar29_g250);
+				float3 normalizeResult27_g373 = normalize( _WorldDickNormal );
+				float3 normalizeResult31_g373 = normalize( _WorldDickBinormal );
+				float3 normalizeResult29_g373 = normalize( cross( normalizeResult27_g373 , normalizeResult31_g373 ) );
+				float4 appendResult26_g372 = (float4(1.0 , 0.0 , 0.0 , 0.0));
+				float4 appendResult28_g372 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float4 appendResult31_g372 = (float4(0.0 , 0.0 , 1.0 , 0.0));
+				float3 break27_g372 = -_WorldDickPosition;
+				float4 appendResult29_g372 = (float4(break27_g372.x , break27_g372.y , break27_g372.z , 1.0));
+				float4x4 temp_output_30_0_g372 = mul( transpose( float4x4( float4( normalizeResult27_g373 , 0.0 ).x, float4( cross( normalizeResult29_g373 , normalizeResult27_g373 ) , 0.0 ).x, float4( normalizeResult29_g373 , 0.0 ).x, float4( 0, 0, 0, 1 ).x, float4( normalizeResult27_g373 , 0.0 ).y, float4( cross( normalizeResult29_g373 , normalizeResult27_g373 ) , 0.0 ).y, float4( normalizeResult29_g373 , 0.0 ).y, float4( 0, 0, 0, 1 ).y, float4( normalizeResult27_g373 , 0.0 ).z, float4( cross( normalizeResult29_g373 , normalizeResult27_g373 ) , 0.0 ).z, float4( normalizeResult29_g373 , 0.0 ).z, float4( 0, 0, 0, 1 ).z, float4( normalizeResult27_g373 , 0.0 ).w, float4( cross( normalizeResult29_g373 , normalizeResult27_g373 ) , 0.0 ).w, float4( normalizeResult29_g373 , 0.0 ).w, float4( 0, 0, 0, 1 ).w ) ), float4x4( appendResult26_g372.x, appendResult28_g372.x, appendResult31_g372.x, appendResult29_g372.x, appendResult26_g372.y, appendResult28_g372.y, appendResult31_g372.y, appendResult29_g372.y, appendResult26_g372.z, appendResult28_g372.z, appendResult31_g372.z, appendResult29_g372.z, appendResult26_g372.w, appendResult28_g372.w, appendResult31_g372.w, appendResult29_g372.w ) );
+				float4x4 invertVal44_g372 = Inverse4x4( temp_output_30_0_g372 );
+				float4 appendResult27_g371 = (float4(inputMesh.positionOS , 1.0));
+				float3 pos32_g371 = mul( GetObjectToWorldMatrix(), appendResult27_g371 ).xyz;
+				float3 localMyCustomExpression32_g371 = MyCustomExpression32_g371( pos32_g371 );
+				float4 appendResult32_g372 = (float4(localMyCustomExpression32_g371 , 1.0));
+				float4 break35_g372 = mul( temp_output_30_0_g372, appendResult32_g372 );
+				float temp_output_124_0_g372 = _TipRadius;
+				float2 appendResult36_g372 = (float2(break35_g372.y , break35_g372.z));
+				float2 normalizeResult41_g372 = normalize( appendResult36_g372 );
+				float temp_output_120_0_g372 = sqrt( max( break35_g372.x , 0.0 ) );
+				float temp_output_48_0_g372 = tan( radians( _Angle ) );
+				float temp_output_125_0_g372 = ( temp_output_124_0_g372 + ( temp_output_120_0_g372 * temp_output_48_0_g372 ) );
+				float temp_output_37_0_g372 = length( appendResult36_g372 );
+				float temp_output_114_0_g372 = ( ( temp_output_125_0_g372 - temp_output_37_0_g372 ) + 1.0 );
+				float lerpResult102_g372 = lerp( temp_output_125_0_g372 , temp_output_37_0_g372 , saturate( temp_output_114_0_g372 ));
+				float lerpResult130_g372 = lerp( 0.0 , lerpResult102_g372 , saturate( ( -( -temp_output_124_0_g372 - break35_g372.x ) / temp_output_124_0_g372 ) ));
+				float2 break43_g372 = ( normalizeResult41_g372 * lerpResult130_g372 );
+				float4 appendResult40_g372 = (float4(max( break35_g372.x , -temp_output_124_0_g372 ) , break43_g372.x , break43_g372.y , 1.0));
+				float4 appendResult28_g371 = (float4(((mul( invertVal44_g372, appendResult40_g372 )).xyz).xyz , 1.0));
+				float4 localWorldVar29_g371 = appendResult28_g371;
+				(localWorldVar29_g371).xyz = GetCameraRelativePositionWS((localWorldVar29_g371).xyz);
+				float4 transform29_g371 = mul(GetWorldToObjectMatrix(),localWorldVar29_g371);
 				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch13_g250 = (transform29_g250).xyz;
+				float3 staticSwitch13_g371 = (transform29_g371).xyz;
 				#else
-				float3 staticSwitch13_g250 = staticSwitch16_g1;
+				float3 staticSwitch13_g371 = staticSwitch16_g369;
 				#endif
 				
-				float3 normalizeResult13_g1 = normalize( ( temp_output_6_0_g1 - temp_output_5_0_g1 ) );
-				float3 lerpResult12_g1 = lerp( inputMesh.normalOS , normalizeResult13_g1 , temp_output_18_0_g1);
+				float3 normalizeResult13_g369 = normalize( ( temp_output_6_0_g369 - temp_output_5_0_g369 ) );
+				float3 lerpResult12_g369 = lerp( inputMesh.normalOS , normalizeResult13_g369 , temp_output_18_0_g369);
+				float3 normalizeResult55_g369 = normalize( lerpResult12_g369 );
 				#ifdef _SPHERIZE_ON
-				float3 staticSwitch15_g1 = lerpResult12_g1;
+				float3 staticSwitch15_g369 = normalizeResult55_g369;
 				#else
-				float3 staticSwitch15_g1 = inputMesh.normalOS;
+				float3 staticSwitch15_g369 = inputMesh.normalOS;
 				#endif
-				float3 temp_output_50_0_g250 = staticSwitch15_g1;
-				float2 break146_g251 = normalizeResult41_g251;
-				float4 appendResult139_g251 = (float4(temp_output_48_0_g251 , break146_g251.x , break146_g251.y , 0.0));
-				float3 normalizeResult144_g251 = normalize( (mul( invertVal44_g251, appendResult139_g251 )).xyz );
-				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , temp_output_50_0_g250 , saturate( sign( temp_output_114_0_g251 ) ));
+				float3 temp_output_50_0_g371 = staticSwitch15_g369;
+				float2 break146_g372 = normalizeResult41_g372;
+				float4 appendResult139_g372 = (float4(temp_output_48_0_g372 , break146_g372.x , break146_g372.y , 0.0));
+				float3 normalizeResult144_g372 = normalize( (mul( invertVal44_g372, appendResult139_g372 )).xyz );
+				float3 lerpResult44_g371 = lerp( normalizeResult144_g372 , temp_output_50_0_g371 , saturate( sign( temp_output_114_0_g372 ) ));
 				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch17_g250 = lerpResult44_g250;
+				float3 staticSwitch17_g371 = lerpResult44_g371;
 				#else
-				float3 staticSwitch17_g250 = temp_output_50_0_g250;
+				float3 staticSwitch17_g371 = temp_output_50_0_g371;
 				#endif
 				
 
@@ -3312,7 +2889,7 @@ Shader "BallsSpherize"
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = staticSwitch13_g250;
+				float3 vertexValue = staticSwitch13_g371;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
@@ -3320,774 +2897,18 @@ Shader "BallsSpherize"
 				inputMesh.positionOS.xyz += vertexValue;
 				#endif
 
-				inputMesh.normalOS = staticSwitch17_g250;
-
-				float3 positionRWS = TransformObjectToWorld(inputMesh.positionOS);
-				outputPackedVaryingsMeshToPS.positionCS = TransformWorldToHClip(positionRWS);
-				outputPackedVaryingsMeshToPS.positionRWS.xyz = positionRWS;
-				return outputPackedVaryingsMeshToPS;
-			}
-
-			#if defined(ASE_TESSELLATION)
-			struct VertexControl
-			{
-				float3 positionOS : INTERNALTESSPOS;
-				float3 normalOS : NORMAL;
-				float4 ase_color : COLOR;
-
-				UNITY_VERTEX_INPUT_INSTANCE_ID
-			};
-
-			struct TessellationFactors
-			{
-				float edge[3] : SV_TessFactor;
-				float inside : SV_InsideTessFactor;
-			};
-
-			VertexControl Vert ( AttributesMesh v )
-			{
-				VertexControl o;
-				UNITY_SETUP_INSTANCE_ID(v);
-				UNITY_TRANSFER_INSTANCE_ID(v, o);
-				o.positionOS = v.positionOS;
-				o.normalOS = v.normalOS;
-				o.ase_color = v.ase_color;
-				return o;
-			}
-
-			TessellationFactors TessellationFunction (InputPatch<VertexControl,3> v)
-			{
-				TessellationFactors o;
-				float4 tf = 1;
-				float tessValue = _TessValue; float tessMin = _TessMin; float tessMax = _TessMax;
-				float edgeLength = _TessEdgeLength; float tessMaxDisp = _TessMaxDisp;
-				#if (SHADEROPTIONS_CAMERA_RELATIVE_RENDERING != 0)
-				float3 cameraPos = 0;
-				#else
-				float3 cameraPos = _WorldSpaceCameraPos;
-				#endif
-				#if defined(ASE_FIXED_TESSELLATION)
-				tf = FixedTess( tessValue );
-				#elif defined(ASE_DISTANCE_TESSELLATION)
-				tf = DistanceBasedTess(float4(v[0].positionOS,1), float4(v[1].positionOS,1), float4(v[2].positionOS,1), tessValue, tessMin, tessMax, GetObjectToWorldMatrix(), cameraPos );
-				#elif defined(ASE_LENGTH_TESSELLATION)
-				tf = EdgeLengthBasedTess(float4(v[0].positionOS,1), float4(v[1].positionOS,1), float4(v[2].positionOS,1), edgeLength, GetObjectToWorldMatrix(), cameraPos, _ScreenParams );
-				#elif defined(ASE_LENGTH_CULL_TESSELLATION)
-				tf = EdgeLengthBasedTessCull(float4(v[0].positionOS,1), float4(v[1].positionOS,1), float4(v[2].positionOS,1), edgeLength, tessMaxDisp, GetObjectToWorldMatrix(), cameraPos, _ScreenParams, _FrustumPlanes );
-				#endif
-				o.edge[0] = tf.x; o.edge[1] = tf.y; o.edge[2] = tf.z; o.inside = tf.w;
-				return o;
-			}
-
-			[domain("tri")]
-			[partitioning("fractional_odd")]
-			[outputtopology("triangle_cw")]
-			[patchconstantfunc("TessellationFunction")]
-			[outputcontrolpoints(3)]
-			VertexControl HullFunction(InputPatch<VertexControl, 3> patch, uint id : SV_OutputControlPointID)
-			{
-			   return patch[id];
-			}
-
-			[domain("tri")]
-			PackedVaryingsMeshToPS DomainFunction(TessellationFactors factors, OutputPatch<VertexControl, 3> patch, float3 bary : SV_DomainLocation)
-			{
-				AttributesMesh o = (AttributesMesh) 0;
-				o.positionOS = patch[0].positionOS * bary.x + patch[1].positionOS * bary.y + patch[2].positionOS * bary.z;
-				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
-				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
-				#if defined(ASE_PHONG_TESSELLATION)
-				float3 pp[3];
-				for (int i = 0; i < 3; ++i)
-					pp[i] = o.positionOS.xyz - patch[i].normalOS * (dot(o.positionOS.xyz, patch[i].normalOS) - dot(patch[i].positionOS.xyz, patch[i].normalOS));
-				float phongStrength = _TessPhongStrength;
-				o.positionOS.xyz = phongStrength * (pp[0]*bary.x + pp[1]*bary.y + pp[2]*bary.z) + (1.0f-phongStrength) * o.positionOS.xyz;
-				#endif
-				UNITY_TRANSFER_INSTANCE_ID(patch[0], o);
-				return VertexFunction(o);
-			}
-			#else
-			PackedVaryingsMeshToPS Vert ( AttributesMesh v )
-			{
-				return VertexFunction( v );
-			}
-			#endif
-
-			#if defined(WRITE_NORMAL_BUFFER) && defined(WRITE_MSAA_DEPTH)
-			#define SV_TARGET_DECAL SV_Target2
-			#elif defined(WRITE_NORMAL_BUFFER) || defined(WRITE_MSAA_DEPTH)
-			#define SV_TARGET_DECAL SV_Target1
-			#else
-			#define SV_TARGET_DECAL SV_Target0
-			#endif
-
-			void Frag( PackedVaryingsMeshToPS packedInput
-						, out float4 outColor : SV_Target0
-						#if defined(_DEPTHOFFSET_ON) && !defined(SCENEPICKINGPASS)
-						, out float outputDepth : DEPTH_OFFSET_SEMANTIC
-						#endif
-						
-					)
-			{
-				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX( packedInput );
-				UNITY_SETUP_INSTANCE_ID( packedInput );
-
-				float3 positionRWS = packedInput.positionRWS.xyz;
-
-				FragInputs input;
-				ZERO_INITIALIZE(FragInputs, input);
-
-				input.tangentToWorld = k_identity3x3;
-				input.positionSS = packedInput.positionCS;
-
-				input.positionRWS = positionRWS;
-
-				#if _DOUBLESIDED_ON && SHADER_STAGE_FRAGMENT
-				input.isFrontFace = IS_FRONT_VFACE( packedInput.cullFace, true, false);
-				#elif SHADER_STAGE_FRAGMENT
-				#if defined(ASE_NEED_CULLFACE)
-				input.isFrontFace = IS_FRONT_VFACE( packedInput.cullFace, true, false );
-				#endif
-				#endif
-				half isFrontFace = input.isFrontFace;
-
-				PositionInputs posInput = GetPositionInput(input.positionSS.xy, _ScreenSize.zw, input.positionSS.z, input.positionSS.w, input.positionRWS);
-
-				float3 V = GetWorldSpaceNormalizeViewDir(input.positionRWS);
-
-				SceneSurfaceDescription surfaceDescription = (SceneSurfaceDescription)0;
-				
-				surfaceDescription.Alpha = 1;
-
-				#ifdef _ALPHATEST_ON
-				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
-				#endif
-
-				#ifdef _DEPTHOFFSET_ON
-				surfaceDescription.DepthOffset = 0;
-				#endif
-
-				SurfaceData surfaceData;
-				BuiltinData builtinData;
-				GetSurfaceAndBuiltinData(surfaceDescription, input, V, posInput, surfaceData, builtinData);
-
-				#ifdef _DEPTHOFFSET_ON
-				outputDepth = posInput.deviceDepth;
-				#endif
-
-				outColor = float4( _ObjectId, _PassValue, 1.0, 1.0 );
-			}
-			ENDHLSL
-		}
-
-		
-		Pass
-		{
-			
-			Name "DepthOnly"
-			Tags { "LightMode"="DepthOnly" }
-
-			Cull [_CullMode]
-
-			ZWrite On
-
-			Stencil
-			{
-				Ref [_StencilRefDepth]
-				WriteMask [_StencilWriteMaskDepth]
-				Comp Always
-				Pass Replace
-			}
-
-
-			HLSLPROGRAM
-
-            #define _SPECULAR_OCCLUSION_FROM_AO 1
-            #pragma multi_compile_instancing
-            #pragma instancing_options renderinglayer
-            #define ASE_ABSOLUTE_VERTEX_POS 1
-            #define _MATERIAL_FEATURE_CLEAR_COAT 1
-            #define _AMBIENT_OCCLUSION 1
-            #define HAVE_MESH_MODIFICATION
-            #define ASE_SRP_VERSION 140008
-
-
-            #pragma shader_feature _SURFACE_TYPE_TRANSPARENT
-			#pragma shader_feature_local _TRANSPARENT_WRITES_MOTION_VEC
-			#pragma shader_feature_local_fragment _ENABLE_FOG_ON_TRANSPARENT
-			#pragma shader_feature_local _DOUBLESIDED_ON
-			#pragma shader_feature_local _ALPHATEST_ON
-
-			#pragma multi_compile _ WRITE_NORMAL_BUFFER
-			#pragma multi_compile_fragment _ WRITE_MSAA_DEPTH
-			#pragma multi_compile _ WRITE_DECAL_BUFFER
-
-			#pragma vertex Vert
-			#pragma fragment Frag
-
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GeometricTools.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Tessellation.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPass.cs.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
-            #include "Packages/com.unity.shadergraph/ShaderGraphLibrary/Functions.hlsl"
-
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
-
-			#define SHADERPASS SHADERPASS_DEPTH_ONLY
-
-			#ifndef SHADER_UNLIT
-			#if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
-			#define VARYINGS_NEED_CULLFACE
-			#endif
-			#endif
-
-		    #if defined(_MATERIAL_FEATURE_SUBSURFACE_SCATTERING) && !defined(_SURFACE_TYPE_TRANSPARENT)
-			#define OUTPUT_SPLIT_LIGHTING
-		    #endif
-
-		    #if (SHADERPASS == SHADERPASS_PATH_TRACING) && !defined(_DOUBLESIDED_ON) && (defined(_REFRACTION_PLANE) || defined(_REFRACTION_SPHERE))
-			#undef  _REFRACTION_PLANE
-			#undef  _REFRACTION_SPHERE
-			#define _REFRACTION_THIN
-		    #endif
-
-			#if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
-			#if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
-				#define WRITE_NORMAL_BUFFER
-			#endif
-			#endif
-
-			#ifndef DEBUG_DISPLAY
-				#if !defined(_SURFACE_TYPE_TRANSPARENT)
-					#if SHADERPASS == SHADERPASS_FORWARD
-					#define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
-					#elif SHADERPASS == SHADERPASS_GBUFFER
-					#define SHADERPASS_GBUFFER_BYPASS_ALPHA_TEST
-					#endif
-				#endif
-			#endif
-
-			#if defined(SHADER_LIT) && !defined(_SURFACE_TYPE_TRANSPARENT)
-			#define _DEFERRED_CAPABLE_MATERIAL
-			#endif
-
-			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
-			#define _WRITE_TRANSPARENT_MOTION_VECTOR
-			#endif
-
-			CBUFFER_START( UnityPerMaterial )
-			float4 _BaseColorMap_ST;
-			float4 _NormalMap_ST;
-			float4 _MaskMap_ST;
-			float3 _SpherePosition;
-			float3 _WorldDickNormal;
-			float3 _WorldDickBinormal;
-			float3 _WorldDickPosition;
-			float _SphereRadius;
-			float _SpherizeAmount;
-			float _TipRadius;
-			float _Angle;
-			float4 _EmissionColor;
-			float _AlphaCutoff;
-			float _RenderQueueType;
-			#ifdef _ADD_PRECOMPUTED_VELOCITY
-			float _AddPrecomputedVelocity;
-			#endif
-			float _StencilRef;
-			float _StencilWriteMask;
-			float _StencilRefDepth;
-			float _StencilWriteMaskDepth;
-			float _StencilRefMV;
-			float _StencilWriteMaskMV;
-			float _StencilWriteMaskGBuffer;
-			float _StencilRefGBuffer;
-			float _ZTestGBuffer;
-			float _RequireSplitLighting;
-			float _ReceivesSSR;
-			float _SurfaceType;
-			float _BlendMode;
-            #ifdef SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
-			float _EnableBlendModePreserveSpecularLighting;
-            #endif
-			float _SrcBlend;
-			float _DstBlend;
-			float _AlphaSrcBlend;
-			float _AlphaDstBlend;
-			float _ZWrite;
-			float _TransparentZWrite;
-			float _CullMode;
-			float _TransparentSortPriority;
-			float _EnableFogOnTransparent;
-			float _CullModeForward;
-			float _TransparentCullMode;
-			float _ZTestDepthEqualForOpaque;
-			float _ZTestTransparent;
-			float _TransparentBackfaceEnable;
-			float _AlphaCutoffEnable;
-			float _UseShadowThreshold;
-			float _DoubleSidedEnable;
-			float _DoubleSidedNormalMode;
-			float4 _DoubleSidedConstants;
-			#ifdef ASE_TESSELLATION
-			float _TessPhongStrength;
-			float _TessValue;
-			float _TessMin;
-			float _TessMax;
-			float _TessEdgeLength;
-			float _TessMaxDisp;
-			#endif
-			CBUFFER_END
-
-			// Property used by ScenePickingPass
-            #ifdef SCENEPICKINGPASS
-			float4 _SelectionID;
-            #endif
-
-			// Properties used by SceneSelectionPass
-            #ifdef SCENESELECTIONPASS
-			int _ObjectId;
-			int _PassValue;
-            #endif
-
-			sampler2D _NormalMap;
-			float4x4 unity_CameraProjection;
-			float4x4 unity_CameraInvProjection;
-			float4x4 unity_WorldToCamera;
-			float4x4 unity_CameraToWorld;
-			sampler2D _DecalColorMap;
-			sampler2D _MaskMap;
-
-
-            #ifdef DEBUG_DISPLAY
-            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
-            #endif
-
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/Lit.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/BuiltinUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
-
-			// Setup DECALS_OFF so the shader stripper can remove variants
-            #define HAVE_DECALS ( (defined(DECALS_3RT) || defined(DECALS_4RT)) && !defined(_DISABLE_DECALS) )
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
-
-			#define ASE_NEEDS_VERT_POSITION
-			#define ASE_NEEDS_VERT_NORMAL
-			#define ASE_NEEDS_FRAG_RELATIVE_WORLD_POS
-			#define ASE_NEEDS_FRAG_WORLD_NORMAL
-			#define ASE_NEEDS_FRAG_WORLD_TANGENT
-			#define ASE_NEEDS_VERT_TANGENT
-			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
-			#pragma multi_compile_local __ _SPHERIZE_ON
-			#pragma shader_feature_local _SKINNED_ON
-
-
-			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
-			#define ASE_NEED_CULLFACE 1
-			#endif
-
-			struct AttributesMesh
-			{
-				float3 positionOS : POSITION;
-				float3 normalOS : NORMAL;
-				float4 tangentOS : TANGENT;
-				float4 ase_color : COLOR;
-				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_texcoord1 : TEXCOORD1;
-				UNITY_VERTEX_INPUT_INSTANCE_ID
-			};
-
-			struct PackedVaryingsMeshToPS
-			{
-				SV_POSITION_QUALIFIERS float4 positionCS : SV_Position;
-				float3 positionRWS : TEXCOORD0;
-				float3 normalWS : TEXCOORD1;
-				float4 tangentWS : TEXCOORD2;
-				float4 ase_texcoord3 : TEXCOORD3;
-				float4 ase_texcoord4 : TEXCOORD4;
-				float4 ase_texcoord5 : TEXCOORD5;
-				UNITY_VERTEX_INPUT_INSTANCE_ID
-				UNITY_VERTEX_OUTPUT_STEREO
-				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
-				FRONT_FACE_TYPE cullFace : FRONT_FACE_SEMANTIC;
-				#endif
-			};
-
-			float3 MyCustomExpression11_g1( float3 pos )
-			{
-				return GetCameraRelativePositionWS(pos);
-			}
-			
-			float4x4 Inverse4x4(float4x4 input)
-			{
-				#define minor(a,b,c) determinant(float3x3(input.a, input.b, input.c))
-				float4x4 cofactors = float4x4(
-				minor( _22_23_24, _32_33_34, _42_43_44 ),
-				-minor( _21_23_24, _31_33_34, _41_43_44 ),
-				minor( _21_22_24, _31_32_34, _41_42_44 ),
-				-minor( _21_22_23, _31_32_33, _41_42_43 ),
-			
-				-minor( _12_13_14, _32_33_34, _42_43_44 ),
-				minor( _11_13_14, _31_33_34, _41_43_44 ),
-				-minor( _11_12_14, _31_32_34, _41_42_44 ),
-				minor( _11_12_13, _31_32_33, _41_42_43 ),
-			
-				minor( _12_13_14, _22_23_24, _42_43_44 ),
-				-minor( _11_13_14, _21_23_24, _41_43_44 ),
-				minor( _11_12_14, _21_22_24, _41_42_44 ),
-				-minor( _11_12_13, _21_22_23, _41_42_43 ),
-			
-				-minor( _12_13_14, _22_23_24, _32_33_34 ),
-				minor( _11_13_14, _21_23_24, _31_33_34 ),
-				-minor( _11_12_14, _21_22_24, _31_32_34 ),
-				minor( _11_12_13, _21_22_23, _31_32_33 ));
-				#undef minor
-				return transpose( cofactors ) / determinant( input );
-			}
-			
-			float3 MyCustomExpression32_g250( float3 pos )
-			{
-				return GetAbsolutePositionWS(pos);
-			}
-			
-			float3 mod3D289( float3 x ) { return x - floor( x / 289.0 ) * 289.0; }
-			float4 mod3D289( float4 x ) { return x - floor( x / 289.0 ) * 289.0; }
-			float4 permute( float4 x ) { return mod3D289( ( x * 34.0 + 1.0 ) * x ); }
-			float4 taylorInvSqrt( float4 r ) { return 1.79284291400159 - r * 0.85373472095314; }
-			float snoise( float3 v )
-			{
-				const float2 C = float2( 1.0 / 6.0, 1.0 / 3.0 );
-				float3 i = floor( v + dot( v, C.yyy ) );
-				float3 x0 = v - i + dot( i, C.xxx );
-				float3 g = step( x0.yzx, x0.xyz );
-				float3 l = 1.0 - g;
-				float3 i1 = min( g.xyz, l.zxy );
-				float3 i2 = max( g.xyz, l.zxy );
-				float3 x1 = x0 - i1 + C.xxx;
-				float3 x2 = x0 - i2 + C.yyy;
-				float3 x3 = x0 - 0.5;
-				i = mod3D289( i);
-				float4 p = permute( permute( permute( i.z + float4( 0.0, i1.z, i2.z, 1.0 ) ) + i.y + float4( 0.0, i1.y, i2.y, 1.0 ) ) + i.x + float4( 0.0, i1.x, i2.x, 1.0 ) );
-				float4 j = p - 49.0 * floor( p / 49.0 );  // mod(p,7*7)
-				float4 x_ = floor( j / 7.0 );
-				float4 y_ = floor( j - 7.0 * x_ );  // mod(j,N)
-				float4 x = ( x_ * 2.0 + 0.5 ) / 7.0 - 1.0;
-				float4 y = ( y_ * 2.0 + 0.5 ) / 7.0 - 1.0;
-				float4 h = 1.0 - abs( x ) - abs( y );
-				float4 b0 = float4( x.xy, y.xy );
-				float4 b1 = float4( x.zw, y.zw );
-				float4 s0 = floor( b0 ) * 2.0 + 1.0;
-				float4 s1 = floor( b1 ) * 2.0 + 1.0;
-				float4 sh = -step( h, 0.0 );
-				float4 a0 = b0.xzyw + s0.xzyw * sh.xxyy;
-				float4 a1 = b1.xzyw + s1.xzyw * sh.zzww;
-				float3 g0 = float3( a0.xy, h.x );
-				float3 g1 = float3( a0.zw, h.y );
-				float3 g2 = float3( a1.xy, h.z );
-				float3 g3 = float3( a1.zw, h.w );
-				float4 norm = taylorInvSqrt( float4( dot( g0, g0 ), dot( g1, g1 ), dot( g2, g2 ), dot( g3, g3 ) ) );
-				g0 *= norm.x;
-				g1 *= norm.y;
-				g2 *= norm.z;
-				g3 *= norm.w;
-				float4 m = max( 0.6 - float4( dot( x0, x0 ), dot( x1, x1 ), dot( x2, x2 ), dot( x3, x3 ) ), 0.0 );
-				m = m* m;
-				m = m* m;
-				float4 px = float4( dot( x0, g0 ), dot( x1, g1 ), dot( x2, g2 ), dot( x3, g3 ) );
-				return 42.0 * dot( m, px);
-			}
-			
-			float3 PerturbNormal107_g262( float3 surf_pos, float3 surf_norm, float height, float scale )
-			{
-				// "Bump Mapping Unparametrized Surfaces on the GPU" by Morten S. Mikkelsen
-				float3 vSigmaS = ddx( surf_pos );
-				float3 vSigmaT = ddy( surf_pos );
-				float3 vN = surf_norm;
-				float3 vR1 = cross( vSigmaT , vN );
-				float3 vR2 = cross( vN , vSigmaS );
-				float fDet = dot( vSigmaS , vR1 );
-				float dBs = ddx( height );
-				float dBt = ddy( height );
-				float3 vSurfGrad = scale * 0.05 * sign( fDet ) * ( dBs * vR1 + dBt * vR2 );
-				return normalize ( abs( fDet ) * vN - vSurfGrad );
-			}
-			
-
-			void BuildSurfaceData(FragInputs fragInputs, inout SmoothSurfaceDescription surfaceDescription, float3 V, PositionInputs posInput, out SurfaceData surfaceData, out float3 bentNormalWS)
-			{
-				ZERO_INITIALIZE(SurfaceData, surfaceData);
-
-				surfaceData.specularOcclusion = 1.0;
-
-				// surface data
-				surfaceData.perceptualSmoothness =		surfaceDescription.Smoothness;
-
-				// refraction
-				#ifdef _HAS_REFRACTION
-				if( _EnableSSRefraction )
-				{
-					surfaceData.transmittanceMask = ( 1.0 - surfaceDescription.Alpha );
-					surfaceDescription.Alpha = 1.0;
-				}
-				else
-				{
-					surfaceData.ior = 1.0;
-					surfaceData.transmittanceColor = float3( 1.0, 1.0, 1.0 );
-					surfaceData.atDistance = 1.0;
-					surfaceData.transmittanceMask = 0.0;
-					surfaceDescription.Alpha = 1.0;
-				}
-				#else
-				surfaceData.ior = 1.0;
-				surfaceData.transmittanceColor = float3( 1.0, 1.0, 1.0 );
-				surfaceData.atDistance = 1.0;
-				surfaceData.transmittanceMask = 0.0;
-				#endif
-
-
-				// material features
-				surfaceData.materialFeatures = MATERIALFEATUREFLAGS_LIT_STANDARD;
-				#ifdef _MATERIAL_FEATURE_SUBSURFACE_SCATTERING
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SUBSURFACE_SCATTERING;
-				#endif
-				#ifdef _MATERIAL_FEATURE_TRANSMISSION
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_TRANSMISSION;
-				#endif
-                #ifdef _MATERIAL_FEATURE_ANISOTROPY
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_ANISOTROPY;
-				surfaceData.normalWS = float3(0, 1, 0);
-                #endif
-				#ifdef _MATERIAL_FEATURE_CLEAR_COAT
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_CLEAR_COAT;
-				#endif
-				#ifdef _MATERIAL_FEATURE_IRIDESCENCE
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_IRIDESCENCE;
-				#endif
-				#ifdef _MATERIAL_FEATURE_SPECULAR_COLOR
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SPECULAR_COLOR;
-				#endif
-
-				// others
-				#if defined (_MATERIAL_FEATURE_SPECULAR_COLOR) && defined (_ENERGY_CONSERVING_SPECULAR)
-				surfaceData.baseColor *= ( 1.0 - Max3( surfaceData.specularColor.r, surfaceData.specularColor.g, surfaceData.specularColor.b ) );
-				#endif
-				#ifdef _DOUBLESIDED_ON
-				float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
-				#else
-				float3 doubleSidedConstants = float3( 1.0, 1.0, 1.0 );
-				#endif
-
-				// normals
-				float3 normalTS = float3(0.0f, 0.0f, 1.0f);
-				normalTS = surfaceDescription.Normal;
-
-				surfaceData.geomNormalWS = fragInputs.tangentToWorld[2];
-				surfaceData.tangentWS = normalize( fragInputs.tangentToWorld[ 0 ].xyz );
-
-				// decals
-			#ifdef DECAL_NORMAL_BLENDING
-				if (_EnableDecals)
-				{
-					#ifndef SURFACE_GRADIENT
-					normalTS = SurfaceGradientFromTangentSpaceNormalAndFromTBN(normalTS, fragInputs.tangentToWorld[0], fragInputs.tangentToWorld[1]);
-					#endif
-
-					DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
-					ApplyDecalToSurfaceData(decalSurfaceData, fragInputs.tangentToWorld[2], surfaceData, normalTS);
-				}
-
-				GetNormalWS_SG(fragInputs, normalTS, surfaceData.normalWS, doubleSidedConstants);
-			#else
-				GetNormalWS(fragInputs, normalTS, surfaceData.normalWS, doubleSidedConstants);
-
-				#if HAVE_DECALS
-				if (_EnableDecals)
-				{
-					// Both uses and modifies 'surfaceData.normalWS'.
-					DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
-					ApplyDecalToSurfaceData(decalSurfaceData, fragInputs.tangentToWorld[2], surfaceData);
-				}
-				#endif
-			#endif
-
-				bentNormalWS = surfaceData.normalWS;
-				surfaceData.tangentWS = Orthonormalize( surfaceData.tangentWS, surfaceData.normalWS );
-
-                #if defined(_SPECULAR_OCCLUSION_CUSTOM)
-                #elif defined(_SPECULAR_OCCLUSION_FROM_AO_BENT_NORMAL)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromBentAO(V, bentNormalWS, surfaceData.normalWS, surfaceData.ambientOcclusion, PerceptualSmoothnessToPerceptualRoughness(surfaceData.perceptualSmoothness));
-                #elif defined(_AMBIENT_OCCLUSION) && defined(_SPECULAR_OCCLUSION_FROM_AO)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion(ClampNdotV(dot(surfaceData.normalWS, V)), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness(surfaceData.perceptualSmoothness));
-                #endif
-
-				// debug
-				#if defined(DEBUG_DISPLAY)
-				if (_DebugMipMapMode != DEBUGMIPMAPMODE_NONE)
-				{
-					surfaceData.metallic = 0;
-				}
-				ApplyDebugToSurfaceData(fragInputs.tangentToWorld, surfaceData);
-				#endif
-			}
-
-			void GetSurfaceAndBuiltinData(SmoothSurfaceDescription surfaceDescription, FragInputs fragInputs, float3 V, inout PositionInputs posInput, out SurfaceData surfaceData, out BuiltinData builtinData)
-			{
-				#ifdef LOD_FADE_CROSSFADE
-				LODDitheringTransition(ComputeFadeMaskSeed(V, posInput.positionSS), unity_LODFade.x);
-				#endif
-
-				#ifdef _DOUBLESIDED_ON
-				float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
-				#else
-				float3 doubleSidedConstants = float3( 1.0, 1.0, 1.0 );
-				#endif
-
-				ApplyDoubleSidedFlipOrMirror( fragInputs, doubleSidedConstants );
-
-				#ifdef _ALPHATEST_ON
-				DoAlphaTest( surfaceDescription.Alpha, surfaceDescription.AlphaClipThreshold );
-				#endif
-
-				#ifdef _DEPTHOFFSET_ON
-				builtinData.depthOffset = surfaceDescription.DepthOffset;
-				ApplyDepthOffsetPositionInput( V, surfaceDescription.DepthOffset, GetViewForwardDir(), GetWorldToHClipMatrix(), posInput );
-				#endif
-
-				float3 bentNormalWS;
-				BuildSurfaceData( fragInputs, surfaceDescription, V, posInput, surfaceData, bentNormalWS );
-
-				InitBuiltinData( posInput, surfaceDescription.Alpha, bentNormalWS, -fragInputs.tangentToWorld[ 2 ], fragInputs.texCoord1, fragInputs.texCoord2, builtinData );
-
-				PostInitBuiltinData(V, posInput, surfaceData, builtinData);
-			}
-
-			#if defined(WRITE_DECAL_BUFFER) && !defined(_DISABLE_DECALS)
-				#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalPrepassBuffer.hlsl"
-			#endif
-			PackedVaryingsMeshToPS VertexFunction(AttributesMesh inputMesh )
-			{
-				PackedVaryingsMeshToPS outputPackedVaryingsMeshToPS;
-
-				UNITY_SETUP_INSTANCE_ID(inputMesh);
-				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
-				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( outputPackedVaryingsMeshToPS );
-
-				float3 pos11_g1 = _SpherePosition;
-				float3 localMyCustomExpression11_g1 = MyCustomExpression11_g1( pos11_g1 );
-				float4 appendResult1_g1 = (float4(localMyCustomExpression11_g1 , 1.0));
-				float3 temp_output_5_0_g1 = (mul( GetWorldToObjectMatrix(), appendResult1_g1 )).xyz;
-				float3 temp_output_3_0_g253 = temp_output_5_0_g1;
-				float3 normalizeResult6_g253 = normalize( ( inputMesh.positionOS - temp_output_3_0_g253 ) );
-				float4 appendResult4_g1 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float3 temp_output_6_0_g1 = ( ( normalizeResult6_g253 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g1 )).xyz ) ) ) + temp_output_3_0_g253 );
-				float temp_output_18_0_g1 = ( _SpherizeAmount * inputMesh.ase_color.r );
-				float3 lerpResult21_g1 = lerp( inputMesh.positionOS , temp_output_6_0_g1 , temp_output_18_0_g1);
-				#ifdef _SPHERIZE_ON
-				float3 staticSwitch16_g1 = lerpResult21_g1;
-				#else
-				float3 staticSwitch16_g1 = inputMesh.positionOS;
-				#endif
-				float3 normalizeResult27_g252 = normalize( _WorldDickNormal );
-				float3 normalizeResult31_g252 = normalize( _WorldDickBinormal );
-				float3 normalizeResult29_g252 = normalize( cross( normalizeResult27_g252 , normalizeResult31_g252 ) );
-				float4 appendResult26_g251 = (float4(1.0 , 0.0 , 0.0 , 0.0));
-				float4 appendResult28_g251 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float4 appendResult31_g251 = (float4(0.0 , 0.0 , 1.0 , 0.0));
-				float3 break27_g251 = -_WorldDickPosition;
-				float4 appendResult29_g251 = (float4(break27_g251.x , break27_g251.y , break27_g251.z , 1.0));
-				float4x4 temp_output_30_0_g251 = mul( transpose( float4x4( float4( normalizeResult27_g252 , 0.0 ).x,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).x,float4( normalizeResult29_g252 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g252 , 0.0 ).y,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).y,float4( normalizeResult29_g252 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g252 , 0.0 ).z,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).z,float4( normalizeResult29_g252 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g252 , 0.0 ).w,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).w,float4( normalizeResult29_g252 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g251.x,appendResult28_g251.x,appendResult31_g251.x,appendResult29_g251.x,appendResult26_g251.y,appendResult28_g251.y,appendResult31_g251.y,appendResult29_g251.y,appendResult26_g251.z,appendResult28_g251.z,appendResult31_g251.z,appendResult29_g251.z,appendResult26_g251.w,appendResult28_g251.w,appendResult31_g251.w,appendResult29_g251.w ) );
-				float4x4 invertVal44_g251 = Inverse4x4( temp_output_30_0_g251 );
-				float4 appendResult27_g250 = (float4(inputMesh.positionOS , 1.0));
-				float3 pos32_g250 = mul( GetObjectToWorldMatrix(), appendResult27_g250 ).xyz;
-				float3 localMyCustomExpression32_g250 = MyCustomExpression32_g250( pos32_g250 );
-				float4 appendResult32_g251 = (float4(localMyCustomExpression32_g250 , 1.0));
-				float4 break35_g251 = mul( temp_output_30_0_g251, appendResult32_g251 );
-				float temp_output_124_0_g251 = _TipRadius;
-				float2 appendResult36_g251 = (float2(break35_g251.y , break35_g251.z));
-				float2 normalizeResult41_g251 = normalize( appendResult36_g251 );
-				float temp_output_120_0_g251 = sqrt( max( break35_g251.x , 0.0 ) );
-				float temp_output_48_0_g251 = tan( radians( _Angle ) );
-				float temp_output_125_0_g251 = ( temp_output_124_0_g251 + ( temp_output_120_0_g251 * temp_output_48_0_g251 ) );
-				float temp_output_37_0_g251 = length( appendResult36_g251 );
-				float temp_output_114_0_g251 = ( ( temp_output_125_0_g251 - temp_output_37_0_g251 ) + 1.0 );
-				float lerpResult102_g251 = lerp( temp_output_125_0_g251 , temp_output_37_0_g251 , saturate( temp_output_114_0_g251 ));
-				float lerpResult130_g251 = lerp( 0.0 , lerpResult102_g251 , saturate( ( -( -temp_output_124_0_g251 - break35_g251.x ) / temp_output_124_0_g251 ) ));
-				float2 break43_g251 = ( normalizeResult41_g251 * lerpResult130_g251 );
-				float4 appendResult40_g251 = (float4(max( break35_g251.x , -temp_output_124_0_g251 ) , break43_g251.x , break43_g251.y , 1.0));
-				float4 appendResult28_g250 = (float4(((mul( invertVal44_g251, appendResult40_g251 )).xyz).xyz , 1.0));
-				float4 localWorldVar29_g250 = appendResult28_g250;
-				(localWorldVar29_g250).xyz = GetCameraRelativePositionWS((localWorldVar29_g250).xyz);
-				float4 transform29_g250 = mul(GetWorldToObjectMatrix(),localWorldVar29_g250);
-				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch13_g250 = (transform29_g250).xyz;
-				#else
-				float3 staticSwitch13_g250 = staticSwitch16_g1;
-				#endif
-				
-				float3 normalizeResult13_g1 = normalize( ( temp_output_6_0_g1 - temp_output_5_0_g1 ) );
-				float3 lerpResult12_g1 = lerp( inputMesh.normalOS , normalizeResult13_g1 , temp_output_18_0_g1);
-				#ifdef _SPHERIZE_ON
-				float3 staticSwitch15_g1 = lerpResult12_g1;
-				#else
-				float3 staticSwitch15_g1 = inputMesh.normalOS;
-				#endif
-				float3 temp_output_50_0_g250 = staticSwitch15_g1;
-				float2 break146_g251 = normalizeResult41_g251;
-				float4 appendResult139_g251 = (float4(temp_output_48_0_g251 , break146_g251.x , break146_g251.y , 0.0));
-				float3 normalizeResult144_g251 = normalize( (mul( invertVal44_g251, appendResult139_g251 )).xyz );
-				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , temp_output_50_0_g250 , saturate( sign( temp_output_114_0_g251 ) ));
-				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch17_g250 = lerpResult44_g250;
-				#else
-				float3 staticSwitch17_g250 = temp_output_50_0_g250;
-				#endif
-				
-				float3 vertexToFrag28_g260 = mul( UNITY_MATRIX_M, float4( inputMesh.positionOS , 0.0 ) ).xyz;
-				outputPackedVaryingsMeshToPS.ase_texcoord4.xyz = vertexToFrag28_g260;
-				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
-				float3 ase_worldTangent = TransformObjectToWorldDir(inputMesh.tangentOS.xyz);
-				float ase_vertexTangentSign = inputMesh.tangentOS.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
-				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
-				outputPackedVaryingsMeshToPS.ase_texcoord5.xyz = ase_worldBitangent;
-				
-				outputPackedVaryingsMeshToPS.ase_texcoord3.xy = inputMesh.ase_texcoord.xy;
-				outputPackedVaryingsMeshToPS.ase_texcoord3.zw = inputMesh.ase_texcoord1.xy;
-				
-				//setting value to unused interpolator channels and avoid initialization warnings
-				outputPackedVaryingsMeshToPS.ase_texcoord4.w = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord5.w = 0;
-
-				#ifdef ASE_ABSOLUTE_VERTEX_POS
-				float3 defaultVertexValue = inputMesh.positionOS.xyz;
-				#else
-				float3 defaultVertexValue = float3( 0, 0, 0 );
-				#endif
-				float3 vertexValue = staticSwitch13_g250;
-
-				#ifdef ASE_ABSOLUTE_VERTEX_POS
-				inputMesh.positionOS.xyz = vertexValue;
-				#else
-				inputMesh.positionOS.xyz += vertexValue;
-				#endif
-
-				inputMesh.normalOS = staticSwitch17_g250;
-				inputMesh.tangentOS =  inputMesh.tangentOS ;
+				inputMesh.normalOS = staticSwitch17_g371;
+				inputMesh.tangentOS = inputMesh.tangentOS;
 
 				float3 positionRWS = TransformObjectToWorld(inputMesh.positionOS);
 				float3 normalWS = TransformObjectToWorldNormal(inputMesh.normalOS);
 				float4 tangentWS = float4(TransformObjectToWorldDir(inputMesh.tangentOS.xyz), inputMesh.tangentOS.w);
 
-				outputPackedVaryingsMeshToPS.positionCS = TransformWorldToHClip(positionRWS);
-				outputPackedVaryingsMeshToPS.positionRWS.xyz = positionRWS;
-				outputPackedVaryingsMeshToPS.normalWS.xyz = normalWS;
-				outputPackedVaryingsMeshToPS.tangentWS.xyzw = tangentWS;
-				return outputPackedVaryingsMeshToPS;
+				output.positionCS = TransformWorldToHClip(positionRWS);
+				output.positionRWS = positionRWS;
+				output.normalWS = normalWS;
+				output.tangentWS = tangentWS;
+				return output;
 			}
 
 			#if defined(ASE_TESSELLATION)
@@ -4097,8 +2918,6 @@ Shader "BallsSpherize"
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
 				float4 ase_color : COLOR;
-				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_texcoord1 : TEXCOORD1;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -4118,8 +2937,6 @@ Shader "BallsSpherize"
 				o.normalOS = v.normalOS;
 				o.tangentOS = v.tangentOS;
 				o.ase_color = v.ase_color;
-				o.ase_texcoord = v.ase_texcoord;
-				o.ase_texcoord1 = v.ase_texcoord1;
 				return o;
 			}
 
@@ -4165,8 +2982,6 @@ Shader "BallsSpherize"
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
 				o.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
 				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
-				o.ase_texcoord1 = patch[0].ase_texcoord1 * bary.x + patch[1].ase_texcoord1 * bary.y + patch[2].ase_texcoord1 * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -4211,98 +3026,80 @@ Shader "BallsSpherize"
 							, out float4 outDecalBuffer : SV_TARGET_DECAL
 							#endif
 						#endif
-
-						#if defined(_DEPTHOFFSET_ON) && !defined(SCENEPICKINGPASS)
-						, out float outputDepth : DEPTH_OFFSET_SEMANTIC
+						#if defined( ASE_DEPTH_WRITE_ON )
+							, out float outputDepth : DEPTH_OFFSET_SEMANTIC
 						#endif
-						
-					)
+						 )
 			{
-				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX( packedInput );
-				UNITY_SETUP_INSTANCE_ID( packedInput );
-
-				float3 positionRWS = packedInput.positionRWS.xyz;
-				float3 normalWS = packedInput.normalWS.xyz;
-				float4 tangentWS = packedInput.tangentWS.xyzw;
+				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(packedInput);
+				UNITY_SETUP_INSTANCE_ID(packedInput);
 
 				FragInputs input;
 				ZERO_INITIALIZE(FragInputs, input);
-
-				input.tangentToWorld = k_identity3x3;
 				input.positionSS = packedInput.positionCS;
-
-				input.positionRWS = positionRWS;
-				input.tangentToWorld = BuildTangentToWorld(tangentWS, normalWS);
-
-				#if _DOUBLESIDED_ON && SHADER_STAGE_FRAGMENT
-				input.isFrontFace = IS_FRONT_VFACE( packedInput.cullFace, true, false);
-				#elif SHADER_STAGE_FRAGMENT
-				#if defined(ASE_NEED_CULLFACE)
-				input.isFrontFace = IS_FRONT_VFACE( packedInput.cullFace, true, false );
-				#endif
-				#endif
-				half isFrontFace = input.isFrontFace;
+				input.positionRWS = packedInput.positionRWS;
+				input.tangentToWorld = BuildTangentToWorld(packedInput.tangentWS, packedInput.normalWS);
 
 				PositionInputs posInput = GetPositionInput(input.positionSS.xy, _ScreenSize.zw, input.positionSS.z, input.positionSS.w, input.positionRWS);
 
-				float3 V = GetWorldSpaceNormalizeViewDir(input.positionRWS);
-
-				SmoothSurfaceDescription surfaceDescription = (SmoothSurfaceDescription)0;
-				float2 uv_NormalMap = packedInput.ase_texcoord3.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
-				float3 temp_output_4_0_g260 = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
-				float3 ase_worldPos = GetAbsolutePositionWS( positionRWS );
-				float3 surf_pos107_g262 = ase_worldPos;
-				float3 surf_norm107_g262 = normalWS;
-				float3 vertexToFrag28_g260 = packedInput.ase_texcoord4.xyz;
-				#ifdef _SKINNED_ON
-				float3 staticSwitch26_g260 = float3( packedInput.ase_texcoord3.zw ,  0.0 );
-				#else
-				float3 staticSwitch26_g260 = vertexToFrag28_g260;
+				#if _DOUBLESIDED_ON && SHADER_STAGE_FRAGMENT
+					input.isFrontFace = IS_FRONT_VFACE(packedInput.cullFace, true, false);
+				#elif SHADER_STAGE_FRAGMENT
+					#if defined(ASE_NEED_CULLFACE)
+						input.isFrontFace = IS_FRONT_VFACE(packedInput.cullFace, true, false);
+					#endif
 				#endif
-				float simplePerlin3D9_g260 = snoise( ( ( staticSwitch26_g260 * float3( 2,2,2 ) ) + float3( 0,0,0 ) ) );
-				simplePerlin3D9_g260 = simplePerlin3D9_g260*0.5 + 0.5;
-				float height107_g262 = simplePerlin3D9_g260;
-				float scale107_g262 = 0.5;
-				float3 localPerturbNormal107_g262 = PerturbNormal107_g262( surf_pos107_g262 , surf_norm107_g262 , height107_g262 , scale107_g262 );
-				float3 ase_worldBitangent = packedInput.ase_texcoord5.xyz;
-				float3x3 ase_worldToTangent = float3x3(tangentWS.xyz,ase_worldBitangent,normalWS);
-				float3 worldToTangentDir42_g262 = mul( ase_worldToTangent, localPerturbNormal107_g262);
-				float temp_output_16_0_g260 = ( ( simplePerlin3D9_g260 - 0.5 ) * 0.5 );
-				float temp_output_12_0_g260 = ( tex2D( _DecalColorMap, packedInput.ase_texcoord3.zw ).r + temp_output_16_0_g260 );
-				float temp_output_3_0_g261 = ( 0.5 - temp_output_12_0_g260 );
-				float temp_output_10_0_g260 = ( 1.0 - saturate( ( temp_output_3_0_g261 / fwidth( temp_output_3_0_g261 ) ) ) );
-				float3 lerpResult6_g260 = lerp( temp_output_4_0_g260 , BlendNormal( worldToTangentDir42_g262 , temp_output_4_0_g260 ) , temp_output_10_0_g260);
-				float3 normalizeResult33_g260 = normalize( lerpResult6_g260 );
-				float3 temp_output_46_5 = normalizeResult33_g260;
+
+				half IsFrontFace = input.isFrontFace;
+				float3 PositionRWS = posInput.positionWS;
+				float3 PositionWS = GetAbsolutePositionWS( posInput.positionWS );
+				float3 V = GetWorldSpaceNormalizeViewDir( packedInput.positionRWS );
+				float4 ScreenPosNorm = float4( posInput.positionNDC, packedInput.positionCS.zw );
+				float4 ClipPos = ComputeClipSpacePosition( ScreenPosNorm.xy, packedInput.positionCS.z ) * packedInput.positionCS.w;
+				float4 ScreenPos = ComputeScreenPos( ClipPos, _ProjectionParams.x );
+				float3 NormalWS = packedInput.normalWS;
+				float3 TangentWS = packedInput.tangentWS.xyz;
+				float3 BitangentWS = input.tangentToWorld[ 1 ];
+
 				
-				float2 uv_MaskMap = packedInput.ase_texcoord3.xy * _MaskMap_ST.xy + _MaskMap_ST.zw;
-				float4 tex2DNode3 = tex2D( _MaskMap, uv_MaskMap );
-				
-				surfaceDescription.Normal = temp_output_46_5;
-				surfaceDescription.Smoothness = tex2DNode3.a;
+
+				AlphaSurfaceDescription surfaceDescription = (AlphaSurfaceDescription)0;
+
 				surfaceDescription.Alpha = 1;
 
 				#ifdef _ALPHATEST_ON
 				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
 				#endif
 
-				#ifdef _DEPTHOFFSET_ON
-				surfaceDescription.DepthOffset = 0;
+				#ifdef _ALPHATEST_SHADOW_ON
+				surfaceDescription.AlphaClipThresholdShadow = 0.5;
+				#endif
+
+				#if defined( ASE_CHANGES_WORLD_POS )
+					posInput.positionWS = PositionRWS;
+				#endif
+
+				#if defined( ASE_DEPTH_WRITE_ON )
+					#if !defined( _DEPTHOFFSET_ON )
+						posInput.deviceDepth = input.positionSS.z;
+					#else
+						surfaceDescription.DepthOffset = 0;
+					#endif
 				#endif
 
 				SurfaceData surfaceData;
 				BuiltinData builtinData;
 				GetSurfaceAndBuiltinData(surfaceDescription, input, V, posInput, surfaceData, builtinData);
 
-				#ifdef _DEPTHOFFSET_ON
-				outputDepth = posInput.deviceDepth;
+				#if defined( ASE_DEPTH_WRITE_ON )
+					outputDepth = posInput.deviceDepth;
+					float bias = max(abs(ddx(posInput.deviceDepth)), abs(ddy(posInput.deviceDepth))) * _SlopeScaleDepthBias;
+					outputDepth += bias;
 				#endif
 
 				#ifdef WRITE_MSAA_DEPTH
-					depthColor = packedInput.positionCS.z;
-					#ifdef _ALPHATOMASK_ON
-						depthColor.a = SharpenAlpha(builtinData.opacity, builtinData.alphaClipTreshold);
-					#endif
+					depthColor = packedInput.vmesh.positionCS.z;
+					depthColor.a = SharpenAlpha(builtinData.opacity, builtinData.alphaClipTreshold);
 				#endif
 
 				#if defined(WRITE_NORMAL_BUFFER)
@@ -4310,13 +3107,12 @@ Shader "BallsSpherize"
 				#endif
 
 				#if defined(WRITE_DECAL_BUFFER) && !defined(_DISABLE_DECALS)
-				DecalPrepassData decalPrepassData;
-				decalPrepassData.geomNormalWS = surfaceData.geomNormalWS;
-				decalPrepassData.decalLayerMask = GetMeshRenderingDecalLayer();
-				EncodeIntoDecalPrepassBuffer(decalPrepassData, outDecalBuffer);
+					DecalPrepassData decalPrepassData;
+					decalPrepassData.geomNormalWS = surfaceData.geomNormalWS;
+					decalPrepassData.decalLayerMask = GetMeshRenderingDecalLayer();
+					EncodeIntoDecalPrepassBuffer(decalPrepassData, outDecalBuffer);
 				#endif
 			}
-
 			ENDHLSL
 		}
 
@@ -4324,46 +3120,39 @@ Shader "BallsSpherize"
 		Pass
 		{
 			
-			Name "MotionVectors"
-			Tags { "LightMode"="MotionVectors" }
+			Name "SceneSelectionPass"
+			Tags { "LightMode"="SceneSelectionPass" }
 
-			Cull [_CullMode]
-
-			ZWrite On
-
-			Stencil
-			{
-				Ref [_StencilRefMV]
-				WriteMask [_StencilWriteMaskMV]
-				Comp Always
-				Pass Replace
-			}
-
+			Cull Off
 
 			HLSLPROGRAM
+			#define ASE_GEOMETRY
+			#pragma shader_feature_local _ _DOUBLESIDED_ON
+			#define ASE_FRAGMENT_NORMAL 0
+			#define _SPECULAR_OCCLUSION_FROM_AO 1
+			#define ASE_ABSOLUTE_VERTEX_POS 1
+			#define ASE_NEED_CULLFACE 1
+			#pragma multi_compile_local_fragment _DISABLE_DECALS
+			#pragma shader_feature_local_fragment _ _DISABLE_SSR
+			#define _MATERIAL_FEATURE_CLEAR_COAT
+			#define _AMBIENT_OCCLUSION 1
+			#define HAVE_MESH_MODIFICATION
+			#define ASE_VERSION 19904
+			#define ASE_SRP_VERSION 140011
+			#define ASE_USING_SAMPLING_MACROS 1
 
-            #define _SPECULAR_OCCLUSION_FROM_AO 1
-            #pragma multi_compile_instancing
-            #pragma instancing_options renderinglayer
-            #define ASE_ABSOLUTE_VERTEX_POS 1
-            #define _MATERIAL_FEATURE_CLEAR_COAT 1
-            #define _AMBIENT_OCCLUSION 1
-            #define HAVE_MESH_MODIFICATION
-            #define ASE_SRP_VERSION 140008
+			#pragma editor_sync_compilation
+            #pragma multi_compile _ DOTS_INSTANCING_ON
 
-
-            #pragma shader_feature _SURFACE_TYPE_TRANSPARENT
-			#pragma shader_feature_local _TRANSPARENT_WRITES_MOTION_VEC
-			#pragma shader_feature_local_fragment _ENABLE_FOG_ON_TRANSPARENT
-			#pragma shader_feature_local _DOUBLESIDED_ON
-			#pragma shader_feature_local _ALPHATEST_ON
-
-			#pragma multi_compile _ WRITE_NORMAL_BUFFER
-			#pragma multi_compile_fragment _ WRITE_MSAA_DEPTH
-			#pragma multi_compile _ WRITE_DECAL_BUFFER
+            #pragma shader_feature _ _SURFACE_TYPE_TRANSPARENT
+            #pragma shader_feature_local _ _TRANSPARENT_WRITES_MOTION_VEC
+            #pragma shader_feature_local_fragment _ _ENABLE_FOG_ON_TRANSPARENT
 
 			#pragma vertex Vert
 			#pragma fragment Frag
+
+			#define SHADERPASS SHADERPASS_DEPTH_ONLY
+		    #define SCENESELECTIONPASS 1
 
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GeometricTools.hlsl"
@@ -4376,12 +3165,22 @@ Shader "BallsSpherize"
 
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
 
-			#define SHADERPASS SHADERPASS_MOTION_VECTORS
+            #ifdef RAYTRACING_SHADER_GRAPH_DEFAULT
+                #define RAYTRACING_SHADER_GRAPH_HIGH
+            #endif
 
-			#ifndef SHADER_UNLIT
-			#if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
-			#define VARYINGS_NEED_CULLFACE
-			#endif
+            #ifdef RAYTRACING_SHADER_GRAPH_RAYTRACED
+                #define RAYTRACING_SHADER_GRAPH_LOW
+            #endif
+
+            #ifndef SHADER_UNLIT
+            #if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
+                #define VARYINGS_NEED_CULLFACE
+            #endif
+            #endif
+
+			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
+			    #define ASE_NEED_CULLFACE 1
 			#endif
 
 		    #if defined(_MATERIAL_FEATURE_SUBSURFACE_SCATTERING) && !defined(_SURFACE_TYPE_TRANSPARENT)
@@ -4394,29 +3193,29 @@ Shader "BallsSpherize"
 			#define _REFRACTION_THIN
 		    #endif
 
-			#if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
-			#if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
-				#define WRITE_NORMAL_BUFFER
-			#endif
-			#endif
+            #if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
+            #if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
+                #define WRITE_NORMAL_BUFFER
+            #endif
+            #endif
 
-			#ifndef DEBUG_DISPLAY
-				#if !defined(_SURFACE_TYPE_TRANSPARENT)
-					#if SHADERPASS == SHADERPASS_FORWARD
-					#define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
-					#elif SHADERPASS == SHADERPASS_GBUFFER
-					#define SHADERPASS_GBUFFER_BYPASS_ALPHA_TEST
-					#endif
-				#endif
-			#endif
+            #ifndef DEBUG_DISPLAY
+                #if !defined(_SURFACE_TYPE_TRANSPARENT)
+                    #if SHADERPASS == SHADERPASS_FORWARD
+                    #define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
+                    #elif SHADERPASS == SHADERPASS_GBUFFER
+                    #define SHADERPASS_GBUFFER_BYPASS_ALPHA_TEST
+                    #endif
+                #endif
+            #endif
 
-			#if defined(SHADER_LIT) && !defined(_SURFACE_TYPE_TRANSPARENT)
-			#define _DEFERRED_CAPABLE_MATERIAL
-			#endif
+            #if defined(SHADER_LIT) && !defined(_SURFACE_TYPE_TRANSPARENT)
+                #define _DEFERRED_CAPABLE_MATERIAL
+            #endif
 
-			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
-			#define _WRITE_TRANSPARENT_MOTION_VECTOR
-			#endif
+            #if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
+                #define _WRITE_TRANSPARENT_MOTION_VECTOR
+            #endif
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColorMap_ST;
@@ -4434,7 +3233,7 @@ Shader "BallsSpherize"
 			float _AlphaCutoff;
 			float _RenderQueueType;
 			#ifdef _ADD_PRECOMPUTED_VELOCITY
-			float _AddPrecomputedVelocity;
+			    float _AddPrecomputedVelocity;
 			#endif
 			float _StencilRef;
 			float _StencilWriteMask;
@@ -4442,6 +3241,8 @@ Shader "BallsSpherize"
 			float _StencilWriteMaskDepth;
 			float _StencilRefMV;
 			float _StencilWriteMaskMV;
+			float _StencilRefDistortionVec;
+			float _StencilWriteMaskDistortionVec;
 			float _StencilWriteMaskGBuffer;
 			float _StencilRefGBuffer;
 			float _ZTestGBuffer;
@@ -4450,7 +3251,7 @@ Shader "BallsSpherize"
 			float _SurfaceType;
 			float _BlendMode;
             #ifdef SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
-			float _EnableBlendModePreserveSpecularLighting;
+			    float _EnableBlendModePreserveSpecularLighting;
             #endif
 			float _SrcBlend;
 			float _DstBlend;
@@ -4472,39 +3273,31 @@ Shader "BallsSpherize"
 			float _DoubleSidedNormalMode;
 			float4 _DoubleSidedConstants;
 			#ifdef ASE_TESSELLATION
-			float _TessPhongStrength;
-			float _TessValue;
-			float _TessMin;
-			float _TessMax;
-			float _TessEdgeLength;
-			float _TessMaxDisp;
+			    float _TessPhongStrength;
+			    float _TessValue;
+			    float _TessMin;
+			    float _TessMax;
+			    float _TessEdgeLength;
+			    float _TessMaxDisp;
 			#endif
 			CBUFFER_END
 
-			// Property used by ScenePickingPass
             #ifdef SCENEPICKINGPASS
 			float4 _SelectionID;
             #endif
 
-			// Properties used by SceneSelectionPass
             #ifdef SCENESELECTIONPASS
 			int _ObjectId;
 			int _PassValue;
             #endif
 
-			sampler2D _NormalMap;
-			float4x4 unity_CameraProjection;
-			float4x4 unity_CameraInvProjection;
-			float4x4 unity_WorldToCamera;
-			float4x4 unity_CameraToWorld;
-			sampler2D _DecalColorMap;
-			sampler2D _MaskMap;
-
+			
 
             #ifdef DEBUG_DISPLAY
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
             #endif
 
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/PickingSpaceTransforms.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/Lit.hlsl"
@@ -4512,47 +3305,35 @@ Shader "BallsSpherize"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
 
-			// Setup DECALS_OFF so the shader stripper can remove variants
-            #define HAVE_DECALS ( (defined(DECALS_3RT) || defined(DECALS_4RT)) && !defined(_DISABLE_DECALS) )
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
+
+        	#ifdef HAVE_VFX_MODIFICATION
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/VisualEffectVertex.hlsl"
+        	#endif
 
 			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_VERT_NORMAL
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
 			#pragma multi_compile_local __ _SPHERIZE_ON
-			#pragma shader_feature_local _SKINNED_ON
 
-
-			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
-			#define ASE_NEED_CULLFACE 1
-			#endif
 
 			struct AttributesMesh
 			{
 				float3 positionOS : POSITION;
 				float3 normalOS : NORMAL;
-				float3 previousPositionOS : TEXCOORD4;
-				float3 precomputedVelocity : TEXCOORD5;
+				float4 tangentOS : TANGENT;
 				float4 ase_color : COLOR;
-				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_texcoord1 : TEXCOORD1;
-				float4 ase_tangent : TANGENT;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
 			struct PackedVaryingsMeshToPS
 			{
-				SV_POSITION_QUALIFIERS float4 vmeshPositionCS : SV_Position;
-				float3 vmeshInterp00 : TEXCOORD0;
-				float3 vpassInterpolators0 : TEXCOORD1; //interpolators0
-				float3 vpassInterpolators1 : TEXCOORD2; //interpolators1
-				float4 ase_texcoord3 : TEXCOORD3;
-				float4 ase_texcoord4 : TEXCOORD4;
-				float4 ase_texcoord5 : TEXCOORD5;
-				float4 ase_texcoord6 : TEXCOORD6;
-				float4 ase_texcoord7 : TEXCOORD7;
-				float4 ase_texcoord8 : TEXCOORD8;
+				SV_POSITION_QUALIFIERS float4 positionCS : SV_Position;
+				float3 positionRWS : TEXCOORD0;
+				float3 normalWS : TEXCOORD1;
+				float4 tangentWS : TEXCOORD2;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
@@ -4560,7 +3341,7 @@ Shader "BallsSpherize"
 				#endif
 			};
 
-			float3 MyCustomExpression11_g1( float3 pos )
+			float3 MyCustomExpression11_g369( float3 pos )
 			{
 				return GetCameraRelativePositionWS(pos);
 			}
@@ -4592,7 +3373,790 @@ Shader "BallsSpherize"
 				return transpose( cofactors ) / determinant( input );
 			}
 			
-			float3 MyCustomExpression32_g250( float3 pos )
+			float3 MyCustomExpression32_g371( float3 pos )
+			{
+				return GetAbsolutePositionWS(pos);
+			}
+			
+
+			void BuildSurfaceData(FragInputs fragInputs, inout SceneSurfaceDescription surfaceDescription, float3 V, PositionInputs posInput, out SurfaceData surfaceData, out float3 bentNormalWS)
+			{
+				ZERO_INITIALIZE(SurfaceData, surfaceData);
+
+				surfaceData.specularOcclusion = 1.0;
+
+				//refraction SceneSelectionPass
+                #if defined(_REFRACTION_PLANE) || defined(_REFRACTION_SPHERE) || defined(_REFRACTION_THIN)
+                    if (_EnableSSRefraction)
+                    {
+                        surfaceData.ior =                       surfaceDescription.RefractionIndex;
+                        surfaceData.transmittanceColor =        surfaceDescription.RefractionColor;
+                        surfaceData.atDistance =                surfaceDescription.RefractionDistance;
+                        surfaceData.transmittanceMask = (1.0 - surfaceDescription.Alpha);
+                        surfaceDescription.Alpha = 1.0;
+                    }
+                    else
+                    {
+                        surfaceData.ior = 1.0;
+                        surfaceData.transmittanceColor = float3(1.0, 1.0, 1.0);
+                        surfaceData.atDistance = 1.0;
+                        surfaceData.transmittanceMask = 0.0;
+                        surfaceDescription.Alpha = 1.0;
+                    }
+                #else
+                    surfaceData.ior = 1.0;
+                    surfaceData.transmittanceColor = float3(1.0, 1.0, 1.0);
+                    surfaceData.atDistance = 1.0;
+                    surfaceData.transmittanceMask = 0.0;
+                #endif
+
+				surfaceData.materialFeatures = MATERIALFEATUREFLAGS_LIT_STANDARD;
+
+				#ifdef _MATERIAL_FEATURE_SUBSURFACE_SCATTERING
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SUBSURFACE_SCATTERING;
+				#endif
+
+				#ifdef _MATERIAL_FEATURE_TRANSMISSION
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_TRANSMISSION;
+				#endif
+
+                #ifdef _MATERIAL_FEATURE_ANISOTROPY
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_ANISOTROPY;
+                    surfaceData.normalWS = float3(0, 1, 0);
+                #endif
+
+				#ifdef _MATERIAL_FEATURE_CLEAR_COAT
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_CLEAR_COAT;
+				#endif
+
+				#ifdef _MATERIAL_FEATURE_IRIDESCENCE
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_IRIDESCENCE;
+				#endif
+
+				#ifdef _MATERIAL_FEATURE_SPECULAR_COLOR
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SPECULAR_COLOR;
+				#endif
+
+				#if defined (_MATERIAL_FEATURE_SPECULAR_COLOR) && defined (_ENERGY_CONSERVING_SPECULAR)
+                    surfaceData.baseColor *= ( 1.0 - Max3( surfaceData.specularColor.r, surfaceData.specularColor.g, surfaceData.specularColor.b ) );
+				#endif
+
+				#ifdef _DOUBLESIDED_ON
+					float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
+				#else
+					float3 doubleSidedConstants = float3( 1.0, 1.0, 1.0 );
+				#endif
+
+				float3 normal = float3(0.0f, 0.0f, 1.0f);
+
+			#if ( UNITY_VERSION <= 202236 )
+				#if ( ASE_FRAGMENT_NORMAL == 1 )
+					GetNormalWS_SrcOS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+				#elif ( ASE_FRAGMENT_NORMAL == 2 )
+					GetNormalWS_SrcWS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+				#else
+					GetNormalWS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+				#endif
+
+				#if HAVE_DECALS
+				if (_EnableDecals)
+				{
+					DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
+					ApplyDecalToSurfaceData(decalSurfaceData, fragInputs.tangentToWorld[2], surfaceData);
+				}
+				#endif
+			#else
+				#ifdef DECAL_NORMAL_BLENDING
+					#if ( ASE_FRAGMENT_NORMAL == 1 )
+						normal = SurfaceGradientFromPerturbedNormal(TransformWorldToObjectNormal(fragInputs.tangentToWorld[2]), normal);
+					#elif ( ASE_FRAGMENT_NORMAL == 2 )
+						normal = SurfaceGradientFromPerturbedNormal(fragInputs.tangentToWorld[2], normal);
+					#else
+						normal = SurfaceGradientFromTangentSpaceNormalAndFromTBN(normal, fragInputs.tangentToWorld[0], fragInputs.tangentToWorld[1]);
+					#endif
+
+					#if HAVE_DECALS
+					if (_EnableDecals)
+					{
+						DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
+						ApplyDecalToSurfaceNormal(decalSurfaceData, fragInputs.tangentToWorld[2], normal);
+						ApplyDecalToSurfaceDataNoNormal(decalSurfaceData, surfaceData);
+					}
+					#endif
+
+					GetNormalWS_SG(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+				#else
+					#if ( ASE_FRAGMENT_NORMAL == 1 )
+						GetNormalWS_SrcOS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+					#elif ( ASE_FRAGMENT_NORMAL == 2 )
+						GetNormalWS_SrcWS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+					#else
+						GetNormalWS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+					#endif
+
+					#if HAVE_DECALS
+					if (_EnableDecals)
+					{
+						DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
+						ApplyDecalToSurfaceNormal(decalSurfaceData, surfaceData.normalWS.xyz);
+						ApplyDecalToSurfaceDataNoNormal(decalSurfaceData, surfaceData);
+					}
+					#endif
+				#endif
+			#endif
+
+				surfaceData.geomNormalWS = fragInputs.tangentToWorld[2];
+                surfaceData.tangentWS = normalize(fragInputs.tangentToWorld[0].xyz );
+                surfaceData.tangentWS = Orthonormalize(surfaceData.tangentWS, surfaceData.normalWS);
+
+				bentNormalWS = surfaceData.normalWS;
+
+				#if defined(DEBUG_DISPLAY)
+					if (_DebugMipMapMode != DEBUGMIPMAPMODE_NONE)
+					{
+						surfaceData.metallic = 0;
+					}
+					ApplyDebugToSurfaceData(fragInputs.tangentToWorld, surfaceData);
+				#endif
+
+                #if defined(_SPECULAR_OCCLUSION_CUSTOM)
+                #elif defined(_SPECULAR_OCCLUSION_FROM_AO_BENT_NORMAL)
+                    surfaceData.specularOcclusion = GetSpecularOcclusionFromBentAO(V, bentNormalWS, surfaceData.normalWS, surfaceData.ambientOcclusion, PerceptualSmoothnessToPerceptualRoughness(surfaceData.perceptualSmoothness));
+                #elif defined(_AMBIENT_OCCLUSION) && defined(_SPECULAR_OCCLUSION_FROM_AO)
+                    surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion(ClampNdotV(dot(surfaceData.normalWS, V)), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness(surfaceData.perceptualSmoothness));
+                #endif
+
+                #ifdef _ENABLE_GEOMETRIC_SPECULAR_AA
+                    surfaceData.perceptualSmoothness = GeometricNormalFiltering(surfaceData.perceptualSmoothness, fragInputs.tangentToWorld[2], surfaceDescription.SpecularAAScreenSpaceVariance, surfaceDescription.SpecularAAThreshold);
+                #endif
+			}
+
+			// Get Surface And BuiltinData
+			void GetSurfaceAndBuiltinData(SceneSurfaceDescription surfaceDescription, FragInputs fragInputs, float3 V, inout PositionInputs posInput, out SurfaceData surfaceData, out BuiltinData builtinData)
+			{
+				#ifdef LOD_FADE_CROSSFADE
+                    LODDitheringTransition(ComputeFadeMaskSeed(V, posInput.positionSS), unity_LODFade.x);
+				#endif
+
+                #ifdef _DOUBLESIDED_ON
+                    float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
+                #else
+                    float3 doubleSidedConstants = float3(1.0, 1.0, 1.0);
+                #endif
+                ApplyDoubleSidedFlipOrMirror(fragInputs, doubleSidedConstants);
+
+				#ifdef _ALPHATEST_ON
+                    DoAlphaTest( surfaceDescription.Alpha, surfaceDescription.AlphaClipThreshold );
+				#endif
+
+				#ifdef _ALPHATEST_SHADOW_ON
+                    DoAlphaTest( surfaceDescription.Alpha, surfaceDescription.AlphaClipThresholdShadow);
+				#endif
+
+				#ifdef _DEPTHOFFSET_ON
+                    ApplyDepthOffsetPositionInput(V, surfaceDescription.DepthOffset, GetViewForwardDir(), GetWorldToHClipMatrix(), posInput);
+				#endif
+
+                float3 bentNormalWS;
+                BuildSurfaceData(fragInputs, surfaceDescription, V, posInput, surfaceData, bentNormalWS);
+                InitBuiltinData(posInput, surfaceDescription.Alpha, bentNormalWS, -fragInputs.tangentToWorld[2], fragInputs.texCoord1, fragInputs.texCoord2, builtinData);
+
+				#ifdef _DEPTHOFFSET_ON
+                    builtinData.depthOffset = surfaceDescription.DepthOffset;
+				#endif
+
+                #ifdef _ALPHATEST_ON
+                    builtinData.alphaClipTreshold = surfaceDescription.AlphaClipThreshold;
+                #endif
+
+                #ifdef UNITY_VIRTUAL_TEXTURING
+                    builtinData.vtPackedFeedback = surfaceDescription.VTPackedFeedback;
+                #endif
+
+				#ifdef ASE_BAKEDGI
+                    builtinData.bakeDiffuseLighting = surfaceDescription.BakedGI;
+				#endif
+
+				#ifdef ASE_BAKEDBACKGI
+                    builtinData.backBakeDiffuseLighting = surfaceDescription.BakedBackGI;
+				#endif
+
+                builtinData.emissiveColor = surfaceDescription.Emission;
+
+                PostInitBuiltinData(V, posInput, surfaceData, builtinData);
+			}
+
+			PackedVaryingsMeshToPS VertexFunction(AttributesMesh inputMesh )
+			{
+				PackedVaryingsMeshToPS output;
+				UNITY_SETUP_INSTANCE_ID(inputMesh);
+				UNITY_TRANSFER_INSTANCE_ID(inputMesh, output);
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( output );
+
+				float3 pos11_g369 = _SpherePosition;
+				float3 localMyCustomExpression11_g369 = MyCustomExpression11_g369( pos11_g369 );
+				float4 appendResult1_g369 = (float4(localMyCustomExpression11_g369 , 1.0));
+				float3 temp_output_5_0_g369 = (mul( GetWorldToObjectMatrix(), appendResult1_g369 )).xyz;
+				float3 temp_output_3_0_g370 = temp_output_5_0_g369;
+				float3 normalizeResult6_g370 = normalize( ( inputMesh.positionOS - temp_output_3_0_g370 ) );
+				float4 appendResult4_g369 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float3 temp_output_6_0_g369 = ( ( normalizeResult6_g370 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g369 )).xyz ) ) ) + temp_output_3_0_g370 );
+				float temp_output_18_0_g369 = ( _SpherizeAmount * inputMesh.ase_color.r );
+				float3 lerpResult21_g369 = lerp( inputMesh.positionOS , temp_output_6_0_g369 , temp_output_18_0_g369);
+				#ifdef _SPHERIZE_ON
+				float3 staticSwitch16_g369 = lerpResult21_g369;
+				#else
+				float3 staticSwitch16_g369 = inputMesh.positionOS;
+				#endif
+				float3 normalizeResult27_g373 = normalize( _WorldDickNormal );
+				float3 normalizeResult31_g373 = normalize( _WorldDickBinormal );
+				float3 normalizeResult29_g373 = normalize( cross( normalizeResult27_g373 , normalizeResult31_g373 ) );
+				float4 appendResult26_g372 = (float4(1.0 , 0.0 , 0.0 , 0.0));
+				float4 appendResult28_g372 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float4 appendResult31_g372 = (float4(0.0 , 0.0 , 1.0 , 0.0));
+				float3 break27_g372 = -_WorldDickPosition;
+				float4 appendResult29_g372 = (float4(break27_g372.x , break27_g372.y , break27_g372.z , 1.0));
+				float4x4 temp_output_30_0_g372 = mul( transpose( float4x4( float4( normalizeResult27_g373 , 0.0 ).x, float4( cross( normalizeResult29_g373 , normalizeResult27_g373 ) , 0.0 ).x, float4( normalizeResult29_g373 , 0.0 ).x, float4( 0, 0, 0, 1 ).x, float4( normalizeResult27_g373 , 0.0 ).y, float4( cross( normalizeResult29_g373 , normalizeResult27_g373 ) , 0.0 ).y, float4( normalizeResult29_g373 , 0.0 ).y, float4( 0, 0, 0, 1 ).y, float4( normalizeResult27_g373 , 0.0 ).z, float4( cross( normalizeResult29_g373 , normalizeResult27_g373 ) , 0.0 ).z, float4( normalizeResult29_g373 , 0.0 ).z, float4( 0, 0, 0, 1 ).z, float4( normalizeResult27_g373 , 0.0 ).w, float4( cross( normalizeResult29_g373 , normalizeResult27_g373 ) , 0.0 ).w, float4( normalizeResult29_g373 , 0.0 ).w, float4( 0, 0, 0, 1 ).w ) ), float4x4( appendResult26_g372.x, appendResult28_g372.x, appendResult31_g372.x, appendResult29_g372.x, appendResult26_g372.y, appendResult28_g372.y, appendResult31_g372.y, appendResult29_g372.y, appendResult26_g372.z, appendResult28_g372.z, appendResult31_g372.z, appendResult29_g372.z, appendResult26_g372.w, appendResult28_g372.w, appendResult31_g372.w, appendResult29_g372.w ) );
+				float4x4 invertVal44_g372 = Inverse4x4( temp_output_30_0_g372 );
+				float4 appendResult27_g371 = (float4(inputMesh.positionOS , 1.0));
+				float3 pos32_g371 = mul( GetObjectToWorldMatrix(), appendResult27_g371 ).xyz;
+				float3 localMyCustomExpression32_g371 = MyCustomExpression32_g371( pos32_g371 );
+				float4 appendResult32_g372 = (float4(localMyCustomExpression32_g371 , 1.0));
+				float4 break35_g372 = mul( temp_output_30_0_g372, appendResult32_g372 );
+				float temp_output_124_0_g372 = _TipRadius;
+				float2 appendResult36_g372 = (float2(break35_g372.y , break35_g372.z));
+				float2 normalizeResult41_g372 = normalize( appendResult36_g372 );
+				float temp_output_120_0_g372 = sqrt( max( break35_g372.x , 0.0 ) );
+				float temp_output_48_0_g372 = tan( radians( _Angle ) );
+				float temp_output_125_0_g372 = ( temp_output_124_0_g372 + ( temp_output_120_0_g372 * temp_output_48_0_g372 ) );
+				float temp_output_37_0_g372 = length( appendResult36_g372 );
+				float temp_output_114_0_g372 = ( ( temp_output_125_0_g372 - temp_output_37_0_g372 ) + 1.0 );
+				float lerpResult102_g372 = lerp( temp_output_125_0_g372 , temp_output_37_0_g372 , saturate( temp_output_114_0_g372 ));
+				float lerpResult130_g372 = lerp( 0.0 , lerpResult102_g372 , saturate( ( -( -temp_output_124_0_g372 - break35_g372.x ) / temp_output_124_0_g372 ) ));
+				float2 break43_g372 = ( normalizeResult41_g372 * lerpResult130_g372 );
+				float4 appendResult40_g372 = (float4(max( break35_g372.x , -temp_output_124_0_g372 ) , break43_g372.x , break43_g372.y , 1.0));
+				float4 appendResult28_g371 = (float4(((mul( invertVal44_g372, appendResult40_g372 )).xyz).xyz , 1.0));
+				float4 localWorldVar29_g371 = appendResult28_g371;
+				(localWorldVar29_g371).xyz = GetCameraRelativePositionWS((localWorldVar29_g371).xyz);
+				float4 transform29_g371 = mul(GetWorldToObjectMatrix(),localWorldVar29_g371);
+				#ifdef _COCKVORESQUISHENABLED_ON
+				float3 staticSwitch13_g371 = (transform29_g371).xyz;
+				#else
+				float3 staticSwitch13_g371 = staticSwitch16_g369;
+				#endif
+				
+				float3 normalizeResult13_g369 = normalize( ( temp_output_6_0_g369 - temp_output_5_0_g369 ) );
+				float3 lerpResult12_g369 = lerp( inputMesh.normalOS , normalizeResult13_g369 , temp_output_18_0_g369);
+				float3 normalizeResult55_g369 = normalize( lerpResult12_g369 );
+				#ifdef _SPHERIZE_ON
+				float3 staticSwitch15_g369 = normalizeResult55_g369;
+				#else
+				float3 staticSwitch15_g369 = inputMesh.normalOS;
+				#endif
+				float3 temp_output_50_0_g371 = staticSwitch15_g369;
+				float2 break146_g372 = normalizeResult41_g372;
+				float4 appendResult139_g372 = (float4(temp_output_48_0_g372 , break146_g372.x , break146_g372.y , 0.0));
+				float3 normalizeResult144_g372 = normalize( (mul( invertVal44_g372, appendResult139_g372 )).xyz );
+				float3 lerpResult44_g371 = lerp( normalizeResult144_g372 , temp_output_50_0_g371 , saturate( sign( temp_output_114_0_g372 ) ));
+				#ifdef _COCKVORESQUISHENABLED_ON
+				float3 staticSwitch17_g371 = lerpResult44_g371;
+				#else
+				float3 staticSwitch17_g371 = temp_output_50_0_g371;
+				#endif
+				
+
+				#ifdef ASE_ABSOLUTE_VERTEX_POS
+				float3 defaultVertexValue = inputMesh.positionOS.xyz;
+				#else
+				float3 defaultVertexValue = float3( 0, 0, 0 );
+				#endif
+				float3 vertexValue = staticSwitch13_g371;
+
+				#ifdef ASE_ABSOLUTE_VERTEX_POS
+				inputMesh.positionOS.xyz = vertexValue;
+				#else
+				inputMesh.positionOS.xyz += vertexValue;
+				#endif
+
+				inputMesh.normalOS = staticSwitch17_g371;
+				inputMesh.tangentOS = inputMesh.tangentOS;
+
+				float3 positionRWS = TransformObjectToWorld(inputMesh.positionOS);
+				float3 normalWS = TransformObjectToWorldNormal(inputMesh.normalOS);
+				float4 tangentWS = float4(TransformObjectToWorldDir(inputMesh.tangentOS.xyz), inputMesh.tangentOS.w);
+
+				output.positionCS = TransformWorldToHClip(positionRWS);
+				output.positionRWS = positionRWS;
+				output.normalWS = normalWS;
+				output.tangentWS = tangentWS;
+				return output;
+			}
+
+			#if defined(ASE_TESSELLATION)
+			struct VertexControl
+			{
+				float3 positionOS : INTERNALTESSPOS;
+				float3 normalOS : NORMAL;
+				float4 tangentOS : TANGENT;
+				float4 ase_color : COLOR;
+
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct TessellationFactors
+			{
+				float edge[3] : SV_TessFactor;
+				float inside : SV_InsideTessFactor;
+			};
+
+			VertexControl Vert ( AttributesMesh v )
+			{
+				VertexControl o;
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
+				o.positionOS = v.positionOS;
+				o.normalOS = v.normalOS;
+				o.tangentOS = v.tangentOS;
+				o.ase_color = v.ase_color;
+				return o;
+			}
+
+			TessellationFactors TessellationFunction (InputPatch<VertexControl,3> v)
+			{
+				TessellationFactors o;
+				float4 tf = 1;
+				float tessValue = _TessValue; float tessMin = _TessMin; float tessMax = _TessMax;
+				float edgeLength = _TessEdgeLength; float tessMaxDisp = _TessMaxDisp;
+				#if (SHADEROPTIONS_CAMERA_RELATIVE_RENDERING != 0)
+				float3 cameraPos = 0;
+				#else
+				float3 cameraPos = _WorldSpaceCameraPos;
+				#endif
+				#if defined(ASE_FIXED_TESSELLATION)
+				tf = FixedTess( tessValue );
+				#elif defined(ASE_DISTANCE_TESSELLATION)
+				tf = DistanceBasedTess(float4(v[0].positionOS,1), float4(v[1].positionOS,1), float4(v[2].positionOS,1), tessValue, tessMin, tessMax, GetObjectToWorldMatrix(), cameraPos );
+				#elif defined(ASE_LENGTH_TESSELLATION)
+				tf = EdgeLengthBasedTess(float4(v[0].positionOS,1), float4(v[1].positionOS,1), float4(v[2].positionOS,1), edgeLength, GetObjectToWorldMatrix(), cameraPos, _ScreenParams );
+				#elif defined(ASE_LENGTH_CULL_TESSELLATION)
+				tf = EdgeLengthBasedTessCull(float4(v[0].positionOS,1), float4(v[1].positionOS,1), float4(v[2].positionOS,1), edgeLength, tessMaxDisp, GetObjectToWorldMatrix(), cameraPos, _ScreenParams, _FrustumPlanes );
+				#endif
+				o.edge[0] = tf.x; o.edge[1] = tf.y; o.edge[2] = tf.z; o.inside = tf.w;
+				return o;
+			}
+
+			[domain("tri")]
+			[partitioning("fractional_odd")]
+			[outputtopology("triangle_cw")]
+			[patchconstantfunc("TessellationFunction")]
+			[outputcontrolpoints(3)]
+			VertexControl HullFunction(InputPatch<VertexControl, 3> patch, uint id : SV_OutputControlPointID)
+			{
+			   return patch[id];
+			}
+
+			[domain("tri")]
+			PackedVaryingsMeshToPS DomainFunction(TessellationFactors factors, OutputPatch<VertexControl, 3> patch, float3 bary : SV_DomainLocation)
+			{
+				AttributesMesh o = (AttributesMesh) 0;
+				o.positionOS = patch[0].positionOS * bary.x + patch[1].positionOS * bary.y + patch[2].positionOS * bary.z;
+				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
+				o.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
+				#if defined(ASE_PHONG_TESSELLATION)
+				float3 pp[3];
+				for (int i = 0; i < 3; ++i)
+					pp[i] = o.positionOS.xyz - patch[i].normalOS * (dot(o.positionOS.xyz, patch[i].normalOS) - dot(patch[i].positionOS.xyz, patch[i].normalOS));
+				float phongStrength = _TessPhongStrength;
+				o.positionOS.xyz = phongStrength * (pp[0]*bary.x + pp[1]*bary.y + pp[2]*bary.z) + (1.0f-phongStrength) * o.positionOS.xyz;
+				#endif
+				UNITY_TRANSFER_INSTANCE_ID(patch[0], o);
+				return VertexFunction(o);
+			}
+			#else
+			PackedVaryingsMeshToPS Vert ( AttributesMesh v )
+			{
+				return VertexFunction( v );
+			}
+			#endif
+
+			#if defined(WRITE_NORMAL_BUFFER) && defined(WRITE_MSAA_DEPTH)
+			#define SV_TARGET_DECAL SV_Target2
+			#elif defined(WRITE_NORMAL_BUFFER) || defined(WRITE_MSAA_DEPTH)
+			#define SV_TARGET_DECAL SV_Target1
+			#else
+			#define SV_TARGET_DECAL SV_Target0
+			#endif
+
+			void Frag( PackedVaryingsMeshToPS packedInput
+						, out float4 outColor : SV_Target0
+						#if defined( ASE_DEPTH_WRITE_ON )
+							, out float outputDepth : DEPTH_OFFSET_SEMANTIC
+						#endif
+						 )
+			{
+				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX( packedInput );
+				UNITY_SETUP_INSTANCE_ID( packedInput );
+
+				FragInputs input;
+				ZERO_INITIALIZE(FragInputs, input);
+				input.positionSS = packedInput.positionCS;
+				input.positionRWS = packedInput.positionRWS;
+				input.tangentToWorld = BuildTangentToWorld(packedInput.tangentWS, packedInput.normalWS);
+
+				PositionInputs posInput = GetPositionInput(input.positionSS.xy, _ScreenSize.zw, input.positionSS.z, input.positionSS.w, input.positionRWS);
+
+				#if _DOUBLESIDED_ON && SHADER_STAGE_FRAGMENT
+					input.isFrontFace = IS_FRONT_VFACE(packedInput.cullFace, true, false);
+				#elif SHADER_STAGE_FRAGMENT
+					#if defined(ASE_NEED_CULLFACE)
+						input.isFrontFace = IS_FRONT_VFACE(packedInput.cullFace, true, false);
+					#endif
+				#endif
+
+				half IsFrontFace = input.isFrontFace;
+				float3 PositionRWS = posInput.positionWS;
+				float3 PositionWS = GetAbsolutePositionWS( posInput.positionWS );
+				float3 V = GetWorldSpaceNormalizeViewDir( packedInput.positionRWS );
+				float4 ScreenPosNorm = float4( posInput.positionNDC, packedInput.positionCS.zw );
+				float4 ClipPos = ComputeClipSpacePosition( ScreenPosNorm.xy, packedInput.positionCS.z ) * packedInput.positionCS.w;
+				float4 ScreenPos = ComputeScreenPos( ClipPos, _ProjectionParams.x );
+				float3 NormalWS = packedInput.normalWS;
+				float3 TangentWS = packedInput.tangentWS.xyz;
+				float3 BitangentWS = input.tangentToWorld[ 1 ];
+
+				
+
+				SceneSurfaceDescription surfaceDescription = (SceneSurfaceDescription)0;
+
+				surfaceDescription.Alpha = 1;
+
+				#ifdef _ALPHATEST_ON
+				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
+				#endif
+
+				#if defined( ASE_CHANGES_WORLD_POS )
+					posInput.positionWS = PositionRWS;
+				#endif
+
+				#if defined( ASE_DEPTH_WRITE_ON )
+					#if !defined( _DEPTHOFFSET_ON )
+						posInput.deviceDepth = input.positionSS.z;
+					#else
+						surfaceDescription.DepthOffset = 0;
+					#endif
+				#endif
+
+				SurfaceData surfaceData;
+				BuiltinData builtinData;
+				GetSurfaceAndBuiltinData(surfaceDescription, input, V, posInput, surfaceData, builtinData);
+
+				#if defined( ASE_DEPTH_WRITE_ON )
+					outputDepth = posInput.deviceDepth;
+				#endif
+
+				outColor = float4( _ObjectId, _PassValue, 1.0, 1.0 );
+			}
+			ENDHLSL
+		}
+
+		
+		Pass
+		{
+			
+			Name "DepthOnly"
+			Tags { "LightMode"="DepthOnly" }
+
+			Cull [_CullMode]
+			ZWrite On
+
+			Stencil
+			{
+				Ref [_StencilRefDepth]
+				WriteMask [_StencilWriteMaskDepth]
+				Comp Always
+				Pass Replace
+			}
+
+
+			HLSLPROGRAM
+			#define ASE_GEOMETRY
+			#pragma shader_feature_local _ _DOUBLESIDED_ON
+			#define ASE_FRAGMENT_NORMAL 0
+			#define _SPECULAR_OCCLUSION_FROM_AO 1
+			#define ASE_ABSOLUTE_VERTEX_POS 1
+			#define ASE_NEED_CULLFACE 1
+			#pragma multi_compile_local_fragment _DISABLE_DECALS
+			#pragma shader_feature_local_fragment _ _DISABLE_SSR
+			#define _MATERIAL_FEATURE_CLEAR_COAT
+			#define _AMBIENT_OCCLUSION 1
+			#define HAVE_MESH_MODIFICATION
+			#define ASE_VERSION 19904
+			#define ASE_SRP_VERSION 140011
+			#define ASE_USING_SAMPLING_MACROS 1
+
+			#pragma multi_compile _ DOTS_INSTANCING_ON
+
+            #pragma shader_feature _ _SURFACE_TYPE_TRANSPARENT
+            #pragma shader_feature_local _ _TRANSPARENT_WRITES_MOTION_VEC
+            #pragma shader_feature_local_fragment _ _ENABLE_FOG_ON_TRANSPARENT
+
+            #pragma multi_compile _ WRITE_NORMAL_BUFFER
+            #pragma multi_compile_fragment _ WRITE_MSAA_DEPTH
+            #pragma multi_compile _ WRITE_DECAL_BUFFER
+
+			#pragma vertex Vert
+			#pragma fragment Frag
+
+            #define SHADERPASS SHADERPASS_DEPTH_ONLY
+
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GeometricTools.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Tessellation.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPass.cs.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
+            #include "Packages/com.unity.shadergraph/ShaderGraphLibrary/Functions.hlsl"
+
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
+
+            #ifdef RAYTRACING_SHADER_GRAPH_DEFAULT
+                #define RAYTRACING_SHADER_GRAPH_HIGH
+            #endif
+
+            #ifdef RAYTRACING_SHADER_GRAPH_RAYTRACED
+                #define RAYTRACING_SHADER_GRAPH_LOW
+            #endif
+
+            #ifndef SHADER_UNLIT
+            #if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
+                #define VARYINGS_NEED_CULLFACE
+            #endif
+            #endif
+
+			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
+			    #define ASE_NEED_CULLFACE 1
+			#endif
+
+		    #if defined(_MATERIAL_FEATURE_SUBSURFACE_SCATTERING) && !defined(_SURFACE_TYPE_TRANSPARENT)
+			#define OUTPUT_SPLIT_LIGHTING
+		    #endif
+
+		    #if (SHADERPASS == SHADERPASS_PATH_TRACING) && !defined(_DOUBLESIDED_ON) && (defined(_REFRACTION_PLANE) || defined(_REFRACTION_SPHERE))
+			#undef  _REFRACTION_PLANE
+			#undef  _REFRACTION_SPHERE
+			#define _REFRACTION_THIN
+		    #endif
+
+            #if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
+            #if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
+                #define WRITE_NORMAL_BUFFER
+            #endif
+            #endif
+
+            #ifndef DEBUG_DISPLAY
+                #if !defined(_SURFACE_TYPE_TRANSPARENT)
+                    #if SHADERPASS == SHADERPASS_FORWARD
+                    #define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
+                    #elif SHADERPASS == SHADERPASS_GBUFFER
+                    #define SHADERPASS_GBUFFER_BYPASS_ALPHA_TEST
+                    #endif
+                #endif
+            #endif
+
+            #if defined(SHADER_LIT) && !defined(_SURFACE_TYPE_TRANSPARENT)
+                #define _DEFERRED_CAPABLE_MATERIAL
+            #endif
+
+            #if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
+                #define _WRITE_TRANSPARENT_MOTION_VECTOR
+            #endif
+
+			CBUFFER_START( UnityPerMaterial )
+			float4 _BaseColorMap_ST;
+			float4 _NormalMap_ST;
+			float4 _MaskMap_ST;
+			float3 _SpherePosition;
+			float3 _WorldDickNormal;
+			float3 _WorldDickBinormal;
+			float3 _WorldDickPosition;
+			float _SphereRadius;
+			float _SpherizeAmount;
+			float _TipRadius;
+			float _Angle;
+			float4 _EmissionColor;
+			float _AlphaCutoff;
+			float _RenderQueueType;
+			#ifdef _ADD_PRECOMPUTED_VELOCITY
+			    float _AddPrecomputedVelocity;
+			#endif
+			float _StencilRef;
+			float _StencilWriteMask;
+			float _StencilRefDepth;
+			float _StencilWriteMaskDepth;
+			float _StencilRefMV;
+			float _StencilWriteMaskMV;
+			float _StencilRefDistortionVec;
+			float _StencilWriteMaskDistortionVec;
+			float _StencilWriteMaskGBuffer;
+			float _StencilRefGBuffer;
+			float _ZTestGBuffer;
+			float _RequireSplitLighting;
+			float _ReceivesSSR;
+			float _SurfaceType;
+			float _BlendMode;
+            #ifdef SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
+			    float _EnableBlendModePreserveSpecularLighting;
+            #endif
+			float _SrcBlend;
+			float _DstBlend;
+			float _AlphaSrcBlend;
+			float _AlphaDstBlend;
+			float _ZWrite;
+			float _TransparentZWrite;
+			float _CullMode;
+			float _TransparentSortPriority;
+			float _EnableFogOnTransparent;
+			float _CullModeForward;
+			float _TransparentCullMode;
+			float _ZTestDepthEqualForOpaque;
+			float _ZTestTransparent;
+			float _TransparentBackfaceEnable;
+			float _AlphaCutoffEnable;
+			float _UseShadowThreshold;
+			float _DoubleSidedEnable;
+			float _DoubleSidedNormalMode;
+			float4 _DoubleSidedConstants;
+			#ifdef ASE_TESSELLATION
+			    float _TessPhongStrength;
+			    float _TessValue;
+			    float _TessMin;
+			    float _TessMax;
+			    float _TessEdgeLength;
+			    float _TessMaxDisp;
+			#endif
+			CBUFFER_END
+
+            #ifdef SCENEPICKINGPASS
+			float4 _SelectionID;
+            #endif
+
+            #ifdef SCENESELECTIONPASS
+			int _ObjectId;
+			int _PassValue;
+            #endif
+
+			TEXTURE2D(_NormalMap);
+			SAMPLER(sampler_NormalMap);
+			float4x4 unity_CameraProjection;
+			float4x4 unity_CameraInvProjection;
+			float4x4 unity_WorldToCamera;
+			float4x4 unity_CameraToWorld;
+			TEXTURE2D(_DecalColorMap);
+			SAMPLER(sampler_DecalColorMap);
+			TEXTURE2D(_MaskMap);
+			SAMPLER(sampler_MaskMap);
+
+
+            #ifdef DEBUG_DISPLAY
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+            #endif
+
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/Lit.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/BuiltinUtilities.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
+
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
+
+        	#ifdef HAVE_VFX_MODIFICATION
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/VisualEffectVertex.hlsl"
+        	#endif
+
+			#if defined( UNITY_INSTANCING_ENABLED ) && defined( ASE_INSTANCED_TERRAIN ) && ( defined(_TERRAIN_INSTANCED_PERPIXEL_NORMAL) || defined(_INSTANCEDTERRAINNORMALS_PIXEL) )
+				#define ENABLE_TERRAIN_PERPIXEL_NORMAL
+			#endif
+
+			#define ASE_NEEDS_VERT_POSITION
+			#define ASE_NEEDS_VERT_NORMAL
+			#define ASE_NEEDS_TEXTURE_COORDINATES0
+			#define ASE_NEEDS_FRAG_WORLD_POSITION
+			#define ASE_NEEDS_WORLD_NORMAL
+			#define ASE_NEEDS_FRAG_WORLD_NORMAL
+			#define ASE_NEEDS_TEXTURE_COORDINATES1
+			#define ASE_NEEDS_FRAG_TEXTURE_COORDINATES1
+			#define ASE_NEEDS_WORLD_TANGENT
+			#define ASE_NEEDS_FRAG_WORLD_TANGENT
+			#define ASE_NEEDS_FRAG_WORLD_BITANGENT
+			#define ASE_NEEDS_FRAG_TEXTURE_COORDINATES0
+			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
+			#pragma multi_compile_local __ _SPHERIZE_ON
+			#pragma shader_feature_local _SKINNED_ON
+
+
+			struct AttributesMesh
+			{
+				float3 positionOS : POSITION;
+				float3 normalOS : NORMAL;
+				float4 tangentOS : TANGENT;
+				float4 uv0 : TEXCOORD0;
+				float4 ase_color : COLOR;
+				float4 ase_texcoord1 : TEXCOORD1;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct PackedVaryingsMeshToPS
+			{
+				SV_POSITION_QUALIFIERS float4 positionCS : SV_Position;
+				float3 positionRWS : TEXCOORD0;
+				float3 normalWS : TEXCOORD1;
+				float4 tangentWS : TEXCOORD2; // holds terrainUV ifdef ENABLE_TERRAIN_PERPIXEL_NORMAL
+				float4 ase_texcoord3 : TEXCOORD3;
+				float4 ase_texcoord4 : TEXCOORD4;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+				UNITY_VERTEX_OUTPUT_STEREO
+				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
+				FRONT_FACE_TYPE cullFace : FRONT_FACE_SEMANTIC;
+				#endif
+			};
+
+			float3 MyCustomExpression11_g369( float3 pos )
+			{
+				return GetCameraRelativePositionWS(pos);
+			}
+			
+			float4x4 Inverse4x4(float4x4 input)
+			{
+				#define minor(a,b,c) determinant(float3x3(input.a, input.b, input.c))
+				float4x4 cofactors = float4x4(
+				minor( _22_23_24, _32_33_34, _42_43_44 ),
+				-minor( _21_23_24, _31_33_34, _41_43_44 ),
+				minor( _21_22_24, _31_32_34, _41_42_44 ),
+				-minor( _21_22_23, _31_32_33, _41_42_43 ),
+			
+				-minor( _12_13_14, _32_33_34, _42_43_44 ),
+				minor( _11_13_14, _31_33_34, _41_43_44 ),
+				-minor( _11_12_14, _31_32_34, _41_42_44 ),
+				minor( _11_12_13, _31_32_33, _41_42_43 ),
+			
+				minor( _12_13_14, _22_23_24, _42_43_44 ),
+				-minor( _11_13_14, _21_23_24, _41_43_44 ),
+				minor( _11_12_14, _21_22_24, _41_42_44 ),
+				-minor( _11_12_13, _21_22_23, _41_42_43 ),
+			
+				-minor( _12_13_14, _22_23_24, _32_33_34 ),
+				minor( _11_13_14, _21_23_24, _31_33_34 ),
+				-minor( _11_12_14, _21_22_24, _31_32_34 ),
+				minor( _11_12_13, _21_22_23, _31_32_33 ));
+				#undef minor
+				return transpose( cofactors ) / determinant( input );
+			}
+			
+			float3 MyCustomExpression32_g371( float3 pos )
 			{
 				return GetAbsolutePositionWS(pos);
 			}
@@ -4644,368 +4208,348 @@ Shader "BallsSpherize"
 				return 42.0 * dot( m, px);
 			}
 			
-			float3 PerturbNormal107_g262( float3 surf_pos, float3 surf_norm, float height, float scale )
-			{
-				// "Bump Mapping Unparametrized Surfaces on the GPU" by Morten S. Mikkelsen
-				float3 vSigmaS = ddx( surf_pos );
-				float3 vSigmaT = ddy( surf_pos );
-				float3 vN = surf_norm;
-				float3 vR1 = cross( vSigmaT , vN );
-				float3 vR2 = cross( vN , vSigmaS );
-				float fDet = dot( vSigmaS , vR1 );
-				float dBs = ddx( height );
-				float dBt = ddy( height );
-				float3 vSurfGrad = scale * 0.05 * sign( fDet ) * ( dBs * vR1 + dBt * vR2 );
-				return normalize ( abs( fDet ) * vN - vSurfGrad );
-			}
-			
 
 			void BuildSurfaceData(FragInputs fragInputs, inout SmoothSurfaceDescription surfaceDescription, float3 V, PositionInputs posInput, out SurfaceData surfaceData, out float3 bentNormalWS)
 			{
 				ZERO_INITIALIZE(SurfaceData, surfaceData);
 
 				surfaceData.specularOcclusion = 1.0;
-
-				// surface data
 				surfaceData.perceptualSmoothness =		surfaceDescription.Smoothness;
 
 				// refraction
-				#ifdef _HAS_REFRACTION
-				if( _EnableSSRefraction )
-				{
-					surfaceData.transmittanceMask = ( 1.0 - surfaceDescription.Alpha );
-					surfaceDescription.Alpha = 1.0;
-				}
-				else
-				{
-					surfaceData.ior = 1.0;
-					surfaceData.transmittanceColor = float3( 1.0, 1.0, 1.0 );
-					surfaceData.atDistance = 1.0;
-					surfaceData.transmittanceMask = 0.0;
-					surfaceDescription.Alpha = 1.0;
-				}
-				#else
-				surfaceData.ior = 1.0;
-				surfaceData.transmittanceColor = float3( 1.0, 1.0, 1.0 );
-				surfaceData.atDistance = 1.0;
-				surfaceData.transmittanceMask = 0.0;
-				#endif
-
-				// material features
-				surfaceData.materialFeatures = MATERIALFEATUREFLAGS_LIT_STANDARD;
-				#ifdef _MATERIAL_FEATURE_SUBSURFACE_SCATTERING
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SUBSURFACE_SCATTERING;
-				#endif
-				#ifdef _MATERIAL_FEATURE_TRANSMISSION
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_TRANSMISSION;
-				#endif
-                #ifdef _MATERIAL_FEATURE_ANISOTROPY
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_ANISOTROPY;
-				surfaceData.normalWS = float3(0, 1, 0);
+                #if defined(_REFRACTION_PLANE) || defined(_REFRACTION_SPHERE) || defined(_REFRACTION_THIN)
+                    if (_EnableSSRefraction)
+                    {
+                        surfaceData.ior =                       surfaceDescription.RefractionIndex;
+                        surfaceData.transmittanceColor =        surfaceDescription.RefractionColor;
+                        surfaceData.atDistance =                surfaceDescription.RefractionDistance;
+                        surfaceData.transmittanceMask = (1.0 - surfaceDescription.Alpha);
+                        surfaceDescription.Alpha = 1.0;
+                    }
+                    else
+                    {
+                        surfaceData.ior = 1.0;
+                        surfaceData.transmittanceColor = float3(1.0, 1.0, 1.0);
+                        surfaceData.atDistance = 1.0;
+                        surfaceData.transmittanceMask = 0.0;
+                        surfaceDescription.Alpha = 1.0;
+                    }
+                #else
+                    surfaceData.ior = 1.0;
+                    surfaceData.transmittanceColor = float3(1.0, 1.0, 1.0);
+                    surfaceData.atDistance = 1.0;
+                    surfaceData.transmittanceMask = 0.0;
                 #endif
+
+				surfaceData.materialFeatures = MATERIALFEATUREFLAGS_LIT_STANDARD;
+
+				#ifdef _MATERIAL_FEATURE_SUBSURFACE_SCATTERING
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SUBSURFACE_SCATTERING;
+				#endif
+
+				#ifdef _MATERIAL_FEATURE_TRANSMISSION
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_TRANSMISSION;
+				#endif
+
+                #ifdef _MATERIAL_FEATURE_ANISOTROPY
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_ANISOTROPY;
+                    surfaceData.normalWS = float3(0, 1, 0);
+                #endif
+
 				#ifdef _MATERIAL_FEATURE_CLEAR_COAT
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_CLEAR_COAT;
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_CLEAR_COAT;
 				#endif
+
 				#ifdef _MATERIAL_FEATURE_IRIDESCENCE
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_IRIDESCENCE;
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_IRIDESCENCE;
 				#endif
+
 				#ifdef _MATERIAL_FEATURE_SPECULAR_COLOR
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SPECULAR_COLOR;
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SPECULAR_COLOR;
 				#endif
 
-				// others
 				#if defined (_MATERIAL_FEATURE_SPECULAR_COLOR) && defined (_ENERGY_CONSERVING_SPECULAR)
-				surfaceData.baseColor *= ( 1.0 - Max3( surfaceData.specularColor.r, surfaceData.specularColor.g, surfaceData.specularColor.b ) );
+                    surfaceData.baseColor *= ( 1.0 - Max3( surfaceData.specularColor.r, surfaceData.specularColor.g, surfaceData.specularColor.b ) );
 				#endif
+
 				#ifdef _DOUBLESIDED_ON
-				float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
+					float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
 				#else
-				float3 doubleSidedConstants = float3( 1.0, 1.0, 1.0 );
+					float3 doubleSidedConstants = float3( 1.0, 1.0, 1.0 );
 				#endif
 
-				// normals
-				float3 normalTS = float3(0.0f, 0.0f, 1.0f);
-				normalTS = surfaceDescription.Normal;
+				float3 normal = surfaceDescription.Normal;
 
-				surfaceData.geomNormalWS = fragInputs.tangentToWorld[2];
-				surfaceData.tangentWS = normalize( fragInputs.tangentToWorld[ 0 ].xyz );
-
-				// decals
-			#ifdef DECAL_NORMAL_BLENDING
-				if (_EnableDecals)
-				{
-					#ifndef SURFACE_GRADIENT
-					normalTS = SurfaceGradientFromTangentSpaceNormalAndFromTBN(normalTS, fragInputs.tangentToWorld[0], fragInputs.tangentToWorld[1]);
-					#endif
-
-					DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
-					ApplyDecalToSurfaceData(decalSurfaceData, fragInputs.tangentToWorld[2], surfaceData, normalTS);
-				}
-
-				GetNormalWS_SG(fragInputs, normalTS, surfaceData.normalWS, doubleSidedConstants);
-			#else
-				GetNormalWS(fragInputs, normalTS, surfaceData.normalWS, doubleSidedConstants);
+			#if ( UNITY_VERSION <= 202236 )
+				#if ( ASE_FRAGMENT_NORMAL == 1 )
+					GetNormalWS_SrcOS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+				#elif ( ASE_FRAGMENT_NORMAL == 2 )
+					GetNormalWS_SrcWS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+				#else
+					GetNormalWS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+				#endif
 
 				#if HAVE_DECALS
 				if (_EnableDecals)
 				{
-					// Both uses and modifies 'surfaceData.normalWS'.
 					DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
 					ApplyDecalToSurfaceData(decalSurfaceData, fragInputs.tangentToWorld[2], surfaceData);
 				}
 				#endif
+			#else
+				#ifdef DECAL_NORMAL_BLENDING
+					#if ( ASE_FRAGMENT_NORMAL == 1 )
+						normal = SurfaceGradientFromPerturbedNormal(TransformWorldToObjectNormal(fragInputs.tangentToWorld[2]), normal);
+					#elif ( ASE_FRAGMENT_NORMAL == 2 )
+						normal = SurfaceGradientFromPerturbedNormal(fragInputs.tangentToWorld[2], normal);
+					#else
+						normal = SurfaceGradientFromTangentSpaceNormalAndFromTBN(normal, fragInputs.tangentToWorld[0], fragInputs.tangentToWorld[1]);
+					#endif
+
+					#if HAVE_DECALS
+					if (_EnableDecals)
+					{
+						DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
+						ApplyDecalToSurfaceNormal(decalSurfaceData, fragInputs.tangentToWorld[2], normal);
+						ApplyDecalToSurfaceDataNoNormal(decalSurfaceData, surfaceData);
+					}
+					#endif
+
+					GetNormalWS_SG(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+				#else
+					#if ( ASE_FRAGMENT_NORMAL == 1 )
+						GetNormalWS_SrcOS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+					#elif ( ASE_FRAGMENT_NORMAL == 2 )
+						GetNormalWS_SrcWS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+					#else
+						GetNormalWS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+					#endif
+
+					#if HAVE_DECALS
+					if (_EnableDecals)
+					{
+						DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
+						ApplyDecalToSurfaceNormal(decalSurfaceData, surfaceData.normalWS.xyz);
+						ApplyDecalToSurfaceDataNoNormal(decalSurfaceData, surfaceData);
+					}
+					#endif
+				#endif
 			#endif
 
+				surfaceData.geomNormalWS = fragInputs.tangentToWorld[2];
+                surfaceData.tangentWS = normalize(fragInputs.tangentToWorld[0].xyz );
+                surfaceData.tangentWS = Orthonormalize(surfaceData.tangentWS, surfaceData.normalWS);
+
 				bentNormalWS = surfaceData.normalWS;
-				surfaceData.tangentWS = Orthonormalize( surfaceData.tangentWS, surfaceData.normalWS );
+
+				#if defined(DEBUG_DISPLAY)
+					if (_DebugMipMapMode != DEBUGMIPMAPMODE_NONE)
+					{
+						surfaceData.metallic = 0;
+					}
+					ApplyDebugToSurfaceData(fragInputs.tangentToWorld, surfaceData);
+				#endif
 
                 #if defined(_SPECULAR_OCCLUSION_CUSTOM)
                 #elif defined(_SPECULAR_OCCLUSION_FROM_AO_BENT_NORMAL)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromBentAO(V, bentNormalWS, surfaceData.normalWS, surfaceData.ambientOcclusion, PerceptualSmoothnessToPerceptualRoughness(surfaceData.perceptualSmoothness));
+                    surfaceData.specularOcclusion = GetSpecularOcclusionFromBentAO(V, bentNormalWS, surfaceData.normalWS, surfaceData.ambientOcclusion, PerceptualSmoothnessToPerceptualRoughness(surfaceData.perceptualSmoothness));
                 #elif defined(_AMBIENT_OCCLUSION) && defined(_SPECULAR_OCCLUSION_FROM_AO)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion(ClampNdotV(dot(surfaceData.normalWS, V)), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness(surfaceData.perceptualSmoothness));
+                    surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion(ClampNdotV(dot(surfaceData.normalWS, V)), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness(surfaceData.perceptualSmoothness));
                 #endif
 
-				// debug
-				#if defined(DEBUG_DISPLAY)
-				if (_DebugMipMapMode != DEBUGMIPMAPMODE_NONE)
-				{
-					surfaceData.metallic = 0;
-				}
-				ApplyDebugToSurfaceData(fragInputs.tangentToWorld, surfaceData);
-				#endif
+                #ifdef _ENABLE_GEOMETRIC_SPECULAR_AA
+                    surfaceData.perceptualSmoothness = GeometricNormalFiltering(surfaceData.perceptualSmoothness, fragInputs.tangentToWorld[2], surfaceDescription.SpecularAAScreenSpaceVariance, surfaceDescription.SpecularAAThreshold);
+                #endif
 			}
 
+			// Get Surface And BuiltinData
 			void GetSurfaceAndBuiltinData(SmoothSurfaceDescription surfaceDescription, FragInputs fragInputs, float3 V, inout PositionInputs posInput, out SurfaceData surfaceData, out BuiltinData builtinData)
 			{
 				#ifdef LOD_FADE_CROSSFADE
-				LODDitheringTransition(ComputeFadeMaskSeed(V, posInput.positionSS), unity_LODFade.x);
+                    LODDitheringTransition(ComputeFadeMaskSeed(V, posInput.positionSS), unity_LODFade.x);
 				#endif
 
-				#ifdef _DOUBLESIDED_ON
-				float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
-				#else
-				float3 doubleSidedConstants = float3( 1.0, 1.0, 1.0 );
-				#endif
-
-				ApplyDoubleSidedFlipOrMirror( fragInputs, doubleSidedConstants );
+                #ifdef _DOUBLESIDED_ON
+                    float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
+                #else
+                    float3 doubleSidedConstants = float3(1.0, 1.0, 1.0);
+                #endif
+                ApplyDoubleSidedFlipOrMirror(fragInputs, doubleSidedConstants);
 
 				#ifdef _ALPHATEST_ON
-				DoAlphaTest( surfaceDescription.Alpha, surfaceDescription.AlphaClipThreshold );
+                    DoAlphaTest( surfaceDescription.Alpha, surfaceDescription.AlphaClipThreshold );
+				#endif
+
+				#ifdef _ALPHATEST_SHADOW_ON
+                    DoAlphaTest( surfaceDescription.Alpha, surfaceDescription.AlphaClipThresholdShadow);
 				#endif
 
 				#ifdef _DEPTHOFFSET_ON
-				builtinData.depthOffset = surfaceDescription.DepthOffset;
-				ApplyDepthOffsetPositionInput( V, surfaceDescription.DepthOffset, GetViewForwardDir(), GetWorldToHClipMatrix(), posInput );
+                    ApplyDepthOffsetPositionInput(V, surfaceDescription.DepthOffset, GetViewForwardDir(), GetWorldToHClipMatrix(), posInput);
 				#endif
 
-				float3 bentNormalWS;
-				BuildSurfaceData( fragInputs, surfaceDescription, V, posInput, surfaceData, bentNormalWS );
+                float3 bentNormalWS;
+                BuildSurfaceData(fragInputs, surfaceDescription, V, posInput, surfaceData, bentNormalWS);
+                InitBuiltinData(posInput, surfaceDescription.Alpha, bentNormalWS, -fragInputs.tangentToWorld[2], fragInputs.texCoord1, fragInputs.texCoord2, builtinData);
 
-				InitBuiltinData( posInput, surfaceDescription.Alpha, bentNormalWS, -fragInputs.tangentToWorld[ 2 ], fragInputs.texCoord1, fragInputs.texCoord2, builtinData );
+				#ifdef _DEPTHOFFSET_ON
+                    builtinData.depthOffset = surfaceDescription.DepthOffset;
+				#endif
 
-				PostInitBuiltinData(V, posInput, surfaceData, builtinData);
+                #ifdef _ALPHATEST_ON
+                    builtinData.alphaClipTreshold = surfaceDescription.AlphaClipThreshold;
+                #endif
+
+                #ifdef UNITY_VIRTUAL_TEXTURING
+                    builtinData.vtPackedFeedback = surfaceDescription.VTPackedFeedback;
+                #endif
+
+				#ifdef ASE_BAKEDGI
+                    builtinData.bakeDiffuseLighting = surfaceDescription.BakedGI;
+				#endif
+
+				#ifdef ASE_BAKEDBACKGI
+                    builtinData.backBakeDiffuseLighting = surfaceDescription.BakedBackGI;
+				#endif
+
+                builtinData.emissiveColor = surfaceDescription.Emission;
+
+                PostInitBuiltinData(V, posInput, surfaceData, builtinData);
 			}
 
-			AttributesMesh ApplyMeshModification(AttributesMesh inputMesh, float3 timeParameters, inout PackedVaryingsMeshToPS outputPackedVaryingsMeshToPS )
+			#if defined(WRITE_DECAL_BUFFER) && !defined(_DISABLE_DECALS)
+				#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalPrepassBuffer.hlsl"
+			#endif
+
+			PackedVaryingsMeshToPS VertexFunction(AttributesMesh inputMesh )
 			{
-				_TimeParameters.xyz = timeParameters;
-				float3 pos11_g1 = _SpherePosition;
-				float3 localMyCustomExpression11_g1 = MyCustomExpression11_g1( pos11_g1 );
-				float4 appendResult1_g1 = (float4(localMyCustomExpression11_g1 , 1.0));
-				float3 temp_output_5_0_g1 = (mul( GetWorldToObjectMatrix(), appendResult1_g1 )).xyz;
-				float3 temp_output_3_0_g253 = temp_output_5_0_g1;
-				float3 normalizeResult6_g253 = normalize( ( inputMesh.positionOS - temp_output_3_0_g253 ) );
-				float4 appendResult4_g1 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float3 temp_output_6_0_g1 = ( ( normalizeResult6_g253 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g1 )).xyz ) ) ) + temp_output_3_0_g253 );
-				float temp_output_18_0_g1 = ( _SpherizeAmount * inputMesh.ase_color.r );
-				float3 lerpResult21_g1 = lerp( inputMesh.positionOS , temp_output_6_0_g1 , temp_output_18_0_g1);
+				PackedVaryingsMeshToPS output;
+
+				UNITY_SETUP_INSTANCE_ID(inputMesh);
+				UNITY_TRANSFER_INSTANCE_ID(inputMesh, output);
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( output );
+
+				float3 pos11_g369 = _SpherePosition;
+				float3 localMyCustomExpression11_g369 = MyCustomExpression11_g369( pos11_g369 );
+				float4 appendResult1_g369 = (float4(localMyCustomExpression11_g369 , 1.0));
+				float3 temp_output_5_0_g369 = (mul( GetWorldToObjectMatrix(), appendResult1_g369 )).xyz;
+				float3 temp_output_3_0_g370 = temp_output_5_0_g369;
+				float3 normalizeResult6_g370 = normalize( ( inputMesh.positionOS - temp_output_3_0_g370 ) );
+				float4 appendResult4_g369 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float3 temp_output_6_0_g369 = ( ( normalizeResult6_g370 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g369 )).xyz ) ) ) + temp_output_3_0_g370 );
+				float temp_output_18_0_g369 = ( _SpherizeAmount * inputMesh.ase_color.r );
+				float3 lerpResult21_g369 = lerp( inputMesh.positionOS , temp_output_6_0_g369 , temp_output_18_0_g369);
 				#ifdef _SPHERIZE_ON
-				float3 staticSwitch16_g1 = lerpResult21_g1;
+				float3 staticSwitch16_g369 = lerpResult21_g369;
 				#else
-				float3 staticSwitch16_g1 = inputMesh.positionOS;
+				float3 staticSwitch16_g369 = inputMesh.positionOS;
 				#endif
-				float3 normalizeResult27_g252 = normalize( _WorldDickNormal );
-				float3 normalizeResult31_g252 = normalize( _WorldDickBinormal );
-				float3 normalizeResult29_g252 = normalize( cross( normalizeResult27_g252 , normalizeResult31_g252 ) );
-				float4 appendResult26_g251 = (float4(1.0 , 0.0 , 0.0 , 0.0));
-				float4 appendResult28_g251 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float4 appendResult31_g251 = (float4(0.0 , 0.0 , 1.0 , 0.0));
-				float3 break27_g251 = -_WorldDickPosition;
-				float4 appendResult29_g251 = (float4(break27_g251.x , break27_g251.y , break27_g251.z , 1.0));
-				float4x4 temp_output_30_0_g251 = mul( transpose( float4x4( float4( normalizeResult27_g252 , 0.0 ).x,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).x,float4( normalizeResult29_g252 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g252 , 0.0 ).y,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).y,float4( normalizeResult29_g252 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g252 , 0.0 ).z,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).z,float4( normalizeResult29_g252 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g252 , 0.0 ).w,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).w,float4( normalizeResult29_g252 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g251.x,appendResult28_g251.x,appendResult31_g251.x,appendResult29_g251.x,appendResult26_g251.y,appendResult28_g251.y,appendResult31_g251.y,appendResult29_g251.y,appendResult26_g251.z,appendResult28_g251.z,appendResult31_g251.z,appendResult29_g251.z,appendResult26_g251.w,appendResult28_g251.w,appendResult31_g251.w,appendResult29_g251.w ) );
-				float4x4 invertVal44_g251 = Inverse4x4( temp_output_30_0_g251 );
-				float4 appendResult27_g250 = (float4(inputMesh.positionOS , 1.0));
-				float3 pos32_g250 = mul( GetObjectToWorldMatrix(), appendResult27_g250 ).xyz;
-				float3 localMyCustomExpression32_g250 = MyCustomExpression32_g250( pos32_g250 );
-				float4 appendResult32_g251 = (float4(localMyCustomExpression32_g250 , 1.0));
-				float4 break35_g251 = mul( temp_output_30_0_g251, appendResult32_g251 );
-				float temp_output_124_0_g251 = _TipRadius;
-				float2 appendResult36_g251 = (float2(break35_g251.y , break35_g251.z));
-				float2 normalizeResult41_g251 = normalize( appendResult36_g251 );
-				float temp_output_120_0_g251 = sqrt( max( break35_g251.x , 0.0 ) );
-				float temp_output_48_0_g251 = tan( radians( _Angle ) );
-				float temp_output_125_0_g251 = ( temp_output_124_0_g251 + ( temp_output_120_0_g251 * temp_output_48_0_g251 ) );
-				float temp_output_37_0_g251 = length( appendResult36_g251 );
-				float temp_output_114_0_g251 = ( ( temp_output_125_0_g251 - temp_output_37_0_g251 ) + 1.0 );
-				float lerpResult102_g251 = lerp( temp_output_125_0_g251 , temp_output_37_0_g251 , saturate( temp_output_114_0_g251 ));
-				float lerpResult130_g251 = lerp( 0.0 , lerpResult102_g251 , saturate( ( -( -temp_output_124_0_g251 - break35_g251.x ) / temp_output_124_0_g251 ) ));
-				float2 break43_g251 = ( normalizeResult41_g251 * lerpResult130_g251 );
-				float4 appendResult40_g251 = (float4(max( break35_g251.x , -temp_output_124_0_g251 ) , break43_g251.x , break43_g251.y , 1.0));
-				float4 appendResult28_g250 = (float4(((mul( invertVal44_g251, appendResult40_g251 )).xyz).xyz , 1.0));
-				float4 localWorldVar29_g250 = appendResult28_g250;
-				(localWorldVar29_g250).xyz = GetCameraRelativePositionWS((localWorldVar29_g250).xyz);
-				float4 transform29_g250 = mul(GetWorldToObjectMatrix(),localWorldVar29_g250);
+				float3 normalizeResult27_g373 = normalize( _WorldDickNormal );
+				float3 normalizeResult31_g373 = normalize( _WorldDickBinormal );
+				float3 normalizeResult29_g373 = normalize( cross( normalizeResult27_g373 , normalizeResult31_g373 ) );
+				float4 appendResult26_g372 = (float4(1.0 , 0.0 , 0.0 , 0.0));
+				float4 appendResult28_g372 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float4 appendResult31_g372 = (float4(0.0 , 0.0 , 1.0 , 0.0));
+				float3 break27_g372 = -_WorldDickPosition;
+				float4 appendResult29_g372 = (float4(break27_g372.x , break27_g372.y , break27_g372.z , 1.0));
+				float4x4 temp_output_30_0_g372 = mul( transpose( float4x4( float4( normalizeResult27_g373 , 0.0 ).x, float4( cross( normalizeResult29_g373 , normalizeResult27_g373 ) , 0.0 ).x, float4( normalizeResult29_g373 , 0.0 ).x, float4( 0, 0, 0, 1 ).x, float4( normalizeResult27_g373 , 0.0 ).y, float4( cross( normalizeResult29_g373 , normalizeResult27_g373 ) , 0.0 ).y, float4( normalizeResult29_g373 , 0.0 ).y, float4( 0, 0, 0, 1 ).y, float4( normalizeResult27_g373 , 0.0 ).z, float4( cross( normalizeResult29_g373 , normalizeResult27_g373 ) , 0.0 ).z, float4( normalizeResult29_g373 , 0.0 ).z, float4( 0, 0, 0, 1 ).z, float4( normalizeResult27_g373 , 0.0 ).w, float4( cross( normalizeResult29_g373 , normalizeResult27_g373 ) , 0.0 ).w, float4( normalizeResult29_g373 , 0.0 ).w, float4( 0, 0, 0, 1 ).w ) ), float4x4( appendResult26_g372.x, appendResult28_g372.x, appendResult31_g372.x, appendResult29_g372.x, appendResult26_g372.y, appendResult28_g372.y, appendResult31_g372.y, appendResult29_g372.y, appendResult26_g372.z, appendResult28_g372.z, appendResult31_g372.z, appendResult29_g372.z, appendResult26_g372.w, appendResult28_g372.w, appendResult31_g372.w, appendResult29_g372.w ) );
+				float4x4 invertVal44_g372 = Inverse4x4( temp_output_30_0_g372 );
+				float4 appendResult27_g371 = (float4(inputMesh.positionOS , 1.0));
+				float3 pos32_g371 = mul( GetObjectToWorldMatrix(), appendResult27_g371 ).xyz;
+				float3 localMyCustomExpression32_g371 = MyCustomExpression32_g371( pos32_g371 );
+				float4 appendResult32_g372 = (float4(localMyCustomExpression32_g371 , 1.0));
+				float4 break35_g372 = mul( temp_output_30_0_g372, appendResult32_g372 );
+				float temp_output_124_0_g372 = _TipRadius;
+				float2 appendResult36_g372 = (float2(break35_g372.y , break35_g372.z));
+				float2 normalizeResult41_g372 = normalize( appendResult36_g372 );
+				float temp_output_120_0_g372 = sqrt( max( break35_g372.x , 0.0 ) );
+				float temp_output_48_0_g372 = tan( radians( _Angle ) );
+				float temp_output_125_0_g372 = ( temp_output_124_0_g372 + ( temp_output_120_0_g372 * temp_output_48_0_g372 ) );
+				float temp_output_37_0_g372 = length( appendResult36_g372 );
+				float temp_output_114_0_g372 = ( ( temp_output_125_0_g372 - temp_output_37_0_g372 ) + 1.0 );
+				float lerpResult102_g372 = lerp( temp_output_125_0_g372 , temp_output_37_0_g372 , saturate( temp_output_114_0_g372 ));
+				float lerpResult130_g372 = lerp( 0.0 , lerpResult102_g372 , saturate( ( -( -temp_output_124_0_g372 - break35_g372.x ) / temp_output_124_0_g372 ) ));
+				float2 break43_g372 = ( normalizeResult41_g372 * lerpResult130_g372 );
+				float4 appendResult40_g372 = (float4(max( break35_g372.x , -temp_output_124_0_g372 ) , break43_g372.x , break43_g372.y , 1.0));
+				float4 appendResult28_g371 = (float4(((mul( invertVal44_g372, appendResult40_g372 )).xyz).xyz , 1.0));
+				float4 localWorldVar29_g371 = appendResult28_g371;
+				(localWorldVar29_g371).xyz = GetCameraRelativePositionWS((localWorldVar29_g371).xyz);
+				float4 transform29_g371 = mul(GetWorldToObjectMatrix(),localWorldVar29_g371);
 				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch13_g250 = (transform29_g250).xyz;
+				float3 staticSwitch13_g371 = (transform29_g371).xyz;
 				#else
-				float3 staticSwitch13_g250 = staticSwitch16_g1;
+				float3 staticSwitch13_g371 = staticSwitch16_g369;
 				#endif
 				
-				float3 normalizeResult13_g1 = normalize( ( temp_output_6_0_g1 - temp_output_5_0_g1 ) );
-				float3 lerpResult12_g1 = lerp( inputMesh.normalOS , normalizeResult13_g1 , temp_output_18_0_g1);
+				float3 normalizeResult13_g369 = normalize( ( temp_output_6_0_g369 - temp_output_5_0_g369 ) );
+				float3 lerpResult12_g369 = lerp( inputMesh.normalOS , normalizeResult13_g369 , temp_output_18_0_g369);
+				float3 normalizeResult55_g369 = normalize( lerpResult12_g369 );
 				#ifdef _SPHERIZE_ON
-				float3 staticSwitch15_g1 = lerpResult12_g1;
+				float3 staticSwitch15_g369 = normalizeResult55_g369;
 				#else
-				float3 staticSwitch15_g1 = inputMesh.normalOS;
+				float3 staticSwitch15_g369 = inputMesh.normalOS;
 				#endif
-				float3 temp_output_50_0_g250 = staticSwitch15_g1;
-				float2 break146_g251 = normalizeResult41_g251;
-				float4 appendResult139_g251 = (float4(temp_output_48_0_g251 , break146_g251.x , break146_g251.y , 0.0));
-				float3 normalizeResult144_g251 = normalize( (mul( invertVal44_g251, appendResult139_g251 )).xyz );
-				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , temp_output_50_0_g250 , saturate( sign( temp_output_114_0_g251 ) ));
+				float3 temp_output_50_0_g371 = staticSwitch15_g369;
+				float2 break146_g372 = normalizeResult41_g372;
+				float4 appendResult139_g372 = (float4(temp_output_48_0_g372 , break146_g372.x , break146_g372.y , 0.0));
+				float3 normalizeResult144_g372 = normalize( (mul( invertVal44_g372, appendResult139_g372 )).xyz );
+				float3 lerpResult44_g371 = lerp( normalizeResult144_g372 , temp_output_50_0_g371 , saturate( sign( temp_output_114_0_g372 ) ));
 				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch17_g250 = lerpResult44_g250;
+				float3 staticSwitch17_g371 = lerpResult44_g371;
 				#else
-				float3 staticSwitch17_g250 = temp_output_50_0_g250;
+				float3 staticSwitch17_g371 = temp_output_50_0_g371;
 				#endif
 				
-				float3 ase_worldPos = GetAbsolutePositionWS( TransformObjectToWorld( (inputMesh.positionOS).xyz ) );
-				outputPackedVaryingsMeshToPS.ase_texcoord4.xyz = ase_worldPos;
-				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
-				outputPackedVaryingsMeshToPS.ase_texcoord5.xyz = ase_worldNormal;
-				float3 vertexToFrag28_g260 = mul( UNITY_MATRIX_M, float4( inputMesh.positionOS , 0.0 ) ).xyz;
-				outputPackedVaryingsMeshToPS.ase_texcoord6.xyz = vertexToFrag28_g260;
-				float3 ase_worldTangent = TransformObjectToWorldDir(inputMesh.ase_tangent.xyz);
-				outputPackedVaryingsMeshToPS.ase_texcoord7.xyz = ase_worldTangent;
-				float ase_vertexTangentSign = inputMesh.ase_tangent.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
-				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
-				outputPackedVaryingsMeshToPS.ase_texcoord8.xyz = ase_worldBitangent;
+				float3 vertexToFrag28_g260 = mul( GetObjectToWorldMatrix(), float4( inputMesh.positionOS , 0.0 ) ).xyz;
+				output.ase_texcoord4.xyz = vertexToFrag28_g260;
 				
-				outputPackedVaryingsMeshToPS.ase_texcoord3.xy = inputMesh.ase_texcoord.xy;
-				outputPackedVaryingsMeshToPS.ase_texcoord3.zw = inputMesh.ase_texcoord1.xy;
+				output.ase_texcoord3.xy = inputMesh.uv0.xy;
+				output.ase_texcoord3.zw = inputMesh.ase_texcoord1.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
-				outputPackedVaryingsMeshToPS.ase_texcoord4.w = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord5.w = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord6.w = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord7.w = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord8.w = 0;
+				output.ase_texcoord4.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = staticSwitch13_g250;
+				float3 vertexValue = staticSwitch13_g371;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
 				#else
 				inputMesh.positionOS.xyz += vertexValue;
 				#endif
-				inputMesh.normalOS = staticSwitch17_g250;
-				return inputMesh;
-			}
 
-			PackedVaryingsMeshToPS VertexFunction(AttributesMesh inputMesh)
-			{
-				PackedVaryingsMeshToPS outputPackedVaryingsMeshToPS = (PackedVaryingsMeshToPS)0;
-				AttributesMesh defaultMesh = inputMesh;
-
-				UNITY_SETUP_INSTANCE_ID(inputMesh);
-				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
-				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( outputPackedVaryingsMeshToPS );
-
-				inputMesh = ApplyMeshModification( inputMesh, _TimeParameters.xyz, outputPackedVaryingsMeshToPS);
+				inputMesh.normalOS = staticSwitch17_g371;
+				inputMesh.tangentOS = inputMesh.tangentOS;
 
 				float3 positionRWS = TransformObjectToWorld(inputMesh.positionOS);
 				float3 normalWS = TransformObjectToWorldNormal(inputMesh.normalOS);
+				float4 tangentWS = float4(TransformObjectToWorldDir(inputMesh.tangentOS.xyz), inputMesh.tangentOS.w);
 
-				float3 VMESHpositionRWS = positionRWS;
-				float4 VMESHpositionCS = TransformWorldToHClip(positionRWS);
+				output.positionCS = TransformWorldToHClip(positionRWS);
+				output.positionRWS = positionRWS;
+				output.normalWS = normalWS;
+				output.tangentWS = tangentWS;
 
-				float4 VPASSpreviousPositionCS;
-				float4 VPASSpositionCS = mul(UNITY_MATRIX_UNJITTERED_VP, float4(VMESHpositionRWS, 1.0));
-
-				bool forceNoMotion = unity_MotionVectorsParams.y == 0.0;
-				if (forceNoMotion)
-				{
-					VPASSpreviousPositionCS = float4(0.0, 0.0, 0.0, 1.0);
-				}
-				else
-				{
-					bool hasDeformation = unity_MotionVectorsParams.x > 0.0;
-					float3 effectivePositionOS = (hasDeformation ? inputMesh.previousPositionOS : defaultMesh.positionOS);
-					#if defined(_ADD_PRECOMPUTED_VELOCITY)
-					effectivePositionOS -= inputMesh.precomputedVelocity;
-					#endif
-
-					#if defined(HAVE_MESH_MODIFICATION)
-						AttributesMesh previousMesh = defaultMesh;
-						previousMesh.positionOS = effectivePositionOS ;
-						PackedVaryingsMeshToPS test = (PackedVaryingsMeshToPS)0;
-						float3 curTime = _TimeParameters.xyz;
-						previousMesh = ApplyMeshModification(previousMesh, _LastTimeParameters.xyz, test);
-						_TimeParameters.xyz = curTime;
-						float3 previousPositionRWS = TransformPreviousObjectToWorld(previousMesh.positionOS);
-					#else
-						float3 previousPositionRWS = TransformPreviousObjectToWorld(effectivePositionOS);
-					#endif
-
-					#ifdef ATTRIBUTES_NEED_NORMAL
-						float3 normalWS = TransformPreviousObjectToWorldNormal(defaultMesh.normalOS);
-					#else
-						float3 normalWS = float3(0.0, 0.0, 0.0);
-					#endif
-
-					#if defined(HAVE_VERTEX_MODIFICATION)
-						ApplyVertexModification(inputMesh, normalWS, previousPositionRWS, _LastTimeParameters.xyz);
-					#endif
-
-					#ifdef _WRITE_TRANSPARENT_MOTION_VECTOR
-						if (_TransparentCameraOnlyMotionVectors > 0)
-						{
-							previousPositionRWS = VMESHpositionRWS.xyz;
-						}
-					#endif
-
-					VPASSpreviousPositionCS = mul(UNITY_MATRIX_PREV_VP, float4(previousPositionRWS, 1.0));
-				}
-
-				outputPackedVaryingsMeshToPS.vmeshPositionCS = VMESHpositionCS;
-				outputPackedVaryingsMeshToPS.vmeshInterp00.xyz = VMESHpositionRWS;
-
-				outputPackedVaryingsMeshToPS.vpassInterpolators0 = float3(VPASSpositionCS.xyw);
-				outputPackedVaryingsMeshToPS.vpassInterpolators1 = float3(VPASSpreviousPositionCS.xyw);
-				return outputPackedVaryingsMeshToPS;
+				#if defined( ENABLE_TERRAIN_PERPIXEL_NORMAL )
+					output.tangentWS.zw = inputMesh.uv0.xy;
+					output.tangentWS.xy = inputMesh.uv0.xy * unity_LightmapST.xy + unity_LightmapST.zw;
+				#endif
+				return output;
 			}
 
-			#if defined(WRITE_DECAL_BUFFER) && !defined(_DISABLE_DECALS)
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalPrepassBuffer.hlsl"
-			#endif
-
-			#if ( 0 ) // TEMPORARY: defined(ASE_TESSELLATION)
+			#if defined(ASE_TESSELLATION)
 			struct VertexControl
 			{
 				float3 positionOS : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
-				float3 previousPositionOS : TEXCOORD4;
-				float3 precomputedVelocity : TEXCOORD5;
+				float4 tangentOS : TANGENT;
+				float4 uv0 : TEXCOORD0;
 				float4 ase_color : COLOR;
-				float4 ase_texcoord : TEXCOORD0;
 				float4 ase_texcoord1 : TEXCOORD1;
-				float4 ase_tangent : TANGENT;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -5023,14 +4567,10 @@ Shader "BallsSpherize"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.positionOS = v.positionOS;
 				o.normalOS = v.normalOS;
-				o.previousPositionOS = v.previousPositionOS;
-				#if defined (_ADD_PRECOMPUTED_VELOCITY)
-				o.precomputedVelocity = v.precomputedVelocity;
-				#endif
+				o.tangentOS = v.tangentOS;
+				o.uv0 = v.uv0;
 				o.ase_color = v.ase_color;
-				o.ase_texcoord = v.ase_texcoord;
 				o.ase_texcoord1 = v.ase_texcoord1;
-				o.ase_tangent = v.ase_tangent;
 				return o;
 			}
 
@@ -5074,14 +4614,10 @@ Shader "BallsSpherize"
 				AttributesMesh o = (AttributesMesh) 0;
 				o.positionOS = patch[0].positionOS * bary.x + patch[1].positionOS * bary.y + patch[2].positionOS * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
-				o.previousPositionOS = patch[0].previousPositionOS * bary.x + patch[1].previousPositionOS * bary.y + patch[2].previousPositionOS * bary.z;
-				#if defined (_ADD_PRECOMPUTED_VELOCITY)
-					o.precomputedVelocity = patch[0].precomputedVelocity * bary.x + patch[1].precomputedVelocity * bary.y + patch[2].precomputedVelocity * bary.z;
-				#endif
+				o.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
+				o.uv0 = patch[0].uv0 * bary.x + patch[1].uv0 * bary.y + patch[2].uv0 * bary.z;
 				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				o.ase_texcoord1 = patch[0].ase_texcoord1 * bary.x + patch[1].ase_texcoord1 * bary.y + patch[2].ase_texcoord1 * bary.z;
-				o.ase_tangent = patch[0].ase_tangent * bary.x + patch[1].ase_tangent * bary.y + patch[2].ase_tangent * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -5099,61 +4635,82 @@ Shader "BallsSpherize"
 			}
 			#endif
 
-			#if defined(WRITE_DECAL_BUFFER) && defined(WRITE_MSAA_DEPTH)
-			#define SV_TARGET_NORMAL SV_Target3
-			#elif defined(WRITE_DECAL_BUFFER) || defined(WRITE_MSAA_DEPTH)
-			#define SV_TARGET_NORMAL SV_Target2
+			#if defined(WRITE_NORMAL_BUFFER) && defined(WRITE_MSAA_DEPTH)
+			#define SV_TARGET_DECAL SV_Target2
+			#elif defined(WRITE_NORMAL_BUFFER) || defined(WRITE_MSAA_DEPTH)
+			#define SV_TARGET_DECAL SV_Target1
 			#else
-			#define SV_TARGET_NORMAL SV_Target1
+			#define SV_TARGET_DECAL SV_Target0
 			#endif
 
 			void Frag( PackedVaryingsMeshToPS packedInput
-				#ifdef WRITE_MSAA_DEPTH
-					, out float4 depthColor : SV_Target0
-					, out float4 outMotionVector : SV_Target1
-						#ifdef WRITE_DECAL_BUFFER
-						, out float4 outDecalBuffer : SV_Target2
-						#endif
-					#else
-					, out float4 outMotionVector : SV_Target0
-						#ifdef WRITE_DECAL_BUFFER
-						, out float4 outDecalBuffer : SV_Target1
-						#endif
-					#endif
+						#if defined(SCENESELECTIONPASS) || defined(SCENEPICKINGPASS)
+						, out float4 outColor : SV_Target0
+						#else
+							#ifdef WRITE_MSAA_DEPTH
+							, out float4 depthColor : SV_Target0
+								#ifdef WRITE_NORMAL_BUFFER
+								, out float4 outNormalBuffer : SV_Target1
+								#endif
+							#else
+								#ifdef WRITE_NORMAL_BUFFER
+								, out float4 outNormalBuffer : SV_Target0
+								#endif
+							#endif
 
-					#ifdef WRITE_NORMAL_BUFFER
-					, out float4 outNormalBuffer : SV_TARGET_NORMAL
-					#endif
-
-					#ifdef _DEPTHOFFSET_ON
-					, out float outputDepth : DEPTH_OFFSET_SEMANTIC
-					#endif
-				
-				)
+							#if defined(WRITE_DECAL_BUFFER) && !defined(_DISABLE_DECALS)
+							, out float4 outDecalBuffer : SV_TARGET_DECAL
+							#endif
+						#endif
+						#if defined( ASE_DEPTH_WRITE_ON )
+							, out float outputDepth : DEPTH_OFFSET_SEMANTIC
+						#endif
+						 )
 			{
-				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX( packedInput );
-				UNITY_SETUP_INSTANCE_ID( packedInput );
+				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(packedInput);
+				UNITY_SETUP_INSTANCE_ID(packedInput);
+
 				FragInputs input;
 				ZERO_INITIALIZE(FragInputs, input);
-				input.tangentToWorld = k_identity3x3;
-				input.positionSS = packedInput.vmeshPositionCS;
-				input.positionRWS = packedInput.vmeshInterp00.xyz;
+				input.positionSS = packedInput.positionCS;
+				input.positionRWS = packedInput.positionRWS;
+				input.tangentToWorld = BuildTangentToWorld(packedInput.tangentWS, packedInput.normalWS);
 
 				PositionInputs posInput = GetPositionInput(input.positionSS.xy, _ScreenSize.zw, input.positionSS.z, input.positionSS.w, input.positionRWS);
 
-				float3 V = GetWorldSpaceNormalizeViewDir(input.positionRWS);
+				#if _DOUBLESIDED_ON && SHADER_STAGE_FRAGMENT
+					input.isFrontFace = IS_FRONT_VFACE(packedInput.cullFace, true, false);
+				#elif SHADER_STAGE_FRAGMENT
+					#if defined(ASE_NEED_CULLFACE)
+						input.isFrontFace = IS_FRONT_VFACE(packedInput.cullFace, true, false);
+					#endif
+				#endif
 
-				SurfaceData surfaceData;
-				BuiltinData builtinData;
+				half IsFrontFace = input.isFrontFace;
+				float3 PositionRWS = posInput.positionWS;
+				float3 PositionWS = GetAbsolutePositionWS( posInput.positionWS );
+				float3 V = GetWorldSpaceNormalizeViewDir( packedInput.positionRWS );
+				float4 ScreenPosNorm = float4( posInput.positionNDC, packedInput.positionCS.zw );
+				float4 ClipPos = ComputeClipSpacePosition( ScreenPosNorm.xy, packedInput.positionCS.z ) * packedInput.positionCS.w;
+				float4 ScreenPos = ComputeScreenPos( ClipPos, _ProjectionParams.x );
+				float3 NormalWS = packedInput.normalWS;
+				float3 TangentWS = packedInput.tangentWS.xyz;
+				float3 BitangentWS = input.tangentToWorld[ 1 ];
 
-				SmoothSurfaceDescription surfaceDescription = (SmoothSurfaceDescription)0;
+				#if defined( ENABLE_TERRAIN_PERPIXEL_NORMAL )
+					float2 sampleCoords = (packedInput.tangentWS.zw / _TerrainHeightmapRecipSize.zw + 0.5f) * _TerrainHeightmapRecipSize.xy;
+					NormalWS = TransformObjectToWorldNormal(normalize(SAMPLE_TEXTURE2D(_TerrainNormalmapTexture, sampler_TerrainNormalmapTexture, sampleCoords).rgb * 2 - 1));
+					TangentWS = -cross(GetObjectToWorldMatrix()._13_23_33, NormalWS);
+					input.tangentToWorld = BuildTangentToWorld( float4( TangentWS, -1 ), NormalWS );
+					BitangentWS = input.tangentToWorld[ 1 ];
+				#endif
+
 				float2 uv_NormalMap = packedInput.ase_texcoord3.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
-				float3 temp_output_4_0_g260 = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
-				float3 ase_worldPos = packedInput.ase_texcoord4.xyz;
-				float3 surf_pos107_g262 = ase_worldPos;
-				float3 ase_worldNormal = packedInput.ase_texcoord5.xyz;
-				float3 surf_norm107_g262 = ase_worldNormal;
-				float3 vertexToFrag28_g260 = packedInput.ase_texcoord6.xyz;
+				float3 temp_output_4_0_g260 = UnpackNormalScale( SAMPLE_TEXTURE2D( _NormalMap, sampler_NormalMap, uv_NormalMap ), 1.0f );
+				float3 temp_output_111_0_g262 = ddx( PositionWS );
+				float3 temp_output_113_0_g262 = cross( ddy( PositionWS ) , NormalWS );
+				float dotResult115_g262 = dot( temp_output_111_0_g262 , temp_output_113_0_g262 );
+				float3 vertexToFrag28_g260 = packedInput.ase_texcoord4.xyz;
 				#ifdef _SKINNED_ON
 				float3 staticSwitch26_g260 = float3( packedInput.ase_texcoord3.zw ,  0.0 );
 				#else
@@ -5161,25 +4718,24 @@ Shader "BallsSpherize"
 				#endif
 				float simplePerlin3D9_g260 = snoise( ( ( staticSwitch26_g260 * float3( 2,2,2 ) ) + float3( 0,0,0 ) ) );
 				simplePerlin3D9_g260 = simplePerlin3D9_g260*0.5 + 0.5;
-				float height107_g262 = simplePerlin3D9_g260;
-				float scale107_g262 = 0.5;
-				float3 localPerturbNormal107_g262 = PerturbNormal107_g262( surf_pos107_g262 , surf_norm107_g262 , height107_g262 , scale107_g262 );
-				float3 ase_worldTangent = packedInput.ase_texcoord7.xyz;
-				float3 ase_worldBitangent = packedInput.ase_texcoord8.xyz;
-				float3x3 ase_worldToTangent = float3x3(ase_worldTangent,ase_worldBitangent,ase_worldNormal);
-				float3 worldToTangentDir42_g262 = mul( ase_worldToTangent, localPerturbNormal107_g262);
+				float temp_output_20_0_g262 = simplePerlin3D9_g260;
+				float3 normalizeResult130_g262 = normalize( ( ( abs( dotResult115_g262 ) * NormalWS ) - ( 0.5 * float3( 0.05,0.05,0.05 ) * sign( dotResult115_g262 ) * ( ( ddx( temp_output_20_0_g262 ) * temp_output_113_0_g262 ) + ( ddy( temp_output_20_0_g262 ) * cross( NormalWS , temp_output_111_0_g262 ) ) ) ) ) );
+				float3x3 ase_worldToTangent = float3x3( TangentWS, BitangentWS, NormalWS );
+				float3 worldToTangentDir42_g262 = mul( ase_worldToTangent, normalizeResult130_g262 );
 				float temp_output_16_0_g260 = ( ( simplePerlin3D9_g260 - 0.5 ) * 0.5 );
-				float temp_output_12_0_g260 = ( tex2D( _DecalColorMap, packedInput.ase_texcoord3.zw ).r + temp_output_16_0_g260 );
+				float temp_output_12_0_g260 = ( SAMPLE_TEXTURE2D( _DecalColorMap, sampler_DecalColorMap, packedInput.ase_texcoord3.zw ).r + temp_output_16_0_g260 );
 				float temp_output_3_0_g261 = ( 0.5 - temp_output_12_0_g260 );
 				float temp_output_10_0_g260 = ( 1.0 - saturate( ( temp_output_3_0_g261 / fwidth( temp_output_3_0_g261 ) ) ) );
 				float3 lerpResult6_g260 = lerp( temp_output_4_0_g260 , BlendNormal( worldToTangentDir42_g262 , temp_output_4_0_g260 ) , temp_output_10_0_g260);
 				float3 normalizeResult33_g260 = normalize( lerpResult6_g260 );
-				float3 temp_output_46_5 = normalizeResult33_g260;
 				
 				float2 uv_MaskMap = packedInput.ase_texcoord3.xy * _MaskMap_ST.xy + _MaskMap_ST.zw;
-				float4 tex2DNode3 = tex2D( _MaskMap, uv_MaskMap );
+				float4 tex2DNode3 = SAMPLE_TEXTURE2D( _MaskMap, sampler_MaskMap, uv_MaskMap );
 				
-				surfaceDescription.Normal = temp_output_46_5;
+
+				SmoothSurfaceDescription surfaceDescription = (SmoothSurfaceDescription)0;
+
+				surfaceDescription.Normal = normalizeResult33_g260;
 				surfaceDescription.Smoothness = tex2DNode3.a;
 				surfaceDescription.Alpha = 1;
 
@@ -5187,58 +4743,52 @@ Shader "BallsSpherize"
 				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
 				#endif
 
-				#ifdef _DEPTHOFFSET_ON
-				surfaceDescription.DepthOffset = 0;
+				#if defined( ASE_CHANGES_WORLD_POS )
+					posInput.positionWS = PositionRWS;
 				#endif
 
-				GetSurfaceAndBuiltinData( surfaceDescription, input, V, posInput, surfaceData, builtinData );
-
-				float4 VPASSpositionCS = float4(packedInput.vpassInterpolators0.xy, 0.0, packedInput.vpassInterpolators0.z);
-				float4 VPASSpreviousPositionCS = float4(packedInput.vpassInterpolators1.xy, 0.0, packedInput.vpassInterpolators1.z);
-
-				#ifdef _DEPTHOFFSET_ON
-				VPASSpositionCS.w += builtinData.depthOffset;
-				VPASSpreviousPositionCS.w += builtinData.depthOffset;
-				#endif
-
-				float2 motionVector = CalculateMotionVector( VPASSpositionCS, VPASSpreviousPositionCS );
-				EncodeMotionVector( motionVector * 0.5, outMotionVector );
-
-				bool forceNoMotion = unity_MotionVectorsParams.y == 0.0;
-				if( forceNoMotion )
-					outMotionVector = float4( 2.0, 0.0, 0.0, 0.0 );
-
-				// Depth and Alpha to coverage
-				#ifdef WRITE_MSAA_DEPTH
-					// In case we are rendering in MSAA, reading the an MSAA depth buffer is way too expensive. To avoid that, we export the depth to a color buffer
-					depthColor = packedInput.vmeshPositionCS.z;
-
-					// Alpha channel is used for alpha to coverage
-					depthColor.a = SharpenAlpha(builtinData.opacity, builtinData.alphaClipTreshold);
-				#endif
-
-				// Normal Buffer Processing
-				#ifdef WRITE_NORMAL_BUFFER
-					EncodeIntoNormalBuffer(ConvertSurfaceDataToNormalData(surfaceData), outNormalBuffer);
-				#endif
-
-				#if defined(WRITE_DECAL_BUFFER)
-					DecalPrepassData decalPrepassData;
-					#ifdef _DISABLE_DECALS
-					ZERO_INITIALIZE(DecalPrepassData, decalPrepassData);
+				#if defined( ASE_DEPTH_WRITE_ON )
+					#if !defined( _DEPTHOFFSET_ON )
+						posInput.deviceDepth = input.positionSS.z;
 					#else
-					decalPrepassData.geomNormalWS = surfaceData.geomNormalWS;
-					decalPrepassData.decalLayerMask = GetMeshRenderingDecalLayer();
+						surfaceDescription.DepthOffset = 0;
 					#endif
-					EncodeIntoDecalPrepassBuffer(decalPrepassData, outDecalBuffer);
-
-					// make sure we don't overwrite light layers
-					outDecalBuffer.w = (GetMeshRenderingLightLayer() & 0x000000FF) / 255.0;
 				#endif
 
-				#ifdef _DEPTHOFFSET_ON
-				outputDepth = posInput.deviceDepth;
+				SurfaceData surfaceData;
+				BuiltinData builtinData;
+				GetSurfaceAndBuiltinData(surfaceDescription, input, V, posInput, surfaceData, builtinData);
+
+                #if defined( ASE_DEPTH_WRITE_ON )
+					outputDepth = posInput.deviceDepth;
 				#endif
+
+                #if SHADERPASS == SHADERPASS_SHADOWS
+                float bias = max(abs(ddx(posInput.deviceDepth)), abs(ddy(posInput.deviceDepth))) * _SlopeScaleDepthBias;
+                outputDepth += bias;
+                #endif
+
+				#ifdef SCENESELECTIONPASS
+    				outColor = float4(_ObjectId, _PassValue, 1.0, 1.0);
+				#elif defined(SCENEPICKINGPASS)
+    				outColor = unity_SelectionID;
+				#else
+    				#ifdef WRITE_MSAA_DEPTH
+    					depthColor = packedInput.positionCS.z;
+    					depthColor.a = SharpenAlpha(builtinData.opacity, builtinData.alphaClipTreshold);
+    				#endif
+
+    				#if defined(WRITE_NORMAL_BUFFER)
+    				EncodeIntoNormalBuffer(ConvertSurfaceDataToNormalData(surfaceData), outNormalBuffer);
+    				#endif
+
+    				#if defined(WRITE_DECAL_BUFFER) && !defined(_DISABLE_DECALS)
+    				DecalPrepassData decalPrepassData;
+    				decalPrepassData.geomNormalWS = surfaceData.geomNormalWS;
+    				decalPrepassData.decalLayerMask = GetMeshRenderingDecalLayer();
+    				EncodeIntoDecalPrepassBuffer(decalPrepassData, outDecalBuffer);
+    				#endif
+				#endif // SCENESELECTIONPASS
 			}
 
 			ENDHLSL
@@ -5271,35 +4821,40 @@ Shader "BallsSpherize"
             ColorMask [_ColorMaskTransparentVelTwo] 2
 
 			HLSLPROGRAM
+			#define ASE_GEOMETRY
+			#pragma shader_feature_local _ _DOUBLESIDED_ON
+			#define ASE_FRAGMENT_NORMAL 0
+			#define _SPECULAR_OCCLUSION_FROM_AO 1
+			#define ASE_ABSOLUTE_VERTEX_POS 1
+			#define ASE_NEED_CULLFACE 1
+			#pragma multi_compile_local_fragment _DISABLE_DECALS
+			#pragma shader_feature_local_fragment _ _DISABLE_SSR
+			#define _MATERIAL_FEATURE_CLEAR_COAT
+			#define _AMBIENT_OCCLUSION 1
+			#define HAVE_MESH_MODIFICATION
+			#define ASE_VERSION 19904
+			#define ASE_SRP_VERSION 140011
+			#define ASE_USING_SAMPLING_MACROS 1
 
-            #define _SPECULAR_OCCLUSION_FROM_AO 1
-            #pragma multi_compile_instancing
-            #pragma instancing_options renderinglayer
-            #define ASE_ABSOLUTE_VERTEX_POS 1
-            #define _MATERIAL_FEATURE_CLEAR_COAT 1
-            #define _AMBIENT_OCCLUSION 1
-            #define HAVE_MESH_MODIFICATION
-            #define ASE_SRP_VERSION 140008
+			#pragma multi_compile _ DOTS_INSTANCING_ON
 
+            #pragma shader_feature _ _SURFACE_TYPE_TRANSPARENT
+            #pragma shader_feature_local _ _TRANSPARENT_WRITES_MOTION_VEC
+            #pragma shader_feature_local_fragment _ _ENABLE_FOG_ON_TRANSPARENT
 
-            #pragma shader_feature _SURFACE_TYPE_TRANSPARENT
-			#pragma shader_feature_local _TRANSPARENT_WRITES_MOTION_VEC
-			#pragma shader_feature_local_fragment _ENABLE_FOG_ON_TRANSPARENT
-			#pragma shader_feature_local _DOUBLESIDED_ON
-			#pragma shader_feature_local _ALPHATEST_ON
-
-			#pragma multi_compile_fragment _ SHADOWS_SHADOWMASK
+            #pragma multi_compile_fragment _ SHADOWS_SHADOWMASK
 			#pragma multi_compile_fragment SHADOW_LOW SHADOW_MEDIUM SHADOW_HIGH
-			#pragma multi_compile_fragment AREA_SHADOW_MEDIUM AREA_SHADOW_HIGH
-			#pragma multi_compile_fragment PROBE_VOLUMES_OFF PROBE_VOLUMES_L1 PROBE_VOLUMES_L2
+            #pragma multi_compile_fragment AREA_SHADOW_MEDIUM AREA_SHADOW_HIGH
+            #pragma multi_compile_fragment PROBE_VOLUMES_OFF PROBE_VOLUMES_L1 PROBE_VOLUMES_L2
             #pragma multi_compile_fragment SCREEN_SPACE_SHADOWS_OFF SCREEN_SPACE_SHADOWS_ON
             #pragma multi_compile_fragment USE_FPTL_LIGHTLIST USE_CLUSTERED_LIGHTLIST
-			#pragma multi_compile _ DEBUG_DISPLAY
-			#pragma multi_compile _ LIGHTMAP_ON
-			#pragma multi_compile _ DIRLIGHTMAP_COMBINED
-			#pragma multi_compile _ DYNAMICLIGHTMAP_ON
-			#pragma multi_compile_fragment DECALS_OFF DECALS_3RT DECALS_4RT
-			#pragma multi_compile_fragment _ DECAL_SURFACE_GRADIENT
+
+            #pragma multi_compile _ DEBUG_DISPLAY
+            #pragma multi_compile _ LIGHTMAP_ON
+            #pragma multi_compile _ DIRLIGHTMAP_COMBINED
+            #pragma multi_compile _ DYNAMICLIGHTMAP_ON
+            #pragma multi_compile_fragment DECALS_OFF DECALS_3RT DECALS_4RT
+            #pragma multi_compile_fragment _ DECAL_SURFACE_GRADIENT
 
 			#ifndef SHADER_STAGE_FRAGMENT
 			#define SHADOW_LOW
@@ -5308,6 +4863,9 @@ Shader "BallsSpherize"
 
 			#pragma vertex Vert
 			#pragma fragment Frag
+
+			#define SHADERPASS SHADERPASS_FORWARD
+		    #define HAS_LIGHTLOOP 1
 
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GeometricTools.hlsl"
@@ -5320,16 +4878,22 @@ Shader "BallsSpherize"
 
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
 
-			#define SHADERPASS SHADERPASS_FORWARD
-		    #define HAS_LIGHTLOOP 1
+            #ifdef RAYTRACING_SHADER_GRAPH_DEFAULT
+                #define RAYTRACING_SHADER_GRAPH_HIGH
+            #endif
 
-			// Setup for Fog Enabled to apply in sky refletions in LightLoopDef.hlsl
-            #define APPLY_FOG_ON_SKY_REFLECTIONS
+            #ifdef RAYTRACING_SHADER_GRAPH_RAYTRACED
+                #define RAYTRACING_SHADER_GRAPH_LOW
+            #endif
 
-			#ifndef SHADER_UNLIT
-			#if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
-			#define VARYINGS_NEED_CULLFACE
-			#endif
+            #ifndef SHADER_UNLIT
+            #if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
+                #define VARYINGS_NEED_CULLFACE
+            #endif
+            #endif
+
+			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
+			    #define ASE_NEED_CULLFACE 1
 			#endif
 
 		    #if defined(_MATERIAL_FEATURE_SUBSURFACE_SCATTERING) && !defined(_SURFACE_TYPE_TRANSPARENT)
@@ -5342,29 +4906,29 @@ Shader "BallsSpherize"
 			#define _REFRACTION_THIN
 		    #endif
 
-			#if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
-			#if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
-				#define WRITE_NORMAL_BUFFER
-			#endif
-			#endif
+            #if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
+            #if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
+                #define WRITE_NORMAL_BUFFER
+            #endif
+            #endif
 
-			#ifndef DEBUG_DISPLAY
-				#if !defined(_SURFACE_TYPE_TRANSPARENT)
-					#if SHADERPASS == SHADERPASS_FORWARD
-					#define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
-					#elif SHADERPASS == SHADERPASS_GBUFFER
-					#define SHADERPASS_GBUFFER_BYPASS_ALPHA_TEST
-					#endif
-				#endif
-			#endif
+            #ifndef DEBUG_DISPLAY
+                #if !defined(_SURFACE_TYPE_TRANSPARENT)
+                    #if SHADERPASS == SHADERPASS_FORWARD
+                    #define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
+                    #elif SHADERPASS == SHADERPASS_GBUFFER
+                    #define SHADERPASS_GBUFFER_BYPASS_ALPHA_TEST
+                    #endif
+                #endif
+            #endif
 
-			#if defined(SHADER_LIT) && !defined(_SURFACE_TYPE_TRANSPARENT)
-			#define _DEFERRED_CAPABLE_MATERIAL
-			#endif
+            #if defined(SHADER_LIT) && !defined(_SURFACE_TYPE_TRANSPARENT)
+                #define _DEFERRED_CAPABLE_MATERIAL
+            #endif
 
-			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
-			#define _WRITE_TRANSPARENT_MOTION_VECTOR
-			#endif
+            #if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
+                #define _WRITE_TRANSPARENT_MOTION_VECTOR
+            #endif
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColorMap_ST;
@@ -5382,7 +4946,7 @@ Shader "BallsSpherize"
 			float _AlphaCutoff;
 			float _RenderQueueType;
 			#ifdef _ADD_PRECOMPUTED_VELOCITY
-			float _AddPrecomputedVelocity;
+			    float _AddPrecomputedVelocity;
 			#endif
 			float _StencilRef;
 			float _StencilWriteMask;
@@ -5390,6 +4954,8 @@ Shader "BallsSpherize"
 			float _StencilWriteMaskDepth;
 			float _StencilRefMV;
 			float _StencilWriteMaskMV;
+			float _StencilRefDistortionVec;
+			float _StencilWriteMaskDistortionVec;
 			float _StencilWriteMaskGBuffer;
 			float _StencilRefGBuffer;
 			float _ZTestGBuffer;
@@ -5398,7 +4964,7 @@ Shader "BallsSpherize"
 			float _SurfaceType;
 			float _BlendMode;
             #ifdef SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
-			float _EnableBlendModePreserveSpecularLighting;
+			    float _EnableBlendModePreserveSpecularLighting;
             #endif
 			float _SrcBlend;
 			float _DstBlend;
@@ -5420,34 +4986,36 @@ Shader "BallsSpherize"
 			float _DoubleSidedNormalMode;
 			float4 _DoubleSidedConstants;
 			#ifdef ASE_TESSELLATION
-			float _TessPhongStrength;
-			float _TessValue;
-			float _TessMin;
-			float _TessMax;
-			float _TessEdgeLength;
-			float _TessMaxDisp;
+			    float _TessPhongStrength;
+			    float _TessValue;
+			    float _TessMin;
+			    float _TessMax;
+			    float _TessEdgeLength;
+			    float _TessMaxDisp;
 			#endif
 			CBUFFER_END
 
-			// Property used by ScenePickingPass
             #ifdef SCENEPICKINGPASS
 			float4 _SelectionID;
             #endif
 
-			// Properties used by SceneSelectionPass
             #ifdef SCENESELECTIONPASS
 			int _ObjectId;
 			int _PassValue;
             #endif
 
-			sampler2D _BaseColorMap;
-			sampler2D _DecalColorMap;
-			sampler2D _NormalMap;
+			TEXTURE2D(_BaseColorMap);
+			SAMPLER(sampler_BaseColorMap);
+			TEXTURE2D(_DecalColorMap);
+			SAMPLER(sampler_DecalColorMap);
+			TEXTURE2D(_NormalMap);
+			SAMPLER(sampler_NormalMap);
 			float4x4 unity_CameraProjection;
 			float4x4 unity_CameraInvProjection;
 			float4x4 unity_WorldToCamera;
 			float4x4 unity_CameraToWorld;
-			sampler2D _MaskMap;
+			TEXTURE2D(_MaskMap);
+			SAMPLER(sampler_MaskMap);
 
 
             #ifdef DEBUG_DISPLAY
@@ -5464,37 +5032,45 @@ Shader "BallsSpherize"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
 
-			// Setup DECALS_OFF so the shader stripper can remove variants
-            #define HAVE_DECALS ( (defined(DECALS_3RT) || defined(DECALS_4RT)) && !defined(_DISABLE_DECALS) )
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
+        	#ifdef HAVE_VFX_MODIFICATION
+        	#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/VisualEffectVertex.hlsl"
+        	#endif
+
+			#if defined( UNITY_INSTANCING_ENABLED ) && defined( ASE_INSTANCED_TERRAIN ) && ( defined(_TERRAIN_INSTANCED_PERPIXEL_NORMAL) || defined(_INSTANCEDTERRAINNORMALS_PIXEL) )
+				#define ENABLE_TERRAIN_PERPIXEL_NORMAL
+			#endif
+
 			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_VERT_NORMAL
-			#define ASE_NEEDS_FRAG_RELATIVE_WORLD_POS
+			#define ASE_NEEDS_TEXTURE_COORDINATES0
+			#define ASE_NEEDS_TEXTURE_COORDINATES1
+			#define ASE_NEEDS_FRAG_TEXTURE_COORDINATES1
+			#define ASE_NEEDS_FRAG_TEXTURE_COORDINATES0
+			#define ASE_NEEDS_FRAG_WORLD_POSITION
+			#define ASE_NEEDS_WORLD_NORMAL
 			#define ASE_NEEDS_FRAG_WORLD_NORMAL
+			#define ASE_NEEDS_WORLD_TANGENT
 			#define ASE_NEEDS_FRAG_WORLD_TANGENT
-			#define ASE_NEEDS_VERT_TANGENT
+			#define ASE_NEEDS_FRAG_WORLD_BITANGENT
 			#pragma multi_compile_local __ _COCKVORESQUISHENABLED_ON
 			#pragma multi_compile_local __ _SPHERIZE_ON
 			#pragma shader_feature_local _SKINNED_ON
 
-
-			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
-			#define ASE_NEED_CULLFACE 1
-			#endif
 
 			struct AttributesMesh
 			{
 				float3 positionOS : POSITION;
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
+				float4 uv0 : TEXCOORD0;
 				float4 uv1 : TEXCOORD1;
 				float4 uv2 : TEXCOORD2;
 				float3 previousPositionOS : TEXCOORD4;
 				float3 precomputedVelocity : TEXCOORD5;
 				float4 ase_color : COLOR;
-				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -5503,7 +5079,7 @@ Shader "BallsSpherize"
 				SV_POSITION_QUALIFIERS float4 positionCS : SV_Position;
 				float3 positionRWS : TEXCOORD0;
 				float3 normalWS : TEXCOORD1;
-				float4 tangentWS : TEXCOORD2;
+				float4 tangentWS : TEXCOORD2; // holds terrainUV ifdef ENABLE_TERRAIN_PERPIXEL_NORMAL
 				float4 uv1 : TEXCOORD3;
 				float4 uv2 : TEXCOORD4;
 				#ifdef _WRITE_TRANSPARENT_MOTION_VECTOR
@@ -5512,7 +5088,6 @@ Shader "BallsSpherize"
 				#endif
 				float4 ase_texcoord7 : TEXCOORD7;
 				float4 ase_texcoord8 : TEXCOORD8;
-				float4 ase_texcoord9 : TEXCOORD9;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
@@ -5520,7 +5095,7 @@ Shader "BallsSpherize"
 				#endif
 			};
 
-			float3 MyCustomExpression11_g1( float3 pos )
+			float3 MyCustomExpression11_g369( float3 pos )
 			{
 				return GetCameraRelativePositionWS(pos);
 			}
@@ -5552,7 +5127,7 @@ Shader "BallsSpherize"
 				return transpose( cofactors ) / determinant( input );
 			}
 			
-			float3 MyCustomExpression32_g250( float3 pos )
+			float3 MyCustomExpression32_g371( float3 pos )
 			{
 				return GetAbsolutePositionWS(pos);
 			}
@@ -5604,29 +5179,12 @@ Shader "BallsSpherize"
 				return 42.0 * dot( m, px);
 			}
 			
-			float3 PerturbNormal107_g262( float3 surf_pos, float3 surf_norm, float height, float scale )
-			{
-				// "Bump Mapping Unparametrized Surfaces on the GPU" by Morten S. Mikkelsen
-				float3 vSigmaS = ddx( surf_pos );
-				float3 vSigmaT = ddy( surf_pos );
-				float3 vN = surf_norm;
-				float3 vR1 = cross( vSigmaT , vN );
-				float3 vR2 = cross( vN , vSigmaS );
-				float fDet = dot( vSigmaS , vR1 );
-				float dBs = ddx( height );
-				float dBt = ddy( height );
-				float3 vSurfGrad = scale * 0.05 * sign( fDet ) * ( dBs * vR1 + dBt * vR2 );
-				return normalize ( abs( fDet ) * vN - vSurfGrad );
-			}
-			
 
 			void BuildSurfaceData(FragInputs fragInputs, inout GlobalSurfaceDescription surfaceDescription, float3 V, PositionInputs posInput, out SurfaceData surfaceData, out float3 bentNormalWS)
 			{
 				ZERO_INITIALIZE(SurfaceData, surfaceData);
-
 				surfaceData.specularOcclusion = 1.0;
 
-				// surface data
 				surfaceData.baseColor =                 surfaceDescription.BaseColor;
 				surfaceData.perceptualSmoothness =		surfaceDescription.Smoothness;
 				surfaceData.ambientOcclusion =			surfaceDescription.Occlusion;
@@ -5636,322 +5194,359 @@ Shader "BallsSpherize"
 				#ifdef _SPECULAR_OCCLUSION_CUSTOM
 				surfaceData.specularOcclusion =			surfaceDescription.SpecularOcclusion;
 				#endif
+
 				#ifdef _MATERIAL_FEATURE_SUBSURFACE_SCATTERING
 				surfaceData.subsurfaceMask =			surfaceDescription.SubsurfaceMask;
 				#endif
+
 				#if defined(_HAS_REFRACTION) || defined(_MATERIAL_FEATURE_TRANSMISSION)
 				surfaceData.thickness = 				surfaceDescription.Thickness;
 				#endif
+
 				#ifdef _MATERIAL_FEATURE_TRANSMISSION
 				surfaceData.transmissionMask =			surfaceDescription.TransmissionMask;
 				#endif
+
 				#if defined( _MATERIAL_FEATURE_SUBSURFACE_SCATTERING ) || defined( _MATERIAL_FEATURE_TRANSMISSION )
 				surfaceData.diffusionProfileHash =		asuint(surfaceDescription.DiffusionProfile);
 				#endif
+
 				#ifdef _MATERIAL_FEATURE_SPECULAR_COLOR
 				surfaceData.specularColor =				surfaceDescription.Specular;
 				#endif
+
 				#ifdef _MATERIAL_FEATURE_ANISOTROPY
 				surfaceData.anisotropy =				surfaceDescription.Anisotropy;
 				#endif
+
 				#ifdef _MATERIAL_FEATURE_IRIDESCENCE
 				surfaceData.iridescenceMask =			surfaceDescription.IridescenceMask;
 				surfaceData.iridescenceThickness =		surfaceDescription.IridescenceThickness;
 				#endif
 
 				// refraction
-				#ifdef _HAS_REFRACTION
-				if( _EnableSSRefraction )
-				{
-					surfaceData.ior = surfaceDescription.RefractionIndex;
-					surfaceData.transmittanceColor = surfaceDescription.RefractionColor;
-					surfaceData.atDistance = surfaceDescription.RefractionDistance;
-
-					surfaceData.transmittanceMask = ( 1.0 - surfaceDescription.Alpha );
-					surfaceDescription.Alpha = 1.0;
-				}
-				else
-				{
-					surfaceData.ior = 1.0;
-					surfaceData.transmittanceColor = float3( 1.0, 1.0, 1.0 );
-					surfaceData.atDistance = 1.0;
-					surfaceData.transmittanceMask = 0.0;
-					surfaceDescription.Alpha = 1.0;
-				}
-				#else
-				surfaceData.ior = 1.0;
-				surfaceData.transmittanceColor = float3( 1.0, 1.0, 1.0 );
-				surfaceData.atDistance = 1.0;
-				surfaceData.transmittanceMask = 0.0;
-				#endif
-
-
-				// material features
-				surfaceData.materialFeatures = MATERIALFEATUREFLAGS_LIT_STANDARD;
-				#ifdef _MATERIAL_FEATURE_SUBSURFACE_SCATTERING
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SUBSURFACE_SCATTERING;
-				#endif
-				#ifdef _MATERIAL_FEATURE_TRANSMISSION
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_TRANSMISSION;
-				#endif
-                #ifdef _MATERIAL_FEATURE_ANISOTROPY
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_ANISOTROPY;
-				surfaceData.normalWS = float3(0, 1, 0);
+                #if defined(_REFRACTION_PLANE) || defined(_REFRACTION_SPHERE) || defined(_REFRACTION_THIN)
+                    if (_EnableSSRefraction)
+                    {
+                        surfaceData.ior =                       surfaceDescription.RefractionIndex;
+                        surfaceData.transmittanceColor =        surfaceDescription.RefractionColor;
+                        surfaceData.atDistance =                surfaceDescription.RefractionDistance;
+                        surfaceData.transmittanceMask = (1.0 - surfaceDescription.Alpha);
+                        surfaceDescription.Alpha = 1.0;
+                    }
+                    else
+                    {
+                        surfaceData.ior = 1.0;
+                        surfaceData.transmittanceColor = float3(1.0, 1.0, 1.0);
+                        surfaceData.atDistance = 1.0;
+                        surfaceData.transmittanceMask = 0.0;
+                        surfaceDescription.Alpha = 1.0;
+                    }
+                #else
+                    surfaceData.ior = 1.0;
+                    surfaceData.transmittanceColor = float3(1.0, 1.0, 1.0);
+                    surfaceData.atDistance = 1.0;
+                    surfaceData.transmittanceMask = 0.0;
                 #endif
+
+				surfaceData.materialFeatures = MATERIALFEATUREFLAGS_LIT_STANDARD;
+
+				#ifdef _MATERIAL_FEATURE_SUBSURFACE_SCATTERING
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SUBSURFACE_SCATTERING;
+				#endif
+
+				#ifdef _MATERIAL_FEATURE_TRANSMISSION
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_TRANSMISSION;
+				#endif
+
+                #ifdef _MATERIAL_FEATURE_ANISOTROPY
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_ANISOTROPY;
+                    surfaceData.normalWS = float3(0, 1, 0);
+                #endif
+
 				#ifdef _MATERIAL_FEATURE_CLEAR_COAT
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_CLEAR_COAT;
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_CLEAR_COAT;
 				#endif
+
 				#ifdef _MATERIAL_FEATURE_IRIDESCENCE
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_IRIDESCENCE;
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_IRIDESCENCE;
 				#endif
+
 				#ifdef _MATERIAL_FEATURE_SPECULAR_COLOR
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SPECULAR_COLOR;
+                    surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SPECULAR_COLOR;
 				#endif
 
-				// others
 				#if defined (_MATERIAL_FEATURE_SPECULAR_COLOR) && defined (_ENERGY_CONSERVING_SPECULAR)
-				surfaceData.baseColor *= ( 1.0 - Max3( surfaceData.specularColor.r, surfaceData.specularColor.g, surfaceData.specularColor.b ) );
+                    surfaceData.baseColor *= ( 1.0 - Max3( surfaceData.specularColor.r, surfaceData.specularColor.g, surfaceData.specularColor.b ) );
 				#endif
+
 				#ifdef _DOUBLESIDED_ON
-				float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
+					float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
 				#else
-				float3 doubleSidedConstants = float3( 1.0, 1.0, 1.0 );
+					float3 doubleSidedConstants = float3( 1.0, 1.0, 1.0 );
 				#endif
 
-				// normals
-				float3 normalTS = float3(0.0f, 0.0f, 1.0f);
-				normalTS = surfaceDescription.Normal;
+				float3 normal = surfaceDescription.Normal;
 
-				surfaceData.geomNormalWS = fragInputs.tangentToWorld[2];
-				surfaceData.tangentWS = normalize( fragInputs.tangentToWorld[ 0 ].xyz );
-
-				// decals
-			#ifdef DECAL_NORMAL_BLENDING
-				if (_EnableDecals)
-				{
-					#ifndef SURFACE_GRADIENT
-					normalTS = SurfaceGradientFromTangentSpaceNormalAndFromTBN(normalTS, fragInputs.tangentToWorld[0], fragInputs.tangentToWorld[1]);
-					#endif
-
-					DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
-					ApplyDecalToSurfaceData(decalSurfaceData, fragInputs.tangentToWorld[2], surfaceData, normalTS);
-				}
-
-				GetNormalWS_SG(fragInputs, normalTS, surfaceData.normalWS, doubleSidedConstants);
-			#else
-				GetNormalWS(fragInputs, normalTS, surfaceData.normalWS, doubleSidedConstants);
+			#if ( UNITY_VERSION <= 202236 )
+				#if ( ASE_FRAGMENT_NORMAL == 1 )
+					GetNormalWS_SrcOS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+				#elif ( ASE_FRAGMENT_NORMAL == 2 )
+					GetNormalWS_SrcWS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+				#else
+					GetNormalWS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+				#endif
 
 				#if HAVE_DECALS
 				if (_EnableDecals)
 				{
-					// Both uses and modifies 'surfaceData.normalWS'.
 					DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
 					ApplyDecalToSurfaceData(decalSurfaceData, fragInputs.tangentToWorld[2], surfaceData);
 				}
 				#endif
+			#else
+				#ifdef DECAL_NORMAL_BLENDING
+					#if ( ASE_FRAGMENT_NORMAL == 1 )
+						normal = SurfaceGradientFromPerturbedNormal(TransformWorldToObjectNormal(fragInputs.tangentToWorld[2]), normal);
+					#elif ( ASE_FRAGMENT_NORMAL == 2 )
+						normal = SurfaceGradientFromPerturbedNormal(fragInputs.tangentToWorld[2], normal);
+					#else
+						normal = SurfaceGradientFromTangentSpaceNormalAndFromTBN(normal, fragInputs.tangentToWorld[0], fragInputs.tangentToWorld[1]);
+					#endif
+
+					#if HAVE_DECALS
+					if (_EnableDecals)
+					{
+						DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
+						ApplyDecalToSurfaceNormal(decalSurfaceData, fragInputs.tangentToWorld[2], normal);
+						ApplyDecalToSurfaceDataNoNormal(decalSurfaceData, surfaceData);
+					}
+					#endif
+
+					GetNormalWS_SG(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+				#else
+					#if ( ASE_FRAGMENT_NORMAL == 1 )
+						GetNormalWS_SrcOS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+					#elif ( ASE_FRAGMENT_NORMAL == 2 )
+						GetNormalWS_SrcWS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+					#else
+						GetNormalWS(fragInputs, normal, surfaceData.normalWS, doubleSidedConstants);
+					#endif
+
+					#if HAVE_DECALS
+					if (_EnableDecals)
+					{
+						DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs, surfaceDescription.Alpha);
+						ApplyDecalToSurfaceNormal(decalSurfaceData, surfaceData.normalWS.xyz);
+						ApplyDecalToSurfaceDataNoNormal(decalSurfaceData, surfaceData);
+					}
+					#endif
+				#endif
 			#endif
+
+				surfaceData.geomNormalWS = fragInputs.tangentToWorld[2];
+                surfaceData.tangentWS = normalize(fragInputs.tangentToWorld[0].xyz );
+                surfaceData.tangentWS = Orthonormalize(surfaceData.tangentWS, surfaceData.normalWS);
 
 				bentNormalWS = surfaceData.normalWS;
 
 				#ifdef ASE_BENT_NORMAL
-				GetNormalWS( fragInputs, surfaceDescription.BentNormal, bentNormalWS, doubleSidedConstants );
+                    GetNormalWS( fragInputs, surfaceDescription.BentNormal, bentNormalWS, doubleSidedConstants );
 				#endif
 
 				#ifdef _MATERIAL_FEATURE_ANISOTROPY
-				surfaceData.tangentWS = TransformTangentToWorld( surfaceDescription.Tangent, fragInputs.tangentToWorld );
+                    surfaceData.tangentWS = TransformTangentToWorld(surfaceDescription.Tangent, fragInputs.tangentToWorld);
 				#endif
-				surfaceData.tangentWS = Orthonormalize( surfaceData.tangentWS, surfaceData.normalWS );
 
+				#if defined(DEBUG_DISPLAY)
+					if (_DebugMipMapMode != DEBUGMIPMAPMODE_NONE)
+					{
+						surfaceData.metallic = 0;
+					}
+					ApplyDebugToSurfaceData(fragInputs.tangentToWorld, surfaceData);
+				#endif
 
                 #if defined(_SPECULAR_OCCLUSION_CUSTOM)
                 #elif defined(_SPECULAR_OCCLUSION_FROM_AO_BENT_NORMAL)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromBentAO(V, bentNormalWS, surfaceData.normalWS, surfaceData.ambientOcclusion, PerceptualSmoothnessToPerceptualRoughness(surfaceData.perceptualSmoothness));
+                    surfaceData.specularOcclusion = GetSpecularOcclusionFromBentAO(V, bentNormalWS, surfaceData.normalWS, surfaceData.ambientOcclusion, PerceptualSmoothnessToPerceptualRoughness(surfaceData.perceptualSmoothness));
                 #elif defined(_AMBIENT_OCCLUSION) && defined(_SPECULAR_OCCLUSION_FROM_AO)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion(ClampNdotV(dot(surfaceData.normalWS, V)), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness(surfaceData.perceptualSmoothness));
+                    surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion(ClampNdotV(dot(surfaceData.normalWS, V)), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness(surfaceData.perceptualSmoothness));
                 #endif
 
-				#ifdef _ENABLE_GEOMETRIC_SPECULAR_AA
-				surfaceData.perceptualSmoothness = GeometricNormalFiltering( surfaceData.perceptualSmoothness, fragInputs.tangentToWorld[ 2 ], surfaceDescription.SpecularAAScreenSpaceVariance, surfaceDescription.SpecularAAThreshold );
-				#endif
-
-				// debug
-				#if defined(DEBUG_DISPLAY)
-				if (_DebugMipMapMode != DEBUGMIPMAPMODE_NONE)
-				{
-					surfaceData.metallic = 0;
-				}
-				ApplyDebugToSurfaceData(fragInputs.tangentToWorld, surfaceData);
-				#endif
+                #ifdef _ENABLE_GEOMETRIC_SPECULAR_AA
+                    surfaceData.perceptualSmoothness = GeometricNormalFiltering(surfaceData.perceptualSmoothness, fragInputs.tangentToWorld[2], surfaceDescription.SpecularAAScreenSpaceVariance, surfaceDescription.SpecularAAThreshold);
+                #endif
 			}
 
+			// Get Surface And BuiltinData
 			void GetSurfaceAndBuiltinData(GlobalSurfaceDescription surfaceDescription, FragInputs fragInputs, float3 V, inout PositionInputs posInput, out SurfaceData surfaceData, out BuiltinData builtinData)
 			{
 				#ifdef LOD_FADE_CROSSFADE
-				LODDitheringTransition(ComputeFadeMaskSeed(V, posInput.positionSS), unity_LODFade.x);
+                    LODDitheringTransition(ComputeFadeMaskSeed(V, posInput.positionSS), unity_LODFade.x);
 				#endif
 
-				#ifdef _DOUBLESIDED_ON
-				float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
-				#else
-				float3 doubleSidedConstants = float3( 1.0, 1.0, 1.0 );
-				#endif
-
-				ApplyDoubleSidedFlipOrMirror( fragInputs, doubleSidedConstants );
+                #ifdef _DOUBLESIDED_ON
+                    float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
+                #else
+                    float3 doubleSidedConstants = float3(1.0, 1.0, 1.0);
+                #endif
+                ApplyDoubleSidedFlipOrMirror(fragInputs, doubleSidedConstants);
 
 				#ifdef _ALPHATEST_ON
-				DoAlphaTest( surfaceDescription.Alpha, surfaceDescription.AlphaClipThreshold );
+                    DoAlphaTest( surfaceDescription.Alpha, surfaceDescription.AlphaClipThreshold );
+				#endif
+
+				#ifdef _ALPHATEST_SHADOW_ON
+                    DoAlphaTest( surfaceDescription.Alpha, surfaceDescription.AlphaClipThresholdShadow);
 				#endif
 
 				#ifdef _DEPTHOFFSET_ON
-				ApplyDepthOffsetPositionInput( V, surfaceDescription.DepthOffset, GetViewForwardDir(), GetWorldToHClipMatrix(), posInput );
+                    ApplyDepthOffsetPositionInput(V, surfaceDescription.DepthOffset, GetViewForwardDir(), GetWorldToHClipMatrix(), posInput);
 				#endif
 
 				float3 bentNormalWS;
-				BuildSurfaceData( fragInputs, surfaceDescription, V, posInput, surfaceData, bentNormalWS );
-
-				InitBuiltinData( posInput, surfaceDescription.Alpha, bentNormalWS, -fragInputs.tangentToWorld[ 2 ], fragInputs.texCoord1, fragInputs.texCoord2, builtinData );
+                BuildSurfaceData(fragInputs, surfaceDescription, V, posInput, surfaceData, bentNormalWS);
+                InitBuiltinData(posInput, surfaceDescription.Alpha, bentNormalWS, -fragInputs.tangentToWorld[2], fragInputs.texCoord1, fragInputs.texCoord2, builtinData);
 
 				#ifdef _DEPTHOFFSET_ON
-				builtinData.depthOffset = surfaceDescription.DepthOffset;
+                    builtinData.depthOffset = surfaceDescription.DepthOffset;
 				#endif
 
-				#ifdef _ALPHATEST_ON
+                #ifdef _ALPHATEST_ON
                     builtinData.alphaClipTreshold = surfaceDescription.AlphaClipThreshold;
                 #endif
 
-				#ifdef UNITY_VIRTUAL_TEXTURING
-                builtinData.vtPackedFeedback = surfaceDescription.VTPackedFeedback;
+                #ifdef UNITY_VIRTUAL_TEXTURING
+                    builtinData.vtPackedFeedback = surfaceDescription.VTPackedFeedback;
                 #endif
 
 				#ifdef ASE_BAKEDGI
-				builtinData.bakeDiffuseLighting = surfaceDescription.BakedGI;
+                    builtinData.bakeDiffuseLighting = surfaceDescription.BakedGI;
 				#endif
 
 				#ifdef ASE_BAKEDBACKGI
-				builtinData.backBakeDiffuseLighting = surfaceDescription.BakedBackGI;
+                    builtinData.backBakeDiffuseLighting = surfaceDescription.BakedBackGI;
 				#endif
 
-				builtinData.emissiveColor = surfaceDescription.Emission;
+                builtinData.emissiveColor = surfaceDescription.Emission;
 
 				PostInitBuiltinData(V, posInput, surfaceData, builtinData);
 			}
 
-			AttributesMesh ApplyMeshModification(AttributesMesh inputMesh, float3 timeParameters, inout PackedVaryingsMeshToPS outputPackedVaryingsMeshToPS )
+			AttributesMesh ApplyMeshModification(AttributesMesh inputMesh, float3 timeParameters, inout PackedVaryingsMeshToPS output)
 			{
+				float3 currentTimeParams = _TimeParameters.xyz;
 				_TimeParameters.xyz = timeParameters;
-				float3 pos11_g1 = _SpherePosition;
-				float3 localMyCustomExpression11_g1 = MyCustomExpression11_g1( pos11_g1 );
-				float4 appendResult1_g1 = (float4(localMyCustomExpression11_g1 , 1.0));
-				float3 temp_output_5_0_g1 = (mul( GetWorldToObjectMatrix(), appendResult1_g1 )).xyz;
-				float3 temp_output_3_0_g253 = temp_output_5_0_g1;
-				float3 normalizeResult6_g253 = normalize( ( inputMesh.positionOS - temp_output_3_0_g253 ) );
-				float4 appendResult4_g1 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float3 temp_output_6_0_g1 = ( ( normalizeResult6_g253 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g1 )).xyz ) ) ) + temp_output_3_0_g253 );
-				float temp_output_18_0_g1 = ( _SpherizeAmount * inputMesh.ase_color.r );
-				float3 lerpResult21_g1 = lerp( inputMesh.positionOS , temp_output_6_0_g1 , temp_output_18_0_g1);
+
+				float3 pos11_g369 = _SpherePosition;
+				float3 localMyCustomExpression11_g369 = MyCustomExpression11_g369( pos11_g369 );
+				float4 appendResult1_g369 = (float4(localMyCustomExpression11_g369 , 1.0));
+				float3 temp_output_5_0_g369 = (mul( GetWorldToObjectMatrix(), appendResult1_g369 )).xyz;
+				float3 temp_output_3_0_g370 = temp_output_5_0_g369;
+				float3 normalizeResult6_g370 = normalize( ( inputMesh.positionOS - temp_output_3_0_g370 ) );
+				float4 appendResult4_g369 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float3 temp_output_6_0_g369 = ( ( normalizeResult6_g370 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g369 )).xyz ) ) ) + temp_output_3_0_g370 );
+				float temp_output_18_0_g369 = ( _SpherizeAmount * inputMesh.ase_color.r );
+				float3 lerpResult21_g369 = lerp( inputMesh.positionOS , temp_output_6_0_g369 , temp_output_18_0_g369);
 				#ifdef _SPHERIZE_ON
-				float3 staticSwitch16_g1 = lerpResult21_g1;
+				float3 staticSwitch16_g369 = lerpResult21_g369;
 				#else
-				float3 staticSwitch16_g1 = inputMesh.positionOS;
+				float3 staticSwitch16_g369 = inputMesh.positionOS;
 				#endif
-				float3 normalizeResult27_g252 = normalize( _WorldDickNormal );
-				float3 normalizeResult31_g252 = normalize( _WorldDickBinormal );
-				float3 normalizeResult29_g252 = normalize( cross( normalizeResult27_g252 , normalizeResult31_g252 ) );
-				float4 appendResult26_g251 = (float4(1.0 , 0.0 , 0.0 , 0.0));
-				float4 appendResult28_g251 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float4 appendResult31_g251 = (float4(0.0 , 0.0 , 1.0 , 0.0));
-				float3 break27_g251 = -_WorldDickPosition;
-				float4 appendResult29_g251 = (float4(break27_g251.x , break27_g251.y , break27_g251.z , 1.0));
-				float4x4 temp_output_30_0_g251 = mul( transpose( float4x4( float4( normalizeResult27_g252 , 0.0 ).x,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).x,float4( normalizeResult29_g252 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g252 , 0.0 ).y,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).y,float4( normalizeResult29_g252 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g252 , 0.0 ).z,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).z,float4( normalizeResult29_g252 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g252 , 0.0 ).w,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).w,float4( normalizeResult29_g252 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g251.x,appendResult28_g251.x,appendResult31_g251.x,appendResult29_g251.x,appendResult26_g251.y,appendResult28_g251.y,appendResult31_g251.y,appendResult29_g251.y,appendResult26_g251.z,appendResult28_g251.z,appendResult31_g251.z,appendResult29_g251.z,appendResult26_g251.w,appendResult28_g251.w,appendResult31_g251.w,appendResult29_g251.w ) );
-				float4x4 invertVal44_g251 = Inverse4x4( temp_output_30_0_g251 );
-				float4 appendResult27_g250 = (float4(inputMesh.positionOS , 1.0));
-				float3 pos32_g250 = mul( GetObjectToWorldMatrix(), appendResult27_g250 ).xyz;
-				float3 localMyCustomExpression32_g250 = MyCustomExpression32_g250( pos32_g250 );
-				float4 appendResult32_g251 = (float4(localMyCustomExpression32_g250 , 1.0));
-				float4 break35_g251 = mul( temp_output_30_0_g251, appendResult32_g251 );
-				float temp_output_124_0_g251 = _TipRadius;
-				float2 appendResult36_g251 = (float2(break35_g251.y , break35_g251.z));
-				float2 normalizeResult41_g251 = normalize( appendResult36_g251 );
-				float temp_output_120_0_g251 = sqrt( max( break35_g251.x , 0.0 ) );
-				float temp_output_48_0_g251 = tan( radians( _Angle ) );
-				float temp_output_125_0_g251 = ( temp_output_124_0_g251 + ( temp_output_120_0_g251 * temp_output_48_0_g251 ) );
-				float temp_output_37_0_g251 = length( appendResult36_g251 );
-				float temp_output_114_0_g251 = ( ( temp_output_125_0_g251 - temp_output_37_0_g251 ) + 1.0 );
-				float lerpResult102_g251 = lerp( temp_output_125_0_g251 , temp_output_37_0_g251 , saturate( temp_output_114_0_g251 ));
-				float lerpResult130_g251 = lerp( 0.0 , lerpResult102_g251 , saturate( ( -( -temp_output_124_0_g251 - break35_g251.x ) / temp_output_124_0_g251 ) ));
-				float2 break43_g251 = ( normalizeResult41_g251 * lerpResult130_g251 );
-				float4 appendResult40_g251 = (float4(max( break35_g251.x , -temp_output_124_0_g251 ) , break43_g251.x , break43_g251.y , 1.0));
-				float4 appendResult28_g250 = (float4(((mul( invertVal44_g251, appendResult40_g251 )).xyz).xyz , 1.0));
-				float4 localWorldVar29_g250 = appendResult28_g250;
-				(localWorldVar29_g250).xyz = GetCameraRelativePositionWS((localWorldVar29_g250).xyz);
-				float4 transform29_g250 = mul(GetWorldToObjectMatrix(),localWorldVar29_g250);
+				float3 normalizeResult27_g373 = normalize( _WorldDickNormal );
+				float3 normalizeResult31_g373 = normalize( _WorldDickBinormal );
+				float3 normalizeResult29_g373 = normalize( cross( normalizeResult27_g373 , normalizeResult31_g373 ) );
+				float4 appendResult26_g372 = (float4(1.0 , 0.0 , 0.0 , 0.0));
+				float4 appendResult28_g372 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float4 appendResult31_g372 = (float4(0.0 , 0.0 , 1.0 , 0.0));
+				float3 break27_g372 = -_WorldDickPosition;
+				float4 appendResult29_g372 = (float4(break27_g372.x , break27_g372.y , break27_g372.z , 1.0));
+				float4x4 temp_output_30_0_g372 = mul( transpose( float4x4( float4( normalizeResult27_g373 , 0.0 ).x, float4( cross( normalizeResult29_g373 , normalizeResult27_g373 ) , 0.0 ).x, float4( normalizeResult29_g373 , 0.0 ).x, float4( 0, 0, 0, 1 ).x, float4( normalizeResult27_g373 , 0.0 ).y, float4( cross( normalizeResult29_g373 , normalizeResult27_g373 ) , 0.0 ).y, float4( normalizeResult29_g373 , 0.0 ).y, float4( 0, 0, 0, 1 ).y, float4( normalizeResult27_g373 , 0.0 ).z, float4( cross( normalizeResult29_g373 , normalizeResult27_g373 ) , 0.0 ).z, float4( normalizeResult29_g373 , 0.0 ).z, float4( 0, 0, 0, 1 ).z, float4( normalizeResult27_g373 , 0.0 ).w, float4( cross( normalizeResult29_g373 , normalizeResult27_g373 ) , 0.0 ).w, float4( normalizeResult29_g373 , 0.0 ).w, float4( 0, 0, 0, 1 ).w ) ), float4x4( appendResult26_g372.x, appendResult28_g372.x, appendResult31_g372.x, appendResult29_g372.x, appendResult26_g372.y, appendResult28_g372.y, appendResult31_g372.y, appendResult29_g372.y, appendResult26_g372.z, appendResult28_g372.z, appendResult31_g372.z, appendResult29_g372.z, appendResult26_g372.w, appendResult28_g372.w, appendResult31_g372.w, appendResult29_g372.w ) );
+				float4x4 invertVal44_g372 = Inverse4x4( temp_output_30_0_g372 );
+				float4 appendResult27_g371 = (float4(inputMesh.positionOS , 1.0));
+				float3 pos32_g371 = mul( GetObjectToWorldMatrix(), appendResult27_g371 ).xyz;
+				float3 localMyCustomExpression32_g371 = MyCustomExpression32_g371( pos32_g371 );
+				float4 appendResult32_g372 = (float4(localMyCustomExpression32_g371 , 1.0));
+				float4 break35_g372 = mul( temp_output_30_0_g372, appendResult32_g372 );
+				float temp_output_124_0_g372 = _TipRadius;
+				float2 appendResult36_g372 = (float2(break35_g372.y , break35_g372.z));
+				float2 normalizeResult41_g372 = normalize( appendResult36_g372 );
+				float temp_output_120_0_g372 = sqrt( max( break35_g372.x , 0.0 ) );
+				float temp_output_48_0_g372 = tan( radians( _Angle ) );
+				float temp_output_125_0_g372 = ( temp_output_124_0_g372 + ( temp_output_120_0_g372 * temp_output_48_0_g372 ) );
+				float temp_output_37_0_g372 = length( appendResult36_g372 );
+				float temp_output_114_0_g372 = ( ( temp_output_125_0_g372 - temp_output_37_0_g372 ) + 1.0 );
+				float lerpResult102_g372 = lerp( temp_output_125_0_g372 , temp_output_37_0_g372 , saturate( temp_output_114_0_g372 ));
+				float lerpResult130_g372 = lerp( 0.0 , lerpResult102_g372 , saturate( ( -( -temp_output_124_0_g372 - break35_g372.x ) / temp_output_124_0_g372 ) ));
+				float2 break43_g372 = ( normalizeResult41_g372 * lerpResult130_g372 );
+				float4 appendResult40_g372 = (float4(max( break35_g372.x , -temp_output_124_0_g372 ) , break43_g372.x , break43_g372.y , 1.0));
+				float4 appendResult28_g371 = (float4(((mul( invertVal44_g372, appendResult40_g372 )).xyz).xyz , 1.0));
+				float4 localWorldVar29_g371 = appendResult28_g371;
+				(localWorldVar29_g371).xyz = GetCameraRelativePositionWS((localWorldVar29_g371).xyz);
+				float4 transform29_g371 = mul(GetWorldToObjectMatrix(),localWorldVar29_g371);
 				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch13_g250 = (transform29_g250).xyz;
+				float3 staticSwitch13_g371 = (transform29_g371).xyz;
 				#else
-				float3 staticSwitch13_g250 = staticSwitch16_g1;
+				float3 staticSwitch13_g371 = staticSwitch16_g369;
 				#endif
 				
-				float3 normalizeResult13_g1 = normalize( ( temp_output_6_0_g1 - temp_output_5_0_g1 ) );
-				float3 lerpResult12_g1 = lerp( inputMesh.normalOS , normalizeResult13_g1 , temp_output_18_0_g1);
+				float3 normalizeResult13_g369 = normalize( ( temp_output_6_0_g369 - temp_output_5_0_g369 ) );
+				float3 lerpResult12_g369 = lerp( inputMesh.normalOS , normalizeResult13_g369 , temp_output_18_0_g369);
+				float3 normalizeResult55_g369 = normalize( lerpResult12_g369 );
 				#ifdef _SPHERIZE_ON
-				float3 staticSwitch15_g1 = lerpResult12_g1;
+				float3 staticSwitch15_g369 = normalizeResult55_g369;
 				#else
-				float3 staticSwitch15_g1 = inputMesh.normalOS;
+				float3 staticSwitch15_g369 = inputMesh.normalOS;
 				#endif
-				float3 temp_output_50_0_g250 = staticSwitch15_g1;
-				float2 break146_g251 = normalizeResult41_g251;
-				float4 appendResult139_g251 = (float4(temp_output_48_0_g251 , break146_g251.x , break146_g251.y , 0.0));
-				float3 normalizeResult144_g251 = normalize( (mul( invertVal44_g251, appendResult139_g251 )).xyz );
-				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , temp_output_50_0_g250 , saturate( sign( temp_output_114_0_g251 ) ));
+				float3 temp_output_50_0_g371 = staticSwitch15_g369;
+				float2 break146_g372 = normalizeResult41_g372;
+				float4 appendResult139_g372 = (float4(temp_output_48_0_g372 , break146_g372.x , break146_g372.y , 0.0));
+				float3 normalizeResult144_g372 = normalize( (mul( invertVal44_g372, appendResult139_g372 )).xyz );
+				float3 lerpResult44_g371 = lerp( normalizeResult144_g372 , temp_output_50_0_g371 , saturate( sign( temp_output_114_0_g372 ) ));
 				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch17_g250 = lerpResult44_g250;
+				float3 staticSwitch17_g371 = lerpResult44_g371;
 				#else
-				float3 staticSwitch17_g250 = temp_output_50_0_g250;
+				float3 staticSwitch17_g371 = temp_output_50_0_g371;
 				#endif
 				
-				float3 vertexToFrag28_g260 = mul( UNITY_MATRIX_M, float4( inputMesh.positionOS , 0.0 ) ).xyz;
-				outputPackedVaryingsMeshToPS.ase_texcoord8.xyz = vertexToFrag28_g260;
+				float3 vertexToFrag28_g260 = mul( GetObjectToWorldMatrix(), float4( inputMesh.positionOS , 0.0 ) ).xyz;
+				output.ase_texcoord8.xyz = vertexToFrag28_g260;
 				
-				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
-				float3 ase_worldTangent = TransformObjectToWorldDir(inputMesh.tangentOS.xyz);
-				float ase_vertexTangentSign = inputMesh.tangentOS.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
-				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
-				outputPackedVaryingsMeshToPS.ase_texcoord9.xyz = ase_worldBitangent;
-				
-				outputPackedVaryingsMeshToPS.ase_texcoord7.xy = inputMesh.ase_texcoord.xy;
+				output.ase_texcoord7.xy = inputMesh.uv0.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
-				outputPackedVaryingsMeshToPS.ase_texcoord7.zw = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord8.w = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord9.w = 0;
+				output.ase_texcoord7.zw = 0;
+				output.ase_texcoord8.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = staticSwitch13_g250;
+				float3 vertexValue = staticSwitch13_g371;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
 				#else
 				inputMesh.positionOS.xyz += vertexValue;
 				#endif
-				inputMesh.normalOS = staticSwitch17_g250;
+				inputMesh.normalOS = staticSwitch17_g371;
 				inputMesh.tangentOS = inputMesh.tangentOS;
+
+				_TimeParameters.xyz = currentTimeParams;
 				return inputMesh;
 			}
 
 			PackedVaryingsMeshToPS VertexFunction(AttributesMesh inputMesh)
 			{
-				PackedVaryingsMeshToPS outputPackedVaryingsMeshToPS = (PackedVaryingsMeshToPS)0;
+				PackedVaryingsMeshToPS output = (PackedVaryingsMeshToPS)0;
 				AttributesMesh defaultMesh = inputMesh;
 
 				UNITY_SETUP_INSTANCE_ID(inputMesh);
-				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
-				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( outputPackedVaryingsMeshToPS );
+				UNITY_TRANSFER_INSTANCE_ID(inputMesh, output);
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( output );
 
-				inputMesh = ApplyMeshModification( inputMesh, _TimeParameters.xyz, outputPackedVaryingsMeshToPS);
+				inputMesh = ApplyMeshModification( inputMesh, _TimeParameters.xyz, output);
 
 				float3 positionRWS = TransformObjectToWorld(inputMesh.positionOS);
 				float3 normalWS = TransformObjectToWorldNormal(inputMesh.normalOS);
@@ -5978,9 +5573,7 @@ Shader "BallsSpherize"
 						AttributesMesh previousMesh = defaultMesh;
 						previousMesh.positionOS = effectivePositionOS ;
 						PackedVaryingsMeshToPS test = (PackedVaryingsMeshToPS)0;
-						float3 curTime = _TimeParameters.xyz;
 						previousMesh = ApplyMeshModification(previousMesh, _LastTimeParameters.xyz, test);
-						_TimeParameters.xyz = curTime;
 						float3 previousPositionRWS = TransformPreviousObjectToWorld(previousMesh.positionOS);
 					#else
 						float3 previousPositionRWS = TransformPreviousObjectToWorld(effectivePositionOS);
@@ -6000,18 +5593,23 @@ Shader "BallsSpherize"
 				}
 				#endif
 
-				outputPackedVaryingsMeshToPS.positionCS = TransformWorldToHClip(positionRWS);
-				outputPackedVaryingsMeshToPS.positionRWS.xyz = positionRWS;
-				outputPackedVaryingsMeshToPS.normalWS.xyz = normalWS;
-				outputPackedVaryingsMeshToPS.tangentWS.xyzw = tangentWS;
-				outputPackedVaryingsMeshToPS.uv1.xyzw = inputMesh.uv1;
-				outputPackedVaryingsMeshToPS.uv2.xyzw = inputMesh.uv2;
+				output.positionCS = TransformWorldToHClip(positionRWS);
+				output.positionRWS = positionRWS;
+				output.normalWS = normalWS;
+				output.tangentWS = tangentWS;
+				output.uv1 = inputMesh.uv1;
+				output.uv2 = inputMesh.uv2;
+
+				#if defined( ENABLE_TERRAIN_PERPIXEL_NORMAL )
+					output.tangentWS.zw = inputMesh.uv0.xy;
+					output.tangentWS.xy = inputMesh.uv0.xy * unity_LightmapST.xy + unity_LightmapST.zw;
+				#endif
 
 				#ifdef _WRITE_TRANSPARENT_MOTION_VECTOR
-					outputPackedVaryingsMeshToPS.vpassPositionCS = float3(VPASSpositionCS.xyw);
-					outputPackedVaryingsMeshToPS.vpassPreviousPositionCS = float3(VPASSpreviousPositionCS.xyw);
+					output.vpassPositionCS = float3(VPASSpositionCS.xyw);
+					output.vpassPreviousPositionCS = float3(VPASSpreviousPositionCS.xyw);
 				#endif
-				return outputPackedVaryingsMeshToPS;
+				return output;
 			}
 
 			#if defined(ASE_TESSELLATION)
@@ -6020,10 +5618,10 @@ Shader "BallsSpherize"
 				float3 positionOS : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
+				float4 uv0 : TEXCOORD0;
 				float4 uv1 : TEXCOORD1;
 				float4 uv2 : TEXCOORD2;
 				float4 ase_color : COLOR;
-				float4 ase_texcoord : TEXCOORD0;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -6042,10 +5640,10 @@ Shader "BallsSpherize"
 				o.positionOS = v.positionOS;
 				o.normalOS = v.normalOS;
 				o.tangentOS = v.tangentOS;
+				o.uv0 = v.uv0;
 				o.uv1 = v.uv1;
 				o.uv2 = v.uv2;
 				o.ase_color = v.ase_color;
-				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -6090,10 +5688,10 @@ Shader "BallsSpherize"
 				o.positionOS = patch[0].positionOS * bary.x + patch[1].positionOS * bary.y + patch[2].positionOS * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
 				o.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
+				o.uv0 = patch[0].uv0 * bary.x + patch[1].uv0 * bary.y + patch[2].uv0 * bary.z;
 				o.uv1 = patch[0].uv1 * bary.x + patch[1].uv1 * bary.y + patch[2].uv1 * bary.z;
 				o.uv2 = patch[0].uv2 * bary.x + patch[1].uv2 * bary.y + patch[2].uv2 * bary.z;
 				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -6110,6 +5708,8 @@ Shader "BallsSpherize"
 				return VertexFunction( v );
 			}
 			#endif
+
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplayMaterial.hlsl"
 
             #ifdef UNITY_VIRTUAL_TEXTURING
                 #ifdef OUTPUT_SPLIT_LIGHTING
@@ -6131,21 +5731,20 @@ Shader "BallsSpherize"
             #endif
 
 			void Frag(PackedVaryingsMeshToPS packedInput
-				, out float4 outColor:SV_Target0
-            #ifdef UNITY_VIRTUAL_TEXTURING
-				, out float4 outVTFeedback : SV_Target1
-            #endif
-            #ifdef OUTPUT_SPLIT_LIGHTING
-				, out float4 outDiffuseLighting : DIFFUSE_LIGHTING_TARGET
-				, OUTPUT_SSSBUFFER(outSSSBuffer) : SSS_BUFFER_TARGET
-            #elif defined(_WRITE_TRANSPARENT_MOTION_VECTOR)
-				, out float4 outMotionVec : MOTION_VECTOR_TARGET
-            #endif
-            #ifdef _DEPTHOFFSET_ON
-				, out float outputDepth : DEPTH_OFFSET_SEMANTIC
-            #endif
-		    
-						)
+						, out float4 outColor:SV_Target0
+					#ifdef UNITY_VIRTUAL_TEXTURING
+						, out float4 outVTFeedback : SV_Target1
+					#endif
+					#ifdef OUTPUT_SPLIT_LIGHTING
+						, out float4 outDiffuseLighting : DIFFUSE_LIGHTING_TARGET
+						, OUTPUT_SSSBUFFER(outSSSBuffer) : SSS_BUFFER_TARGET
+					#elif defined(_WRITE_TRANSPARENT_MOTION_VECTOR)
+						, out float4 outMotionVec : MOTION_VECTOR_TARGET
+					#endif
+					#if defined( ASE_DEPTH_WRITE_ON )
+						, out float outputDepth : DEPTH_OFFSET_SEMANTIC
+					#endif
+					 )
 			{
 				#ifdef _WRITE_TRANSPARENT_MOTION_VECTOR
 					outMotionVec = float4(2.0, 0.0, 0.0, 1.0);
@@ -6153,39 +5752,57 @@ Shader "BallsSpherize"
 
 				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX( packedInput );
 				UNITY_SETUP_INSTANCE_ID( packedInput );
-				float3 positionRWS = packedInput.positionRWS.xyz;
-				float3 normalWS = packedInput.normalWS.xyz;
-				float4 tangentWS = packedInput.tangentWS.xyzw;
 
 				FragInputs input;
 				ZERO_INITIALIZE(FragInputs, input);
-				input.tangentToWorld = k_identity3x3;
 				input.positionSS = packedInput.positionCS;
-				input.positionRWS = positionRWS;
-				input.tangentToWorld = BuildTangentToWorld(tangentWS, normalWS);
+				input.positionRWS = packedInput.positionRWS;
+				input.tangentToWorld = BuildTangentToWorld(packedInput.tangentWS, packedInput.normalWS);
 				input.texCoord1 = packedInput.uv1.xyzw;
 				input.texCoord2 = packedInput.uv2.xyzw;
 
-				#if _DOUBLESIDED_ON && SHADER_STAGE_FRAGMENT
-				input.isFrontFace = IS_FRONT_VFACE( packedInput.cullFace, true, false);
-				#elif SHADER_STAGE_FRAGMENT
-				#if defined(ASE_NEED_CULLFACE)
-				input.isFrontFace = IS_FRONT_VFACE(packedInput.cullFace, true, false);
-				#endif
-				#endif
-				half isFrontFace = input.isFrontFace;
+				
 
-				input.positionSS.xy = _OffScreenRendering > 0 ? (uint2)round(input.positionSS.xy * _OffScreenDownsampleFactor) : input.positionSS.xy;
+				
+				#if ( ASE_SRP_VERSION >= 100000 ) && ( ASE_SRP_VERSION >= 140007 )
+				AdjustFragInputsToOffScreenRendering(input, _OffScreenRendering > 0, _OffScreenDownsampleFactor);
+				#endif
+			
+
 				uint2 tileIndex = uint2(input.positionSS.xy) / GetTileSize ();
 
 				PositionInputs posInput = GetPositionInput( input.positionSS.xy, _ScreenSize.zw, input.positionSS.z, input.positionSS.w, input.positionRWS.xyz, tileIndex );
 
-				float3 V = GetWorldSpaceNormalizeViewDir(input.positionRWS);
+				#if _DOUBLESIDED_ON && SHADER_STAGE_FRAGMENT
+					input.isFrontFace = IS_FRONT_VFACE(packedInput.cullFace, true, false);
+				#elif SHADER_STAGE_FRAGMENT
+					#if defined(ASE_NEED_CULLFACE)
+						input.isFrontFace = IS_FRONT_VFACE(packedInput.cullFace, true, false);
+					#endif
+				#endif
 
-				GlobalSurfaceDescription surfaceDescription = (GlobalSurfaceDescription)0;
+				half IsFrontFace = input.isFrontFace;
+				float3 PositionRWS = posInput.positionWS;
+				float3 PositionWS = GetAbsolutePositionWS( posInput.positionWS );
+				float3 V = GetWorldSpaceNormalizeViewDir( packedInput.positionRWS );
+				float4 ScreenPosNorm = float4( posInput.positionNDC, packedInput.positionCS.zw );
+				float4 ClipPos = ComputeClipSpacePosition( ScreenPosNorm.xy, packedInput.positionCS.z ) * packedInput.positionCS.w;
+				float4 ScreenPos = ComputeScreenPos( ClipPos, _ProjectionParams.x );
+				float3 NormalWS = packedInput.normalWS;
+				float3 TangentWS = packedInput.tangentWS.xyz;
+				float3 BitangentWS = input.tangentToWorld[ 1 ];
+
+				#if defined( ENABLE_TERRAIN_PERPIXEL_NORMAL )
+					float2 sampleCoords = (packedInput.tangentWS.zw / _TerrainHeightmapRecipSize.zw + 0.5f) * _TerrainHeightmapRecipSize.xy;
+					NormalWS = TransformObjectToWorldNormal(normalize(SAMPLE_TEXTURE2D(_TerrainNormalmapTexture, sampler_TerrainNormalmapTexture, sampleCoords).rgb * 2 - 1));
+					TangentWS = -cross(GetObjectToWorldMatrix()._13_23_33, NormalWS);
+					input.tangentToWorld = BuildTangentToWorld( float4( TangentWS, -1 ), NormalWS );
+					BitangentWS = input.tangentToWorld[ 1 ];
+				#endif
+
 				float2 uv_BaseColorMap = packedInput.ase_texcoord7.xy * _BaseColorMap_ST.xy + _BaseColorMap_ST.zw;
-				float4 temp_output_1_0_g260 = tex2D( _BaseColorMap, uv_BaseColorMap );
-				float4 color20_g260 = IsGammaSpace() ? float4(1,1,1,1) : float4(1,1,1,1);
+				float4 temp_output_1_0_g260 = SAMPLE_TEXTURE2D( _BaseColorMap, sampler_BaseColorMap, uv_BaseColorMap );
+				float4 color20_g260 = IsGammaSpace() ? float4( 1, 1, 1, 1 ) : float4( 1, 1, 1, 1 );
 				float3 vertexToFrag28_g260 = packedInput.ase_texcoord8.xyz;
 				#ifdef _SKINNED_ON
 				float3 staticSwitch26_g260 = float3( packedInput.uv1.xy ,  0.0 );
@@ -6195,7 +5812,7 @@ Shader "BallsSpherize"
 				float simplePerlin3D9_g260 = snoise( ( ( staticSwitch26_g260 * float3( 2,2,2 ) ) + float3( 0,0,0 ) ) );
 				simplePerlin3D9_g260 = simplePerlin3D9_g260*0.5 + 0.5;
 				float temp_output_16_0_g260 = ( ( simplePerlin3D9_g260 - 0.5 ) * 0.5 );
-				float temp_output_12_0_g260 = ( tex2D( _DecalColorMap, packedInput.uv1.xy ).r + temp_output_16_0_g260 );
+				float temp_output_12_0_g260 = ( SAMPLE_TEXTURE2D( _DecalColorMap, sampler_DecalColorMap, packedInput.uv1.xy ).r + temp_output_16_0_g260 );
 				float lerpResult22_g260 = lerp( ( temp_output_12_0_g260 + temp_output_16_0_g260 ) , 0.7 , 0.8);
 				float4 lerpResult19_g260 = lerp( temp_output_1_0_g260 , color20_g260 , ( 1.0 - lerpResult22_g260 ));
 				float temp_output_3_0_g261 = ( 0.5 - temp_output_12_0_g260 );
@@ -6203,27 +5820,27 @@ Shader "BallsSpherize"
 				float4 lerpResult18_g260 = lerp( temp_output_1_0_g260 , lerpResult19_g260 , temp_output_10_0_g260);
 				
 				float2 uv_NormalMap = packedInput.ase_texcoord7.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
-				float3 temp_output_4_0_g260 = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
-				float3 ase_worldPos = GetAbsolutePositionWS( positionRWS );
-				float3 surf_pos107_g262 = ase_worldPos;
-				float3 surf_norm107_g262 = normalWS;
-				float height107_g262 = simplePerlin3D9_g260;
-				float scale107_g262 = 0.5;
-				float3 localPerturbNormal107_g262 = PerturbNormal107_g262( surf_pos107_g262 , surf_norm107_g262 , height107_g262 , scale107_g262 );
-				float3 ase_worldBitangent = packedInput.ase_texcoord9.xyz;
-				float3x3 ase_worldToTangent = float3x3(tangentWS.xyz,ase_worldBitangent,normalWS);
-				float3 worldToTangentDir42_g262 = mul( ase_worldToTangent, localPerturbNormal107_g262);
+				float3 temp_output_4_0_g260 = UnpackNormalScale( SAMPLE_TEXTURE2D( _NormalMap, sampler_NormalMap, uv_NormalMap ), 1.0f );
+				float3 temp_output_111_0_g262 = ddx( PositionWS );
+				float3 temp_output_113_0_g262 = cross( ddy( PositionWS ) , NormalWS );
+				float dotResult115_g262 = dot( temp_output_111_0_g262 , temp_output_113_0_g262 );
+				float temp_output_20_0_g262 = simplePerlin3D9_g260;
+				float3 normalizeResult130_g262 = normalize( ( ( abs( dotResult115_g262 ) * NormalWS ) - ( 0.5 * float3( 0.05,0.05,0.05 ) * sign( dotResult115_g262 ) * ( ( ddx( temp_output_20_0_g262 ) * temp_output_113_0_g262 ) + ( ddy( temp_output_20_0_g262 ) * cross( NormalWS , temp_output_111_0_g262 ) ) ) ) ) );
+				float3x3 ase_worldToTangent = float3x3( TangentWS, BitangentWS, NormalWS );
+				float3 worldToTangentDir42_g262 = mul( ase_worldToTangent, normalizeResult130_g262 );
 				float3 lerpResult6_g260 = lerp( temp_output_4_0_g260 , BlendNormal( worldToTangentDir42_g262 , temp_output_4_0_g260 ) , temp_output_10_0_g260);
 				float3 normalizeResult33_g260 = normalize( lerpResult6_g260 );
-				float3 temp_output_46_5 = normalizeResult33_g260;
 				
 				float lerpResult32_g260 = lerp( 0.0 , 1.0 , temp_output_10_0_g260);
 				
 				float2 uv_MaskMap = packedInput.ase_texcoord7.xy * _MaskMap_ST.xy + _MaskMap_ST.zw;
-				float4 tex2DNode3 = tex2D( _MaskMap, uv_MaskMap );
+				float4 tex2DNode3 = SAMPLE_TEXTURE2D( _MaskMap, sampler_MaskMap, uv_MaskMap );
 				
+
+				GlobalSurfaceDescription surfaceDescription = (GlobalSurfaceDescription)0;
+
 				surfaceDescription.BaseColor = lerpResult18_g260.rgb;
-				surfaceDescription.Normal = temp_output_46_5;
+				surfaceDescription.Normal = normalizeResult33_g260;
 				surfaceDescription.BentNormal = float3( 0, 0, 1 );
 				surfaceDescription.CoatMask = lerpResult32_g260;
 				surfaceDescription.Metallic = tex2DNode3.r;
@@ -6232,22 +5849,22 @@ Shader "BallsSpherize"
 				surfaceDescription.Specular = 0;
 				#endif
 
-				surfaceDescription.Emission = 0;
 				surfaceDescription.Smoothness = tex2DNode3.a;
 				surfaceDescription.Occlusion = tex2DNode3.g;
+				surfaceDescription.Emission = 0;
 				surfaceDescription.Alpha = 1;
 
 				#ifdef _ALPHATEST_ON
 				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
 				#endif
 
+				#ifdef _SPECULAR_OCCLUSION_CUSTOM
+				surfaceDescription.SpecularOcclusion = 0;
+				#endif
+
 				#ifdef _ENABLE_GEOMETRIC_SPECULAR_AA
 				surfaceDescription.SpecularAAScreenSpaceVariance = 0;
 				surfaceDescription.SpecularAAThreshold = 0;
-				#endif
-
-				#ifdef _SPECULAR_OCCLUSION_CUSTOM
-				surfaceDescription.SpecularOcclusion = 0;
 				#endif
 
 				#if defined(_HAS_REFRACTION) || defined(_MATERIAL_FEATURE_TRANSMISSION)
@@ -6285,12 +5902,27 @@ Shader "BallsSpherize"
 				#ifdef ASE_BAKEDGI
 				surfaceDescription.BakedGI = 0;
 				#endif
+
 				#ifdef ASE_BAKEDBACKGI
 				surfaceDescription.BakedBackGI = 0;
 				#endif
 
-				#ifdef _DEPTHOFFSET_ON
-				surfaceDescription.DepthOffset = 0;
+				#if defined( ASE_CHANGES_WORLD_POS )
+					posInput.positionWS = PositionRWS;
+					#if defined( _WRITE_TRANSPARENT_MOTION_VECTOR )
+						float3 positionOS = mul( GetWorldToObjectMatrix(),  float4( PositionRWS, 1.0 ) ).xyz;
+						float3 previousPositionRWS = mul( GetPrevObjectToWorldMatrix(),  float4( positionOS, 1.0 ) ).xyz;
+						packedInput.vpassPositionCS = mul( UNITY_MATRIX_UNJITTERED_VP, float4( PositionRWS, 1.0 ) ).xyw;
+						packedInput.vpassPreviousPositionCS = mul( UNITY_MATRIX_PREV_VP, float4( previousPositionRWS, 1.0 ) ).xyw;
+					#endif
+				#endif
+
+				#if defined( ASE_DEPTH_WRITE_ON )
+					#if !defined( _DEPTHOFFSET_ON )
+						posInput.deviceDepth = input.positionSS.z;
+					#else
+						surfaceDescription.DepthOffset = 0;
+					#endif
 				#endif
 
 				#ifdef UNITY_VIRTUAL_TEXTURING
@@ -6307,40 +5939,13 @@ Shader "BallsSpherize"
 
 				outColor = float4(0.0, 0.0, 0.0, 0.0);
 
-            #ifdef DEBUG_DISPLAY
-            #ifdef OUTPUT_SPLIT_LIGHTING
-				outDiffuseLighting = float4(0, 0, 0, 1);
-				ENCODE_INTO_SSSBUFFER(surfaceData, posInput.positionSS, outSSSBuffer);
-			#endif
+				#ifdef DEBUG_DISPLAY
+				#ifdef OUTPUT_SPLIT_LIGHTING
+					outDiffuseLighting = float4(0, 0, 0, 1);
+					ENCODE_INTO_SSSBUFFER(surfaceData, posInput.positionSS, outSSSBuffer);
+				#endif
 
-				bool viewMaterial = false;
-				int bufferSize = _DebugViewMaterialArray[0].x;
-				if (bufferSize != 0)
-				{
-					bool needLinearToSRGB = false;
-					float3 result = float3(1.0, 0.0, 1.0);
-
-					for (int index = 1; index <= bufferSize; index++)
-					{
-						int indexMaterialProperty = _DebugViewMaterialArray[index].x;
-
-						if (indexMaterialProperty != 0)
-						{
-							viewMaterial = true;
-
-							GetPropertiesDataDebug(indexMaterialProperty, result, needLinearToSRGB);
-							GetVaryingsDataDebug(indexMaterialProperty, input, result, needLinearToSRGB);
-							GetBuiltinDataDebug(indexMaterialProperty, builtinData, posInput, result, needLinearToSRGB);
-							GetSurfaceDataDebug(indexMaterialProperty, surfaceData, result, needLinearToSRGB);
-							GetBSDFDataDebug(indexMaterialProperty, bsdfData, result, needLinearToSRGB);
-						}
-					}
-
-					if (!needLinearToSRGB && _DebugAOVOutput == 0)
-						result = SRGBToLinear(max(0, result));
-
-					outColor = float4(result, 1.0);
-				}
+			    bool viewMaterial = GetMaterialDebugColor(outColor, input, builtinData, posInput, surfaceData, bsdfData);
 
 				if (!viewMaterial)
 				{
@@ -6393,7 +5998,6 @@ Shader "BallsSpherize"
 				#ifdef _WRITE_TRANSPARENT_MOTION_VECTOR
 						float4 VPASSpositionCS = float4(packedInput.vpassPositionCS.xy, 0.0, packedInput.vpassPositionCS.z);
 						float4 VPASSpreviousPositionCS = float4(packedInput.vpassPreviousPositionCS.xy, 0.0, packedInput.vpassPreviousPositionCS.z);
-
 						bool forceNoMotion = any(unity_MotionVectorsParams.yw == 0.0);
                 #if defined(HAVE_VFX_MODIFICATION) && !VFX_FEATURE_MOTION_VECTORS
                         forceNoMotion = true;
@@ -6411,12 +6015,8 @@ Shader "BallsSpherize"
 				}
 				#endif
 
-				#ifdef _DEPTHOFFSET_ON
-				outputDepth = posInput.deviceDepth;
-				#endif
-
-				#ifdef UNITY_VIRTUAL_TEXTURING
-					outVTFeedback = builtinData.vtPackedFeedback;
+				#if defined( ASE_DEPTH_WRITE_ON )
+					outputDepth = posInput.deviceDepth;
 				#endif
 
                 #ifdef UNITY_VIRTUAL_TEXTURING
@@ -6426,6 +6026,7 @@ Shader "BallsSpherize"
                 #endif
 				outVTFeedback = PackVTFeedbackWithAlpha(builtinData.vtPackedFeedback, input.positionSS.xy, vtAlphaValue);
                 #endif
+
 			}
 			ENDHLSL
 		}
@@ -6440,21 +6041,37 @@ Shader "BallsSpherize"
             Cull [_CullMode]
 
             HLSLPROGRAM
-
+			#define ASE_GEOMETRY
+			#pragma shader_feature_local _ _DOUBLESIDED_ON
+			#define ASE_FRAGMENT_NORMAL 0
 			#define _SPECULAR_OCCLUSION_FROM_AO 1
-			#pragma multi_compile_instancing
-			#pragma instancing_options renderinglayer
 			#define ASE_ABSOLUTE_VERTEX_POS 1
-			#define _MATERIAL_FEATURE_CLEAR_COAT 1
+			#define ASE_NEED_CULLFACE 1
+			#pragma multi_compile_local_fragment _DISABLE_DECALS
+			#pragma shader_feature_local_fragment _ _DISABLE_SSR
+			#define _MATERIAL_FEATURE_CLEAR_COAT
 			#define _AMBIENT_OCCLUSION 1
 			#define HAVE_MESH_MODIFICATION
-			#define ASE_SRP_VERSION 140008
-
+			#define ASE_VERSION 19904
+			#define ASE_SRP_VERSION 140011
+			#define ASE_USING_SAMPLING_MACROS 1
 
 			#pragma editor_sync_compilation
+            #pragma multi_compile _ DOTS_INSTANCING_ON
+
+            #pragma shader_feature _ _SURFACE_TYPE_TRANSPARENT
+            #pragma shader_feature_local _ _TRANSPARENT_WRITES_MOTION_VEC
+            #pragma shader_feature_local_fragment _ _ENABLE_FOG_ON_TRANSPARENT
 
 			#pragma vertex Vert
 			#pragma fragment Frag
+
+			#define SHADERPASS SHADERPASS_DEPTH_ONLY
+			#define SCENEPICKINGPASS 1
+
+			#define ATTRIBUTES_NEED_NORMAL
+			#define ATTRIBUTES_NEED_TANGENT
+			#define VARYINGS_NEED_TANGENT_TO_WORLD
 
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
         	#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GeometricTools.hlsl"
@@ -6465,40 +6082,60 @@ Shader "BallsSpherize"
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
             #include "Packages/com.unity.shadergraph/ShaderGraphLibrary/Functions.hlsl"
 
-			#define ATTRIBUTES_NEED_NORMAL
-			#define ATTRIBUTES_NEED_TANGENT
-			#define VARYINGS_NEED_TANGENT_TO_WORLD
-
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
 
-			#define SHADERPASS SHADERPASS_DEPTH_ONLY
-			#define SCENEPICKINGPASS 1
+            #ifdef RAYTRACING_SHADER_GRAPH_DEFAULT
+                #define RAYTRACING_SHADER_GRAPH_HIGH
+            #endif
 
-			#ifndef SHADER_UNLIT
-			#if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
-		    #define VARYINGS_NEED_CULLFACE
-			#endif
-			#endif
+            #ifdef RAYTRACING_SHADER_GRAPH_RAYTRACED
+                #define RAYTRACING_SHADER_GRAPH_LOW
+            #endif
 
-			#if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
-			#if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
-			#define WRITE_NORMAL_BUFFER
-			#endif
+            #ifndef SHADER_UNLIT
+            #if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
+                #define VARYINGS_NEED_CULLFACE
+            #endif
+            #endif
+
+			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
+			    #define ASE_NEED_CULLFACE 1
 			#endif
 
 		    #if defined(_MATERIAL_FEATURE_SUBSURFACE_SCATTERING) && !defined(_SURFACE_TYPE_TRANSPARENT)
 			#define OUTPUT_SPLIT_LIGHTING
 		    #endif
 
-			#if defined(SHADER_LIT) && !defined(_SURFACE_TYPE_TRANSPARENT)
-			#define _DEFERRED_CAPABLE_MATERIAL
-			#endif
+            #if (SHADERPASS == SHADERPASS_PATH_TRACING) && !defined(_DOUBLESIDED_ON) && (defined(_REFRACTION_PLANE) || defined(_REFRACTION_SPHERE))
+            #undef  _REFRACTION_PLANE
+            #undef  _REFRACTION_SPHERE
+            #define _REFRACTION_THIN
+            #endif
 
-			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
-			#define _WRITE_TRANSPARENT_MOTION_VECTOR
-			#endif
+            #if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
+            #if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
+                #define WRITE_NORMAL_BUFFER
+            #endif
+            #endif
 
-			float4 _SelectionID;
+            #ifndef DEBUG_DISPLAY
+                #if !defined(_SURFACE_TYPE_TRANSPARENT)
+                    #if SHADERPASS == SHADERPASS_FORWARD
+                    #define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
+                    #elif SHADERPASS == SHADERPASS_GBUFFER
+                    #define SHADERPASS_GBUFFER_BYPASS_ALPHA_TEST
+                    #endif
+                #endif
+            #endif
+
+            #if defined(SHADER_LIT) && !defined(_SURFACE_TYPE_TRANSPARENT)
+                #define _DEFERRED_CAPABLE_MATERIAL
+            #endif
+
+            #if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
+                #define _WRITE_TRANSPARENT_MOTION_VECTOR
+            #endif
+
             CBUFFER_START( UnityPerMaterial )
 			float4 _BaseColorMap_ST;
 			float4 _NormalMap_ST;
@@ -6515,7 +6152,7 @@ Shader "BallsSpherize"
 			float _AlphaCutoff;
 			float _RenderQueueType;
 			#ifdef _ADD_PRECOMPUTED_VELOCITY
-			float _AddPrecomputedVelocity;
+			    float _AddPrecomputedVelocity;
 			#endif
 			float _StencilRef;
 			float _StencilWriteMask;
@@ -6523,6 +6160,8 @@ Shader "BallsSpherize"
 			float _StencilWriteMaskDepth;
 			float _StencilRefMV;
 			float _StencilWriteMaskMV;
+			float _StencilRefDistortionVec;
+			float _StencilWriteMaskDistortionVec;
 			float _StencilWriteMaskGBuffer;
 			float _StencilRefGBuffer;
 			float _ZTestGBuffer;
@@ -6531,7 +6170,7 @@ Shader "BallsSpherize"
 			float _SurfaceType;
 			float _BlendMode;
             #ifdef SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
-			float _EnableBlendModePreserveSpecularLighting;
+			    float _EnableBlendModePreserveSpecularLighting;
             #endif
 			float _SrcBlend;
 			float _DstBlend;
@@ -6553,14 +6192,23 @@ Shader "BallsSpherize"
 			float _DoubleSidedNormalMode;
 			float4 _DoubleSidedConstants;
 			#ifdef ASE_TESSELLATION
-			float _TessPhongStrength;
-			float _TessValue;
-			float _TessMin;
-			float _TessMax;
-			float _TessEdgeLength;
-			float _TessMaxDisp;
+			    float _TessPhongStrength;
+			    float _TessValue;
+			    float _TessMin;
+			    float _TessMax;
+			    float _TessEdgeLength;
+			    float _TessMaxDisp;
 			#endif
 			CBUFFER_END
+
+            #ifdef SCENEPICKINGPASS
+            float4 _SelectionID;
+            #endif
+
+            #ifdef SCENESELECTIONPASS
+            int _ObjectId;
+            int _PassValue;
+            #endif
 
 			
 
@@ -6570,10 +6218,13 @@ Shader "BallsSpherize"
 
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/PickingSpaceTransforms.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Unlit/Unlit.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/Lit.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/BuiltinUtilities.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
+
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
 
 			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_VERT_NORMAL
@@ -6581,7 +6232,7 @@ Shader "BallsSpherize"
 			#pragma multi_compile_local __ _SPHERIZE_ON
 
 
-			struct VertexInput
+			struct AttributesMesh
 			{
 				float3 positionOS : POSITION;
 				float3 normalOS : NORMAL;
@@ -6590,17 +6241,21 @@ Shader "BallsSpherize"
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
-			struct VertexOutput
+			struct PackedVaryingsMeshToPS
 			{
-				float4 positionCS : SV_POSITION;
-				float3 normalWS : TEXCOORD0;
-				float4 tangentWS : TEXCOORD1;
+				SV_POSITION_QUALIFIERS float4 positionCS : SV_Position;
+				float3 positionRWS : TEXCOORD0;
+				float3 normalWS : TEXCOORD1;
+				float4 tangentWS : TEXCOORD2;
 				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
+				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
+				FRONT_FACE_TYPE cullFace : FRONT_FACE_SEMANTIC;
+				#endif
 			};
 
-			float3 MyCustomExpression11_g1( float3 pos )
+			float3 MyCustomExpression11_g369( float3 pos )
 			{
 				return GetCameraRelativePositionWS(pos);
 			}
@@ -6632,218 +6287,172 @@ Shader "BallsSpherize"
 				return transpose( cofactors ) / determinant( input );
 			}
 			
-			float3 MyCustomExpression32_g250( float3 pos )
+			float3 MyCustomExpression32_g371( float3 pos )
 			{
 				return GetAbsolutePositionWS(pos);
 			}
 			
 
-            struct SurfaceDescription
+			// Get Surface And BuiltinData
+			void GetSurfaceAndBuiltinData(PickingSurfaceDescription surfaceDescription, FragInputs fragInputs, float3 V, inout PositionInputs posInput, out SurfaceData surfaceData, out BuiltinData builtinData)
 			{
-				float Alpha;
-				float AlphaClipThreshold;
-				float DepthOffset;
-			};
+				#ifdef LOD_FADE_CROSSFADE
+                    LODDitheringTransition(ComputeFadeMaskSeed(V, posInput.positionSS), unity_LODFade.x);
+				#endif
 
-			struct SurfaceDescriptionInputs
-			{
-				float3 ObjectSpaceNormal;
-				float3 WorldSpaceNormal;
-				float3 TangentSpaceNormal;
-				float3 ObjectSpaceViewDirection;
-				float3 WorldSpaceViewDirection;
-				float3 ObjectSpacePosition;
-			};
-
-
-            void GetSurfaceAndBuiltinData(SurfaceDescription surfaceDescription, FragInputs fragInputs, float3 V, inout PositionInputs posInput, out SurfaceData surfaceData, out BuiltinData builtinData RAY_TRACING_OPTIONAL_PARAMETERS)
-            {
-
-                #if !defined(SHADER_STAGE_RAY_TRACING) && !defined(_TESSELLATION_DISPLACEMENT)
-                #ifdef LOD_FADE_CROSSFADE
-				LODDitheringTransition(ComputeFadeMaskSeed(V, posInput.positionSS), unity_LODFade.x);
-                #endif
-                #endif
-
-                #ifndef SHADER_UNLIT
                 #ifdef _DOUBLESIDED_ON
-				float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
+                    float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
                 #else
-				float3 doubleSidedConstants = float3(1.0, 1.0, 1.0);
+                    float3 doubleSidedConstants = float3(1.0, 1.0, 1.0);
                 #endif
-				ApplyDoubleSidedFlipOrMirror(fragInputs, doubleSidedConstants);
-                #endif
+                ApplyDoubleSidedFlipOrMirror(fragInputs, doubleSidedConstants);
+
+				#ifdef _ALPHATEST_ON
+                    DoAlphaTest( surfaceDescription.Alpha, surfaceDescription.AlphaClipThreshold );
+				#endif
+
+				#ifdef _ALPHATEST_SHADOW_ON
+                    DoAlphaTest( surfaceDescription.Alpha, surfaceDescription.AlphaClipThresholdShadow);
+				#endif
+
+				#ifdef _DEPTHOFFSET_ON
+                    ApplyDepthOffsetPositionInput(V, surfaceDescription.DepthOffset, GetViewForwardDir(), GetWorldToHClipMatrix(), posInput);
+				#endif
+
+				float3 bentNormalWS;
+                //BuildSurfaceData(fragInputs, surfaceDescription, V, posInput, surfaceData, bentNormalWS);
+                InitBuiltinData(posInput, surfaceDescription.Alpha, bentNormalWS, -fragInputs.tangentToWorld[2], fragInputs.texCoord1, fragInputs.texCoord2, builtinData);
+
+				#ifdef _DEPTHOFFSET_ON
+                    builtinData.depthOffset = surfaceDescription.DepthOffset;
+				#endif
 
                 #ifdef _ALPHATEST_ON
-				float alphaCutoff = surfaceDescription.AlphaClipThreshold;
-                #if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
-                #elif SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_POSTPASS
-				alphaCutoff = surfaceDescription.AlphaClipThresholdDepthPostpass;
-                #elif (SHADERPASS == SHADERPASS_SHADOWS) || (SHADERPASS == SHADERPASS_RAYTRACING_VISIBILITY)
-                #endif
-				GENERIC_ALPHA_TEST(surfaceDescription.Alpha, alphaCutoff);
-                #endif
-
-                #if !defined(SHADER_STAGE_RAY_TRACING) && _DEPTHOFFSET_ON
-				ApplyDepthOffsetPositionInput(V, surfaceDescription.DepthOffset, GetViewForwardDir(), GetWorldToHClipMatrix(), posInput);
-                #endif
-
-                #ifdef FRAG_INPUTS_USE_TEXCOORD1
-				float4 lightmapTexCoord1 = fragInputs.texCoord1;
-                #else
-				float4 lightmapTexCoord1 = float4(0, 0, 0, 0);
-                #endif
-
-                #ifdef FRAG_INPUTS_USE_TEXCOORD2
-				float4 lightmapTexCoord2 = fragInputs.texCoord2;
-                #else
-				float4 lightmapTexCoord2 = float4(0, 0, 0, 0);
-                #endif
-
-				//InitBuiltinData(posInput, surfaceDescription.Alpha, bentNormalWS, -fragInputs.tangentToWorld[2], lightmapTexCoord1, lightmapTexCoord2, builtinData);
-
-                //#else
-                //BuildSurfaceData(fragInputs, surfaceDescription, V, posInput, surfaceData);
-
-                ZERO_INITIALIZE(SurfaceData, surfaceData);
-
-                ZERO_BUILTIN_INITIALIZE(builtinData);
-                builtinData.opacity = surfaceDescription.Alpha;
-
-                #if defined(DEBUG_DISPLAY)
-				builtinData.renderingLayers = GetMeshRenderingLightLayer();
-                #endif
-
-                #ifdef _ALPHATEST_ON
-				builtinData.alphaClipTreshold = alphaCutoff;
+                    builtinData.alphaClipTreshold = surfaceDescription.AlphaClipThreshold;
                 #endif
 
                 #ifdef UNITY_VIRTUAL_TEXTURING
+                    builtinData.vtPackedFeedback = surfaceDescription.VTPackedFeedback;
                 #endif
 
-                #if _DEPTHOFFSET_ON
-				builtinData.depthOffset = surfaceDescription.DepthOffset;
-                #endif
+				#ifdef ASE_BAKEDGI
+                    builtinData.bakeDiffuseLighting = surfaceDescription.BakedGI;
+				#endif
 
-                #if (SHADERPASS == SHADERPASS_DISTORTION)
-				builtinData.distortion = surfaceDescription.Distortion;
-				builtinData.distortionBlur = surfaceDescription.DistortionBlur;
-                #endif
+				#ifdef ASE_BAKEDBACKGI
+                    builtinData.backBakeDiffuseLighting = surfaceDescription.BakedBackGI;
+				#endif
 
-                #ifndef SHADER_UNLIT
+                builtinData.emissiveColor = surfaceDescription.Emission;
+
 				PostInitBuiltinData(V, posInput, surfaceData, builtinData);
-                #else
-				ApplyDebugToBuiltinData(builtinData);
-                #endif
-
-				RAY_TRACING_OPTIONAL_ALPHA_TEST_PASS
 
             }
 
-
-			VertexOutput VertexFunction(VertexInput inputMesh  )
+			PackedVaryingsMeshToPS VertexFunction(AttributesMesh inputMesh )
 			{
-
-				VertexOutput o;
-				ZERO_INITIALIZE(VertexOutput, o);
-				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
-
+				PackedVaryingsMeshToPS output;
 				UNITY_SETUP_INSTANCE_ID(inputMesh);
-				UNITY_TRANSFER_INSTANCE_ID(inputMesh, o );
+				UNITY_TRANSFER_INSTANCE_ID(inputMesh, output);
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( output );
 
-				float3 pos11_g1 = _SpherePosition;
-				float3 localMyCustomExpression11_g1 = MyCustomExpression11_g1( pos11_g1 );
-				float4 appendResult1_g1 = (float4(localMyCustomExpression11_g1 , 1.0));
-				float3 temp_output_5_0_g1 = (mul( GetWorldToObjectMatrix(), appendResult1_g1 )).xyz;
-				float3 temp_output_3_0_g253 = temp_output_5_0_g1;
-				float3 normalizeResult6_g253 = normalize( ( inputMesh.positionOS - temp_output_3_0_g253 ) );
-				float4 appendResult4_g1 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float3 temp_output_6_0_g1 = ( ( normalizeResult6_g253 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g1 )).xyz ) ) ) + temp_output_3_0_g253 );
-				float temp_output_18_0_g1 = ( _SpherizeAmount * inputMesh.ase_color.r );
-				float3 lerpResult21_g1 = lerp( inputMesh.positionOS , temp_output_6_0_g1 , temp_output_18_0_g1);
+				float3 pos11_g369 = _SpherePosition;
+				float3 localMyCustomExpression11_g369 = MyCustomExpression11_g369( pos11_g369 );
+				float4 appendResult1_g369 = (float4(localMyCustomExpression11_g369 , 1.0));
+				float3 temp_output_5_0_g369 = (mul( GetWorldToObjectMatrix(), appendResult1_g369 )).xyz;
+				float3 temp_output_3_0_g370 = temp_output_5_0_g369;
+				float3 normalizeResult6_g370 = normalize( ( inputMesh.positionOS - temp_output_3_0_g370 ) );
+				float4 appendResult4_g369 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float3 temp_output_6_0_g369 = ( ( normalizeResult6_g370 * ( _SphereRadius * length( (mul( GetWorldToObjectMatrix(), appendResult4_g369 )).xyz ) ) ) + temp_output_3_0_g370 );
+				float temp_output_18_0_g369 = ( _SpherizeAmount * inputMesh.ase_color.r );
+				float3 lerpResult21_g369 = lerp( inputMesh.positionOS , temp_output_6_0_g369 , temp_output_18_0_g369);
 				#ifdef _SPHERIZE_ON
-				float3 staticSwitch16_g1 = lerpResult21_g1;
+				float3 staticSwitch16_g369 = lerpResult21_g369;
 				#else
-				float3 staticSwitch16_g1 = inputMesh.positionOS;
+				float3 staticSwitch16_g369 = inputMesh.positionOS;
 				#endif
-				float3 normalizeResult27_g252 = normalize( _WorldDickNormal );
-				float3 normalizeResult31_g252 = normalize( _WorldDickBinormal );
-				float3 normalizeResult29_g252 = normalize( cross( normalizeResult27_g252 , normalizeResult31_g252 ) );
-				float4 appendResult26_g251 = (float4(1.0 , 0.0 , 0.0 , 0.0));
-				float4 appendResult28_g251 = (float4(0.0 , 1.0 , 0.0 , 0.0));
-				float4 appendResult31_g251 = (float4(0.0 , 0.0 , 1.0 , 0.0));
-				float3 break27_g251 = -_WorldDickPosition;
-				float4 appendResult29_g251 = (float4(break27_g251.x , break27_g251.y , break27_g251.z , 1.0));
-				float4x4 temp_output_30_0_g251 = mul( transpose( float4x4( float4( normalizeResult27_g252 , 0.0 ).x,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).x,float4( normalizeResult29_g252 , 0.0 ).x,float4(0,0,0,1).x,float4( normalizeResult27_g252 , 0.0 ).y,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).y,float4( normalizeResult29_g252 , 0.0 ).y,float4(0,0,0,1).y,float4( normalizeResult27_g252 , 0.0 ).z,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).z,float4( normalizeResult29_g252 , 0.0 ).z,float4(0,0,0,1).z,float4( normalizeResult27_g252 , 0.0 ).w,float4( cross( normalizeResult29_g252 , normalizeResult27_g252 ) , 0.0 ).w,float4( normalizeResult29_g252 , 0.0 ).w,float4(0,0,0,1).w ) ), float4x4( appendResult26_g251.x,appendResult28_g251.x,appendResult31_g251.x,appendResult29_g251.x,appendResult26_g251.y,appendResult28_g251.y,appendResult31_g251.y,appendResult29_g251.y,appendResult26_g251.z,appendResult28_g251.z,appendResult31_g251.z,appendResult29_g251.z,appendResult26_g251.w,appendResult28_g251.w,appendResult31_g251.w,appendResult29_g251.w ) );
-				float4x4 invertVal44_g251 = Inverse4x4( temp_output_30_0_g251 );
-				float4 appendResult27_g250 = (float4(inputMesh.positionOS , 1.0));
-				float3 pos32_g250 = mul( GetObjectToWorldMatrix(), appendResult27_g250 ).xyz;
-				float3 localMyCustomExpression32_g250 = MyCustomExpression32_g250( pos32_g250 );
-				float4 appendResult32_g251 = (float4(localMyCustomExpression32_g250 , 1.0));
-				float4 break35_g251 = mul( temp_output_30_0_g251, appendResult32_g251 );
-				float temp_output_124_0_g251 = _TipRadius;
-				float2 appendResult36_g251 = (float2(break35_g251.y , break35_g251.z));
-				float2 normalizeResult41_g251 = normalize( appendResult36_g251 );
-				float temp_output_120_0_g251 = sqrt( max( break35_g251.x , 0.0 ) );
-				float temp_output_48_0_g251 = tan( radians( _Angle ) );
-				float temp_output_125_0_g251 = ( temp_output_124_0_g251 + ( temp_output_120_0_g251 * temp_output_48_0_g251 ) );
-				float temp_output_37_0_g251 = length( appendResult36_g251 );
-				float temp_output_114_0_g251 = ( ( temp_output_125_0_g251 - temp_output_37_0_g251 ) + 1.0 );
-				float lerpResult102_g251 = lerp( temp_output_125_0_g251 , temp_output_37_0_g251 , saturate( temp_output_114_0_g251 ));
-				float lerpResult130_g251 = lerp( 0.0 , lerpResult102_g251 , saturate( ( -( -temp_output_124_0_g251 - break35_g251.x ) / temp_output_124_0_g251 ) ));
-				float2 break43_g251 = ( normalizeResult41_g251 * lerpResult130_g251 );
-				float4 appendResult40_g251 = (float4(max( break35_g251.x , -temp_output_124_0_g251 ) , break43_g251.x , break43_g251.y , 1.0));
-				float4 appendResult28_g250 = (float4(((mul( invertVal44_g251, appendResult40_g251 )).xyz).xyz , 1.0));
-				float4 localWorldVar29_g250 = appendResult28_g250;
-				(localWorldVar29_g250).xyz = GetCameraRelativePositionWS((localWorldVar29_g250).xyz);
-				float4 transform29_g250 = mul(GetWorldToObjectMatrix(),localWorldVar29_g250);
+				float3 normalizeResult27_g373 = normalize( _WorldDickNormal );
+				float3 normalizeResult31_g373 = normalize( _WorldDickBinormal );
+				float3 normalizeResult29_g373 = normalize( cross( normalizeResult27_g373 , normalizeResult31_g373 ) );
+				float4 appendResult26_g372 = (float4(1.0 , 0.0 , 0.0 , 0.0));
+				float4 appendResult28_g372 = (float4(0.0 , 1.0 , 0.0 , 0.0));
+				float4 appendResult31_g372 = (float4(0.0 , 0.0 , 1.0 , 0.0));
+				float3 break27_g372 = -_WorldDickPosition;
+				float4 appendResult29_g372 = (float4(break27_g372.x , break27_g372.y , break27_g372.z , 1.0));
+				float4x4 temp_output_30_0_g372 = mul( transpose( float4x4( float4( normalizeResult27_g373 , 0.0 ).x, float4( cross( normalizeResult29_g373 , normalizeResult27_g373 ) , 0.0 ).x, float4( normalizeResult29_g373 , 0.0 ).x, float4( 0, 0, 0, 1 ).x, float4( normalizeResult27_g373 , 0.0 ).y, float4( cross( normalizeResult29_g373 , normalizeResult27_g373 ) , 0.0 ).y, float4( normalizeResult29_g373 , 0.0 ).y, float4( 0, 0, 0, 1 ).y, float4( normalizeResult27_g373 , 0.0 ).z, float4( cross( normalizeResult29_g373 , normalizeResult27_g373 ) , 0.0 ).z, float4( normalizeResult29_g373 , 0.0 ).z, float4( 0, 0, 0, 1 ).z, float4( normalizeResult27_g373 , 0.0 ).w, float4( cross( normalizeResult29_g373 , normalizeResult27_g373 ) , 0.0 ).w, float4( normalizeResult29_g373 , 0.0 ).w, float4( 0, 0, 0, 1 ).w ) ), float4x4( appendResult26_g372.x, appendResult28_g372.x, appendResult31_g372.x, appendResult29_g372.x, appendResult26_g372.y, appendResult28_g372.y, appendResult31_g372.y, appendResult29_g372.y, appendResult26_g372.z, appendResult28_g372.z, appendResult31_g372.z, appendResult29_g372.z, appendResult26_g372.w, appendResult28_g372.w, appendResult31_g372.w, appendResult29_g372.w ) );
+				float4x4 invertVal44_g372 = Inverse4x4( temp_output_30_0_g372 );
+				float4 appendResult27_g371 = (float4(inputMesh.positionOS , 1.0));
+				float3 pos32_g371 = mul( GetObjectToWorldMatrix(), appendResult27_g371 ).xyz;
+				float3 localMyCustomExpression32_g371 = MyCustomExpression32_g371( pos32_g371 );
+				float4 appendResult32_g372 = (float4(localMyCustomExpression32_g371 , 1.0));
+				float4 break35_g372 = mul( temp_output_30_0_g372, appendResult32_g372 );
+				float temp_output_124_0_g372 = _TipRadius;
+				float2 appendResult36_g372 = (float2(break35_g372.y , break35_g372.z));
+				float2 normalizeResult41_g372 = normalize( appendResult36_g372 );
+				float temp_output_120_0_g372 = sqrt( max( break35_g372.x , 0.0 ) );
+				float temp_output_48_0_g372 = tan( radians( _Angle ) );
+				float temp_output_125_0_g372 = ( temp_output_124_0_g372 + ( temp_output_120_0_g372 * temp_output_48_0_g372 ) );
+				float temp_output_37_0_g372 = length( appendResult36_g372 );
+				float temp_output_114_0_g372 = ( ( temp_output_125_0_g372 - temp_output_37_0_g372 ) + 1.0 );
+				float lerpResult102_g372 = lerp( temp_output_125_0_g372 , temp_output_37_0_g372 , saturate( temp_output_114_0_g372 ));
+				float lerpResult130_g372 = lerp( 0.0 , lerpResult102_g372 , saturate( ( -( -temp_output_124_0_g372 - break35_g372.x ) / temp_output_124_0_g372 ) ));
+				float2 break43_g372 = ( normalizeResult41_g372 * lerpResult130_g372 );
+				float4 appendResult40_g372 = (float4(max( break35_g372.x , -temp_output_124_0_g372 ) , break43_g372.x , break43_g372.y , 1.0));
+				float4 appendResult28_g371 = (float4(((mul( invertVal44_g372, appendResult40_g372 )).xyz).xyz , 1.0));
+				float4 localWorldVar29_g371 = appendResult28_g371;
+				(localWorldVar29_g371).xyz = GetCameraRelativePositionWS((localWorldVar29_g371).xyz);
+				float4 transform29_g371 = mul(GetWorldToObjectMatrix(),localWorldVar29_g371);
 				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch13_g250 = (transform29_g250).xyz;
+				float3 staticSwitch13_g371 = (transform29_g371).xyz;
 				#else
-				float3 staticSwitch13_g250 = staticSwitch16_g1;
+				float3 staticSwitch13_g371 = staticSwitch16_g369;
 				#endif
 				
-				float3 normalizeResult13_g1 = normalize( ( temp_output_6_0_g1 - temp_output_5_0_g1 ) );
-				float3 lerpResult12_g1 = lerp( inputMesh.normalOS , normalizeResult13_g1 , temp_output_18_0_g1);
+				float3 normalizeResult13_g369 = normalize( ( temp_output_6_0_g369 - temp_output_5_0_g369 ) );
+				float3 lerpResult12_g369 = lerp( inputMesh.normalOS , normalizeResult13_g369 , temp_output_18_0_g369);
+				float3 normalizeResult55_g369 = normalize( lerpResult12_g369 );
 				#ifdef _SPHERIZE_ON
-				float3 staticSwitch15_g1 = lerpResult12_g1;
+				float3 staticSwitch15_g369 = normalizeResult55_g369;
 				#else
-				float3 staticSwitch15_g1 = inputMesh.normalOS;
+				float3 staticSwitch15_g369 = inputMesh.normalOS;
 				#endif
-				float3 temp_output_50_0_g250 = staticSwitch15_g1;
-				float2 break146_g251 = normalizeResult41_g251;
-				float4 appendResult139_g251 = (float4(temp_output_48_0_g251 , break146_g251.x , break146_g251.y , 0.0));
-				float3 normalizeResult144_g251 = normalize( (mul( invertVal44_g251, appendResult139_g251 )).xyz );
-				float3 lerpResult44_g250 = lerp( normalizeResult144_g251 , temp_output_50_0_g250 , saturate( sign( temp_output_114_0_g251 ) ));
+				float3 temp_output_50_0_g371 = staticSwitch15_g369;
+				float2 break146_g372 = normalizeResult41_g372;
+				float4 appendResult139_g372 = (float4(temp_output_48_0_g372 , break146_g372.x , break146_g372.y , 0.0));
+				float3 normalizeResult144_g372 = normalize( (mul( invertVal44_g372, appendResult139_g372 )).xyz );
+				float3 lerpResult44_g371 = lerp( normalizeResult144_g372 , temp_output_50_0_g371 , saturate( sign( temp_output_114_0_g372 ) ));
 				#ifdef _COCKVORESQUISHENABLED_ON
-				float3 staticSwitch17_g250 = lerpResult44_g250;
+				float3 staticSwitch17_g371 = lerpResult44_g371;
 				#else
-				float3 staticSwitch17_g250 = temp_output_50_0_g250;
+				float3 staticSwitch17_g371 = temp_output_50_0_g371;
 				#endif
 				
+
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue =  staticSwitch13_g250;
+				float3 vertexValue = staticSwitch13_g371;
+
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
 				#else
 				inputMesh.positionOS.xyz += vertexValue;
 				#endif
 
-				inputMesh.normalOS = staticSwitch17_g250;
+				inputMesh.normalOS = staticSwitch17_g371;
+				inputMesh.tangentOS = inputMesh.tangentOS;
 
 				float3 positionRWS = TransformObjectToWorld(inputMesh.positionOS);
 				float3 normalWS = TransformObjectToWorldNormal(inputMesh.normalOS);
 				float4 tangentWS = float4(TransformObjectToWorldDir(inputMesh.tangentOS.xyz), inputMesh.tangentOS.w);
 
-				o.positionCS = TransformWorldToHClip(positionRWS);
-				o.normalWS.xyz =  normalWS;
-				o.tangentWS.xyzw =  tangentWS;
-
-				return o;
+				output.positionCS = TransformWorldToHClip(positionRWS);
+				output.positionRWS = positionRWS;
+				output.normalWS = normalWS;
+				output.tangentWS = tangentWS;
+				return output;
 			}
 
 			#if defined(ASE_TESSELLATION)
@@ -6863,7 +6472,7 @@ Shader "BallsSpherize"
 				float inside : SV_InsideTessFactor;
 			};
 
-			VertexControl Vert ( VertexInput v )
+			VertexControl Vert ( AttributesMesh v )
 			{
 				VertexControl o;
 				UNITY_SETUP_INSTANCE_ID(v);
@@ -6910,9 +6519,9 @@ Shader "BallsSpherize"
 			}
 
 			[domain("tri")]
-			VertexOutput DomainFunction(TessellationFactors factors, OutputPatch<VertexControl, 3> patch, float3 bary : SV_DomainLocation)
+			PackedVaryingsMeshToPS DomainFunction(TessellationFactors factors, OutputPatch<VertexControl, 3> patch, float3 bary : SV_DomainLocation)
 			{
-				VertexInput o = (VertexInput) 0;
+				AttributesMesh o = (AttributesMesh) 0;
 				o.positionOS = patch[0].positionOS * bary.x + patch[1].positionOS * bary.y + patch[2].positionOS * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
 				o.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
@@ -6928,41 +6537,97 @@ Shader "BallsSpherize"
 				return VertexFunction(o);
 			}
 			#else
-			VertexOutput Vert ( VertexInput v )
+			PackedVaryingsMeshToPS Vert ( AttributesMesh v )
 			{
 				return VertexFunction( v );
 			}
 			#endif
 
-			void Frag(	VertexOutput packedInput
+			#if defined(WRITE_NORMAL_BUFFER) && defined(WRITE_MSAA_DEPTH)
+			#define SV_TARGET_DECAL SV_Target2
+			#elif defined(WRITE_NORMAL_BUFFER) || defined(WRITE_MSAA_DEPTH)
+			#define SV_TARGET_DECAL SV_Target1
+			#else
+			#define SV_TARGET_DECAL SV_Target0
+			#endif
+
+			void Frag( PackedVaryingsMeshToPS packedInput
+						#if defined(SCENESELECTIONPASS) || defined(SCENEPICKINGPASS)
 						, out float4 outColor : SV_Target0
-						
-					)
+						#else
+							#ifdef WRITE_MSAA_DEPTH
+							, out float4 depthColor : SV_Target0
+								#ifdef WRITE_NORMAL_BUFFER
+								, out float4 outNormalBuffer : SV_Target1
+								#endif
+							#else
+								#ifdef WRITE_NORMAL_BUFFER
+								, out float4 outNormalBuffer : SV_Target0
+								#endif
+							#endif
+
+							#if defined(WRITE_DECAL_BUFFER) && !defined(_DISABLE_DECALS)
+							, out float4 outDecalBuffer : SV_TARGET_DECAL
+							#endif
+						#endif
+						#if defined( ASE_DEPTH_WRITE_ON )
+							, out float outputDepth : DEPTH_OFFSET_SEMANTIC
+						#endif
+						 )
 			{
 				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(packedInput);
 				UNITY_SETUP_INSTANCE_ID(packedInput);
 
 				FragInputs input;
 				ZERO_INITIALIZE(FragInputs, input);
-				input.tangentToWorld = k_identity3x3;
 				input.positionSS = packedInput.positionCS;
-
-				input.tangentToWorld = BuildTangentToWorld(packedInput.tangentWS.xyzw, packedInput.normalWS.xyz);
+				input.positionRWS = packedInput.positionRWS;
+				input.tangentToWorld = BuildTangentToWorld(packedInput.tangentWS, packedInput.normalWS);
 
 				PositionInputs posInput = GetPositionInput(input.positionSS.xy, _ScreenSize.zw, input.positionSS.z, input.positionSS.w, input.positionRWS);
 
-				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
+				#if _DOUBLESIDED_ON && SHADER_STAGE_FRAGMENT
+					input.isFrontFace = IS_FRONT_VFACE(packedInput.cullFace, true, false);
+				#elif SHADER_STAGE_FRAGMENT
+					#if defined(ASE_NEED_CULLFACE)
+						input.isFrontFace = IS_FRONT_VFACE(packedInput.cullFace, true, false);
+					#endif
+				#endif
+
+				half isFrontFace = input.isFrontFace;
+				float3 PositionRWS = posInput.positionWS;
+				float3 PositionWS = GetAbsolutePositionWS( posInput.positionWS );
+				float3 V = GetWorldSpaceNormalizeViewDir( packedInput.positionRWS );
+				float4 ScreenPosNorm = float4( posInput.positionNDC, packedInput.positionCS.zw );
+				float4 ClipPos = ComputeClipSpacePosition( ScreenPosNorm.xy, packedInput.positionCS.z ) * packedInput.positionCS.w;
+				float4 ScreenPos = ComputeScreenPos( ClipPos, _ProjectionParams.x );
+				float3 NormalWS = packedInput.normalWS;
+				float3 TangentWS = packedInput.tangentWS.xyz;
+				float3 BitangentWS = input.tangentToWorld[ 1 ];
+
 				
+
+				PickingSurfaceDescription surfaceDescription = (PickingSurfaceDescription)0;
+
 				surfaceDescription.Alpha = 1;
-				surfaceDescription.AlphaClipThreshold =  _AlphaCutoff;
 
+				#ifdef _ALPHATEST_ON
+				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
+				#endif
 
-				float3 V = float3(1.0, 1.0, 1.0);
+				#if defined( ASE_DEPTH_WRITE_ON )
+					#if !defined( _DEPTHOFFSET_ON )
+						posInput.deviceDepth = input.positionSS.z;
+					#else
+						surfaceDescription.DepthOffset = 0;
+					#endif
+				#endif
 
-				SurfaceData surfaceData;
-				BuiltinData builtinData;
-				GetSurfaceAndBuiltinData(surfaceDescription, input, V, posInput, surfaceData, builtinData);
-				outColor = _SelectionID;
+				#if defined( ASE_DEPTH_WRITE_ON )
+					outputDepth = posInput.deviceDepth;
+				#endif
+
+				outColor = unity_SelectionID;
 			}
 
             ENDHLSL
@@ -6970,11 +6635,10 @@ Shader "BallsSpherize"
 
         Pass
         {
-
             Name "FullScreenDebug"
-            Tags 
-			{ 
-				"LightMode" = "FullScreenDebug" 
+            Tags
+			{
+				"LightMode" = "FullScreenDebug"
             }
 
             Cull [_CullMode]
@@ -6982,15 +6646,20 @@ Shader "BallsSpherize"
 			ZWrite Off
 
             HLSLPROGRAM
-
-			/*ase_pragma_before*/
-
-			#pragma multi_compile_instancing
-			#pragma instancing_options renderinglayer
+            /*ase_pragma_before*/
+            #pragma multi_compile _ DOTS_INSTANCING_ON
 
 			#pragma vertex Vert
 			#pragma fragment Frag
 
+            #pragma shader_feature _ _SURFACE_TYPE_TRANSPARENT
+            #pragma shader_feature_local _ _TRANSPARENT_WRITES_MOTION_VEC
+            #pragma shader_feature_local_fragment _ _ENABLE_FOG_ON_TRANSPARENT
+
+			#define SHADERPASS SHADERPASS_FULL_SCREEN_DEBUG
+
+			#define ATTRIBUTES_NEED_NORMAL
+			#define ATTRIBUTES_NEED_TANGENT
 
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GeometricTools.hlsl"
@@ -7000,9 +6669,6 @@ Shader "BallsSpherize"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPass.cs.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
             #include "Packages/com.unity.shadergraph/ShaderGraphLibrary/Functions.hlsl"
-
-			#define ATTRIBUTES_NEED_NORMAL
-			#define ATTRIBUTES_NEED_TANGENT
 
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
 
@@ -7016,13 +6682,11 @@ Shader "BallsSpherize"
 		    #define OUTPUT_SPLIT_LIGHTING
 		    #endif
 
-		    #if !( (SHADERPASS == SHADERPASS_FORWARD) || (SHADERPASS == SHADERPASS_LIGHT_TRANSPORT) \
-               || (SHADERPASS == SHADERPASS_RAYTRACING_INDIRECT) || (SHADERPASS == SHADERPASS == SHADERPASS_RAYTRACING_INDIRECT)\
-               || (SHADERPASS == SHADERPASS_PATH_TRACING) || (SHADERPASS == SHADERPASS_RAYTRACING_SUB_SURFACE) \
-               || (SHADERPASS == SHADERPASS_RAYTRACING_GBUFFER) )
-
-		    #define DISABLE_MODIFY_BAKED_DIFFUSE_LIGHTING
-		    #endif
+            #if (SHADERPASS == SHADERPASS_PATH_TRACING) && !defined(_DOUBLESIDED_ON) && (defined(_REFRACTION_PLANE) || defined(_REFRACTION_SPHERE))
+            #undef  _REFRACTION_PLANE
+            #undef  _REFRACTION_SPHERE
+            #define _REFRACTION_THIN
+            #endif
 
 			#if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
 			#if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
@@ -7040,13 +6704,13 @@ Shader "BallsSpherize"
 				#endif
 			#endif
 
-			#if defined(SHADER_LIT) && !defined(_SURFACE_TYPE_TRANSPARENT)
-			#define _DEFERRED_CAPABLE_MATERIAL
-			#endif
+            #if defined(SHADER_LIT) && !defined(_SURFACE_TYPE_TRANSPARENT)
+                #define _DEFERRED_CAPABLE_MATERIAL
+            #endif
 
-			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
-			#define _WRITE_TRANSPARENT_MOTION_VECTOR
-			#endif
+            #if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
+                #define _WRITE_TRANSPARENT_MOTION_VECTOR
+            #endif
 
             #ifdef DEBUG_DISPLAY
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
@@ -7165,14 +6829,14 @@ Shader "BallsSpherize"
 				VertexDescriptionInputs output;
 				ZERO_INITIALIZE(VertexDescriptionInputs, output);
 
-				output.ObjectSpaceNormal =                          input.normalOS;
-				output.ObjectSpaceTangent =                         input.tangentOS.xyz;
-				output.ObjectSpacePosition =                        input.positionOS;
+				output.ObjectSpaceNormal = input.normalOS;
+				output.ObjectSpaceTangent = input.tangentOS.xyz;
+				output.ObjectSpacePosition = input.positionOS;
 
 				return output;
 			}
 
-			AttributesMesh ApplyMeshModification(AttributesMesh input, float3 timeParameters  )
+			AttributesMesh ApplyMeshModification(AttributesMesh input, float3 timeParameters)
 			{
 				VertexDescriptionInputs vertexDescriptionInputs = AttributesMeshToVertexDescriptionInputs(input);
 
@@ -7190,7 +6854,7 @@ Shader "BallsSpherize"
 				ZERO_INITIALIZE(FragInputs, output);
 
 				output.tangentToWorld = k_identity3x3;
-				output.positionSS = input.positionCS;
+				output.positionSS = input.positionCS; // input.positionCS is SV_Position
 
 				return output;
 			}
@@ -7242,35 +6906,32 @@ Shader "BallsSpherize"
 	Fallback Off
 }
 /*ASEBEGIN
-Version=19201
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;27;956.3123,-66.38586;Float;False;True;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;BallsSpherize;53b46d85872c5b24c8f4f0a1c3fe4c87;True;GBuffer;0;0;GBuffer;34;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;True;True;True;True;0;True;_LightLayersMaskBuffer4;False;False;False;False;False;False;False;True;True;0;True;_StencilRefGBuffer;255;False;;255;True;_StencilWriteMaskGBuffer;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;False;True;0;True;_ZTestGBuffer;False;True;1;LightMode=GBuffer;False;False;0;;0;0;Standard;39;Surface Type;0;0;  Rendering Pass;1;0;  Refraction Model;0;0;    Blending Mode;0;0;    Blend Preserves Specular;1;0;  Back Then Front Rendering;0;0;  Transparent Depth Prepass;0;0;  Transparent Depth Postpass;0;0;  ZWrite;0;0;  Z Test;4;0;Double-Sided;0;0;Alpha Clipping;0;0;  Use Shadow Threshold;0;0;Material Type,InvertActionOnDeselection;0;0;  Energy Conserving Specular;1;0;  Transmission,InvertActionOnDeselection;0;0;Forward Only;0;0;Receive Decals;1;0;Receives SSR;1;0;Receive SSR Transparent;0;0;Motion Vectors;1;0;  Add Precomputed Velocity;0;0;Specular AA;0;0;Specular Occlusion Mode;1;0;Override Baked GI;0;0;Depth Offset;0;0;DOTS Instancing;0;0;GPU Instancing;1;0;LOD CrossFade;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position;0;638294713846531228;0;11;True;True;True;True;True;True;False;False;False;True;True;False;;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;28;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;META;0;1;META;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;29;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;30;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;SceneSelectionPass;0;3;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;31;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;DepthOnly;0;4;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;True;True;0;True;_StencilRefDepth;255;False;;255;True;_StencilWriteMaskDepth;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;1;False;;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;32;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;MotionVectors;0;5;MotionVectors;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;True;True;0;True;_StencilRefMV;255;False;;255;True;_StencilWriteMaskMV;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;1;False;;False;False;True;1;LightMode=MotionVectors;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;33;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;TransparentBackface;0;6;TransparentBackface;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelOne;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelTwo;False;False;False;False;False;True;0;True;_ZWrite;True;0;True;_ZTestTransparent;False;True;1;LightMode=TransparentBackface;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;34;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;TransparentDepthPrepass;0;7;TransparentDepthPrepass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;True;True;0;True;_StencilRefDepth;255;False;;255;True;_StencilWriteMaskDepth;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;1;False;;False;False;True;1;LightMode=TransparentDepthPrepass;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;35;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;TransparentDepthPostpass;0;8;TransparentDepthPostpass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=TransparentDepthPostpass;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;36;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;Forward;0;9;Forward;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;True;0;True;_CullModeForward;False;False;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelOne;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelTwo;False;False;False;True;True;0;True;_StencilRef;255;False;;255;True;_StencilWriteMask;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;0;True;_ZWrite;True;0;True;_ZTestDepthEqualForOpaque;False;True;1;LightMode=Forward;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;37;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;ScenePickingPass;0;10;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;3;False;;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.SamplerNode;3;60.40735,-74.50576;Inherit;True;Property;_MaskMap;MaskMap;21;0;Create;True;0;0;0;False;0;False;-1;None;f920b22d535aa2546a12d783e1be0338;True;0;False;gray;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SamplerNode;2;-181.483,-582.3544;Inherit;True;Property;_BaseColorMap;BaseColorMap;20;0;Create;True;0;0;0;False;0;False;-1;None;f9c4c3b88bc300c4ca69f83d9e36bf9b;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SamplerNode;4;-169.483,-352.3542;Inherit;True;Property;_NormalMap;NormalMap;22;0;Create;True;0;0;0;False;0;False;-1;None;0248ebb3931f38c4ea6664623270933a;True;0;True;bump;Auto;True;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.FunctionNode;46;152.6666,-482.9865;Inherit;False;ApplyDecals;17;;260;f7da7b34ea6e39744bbdb4ce1b63d517;0;2;1;FLOAT4;1,1,1,1;False;4;FLOAT3;0,0,1;False;3;COLOR;0;FLOAT;3;FLOAT3;5
-Node;AmplifyShaderEditor.BlendNormalsNode;121;511.5624,-123.4057;Inherit;False;0;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.FunctionNode;123;198.5842,172.5733;Inherit;False;BallsDeformation;0;;1;3a07f22ac6bed084ab9ea7cca5de80a8;0;0;3;FLOAT3;0;FLOAT3;53;FLOAT3;59
+Version=19904
+Node;AmplifyShaderEditor.SamplerNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;3;60.40735,-74.50576;Inherit;True;Property;_MaskMap;MaskMap;16;0;Create;True;0;0;0;False;0;False;-1;None;f920b22d535aa2546a12d783e1be0338;True;0;False;gray;Auto;False;Object;-1;Auto;Texture2D;False;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
+Node;AmplifyShaderEditor.SamplerNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;2;-181.483,-582.3544;Inherit;True;Property;_BaseColorMap;BaseColorMap;15;0;Create;True;0;0;0;False;0;False;-1;None;f9c4c3b88bc300c4ca69f83d9e36bf9b;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;False;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
+Node;AmplifyShaderEditor.SamplerNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;4;-169.483,-352.3542;Inherit;True;Property;_NormalMap;NormalMap;17;0;Create;True;0;0;0;False;0;False;-1;None;0248ebb3931f38c4ea6664623270933a;True;0;True;bump;Auto;True;Object;-1;Auto;Texture2D;False;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;6;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
+Node;AmplifyShaderEditor.FunctionNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;46;152.6666,-482.9865;Inherit;False;ApplyDecals;12;;260;f7da7b34ea6e39744bbdb4ce1b63d517;0;2;1;FLOAT4;1,1,1,1;False;4;FLOAT3;0,0,1;False;3;COLOR;0;FLOAT;3;FLOAT3;5
+Node;AmplifyShaderEditor.FunctionNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;144;496,144;Inherit;False;BallsDeformation;0;;369;3a07f22ac6bed084ab9ea7cca5de80a8;0;0;2;FLOAT3;0;FLOAT3;53
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;27;956.3123,-66.38586;Float;False;True;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;BallsSpherize;53b46d85872c5b24c8f4f0a1c3fe4c87;True;GBuffer;0;0;GBuffer;35;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;True;True;True;True;0;True;_LightLayersMaskBuffer4;False;False;False;False;False;False;False;True;True;0;True;_StencilRefGBuffer;255;False;;255;True;_StencilWriteMaskGBuffer;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;False;True;0;True;_ZTestGBuffer;False;True;1;LightMode=GBuffer;False;False;0;;0;0;Standard;42;Category;0;0;  Instanced Terrain Normals;1;0;Surface Type;0;0;  Rendering Pass;1;0;  Refraction Model;0;0;    Blending Mode;0;0;    Blend Preserves Specular;1;0;  Back Then Front Rendering;0;0;  Transparent Depth Prepass;0;0;  Transparent Depth Postpass;0;0;  ZWrite;0;0;  Z Test;4;0;Double-Sided;0;638937625801363890;Alpha Clipping;0;0;  Use Shadow Threshold;0;0;Material Type;0;0;  Energy Conserving Specular;1;0;  Transmission;0;0;Normal Space;0;0;Receive Decals;0;638937625890170680;Receive SSR;0;638937625902589750;Receive SSR Transparent;0;0;Motion Vectors;0;638937625907571020;  Add Precomputed Velocity;0;0;Specular AA;0;0;Specular Occlusion Mode;1;0;Override Baked GI;0;0;Write Depth;0;0;  Depth Offset;0;0;  Conservative;0;0;GPU Instancing;0;638937625928784340;LOD CrossFade;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position;0;638294713846531228;0;11;True;True;True;True;True;False;False;False;False;True;True;False;;True;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;28;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;META;0;1;META;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;29;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;30;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;SceneSelectionPass;0;3;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;31;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;DepthOnly;0;4;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;True;True;0;True;_StencilRefDepth;255;False;;255;True;_StencilWriteMaskDepth;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;1;False;;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;32;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;MotionVectors;0;5;MotionVectors;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;True;True;0;True;_StencilRefMV;255;False;;255;True;_StencilWriteMaskMV;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;1;False;;False;False;True;1;LightMode=MotionVectors;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;33;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;TransparentBackface;0;6;TransparentBackface;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelOne;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelTwo;False;False;False;False;False;True;0;True;_ZWrite;True;0;True;_ZTestTransparent;False;True;1;LightMode=TransparentBackface;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;34;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;TransparentDepthPrepass;0;7;TransparentDepthPrepass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;True;True;0;True;_StencilRefDepth;255;False;;255;True;_StencilWriteMaskDepth;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;1;False;;False;False;True;1;LightMode=TransparentDepthPrepass;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;35;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;TransparentDepthPostpass;0;8;TransparentDepthPostpass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=TransparentDepthPostpass;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;36;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;Forward;0;9;Forward;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;True;0;True;_CullModeForward;False;False;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelOne;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelTwo;False;False;False;True;True;0;True;_StencilRef;255;False;;255;True;_StencilWriteMask;7;False;;3;False;;0;False;;0;False;;7;False;;3;False;;0;False;;0;False;;False;True;0;True;_ZWrite;True;0;True;_ZTestDepthEqualForOpaque;False;True;1;LightMode=Forward;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;37;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;ScenePickingPass;0;10;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;3;False;;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
+WireConnection;46;1;2;0
+WireConnection;46;4;4;0
 WireConnection;27;0;46;0
 WireConnection;27;1;46;5
 WireConnection;27;3;46;3
 WireConnection;27;4;3;1
 WireConnection;27;7;3;4
 WireConnection;27;8;3;2
-WireConnection;27;11;123;53
-WireConnection;27;12;123;0
-WireConnection;46;1;2;0
-WireConnection;46;4;4;0
-WireConnection;121;0;46;5
-WireConnection;121;1;123;59
+WireConnection;27;11;144;53
+WireConnection;27;12;144;0
 ASEEND*/
-//CHKSM=7286FA8A71785F7AB8F23D224101C2499CFE2847
+//CHKSM=39CE953D18DB1E19553BC27645876887AC769666
