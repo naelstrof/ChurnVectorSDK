@@ -10,6 +10,7 @@ public class CharacterSpawnInfo {
     [SerializeField,SerializeReference,SubclassSelector] private InputGenerator inputSource;
     [SerializeField] private List<CharacterGroup> overrideGroups;
     [SerializeField] private List<CharacterGroup> overrideUseByGroups;
+    [SerializeField] private OverrideLocks overrideLocks;
     private AsyncOperationHandle<Civilian> handle;
     
     public AsyncOperationHandle<Civilian> GetCharacter() {
@@ -37,9 +38,30 @@ public class CharacterSpawnInfo {
         if (obj.Result is not Civilian characterBase) {
             throw new UnityException("Loaded a non-civilian as a character! Characters must have it as a behavior!");
         }
+
+        bool assignedGroups = false;
+
+        if (characterBase.gameObject.TryGetComponent(out ActorOverride overrides))
+        {
+            bool actionLocked = (overrideLocks.Locks & (1 << 0)) == (1 << 0);
+            bool groupsLocked = (overrideLocks.Locks & (1 << 1)) == (1 << 1);
+
+            if (!actionLocked)
+                overrides.ApplyActionOverride(inputSource);
+
+            if (!groupsLocked)
+            {;
+                overrides.ApplyGroupOverrides(characterBase, overrideGroups, overrideUseByGroups);
+                assignedGroups = true;
+            }
+        }
+
         characterBase.SetInputGenerator(inputSource);
-        characterBase.SetGroups(overrideGroups);
-        characterBase.SetUseByGroups(overrideUseByGroups);
+        if(!assignedGroups)
+        {
+            characterBase.SetGroups(overrideGroups);
+            characterBase.SetUseByGroups(overrideUseByGroups);
+        }
     }
 
 }

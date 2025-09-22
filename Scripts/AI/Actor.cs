@@ -155,6 +155,11 @@ public abstract class Actor : InputGenerator {
         }
     }
 
+    public void SetStartingAction(BaseAction startingAction)
+     {
+         this.startingAction = startingAction;
+     }
+
     public override void CleanUp() {
     }
 
