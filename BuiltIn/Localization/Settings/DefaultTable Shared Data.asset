@@ -1479,6 +1479,70 @@ MonoBehaviour:
     m_Key: MODDING_INVALID
     m_Metadata:
       m_Items: []
+  - m_Id: 252241196964302848
+    m_Key: MENU_MODDING
+    m_Metadata:
+      m_Items: []
+  - m_Id: 252265831571312640
+    m_Key: MENU_MODS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 252500120158261248
+    m_Key: MENU_CHARACTERS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 252587473203810304
+    m_Key: VARIANTS_NOT_READY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372394331623424
+    m_Key: ENABLE_MODS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372398412681216
+    m_Key: DISABLE_MODS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372564507119616
+    m_Key: MENU_MOD_OPTIONS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372618949185536
+    m_Key: MENU_REPLACEMENT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531261900345344
+    m_Key: NO_MODS_FOUND
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531820321591296
+    m_Key: REPLACEMENT_DEFAULT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531822213222400
+    m_Key: REPLACEMENT_ALTERNATING
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531824138407936
+    m_Key: REPLACEMENT_RANDOM
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253663697682485248
+    m_Key: CHARACTER_LIBRARY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253663765089144832
+    m_Key: NO_VARIANTS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253669925896769536
+    m_Key: MOD_CHARACTERS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 254275821354012672
+    m_Key: REPLACEMENT_CYCLE
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
