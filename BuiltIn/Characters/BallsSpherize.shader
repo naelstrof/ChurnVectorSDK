@@ -359,18 +359,17 @@ Shader "BallsSpherize"
 
 			HLSLPROGRAM
             #define ASE_GEOMETRY
-            #pragma shader_feature_local _ _DOUBLESIDED_ON
             #define ASE_FRAGMENT_NORMAL 0
             #define _SPECULAR_OCCLUSION_FROM_AO 1
             #define ASE_ABSOLUTE_VERTEX_POS 1
-            #define ASE_NEED_CULLFACE 1
+            #pragma shader_feature_local _ _DOUBLESIDED_ON
             #pragma multi_compile_local_fragment _DISABLE_DECALS
             #pragma shader_feature_local_fragment _ _DISABLE_SSR
             #define _MATERIAL_FEATURE_CLEAR_COAT
             #define _AMBIENT_OCCLUSION 1
             #define HAVE_MESH_MODIFICATION
             #define ASE_VERSION 19904
-            #define ASE_SRP_VERSION 140011
+            #define ASE_SRP_VERSION 140012
             #define ASE_USING_SAMPLING_MACROS 1
 
             #pragma multi_compile _ DOTS_INSTANCING_ON
@@ -1369,18 +1368,17 @@ Shader "BallsSpherize"
 
 			HLSLPROGRAM
 			#define ASE_GEOMETRY
-			#pragma shader_feature_local _ _DOUBLESIDED_ON
 			#define ASE_FRAGMENT_NORMAL 0
 			#define _SPECULAR_OCCLUSION_FROM_AO 1
 			#define ASE_ABSOLUTE_VERTEX_POS 1
-			#define ASE_NEED_CULLFACE 1
+			#pragma shader_feature_local _ _DOUBLESIDED_ON
 			#pragma multi_compile_local_fragment _DISABLE_DECALS
 			#pragma shader_feature_local_fragment _ _DISABLE_SSR
 			#define _MATERIAL_FEATURE_CLEAR_COAT
 			#define _AMBIENT_OCCLUSION 1
 			#define HAVE_MESH_MODIFICATION
 			#define ASE_VERSION 19904
-			#define ASE_SRP_VERSION 140011
+			#define ASE_SRP_VERSION 140012
 			#define ASE_USING_SAMPLING_MACROS 1
 
 			#pragma shader_feature _ EDITOR_VISUALIZATION
@@ -2349,18 +2347,17 @@ Shader "BallsSpherize"
 
 			HLSLPROGRAM
 			#define ASE_GEOMETRY
-			#pragma shader_feature_local _ _DOUBLESIDED_ON
 			#define ASE_FRAGMENT_NORMAL 0
 			#define _SPECULAR_OCCLUSION_FROM_AO 1
 			#define ASE_ABSOLUTE_VERTEX_POS 1
-			#define ASE_NEED_CULLFACE 1
+			#pragma shader_feature_local _ _DOUBLESIDED_ON
 			#pragma multi_compile_local_fragment _DISABLE_DECALS
 			#pragma shader_feature_local_fragment _ _DISABLE_SSR
 			#define _MATERIAL_FEATURE_CLEAR_COAT
 			#define _AMBIENT_OCCLUSION 1
 			#define HAVE_MESH_MODIFICATION
 			#define ASE_VERSION 19904
-			#define ASE_SRP_VERSION 140011
+			#define ASE_SRP_VERSION 140012
 			#define ASE_USING_SAMPLING_MACROS 1
 
 			#pragma multi_compile _ DOTS_INSTANCING_ON
@@ -3127,18 +3124,17 @@ Shader "BallsSpherize"
 
 			HLSLPROGRAM
 			#define ASE_GEOMETRY
-			#pragma shader_feature_local _ _DOUBLESIDED_ON
 			#define ASE_FRAGMENT_NORMAL 0
 			#define _SPECULAR_OCCLUSION_FROM_AO 1
 			#define ASE_ABSOLUTE_VERTEX_POS 1
-			#define ASE_NEED_CULLFACE 1
+			#pragma shader_feature_local _ _DOUBLESIDED_ON
 			#pragma multi_compile_local_fragment _DISABLE_DECALS
 			#pragma shader_feature_local_fragment _ _DISABLE_SSR
 			#define _MATERIAL_FEATURE_CLEAR_COAT
 			#define _AMBIENT_OCCLUSION 1
 			#define HAVE_MESH_MODIFICATION
 			#define ASE_VERSION 19904
-			#define ASE_SRP_VERSION 140011
+			#define ASE_SRP_VERSION 140012
 			#define ASE_USING_SAMPLING_MACROS 1
 
 			#pragma editor_sync_compilation
@@ -3881,18 +3877,17 @@ Shader "BallsSpherize"
 
 			HLSLPROGRAM
 			#define ASE_GEOMETRY
-			#pragma shader_feature_local _ _DOUBLESIDED_ON
 			#define ASE_FRAGMENT_NORMAL 0
 			#define _SPECULAR_OCCLUSION_FROM_AO 1
 			#define ASE_ABSOLUTE_VERTEX_POS 1
-			#define ASE_NEED_CULLFACE 1
+			#pragma shader_feature_local _ _DOUBLESIDED_ON
 			#pragma multi_compile_local_fragment _DISABLE_DECALS
 			#pragma shader_feature_local_fragment _ _DISABLE_SSR
 			#define _MATERIAL_FEATURE_CLEAR_COAT
 			#define _AMBIENT_OCCLUSION 1
 			#define HAVE_MESH_MODIFICATION
 			#define ASE_VERSION 19904
-			#define ASE_SRP_VERSION 140011
+			#define ASE_SRP_VERSION 140012
 			#define ASE_USING_SAMPLING_MACROS 1
 
 			#pragma multi_compile _ DOTS_INSTANCING_ON
@@ -4822,18 +4817,17 @@ Shader "BallsSpherize"
 
 			HLSLPROGRAM
 			#define ASE_GEOMETRY
-			#pragma shader_feature_local _ _DOUBLESIDED_ON
 			#define ASE_FRAGMENT_NORMAL 0
 			#define _SPECULAR_OCCLUSION_FROM_AO 1
 			#define ASE_ABSOLUTE_VERTEX_POS 1
-			#define ASE_NEED_CULLFACE 1
+			#pragma shader_feature_local _ _DOUBLESIDED_ON
 			#pragma multi_compile_local_fragment _DISABLE_DECALS
 			#pragma shader_feature_local_fragment _ _DISABLE_SSR
 			#define _MATERIAL_FEATURE_CLEAR_COAT
 			#define _AMBIENT_OCCLUSION 1
 			#define HAVE_MESH_MODIFICATION
 			#define ASE_VERSION 19904
-			#define ASE_SRP_VERSION 140011
+			#define ASE_SRP_VERSION 140012
 			#define ASE_USING_SAMPLING_MACROS 1
 
 			#pragma multi_compile _ DOTS_INSTANCING_ON
@@ -6042,18 +6036,17 @@ Shader "BallsSpherize"
 
             HLSLPROGRAM
 			#define ASE_GEOMETRY
-			#pragma shader_feature_local _ _DOUBLESIDED_ON
 			#define ASE_FRAGMENT_NORMAL 0
 			#define _SPECULAR_OCCLUSION_FROM_AO 1
 			#define ASE_ABSOLUTE_VERTEX_POS 1
-			#define ASE_NEED_CULLFACE 1
+			#pragma shader_feature_local _ _DOUBLESIDED_ON
 			#pragma multi_compile_local_fragment _DISABLE_DECALS
 			#pragma shader_feature_local_fragment _ _DISABLE_SSR
 			#define _MATERIAL_FEATURE_CLEAR_COAT
 			#define _AMBIENT_OCCLUSION 1
 			#define HAVE_MESH_MODIFICATION
 			#define ASE_VERSION 19904
-			#define ASE_SRP_VERSION 140011
+			#define ASE_SRP_VERSION 140012
 			#define ASE_USING_SAMPLING_MACROS 1
 
 			#pragma editor_sync_compilation
@@ -6934,4 +6927,4 @@ WireConnection;27;8;3;2
 WireConnection;27;11;144;53
 WireConnection;27;12;144;0
 ASEEND*/
-//CHKSM=39CE953D18DB1E19553BC27645876887AC769666
+//CHKSM=0AC4A1EE6E25112E07CBED9852CB24BF71582428
