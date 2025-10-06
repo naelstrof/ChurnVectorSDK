@@ -15,6 +15,7 @@ public class Pauser : MonoBehaviour {
     private void Awake() {
         if (instance == null) {
             SceneManager.sceneLoaded += OnSceneLoaded;
+            pauseButton.action.Enable();
             pauseButton.action.performed += OnPauseButtonPressed;
             instance = this;
         } else {

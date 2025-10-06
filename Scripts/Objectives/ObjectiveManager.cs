@@ -53,6 +53,7 @@ public class ObjectiveManager : MonoBehaviour {
 
     private void Awake() {
         animator = GetComponent<Animator>();
+        showDescriptionsAction.action.Enable();
         SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
 
