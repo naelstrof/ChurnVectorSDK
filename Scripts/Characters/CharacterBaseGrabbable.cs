@@ -123,9 +123,9 @@ public partial class CharacterBase : IInteractable, IVorable {
         positionPath.Clear();
         Vector3 hipPos = cockVoreTransformPath[0].position;
         Vector3 feetPos = (GetDisplayAnimator().GetBoneTransform(HumanBodyBones.LeftFoot).position + GetDisplayAnimator().GetBoneTransform(HumanBodyBones.RightFoot).position)*0.5f;
-        Vector3 proj = (feetPos - hipPos).normalized;
-        float arbitraryExtraFeetLength = 0.2f;
-        positionPath.Add(feetPos + proj * arbitraryExtraFeetLength);
+        Vector3 proj = (feetPos - hipPos);
+        float arbitraryExtraFeetLengthMultiplier = 1.2f;
+        positionPath.Add(hipPos + proj * arbitraryExtraFeetLengthMultiplier);
         foreach (var t in cockVoreTransformPath) {
             positionPath.Add(t.position);
         }
