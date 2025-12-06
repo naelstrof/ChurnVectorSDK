@@ -1458,6 +1458,70 @@ MonoBehaviour:
       Intentaremos negociar alguna prima por riesgo para usted.
     m_Metadata:
       m_Items: []
+  - m_Id: 252241196964302848
+    m_Localized: "Modificaci\xF3n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 252265831571312640
+    m_Localized: Mods
+    m_Metadata:
+      m_Items: []
+  - m_Id: 252500120158261248
+    m_Localized: Opciones de personaje
+    m_Metadata:
+      m_Items: []
+  - m_Id: 252587473203810304
+    m_Localized: "Las variantes a\xFAn se est\xE1n cargando...\nPor favor, espere."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372394331623424
+    m_Localized: Habilitar todo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372398412681216
+    m_Localized: Desactivar todo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372564507119616
+    m_Localized: "Opciones de modificaci\xF3n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372618949185536
+    m_Localized: Opciones de reemplazo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531261900345344
+    m_Localized: No se encontraron mods.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531820321591296
+    m_Localized: Por defecto
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531822213222400
+    m_Localized: Ciclo por grupo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531824138407936
+    m_Localized: Aleatorio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253663697682485248
+    m_Localized: Biblioteca de personajes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253663765089144832
+    m_Localized: No se encontraron variantes.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253669925896769536
+    m_Localized: Personajes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 254275821354012672
+    m_Localized: Ciclo por personaje
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

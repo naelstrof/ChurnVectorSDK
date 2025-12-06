@@ -1461,6 +1461,70 @@ MonoBehaviour:
       wynagrodzenie za ryzyko."
     m_Metadata:
       m_Items: []
+  - m_Id: 252241196964302848
+    m_Localized: Modowanie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 252265831571312640
+    m_Localized: Modyfikacje
+    m_Metadata:
+      m_Items: []
+  - m_Id: 252500120158261248
+    m_Localized: Opcje postaci
+    m_Metadata:
+      m_Items: []
+  - m_Id: 252587473203810304
+    m_Localized: "Warianty s\u0105 nadal \u0142adowane...\nProsz\u0119 czeka\u0107."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372394331623424
+    m_Localized: "W\u0142\u0105cz wszystko"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372398412681216
+    m_Localized: "Wy\u0142\u0105cz wszystko"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372564507119616
+    m_Localized: "Opcje mod\xF3w"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372618949185536
+    m_Localized: Opcje wymiany
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531261900345344
+    m_Localized: "Nie znaleziono \u017Cadnych mod\xF3w."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531820321591296
+    m_Localized: "Domy\u015Blny"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531822213222400
+    m_Localized: "Cykl wed\u0142ug grupy"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531824138407936
+    m_Localized: Losowy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253663697682485248
+    m_Localized: Biblioteka postaci
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253663765089144832
+    m_Localized: "Nie znaleziono wariant\xF3w."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253669925896769536
+    m_Localized: Pismo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 254275821354012672
+    m_Localized: "Cykl wed\u0142ug postaci"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
