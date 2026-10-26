@@ -8,6 +8,7 @@ public class ActionHint : KeepOnScreen {
     [SerializeField] private ActionHintDatabase database;
     private void OnEnable() {
         ActionHintDatabase.spritesChanged += OnSpritesChanged;
+        action.action.Enable();
         OnSpritesChanged();
     }
 

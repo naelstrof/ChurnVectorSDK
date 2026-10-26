@@ -1,3 +1,5 @@
+# This guide is now depricated, please use the github wiki section instead!
+
 # Creating a new modding project (Use the example project outlined in the wiki for modding, this file is TBD deleted)
 
 This guide contains information on setting up a new modding project to a state that will allow you to start any of the other modding guides defined here
@@ -58,3 +60,4 @@ This profile is how you actually build your mod, anything you can do currently i
 Right now you can add new levels and replace characters (If you make a new character for a new level rather than replacing an existing character thats fine too!)
 
 Congratulations, with your project set up you may now continue and learn how to [Import a new character](https://github.com/naelstrof/ChurnVectorSDK/blob/main/ModdingGuides/NewCharacter.md)
+

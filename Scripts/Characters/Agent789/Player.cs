@@ -30,15 +30,16 @@ public partial class CharacterBase {
     private void OnCockVoreAsPrey(CharacterBase other) {
         if (IsPlayer()) {
             GameManager.PlayerGotCockVored();
+            var configuration = new OrbitCameraBasicConfiguration();
+            var pivot = other.voreContainer.GetStorageTransform().gameObject.AddComponent<OrbitCameraPivotBasic>();
+            pivot.SetInfo(Vector2.one * 0.5f, 4f, 65f);
+            configuration.SetPivot(pivot);
+            OrbitCamera.AddConfiguration(configuration);
+            playerPredConfig = configuration;
+
         }
         this.gameObject.transform.position = this.gameObject.transform.position.With(y: this.gameObject.transform.position.y - 100);
-        var configuration = new OrbitCameraBasicConfiguration();
-        var pivot = other.voreContainer.GetStorageTransform().gameObject.AddComponent<OrbitCameraPivotBasic>();
-        pivot.SetInfo(Vector2.one * 0.5f, 4f, 65f);
-        configuration.SetPivot(pivot);
-        OrbitCamera.AddConfiguration(configuration);
         CharacterDetector.RemoveTrackingGameObjectFromAll(gameObject);
-        playerPredConfig = configuration;
     }
 
     public void RemovePredConfig() {

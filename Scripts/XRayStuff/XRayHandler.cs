@@ -34,6 +34,7 @@ public class XRayHandler : MonoBehaviour {
     private void OnEnable() {
         xrayButton.action.started += OnButtonDown;
         xrayButton.action.canceled += OnButtonUp;
+        xrayButton.action.Enable();
     }
 
     private void OnButtonDown(InputAction.CallbackContext obj) {

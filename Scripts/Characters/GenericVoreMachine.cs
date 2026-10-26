@@ -150,7 +150,11 @@ public class GenericVoreMachine : VoreMachine {
             
             pred.StopInteractionWith(status.other as IInteractable);
             if (status.progress >= 1f) {
-                pred.AddChurnable(status.other as IChurnable);
+                var prey = status.other as IChurnable;
+                if (prey.GetContents() != null) {
+                    pred.AddChurnable(prey.GetContents());
+                }
+                pred.AddChurnable(prey);
                 status.other.OnFinishedVoreAsPrey(pred);
                 CharacterDetector.PlayInvestigativeAudioPackAtPoint(pred, GameManager.GetLibrary().glorpPack, pred.transform.position, 10f);
             } else {

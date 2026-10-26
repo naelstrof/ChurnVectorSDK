@@ -183,9 +183,9 @@ public class DickCum : MonoBehaviour {
                     continue;
                 }
                 if (tryStand != stand) {
-                    if (stand != null) {
-                        stand.FinishCondom(churnable.GetChurnable());
-                    }
+                    //if (stand != null) {
+                    //    stand.FinishCondom(churnable.GetChurnable());
+                    //}
                     stand = tryStand;
                     break;
                 }
