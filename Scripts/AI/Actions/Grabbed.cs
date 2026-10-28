@@ -41,6 +41,7 @@ namespace AI.Actions {
         public override ActionEventResponse OnReceivedEvent(Actor actor, Event e) {
             switch (e) {
                 // Capture alerts, we're too busy to change states!
+                case HeardInterestingNoise:
                 case KnowledgeChanged:
                 case Shoved:
                     return new ActionEventResponseTransition(continueWork);
