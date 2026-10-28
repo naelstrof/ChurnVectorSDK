@@ -37,9 +37,20 @@ public class CharacterSpawnInfo {
         if (obj.Result is not Civilian characterBase) {
             throw new UnityException("Loaded a non-civilian as a character! Characters must have it as a behavior!");
         }
-        characterBase.SetInputGenerator(inputSource);
-        characterBase.SetGroups(overrideGroups);
-        characterBase.SetUseByGroups(overrideUseByGroups);
+
+        if (characterBase.gameObject.TryGetComponent(out ActorOverride overrides))
+        {
+            overrides.ApplyActionOverride(inputSource);
+            overrides.ApplyGroupOverrides(characterBase, overrideGroups, overrideUseByGroups);
+
+        }
+        else
+        {
+            characterBase.SetGroups(overrideGroups);
+            characterBase.SetUseByGroups(overrideUseByGroups);
+        }
+
+            characterBase.SetInputGenerator(inputSource);
     }
 
 }
