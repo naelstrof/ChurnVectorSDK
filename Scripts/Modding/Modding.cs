@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using SimpleJSON;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -9,6 +10,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.AddressableAssets.ResourceLocators;
 using UnityEngine.ResourceManagement.ResourceLocations;
 using Object = UnityEngine.Object;
+using System.Linq;
 
 public class Modding : MonoBehaviour {
     private static List<Mod> mods = new List<Mod>();
@@ -36,6 +38,8 @@ public class Modding : MonoBehaviour {
         if (IsLoading()) {
             throw new UnityException( "Tried to get a character before modding was done... Please use the InitializationManager to ensure things are ready...");
         }
+        LoadPreferences();
+
         return mods.AsReadOnly();
     }
     
@@ -108,6 +112,40 @@ public class Modding : MonoBehaviour {
             mod.finishedLoading += OnModFinishedLoading;
             mod.Load();
         }
+    }
+
+    public static void LoadPreferences()
+    {
+        if (SaveManager.GetSaveSlot() == null)
+        {
+            SaveManager.SelectSaveSlot(0);
+        }
+
+        JSONNode data = SaveManager.GetData();
+        JSONNode preferences = data["mods"].Or(JSONNode.Parse("{}"));
+
+        CharacterLibrary.Load(preferences);
+
+        foreach(Mod mod in mods)
+        {
+            mod.GetDescription().LoadPreferences(preferences);
+        }
+    }
+
+    public static void SavePreferences()
+    {
+        JSONNode data = SaveManager.GetData();
+        JSONNode preferences = data["mods"].Or(JSONNode.Parse("{}"));
+
+        CharacterLibrary.Save(preferences);
+
+        foreach (Mod mod in mods)
+        {
+            mod.GetDescription().SavePreferences(preferences);
+        }
+
+        data["mods"] = preferences;
+        SaveManager.Save();
     }
 
     private void OnModFinishedLoading(IResourceLocator locator) {

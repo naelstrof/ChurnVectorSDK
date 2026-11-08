@@ -1451,6 +1451,72 @@ MonoBehaviour:
       scappare. Cercheremo di negoziare una indennit\xE0 di rischio per te."
     m_Metadata:
       m_Items: []
+  - m_Id: 252241196964302848
+    m_Localized: Modding
+    m_Metadata:
+      m_Items: []
+  - m_Id: 252265831571312640
+    m_Localized: Mod
+    m_Metadata:
+      m_Items: []
+  - m_Id: 252500120158261248
+    m_Localized: Opzioni del personaggio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 252587473203810304
+    m_Localized: 'Le varianti sono ancora in fase di caricamento...
+
+      Attendi.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372394331623424
+    m_Localized: Abilita tutto
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372398412681216
+    m_Localized: Disabilita tutto
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372564507119616
+    m_Localized: Opzioni mod
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253372618949185536
+    m_Localized: Opzioni di sostituzione
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531261900345344
+    m_Localized: Nessuna mod trovata.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531820321591296
+    m_Localized: Predefinito
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531822213222400
+    m_Localized: Ciclo per gruppo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253531824138407936
+    m_Localized: Casuale
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253663697682485248
+    m_Localized: Biblioteca dei personaggi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253663765089144832
+    m_Localized: Nessuna variante trovata.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 253669925896769536
+    m_Localized: Caratteri
+    m_Metadata:
+      m_Items: []
+  - m_Id: 254275821354012672
+    m_Localized: Ciclo per personaggio
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
