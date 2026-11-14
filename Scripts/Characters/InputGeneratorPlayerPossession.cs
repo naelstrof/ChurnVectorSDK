@@ -197,11 +197,12 @@ public class InputGeneratorPlayerPossession : InputGenerator {
         while (Time.time - startTime < duration) {
             float t = (Time.time - startTime) / duration;
             headPivot.SetInfo(new Vector2(Mathf.Lerp(originalScreenOffset, target, t), 0.5f), 1.75f, 65f);
-            crouchPivot.SetInfo(new Vector2(Mathf.Lerp(originalScreenOffset, target, t), 0.12f), 1.75f, 65f);
+            crouchPivot.SetInfo(new Vector2(Mathf.Lerp(originalScreenOffset, target, t), 0.5f), 1.75f, 60f);
             yield return null;
         }
-        headPivot.SetInfo(new Vector2(target, 0.5f), 1.75f, 65f);
-        crouchPivot.SetInfo(new Vector2(target, 0.12f), 1.75f, 65f);
+        
+        headPivot.SetInfo(new Vector2(target, 0.5f), 1.75f, 65f);        
+        crouchPivot.SetInfo(new Vector2(target, 0.5f), 1.75f, 60f);
         switchShoulderRoutine = null;
     }
 
