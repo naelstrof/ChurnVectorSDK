@@ -26,7 +26,7 @@ public class ObjectiveTriggerGameEvent : Objective
 
     private void OnFailure()
     {
-        if (status != ObjectiveStatus.Completed)
+        if (status == ObjectiveStatus.Incomplete)
         {
             status = ObjectiveStatus.Failed;
             Fail();
@@ -35,7 +35,7 @@ public class ObjectiveTriggerGameEvent : Objective
 
     private void OnSuccess()
     {
-        if(!failureEvent || status != ObjectiveStatus.Failed)
+        if(status == ObjectiveStatus.Incomplete)
         {
             status = ObjectiveStatus.Completed;
             Complete();
