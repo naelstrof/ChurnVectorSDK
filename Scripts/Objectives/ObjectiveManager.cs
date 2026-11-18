@@ -35,6 +35,7 @@ public class ObjectiveManager : MonoBehaviour {
     private struct ObjectiveDisplayPack {
         public Objective.ObjectiveCompleteAction completedAction;
         public Objective.ObjectiveCompleteAction failedAction;
+        public GameEvent.TriggeredAction revealAction;
         public Objective objective;
         public ObjectiveDisplay objectiveDisplay;
 
@@ -44,6 +45,9 @@ public class ObjectiveManager : MonoBehaviour {
             }
             objective.completed -= completedAction;
             objective.failed -= failedAction;
+
+            if (objective is HiddenObjective hiddenObjective && hiddenObjective.RevealEvent != null)
+                hiddenObjective.RevealEvent.triggered -= revealAction;
         }
     }
 
@@ -74,8 +78,10 @@ public class ObjectiveManager : MonoBehaviour {
         foreach (var objective in objectives) {
             var displayObj = Instantiate(objectiveDisplayPrefab.gameObject, displayTransform);
             var display = displayObj.GetComponent<ObjectiveDisplay>();
-            if (objective is HiddenObjective)
-                displayObj.SetActive(false);
+            GameEvent.TriggeredAction revealAction = () =>
+            {
+                displayObj.SetActive(true);
+            };
             display.SetLabelAndDescription(objective.GetLocalizedLabel(), objective.GetLocalizedDescription());
             Objective.ObjectiveCompleteAction completeAction = () => {
                 displayObj.SetActive(true);
@@ -96,6 +102,7 @@ public class ObjectiveManager : MonoBehaviour {
                 failedAction = failedAction,
                 objective = objective,
                 objectiveDisplay = display,
+                revealAction = revealAction,
             });
             if (objective.GetStatus() == Objective.ObjectiveStatus.Completed) {
                 display.SetCompleted(true);
@@ -103,6 +110,12 @@ public class ObjectiveManager : MonoBehaviour {
             } else if (objective.GetStatus() == Objective.ObjectiveStatus.Failed) {
                 display.SetFailed(true);
                 objectiveChanged?.Invoke(objectives, objective);
+            }
+            if (objective is HiddenObjective hiddenObjective)
+            {
+                displayObj.SetActive(false);
+                if(hiddenObjective.RevealEvent != null)
+                    hiddenObjective.RevealEvent.triggered += revealAction;
             }
         }
 

@@ -4,10 +4,14 @@ using UnityEngine.Localization;
 [System.Serializable]
 public class HiddenObjective : Objective
 {
+    [SerializeField]
+    private GameEvent revealEvent;
+
     [SerializeField, SerializeReference, SubclassSelector]
     private Objective hiddenObjective;
 
     private ObjectiveStatus status;
+    public GameEvent RevealEvent => revealEvent;
 
     public override ObjectiveStatus GetStatus()
     {
@@ -16,7 +20,6 @@ public class HiddenObjective : Objective
 
     public override void OnRegister()
     {
-
         hiddenObjective.OnRegister();
         hiddenObjective.completed += OnComplete;
         hiddenObjective.failed += OnFail;
