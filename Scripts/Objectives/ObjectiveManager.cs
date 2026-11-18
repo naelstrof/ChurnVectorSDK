@@ -74,13 +74,17 @@ public class ObjectiveManager : MonoBehaviour {
         foreach (var objective in objectives) {
             var displayObj = Instantiate(objectiveDisplayPrefab.gameObject, displayTransform);
             var display = displayObj.GetComponent<ObjectiveDisplay>();
+            if (objective is HiddenObjective)
+                displayObj.SetActive(false);
             display.SetLabelAndDescription(objective.GetLocalizedLabel(), objective.GetLocalizedDescription());
             Objective.ObjectiveCompleteAction completeAction = () => {
+                displayObj.SetActive(true);
                 display.SetCompleted(true);
                 animator.SetTrigger(ObjectiveChanged);
                 objectiveChanged?.Invoke(objectives, objective);
             };
             Objective.ObjectiveCompleteAction failedAction = () => {
+                displayObj.SetActive(true);
                 display.SetFailed(true);
                 animator.SetTrigger(ObjectiveChanged);
                 objectiveChanged?.Invoke(objectives, objective);
