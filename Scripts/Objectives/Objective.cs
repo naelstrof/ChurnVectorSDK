@@ -21,7 +21,7 @@ public abstract class Objective {
     [SerializeField] private bool primaryObjective;
     public virtual LocalizedString GetLocalizedLabel() => objectiveLabelLocalizedString;
     public virtual LocalizedString GetLocalizedDescription() => objectiveDescriptionLocalizedString;
-    public bool IsPrimaryObjective() => primaryObjective;
+    public virtual bool IsPrimaryObjective() => primaryObjective;
     
     public abstract void OnRegister();
     public abstract void OnUnregister();

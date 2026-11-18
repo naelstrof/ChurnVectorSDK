@@ -16,6 +16,7 @@ public class HiddenObjective : Objective
 
     public override void OnRegister()
     {
+
         hiddenObjective.OnRegister();
         hiddenObjective.completed += OnComplete;
         hiddenObjective.failed += OnFail;
@@ -26,6 +27,11 @@ public class HiddenObjective : Objective
         hiddenObjective.OnUnregister();
         hiddenObjective.completed -= OnComplete;
         hiddenObjective.failed -= OnFail;
+    }
+
+    public override bool IsPrimaryObjective()
+    {
+        return hiddenObjective.IsPrimaryObjective();
     }
 
     private void OnComplete()
