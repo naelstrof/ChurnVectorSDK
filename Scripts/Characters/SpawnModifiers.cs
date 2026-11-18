@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.ResourceManagement.AsyncOperations;
+using System.Threading.Tasks;
 
 [RequireComponent(typeof(CharacterLoader))]
-public class SpawnModifiers : MonoBehaviour
+public class SpawnModifiers : InitializationManagerInitialized
 {
     [SerializeField]
     private string overrideName = "";
@@ -13,33 +11,28 @@ public class SpawnModifiers : MonoBehaviour
     [SerializeField]
     private float speedModifier = 0;
 
-    //Since the CharacterLoader disables the gameobject before Awake/Start, OnDisable should be used instead.
-    private void OnDisable()
+    public override async Task OnInitialized()
     {
         CharacterLoader loader = GetComponent<CharacterLoader>();
-
         var handle = loader.GetCharacterAsync();
-        if (handle.IsDone)
-        {
-            OnCompletedLoadCharacter(handle);
-        }
-        else
-        {
-            handle.Completed += OnCompletedLoadCharacter;
-        }
-    }
 
-    private void OnCompletedLoadCharacter(AsyncOperationHandle<Civilian> obj)
-    {
-        GameObject character = obj.Result.gameObject;
+        await handle.Task;
 
-        if(!string.IsNullOrEmpty(overrideName))
+        GameObject character = handle.Result.gameObject;
+
+        if (!string.IsNullOrEmpty(overrideName))
             character.name = overrideName;
 
-        if(spawnParent != null && spawnParent.gameObject.activeSelf)
+        if (spawnParent != null && spawnParent.gameObject.activeSelf)
             character.transform.SetParent(spawnParent, true);
 
-        if(speedModifier > 0)
-            ((CharacterBase)obj.Result).AddSpeedModifier(new Modifier(speedModifier));
+        if (speedModifier > 0)
+            ((CharacterBase)handle.Result).AddSpeedModifier(new Modifier(speedModifier));
+    }
+
+
+    public override InitializationManager.InitializationStage GetInitializationStage()
+    {
+        return InitializationManager.InitializationStage.AfterMods;
     }
 }
