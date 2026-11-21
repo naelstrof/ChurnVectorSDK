@@ -46,6 +46,8 @@ public class MapInspectPanel : MonoBehaviour {
             objectiveListBuilder.Append($"{completionTime.GetLocalizedString()}: {TimeSpan.FromSeconds(completionTimeAsDouble)}\n");
         }
         foreach(var obj in objectives) {
+            if (obj.hidden && obj.status != Objective.ObjectiveStatus.Completed)
+                continue;
             objectiveListBuilder.Append("• ");
             objectiveListBuilder.Append(obj.name.GetLocalizedString());
             objectiveListBuilder.Append(": ");
