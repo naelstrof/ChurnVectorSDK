@@ -55,6 +55,7 @@ public class Level : ScriptableObject {
     public struct LevelObjective {
         public LocalizedString name;
         public Objective.ObjectiveStatus status;
+        public bool hidden;
     }
 
     public void GetCompletionStatus(out bool completed, out List<LevelObjective> objectives, out double completionTime) {
@@ -69,6 +70,7 @@ public class Level : ScriptableObject {
             newObjectives.Add(new LevelObjective {
                 name = objective.GetLocalizedLabel(),
                 status = objective.GetStatus(),
+                hidden = objective is HiddenObjective,
             });
         }
         var oldCount = this.objectives.Count((obj)=>obj.status==Objective.ObjectiveStatus.Completed);
@@ -116,6 +118,7 @@ public class Level : ScriptableObject {
             objectiveNode["TableReference"] = obj.name.TableReference.TableCollectionNameGuid.ToString();
             objectiveNode["TableEntryReference"] = obj.name.TableEntryReference.KeyId;
             objectiveNode["status"] = obj.status.ToString();
+            objectiveNode["hidden"] = obj.hidden.ToString();
             objectiveArray.Add(objectiveNode);
         }
         node[nameof(objectives)] = objectiveArray;
@@ -136,9 +139,14 @@ public class Level : ScriptableObject {
             if (!Enum.TryParse(objNode.Value["status"], out Objective.ObjectiveStatus status)) {
                 status = Objective.ObjectiveStatus.Failed;
             }
+            if (!bool.TryParse(objNode.Value["hidden"], out bool hidden))
+            {
+                hidden = false;
+            }
             objectives.Add(new LevelObjective {
                 name = new LocalizedString(new Guid(objNode.Value["TableReference"].ToString().Trim('"')), objNode.Value["TableEntryReference"].AsLong),
                 status = status,
+                hidden = hidden,
             });
         }
     }

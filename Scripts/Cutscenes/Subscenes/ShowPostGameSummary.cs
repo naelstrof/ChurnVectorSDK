@@ -39,6 +39,8 @@ namespace Cutscenes.Subscenes {
             builder.Append($"{objectivesCompleted.GetLocalizedString()}\n");
             int objectiveNum = 0;
             foreach (var objective in ObjectivesDescription.GetObjectives()) {
+                if (objective is HiddenObjective && objective.GetStatus() != Objective.ObjectiveStatus.Completed)
+                    continue;
                 builder.Append($"\t<size=75%>{objective.GetLocalizedLabel().GetLocalizedString()}:</size> <space={objectiveNum.ToString()}em>\n");
                 objectiveNum++;
             }
@@ -55,6 +57,9 @@ namespace Cutscenes.Subscenes {
                 oldBuilder.Append($"{completionTimeString.GetLocalizedString()}: {TimeSpan.FromSeconds(oldCompletionTime)}\n");
                 oldBuilder.Append($"{objectivesCompleted.GetLocalizedString()}\n");
                 foreach (var objective in oldObjectives) {
+                    if (objective.hidden && objective.status != Objective.ObjectiveStatus.Completed)
+                        continue;
+
                     string completionStatus = objective.status switch {
                         Objective.ObjectiveStatus.Failed => "<color=red>X</color>",
                         Objective.ObjectiveStatus.Incomplete => "<color=grey>~</color>",
